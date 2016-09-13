@@ -1,0 +1,7 @@
+== Gradle Tips
+
+=== Executing Single Test
+
+```
+gradle -PscalaVersion=2.11.8 :core:test --no-rebuild --tests "*PlaintextProducerSendTest"
+```

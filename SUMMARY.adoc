@@ -1,0 +1,5 @@
+= Summary
+
+. link:book-intro.adoc[Introduction]
+. link:kafka-overview.adoc[Overview of Kafka]
+. link:kafka-gradle-tips.adoc[Gradle Tips]
