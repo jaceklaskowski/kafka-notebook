@@ -1,5 +1,10 @@
 = Summary
 
+=== Part I -- Introduction
+
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
+
+=== Part II -- Build Tips
+
 . link:kafka-gradle-tips.adoc[Gradle Tips]
