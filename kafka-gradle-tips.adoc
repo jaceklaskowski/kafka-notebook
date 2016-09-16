@@ -1,5 +1,19 @@
 == Gradle Tips
 
+=== Building Kafka Distribution
+
+```
+gradle -PscalaVersion=2.11.8 clean releaseTarGz install
+```
+
+It takes around 2 minutes (after all the dependencies were downloaded once).
+
+After the command, you can unpack the release as follows:
+
+```
+tar -zxvf core/build/distributions/kafka_2.11-0.10.1.0-SNAPSHOT.tgz
+```
+
 === Executing Single Test
 
 ```

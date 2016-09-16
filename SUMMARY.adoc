@@ -1,9 +1,11 @@
 = Summary
 
-=== Part I -- Introduction
-
 . link:book-intro.adoc[Introduction]
+
+=== Part I -- Overview
+
 . link:kafka-overview.adoc[Overview of Kafka]
+. link:kafka-broker.adoc[Broker -- Kafka Server]
 
 === Part II -- Build Tips
 
