@@ -1,0 +1,5 @@
+== Consumers
+
+Multiple concurrent *consumers* read (aka _pull_) messages from topics however they want using offsets. Unlike typical messaging systems, Kafka consumers pull messages from a topic using offsets.
+
+=== [[consumer-group]] Consumer Groups

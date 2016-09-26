@@ -2,6 +2,8 @@
 
 NOTE: Given https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/server/KafkaServer.scala#L89[the scaladoc of `KafkaServer`], it _appears_ that a *Kafka server*, a *Kafka broker* and a *Kafka node* refer to the same concept.
 
+A *broker* hosts link:kafka-topics.adoc[topics].
+
 === Starting Broker
 
 Start Zookeeper.

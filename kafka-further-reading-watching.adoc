@@ -1,0 +1,5 @@
+== Further Reading or Watching
+
+=== [[articles]] Articles
+
+1. http://blog.cloudera.com/blog/2014/09/apache-kafka-for-beginners/[Apache Kafka for Beginners] - an excellent article that you should start your Kafka journey with.

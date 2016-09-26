@@ -1,0 +1,9 @@
+== Topics
+
+*Topics* are virtual groups of <<partitions, partitions>> that a link:kafka-broker.adoc[Kafka broker] uses to store link:kafka-messages.adoc[messages].
+
+A broker stores messages in a partition in an ordered fashion, i.e. appends them one message after another and creates a log file.
+
+=== [[partitions]] Partitions
+
+*Partitions* with messages -- topics can be partitioned to improve read/write performance and resiliency. You can lay out a topic (as partitions) across a cluster of machines to allow data streams larger than the capability of a single machine. Partitions are log files on disk with sequential write only. Kafka guarantees message ordering in a partition.

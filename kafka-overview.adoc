@@ -1,21 +1,19 @@
 == Overview of Kafka
 
-http://kafka.apache.org/[Apache Kafka] is an open source project for a high-throughput distributed messaging system rethought as a distributed commit log.
+http://kafka.apache.org/[Apache Kafka] is an open source project for a distributed publish-subscribe messaging system rethought as a distributed commit log.
 
-Kafka comes with the following features:
+Kafka stores link:kafka-messages.adoc[messages] in link:kafka-topics.adoc[topics] that are link:kafka-topics.adoc#partitions[partitioned] and replicated across multiple link:kafka-broker.adoc[brokers] in a cluster. link:kafka-producers.adoc[Producers] send messages to topics from which link:kafka-consumers.adoc[consumers] read.
 
-1. *Topics* that are virtual groups of partitions to send messages to and read them from.
+*Language Agnostic* -- producers and consumers use binary protocol to talk to a Kafka cluster.
 
-1. *Partitions* with messages -- topics can be partitioned to improve read/write performance and resiliency. You can lay out a topic (as partitions) across a cluster of machines to allow data streams larger than the capability of a single machine. Partitions are log files on disk with sequential write only. Kafka guarantees message ordering in a partition.
+Messages are byte arrays (with String, JSON, and Avro being the most common formats). If a message has a key, Kafka makes sure that all messages of the same key are in the same partition.
 
-1. Kafka *broker* that hosts topics.
+Consumers may be grouped in a link:kafka-consumers.adoc#consumer-group[consumer group] with multiple consumers. Each consumer in a consumer group will read messages from a unique subset of partitions in each topic they subscribe to. Each message is delivered to one consumer in the group, and all messages with the same key arrive at the same consumer.
 
-1. Kafka *cluster* that is supposed to be the central data backbone for an organization.
+*Durability* -- Kafka does not track which messages were read by each consumer. Kafka keeps all messages for a finite amount of time, and it is consumers' responsibility to track their location per topic, i.e. link:kafka-messages.adoc#offsets[offsets].
 
-1. *Messages* are data in the partitions of a topic. Messages are sequentially appended to the end of the partition log file and numbered as offsets. They are persisted on disk (aka _disk-based persistence_) and replicated within the cluster to prevent data loss. It has an in-memory page cache to improve data reads. Messages are in partitions until deleted when *TTL* occurs or after *compaction*.
+It is worth to note that Kafka is often compared to the following open source projects:
 
-3. Multiple concurrent *producers* that send (aka _push_) messages to topics which is appending the messages to the end of partitions. They can batch messages before they are sent over the wire to a topic. Producers support message compression. Producers can send messages in synchronous (with acknowledgement) or asynchronous mode.
+1. http://activemq.apache.org/[Apache ActiveMQ] and https://www.rabbitmq.com/[RabbitMQ] given they are message broker systems, too.
 
-4. Multiple concurrent *consumers* read (aka _pull_) messages from topics however they want using offsets. Unlike typical messaging systems, Kafka consumers pull messages from a topic using offsets.
-
-4. *Offsets* that are message positions in a topic to read by consumers.
+2. http://flume.apache.org/[Apache Flume] for its ingestion capabilities designed to send data to https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html[HDFS] and https://hbase.apache.org/[Apache HBase].

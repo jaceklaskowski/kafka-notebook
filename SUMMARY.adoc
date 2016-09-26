@@ -1,12 +1,21 @@
 = Summary
 
 . link:book-intro.adoc[Introduction]
-
-=== Part I -- Overview
-
 . link:kafka-overview.adoc[Overview of Kafka]
+
+=== Part I -- Architecture
+
 . link:kafka-broker.adoc[Broker -- Kafka Server]
+. link:kafka-topics.adoc[Topics]
+. link:kafka-messages.adoc[Messages]
+. link:kafka-producers.adoc[Producers]
+. link:kafka-consumers.adoc[Consumers]
+. link:kafka-clusters.adoc[Clusters]
 
 === Part II -- Build Tips
 
 . link:kafka-gradle-tips.adoc[Gradle Tips]
+
+=== Appendix
+
+. link:kafka-further-reading-watching.adoc[Further reading or watching]

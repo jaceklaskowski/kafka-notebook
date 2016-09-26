@@ -1,0 +1,3 @@
+== Producers
+
+Multiple concurrent *producers* that send (aka _push_) messages to topics which is appending the messages to the end of partitions. They can batch messages before they are sent over the wire to a topic. Producers support message compression. Producers can send messages in synchronous (with acknowledgement) or asynchronous mode.

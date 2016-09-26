@@ -1,0 +1,3 @@
+== Clusters
+
+A Kafka *cluster* is the central data exchange backbone for an organization.

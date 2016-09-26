@@ -1,0 +1,9 @@
+== Messages
+
+*Messages* are the data that brokers store in the link:kafka-topics.adoc#partitions[partitions of a topic].
+
+Messages are sequentially appended to the end of the partition log file and numbered by unique <<offsets, offsets>>. They are persisted on disk (aka _disk-based persistence_) and replicated within the cluster to prevent data loss. It has an in-memory page cache to improve data reads. Messages are in partitions until deleted when *TTL* occurs or after *compaction*.
+
+=== [[offsets]] Offsets
+
+*Offsets* are message positions in a topic.
