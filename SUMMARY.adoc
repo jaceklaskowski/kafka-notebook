@@ -12,6 +12,10 @@
 . link:kafka-consumers.adoc[Consumers]
 . link:kafka-clusters.adoc[Clusters]
 
+---
+
+. link:kafka-tools.adoc[Kafka Tools]
+
 === Part II -- Build Tips
 
 . link:kafka-gradle-tips.adoc[Gradle Tips]

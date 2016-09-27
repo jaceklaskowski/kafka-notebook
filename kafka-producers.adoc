@@ -1,3 +1,30 @@
 == Producers
 
 Multiple concurrent *producers* that send (aka _push_) messages to topics which is appending the messages to the end of partitions. They can batch messages before they are sent over the wire to a topic. Producers support message compression. Producers can send messages in synchronous (with acknowledgement) or asynchronous mode.
+
+[source, scala]
+----
+import collection.JavaConversions._
+import org.apache.kafka.common.serialization._
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerRecord
+
+val cfg = Map(
+  "bootstrap.servers" -> "localhost:9092",
+  "key.serializer" -> classOf[IntegerSerializer],
+  "value.serializer" -> classOf[StringSerializer])
+val producer = new KafkaProducer[Int, String](cfg)
+val msg = new ProducerRecord(topic = "my-topic", key = 1, value = "hello")
+
+scala> val f = producer.send(msg)
+f: java.util.concurrent.Future[org.apache.kafka.clients.producer.RecordMetadata] = org.apache.kafka.clients.producer.internals.FutureRecordMetadata@2e9e8fe
+
+scala> f.get
+res7: org.apache.kafka.clients.producer.RecordMetadata = my-topic-0@1
+
+producer.close
+----
+
+=== [[settings]] Settings
+
+* `bootstrap.servers` is a required configuration setting for a list of host/port pairs to use for establishing the initial connection to the Kafka cluster. It accepts `host1:port1,host2:port2,...` format, i.e. `localhost:9092`
