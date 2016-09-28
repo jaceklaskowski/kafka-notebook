@@ -1,0 +1,23 @@
+== Kafka Settings
+
+.Settings
+[frame="topbot",cols="1,1,1,2",options="header",width="100%"]
+|======================
+| Setting | Default Value | Importance | Description
+| `session.timeout.ms` | 10000 | High | The timeout used to detect worker failures.
+| `group.id` |  |  | A unique string that identifies the Connect cluster group this worker belongs to.
+| `rebalance.timeout.ms` |  |  | The maximum allowed time for each worker to join the group once a rebalance has begun.
+| `heartbeat.interval.ms` |  |  | The expected time between heartbeats to the group coordinator when using Kafka's group management facilities.
+|======================
+
+CAUTION: FIXME What's worker?
+
+[source, scala]
+----
+// requires org.apache.kafka:connect-runtime:0.10.0.1 dependency
+
+import org.apache.kafka.connect.runtime.distributed.DistributedConfig
+DistributedConfig.SESSION_TIMEOUT_MS_CONFIG
+----
+
+CAUTION: FIXME How to know the current value of a setting on a producer's and a consumer's side?

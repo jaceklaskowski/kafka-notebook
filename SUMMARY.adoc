@@ -15,6 +15,12 @@
 ---
 
 . link:kafka-tools.adoc[Kafka Tools]
+. link:kafka-settings.adoc[Settings]
+
+---
+
+. link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
+. link:kafka-ConnectDistributed.adoc[ConnectDistributed]
 
 === Part II -- Build Tips
 
