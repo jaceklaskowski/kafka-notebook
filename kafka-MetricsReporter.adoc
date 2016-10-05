@@ -1,0 +1,21 @@
+== MetricsReporter
+
+=== [[JmxReporter]] JmxReporter
+
+`JmxReporter` is a metrics reporter that is always included in <<metric_reporters, metric.reporters>> setting with `kafka.consumer` metrics prefix.
+
+=== [[settings]] Settings
+
+==== [[metric_reporters]] metric.reporters
+
+`metric.reporters` is a list of classes to use as metrics reporters (that implement link:kafka-MetricsReporter.adoc[MetricReporter] interface).
+
+The link:kafka-MetricsReporter.adoc#JmxReporter[JmxReporter] is always included to register JMX statistics.
+
+==== [[metrics_num_samples]] metrics.num.samples
+
+`metrics.num.samples` is the number of samples to compute metrics.
+
+==== [[metrics_sample_window_ms]] metrics.sample.window.ms
+
+`metrics.sample.window.ms` is the time window (in milliseconds) a metrics sample is computed over.

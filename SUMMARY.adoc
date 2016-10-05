@@ -11,6 +11,7 @@
 . link:kafka-producers.adoc[Producers]
 . link:kafka-consumers.adoc[Consumers]
 . link:kafka-clusters.adoc[Clusters]
+. link:kafka-MetricsReporter.adoc[MetricsReporter]
 
 ---
 
