@@ -25,13 +25,13 @@ When created with DEBUG logging enabled, you should see the following messages:
 DEBUG KafkaConsumer: Starting the Kafka consumer
 ```
 
-A `KafkaConsumer` sets the internal `requestTimeoutMs` to <<request.timeout.ms, request.timeout.ms>> that has to be greater than <<session.timeout.ms, session.timeout.ms>> and <<fetch.max.wait.ms, fetch.max.wait.ms>> (you get `ConfigException` otherwise).
+A `KafkaConsumer` sets the internal `requestTimeoutMs` to <<request_timeout_ms, request.timeout.ms>> that has to be greater than link:kafka-settings.adoc#session_timeout_ms[session.timeout.ms] and link:kafka-settings.adoc#fetch_max_wait_ms[fetch.max.wait.ms] (you get `ConfigException` otherwise).
 
-`clientId` property is set to <<client.id, client.id>> if defined or auto-generated. It is used for metrics with the tag `client-id` being `clientId`.
+`clientId` property is set to link:kafka-settings.adoc#client_id[client.id] if defined or auto-generated. It is used for metrics with the tag `client-id` being `clientId`.
 
 `metrics` property is set to the configured link:kafka-MetricsReporter.adoc[metrics reporters].
 
-`retryBackoffMs` is set to <<retry_backoff_ms, retry.backoff.ms>>.
+`retryBackoffMs` is set to link:kafka-settings.adoc#retry_backoff_ms[retry.backoff.ms].
 
 CAUTION: FIXME
 
@@ -50,37 +50,3 @@ org.apache.kafka.common.KafkaException: Failed to construct kafka consumer
 === [[ConsumerConfig]] ConsumerConfig
 
 === [[consumer-group]] Consumer Groups
-
-=== [[settings]] Settings
-
-==== [[bootstrap.servers]] bootstrap.servers
-
-`bootstrap.servers` is a list of `host:port` pairs for the initial connection to a link:kafka-broker.adoc[Kafka cluster]. The client will make use of all servers irrespective of which servers are specified here for bootstrapping and only impacts the initial hosts used to discover the full set of servers in a cluster.
-
-This list should be in the form `host1:port1,host2:port2,...`.
-
-Since these servers are just used for the initial connection to discover the full cluster membership (which may change dynamically), this list need not contain the full set of servers (you may want more than one, though, in case a server is down).
-
-==== [[retry_backoff_ms]] retry.backoff.ms
-
-`retry.backoff.ms` is the time to wait before attempting to retry a failed request to a given topic partition.
-
-This avoids repeatedly sending requests in a tight loop under some failure scenarios.
-
-==== [[request_timeout_ms]] request.timeout.ms
-
-`request.timeout.ms` is...
-
-==== [[session_timeout_ms]] session.timeout.ms
-
-`session.timeout.ms` is...
-
-==== [[fetch_max_wait_ms]] fetch.max.wait.ms
-
-`fetch.max.wait.ms` is...
-
-==== [[client_id]] client.id
-
-`client.id` is an id string to pass to the server when making requests.
-
-The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.

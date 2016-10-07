@@ -24,7 +24,3 @@ res7: org.apache.kafka.clients.producer.RecordMetadata = my-topic-0@1
 
 producer.close
 ----
-
-=== [[settings]] Settings
-
-* `bootstrap.servers` is a required configuration setting for a list of host/port pairs to use for establishing the initial connection to the Kafka cluster. It accepts `host1:port1,host2:port2,...` format, i.e. `localhost:9092`

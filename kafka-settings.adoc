@@ -4,10 +4,45 @@
 [frame="topbot",cols="1,1,1,2",options="header",width="100%"]
 |======================
 | Setting | Default Value | Importance | Description
-| `session.timeout.ms` | 10000 | High | The timeout used to detect worker failures.
-| `group.id` |  |  | A unique string that identifies the Connect cluster group this worker belongs to.
-| `rebalance.timeout.ms` |  |  | The maximum allowed time for each worker to join the group once a rebalance has begun.
-| `heartbeat.interval.ms` |  |  | The expected time between heartbeats to the group coordinator when using Kafka's group management facilities.
+| [[bootstrap_servers]] `bootstrap.servers` | (empty) | required |
+
+A comma-separated list of `host:port` pairs to establish the initial connection to a link:kafka-broker.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
+
+The client will make use of all servers irrespective of which servers are specified here for bootstrapping and only impacts the initial hosts used to discover the full set of servers in a cluster.
+
+Since these servers are just used for the initial connection to discover the full cluster membership (which may change dynamically), this list does not have to contain the full set of servers (you may want more than one, though, in case a server is down).
+
+| [[client_id]] `client.id` | (random-generated) |  |
+A link:kafka-consumers.adoc[Consumer] identifier string to pass to the server when making requests.
+
+The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.
+
+| [[fetch_max_wait_ms]] `fetch.max.wait.ms` |  |  |
+
+| [[group_id]] `group.id` |  |  | A unique string that identifies the Connect cluster group this worker belongs to.
+
+| [[heartbeat_interval_ms]] `heartbeat.interval.ms` |  |  | The expected time between heartbeats to the group coordinator when using Kafka's group management facilities.
+
+| [[metric_reporters]] `metric.reporters` | link:kafka-MetricsReporter.adoc#JmxReporter[JmxReporter] |  |
+The list of fully-qualified classes names of the link:kafka-MetricsReporter.adoc[metrics reporters].
+
+| [[metrics_num_samples]] `metrics.num.samples` | | |
+Number of samples to compute metrics.
+
+| [[metrics_sample_window_ms]] `metrics.sample.window.ms` | | |
+Time window (in milliseconds) a metrics sample is computed over.
+
+| [[rebalance_timeout_ms]] `rebalance.timeout.ms` |  |  |
+The maximum allowed time for each worker to join the group once a rebalance has begun.
+
+| [[retry_backoff_ms]] `retry.backoff.ms` |  |  |
+Time to wait before attempting to retry a failed request to a given topic partition.
+
+This avoids repeatedly sending requests in a tight loop under some failure scenarios.
+
+| [[request_timeout_ms]] `request.timeout.ms` |  |  |
+
+| [[session_timeout_ms]] `session.timeout.ms` | 10000 | High | The timeout used to detect worker failures.
 |======================
 
 CAUTION: FIXME What's worker?
