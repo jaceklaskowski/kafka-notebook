@@ -8,7 +8,7 @@
 
 A comma-separated list of `host:port` pairs to establish the initial connection to a link:kafka-broker.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
 
-The client will make use of all servers irrespective of which servers are specified here for bootstrapping and only impacts the initial hosts used to discover the full set of servers in a cluster.
+The client will make use of all servers irrespective of which servers are specified here for bootstrapping and only impacts the initial hosts used to discover the full set of alive servers in a cluster.
 
 Since these servers are just used for the initial connection to discover the full cluster membership (which may change dynamically), this list does not have to contain the full set of servers (you may want more than one, though, in case a server is down).
 
@@ -22,6 +22,8 @@ The purpose of this is to be able to track the source of requests beyond just ip
 | [[group_id]] `group.id` |  |  | A unique string that identifies the Connect cluster group this worker belongs to.
 
 | [[heartbeat_interval_ms]] `heartbeat.interval.ms` |  |  | The expected time between heartbeats to the group coordinator when using Kafka's group management facilities.
+
+| [[key_deserializer]] `key.deserializer` |  |  | How to deserialize message keys.
 
 | [[metric_reporters]] `metric.reporters` | link:kafka-MetricsReporter.adoc#JmxReporter[JmxReporter] |  |
 The list of fully-qualified classes names of the link:kafka-MetricsReporter.adoc[metrics reporters].
@@ -43,6 +45,9 @@ This avoids repeatedly sending requests in a tight loop under some failure scena
 | [[request_timeout_ms]] `request.timeout.ms` |  |  |
 
 | [[session_timeout_ms]] `session.timeout.ms` | 10000 | High | The timeout used to detect worker failures.
+
+| [[value_deserializer]] `value.deserializer` |  |  | How to deserialize message values.
+
 |======================
 
 CAUTION: FIXME What's worker?

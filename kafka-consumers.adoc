@@ -1,6 +1,39 @@
 == Consumers
 
-Multiple concurrent *consumers* read (aka _pull_) messages from topics however they want using offsets. Unlike typical messaging systems, Kafka consumers pull messages from a topic using offsets.
+Multiple concurrent *consumers* read (aka _pull_) messages from topics however they want using link:kafka-messages.adoc#offsets[offsets]. Unlike typical messaging systems, Kafka consumers pull messages from a topic using offsets.
+
+NOTE: Kafka 0.9.0.0 was about introducing a brand new Consumer API _aka_ *New Consumer*.
+
+When a consumer is created, it requires link:kafka-settings.adoc#bootstrap_servers[bootstrap.servers] which is the initial list of brokers to discover the full set of alive brokers in a cluster from.
+
+A consumer has to subscribe to the topics it wants to read messages from called <<topic-subscription, topic subscription>>.
+
+CAUTION: FIXME Building a own consumption strategy
+
+Using Kafka Consumer API requires the following dependency in your project (with `0.10.0.1` being the latest Kafka release):
+
+```
+libraryDependencies += "org.apache.kafka" % "kafka-clients" % 0.10.0.1
+```
+
+=== [[topic-subscription]] Topic Subscription
+
+*Topic Subscription* is the process of announcing the topics a consumer wants to read messages from.
+
+[source, java]
+----
+void subscribe(Collection<String> topics)
+void subscribe(Collection<String> topics, ConsumerRebalanceListener callback)
+void subscribe(Pattern pattern, ConsumerRebalanceListener callback)
+----
+
+NOTE: `subscribe` method is not incremental and you always must include the full list of topics that you want to consume from.
+
+You can change the set of topics a consumer is subscrib to at any time and (given the note above) any topics previously subscribed to will be replaced by the new list after `subscribe`.
+
+=== Automatic and Manual Partition Assignment
+
+CAUTION: FIXME
 
 === [[KafkaConsumer]] KafkaConsumer
 
@@ -50,3 +83,20 @@ org.apache.kafka.common.KafkaException: Failed to construct kafka consumer
 === [[ConsumerConfig]] ConsumerConfig
 
 === [[consumer-group]] Consumer Groups
+
+A *consumer group* is a set of Kafka consumers that share a common link:a set of consumers sharing a common group identifier#group_id[group identifier].
+
+Partitions in a link:kafka-topics.adoc[topic] are assigned to exactly one member in a consumer group.
+
+=== [[group-coordination-protocol]] Group Coordination Protocol
+
+CAUTION: FIXME
+
+* the new consumer uses a group coordination protocol built into Kafka
+* For each group, one of the brokers is selected as the group coordinator. The coordinator is responsible for managing the state of the group. Its main job is to mediate partition assignment when new members arrive, old members depart, and when topic metadata changes. The act of reassigning partitions is known as rebalancing the group.
+* When a group is first initialized, the consumers typically begin reading from either the earliest or latest offset in each partition. The messages in each partition log are then read sequentially. As the consumer makes progress, it commits the offsets of messages it has successfully processed.
+* When a partition gets reassigned to another consumer in the group, the initial position is set to the last committed offset. If a consumer suddenly crashed, then the group member taking over the partition would begin consumption from the last committed offset (possibly reprocessing messages that the failed consumer would have processed already but not committed yet).
+
+=== [[i-want-more]] Further reading or watching
+
+1. http://www.confluent.io/blog/tutorial-getting-started-with-the-new-apache-kafka-0-9-consumer-client/[Introducing the Kafka Consumer: Getting Started with the New Apache Kafka 0.9 Consumer Client]
