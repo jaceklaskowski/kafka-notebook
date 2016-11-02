@@ -4,7 +4,7 @@ NOTE: Given https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka
 
 A *broker* hosts link:kafka-topics.adoc[topics].
 
-=== Starting Broker
+=== [[starting-broker]] Starting Kafka Broker
 
 Start Zookeeper.
 
