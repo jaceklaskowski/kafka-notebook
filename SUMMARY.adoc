@@ -28,6 +28,8 @@
 . link:kafka-KafkaServerStartable.adoc[KafkaServerStartable]
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaServer.adoc[KafkaServer]
+. link:kafka-KafkaConfig.adoc[KafkaConfig]
+. link:kafka-Kafka.adoc[Kafka]
 
 === Part II -- Build Tips
 

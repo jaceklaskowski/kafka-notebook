@@ -1,0 +1,28 @@
+== [[Kafka]] Kafka -- Standalone Command-Line Application
+
+`kafka.Kafka` is a standalone command-line application to start a link:kafka-broker.adoc[Kafka broker].
+
+NOTE: `kafka.Kafka` is used in link:kafka-broker.adoc#kafka-server-start-script[`kafka-server-start.sh` shell script].
+
+=== [[getPropsFromArgs]] `getPropsFromArgs` Method
+
+CAUTION: FIXME
+
+=== [[main]] Starting Kafka Broker on Command Line -- `main` Method
+
+[source, scala]
+----
+main(args: Array[String]): Unit
+----
+
+`main` <<getPropsFromArgs, merges properties>> and link:kafka-KafkaServerStartable.adoc#fromProps[creates a `KafkaServerStartable`].
+
+`main` registers a JVM shutdown hook to link:kafka-KafkaServerStartable.adoc#shutdown[shut down `KafkaServerStartable`].
+
+NOTE: `main` uses Java's link:++https://docs.oracle.com/javase/8/docs/api/java/lang/Runtime.html#addShutdownHook-java.lang.Thread-++[Runtime.addShutdownHook] to register the shutdown hook.
+
+In the end, `main` link:kafka-KafkaServerStartable.adoc#startup[starts the `KafkaServerStartable`] and link:kafka-KafkaServerStartable.adoc#awaitShutdown[waits till it finishes].
+
+`main` terminates the JVM with status `0` when `KafkaServerStartable` shuts down properly and with status `1` in case of any exception.
+
+NOTE: `main` uses Java's link:++https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#exit-int-++[System.exit] to terminate a JVM.

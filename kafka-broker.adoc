@@ -1,8 +1,10 @@
 == Broker -- Kafka Server
 
-NOTE: Given https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/server/KafkaServer.scala#L89[the scaladoc of `KafkaServer`], it _appears_ that a *Kafka server*, a *Kafka broker* and a *Kafka node* refer to the same concept.
+NOTE: Given https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/server/KafkaServer.scala#L89[the scaladoc of `KafkaServer`], please note that a *Kafka server*, a *Kafka broker* and a *Kafka node* all refer to the same concept and are synonyms.
 
-A *broker* hosts link:kafka-topics.adoc[topics].
+A *Kafka broker* is a Kafka server that hosts link:kafka-topics.adoc[topics].
+
+You can <<starting-broker, start a single Kafka broker>> using <<kafka-server-start-script, `kafka-server-start.sh` script>>.
 
 === [[starting-broker]] Starting Kafka Broker
 
@@ -12,22 +14,24 @@ Start Zookeeper.
 ./bin/zookeeper-server-start.sh config/zookeeper.properties
 ```
 
-Only when Zookeeper is running you can start a Kafka server (that will connect to Zookeeper).
+Only when Zookeeper is up and running you can start a Kafka server (that will connect to Zookeeper).
 
 ```
 ./bin/kafka-server-start.sh config/server.properties
 ```
 
-=== kafka-server-start.sh script
+TIP: Read <<kafka-server-start-script, `kafka-server-start.sh` script>>.
 
-`kafka-server-start.sh` starts a Kafka server.
+=== [[kafka-server-start-script]] `kafka-server-start.sh` script
+
+`kafka-server-start.sh` starts a link:kafka-Kafka.adoc[Kafka broker].
 
 ```
 $ ./bin/kafka-server-start.sh
 USAGE: ./bin/kafka-server-start.sh [-daemon] server.properties [--override property=value]*
 ```
 
-It uses `config/log4j.properties` for logging configuration but you can override it using `KAFKA_LOG4J_OPTS` environment variable.
+`kafka-server-start.sh` uses `config/log4j.properties` for logging configuration that you can override using `KAFKA_LOG4J_OPTS` environment variable.
 
 ```
 KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:config/log4j.properties"
@@ -41,7 +45,3 @@ Command-line options:
 2. `-loggc` -- enabled when in daemon mode.
 3. `-daemon` -- enables daemon mode.
 4. `--override property=value` -- `value` that should override the value set for `property` in `server.properties` file.
-
-=== [[KafkaConfig]] KafkaConfig
-
-=== [[KafkaServer]] KafkaServer

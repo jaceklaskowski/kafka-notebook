@@ -1,3 +1,33 @@
 == [[KafkaServer]] KafkaServer
 
 CAUTION: FIXME
+
+`KafkaServer` acts as a Kafka broker.
+
+`KafkaServer` <<creating-instance, registers itself in the JMX system>> under *kafka.server*.
+
+[[internal-registries]]
+.KafkaServer's Internal Registries and Counters
+[frame="topbot",cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[reporters]] `reporters`
+| Collection of `MetricsReporter`
+
+Used when...FIXME
+|===
+
+=== [[creating-instance]] Creating KafkaServer Instance
+
+`KafkaServer` takes the following when created:
+
+1. link:kafka-KafkaConfig.adoc[KafkaConfig]
+2. `Time` (defaults to `Time.SYSTEM`)
+3. `threadNamePrefix` (defaults to no prefix)
+4. `kafkaMetricsReporters` -- a collection of link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter] (defaults to no reporters)
+
+CAUTION: FIXME
+
+NOTE: `KafkaServer` is created when link:kafka-KafkaServerStartable.adoc#creating-instance[`KafkaServerStartable` is created].
