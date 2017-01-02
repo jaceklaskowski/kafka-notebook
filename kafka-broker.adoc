@@ -42,8 +42,6 @@ Command-line options:
 3. `-daemon` -- enables daemon mode.
 4. `--override property=value` -- `value` that should override the value set for `property` in `server.properties` file.
 
-=== [[KafkaServerStartable]] KafkaServerStartable
-
 === [[KafkaConfig]] KafkaConfig
 
 === [[KafkaServer]] KafkaServer

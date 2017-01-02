@@ -23,6 +23,12 @@
 . link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
 . link:kafka-ConnectDistributed.adoc[ConnectDistributed]
 
+---
+
+. link:kafka-KafkaServerStartable.adoc[KafkaServerStartable]
+. link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
+. link:kafka-KafkaServer.adoc[KafkaServer]
+
 === Part II -- Build Tips
 
 . link:kafka-gradle-tips.adoc[Gradle Tips]

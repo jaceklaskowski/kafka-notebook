@@ -1,0 +1,31 @@
+== [[KafkaServerStartable]] KafkaServerStartable
+
+`KafkaServerStartable` is a thin management layer for a <<creating-instance, single `KafkaServer`>> that can <<startup, start>> and <<shutdown, shut it down>>.
+
+=== [[startup]] `startup` Method
+
+CAUTION: FIXME
+
+=== [[shutdown]] `shutdown` Method
+
+CAUTION: FIXME
+
+=== [[creating-instance]] Creating KafkaServerStartable Instance
+
+`KafkaServerStartable` takes the following when created:
+
+1. link:kafka-broker.adoc#KafkaConfig[KafkaConfig]
+2. Collection of link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporters]
+
+`KafkaServerStartable` creates a link:kafka-KafkaServer.adoc[KafkaServer].
+
+=== [[fromProps]] Creating KafkaServerStartable From Properties -- `fromProps` Method
+
+[source, scala]
+----
+fromProps(serverProps: Properties): KafkaServerStartable
+----
+
+`fromProps` creates a `KafkaServerStartable` with a custom `serverProps` properties file.
+
+CAUTION: FIXME
