@@ -1,0 +1,9 @@
+== [[KafkaApis]] KafkaApis
+
+CAUTION: FIXME
+
+=== [[creating-instance]] Creating KafkaApis Instance
+
+`KafkaApis` takes the following when created:
+
+1. FIXME

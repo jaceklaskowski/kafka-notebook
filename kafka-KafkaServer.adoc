@@ -19,6 +19,55 @@ CAUTION: FIXME
 Used when...FIXME
 |===
 
+=== [[startup]] `startup` Method
+
+[source, scala]
+----
+startup(): Unit
+----
+
+`startup` starts a single Kafka server.
+
+When `startup` starts, you should see the following INFO message in the logs:
+
+```
+INFO starting (kafka.server.KafkaServer)
+```
+
+`startup` link:kafka-KafkaScheduler.adoc#startup[starts `KafkaScheduler`].
+
+You should see the following INFO message in the logs:
+
+```
+INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
+```
+
+`startup` <<notifyClusterListeners, notifies cluster change listeners>>.
+
+`startup` link:kafka-ReplicaManager.adoc#creating-instance[creates a `ReplicaManager`] and link:kafka-ReplicaManager.adoc#startup[starts it].
+
+`startup` link:kafka-KafkaController.adoc#creating-instance[creates a `KafkaController`] and link:kafka-KafkaController.adoc#startup[starts it].
+
+`startup` link:kafka-AdminManager.adoc#creating-instance[creates a `AdminManager`].
+
+`startup` link:kafka-KafkaApis.adoc#creating-instance[creates a `KafkaApis`].
+
+In the end, you should see the following INFO message in the logs:
+
+```
+INFO [Kafka Server 0], started (kafka.server.KafkaServer)
+```
+
+NOTE: The INFO message above uses so-called *log ident* with the value of `broker.id` property and is always in the format ``[Kafka Server [brokerId]], `` after a Kafka server has fully started.
+
+CAUTION: FIXME
+
+NOTE: `startup` is used exclusively when link:kafka-KafkaServerStartable.adoc#startup[`KafkaServerStartable` is started].
+
+=== [[notifyClusterListeners]] `notifyClusterListeners` Method
+
+CAUTION: FIXME
+
 === [[creating-instance]] Creating KafkaServer Instance
 
 `KafkaServer` takes the following when created:

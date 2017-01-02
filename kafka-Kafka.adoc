@@ -1,8 +1,8 @@
 == [[Kafka]] Kafka -- Standalone Command-Line Application
 
-`kafka.Kafka` is a standalone command-line application to start a link:kafka-broker.adoc[Kafka broker].
+`kafka.Kafka` is a standalone command-line application to <<main, start a Kafka broker>>.
 
-NOTE: `kafka.Kafka` is used in link:kafka-broker.adoc#kafka-server-start-script[`kafka-server-start.sh` shell script].
+NOTE: `kafka.Kafka` is started using link:kafka-broker.adoc#kafka-server-start-script[`kafka-server-start.sh` shell script].
 
 === [[getPropsFromArgs]] `getPropsFromArgs` Method
 

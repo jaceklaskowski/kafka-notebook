@@ -1,0 +1,13 @@
+== [[ReplicaManager]] ReplicaManager
+
+CAUTION: FIXME
+
+=== [[startup]] `startup` Method
+
+CAUTION: FIXME
+
+=== [[creating-instance]] Creating ReplicaManager Instance
+
+`ReplicaManager` takes the following when created:
+
+1. FIXME

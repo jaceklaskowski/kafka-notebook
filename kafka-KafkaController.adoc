@@ -1,0 +1,13 @@
+== [[KafkaController]] KafkaController
+
+CAUTION: FIXME
+
+=== [[startup]] `startup` Method
+
+CAUTION: FIXME
+
+=== [[creating-instance]] Creating KafkaController Instance
+
+`KafkaController` takes the following when created:
+
+1. FIXME

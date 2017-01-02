@@ -30,6 +30,11 @@
 . link:kafka-KafkaServer.adoc[KafkaServer]
 . link:kafka-KafkaConfig.adoc[KafkaConfig]
 . link:kafka-Kafka.adoc[Kafka]
+. link:kafka-KafkaScheduler.adoc[KafkaScheduler]
+. link:kafka-ReplicaManager.adoc[ReplicaManager]
+. link:kafka-KafkaController.adoc[KafkaController]
+. link:kafka-KafkaApis.adoc[KafkaApis]
+. link:kafka-AdminManager.adoc[AdminManager]
 
 === Part II -- Build Tips
 

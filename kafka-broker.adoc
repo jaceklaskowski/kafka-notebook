@@ -1,6 +1,6 @@
 == Broker -- Kafka Server
 
-NOTE: Given https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/server/KafkaServer.scala#L89[the scaladoc of `KafkaServer`], please note that a *Kafka server*, a *Kafka broker* and a *Kafka node* all refer to the same concept and are synonyms.
+NOTE: Given https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/server/KafkaServer.scala#L89[the scaladoc of `KafkaServer`] a *Kafka server*, a *Kafka broker* and a *Kafka node* all refer to the same concept and are hence considered synonyms.
 
 A *Kafka broker* is a Kafka server that hosts link:kafka-topics.adoc[topics].
 

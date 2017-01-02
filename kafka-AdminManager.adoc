@@ -1,0 +1,9 @@
+== [[AdminManager]] AdminManager
+
+CAUTION: FIXME
+
+=== [[creating-instance]] Creating AdminManager Instance
+
+`AdminManager` takes the following when created:
+
+1. FIXME
