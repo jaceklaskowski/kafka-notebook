@@ -1,3 +1,26 @@
 == [[KafkaScheduler]] KafkaScheduler
 
-CAUTION: FIXME
+`KafkaScheduler` is a <<contract, Scheduler>> to <<schedule, schedule jobs>> in Kafka.
+
+=== [[contract]] Scheduler Contract
+
+[source, scala]
+----
+trait Scheduler {
+  def startup(): Unit
+  def shutdown(): Unit
+  def isStarted: Boolean
+  def schedule(name: String, fun: () => Unit, delay: Long = 0, period: Long = -1, unit: TimeUnit = TimeUnit.MILLISECONDS)
+}
+----
+
+.Scheduler Contract
+[frame="topbot",cols="1,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| [[schedule]] `schedule`
+| Schedules a task
+
+|===

@@ -44,7 +44,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 `startup` <<notifyClusterListeners, notifies cluster change listeners>>.
 
-`startup` link:kafka-ReplicaManager.adoc#creating-instance[creates a `ReplicaManager`] and link:kafka-ReplicaManager.adoc#startup[starts it].
+`startup` link:kafka-ReplicaManager.adoc#creating-instance[creates a `ReplicaManager`] and link:kafka-ReplicaManager.adoc#startup[starts it] right afterwards.
 
 `startup` link:kafka-KafkaController.adoc#creating-instance[creates a `KafkaController`] and link:kafka-KafkaController.adoc#startup[starts it].
 

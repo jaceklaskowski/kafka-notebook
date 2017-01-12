@@ -35,6 +35,7 @@
 . link:kafka-KafkaController.adoc[KafkaController]
 . link:kafka-KafkaApis.adoc[KafkaApis]
 . link:kafka-AdminManager.adoc[AdminManager]
+. link:kafka-LogManager.adoc[LogManager]
 
 === Part II -- Build Tips
 
