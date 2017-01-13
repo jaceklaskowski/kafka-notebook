@@ -1,6 +1,66 @@
 == [[KafkaScheduler]] KafkaScheduler
 
-`KafkaScheduler` is a <<contract, Scheduler>> to <<schedule, schedule jobs>> in Kafka.
+`KafkaScheduler` is a <<contract, Scheduler>> to <<schedule, schedule tasks>> in Kafka.
+
+[[internal-registries]]
+.KafkaScheduler's Internal Registries and Counters
+[frame="topbot",cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[executor]] `executor`
+| FIXME
+
+Used when...FIXME
+|===
+
+=== [[ensureRunning]] `ensureRunning` Internal Method
+
+CAUTION: FIXME
+
+=== [[schedule]] Scheduling Tasks -- `schedule` Method
+
+[source, scala]
+----
+schedule(name: String, fun: () => Unit, delay: Long, period: Long, unit: TimeUnit): Unit
+----
+
+When `schedule` is executed, you should see the following DEBUG message in the logs:
+
+```
+Scheduling task [name] with initial delay [delay] ms and period [period] ms.
+```
+
+NOTE: `schedule` uses Java's link:++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html#convert-long-java.util.concurrent.TimeUnit-++[java.util.concurrent.TimeUnit] to convert `delay` and `period` to milliseconds.
+
+`schedule` first <<ensureRunning, makes sure that `KafkaScheduler` is running>> (which simply means that the internal <<executor, executor>> has been initialized).
+
+`schedule` creates an execution thread for the input `fun`.
+
+For positive `period`, `schedule` schedules the thread every `period` after the initial `delay`. Otherwise, `schedule` schedules the thread once.
+
+NOTE: `schedule` uses the internal <<executor, executor>> to schedule `fun` using link:++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html#scheduleAtFixedRate-java.lang.Runnable-long-long-java.util.concurrent.TimeUnit-++[ScheduledThreadPoolExecutor.scheduleAtFixedRate] and link:++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html#schedule-java.lang.Runnable-long-java.util.concurrent.TimeUnit-++[ScheduledThreadPoolExecutor.schedule] for periodic and one-off executions, respectively.
+
+Whenever the thread is executed, and before `fun` gets triggerred, you should see the following TRACE message in the logs:
+
+```
+Beginning execution of scheduled task '[name]'.
+```
+
+After the execution thread is finished, you should see the following TRACE message in the logs:
+
+```
+Completed execution of scheduled task '[name]'.
+```
+
+In case of any exceptions, the execution thread catches them and you should see the following ERROR message in the logs:
+
+```
+Uncaught exception in scheduled task '[name]'
+```
+
+NOTE: `schedule` is a part of <<contract, Scheduler contract>> to schedule tasks.
 
 === [[contract]] Scheduler Contract
 
@@ -20,7 +80,7 @@ trait Scheduler {
 | Method
 | Description
 
-| [[schedule]] `schedule`
+| `schedule`
 | Schedules a task
 
 |===
