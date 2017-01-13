@@ -10,10 +10,56 @@
 | Description
 
 | [[executor]] `executor`
-| FIXME
+| Java's link:https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html[ScheduledThreadPoolExecutor] used to <<schedule, schedule tasks>>.
 
-Used when...FIXME
+Initialized when <<startup, `KafkaScheduler` starts up>> and shut down when <<shutdown, `KafkaScheduler` shuts down>>.
 |===
+
+[TIP]
+====
+Enable `INFO` or `DEBUG` logging levels for `kafka.utils.KafkaScheduler` logger to see what happens in `KafkaScheduler`.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.utils.KafkaScheduler=DEBUG
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
+=== [[startup]] Starting KafkaScheduler -- `startup` Method
+
+[source, scala]
+----
+startup(): Unit
+----
+
+NOTE: `startup` is a part of <<contract, Scheduler contract>>.
+
+When `startup` is executed, you should see the following DEBUG message in the logs:
+
+```
+DEBUG Initializing task scheduler. (kafka.utils.KafkaScheduler)
+```
+
+`startup` initializes <<executor, executor>> with `threads` threads. The name of the threads is in format of `threadNamePrefix` followed by `schedulerThreadId`, e.g. `kafka-scheduler-0`
+
+NOTE: `threads` and `threadNamePrefix` are defined when <<creating-instance, `KafkaScheduler` is created>>.
+
+If `KafkaScheduler` is already started, `startup` throws a `IllegalStateException` with the message:
+
+```
+This scheduler has already been started!
+```
+
+=== [[creating-instance]] Creating KafkaScheduler Instance
+
+CAUTION: FIXME
+
+=== [[shutdown]] `shutdown` Method
+
+CAUTION: FIXME
 
 === [[ensureRunning]] `ensureRunning` Internal Method
 
@@ -26,10 +72,12 @@ CAUTION: FIXME
 schedule(name: String, fun: () => Unit, delay: Long, period: Long, unit: TimeUnit): Unit
 ----
 
+NOTE: `schedule` is a part of <<contract, Scheduler contract>> to schedule tasks.
+
 When `schedule` is executed, you should see the following DEBUG message in the logs:
 
 ```
-Scheduling task [name] with initial delay [delay] ms and period [period] ms.
+DEBUG Scheduling task [name] with initial delay [delay] ms and period [period] ms. (kafka.utils.KafkaScheduler)
 ```
 
 NOTE: `schedule` uses Java's link:++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/TimeUnit.html#convert-long-java.util.concurrent.TimeUnit-++[java.util.concurrent.TimeUnit] to convert `delay` and `period` to milliseconds.
@@ -59,8 +107,6 @@ In case of any exceptions, the execution thread catches them and you should see 
 ```
 Uncaught exception in scheduled task '[name]'
 ```
-
-NOTE: `schedule` is a part of <<contract, Scheduler contract>> to schedule tasks.
 
 === [[contract]] Scheduler Contract
 

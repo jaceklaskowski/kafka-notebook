@@ -17,6 +17,7 @@
 
 . link:kafka-tools.adoc[Kafka Tools]
 . link:kafka-settings.adoc[Settings]
+. link:kafka-logging.adoc[Logging]
 
 ---
 
