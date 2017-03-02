@@ -1,13 +1,13 @@
 == Apache Kafka Notebook
 
-Welcome to *Apache Kafka Notebook*.
+Welcome to Apache Kafka Notebook!
 
-I'm https://pl.linkedin.com/in/jaceklaskowski[Jacek Laskowski], an *independent consultant* who offers development and training services for *Apache Spark* (and Scala, sbt, Apache Kafka with a bit of Hadoop YARN, Apache Hive, Apache Mesos, Akka Actors/Stream/HTTP, and Docker). I lead http://www.meetup.com/WarsawScala/[Warsaw Scala Enthusiasts] and http://www.meetup.com/Warsaw-Spark[Warsaw Spark] meetups.
+I'm https://pl.linkedin.com/in/jaceklaskowski[Jacek Laskowski], an *independent consultant* who is passionate about Apache Spark, *Apache Kafka*, Scala, sbt (with some flavour of Apache Mesos, Hadoop YARN, and DC/OS). I lead http://www.meetup.com/WarsawScala/[Warsaw Scala Enthusiasts] and http://www.meetup.com/Warsaw-Spark[Warsaw Spark] meetups in Warsaw, Poland.
 
-Contact me at jacek@japila.pl or https://twitter.com/jaceklaskowski[@jaceklaskowski] to discuss Kafka opportunities, e.g. courses, workshops, or other mentoring or development services.
+Contact me at jacek@japila.pl or https://twitter.com/jaceklaskowski[@jaceklaskowski] to discuss Apache Kafka and Apache Spark opportunities, e.g. courses, workshops, mentoring or application development services.
+
+If you like the Apache Kafka notes you should seriously consider participating in my own, very hands-on https://github.com/jaceklaskowski/spark-workshop/blob/gh-pages/slides/README.md#toc[Spark Workshops].
 
 This collections of notes (what some may rashly call a "book") serves as the ultimate place of mine to collect all the nuts and bolts of using https://kafka.apache.org[Apache Kafka]. The notes aim to help me designing and developing better products with Kafka. It is also a viable proof of my understanding of Apache Kafka. I do eventually want to reach the highest level of mastery in Apache Kafka.
 
-It _may_ become a book one day, but surely serves as *the study material* for trainings, workshops, videos and courses about Apache Kafka. Follow me on twitter https://twitter.com/jaceklaskowski[@jaceklaskowski] to know it early. You will also learn about the upcoming events about Apache Kafka.
-
-Expect text and code snippets from different public sources. Attribution follows.
+Expect text and code snippets from a variety of public sources. Attribution follows.
