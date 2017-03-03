@@ -12,6 +12,7 @@
 . link:kafka-consumers.adoc[Consumers]
 .. link:kafka-KafkaConsumer.adoc[KafkaConsumer]
 .. link:kafka-ConsumerConfig.adoc[ConsumerConfig]
+.. link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor]
 . link:kafka-clusters.adoc[Clusters]
 . link:kafka-MetricsReporter.adoc[MetricsReporter]
 

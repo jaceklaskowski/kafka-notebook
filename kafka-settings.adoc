@@ -3,8 +3,25 @@
 .Settings
 [frame="topbot",cols="1,1,1,2",options="header",width="100%"]
 |======================
-| Setting | Default Value | Importance | Description
-| [[bootstrap_servers]] `bootstrap.servers` | (empty) | required |
+| Setting
+| Default Value
+| Importance
+| Description
+
+| [[auto.offset.reset]] `auto.offset.reset`
+| `latest`
+| No
+a| Reset policy -- what to do when there is no initial offset in Kafka or if the current offset does not exist any more on the server (e.g. because that data has been deleted):
+
+* *earliest* -- automatically reset the offset to the earliest offset
+* *latest* -- automatically reset the offset to the latest offset
+* *none* -- throw an exception to the consumer if no previous offset is found for the consumer's group
+* anything else: throw an exception to the consumer
+
+| [[bootstrap_servers]] `bootstrap.servers`
+| (empty)
+| Yes
+|
 
 A comma-separated list of `host:port` pairs to establish the initial connection to a link:kafka-broker.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
 
@@ -26,7 +43,12 @@ The purpose of this is to be able to track the source of requests beyond just ip
 | [[interceptor.classes]] `interceptor.classes`
 | (empty)
 |
-| A list of `ConsumerInterceptor` class names.
+a| Comma-separated list of link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor] class names.
+
+[source, scala]
+----
+props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, "pl.jaceklaskowski.kafka.KafkaInterceptor")
+----
 
 | [[key_deserializer]] `key.deserializer` |  |  | How to deserialize message keys.
 

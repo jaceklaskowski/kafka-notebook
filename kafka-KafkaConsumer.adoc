@@ -34,14 +34,14 @@ Used when...FIXME
 Used when...FIXME
 
 | [[interceptors]] `interceptors`
-| `ConsumerInterceptors` that holds `ConsumerInterceptor` instances (defined using link:kafka-settings.adoc#interceptor.classes[interceptor.classes] setting).
+| `ConsumerInterceptors` that holds link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor] instances (defined using link:kafka-settings.adoc#interceptor.classes[interceptor.classes] setting).
 
 Used when...FIXME
 
 | [[subscriptions]] `subscriptions`
-| `SubscriptionState`
+| `SubscriptionState` for link:kafka-settings.adoc#auto.offset.reset[auto.offset.reset] setting.
 
-Used when...FIXME
+Created when `KafkaConsumer` <<creating-instance, is created>>.
 |===
 
 [TIP]
