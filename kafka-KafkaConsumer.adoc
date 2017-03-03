@@ -2,7 +2,19 @@
 
 `KafkaConsumer` is...FIXME
 
-`KafkaConsumer` is created when...FIXME
+[source, scala]
+----
+// sandbox/kafka-sandbox
+val props = new Properties()
+props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
+props.put(ConsumerConfig.GROUP_ID_CONFIG, "my-kafka-consumer")
+props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getName)
+props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getName)
+
+val consumer = new KafkaConsumer[String, String](props)
+----
+
+NOTE: `KafkaConsumer` is not safe for multi-threaded access and so you should use a single thread per instance.
 
 [[internal-registries]]
 .KafkaConsumer's Internal Registries and Counters
@@ -11,8 +23,23 @@
 | Name
 | Description
 
-| [[FIXME]] `FIXME`
-| FIXME
+| [[client]] `client`
+| `ConsumerNetworkClient`
+
+Used when...FIXME
+
+| [[fetcher]] `fetcher`
+| `Fetcher`
+
+Used when...FIXME
+
+| [[interceptors]] `interceptors`
+| `ConsumerInterceptors` that holds `ConsumerInterceptor` instances (defined using link:kafka-settings.adoc#interceptor.classes[interceptor.classes] setting).
+
+Used when...FIXME
+
+| [[subscriptions]] `subscriptions`
+| `SubscriptionState`
 
 Used when...FIXME
 |===
@@ -29,6 +56,33 @@ log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE
 
 Refer to link:kafka-logging.adoc[Logging].
 ====
+
+=== [[pollOnce]] Polling Once for ConsumerRecords per TopicPartition -- `pollOnce` Internal Method
+
+CAUTION: FIXME
+
+=== [[poll]] Poll Specified Milliseconds For ConsumerRecords per TopicPartitions -- `poll` Method
+
+[source, java]
+----
+ConsumerRecords<K, V> poll(long timeout)
+----
+
+`poll` polls for new records until `timeout` expires.
+
+NOTE: The input `timeout` should be `0` or greater and is the milliseconds to poll for records.
+
+Internally, `poll` <<pollOnce, polls once>> (for ConsumerRecords per TopicPartitions).
+
+If there are records fetched, `poll` checks <<fetcher, Fetcher>> for `sendFetches` or <<client, ConsumerNetworkClient>> for `pendingRequestCount` and, when either is positive, requests `ConsumerNetworkClient` to `pollNoWakeup`.
+
+CAUTION: FIXME Make the above more user-friendly
+
+`poll` returns the fetched `ConsumerRecords` when no `interceptors` are defined or passes them on to `ConsumerInterceptors` using `onConsume`
+
+CAUTION: FIXME Make the above more user-friendly, e.g. when could `interceptors` be empty?
+
+NOTE: `poll` is a part of link:kafka-consumers.adoc#poll[Consumer contract] to...FIXME
 
 === [[creating-instance]] Creating KafkaConsumer Instance
 

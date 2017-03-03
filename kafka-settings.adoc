@@ -23,6 +23,11 @@ The purpose of this is to be able to track the source of requests beyond just ip
 
 | [[heartbeat_interval_ms]] `heartbeat.interval.ms` |  |  | The expected time between heartbeats to the group coordinator when using Kafka's group management facilities.
 
+| [[interceptor.classes]] `interceptor.classes`
+| (empty)
+|
+| A list of `ConsumerInterceptor` class names.
+
 | [[key_deserializer]] `key.deserializer` |  |  | How to deserialize message keys.
 
 | [[metric_reporters]] `metric.reporters` | link:kafka-MetricsReporter.adoc#JmxReporter[JmxReporter] |  |

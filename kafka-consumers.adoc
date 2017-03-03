@@ -16,6 +16,26 @@ Using Kafka Consumer API requires the following dependency in your project (with
 libraryDependencies += "org.apache.kafka" % "kafka-clients" % 0.10.0.1
 ```
 
+=== [[contract]] Consumer Contract
+
+[source, scala]
+----
+public interface Consumer<K, V> extends Closeable {
+  // FIXME more method...
+  ConsumerRecords<K, V> poll(long timeout)
+}
+----
+
+.Consumer Contract
+[cols="1,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| [[poll]] `poll`
+| Used to...
+|===
+
 === [[topic-subscription]] Topic Subscription
 
 *Topic Subscription* is the process of announcing the topics a consumer wants to read messages from.
@@ -52,4 +72,4 @@ CAUTION: FIXME
 
 === [[i-want-more]] Further reading or watching
 
-1. http://www.confluent.io/blog/tutorial-getting-started-with-the-new-apache-kafka-0-9-consumer-client/[Introducing the Kafka Consumer: Getting Started with the New Apache Kafka 0.9 Consumer Client]
+. http://www.confluent.io/blog/tutorial-getting-started-with-the-new-apache-kafka-0-9-consumer-client/[Introducing the Kafka Consumer: Getting Started with the New Apache Kafka 0.9 Consumer Client]
