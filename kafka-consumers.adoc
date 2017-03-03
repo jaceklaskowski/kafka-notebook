@@ -35,53 +35,6 @@ You can change the set of topics a consumer is subscrib to at any time and (give
 
 CAUTION: FIXME
 
-=== [[KafkaConsumer]] KafkaConsumer
-
-[TIP]
-====
-Enable `DEBUG` logging level for `org.apache.kafka.clients.consumer.KafkaConsumer` logger to see what happens inside.
-
-Add the following line to `conf/log4j.properties`:
-
-```
-log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE
-```
-
-Refer to link:spark-logging.adoc[Logging].
-====
-
-==== [[creating-instance]] Creating Instance
-
-When created with DEBUG logging enabled, you should see the following messages:
-
-```
-DEBUG KafkaConsumer: Starting the Kafka consumer
-```
-
-A `KafkaConsumer` sets the internal `requestTimeoutMs` to <<request_timeout_ms, request.timeout.ms>> that has to be greater than link:kafka-settings.adoc#session_timeout_ms[session.timeout.ms] and link:kafka-settings.adoc#fetch_max_wait_ms[fetch.max.wait.ms] (you get `ConfigException` otherwise).
-
-`clientId` property is set to link:kafka-settings.adoc#client_id[client.id] if defined or auto-generated. It is used for metrics with the tag `client-id` being `clientId`.
-
-`metrics` property is set to the configured link:kafka-MetricsReporter.adoc[metrics reporters].
-
-`retryBackoffMs` is set to link:kafka-settings.adoc#retry_backoff_ms[retry.backoff.ms].
-
-CAUTION: FIXME
-
-When successfully created, you should see the following DEBUG in the logs:
-
-```
-DEBUG KafkaConsumer: Kafka consumer created
-```
-
-Any issues while creating a `KafkaConsumer` are reported as `KafkaException`.
-
-```
-org.apache.kafka.common.KafkaException: Failed to construct kafka consumer
-```
-
-=== [[ConsumerConfig]] ConsumerConfig
-
 === [[consumer-group]] Consumer Groups
 
 A *consumer group* is a set of Kafka consumers that share a common link:a set of consumers sharing a common group identifier#group_id[group identifier].

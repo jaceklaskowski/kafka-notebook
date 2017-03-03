@@ -1,3 +1,15 @@
 == Logging
 
-CAUTION: FIXME
+Kafka tools like `kafka-console-consumer.sh` (that uses link:kafka-KafkaConsumer.adoc[KafkaConsumer] under the covers) use `config/tools-log4j.properties` file.
+
+NOTE: Kafka tools use `bin/kafka-run-class.sh` to execute their implementations.
+
+=== [[KAFKA_LOG4J_OPTS]] KAFKA_LOG4J_OPTS Environment Variable
+
+You can use `KAFKA_LOG4J_OPTS` environment variable to specify the log4j configuration to use.
+
+```
+KAFKA_LOG4J_OPTS=-Dlog4j.configuration=file:[your-log4j-configuration-here]
+```
+
+NOTE: Unless defined, `kafka-run-class.sh` sets it to `config/tools-log4j.properties`.

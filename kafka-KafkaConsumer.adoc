@@ -1,0 +1,71 @@
+== [[KafkaConsumer]] KafkaConsumer
+
+`KafkaConsumer` is...FIXME
+
+`KafkaConsumer` is created when...FIXME
+
+[[internal-registries]]
+.KafkaConsumer's Internal Registries and Counters
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[FIXME]] `FIXME`
+| FIXME
+
+Used when...FIXME
+|===
+
+[TIP]
+====
+Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.consumer.KafkaConsumer` logger to see what happens inside.
+
+Add the following line to `config/tools-log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
+=== [[creating-instance]] Creating KafkaConsumer Instance
+
+`KafkaConsumer` takes the following when created:
+
+* [[config]] link:kafka-ConsumerConfig.adoc[ConsumerConfig]
+* [[keyDeserializer]] `Deserializer` for the keys
+* [[valueDeserializer]] `Deserializer` for the values
+
+`KafkaConsumer` initializes the <<internal-registries, internal registries and counters>>.
+
+NOTE: `KafkaConsumer` offers other methods to create itself, but they all eventually use the 3-argument constructor.
+
+When created, you should see the following messages in the logs:
+
+```
+DEBUG Starting the Kafka consumer (org.apache.kafka.clients.consumer.KafkaConsumer)
+```
+
+A `KafkaConsumer` sets the internal `requestTimeoutMs` to <<request_timeout_ms, request.timeout.ms>> that has to be greater than link:kafka-settings.adoc#session_timeout_ms[session.timeout.ms] and link:kafka-settings.adoc#fetch_max_wait_ms[fetch.max.wait.ms] (you get `ConfigException` otherwise).
+
+`clientId` property is set to link:kafka-settings.adoc#client_id[client.id] if defined or auto-generated. It is used for metrics with the tag `client-id` being `clientId`.
+
+`metrics` property is set to the configured link:kafka-MetricsReporter.adoc[metrics reporters].
+
+`retryBackoffMs` is set to link:kafka-settings.adoc#retry_backoff_ms[retry.backoff.ms].
+
+CAUTION: FIXME
+
+When successfully created, you should see the following DEBUG in the logs:
+
+```
+DEBUG Kafka consumer created (org.apache.kafka.clients.consumer.KafkaConsumer)
+```
+
+Any issues while creating a `KafkaConsumer` are reported as `KafkaException`.
+
+```
+org.apache.kafka.common.KafkaException: Failed to construct kafka consumer
+```

@@ -10,6 +10,8 @@
 . link:kafka-messages.adoc[Messages]
 . link:kafka-producers.adoc[Producers]
 . link:kafka-consumers.adoc[Consumers]
+.. link:kafka-KafkaConsumer.adoc[KafkaConsumer]
+.. link:kafka-ConsumerConfig.adoc[ConsumerConfig]
 . link:kafka-clusters.adoc[Clusters]
 . link:kafka-MetricsReporter.adoc[MetricsReporter]
 
