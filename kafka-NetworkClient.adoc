@@ -1,3 +1,25 @@
 == [[NetworkClient]] NetworkClient
 
-`NetworkClient`...FIXME
+`NetworkClient` is a link:kafka-KafkaClient.adoc[KafkaClient] that...FIXME
+
+=== [[poll]] `poll` Method
+
+[source, java]
+----
+List<ClientResponse> poll(long timeout, long now)
+----
+
+`poll`...FIXME
+
+NOTE: `poll` is a part of link:kafka-KafkaClient.adoc#poll[KafkaClient Contract] to..FIXME.
+
+=== [[handleCompletedReceives]] `handleCompletedReceives` Method
+
+[source, java]
+----
+void handleCompletedReceives(List<ClientResponse> responses, long now)
+----
+
+`handleCompletedReceives`...FIXME
+
+NOTE: `handleCompletedReceives` is used exclusively when `NetworkClient` <<poll, polls>>.

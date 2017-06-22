@@ -1,0 +1,16 @@
+== [[DefaultMetadataUpdater]] DefaultMetadataUpdater
+
+`DefaultMetadataUpdater` is `MetadataUpdater` that...FIXME
+
+CAUTION: FIXME
+
+=== [[handleCompletedMetadataResponse]] `handleCompletedMetadataResponse` Callback Method
+
+[source, java]
+----
+handleCompletedMetadataResponse(RequestHeader requestHeader, long now, MetadataResponse response)
+----
+
+`handleCompletedMetadataResponse`...FIXME
+
+NOTE: `handleCompletedMetadataResponse` is a part of link:FIXME#handleCompletedMetadataResponse[MetadataUpdater Contract] to..FIXME.

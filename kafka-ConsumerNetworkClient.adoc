@@ -1,0 +1,54 @@
+== [[ConsumerNetworkClient]] ConsumerNetworkClient
+
+CAUTION: FIXME
+
+=== [[poll]] `poll` Method
+
+[source, java]
+----
+void poll(long timeout)
+void poll(long timeout, long now, PollCondition pollCondition)
+void poll(long timeout, long now, PollCondition pollCondition, boolean disableWakeup)
+void poll(RequestFuture<?> future)
+boolean poll(RequestFuture<?> future, long timeout)
+----
+
+`poll`...FIXME
+
+[NOTE]
+====
+`poll` is used when:
+
+* `KafkaConsumer` link:kafka-KafkaConsumer.adoc#pollOnce[pollOnce]
+* `ConsumerNetworkClient` does <<pollNoWakeup, pollNoWakeup>>, <<awaitMetadataUpdate, awaitMetadataUpdate>>, <<awaitPendingRequests, awaitPendingRequests>>
+* `AbstractCoordinator` does `ensureCoordinatorReady` and `joinGroupIfNeeded`
+* `ConsumerCoordinator` does `commitOffsetsSync` and `fetchCommittedOffsets`
+* `Fetcher` does link:kafka-Fetcher.adoc#getTopicMetadata[getTopicMetadata] and link:kafka-Fetcher.adoc#retrieveOffsetsByTimes[retrieveOffsetsByTimes]
+====
+
+=== [[awaitMetadataUpdate]] `awaitMetadataUpdate` Method
+
+CAUTION: FIXME
+
+=== [[awaitPendingRequests]] `awaitPendingRequests` Method
+
+CAUTION: FIXME
+
+=== [[pollNoWakeup]] `pollNoWakeup` Method
+
+[source, java]
+----
+void pollNoWakeup()
+----
+
+`pollNoWakeup`...FIXME
+
+[NOTE]
+====
+`pollNoWakeup` is used when:
+
+* `KafkaConsumer` link:kafka-KafkaConsumer.adoc#poll[polls]
+* `AbstractCoordinator` does `maybeLeaveGroup`
+* `HeartbeatThread` runs
+* `ConsumerCoordinator` does `commitOffsetsAsync`
+====

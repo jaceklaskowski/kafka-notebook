@@ -1,0 +1,29 @@
+== [[MetadataUpdater]] MetadataUpdater
+
+=== [[contract]] MetadataUpdater Contract
+
+[source, java]
+----
+package org.apache.kafka.clients;
+
+interface MetadataUpdater {
+  List<Node> fetchNodes();
+  void handleDisconnection(String destination);
+  void handleCompletedMetadataResponse(RequestHeader requestHeader, long now, MetadataResponse metadataResponse);
+  boolean isUpdateDue(long now);
+  long maybeUpdate(long now);
+  void requestUpdate();
+}
+----
+
+.MetadataUpdater Contract (in alphabetical order)
+[cols="1,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| [[handleCompletedMetadataResponse]] `handleCompletedMetadataResponse`
+|
+
+Used exclusively when `NetworkClient` link:kafka-NetworkClient.adoc#handleCompletedReceives[handles completed receives]
+|===

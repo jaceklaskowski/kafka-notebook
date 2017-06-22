@@ -1,0 +1,11 @@
+== [[Fetcher]] Fetcher
+
+CAUTION: FIXME
+
+=== [[getTopicMetadata]] `getTopicMetadata` Method
+
+CAUTION: FIXME
+
+=== [[retrieveOffsetsByTimes]] `retrieveOffsetsByTimes` Method
+
+CAUTION: FIXME

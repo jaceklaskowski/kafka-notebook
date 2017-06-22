@@ -3,12 +3,13 @@
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
 
-=== Part I -- Architecture
+=== Architecture
 
 . link:kafka-broker.adoc[Broker -- Kafka Server]
 . link:kafka-topics.adoc[Topics]
 . link:kafka-messages.adoc[Messages]
 . link:kafka-producers.adoc[Producers]
+.. link:kafka-KafkaProducer.adoc[KafkaProducer]
 . link:kafka-consumers.adoc[Consumers]
 .. link:kafka-KafkaConsumer.adoc[KafkaConsumer]
 .. link:kafka-Deserializer.adoc[Deserializer]
@@ -33,7 +34,7 @@
 . link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
 . link:kafka-ConnectDistributed.adoc[ConnectDistributed]
 
----
+=== Kafka Internals
 
 . link:kafka-KafkaServerStartable.adoc[KafkaServerStartable]
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
@@ -47,9 +48,14 @@
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-LogManager.adoc[LogManager]
 . link:kafka-Metadata.adoc[Metadata]
-. link:kafka-NetworkClient.adoc[NetworkClient]
+. link:kafka-KafkaClient.adoc[KafkaClient]
+.. link:kafka-NetworkClient.adoc[NetworkClient]
+. link:kafka-MetadataUpdater.adoc[MetadataUpdater]
+.. link:kafka-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
+. link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+. link:kafka-Fetcher.adoc[Fetcher]
 
-=== Part II -- Build Tips
+=== Build Tips
 
 . link:kafka-gradle-tips.adoc[Gradle Tips]
 

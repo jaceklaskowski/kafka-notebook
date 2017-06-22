@@ -1,0 +1,45 @@
+== [[KafkaClient]] KafkaClient
+
+CAUTION: FIXME
+
+=== [[contract]] KafkaClient Contract
+
+[source, java]
+----
+package org.apache.kafka.clients;
+
+public interface KafkaClient extends Closeable {
+  void close(String nodeId);
+  long connectionDelay(Node node, long now);
+  boolean connectionFailed(Node node);
+  void disconnect(String nodeId);
+  boolean hasInFlightRequests();
+  boolean hasInFlightRequests(String nodeId);
+  boolean hasReadyNodes();
+  int inFlightRequestCount();
+  int inFlightRequestCount(String nodeId);
+  boolean isReady(Node node, long now);
+  Node leastLoadedNode(long now);
+  ClientRequest newClientRequest(String nodeId, AbstractRequest.Builder<?> requestBuilder,
+                                 long createdTimeMs, boolean expectResponse);
+  ClientRequest newClientRequest(String nodeId, AbstractRequest.Builder<?> requestBuilder, long createdTimeMs,
+                                 boolean expectResponse, RequestCompletionHandler callback);
+  boolean ready(Node node, long now);
+  List<ClientResponse> poll(long timeout, long now);
+  void send(ClientRequest request, long now);
+  void wakeup();
+}
+----
+
+.KafkaClient Contract (in alphabetical order)
+[cols="1,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| [[poll]] `poll`
+a| Used when:
+
+* `ConsumerNetworkClient` link:kafka-ConsumerNetworkClient.adoc#poll[polls]
+* ...FIXME
+|===

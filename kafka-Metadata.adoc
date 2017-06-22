@@ -17,4 +17,18 @@ Refer to link:kafka-logging.adoc[Logging].
 
 === [[update]] `update` Method
 
-CAUTION: FIXME
+[source, java]
+----
+synchronized void update(Cluster cluster, Set<String> unavailableTopics, long now)
+----
+
+`update`...FIXME
+
+[[NOTE]]
+====
+`update` is used when:
+
+* `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
+* `KafkaConsumer` is link:kafka-KafkaConsumer.adoc#creating-instance[created]
+* `KafkaProducer` is link:kafka-KafkaProducer.adoc#creating-instance[created]
+====

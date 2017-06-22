@@ -36,7 +36,7 @@ CAUTION: FIXME How does the JMX registration happen?
 | Description
 
 | [[client]] `client`
-| `ConsumerNetworkClient`
+| link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 
 Used when...FIXME
 
@@ -44,7 +44,7 @@ Used when...FIXME
 |
 
 | [[fetcher]] `fetcher`
-| `Fetcher`
+| link:kafka-Fetcher.adoc[Fetcher]
 
 Used when...FIXME
 
@@ -107,7 +107,7 @@ NOTE: The input `timeout` should be `0` or greater and is the milliseconds to po
 
 Internally, `poll` <<pollOnce, polls once>> (for ConsumerRecords per TopicPartitions).
 
-If there are records fetched, `poll` checks <<fetcher, Fetcher>> for `sendFetches` or <<client, ConsumerNetworkClient>> for `pendingRequestCount` and, when either is positive, requests `ConsumerNetworkClient` to `pollNoWakeup`.
+If there are records fetched, `poll` checks <<fetcher, Fetcher>> for `sendFetches` or <<client, ConsumerNetworkClient>> for `pendingRequestCount` and, when either is positive, requests <<client, ConsumerNetworkClient>> to `pollNoWakeup`.
 
 CAUTION: FIXME Make the above more user-friendly
 
@@ -119,21 +119,6 @@ NOTE: `poll` is a part of link:kafka-consumers.adoc#poll[Consumer contract] to..
 
 === [[creating-instance]] Creating KafkaConsumer Instance
 
-[source, java]
-----
-// Public API
-KafkaConsumer(
-  Map<String, Object> configs,
-  Deserializer<K> keyDeserializer,
-  Deserializer<V> valueDeserializer)
-
-// Private / Internal API
-KafkaConsumer(
-  ConsumerConfig config,
-  Deserializer<K> keyDeserializer,
-  Deserializer<V> valueDeserializer)
-----
-
 `KafkaConsumer` takes the following when created:
 
 * [[configs]] Consumer configuration (that is converted internally to link:kafka-ConsumerConfig.adoc[ConsumerConfig])
@@ -142,15 +127,32 @@ KafkaConsumer(
 
 `KafkaConsumer` initializes the <<internal-registries, internal registries and counters>>.
 
-NOTE: `KafkaConsumer` API offers other constructors that in the end use the above public 3-argument constructor that in turn passes the call on to the private internal constructor.
+NOTE: `KafkaConsumer` API offers other constructors that in the end use the <<creating-instance-public, public 3-argument constructor>> that in turn passes the call on to the <<creating-instance-internal, private internal constructor>>.
 
 ==== [[creating-instance-public]] KafkaConsumer Public Constructor
+
+[source, java]
+----
+// Public API
+KafkaConsumer(
+  Map<String, Object> configs,
+  Deserializer<K> keyDeserializer,
+  Deserializer<V> valueDeserializer)
+----
 
 When created, `KafkaConsumer` adds the <<keyDeserializer, keyDeserializer>> and <<valueDeserializer, valueDeserializer>> to <<configs, configs>> (as link:kafka-properties.adoc#key.deserializer[key.deserializer] and link:kafka-properties.adoc#value.deserializer[value.deserializer] properties respectively) and creates a link:kafka-ConsumerConfig.adoc[ConsumerConfig].
 
 `KafkaConsumer` passes the call on to the <<creating-instance-internal, internal constructor>>.
 
 ==== [[creating-instance-internal]] KafkaConsumer Internal Constructor
+
+[source, java]
+----
+KafkaConsumer(
+  ConsumerConfig config,
+  Deserializer<K> keyDeserializer,
+  Deserializer<V> valueDeserializer)
+----
 
 When called, the internal `KafkaConsumer` constructor prints out the following DEBUG message to the logs:
 
@@ -176,7 +178,7 @@ CAUTION: FIXME Finish me!
 1. `topicExpiryEnabled` disabled
 1. `ClusterResourceListeners` with user-defined list of link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptors] in link:kafka-properties.adoc#interceptor.classes[interceptor.classes] property
 
-`KafkaConsumer` link:kafka-Metadata.adoc#update[updates] `metadata` with link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers]
+`KafkaConsumer` link:kafka-Metadata.adoc#update[updates] `metadata` with link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers].
 
 CAUTION: FIXME Finish me!
 
