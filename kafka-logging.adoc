@@ -4,6 +4,27 @@ Kafka tools like `kafka-console-consumer.sh` (that uses link:kafka-KafkaConsumer
 
 NOTE: Kafka tools use `bin/kafka-run-class.sh` to execute their implementations.
 
+Kafka uses https://www.slf4j.org/index.html[Simple Logging Facade for Java (SLF4J)] for logging.
+
+[TIP]
+====
+Use `slf4j-simple` library dependency in Scala applications (in `build.sbt`) for basic logging where messages of level `INFO` and higher are printed to `System.err`.
+
+.build.sbt
+```scala
+libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.8.0-alpha2"
+```
+
+Replace slf4j's simple binding to switch between logging frameworks (e.g. `slf4j-log4j12` for log4j).
+
+.build.sbt
+```scala
+val logback = "1.2.3"
+libraryDependencies += "ch.qos.logback" % "logback-core" % logback
+libraryDependencies += "ch.qos.logback" % "logback-classic" % logback
+```
+====
+
 === [[KAFKA_LOG4J_OPTS]] KAFKA_LOG4J_OPTS Environment Variable
 
 You can use `KAFKA_LOG4J_OPTS` environment variable to specify the log4j configuration to use.

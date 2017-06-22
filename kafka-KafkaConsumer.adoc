@@ -1,20 +1,32 @@
 == [[KafkaConsumer]] KafkaConsumer
 
-`KafkaConsumer` is...FIXME
+`KafkaConsumer` is the main class that you will use to write link:kafka-consumers.adoc[Kafka consumers].
 
 [source, scala]
 ----
 // sandbox/kafka-sandbox
-val props = new Properties()
-props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
-props.put(ConsumerConfig.GROUP_ID_CONFIG, "my-kafka-consumer")
-props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getName)
-props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, classOf[StringDeserializer].getName)
+val configs: Map[String, Object] = Map(
+  // required properties
+  ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers,
+  ConsumerConfig.GROUP_ID_CONFIG -> groupId
+)
+import org.apache.kafka.common.serialization.StringDeserializer
+val keyDeserializer = new StringDeserializer
+val valueDeserializer = new StringDeserializer
 
-val consumer = new KafkaConsumer[String, String](props)
+import scala.collection.JavaConverters._
+import org.apache.kafka.clients.consumer.KafkaConsumer
+val consumer = new KafkaConsumer[String, String](
+  configs.asJava,
+  keyDeserializer,
+  valueDeserializer)
 ----
 
 NOTE: `KafkaConsumer` is not safe for multi-threaded access and so you should use a single thread per instance.
+
+`KafkaConsumer` registers itself in JMX with *kafka.consumer* prefix.
+
+CAUTION: FIXME How does the JMX registration happen?
 
 [[internal-registries]]
 .KafkaConsumer's Internal Registries and Counters
@@ -27,6 +39,9 @@ NOTE: `KafkaConsumer` is not safe for multi-threaded access and so you should us
 | `ConsumerNetworkClient`
 
 Used when...FIXME
+
+| [[clientId]] `clientId`
+|
 
 | [[fetcher]] `fetcher`
 | `Fetcher`
@@ -45,8 +60,16 @@ Created right when `KafkaConsumer` is <<creating-instance, created>>.
 
 Used when...FIXME
 
+| [[metrics]] `metrics`
+| `Metrics`
+
 | [[retryBackoffMs]] `retryBackoffMs`
 | link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] property or a user-defined value
+
+| [[requestTimeoutMs]] `requestTimeoutMs`
+a|
+
+`KafkaConsumer` reports `ConfigException` when smaller or equal than link:kafka-properties.adoc#session_timeout_ms[session.timeout.ms] and link:kafka-properties.adoc#fetch_max_wait_ms[fetch.max.wait.ms] properties.
 
 | [[subscriptions]] `subscriptions`
 | `SubscriptionState` for link:kafka-properties.adoc#auto.offset.reset[auto.offset.reset] setting.
@@ -96,29 +119,52 @@ NOTE: `poll` is a part of link:kafka-consumers.adoc#poll[Consumer contract] to..
 
 === [[creating-instance]] Creating KafkaConsumer Instance
 
+[source, java]
+----
+// Public API
+KafkaConsumer(
+  Map<String, Object> configs,
+  Deserializer<K> keyDeserializer,
+  Deserializer<V> valueDeserializer)
+
+// Private / Internal API
+KafkaConsumer(
+  ConsumerConfig config,
+  Deserializer<K> keyDeserializer,
+  Deserializer<V> valueDeserializer)
+----
+
 `KafkaConsumer` takes the following when created:
 
-* [[config]] link:kafka-ConsumerConfig.adoc[ConsumerConfig]
-* [[keyDeserializer]] `Deserializer` for the keys
-* [[valueDeserializer]] `Deserializer` for the values
+* [[configs]] Consumer configuration (that is converted internally to link:kafka-ConsumerConfig.adoc[ConsumerConfig])
+* [[keyDeserializer]] link:kafka-Deserializer.adoc[Deserializer] for keys
+* [[valueDeserializer]] link:kafka-Deserializer.adoc[Deserializer] for values
 
 `KafkaConsumer` initializes the <<internal-registries, internal registries and counters>>.
 
-NOTE: `KafkaConsumer` offers other methods to create itself, but they all eventually use the 3-argument constructor.
+NOTE: `KafkaConsumer` API offers other constructors that in the end use the above public 3-argument constructor that in turn passes the call on to the private internal constructor.
 
-When created, you should see the following messages in the logs:
+==== [[creating-instance-public]] KafkaConsumer Public Constructor
+
+When created, `KafkaConsumer` adds the <<keyDeserializer, keyDeserializer>> and <<valueDeserializer, valueDeserializer>> to <<configs, configs>> (as link:kafka-properties.adoc#key.deserializer[key.deserializer] and link:kafka-properties.adoc#value.deserializer[value.deserializer] properties respectively) and creates a link:kafka-ConsumerConfig.adoc[ConsumerConfig].
+
+`KafkaConsumer` passes the call on to the <<creating-instance-internal, internal constructor>>.
+
+==== [[creating-instance-internal]] KafkaConsumer Internal Constructor
+
+When called, the internal `KafkaConsumer` constructor prints out the following DEBUG message to the logs:
 
 ```
-DEBUG Starting the Kafka consumer (org.apache.kafka.clients.consumer.KafkaConsumer)
+DEBUG Starting the Kafka consumer
 ```
 
-`KafkaConsumer` sets the internal `requestTimeoutMs` to <<request_timeout_ms, request.timeout.ms>> that has to be greater than link:kafka-properties.adoc#session_timeout_ms[session.timeout.ms] and link:kafka-properties.adoc#fetch_max_wait_ms[fetch.max.wait.ms] (you get `ConfigException` otherwise).
+`KafkaConsumer` sets the internal <<requestTimeoutMs, requestTimeoutMs>> to <<request_timeout_ms, request.timeout.ms>> property.
 
-`clientId` property is set to link:kafka-properties.adoc#client.id[client.id] if defined or auto-generated. It is used for metrics with the tag `client-id` being `clientId`.
+`KafkaConsumer` sets the internal <<clientId, clientId>> to link:kafka-properties.adoc#client.id[client.id] or generates one with prefix *consumer-* (starting from 1) if not set.
 
-`metrics` property is set to the configured link:kafka-MetricsReporter.adoc[metrics reporters].
+`KafkaConsumer` sets the internal <<metrics, Metrics>> (and `JmxReporter` with *kafka.consumer* prefix).
 
-`KafkaConsumer` sets the internal <<retryBackoffMs, retryBackoffMs>> to the value of link:kafka-properties.adoc#retry.backoff.ms[retry.backoff.ms] property.
+`KafkaConsumer` sets the internal <<retryBackoffMs, retryBackoffMs>> to link:kafka-properties.adoc#retry.backoff.ms[retry.backoff.ms] property.
 
 CAUTION: FIXME Finish me!
 
@@ -130,16 +176,18 @@ CAUTION: FIXME Finish me!
 1. `topicExpiryEnabled` disabled
 1. `ClusterResourceListeners` with user-defined list of link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptors] in link:kafka-properties.adoc#interceptor.classes[interceptor.classes] property
 
+`KafkaConsumer` link:kafka-Metadata.adoc#update[updates] `metadata` with link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers]
+
 CAUTION: FIXME Finish me!
 
 `KafkaConsumer` creates a link:kafka-NetworkClient.adoc[NetworkClient] with...FIXME
 
 CAUTION: FIXME Finish me!
 
-When successfully created, you should see the following DEBUG in the logs:
+In the end, `KafkaConsumer` prints out the following DEBUG message to the logs:
 
 ```
-DEBUG Kafka consumer created (org.apache.kafka.clients.consumer.KafkaConsumer)
+DEBUG Kafka consumer created
 ```
 
 Any issues while creating a `KafkaConsumer` are reported as `KafkaException`.

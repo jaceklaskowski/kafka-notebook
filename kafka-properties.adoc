@@ -55,7 +55,10 @@ a| Comma-separated list of link:kafka-ConsumerInterceptor.adoc[ConsumerIntercept
 props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, "pl.jaceklaskowski.kafka.KafkaInterceptor")
 ----
 
-| [[key_deserializer]] `key.deserializer` |  |  | How to deserialize message keys.
+| [[key.deserializer]] `key.deserializer`
+|
+|
+| How to deserialize message keys.
 
 | [[metadata.max.age.ms]] `metadata.max.age.ms`
 |

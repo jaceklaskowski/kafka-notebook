@@ -1,6 +1,8 @@
-== Consumers
+== Kafka Consumers
 
 Multiple concurrent *consumers* read (aka _pull_) messages from topics however they want using link:kafka-messages.adoc#offsets[offsets]. Unlike typical messaging systems, Kafka consumers pull messages from a topic using offsets.
+
+A *Kafka consumer* consume records from a Kafka cluster.
 
 NOTE: Kafka 0.9.0.0 was about introducing a brand new Consumer API _aka_ *New Consumer*.
 
@@ -8,12 +10,19 @@ When a consumer is created, it requires link:kafka-properties.adoc#bootstrap.ser
 
 A consumer has to subscribe to the topics it wants to read messages from called <<topic-subscription, topic subscription>>.
 
-CAUTION: FIXME Building a own consumption strategy
+CAUTION: FIXME Building a custom consumption strategy
 
-Using Kafka Consumer API requires the following dependency in your project (with `0.10.0.1` being the latest Kafka release):
+Using Kafka Consumer API requires *kafka-clients* dependency in your project.
 
 ```
-libraryDependencies += "org.apache.kafka" % "kafka-clients" % 0.10.0.1
+val kafka = "0.10.2.1"
+libraryDependencies += "org.apache.kafka" % "kafka-clients" % kafka
+
+// You should also define the logging binding for slf4j
+// Kafka uses slf4j for logging
+val logback = "1.2.3"
+libraryDependencies += "ch.qos.logback" % "logback-core" % logback
+libraryDependencies += "ch.qos.logback" % "logback-classic" % logback
 ```
 
 === [[contract]] Consumer Contract
@@ -21,7 +30,7 @@ libraryDependencies += "org.apache.kafka" % "kafka-clients" % 0.10.0.1
 [source, scala]
 ----
 public interface Consumer<K, V> extends Closeable {
-  // FIXME more method...
+  // FIXME more methods...
   ConsumerRecords<K, V> poll(long timeout)
 }
 ----

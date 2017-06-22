@@ -1,3 +1,5 @@
 == [[ConsumerConfig]] ConsumerConfig
 
 CAUTION: FIXME
+
+CAUTION: FIXME Describe `static` block when `ConsumerConfig` is created.

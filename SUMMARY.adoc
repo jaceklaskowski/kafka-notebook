@@ -11,6 +11,7 @@
 . link:kafka-producers.adoc[Producers]
 . link:kafka-consumers.adoc[Consumers]
 .. link:kafka-KafkaConsumer.adoc[KafkaConsumer]
+.. link:kafka-Deserializer.adoc[Deserializer]
 .. link:kafka-ConsumerConfig.adoc[ConsumerConfig]
 .. link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor]
 . link:kafka-clusters.adoc[Clusters]
