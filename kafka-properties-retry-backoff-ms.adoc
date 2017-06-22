@@ -1,0 +1,5 @@
+== [[retry.backoff.ms]] retry.backoff.ms Property
+
+`retry.backoff.ms` is the time to wait before attempting to retry a failed request to a given topic partition.
+
+This avoids repeatedly sending requests in a tight loop under some failure scenarios.

@@ -57,6 +57,11 @@ props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, "pl.jaceklaskowski.kafka.Ka
 
 | [[key_deserializer]] `key.deserializer` |  |  | How to deserialize message keys.
 
+| [[metadata.max.age.ms]] `metadata.max.age.ms`
+|
+|
+|
+
 | [[metric_reporters]] `metric.reporters` | link:kafka-MetricsReporter.adoc#JmxReporter[JmxReporter] |  |
 The list of fully-qualified classes names of the link:kafka-MetricsReporter.adoc[metrics reporters].
 
@@ -69,7 +74,11 @@ Time window (in milliseconds) a metrics sample is computed over.
 | [[rebalance_timeout_ms]] `rebalance.timeout.ms` |  |  |
 The maximum allowed time for each worker to join the group once a rebalance has begun.
 
-| [[retry_backoff_ms]] `retry.backoff.ms` |  |  |
+| [[retry.backoff.ms]] link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
+|
+|
+|
+
 Time to wait before attempting to retry a failed request to a given topic partition.
 
 This avoids repeatedly sending requests in a tight loop under some failure scenarios.

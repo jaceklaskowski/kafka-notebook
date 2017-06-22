@@ -24,6 +24,7 @@
 .. link:kafka-properties-client-id.adoc[client.id]
 .. link:kafka-properties-enable-auto-commit.adoc[enable.auto.commit]
 .. link:kafka-properties-group-id.adoc[group.id]
+.. link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
 . link:kafka-logging.adoc[Logging]
 
 ---
@@ -44,6 +45,8 @@
 . link:kafka-KafkaApis.adoc[KafkaApis]
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-LogManager.adoc[LogManager]
+. link:kafka-Metadata.adoc[Metadata]
+. link:kafka-NetworkClient.adoc[NetworkClient]
 
 === Part II -- Build Tips
 
