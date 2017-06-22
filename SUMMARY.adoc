@@ -19,7 +19,11 @@
 ---
 
 . link:kafka-tools.adoc[Kafka Tools]
-. link:kafka-settings.adoc[Settings]
+. link:kafka-properties.adoc[Properties]
+.. link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
+.. link:kafka-properties-client-id.adoc[client.id]
+.. link:kafka-properties-enable-auto-commit.adoc[enable.auto.commit]
+.. link:kafka-properties-group-id.adoc[group.id]
 . link:kafka-logging.adoc[Logging]
 
 ---

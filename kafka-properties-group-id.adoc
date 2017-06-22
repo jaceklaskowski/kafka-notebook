@@ -1,0 +1,7 @@
+== [[group.id]] group.id Property
+
+`group.id` specifies the name of the consumer group a link:kafka-KafkaConsumer.adoc[Kafka consumer] belongs to.
+
+When the Kafka consumer is constructed and `group.id` does not exist yet (i.e. there are no existing consumers that are part of the group), the consumer group will be created automatically.
+
+NOTE: If all consumers in a group leave the group, the group is automatically destroyed.

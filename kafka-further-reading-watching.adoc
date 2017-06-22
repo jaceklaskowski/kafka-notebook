@@ -3,3 +3,4 @@
 === [[articles]] Articles
 
 1. http://blog.cloudera.com/blog/2014/09/apache-kafka-for-beginners/[Apache Kafka for Beginners] - an excellent article that you should start your Kafka journey with.
+1. https://www.confluent.io/blog/introduction-to-apache-kafka-for-python-programmers/[Introduction to Apache Kafka™ for Python Programmers] - using Python as the programming language, but offers enough exposure to the topics of the Kafka architecture.

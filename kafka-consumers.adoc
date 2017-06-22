@@ -4,7 +4,7 @@ Multiple concurrent *consumers* read (aka _pull_) messages from topics however t
 
 NOTE: Kafka 0.9.0.0 was about introducing a brand new Consumer API _aka_ *New Consumer*.
 
-When a consumer is created, it requires link:kafka-settings.adoc#bootstrap_servers[bootstrap.servers] which is the initial list of brokers to discover the full set of alive brokers in a cluster from.
+When a consumer is created, it requires link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers] which is the initial list of brokers to discover the full set of alive brokers in a cluster from.
 
 A consumer has to subscribe to the topics it wants to read messages from called <<topic-subscription, topic subscription>>.
 
@@ -57,7 +57,7 @@ CAUTION: FIXME
 
 === [[consumer-group]] Consumer Groups
 
-A *consumer group* is a set of Kafka consumers that share a common link:a set of consumers sharing a common group identifier#group_id[group identifier].
+A *consumer group* is a set of Kafka consumers that share a common link:a set of consumers sharing a common group identifier#group.id[group identifier].
 
 Partitions in a link:kafka-topics.adoc[topic] are assigned to exactly one member in a consumer group.
 

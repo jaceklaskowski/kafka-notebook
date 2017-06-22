@@ -1,9 +1,9 @@
-== Kafka Settings
+== Kafka Properties
 
-.Settings
+.Properties
 [frame="topbot",cols="1,1,1,2",options="header",width="100%"]
 |======================
-| Setting
+| Name
 | Default Value
 | Importance
 | Description
@@ -18,25 +18,30 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 * *none* -- throw an exception to the consumer if no previous offset is found for the consumer's group
 * anything else: throw an exception to the consumer
 
-| [[bootstrap_servers]] `bootstrap.servers`
+| [[bootstrap.servers]] link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
 | (empty)
 | Yes
+| A comma-separated list of `host:port` pairs that are the addresses of one or more brokers in a link:kafka-broker.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
+
+| [[client.id]] link:kafka-properties-client-id.adoc[client.id]
+| (random-generated)
+|
 |
 
-A comma-separated list of `host:port` pairs to establish the initial connection to a link:kafka-broker.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
+| [[enable.auto.commit]] link:kafka-properties-enable-auto-commit.adoc[enable.auto.commit]
+|
+|
+|
 
-The client will make use of all servers irrespective of which servers are specified here for bootstrapping and only impacts the initial hosts used to discover the full set of alive servers in a cluster.
+| [[fetch_max_wait_ms]] `fetch.max.wait.ms`
+|
+|
+|
 
-Since these servers are just used for the initial connection to discover the full cluster membership (which may change dynamically), this list does not have to contain the full set of servers (you may want more than one, though, in case a server is down).
-
-| [[client_id]] `client.id` | (random-generated) |  |
-A link:kafka-consumers.adoc[Consumer] identifier string to pass to the server when making requests.
-
-The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.
-
-| [[fetch_max_wait_ms]] `fetch.max.wait.ms` |  |  |
-
-| [[group_id]] `group.id` |  |  | A unique string that identifies the Connect cluster group this worker belongs to.
+| [[group.id]] link:kafka-properties-group-id.adoc[group.id]
+|
+|
+| The name of the consumer group the consumer is part of.
 
 | [[heartbeat_interval_ms]] `heartbeat.interval.ms` |  |  | The expected time between heartbeats to the group coordinator when using Kafka's group management facilities.
 

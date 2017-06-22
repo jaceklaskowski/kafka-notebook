@@ -1,0 +1,5 @@
+== [[enable.auto.commit]] enable.auto.commit Property
+
+`enable.auto.commit`...FIXME
+
+By default, as the consumer reads messages from Kafka, it will periodically commit its current offset (defined as the offset of the next message to be read) for the partitions it is reading from back to Kafka. Often you would like more control over exactly when offsets are committed. In this case you can set `enable.auto.commit` to `false` and call the `commit` method on the consumer.

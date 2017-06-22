@@ -34,12 +34,12 @@ Used when...FIXME
 Used when...FIXME
 
 | [[interceptors]] `interceptors`
-| `ConsumerInterceptors` that holds link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor] instances (defined using link:kafka-settings.adoc#interceptor.classes[interceptor.classes] setting).
+| `ConsumerInterceptors` that holds link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor] instances (defined using link:kafka-properties.adoc#interceptor.classes[interceptor.classes] setting).
 
 Used when...FIXME
 
 | [[subscriptions]] `subscriptions`
-| `SubscriptionState` for link:kafka-settings.adoc#auto.offset.reset[auto.offset.reset] setting.
+| `SubscriptionState` for link:kafka-properties.adoc#auto.offset.reset[auto.offset.reset] setting.
 
 Created when `KafkaConsumer` <<creating-instance, is created>>.
 |===
@@ -102,13 +102,13 @@ When created, you should see the following messages in the logs:
 DEBUG Starting the Kafka consumer (org.apache.kafka.clients.consumer.KafkaConsumer)
 ```
 
-A `KafkaConsumer` sets the internal `requestTimeoutMs` to <<request_timeout_ms, request.timeout.ms>> that has to be greater than link:kafka-settings.adoc#session_timeout_ms[session.timeout.ms] and link:kafka-settings.adoc#fetch_max_wait_ms[fetch.max.wait.ms] (you get `ConfigException` otherwise).
+A `KafkaConsumer` sets the internal `requestTimeoutMs` to <<request_timeout_ms, request.timeout.ms>> that has to be greater than link:kafka-properties.adoc#session_timeout_ms[session.timeout.ms] and link:kafka-properties.adoc#fetch_max_wait_ms[fetch.max.wait.ms] (you get `ConfigException` otherwise).
 
-`clientId` property is set to link:kafka-settings.adoc#client_id[client.id] if defined or auto-generated. It is used for metrics with the tag `client-id` being `clientId`.
+`clientId` property is set to link:kafka-properties.adoc#client.id[client.id] if defined or auto-generated. It is used for metrics with the tag `client-id` being `clientId`.
 
 `metrics` property is set to the configured link:kafka-MetricsReporter.adoc[metrics reporters].
 
-`retryBackoffMs` is set to link:kafka-settings.adoc#retry_backoff_ms[retry.backoff.ms].
+`retryBackoffMs` is set to link:kafka-properties.adoc#retry_backoff_ms[retry.backoff.ms].
 
 CAUTION: FIXME
 

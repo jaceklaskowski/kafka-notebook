@@ -1,0 +1,13 @@
+== [[bootstrap.servers]] bootstrap.servers Property
+
+`bootstrap.servers` is a comma-separated list of host and port pairs that are the addresses of the Kafka brokers in a link:kafka-broker.adoc[Kafka cluster] to bootstrap a Kafka client.
+
+A host and port pair uses `:` as a separator.
+
+Examples include `localhost:9092` or `localhost:9092,another.host:9092`.
+
+`bootstrap.servers` provides the initial hosts that act as the starting point for a client to query the cluster for metadata (that any Kafka broker can handle) and in the end discover the full set of alive servers in the cluster.
+
+NOTE: Since these servers are just used for the initial connection to discover the full cluster membership (which may change dynamically), this list does not have to contain the full set of servers (you may want more than one, though, in case a server is down).
+
+NOTE: Clients (producers or consumers) make use of all servers irrespective of which servers are specified in `bootstrap.servers` for bootstrapping.

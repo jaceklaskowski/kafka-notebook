@@ -1,0 +1,5 @@
+== [[client.id]] client.id Property
+
+An optional identifier of a link:kafka-consumers.adoc[Kafka consumer] (in a consumer group) that is passed to a Kafka broker with every request.
+
+The sole purpose of this is to be able to track the source of requests beyond just ip and port by allowing a logical application name to be included in Kafka logs and monitoring aggregates.
