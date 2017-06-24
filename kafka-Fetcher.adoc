@@ -2,7 +2,26 @@
 
 CAUTION: FIXME
 
+=== [[getAllTopicMetadata]] Finding Metadata on All Topics -- `getAllTopicMetadata` Method
+
+CAUTION: FIXME
+
 === [[getTopicMetadata]] `getTopicMetadata` Method
+
+[source, java]
+----
+Map<String, List<PartitionInfo>> getTopicMetadata(MetadataRequest.Builder request, long timeout)
+----
+
+[[NOTE]]
+====
+`getTopicMetadata` is used when:
+
+* `Fetcher` <<getAllTopicMetadata, finds metadata on all topics>>
+* `KafkaConsumer` link:kafka-KafkaConsumer.adoc#partitionsFor[finds partitions for a topic].
+====
+
+=== [[beginningOffsets]] `beginningOffsets` Method
 
 CAUTION: FIXME
 

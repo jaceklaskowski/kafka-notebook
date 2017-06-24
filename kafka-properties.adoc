@@ -23,6 +23,11 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 | Yes
 | A comma-separated list of `host:port` pairs that are the addresses of one or more brokers in a link:kafka-broker.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
 
+| [[check.crcs]] `check.crcs`
+|
+|
+|
+
 | [[client.id]] link:kafka-properties-client-id.adoc[client.id]
 | (random-generated)
 |
@@ -33,7 +38,17 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 |
 |
 
-| [[fetch_max_wait_ms]] `fetch.max.wait.ms`
+| [[fetch.min.bytes]] `fetch.min.bytes`
+|
+|
+|
+
+| [[fetch.max.bytes]] `fetch.max.bytes`
+|
+|
+|
+
+| [[fetch.max.wait.ms]] `fetch.max.wait.ms`
 |
 |
 |
@@ -59,6 +74,16 @@ props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, "pl.jaceklaskowski.kafka.Ka
 |
 |
 | How to deserialize message keys.
+
+| [[max.partition.fetch.bytes]] `max.partition.fetch.bytes`
+|
+|
+| How to deserialize message keys.
+
+| [[max.poll.records]] `max.poll.records`
+|
+|
+|
 
 | [[metadata.max.age.ms]] `metadata.max.age.ms`
 |
