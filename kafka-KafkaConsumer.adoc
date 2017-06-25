@@ -105,6 +105,28 @@ log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[subscribe]] Subscribing to Topics -- `subscribe` Method
+
+[source, java]
+----
+void subscribe(Collection<String> topics) // <1>
+void subscribe(Collection<String> topics, ConsumerRebalanceListener listener)
+----
+<1> Uses `NoOpConsumerRebalanceListener` as `ConsumerRebalanceListener`
+
+Internally, `subscribe` prints out the following DEBUG message to the logs:
+
+```
+DEBUG Subscribed to topic(s): [comma-separated topics]
+```
+
+`subscribe` then requests <<subscriptions, SubscriptionState>> to `subscribe` for the `topics` and `listener`.
+
+In the end, `subscribe` requests <<subscriptions, SubscriptionState>> for `groupSubscription` that it then passes along to <<metadata, Metadata>> to link:kafka-Metadata.adoc#setTopics[set the topics to track].
+
+.KafkaConsumer and Subscribing to Topics
+image::images/KafkaConsumer-subscribe.png[align="center"]
+
 === [[partitionsFor]] Getting Partitions For Topic -- `partitionsFor` Method
 
 CAUTION: FIXME

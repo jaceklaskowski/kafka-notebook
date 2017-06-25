@@ -15,6 +15,10 @@ log4j.logger.org.apache.kafka.clients.Metadata=TRACE
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[setTopics]] Setting Topics to Track -- `setTopics` Method
+
+CAUTION: FIXME
+
 === [[update]] `update` Method
 
 [source, java]
