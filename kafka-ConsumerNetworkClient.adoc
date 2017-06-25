@@ -2,6 +2,14 @@
 
 CAUTION: FIXME
 
+=== [[send]] `send` Method
+
+CAUTION: FIXME
+
+=== [[leastLoadedNode]] `leastLoadedNode` Method
+
+CAUTION: FIXME
+
 === [[poll]] `poll` Method
 
 [source, java]
@@ -23,7 +31,7 @@ boolean poll(RequestFuture<?> future, long timeout)
 * `ConsumerNetworkClient` does <<pollNoWakeup, pollNoWakeup>>, <<awaitMetadataUpdate, awaitMetadataUpdate>>, <<awaitPendingRequests, awaitPendingRequests>>
 * `AbstractCoordinator` does `ensureCoordinatorReady` and `joinGroupIfNeeded`
 * `ConsumerCoordinator` does `commitOffsetsSync` and `fetchCommittedOffsets`
-* `Fetcher` does link:kafka-Fetcher.adoc#getTopicMetadata[getTopicMetadata] and link:kafka-Fetcher.adoc#retrieveOffsetsByTimes[retrieveOffsetsByTimes]
+* `Fetcher` is requested for link:kafka-Fetcher.adoc#getTopicMetadata[topic metadata] or link:kafka-Fetcher.adoc#retrieveOffsetsByTimes[retrieveOffsetsByTimes]
 ====
 
 === [[awaitMetadataUpdate]] `awaitMetadataUpdate` Method

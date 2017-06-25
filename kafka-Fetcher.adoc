@@ -1,10 +1,60 @@
 == [[Fetcher]] Fetcher
 
-CAUTION: FIXME
+`Fetcher` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-KafkaConsumer.adoc#creating-instance[created].
+
+.Fetcher and KafkaConsumer
+image::images/Fetcher-KafkaConsumer.png[align="center"]
+
+[[internal-registries]]
+.Fetcher's Internal Registries and Counters (in alphabetical order)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[client]] `client`
+| link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient] that is given when `Fetcher` is <<creating-instance, created>>.
+|===
+
+=== [[creating-instance]] Creating Fetcher Instance
+
+`Fetcher` takes the following when created:
+
+* [[client]] link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+* [[minBytes]] Minimum number of bytes
+* [[maxBytes]] Maximum number of bytes
+* [[maxWaitMs]] Maximum wait time
+* [[fetchSize]] Fetch size
+* [[maxPollRecords]] How many records to poll
+* [[checkCrcs]] Flag to check CRC or not
+* [[keyDeserializer]] link:kafka-Deserializer.adoc[Deserializer] for keys
+* [[valueDeserializer]] link:kafka-Deserializer.adoc[Deserializer] for values
+* [[metadata]] link:kafka-Metadata.adoc[Metadata]
+* [[subscriptions]] `SubscriptionState`
+* [[metrics]] `Metrics`
+* [[metricsRegistry]] `FetcherMetricsRegistry`
+* [[time]] `Time`
+* [[retryBackoffMs]] Retry backoff in milliseconds
+* [[isolationLevel]] `IsolationLevel`
+
+`Fetcher` initializes the <<internal-registries, internal registries and counters>>.
+
+`Fetcher` registers itself with <<subscriptions, SubscriptionState>> as a listener to receive notifications about...FIXME
 
 === [[sendMetadataRequest]] `sendMetadataRequest` Internal Method
 
-CAUTION: FIXME
+[source, scala]
+----
+RequestFuture<ClientResponse> sendMetadataRequest(MetadataRequest.Builder request)
+----
+
+Internally, `sendMetadataRequest` requests <<client, ConsumerNetworkClient>> for the link:kafka-ConsumerNetworkClient.adoc#leastLoadedNode[least loaded node].
+
+With the node, `sendMetadataRequest` requests <<client, ConsumerNetworkClient>> to link:kafka-ConsumerNetworkClient.adoc#send[send the request to the node].
+
+When no node was found, `sendMetadataRequest` returns a `RequestFuture` with `NoAvailableBrokersException`.
+
+NOTE: `sendMetadataRequest` is used exclusively when `Fetcher` <<getTopicMetadata, is requested for topic metadata>>.
 
 === [[beginningOffsets]] `beginningOffsets` Method
 
@@ -14,7 +64,7 @@ CAUTION: FIXME
 
 CAUTION: FIXME
 
-=== [[getTopicMetadata]] Getting Topics Metadata -- `getTopicMetadata` Method
+=== [[getTopicMetadata]] Getting Topic Metadata -- `getTopicMetadata` Method
 
 [source, java]
 ----
