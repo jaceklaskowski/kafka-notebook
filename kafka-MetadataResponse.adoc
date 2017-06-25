@@ -1,0 +1,5 @@
+== [[MetadataResponse]] MetadataResponse
+
+=== [[cluster]] `cluster` Method
+
+CAUTION: FIXME

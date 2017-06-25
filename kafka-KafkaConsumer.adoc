@@ -1,6 +1,10 @@
 == [[KafkaConsumer]] KafkaConsumer
 
-`KafkaConsumer` is the main class that you will use to write link:kafka-consumers.adoc[Kafka consumers].
+`KafkaConsumer` is the main class to write link:kafka-consumers.adoc[Kafka consumers].
+
+`KafkaConsumer` is a part of the public API and is <<creating-instance, created>> by means of properties and key and value deserializers.
+
+NOTE: link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers] and link:kafka-properties.adoc#group.id[group.id] properties are mandatory. They usually appear in the code as `ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG` and  `ConsumerConfig.GROUP_ID_CONFIG` values, respectively.
 
 [source, scala]
 ----
@@ -22,11 +26,20 @@ val consumer = new KafkaConsumer[String, String](
   valueDeserializer)
 ----
 
-NOTE: `KafkaConsumer` is not safe for multi-threaded access and so you should use a single thread per instance.
-
 `KafkaConsumer` registers itself in JMX with *kafka.consumer* prefix.
 
 CAUTION: FIXME How does the JMX registration happen?
+
+[IMPORTANT]
+====
+`KafkaConsumer` does not support multi-threaded access. You should use only one thread per `KafkaConsumer` instance.
+
+`KafkaConsumer` uses light locks protecting itself from multi-threaded access and reports `ConcurrentModificationException` when it happens.
+
+```
+KafkaConsumer is not safe for multi-threaded access
+```
+====
 
 [[internal-registries]]
 .KafkaConsumer's Internal Registries and Counters
@@ -92,17 +105,6 @@ log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
-=== [[listTopics]] `listTopics` Method
-
-[source, java]
-----
-Map<String, List<PartitionInfo>> listTopics()
-----
-
-`listTopics` requests <<fetcher, Fetcher>> for link:kafka-Fetcher.adoc#getAllTopicMetadata[metadata on all topics] and gives the result back.
-
-NOTE: `listTopics` uses <<requestTimeoutMs, requestTimeoutMs>> that corresponds to link:kafka-properties.adoc#request.timeout.ms[request.timeout.ms] property.
-
 === [[partitionsFor]] Getting Partitions For Topic -- `partitionsFor` Method
 
 CAUTION: FIXME
@@ -146,6 +148,24 @@ CAUTION: FIXME Make the above more user-friendly, e.g. when could `interceptors`
 
 NOTE: `poll` is a part of link:kafka-consumers.adoc#poll[Consumer contract] to...FIXME
 
+=== [[listTopics]] Requesting Metadata for All Topics (From Brokers) -- `listTopics` Method
+
+[source, java]
+----
+Map<String, List<PartitionInfo>> listTopics()
+----
+
+Internally, `listTopics` simply requests <<fetcher, Fetcher>> for link:kafka-Fetcher.adoc#getAllTopicMetadata[metadata for all topics] and returns it.
+
+[source, scala]
+----
+consumer.listTopics().asScala.foreach { case (name, partitions) =>
+  println(s"topic: $name (partitions: ${partitions.size()})")
+}
+----
+
+NOTE: `listTopics` uses <<requestTimeoutMs, requestTimeoutMs>> that corresponds to link:kafka-properties.adoc#request.timeout.ms[request.timeout.ms] property.
+
 === [[beginningOffsets]] `beginningOffsets` Method
 
 [source, java]
@@ -153,7 +173,7 @@ NOTE: `poll` is a part of link:kafka-consumers.adoc#poll[Consumer contract] to..
 Map<TopicPartition, Long> beginningOffsets(Collection<TopicPartition> partitions)
 ----
 
-`beginningOffsets` requests <<fetcher, Fetcher>> for link:kafka-Fetcher.adoc#beginningOffsets[beginningOffsets] and gives the result back.
+`beginningOffsets` requests <<fetcher, Fetcher>> for link:kafka-Fetcher.adoc#beginningOffsets[beginningOffsets] and returns it.
 
 === [[creating-instance]] Creating KafkaConsumer Instance
 

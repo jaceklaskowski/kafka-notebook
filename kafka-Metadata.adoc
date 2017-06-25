@@ -24,7 +24,7 @@ synchronized void update(Cluster cluster, Set<String> unavailableTopics, long no
 
 `update`...FIXME
 
-[[NOTE]]
+[NOTE]
 ====
 `update` is used when:
 

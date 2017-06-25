@@ -1,0 +1,11 @@
+== [[Cluster]] Cluster
+
+CAUTION: FIXME
+
+=== [[topics]] `topics` Method
+
+CAUTION: FIXME
+
+=== [[availablePartitionsForTopic]] `availablePartitionsForTopic` Method
+
+CAUTION: FIXME

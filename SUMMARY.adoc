@@ -54,6 +54,8 @@
 .. link:kafka-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
 . link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 . link:kafka-Fetcher.adoc[Fetcher]
+. link:kafka-Cluster.adoc[Cluster]
+. link:kafka-MetadataResponse.adoc[MetadataResponse]
 
 === Build Tips
 
