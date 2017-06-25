@@ -6,6 +6,10 @@ CAUTION: FIXME
 
 CAUTION: FIXME
 
+=== [[pendingRequestCount]] `pendingRequestCount` Method
+
+CAUTION: FIXME
+
 === [[leastLoadedNode]] `leastLoadedNode` Method
 
 CAUTION: FIXME

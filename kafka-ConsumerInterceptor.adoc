@@ -36,3 +36,7 @@ class KafkaInterceptor extends ConsumerInterceptor[String, String] {
   }
 }
 ----
+
+=== [[onConsume]] `onConsume` Method
+
+CAUTION: FIXME

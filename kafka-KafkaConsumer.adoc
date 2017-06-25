@@ -1,4 +1,4 @@
-== [[KafkaConsumer]] KafkaConsumer
+== [[KafkaConsumer]] KafkaConsumer -- Main Class For Kafka Consumers
 
 `KafkaConsumer` is the main class to write link:kafka-consumers.adoc[Kafka consumers].
 
@@ -114,6 +114,17 @@ void subscribe(Collection<String> topics, ConsumerRebalanceListener listener)
 ----
 <1> Uses `NoOpConsumerRebalanceListener` as `ConsumerRebalanceListener`
 
+`subscribe` subscribes `KafkaConsumer` to the given topics.
+
+[source, scala]
+----
+val topics = Seq("topic1")
+println(s"Subscribing to ${topics.mkString(", ")}")
+
+import scala.collection.JavaConverters._
+consumer.subscribe(topics.asJava)
+----
+
 Internally, `subscribe` prints out the following DEBUG message to the logs:
 
 ```
@@ -124,8 +135,46 @@ DEBUG Subscribed to topic(s): [comma-separated topics]
 
 In the end, `subscribe` requests <<subscriptions, SubscriptionState>> for `groupSubscription` that it then passes along to <<metadata, Metadata>> to link:kafka-Metadata.adoc#setTopics[set the topics to track].
 
-.KafkaConsumer and Subscribing to Topics
+.KafkaConsumer subscribes to topics
 image::images/KafkaConsumer-subscribe.png[align="center"]
+
+=== [[poll]] Poll Specified Milliseconds For ConsumerRecords per TopicPartitions -- `poll` Method
+
+[source, java]
+----
+ConsumerRecords<K, V> poll(long timeout)
+----
+
+`poll` polls for new records until `timeout` expires.
+
+NOTE: `KafkaConsumer` has to be subscribed to some topics or assigned partitions before calling <<poll, poll>>.
+
+NOTE: The input `timeout` should be `0` or greater and represents the milliseconds to poll for records.
+
+[source, scala]
+----
+val seconds = 10
+while (true) {
+  println(s"Polling for records for $seconds secs")
+  val records = consumer.poll(seconds * 1000)
+  // do something with the records here
+}
+----
+
+Internally, `poll` starts by <<pollOnce, polling once>> (for `timeout` milliseconds).
+
+If there are records available, `poll` checks <<fetcher, Fetcher>> for link:kafka-Fetcher.adoc#sendFetches[sendFetches] and <<client, ConsumerNetworkClient>> for link:kafka-ConsumerNetworkClient.adoc#pendingRequestCount[pendingRequestCount] flag. If either is positive, `poll` requests <<client, ConsumerNetworkClient>> to link:kafka-ConsumerNetworkClient.adoc#pollNoWakeup[pollNoWakeup].
+
+CAUTION: FIXME Make the above more user-friendly
+
+`poll` returns the available `ConsumerRecords` directly when no <<interceptors, ConsumerInterceptors>> are defined or passes them through <<interceptors, ConsumerInterceptors>> using link:kafka-ConsumerInterceptor.adoc#onConsume[onConsume].
+
+CAUTION: FIXME Make the above more user-friendly, e.g. when could `interceptors` be empty?
+
+.KafkaConsumer polls topics
+image::images/KafkaConsumer-poll.png[align="center"]
+
+NOTE: `poll` is a part of link:kafka-consumers.adoc#poll[Consumer contract] to...FIXME
 
 === [[partitionsFor]] Getting Partitions For Topic -- `partitionsFor` Method
 
@@ -146,29 +195,6 @@ CAUTION: FIXME
 === [[pollOnce]] Polling Once for ConsumerRecords per TopicPartition -- `pollOnce` Internal Method
 
 CAUTION: FIXME
-
-=== [[poll]] Poll Specified Milliseconds For ConsumerRecords per TopicPartitions -- `poll` Method
-
-[source, java]
-----
-ConsumerRecords<K, V> poll(long timeout)
-----
-
-`poll` polls for new records until `timeout` expires.
-
-NOTE: The input `timeout` should be `0` or greater and is the milliseconds to poll for records.
-
-Internally, `poll` <<pollOnce, polls once>> (for ConsumerRecords per TopicPartitions).
-
-If there are records fetched, `poll` checks <<fetcher, Fetcher>> for `sendFetches` or <<client, ConsumerNetworkClient>> for `pendingRequestCount` and, when either is positive, requests <<client, ConsumerNetworkClient>> to `pollNoWakeup`.
-
-CAUTION: FIXME Make the above more user-friendly
-
-`poll` returns the fetched `ConsumerRecords` when no `interceptors` are defined or passes them on to `ConsumerInterceptors` using `onConsume`
-
-CAUTION: FIXME Make the above more user-friendly, e.g. when could `interceptors` be empty?
-
-NOTE: `poll` is a part of link:kafka-consumers.adoc#poll[Consumer contract] to...FIXME
 
 === [[listTopics]] Requesting Metadata for All Topics (From Brokers) -- `listTopics` Method
 

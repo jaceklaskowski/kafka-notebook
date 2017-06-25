@@ -41,6 +41,10 @@ image::images/Fetcher-KafkaConsumer.png[align="center"]
 
 `Fetcher` registers itself with <<subscriptions, SubscriptionState>> as a listener to receive notifications about...FIXME
 
+=== [[sendFetches]] `sendFetches` Method
+
+CAUTION: FIXME
+
 === [[sendMetadataRequest]] `sendMetadataRequest` Internal Method
 
 [source, scala]
