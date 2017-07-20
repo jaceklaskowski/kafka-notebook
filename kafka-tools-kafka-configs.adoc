@@ -1,0 +1,12 @@
+== [[kafka-configs]] kafka-configs.sh Shell Script
+
+`kafka-configs.sh` is a shell script that...FIXME
+
+```
+./bin/kafka-configs.sh \
+  --zookeeper localhost:2181 \
+  --alter \
+  --entity-type topics \
+  --entity-name test \
+  --add-config retention.ms=5000
+```

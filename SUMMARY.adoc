@@ -21,6 +21,9 @@
 ---
 
 . link:kafka-tools.adoc[Kafka Tools]
+.. link:kafka-tools-kafka-configs.adoc[kafka-configs.sh]
+.. link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
+.. link:kafka-tools-kafka-topics.adoc[kafka-topics.sh]
 . link:kafka-properties.adoc[Properties]
 .. link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
 .. link:kafka-properties-client-id.adoc[client.id]

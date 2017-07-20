@@ -112,7 +112,7 @@ Refer to link:kafka-logging.adoc[Logging].
 void subscribe(Collection<String> topics) // <1>
 void subscribe(Collection<String> topics, ConsumerRebalanceListener listener)
 ----
-<1> Uses `NoOpConsumerRebalanceListener` as `ConsumerRebalanceListener`
+<1> A short-hand for the other subscribe with `NoOpConsumerRebalanceListener` as `ConsumerRebalanceListener`
 
 `subscribe` subscribes `KafkaConsumer` to the given topics.
 
