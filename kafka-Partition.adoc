@@ -1,0 +1,7 @@
+== [[Partition]] Partition
+
+`Partition` is...FIXME
+
+=== [[maybeShrinkIsr]] `maybeShrinkIsr` Method
+
+CAUTION: FIXME

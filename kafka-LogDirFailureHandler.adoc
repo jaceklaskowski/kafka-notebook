@@ -1,0 +1,7 @@
+== [[LogDirFailureHandler]] LogDirFailureHandler
+
+`LogDirFailureHandler` is...FIXME
+
+=== [[start]] `start` Method
+
+CAUTION: FIXME

@@ -1,3 +1,18 @@
 == [[KafkaConfig]] KafkaConfig
 
 CAUTION: FIXME
+
+[[configuration-settings]]
+.KafkaConfig's Configuration Settings (in alphabetical order)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[replicaLagTimeMaxMs]] `replicaLagTimeMaxMs`
+|
+|===
+
+=== [[getConfiguredInstances]] `getConfiguredInstances` Method
+
+CAUTION: FIXME

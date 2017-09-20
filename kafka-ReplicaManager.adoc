@@ -1,8 +1,10 @@
 == [[ReplicaManager]] ReplicaManager
 
-`ReplicaManager` is <<creating-instance, created>> and <<startup, started>> when link:kafka-KafkaServer.adoc#startup[`KafkaServer` starts].
+`ReplicaManager` is <<creating-instance, created>> and <<startup, started>> when `KafkaServer` is requested to link:kafka-KafkaServer.adoc#startup[start].
 
-When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expiration>> and <<isr-change-propagation, isr-change-propagation>> tasks.
+When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expiration>> and <<isr-change-propagation, isr-change-propagation>> recurring tasks.
+
+`ReplicaManager` is a `KafkaMetricsGroup`.
 
 [[internal-registries]]
 .ReplicaManager's Internal Registries and Counters
@@ -11,15 +13,15 @@ When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expi
 | Name
 | Description
 
-| [[FIXME]] `FIXME`
-| Internal cache with...FIXME
+| [[allPartitions]] `allPartitions`
+| Pool of `TopicPartition` and link:kafka-Partition.adoc[Partitions]
 
-Used when...FIXME
+| [[logDirFailureHandler]] `logDirFailureHandler`
+| link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
+
+| [[OfflinePartition]] `OfflinePartition`
+|
 |===
-
-=== [[maybeShrinkIsr]] `maybeShrinkIsr` Internal Method
-
-CAUTION: FIXME
 
 === [[maybePropagateIsrChanges]] `maybePropagateIsrChanges` Method
 
@@ -37,30 +39,55 @@ CAUTION: FIXME
 
 `ReplicaManager` takes the following when created:
 
-1. `config` -- link:kafka-KafkaConfig.adoc[KafkaConfig]
-1. `Metrics`
-1. `Time`
-1. `ZkUtils`
-1. `scheduler` -- `Scheduler`
-1. `logManager` -- link:kafka-LogManager.adoc[LogManager]
-1. `isShuttingDown` flag
-1. `quotaManager` -- `ReplicationQuotaManager`,
-1. Optional `threadNamePrefix` (empty by default)
+* [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[metrics]] `Metrics`
+* [[time]] `Time`
+* [[zkUtils]] `ZkUtils`
+* [[scheduler]] `Scheduler`
+* [[logManager]] link:kafka-LogManager.adoc[LogManager]
+* [[isShuttingDown]] `isShuttingDown` flag
+* [[quotaManager]] `ReplicationQuotaManager`
+* [[brokerTopicStats]] `BrokerTopicStats`
+* [[metadataCache]] `MetadataCache`
+* [[logDirFailureChannel]] `LogDirFailureChannel`
+* [[delayedProducePurgatory]] `DelayedOperationPurgatory[DelayedProduce]`
+* [[delayedFetchPurgatory]] `DelayedOperationPurgatory[DelayedFetch]`
+* [[delayedDeleteRecordsPurgatory]] `DelayedOperationPurgatory[DelayedDeleteRecords]`
+* [[threadNamePrefix]] Optional thread name prefix
 
 `ReplicaManager` initializes the <<internal-registries, internal registries and counters>>.
 
-=== [[startup]] Starting ReplicaManager (and Scheduling ISR-Related Tasks) --  `startup` Method
+=== [[startup]] Starting ReplicaManager (and Scheduling ISR-Related Tasks) -- `startup` Method
 
 [source, scala]
 ----
 startup(): Unit
 ----
 
-`startup` link:kafka-KafkaScheduler.adoc#schedule[schedules the ISR-related tasks]:
+`startup` requests <<scheduler, Scheduler>> to link:kafka-KafkaScheduler.adoc#schedule[schedule the ISR-related tasks]:
 
 1. <<isr-expiration, isr-expiration>>
 2. <<isr-change-propagation, isr-change-propagation>>
 
-NOTE: `startup` uses `Scheduler` that was specified when <<creating-instance, `ReplicaManager` was created>>.
+`startup` then creates a <<logDirFailureHandler, LogDirFailureHandler>> and requests it to link:kafka-LogDirFailureHandler.adoc#start[start].
 
-NOTE: `startup` is used exclusively when link:kafka-KafkaServer.adoc#startup[`KafkaServer` starts].
+NOTE: `startup` uses `Scheduler` that was specified when `ReplicaManager` <<creating-instance, was created>>.
+
+NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
+
+=== [[maybeShrinkIsr]] `maybeShrinkIsr` Internal Method
+
+[source, scala]
+----
+maybeShrinkIsr(): Unit
+----
+
+`maybeShrinkIsr` prints out the following TRACE message to the logs:
+
+```
+TRACE Evaluating ISR list of partitions to see which replicas can be removed from the ISR
+```
+
+`maybeShrinkIsr` requests the partitions (from <<allPartitions, allPartitions>> pool that are not <<OfflinePartition, offline partitions>>) to link:kafka-Partition.adoc#maybeShrinkIsr[maybeShrinkIsr] (with link:kafka-KafkaConfig.adoc#replicaLagTimeMaxMs[replicaLagTimeMaxMs] setting).
+
+NOTE: `maybeShrinkIsr` is used exclusively to schedule `isr-expiration` recurring task when `ReplicaManager` <<startup, starts up>>.

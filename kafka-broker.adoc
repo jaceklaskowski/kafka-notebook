@@ -4,7 +4,7 @@ NOTE: Given https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka
 
 A *Kafka broker* is a Kafka server that hosts link:kafka-topics.adoc[topics].
 
-You can <<starting-broker, start a single Kafka broker>> using <<kafka-server-start-script, `kafka-server-start.sh` script>>.
+You can <<starting-broker, start a single Kafka broker>> using `kafka-server-start.sh` script.
 
 === [[starting-broker]] Starting Kafka Broker
 
@@ -20,7 +20,7 @@ Only when Zookeeper is up and running you can start a Kafka server (that will co
 ./bin/kafka-server-start.sh config/server.properties
 ```
 
-TIP: Read <<kafka-server-start-script, `kafka-server-start.sh` script>>.
+TIP: Read <<kafka-server-start-script, kafka-server-start.sh script>>.
 
 === [[kafka-server-start-script]] `kafka-server-start.sh` script
 
@@ -30,6 +30,8 @@ TIP: Read <<kafka-server-start-script, `kafka-server-start.sh` script>>.
 $ ./bin/kafka-server-start.sh
 USAGE: ./bin/kafka-server-start.sh [-daemon] server.properties [--override property=value]*
 ```
+
+NOTE: Before you run `kafka-server-start.sh` make sure that Zookeeper is up and running. Use `zookeeper-server-start` shell script.
 
 `kafka-server-start.sh` uses `config/log4j.properties` for logging configuration that you can override using `KAFKA_LOG4J_OPTS` environment variable.
 
@@ -42,6 +44,12 @@ KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:config/log4j.properties"
 Command-line options:
 
 1. `-name` -- defaults to `kafkaServer` when in daemon mode.
-2. `-loggc` -- enabled when in daemon mode.
-3. `-daemon` -- enables daemon mode.
-4. `--override property=value` -- `value` that should override the value set for `property` in `server.properties` file.
+1. `-loggc` -- enabled when in daemon mode.
+1. `-daemon` -- enables daemon mode.
+1. `--override property=value` -- `value` that should override the value set for `property` in `server.properties` file.
+
+```
+$ ./bin/kafka-server-start.sh config/server.properties --override broker.id=100
+...
+INFO [KafkaServer id=100] started (kafka.server.KafkaServer)
+```

@@ -13,11 +13,47 @@ CAUTION: FIXME
 | Name
 | Description
 
+| [[brokerState]] `brokerState`
+| `BrokerState`
+
+| [[_brokerTopicStats]] `_brokerTopicStats`
+| `BrokerTopicStats`
+
+| [[_clusterId]] `_clusterId`
+| Cluster ID
+
+| [[kafkaScheduler]] `kafkaScheduler`
+| link:kafka-KafkaScheduler.adoc[KafkaScheduler] with...FIXME
+
+| [[logContext]] `logContext`
+| `LogContext`
+
+| [[replicaManager]] `replicaManager`
+| link:kafka-ReplicaManager.adoc[ReplicaManager]
+
 | [[reporters]] `reporters`
-| Collection of `MetricsReporter`
+| Collection of link:kafka-MetricsReporter.adoc[MetricsReporter]
 
 Used when...FIXME
+
+| [[quotaManagers]] `quotaManagers`
+| `QuotaManagers`
+
+| [[zkUtils]] `zkUtils`
+| `ZkUtils`
 |===
+
+=== [[getBrokerIdAndOfflineDirs]] Getting Broker ID and Initial Offline Directories -- `getBrokerIdAndOfflineDirs` Internal Method
+
+CAUTION: FIXME
+
+=== [[getOrGenerateClusterId]] `getOrGenerateClusterId` Internal Method
+
+CAUTION: FIXME
+
+=== [[initZk]] `initZk` Internal Method
+
+CAUTION: FIXME
 
 === [[startup]] `startup` Method
 
@@ -28,13 +64,19 @@ startup(): Unit
 
 `startup` starts a single Kafka server.
 
-When `startup` starts, you should see the following INFO message in the logs:
+Internally, `startup` first prints out the following INFO message to the logs:
 
 ```
 INFO starting (kafka.server.KafkaServer)
 ```
 
-`startup` link:kafka-KafkaScheduler.adoc#startup[starts `KafkaScheduler`].
+`startup` sets <<brokerState, BrokerState>> as `Starting`.
+
+`startup` requests <<kafkaScheduler, KafkaScheduler>> to link:kafka-KafkaScheduler.adoc#startup[start].
+
+`startup` <<initZk, connects to Zookeeper>> (and initializes <<zkUtils, ZkUtils>>).
+
+`startup` <<getOrGenerateClusterId, getOrGenerateClusterId>> (that is recorded as <<_clusterId, cluster id>>).
 
 You should see the following INFO message in the logs:
 
@@ -42,7 +84,27 @@ You should see the following INFO message in the logs:
 INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 ```
 
-`startup` <<notifyClusterListeners, notifies cluster change listeners>>.
+`startup` <<getBrokerIdAndOfflineDirs, gets broker id and initial offline directories>>.
+
+`startup` creates a `LogContext` with *[KafkaServer id=[brokerId]]* prefix.
+
+`startup` creates and configures metrics.
+
+1. Requests <<config, KafkaConfig>> for link:kafka-KafkaConfig.adoc#getConfiguredInstances[configured instances] of metric reporters
+
+1. Adds a `JmxReporter` (with *kafka.server* prefix)
+
+1. Creates a `MetricConfig`
+
+1. Initializes <<metrics, Metrics>> internal registry
+
+`startup` registers broker topic metrics (by initializing <<_brokerTopicStats, BrokerTopicStats>>).
+
+`startup` initializes <<quotaManagers, QuotaManagers>>.
+
+`startup` <<notifyClusterListeners, notifies cluster resource listeners>> (from <<kafkaMetricsReporters, KafkaMetricsReporters>> and the configured instances of metric reporters).
+
+CAUTION: FIXME `logDirFailureChannel`
 
 `startup` link:kafka-ReplicaManager.adoc#creating-instance[creates a `ReplicaManager`] and link:kafka-ReplicaManager.adoc#startup[starts it] right afterwards.
 
@@ -73,9 +135,9 @@ CAUTION: FIXME
 `KafkaServer` takes the following when created:
 
 1. link:kafka-KafkaConfig.adoc[KafkaConfig]
-2. `Time` (defaults to `Time.SYSTEM`)
-3. `threadNamePrefix` (defaults to no prefix)
-4. `kafkaMetricsReporters` -- a collection of link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter] (defaults to no reporters)
+1. `Time` (defaults to `Time.SYSTEM`)
+1. `threadNamePrefix` (defaults to no prefix)
+1. [[kafkaMetricsReporters]] A collection of link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporters] (defaults to no reporters)
 
 CAUTION: FIXME
 

@@ -39,13 +39,15 @@
 
 === Kafka Internals
 
-. link:kafka-KafkaServerStartable.adoc[KafkaServerStartable]
+. link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer of KafkaServer]
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaServer.adoc[KafkaServer]
 . link:kafka-KafkaConfig.adoc[KafkaConfig]
 . link:kafka-Kafka.adoc[Kafka]
 . link:kafka-KafkaScheduler.adoc[KafkaScheduler]
 . link:kafka-ReplicaManager.adoc[ReplicaManager]
+. link:kafka-Partition.adoc[Partition]
+. link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
 . link:kafka-KafkaController.adoc[KafkaController]
 . link:kafka-KafkaApis.adoc[KafkaApis]
 . link:kafka-AdminManager.adoc[AdminManager]
