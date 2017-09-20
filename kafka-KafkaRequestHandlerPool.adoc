@@ -1,0 +1,38 @@
+== [[KafkaRequestHandlerPool]] KafkaRequestHandlerPool
+
+`KafkaRequestHandlerPool` is...FIXME
+
+`KafkaRequestHandlerPool` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started].
+
+[[logIdent]]
+`logIdent` is *[Kafka Request Handler on Broker [brokerId]]*.
+
+[[internal-registries]]
+.KafkaRequestHandlerPool's Internal Registries and Counters
+[frame="topbot",cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[aggregateIdleMeter]] `aggregateIdleMeter`
+|
+
+| [[runnables]] `runnables`
+|
+|===
+
+=== [[shutdown]] `shutdown` Method
+
+CAUTION: FIXME
+
+=== [[creating-instance]] Creating KafkaRequestHandlerPool Instance
+
+`KafkaRequestHandlerPool` takes the following when created:
+
+* [[brokerId]] Broker ID
+* [[requestChannel]] `RequestChannel`
+* [[apis]] link:kafka-KafkaApis.adoc[KafkaApis]
+* [[time]] `Time`
+* [[numThreads]] Number of threads
+
+`KafkaRequestHandlerPool` initializes the <<internal-registries, internal registries and counters>>.

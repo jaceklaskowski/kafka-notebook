@@ -4,12 +4,21 @@ CAUTION: FIXME
 
 [[configuration-settings]]
 .KafkaConfig's Configuration Settings (in alphabetical order)
-[cols="1,2",options="header",width="100%"]
+[cols="1,1,1,2",options="header",width="100%"]
 |===
 | Name
+| Property Name
+| Default Value
 | Description
 
+| [[numIoThreads]] `numIoThreads`
+| `num.io.threads`
+| `8`
+| The number of threads that link:kafka-KafkaServer.adoc[KafkaServer] uses for processing requests, which may include disk I/O
+
 | [[replicaLagTimeMaxMs]] `replicaLagTimeMaxMs`
+|
+|
 |
 |===
 

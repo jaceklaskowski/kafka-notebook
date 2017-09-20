@@ -49,6 +49,8 @@
 . link:kafka-Partition.adoc[Partition]
 . link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
 . link:kafka-KafkaController.adoc[KafkaController]
+. link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
+. link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool]
 . link:kafka-KafkaApis.adoc[KafkaApis]
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-LogManager.adoc[LogManager]

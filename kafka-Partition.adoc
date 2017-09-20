@@ -2,6 +2,68 @@
 
 `Partition` is...FIXME
 
+[[internal-registries]]
+.Partition's Internal Registries and Counters
+[frame="topbot",cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[leaderReplicaIdOpt]] `leaderReplicaIdOpt`
+| Optional leader replica ID
+|===
+
+=== [[makeLeader]] `makeLeader` Method
+
+[source, scala]
+----
+makeLeader(
+  controllerId: Int,
+  partitionStateInfo: LeaderAndIsrRequest.PartitionState,
+  correlationId: Int): Boolean
+----
+
+`makeLeader`...FIXME
+
+NOTE: `makeLeader` is used...FIXME
+
+=== [[makeFollower]] `makeFollower` Method
+
+[source, scala]
+----
+makeFollower(
+  controllerId: Int,
+  partitionStateInfo: LeaderAndIsrRequest.PartitionState,
+  correlationId: Int): Boolean
+----
+
+`makeFollower`...FIXME
+
+NOTE: `makeFollower` is used...FIXME
+
+=== [[leaderReplicaIfLocal]] `leaderReplicaIfLocal` Method
+
+[source, scala]
+----
+leaderReplicaIfLocal: Option[Replica]
+----
+
+`leaderReplicaIfLocal` gives...FIXME
+
+NOTE: `leaderReplicaIfLocal` is used...FIXME
+
 === [[maybeShrinkIsr]] `maybeShrinkIsr` Method
 
 CAUTION: FIXME
+
+=== [[creating-instance]] Creating Partition Instance
+
+`Partition` takes the following when created:
+
+* [[topic]] Topic name
+* [[partitionId]] Partition ID
+* [[time]] `Time`
+* [[replicaManager]] link:kafka-ReplicaManager.adoc[ReplicaManager]
+* [[isOffline]] `isOffline` flag (disabled by default)
+
+`Partition` initializes the <<internal-registries, internal registries and counters>>.

@@ -36,6 +36,9 @@ CAUTION: FIXME
 
 Used when...FIXME
 
+| [[requestHandlerPool]] `requestHandlerPool`
+| link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool]
+
 | [[quotaManagers]] `quotaManagers`
 | `QuotaManagers`
 

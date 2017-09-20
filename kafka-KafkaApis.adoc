@@ -1,9 +1,26 @@
 == [[KafkaApis]] KafkaApis
 
-CAUTION: FIXME
+`KafkaApis` is...FIXME
+
+`KafkaApis` is <<creating-instance, created>> when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started] (to start processing requests).
 
 === [[creating-instance]] Creating KafkaApis Instance
 
 `KafkaApis` takes the following when created:
 
-1. FIXME
+* [[requestChannel]] `RequestChannel`
+* [[replicaManager]] link:kafka-ReplicaManager.adoc[ReplicaManager]
+* [[adminManager]] link:kafka-AdminManager.adoc[AdminManager]
+* [[groupCoordinator]] `GroupCoordinator`
+* [[txnCoordinator]] `TransactionCoordinator`
+* [[controller]] link:kafka-KafkaController.adoc[KafkaController]
+* [[zkUtils]] `ZkUtils`
+* [[brokerId]] Broker ID
+* [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[metadataCache]] `MetadataCache`
+* [[metrics]] `Metrics`
+* [[authorizer]] Optional `Authorizer`
+* [[quotas]] `QuotaManagers`
+* [[brokerTopicStats]] `BrokerTopicStats`
+* [[clusterId]] Cluster ID
+* [[time]] `Time`

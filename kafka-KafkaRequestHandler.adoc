@@ -1,0 +1,26 @@
+== [[KafkaRequestHandler]] KafkaRequestHandler
+
+`KafkaRequestHandler` is a thread of execution (i.e. Java's https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html[Runnable]) that handles Kafka requests.
+
+`KafkaRequestHandler` is <<creating-instance, created>>...FIXME
+
+[[logIdent]]
+`logIdent` is *[Kafka Request Handler [id] on Broker [brokerId]]*.
+
+=== [[run]] `run` Method
+
+CAUTION: FIXME
+
+=== [[creating-instance]] Creating KafkaRequestHandler Instance
+
+`KafkaRequestHandler` takes the following when created:
+
+* [[id]] ID
+* [[brokerId]] Broker ID
+* [[aggregateIdleMeter]] Aggregate Idle `Meter`
+* [[totalHandlerThreads]] Total number of handler threads
+* [[requestChannel]] `RequestChannel`
+* [[apis]] link:kafka-KafkaApis.adoc[KafkaApis]
+* [[time]] `Time`
+
+`KafkaRequestHandler` initializes the <<internal-registries, internal registries and counters>>.

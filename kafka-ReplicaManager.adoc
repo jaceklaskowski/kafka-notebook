@@ -23,6 +23,17 @@ When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expi
 |
 |===
 
+=== [[getLeaderPartitions]] `getLeaderPartitions` Internal Method
+
+[source, scala]
+----
+getLeaderPartitions: List[Partition]
+----
+
+`getLeaderPartitions` gives the partitions from <<allPartitions, allPartitions>> that are not <<OfflinePartition, offline>> and their leaderReplicaIfLocal property is defined.
+
+NOTE: `getLeaderPartitions` is used
+
 === [[maybePropagateIsrChanges]] `maybePropagateIsrChanges` Method
 
 CAUTION: FIXME
