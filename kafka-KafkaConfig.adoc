@@ -1,29 +1,40 @@
 == [[KafkaConfig]] KafkaConfig
 
-CAUTION: FIXME
+`KafkaConfig` is the configuration of a Kafka server and the services.
 
-[[configuration-settings]]
-.KafkaConfig's Configuration Settings (in alphabetical order)
-[cols="1,1,1,2",options="header",width="100%"]
+[[configuration-values]]
+.KafkaConfig's Configuration Values (in alphabetical order)
+[cols="1,2",options="header",width="100%"]
 |===
-| Name
-| Property Name
-| Default Value
-| Description
+| Value
+| Kafka Property
+
+| [[hostName]] `hostName`
+| link:kafka-properties.adoc#host.name[host.name]
+
+| [[listeners]] `listeners`
+| link:kafka-properties.adoc#listeners[listeners] (see <<getListeners, getListeners>>)
+
+| [[numNetworkThreads]] `numNetworkThreads`
+| link:kafka-properties.adoc#num.network.threads[num.network.threads]
+
+| [[port]] `port`
+| link:kafka-properties.adoc#port[port]
 
 | [[replicaLagTimeMaxMs]] `replicaLagTimeMaxMs`
 |
-|
-|
 |===
-
-=== [[listeners]] `listeners` Property
-
-CAUTION: FIXME
 
 === [[getListeners]] `getListeners` Internal Method
 
-CAUTION: FIXME
+[source, scala]
+----
+getListeners: Seq[EndPoint]
+----
+
+`getListeners` creates the `EndPoints` if defined using link:kafka-properties.adoc#listeners[listeners] Kafka property or defaults to `PLAINTEXT://[hostName]:[port]` (for <<hostName, hostName>> and <<port, port>> Kafka properties).
+
+NOTE: `getListeners` is used when...FIXME
 
 === [[getAdvertisedListeners]] `getAdvertisedListeners` Method
 

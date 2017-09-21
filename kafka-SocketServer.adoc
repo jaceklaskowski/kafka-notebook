@@ -5,9 +5,9 @@
 `SocketServer` is created exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[is started].
 
 .SocketServer's Startup
-image::images/SocketServer-KafkaServer.png[align="center"]
+image::images/SocketServer-startup.png[align="center"]
 
-[[gauges]]
+[[metrics]]
 .SocketServer's Metrics (in kafka.network group)
 [cols="1,2",options="header",width="100%"]
 |===
@@ -34,6 +34,9 @@ image::images/SocketServer-KafkaServer.png[align="center"]
 | [[acceptors]] `acceptors`
 | `Acceptor` threads per `EndPoint`
 
+| [[connectionQuotas]] `connectionQuotas`
+| `ConnectionQuotas`
+
 | [[endpoints]] `endpoints`
 | `EndPoints` (aka _listeners_) per name (as configured using link:kafka-KafkaConfig.adoc#listeners[listeners] Kafka property)
 
@@ -50,7 +53,7 @@ image::images/SocketServer-KafkaServer.png[align="center"]
 |
 
 | [[numProcessorThreads]] `numProcessorThreads`
-|
+| The number of processors per endpoint (as configured using link:kafka-KafkaConfig.adoc#numNetworkThreads[num.network.threads] Kafka property)
 
 | [[processors]] `processors`
 | `Processor` threads (initially <<totalProcessorThreads, totalProcessorThreads>>)
@@ -62,9 +65,36 @@ image::images/SocketServer-KafkaServer.png[align="center"]
 | Total number of <<processors, processors>>, i.e. <<numProcessorThreads, numProcessorThreads>> for every <<endpoints, endpoint>>
 |===
 
-=== [[startup]] `startup` Method
+=== [[newProcessor]] Creating Processor -- `newProcessor` Internal Method
 
 CAUTION: FIXME
+
+=== [[startup]] Starting Auxiliary Services -- `startup` Method
+
+[source, scala]
+----
+startup(): Unit
+----
+
+Internally, `startup` creates the <<connectionQuotas, ConnectionQuotas>> (with <<maxConnectionsPerIp, maxConnectionsPerIp>> and <<maxConnectionsPerIpOverrides, maxConnectionsPerIpOverrides>>).
+
+For every endpoint (in <<endpoints, endpoints>> registry) `startup` does the following:
+
+1. Creates up to <<numProcessorThreads, numProcessorThreads>> number of <<newProcessor, Processors>> (for <<connectionQuotas, ConnectionQuotas>> and <<memoryPool, MemoryPool>>)
+
+1. Creates a `Acceptor` for the endpoint and processors
+
+1. Records the `Acceptor` in <<acceptors, acceptors>> internal registry
+
+1. Starts a non-daemon thread for the `Acceptor` with the name as `kafka-socket-acceptor-[listenerName]-[securityProtocol]-[port]` (e.g. `kafka-socket-acceptor-ListenerName(PLAINTEXT)-PLAINTEXT-9092`) and waits until it has started fully
+
+`startup` then registers <<metrics, metrics>>.
+
+In the end, `startup` prints out the following INFO message to the logs:
+
+```
+INFO [SocketServer brokerId=[brokerID]] Started [number] acceptor threads
+```
 
 === [[creating-instance]] Creating SocketServer Instance
 

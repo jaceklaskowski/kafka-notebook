@@ -70,6 +70,11 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 
 | [[heartbeat_interval_ms]] `heartbeat.interval.ms` |  |  | The expected time between heartbeats to the group coordinator when using Kafka's group management facilities.
 
+| [[host.name]] `host.name`
+|
+| (empty)
+| The hostname the link:kafka-SocketServer.adoc#endpoints[default endpoint] in `SocketServer` listens on.
+
 | [[inter.broker.protocol.version]] `inter.broker.protocol.version`
 |
 |
@@ -84,6 +89,11 @@ a| Comma-separated list of link:kafka-ConsumerInterceptor.adoc[ConsumerIntercept
 ----
 props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, "pl.jaceklaskowski.kafka.KafkaInterceptor")
 ----
+
+| [[listeners]] `listeners`
+|
+| (empty)
+| The addresses the socket server listens on.
 
 | [[key.deserializer]] `key.deserializer`
 |
@@ -118,6 +128,16 @@ Time window (in milliseconds) a metrics sample is computed over.
 | `8`
 |
 | The number of threads that link:kafka-KafkaServer.adoc[KafkaServer] uses for processing requests, which may include disk I/O
+
+| [[num.network.threads]] `num.network.threads`
+| `3`
+|
+| The number of threads that SocketServer uses for the link:kafka-SocketServer.adoc#numProcessorThreads[number of processors per endpoint].
+
+| [[port]] `port`
+|
+| (empty)
+| The port the link:kafka-SocketServer.adoc#endpoints[default endpoint] in `SocketServer` listens on.
 
 | [[rebalance_timeout_ms]] `rebalance.timeout.ms` |  |  |
 The maximum allowed time for each worker to join the group once a rebalance has begun.
