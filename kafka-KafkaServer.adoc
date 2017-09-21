@@ -1,8 +1,9 @@
 == [[KafkaServer]] KafkaServer
 
-CAUTION: FIXME
-
 `KafkaServer` is a Kafka broker.
+
+.KafkaServer's Startup and Auxiliary Services
+image::images/KafkaServer-startup.png[align="center"]
 
 `KafkaServer` <<creating-instance, registers itself in the JMX system>> under *kafka.server*.
 
