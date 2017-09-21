@@ -2,6 +2,48 @@
 
 `GroupMetadataManager` is...FIXME
 
-=== [[enableMetadataExpiration]] `enableMetadataExpiration` Method
+`GroupMetadataManager` is created exclusively when `GroupCoordinator` is link:kafka-GroupCoordinator.adoc#apply[created].
+
+.Creating GroupMetadataManager
+image::images/GroupMetadataManager-creating-instance.png[align="center"]
+
+[[internal-registries]]
+.GroupMetadataManager's Internal Registries and Counters
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[scheduler]] `scheduler`
+| link:kafka-KafkaScheduler.adoc[KafkaScheduler]
+|===
+
+=== [[cleanupGroupMetadata]] `cleanupGroupMetadata` Method
 
 CAUTION: FIXME
+
+=== [[enableMetadataExpiration]] `enableMetadataExpiration` Method
+
+[source, scala]
+----
+enableMetadataExpiration(): Unit
+----
+
+`enableMetadataExpiration` requests <<scheduler, KafkaScheduler>> to link:kafka-KafkaScheduler.adoc#start[start].
+
+`enableMetadataExpiration` schedules *delete-expired-group-metadata* task that <<cleanupGroupMetadata, cleanupGroupMetadata>> every `offsetsRetentionCheckIntervalMs` milliseconds.
+
+NOTE: `enableMetadataExpiration` is used exclusively when `GroupCoordinator` is link:kafka-GroupCoordinator.adoc#startup[started].
+
+=== [[creating-instance]] Creating GroupMetadataManager Instance
+
+`GroupMetadataManager` takes the following when created:
+
+* [[brokerId]] Broker ID
+* [[interBrokerProtocolVersion]] `ApiVersion`
+* [[config]] `OffsetConfig`
+* [[replicaManager]] link:kafka-ReplicaManager.adoc[ReplicaManager]
+* [[zkUtils]] `ZkUtils`
+* [[time]] `Time`
+
+`GroupMetadataManager` initializes the <<internal-registries, internal registries and counters>>.

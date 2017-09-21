@@ -13,6 +13,10 @@ image::images/GroupCoordinator-startup.png[align="center"]
 [[isActive]]
 `GroupCoordinator` uses `isActive` flag to...FIXME
 
+=== [[apply]] Creating GroupCoordinator Instance -- `apply` Factory Method
+
+CAUTION: FIXME
+
 === [[creating-instance]] Creating GroupCoordinator Instance
 
 `GroupCoordinator` takes the following when created:
@@ -27,7 +31,7 @@ image::images/GroupCoordinator-startup.png[align="center"]
 
 `GroupCoordinator` initializes the <<internal-registries, internal registries and counters>>.
 
-=== [[startup]] Starting Up (and Auxiliary Services) -- `startup` Method
+=== [[startup]] Starting Up (and GroupMetadataManager) -- `startup` Method
 
 [source, scala]
 ----

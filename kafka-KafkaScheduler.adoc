@@ -28,7 +28,7 @@ log4j.logger.kafka.utils.KafkaScheduler=DEBUG
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
-=== [[startup]] Starting KafkaScheduler -- `startup` Method
+=== [[startup]] Starting Up -- `startup` Method
 
 [source, scala]
 ----
