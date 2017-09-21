@@ -1,6 +1,9 @@
-== [[KafkaServerStartable]] KafkaServerStartable -- Thin Management Layer of KafkaServer
+== [[KafkaServerStartable]] KafkaServerStartable -- Thin Management Layer over KafkaServer
 
 `KafkaServerStartable` is a thin management layer to manage a single <<server, KafkaServer>> instance.
+
+.KafkaServerStartable manages KafkaServer
+image::images/KafkaServerStartable-KafkaServer.png[align="center"]
 
 `KafkaServerStartable` allows for the <<server, KafkaServer>> instance to be <<startup, started>>, <<shutdown, shut down>> and <<awaitShutdown, waited for until shutdown>>.
 

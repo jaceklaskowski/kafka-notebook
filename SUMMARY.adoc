@@ -39,7 +39,7 @@
 
 === Kafka Services
 
-. link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer of KafkaServer]
+. link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer over KafkaServer]
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaServer.adoc[KafkaServer]
 . link:kafka-KafkaConfig.adoc[KafkaConfig]
