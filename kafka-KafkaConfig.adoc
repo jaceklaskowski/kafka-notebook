@@ -17,6 +17,14 @@ CAUTION: FIXME
 |
 |===
 
+=== [[listeners]] `listeners` Property
+
+CAUTION: FIXME
+
+=== [[getListeners]] `getListeners` Internal Method
+
+CAUTION: FIXME
+
 === [[getAdvertisedListeners]] `getAdvertisedListeners` Method
 
 CAUTION: FIXME
