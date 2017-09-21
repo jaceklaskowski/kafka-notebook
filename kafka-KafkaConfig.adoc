@@ -25,7 +25,15 @@
 |
 |===
 
-=== [[getListeners]] `getListeners` Internal Method
+=== [[getAdvertisedListeners]] `getAdvertisedListeners` Internal Method
+
+CAUTION: FIXME
+
+=== [[getConfiguredInstances]] `getConfiguredInstances` Method
+
+CAUTION: FIXME
+
+=== [[getListeners]] Creating Listeners -- `getListeners` Internal Method
 
 [source, scala]
 ----
@@ -34,12 +42,4 @@ getListeners: Seq[EndPoint]
 
 `getListeners` creates the `EndPoints` if defined using link:kafka-properties.adoc#listeners[listeners] Kafka property or defaults to `PLAINTEXT://[hostName]:[port]` (for <<hostName, hostName>> and <<port, port>> Kafka properties).
 
-NOTE: `getListeners` is used when...FIXME
-
-=== [[getAdvertisedListeners]] `getAdvertisedListeners` Method
-
-CAUTION: FIXME
-
-=== [[getConfiguredInstances]] `getConfiguredInstances` Method
-
-CAUTION: FIXME
+NOTE: `getListeners` is used when `KafkaConfig` is <<listeners, created>> and for <<getAdvertisedListeners, getAdvertisedListeners>>.
