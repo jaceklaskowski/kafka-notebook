@@ -1,3 +1,7 @@
 == [[LogManager]] LogManager
 
 CAUTION: FIXME
+
+=== [[startup]] `startup` Method
+
+CAUTION: FIXME

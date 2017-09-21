@@ -2,7 +2,7 @@
 
 CAUTION: FIXME
 
-`KafkaServer` acts as a Kafka broker.
+`KafkaServer` is a Kafka broker.
 
 `KafkaServer` <<creating-instance, registers itself in the JMX system>> under *kafka.server*.
 
@@ -27,6 +27,12 @@ CAUTION: FIXME
 
 | [[logContext]] `logContext`
 | `LogContext`
+
+| [[logDirFailureChannel]] `logDirFailureChannel`
+| `LogDirFailureChannel`
+
+| [[metadataCache]] `metadataCache`
+| link:kafka-MetadataCache.adoc[MetadataCache]
 
 | [[replicaManager]] `replicaManager`
 | link:kafka-ReplicaManager.adoc[ReplicaManager]
@@ -58,7 +64,28 @@ CAUTION: FIXME
 
 CAUTION: FIXME
 
-=== [[startup]] `startup` Method
+=== [[checkpointBrokerId]] `checkpointBrokerId` Internal Method
+
+CAUTION: FIXME
+
+=== [[notifyClusterListeners]] `notifyClusterListeners` Method
+
+CAUTION: FIXME
+
+=== [[creating-instance]] Creating KafkaServer Instance
+
+`KafkaServer` takes the following when created:
+
+* [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[time]] `Time` (defaults to `Time.SYSTEM`)
+* [[threadNamePrefix]] Optional prefix for thread names
+* [[kafkaMetricsReporters]] A collection of link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporters] (defaults to no reporters)
+
+CAUTION: FIXME
+
+NOTE: `KafkaServer` is created when link:kafka-KafkaServerStartable.adoc#creating-instance[`KafkaServerStartable` is created].
+
+=== [[startup]] Starting Auxiliary Services -- `startup` Method
 
 [source, scala]
 ----
@@ -89,7 +116,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 `startup` <<getBrokerIdAndOfflineDirs, gets broker id and initial offline directories>>.
 
-`startup` creates a `LogContext` with *[KafkaServer id=[brokerId]]* prefix.
+`startup` creates the `LogContext` with *[KafkaServer id=[brokerId]]* prefix.
 
 `startup` creates and configures metrics.
 
@@ -97,7 +124,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 1. Adds a `JmxReporter` (with *kafka.server* prefix)
 
-1. Creates a `MetricConfig`
+1. Creates the `MetricConfig`
 
 1. Initializes <<metrics, Metrics>> internal registry
 
@@ -105,43 +132,56 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 `startup` initializes <<quotaManagers, QuotaManagers>>.
 
-`startup` <<notifyClusterListeners, notifies cluster resource listeners>> (from <<kafkaMetricsReporters, KafkaMetricsReporters>> and the configured instances of metric reporters).
+`startup` <<notifyClusterListeners, notifies cluster resource listeners>> (i.e. <<kafkaMetricsReporters, KafkaMetricsReporters>> and the configured instances of metric reporters).
 
-CAUTION: FIXME `logDirFailureChannel`
+`startup` creates the <<logDirFailureChannel, LogDirFailureChannel>>
 
-`startup` link:kafka-ReplicaManager.adoc#creating-instance[creates a `ReplicaManager`] and link:kafka-ReplicaManager.adoc#startup[starts it] right afterwards.
+`startup` creates the <<logManager, LogManager>> and requests it to link:kafka-LogManager.adoc#startup[start up].
 
-`startup` link:kafka-KafkaController.adoc#creating-instance[creates a `KafkaController`] and link:kafka-KafkaController.adoc#startup[starts it].
+`startup` creates the <<metadataCache, MetadataCache>> (for the <<brokerId, broker ID>>).
 
-`startup` link:kafka-AdminManager.adoc#creating-instance[creates a `AdminManager`].
+`startup` creates the <<credentialProvider, CredentialProvider>> (per link:kafka-properties.adoc#sasl.enabled.mechanisms[sasl.enabled.mechanisms] property).
 
-`startup` link:kafka-KafkaApis.adoc#creating-instance[creates a `KafkaApis`].
+`startup` creates the <<socketServer, SocketServer>> (for <<config, KafkaConfig>>, <<metrics, Metrics>> and <<credentialProvider, CredentialProvider>>) and requests it to link:kafka-SocketServer.adoc#startup[start up].
+
+`startup` creates the <<replicaManager, ReplicaManager>> and requests it to link:kafka-ReplicaManager.adoc#startup[start up].
+
+`startup` link:kafka-KafkaController.adoc#creating-instance[creates] the <<kafkaController, KafkaController>> (for <<config, KafkaConfig>>, <<zkUtils, ZkUtils>>, <<metrics, Metrics>> and the optional <<threadNamePrefix, threadNamePrefix>>) and requests it to link:kafka-KafkaController.adoc#startup[start up].
+
+`startup` link:kafka-AdminManager.adoc#creating-instance[creates] the <<adminManager, AdminManager>> (for <<config, KafkaConfig>>, <<metrics, Metrics>>, <<metadataCache, MetadataCache>> and <<zkUtils, ZkUtils>>).
+
+`startup` link:kafka-GroupCoordinator.adoc#creating-instance[creates] the <<groupCoordinator, GroupCoordinator>> (for <<config, KafkaConfig>>, <<zkUtils, ZkUtils>> and <<replicaManager, ReplicaManager>>) and requests it to link:kafka-GroupCoordinator.adoc#startup[start up].
+
+`startup` link:kafka-TransactionCoordinator.adoc#creating-instance[creates] the <<transactionCoordinator, TransactionCoordinator>> (for <<config, KafkaConfig>>, <<replicaManager, ReplicaManager>>, a new dedicated link:kafka-KafkaScheduler.adoc[KafkaScheduler] with `transaction-log-manager-` thread name prefix, <<zkUtils, ZkUtils>>, <<metrics, Metrics>> and <<metadataCache, MetadataCache>>) and requests it to link:kafka-TransactionCoordinator.adoc#startup[start up].
+
+`startup` creates a <<authorizer, Authorizer>> (if defined using link:kafka-properties.adoc#authorizer.class.name[authorizer.class.name] property) and link:kafka-Authorizer.adoc#configure[configures] it.
+
+`startup` link:kafka-KafkaApis.adoc#creating-instance[creates] the <<apis, KafkaApis>> (for <<socketServer, SocketServer>>, <<replicaManager, ReplicaManager>>, <<adminManager, AdminManager>>, <<groupCoordinator, GroupCoordinator>>, <<transactionCoordinator, TransactionCoordinator>>, <<kafkaController, KafkaController>>, <<zkUtils, ZkUtils>>, <<brokerId, broker ID>>, <<config, KafkaConfig>>, <<metadataCache, MetadataCache>>, <<metrics, Metrics>>, <<authorizer, Authorizer>>, <<quotaManagers, QuotaManagers>>, <<_brokerTopicStats, BrokerTopicStats>>, <<clusterId, cluster ID>>).
+
+NOTE: At this point `KafkaServer` may start processing requests.
+
+`startup` link:kafka-KafkaRequestHandlerPool.adoc#creating-instance[creates] the <<requestHandlerPool, KafkaRequestHandlerPool>> (for <<brokerId, broker ID>>, <<socketServer, SocketServer>>, <<apis, KafkaApis>> and link:kafka-properties.adoc#num.io.threads[num.io.threads]).
+
+`startup` starts the HTTP interface of mx4j (if configured).
+
+`startup` creates the <<dynamicConfigManager, DynamicConfigManager>> (for <<zkUtils, ZkUtils>> and <<dynamicConfigHandlers, dynamicConfigHandlers>>) and requests it to link:kafka-DynamicConfigManager.adoc#startup[start up].
+
+`startup` configures the advertised listeners (if defined).
+
+`startup` creates the <<kafkaHealthcheck, KafkaHealthcheck>> (for <<brokerId, broker ID>>, the advertised listeners, <<zkUtils, ZkUtils>>, link:kafka-properties.adoc#broker.rack[broker.rack] and link:kafka-properties.adoc#inter.broker.protocol.version[inter.broker.protocol.version] Kafka properties) and requests it to link:kafka-KafkaHealthcheck.adoc#startup[start up].
+
+`startup` <<checkpointBrokerId, checkpoints>> the <<brokerId, broker ID>>.
+
+`startup` sets <<brokerState, BrokerState>> as `RunningAsBroker`, creates the <<shutdownLatch, CountDownLatch>>, enables the <<startupComplete, startupComplete>> flag, disables <<isStartingUp, isStartingUp>> flag
+
+`startup` registers `AppInfo` as an MBean with the MBean server as `kafka.server:type=app-info,id=[brokerId]`.
 
 In the end, you should see the following INFO message in the logs:
 
 ```
-INFO [Kafka Server 0], started (kafka.server.KafkaServer)
+INFO [Kafka Server [brokerId]], started (kafka.server.KafkaServer)
 ```
 
 NOTE: The INFO message above uses so-called *log ident* with the value of `broker.id` property and is always in the format ``[Kafka Server [brokerId]], `` after a Kafka server has fully started.
 
-CAUTION: FIXME
-
-NOTE: `startup` is used exclusively when link:kafka-KafkaServerStartable.adoc#startup[`KafkaServerStartable` is started].
-
-=== [[notifyClusterListeners]] `notifyClusterListeners` Method
-
-CAUTION: FIXME
-
-=== [[creating-instance]] Creating KafkaServer Instance
-
-`KafkaServer` takes the following when created:
-
-1. link:kafka-KafkaConfig.adoc[KafkaConfig]
-1. `Time` (defaults to `Time.SYSTEM`)
-1. `threadNamePrefix` (defaults to no prefix)
-1. [[kafkaMetricsReporters]] A collection of link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporters] (defaults to no reporters)
-
-CAUTION: FIXME
-
-NOTE: `KafkaServer` is created when link:kafka-KafkaServerStartable.adoc#creating-instance[`KafkaServerStartable` is created].
+NOTE: `startup` is used exclusively when `KafkaServerStartable` is requested to link:kafka-KafkaServerStartable.adoc#startup[start up].

@@ -18,10 +18,20 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 * *none* -- throw an exception to the consumer if no previous offset is found for the consumer's group
 * anything else: throw an exception to the consumer
 
+| [[authorizer.class.name]] `authorizer.class.name`
+|
+|
+|
+
 | [[bootstrap.servers]] link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
 | (empty)
 | Yes
 | A comma-separated list of `host:port` pairs that are the addresses of one or more brokers in a link:kafka-broker.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
+
+| [[broker.rack]] `broker.rack`
+|
+|
+|
 
 | [[check.crcs]] `check.crcs`
 |
@@ -59,6 +69,11 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 | The name of the consumer group the consumer is part of.
 
 | [[heartbeat_interval_ms]] `heartbeat.interval.ms` |  |  | The expected time between heartbeats to the group coordinator when using Kafka's group management facilities.
+
+| [[inter.broker.protocol.version]] `inter.broker.protocol.version`
+|
+|
+|
 
 | [[interceptor.classes]] `interceptor.classes`
 | (empty)
@@ -99,6 +114,11 @@ Number of samples to compute metrics.
 | [[metrics_sample_window_ms]] `metrics.sample.window.ms` | | |
 Time window (in milliseconds) a metrics sample is computed over.
 
+| [[num.io.threads]] `num.io.threads`
+| `8`
+|
+| The number of threads that link:kafka-KafkaServer.adoc[KafkaServer] uses for processing requests, which may include disk I/O
+
 | [[rebalance_timeout_ms]] `rebalance.timeout.ms` |  |  |
 The maximum allowed time for each worker to join the group once a rebalance has begun.
 
@@ -112,6 +132,11 @@ Time to wait before attempting to retry a failed request to a given topic partit
 This avoids repeatedly sending requests in a tight loop under some failure scenarios.
 
 | [[request_timeout_ms]] `request.timeout.ms` |  |  |
+
+| [[sasl.enabled.mechanisms]] `sasl.enabled.mechanisms`
+|
+|
+|
 
 | [[session_timeout_ms]] `session.timeout.ms` | 10000 | High | The timeout used to detect worker failures.
 

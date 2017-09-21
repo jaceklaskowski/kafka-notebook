@@ -1,0 +1,24 @@
+== [[TransactionCoordinator]] TransactionCoordinator
+
+`TransactionCoordinator` is...FIXME
+
+`TransactionCoordinator` is created when...FIXME
+
+=== [[startup]] `startup` Method
+
+[source, scala]
+----
+startup
+----
+
+`startup`...FIXME
+
+NOTE: `startup` is used when...FIXME
+
+=== [[creating-instance]] Creating TransactionCoordinator Instance
+
+`TransactionCoordinator` takes the following when created:
+
+* TransactionCoordinator
+
+`TransactionCoordinator` initializes the <<internal-registries, internal registries and counters>>.

@@ -1,0 +1,7 @@
+== [[Authorizer]] Authorizer
+
+`Authorizer` is...FIXME
+
+=== [[configure]] `configure` Method
+
+CAUTION: FIXME

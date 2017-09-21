@@ -37,7 +37,7 @@
 . link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
 . link:kafka-ConnectDistributed.adoc[ConnectDistributed]
 
-=== Kafka Internals
+=== Kafka Services
 
 . link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer of KafkaServer]
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
@@ -55,6 +55,13 @@
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-LogManager.adoc[LogManager]
 . link:kafka-Metadata.adoc[Metadata]
+. link:kafka-MetadataCache.adoc[MetadataCache]
+. link:kafka-SocketServer.adoc[SocketServer]
+. link:kafka-GroupCoordinator.adoc[GroupCoordinator]
+. link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
+. link:kafka-Authorizer.adoc[Authorizer]
+. link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
+. link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
 . link:kafka-KafkaClient.adoc[KafkaClient]
 .. link:kafka-NetworkClient.adoc[NetworkClient]
 . link:kafka-MetadataUpdater.adoc[MetadataUpdater]

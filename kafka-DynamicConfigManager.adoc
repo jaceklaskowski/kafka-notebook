@@ -1,0 +1,24 @@
+== [[DynamicConfigManager]] DynamicConfigManager
+
+`DynamicConfigManager` is...FIXME
+
+`DynamicConfigManager` is created when...FIXME
+
+=== [[startup]] `startup` Method
+
+[source, scala]
+----
+startup
+----
+
+`startup`...FIXME
+
+NOTE: `startup` is used when...FIXME
+
+=== [[creating-instance]] Creating DynamicConfigManager Instance
+
+`DynamicConfigManager` takes the following when created:
+
+* DynamicConfigManager
+
+`DynamicConfigManager` initializes the <<internal-registries, internal registries and counters>>.

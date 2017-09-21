@@ -11,16 +11,15 @@ CAUTION: FIXME
 | Default Value
 | Description
 
-| [[numIoThreads]] `numIoThreads`
-| `num.io.threads`
-| `8`
-| The number of threads that link:kafka-KafkaServer.adoc[KafkaServer] uses for processing requests, which may include disk I/O
-
 | [[replicaLagTimeMaxMs]] `replicaLagTimeMaxMs`
 |
 |
 |
 |===
+
+=== [[getAdvertisedListeners]] `getAdvertisedListeners` Method
+
+CAUTION: FIXME
 
 === [[getConfiguredInstances]] `getConfiguredInstances` Method
 
