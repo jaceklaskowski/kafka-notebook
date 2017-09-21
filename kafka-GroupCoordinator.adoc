@@ -4,21 +4,50 @@
 
 `GroupCoordinator` is created when...FIXME
 
-=== [[startup]] `startup` Method
+.GroupCoordinator's Startup
+image::images/GroupCoordinator-startup.png[align="center"]
 
-[source, scala]
-----
-startup
-----
+[[logIdent]]
+`logIdent` is *[GroupCoordinator [brokerId]]*.
 
-`startup`...FIXME
-
-NOTE: `startup` is used when...FIXME
+[[isActive]]
+`GroupCoordinator` uses `isActive` flag to...FIXME
 
 === [[creating-instance]] Creating GroupCoordinator Instance
 
 `GroupCoordinator` takes the following when created:
 
-* GroupCoordinator
+* [[brokerId]] Broker ID
+* [[groupConfig]] `GroupConfig`
+* [[offsetConfig]] `OffsetConfig`
+* [[groupManager]] `GroupMetadataManager`
+* [[heartbeatPurgatory]] `DelayedOperationPurgatory[DelayedHeartbeat]`
+* [[joinPurgatory]] `DelayedOperationPurgatory[DelayedJoin]`
+* [[time]] `Time`
 
 `GroupCoordinator` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[startup]] Starting Up (and Auxiliary Services) -- `startup` Method
+
+[source, scala]
+----
+startup(enableMetadataExpiration: Boolean = true): Unit
+----
+
+`startup` first prints out the following INFO message to the logs:
+
+```
+INFO [GroupCoordinator [brokerId]]: Starting up. (kafka.coordinator.group.GroupCoordinator)
+```
+
+With `enableMetadataExpiration` input flag enabled, `startup` requests <<groupManager, GroupMetadataManager>> to link:kafka-GroupMetadataManager.adoc#enableMetadataExpiration[enableMetadataExpiration].
+
+`startup` turns <<isActive, isActive>> flag on.
+
+In the end, `startup` prints out the following INFO message to the logs:
+
+```
+INFO [GroupCoordinator [brokerId]]: Startup complete. (kafka.coordinator.group.GroupCoordinator)
+```
+
+NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].

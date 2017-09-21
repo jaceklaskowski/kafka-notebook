@@ -1,0 +1,7 @@
+== [[GroupMetadataManager]] GroupMetadataManager
+
+`GroupMetadataManager` is...FIXME
+
+=== [[enableMetadataExpiration]] `enableMetadataExpiration` Method
+
+CAUTION: FIXME

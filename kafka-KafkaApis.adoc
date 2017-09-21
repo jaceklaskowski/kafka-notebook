@@ -11,7 +11,7 @@
 * [[requestChannel]] `RequestChannel`
 * [[replicaManager]] link:kafka-ReplicaManager.adoc[ReplicaManager]
 * [[adminManager]] link:kafka-AdminManager.adoc[AdminManager]
-* [[groupCoordinator]] `GroupCoordinator`
+* [[groupCoordinator]] link:kafka-GroupCoordinator.adoc[GroupCoordinator]
 * [[txnCoordinator]] `TransactionCoordinator`
 * [[controller]] link:kafka-KafkaController.adoc[KafkaController]
 * [[zkUtils]] `ZkUtils`

@@ -69,7 +69,7 @@ image::images/SocketServer-startup.png[align="center"]
 
 CAUTION: FIXME
 
-=== [[startup]] Starting Auxiliary Services -- `startup` Method
+=== [[startup]] Starting Up (and Auxiliary Services) -- `startup` Method
 
 [source, scala]
 ----
@@ -95,6 +95,8 @@ In the end, `startup` prints out the following INFO message to the logs:
 ```
 INFO [SocketServer brokerId=[brokerID]] Started [number] acceptor threads
 ```
+
+NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
 
 === [[creating-instance]] Creating SocketServer Instance
 

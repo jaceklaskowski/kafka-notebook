@@ -13,7 +13,7 @@ startup
 
 `startup`...FIXME
 
-NOTE: `startup` is used when...FIXME
+NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
 
 === [[creating-instance]] Creating TransactionCoordinator Instance
 

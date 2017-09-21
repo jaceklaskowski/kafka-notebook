@@ -33,7 +33,7 @@ image::images/KafkaServer-startup.png[align="center"]
 | Cluster ID
 
 | [[credentialProvider]] `credentialProvider`
-| link:kafka-GroupCoordinator.adoc[GroupCoordinator]
+| `CredentialProvider`
 
 | [[dynamicConfigHandlers]] `dynamicConfigHandlers`
 |
@@ -42,7 +42,7 @@ image::images/KafkaServer-startup.png[align="center"]
 | link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
 
 | [[groupCoordinator]] `groupCoordinator`
-| `CredentialProvider`
+| link:kafka-GroupCoordinator.adoc[GroupCoordinator]
 
 | [[isStartingUp]] `isStartingUp`
 | Flag for...FIXME
@@ -230,4 +230,4 @@ INFO [Kafka Server [brokerId]], started (kafka.server.KafkaServer)
 
 NOTE: The INFO message above uses so-called *log ident* with the value of `broker.id` property and is always in the format ``[Kafka Server [brokerId]], `` after a Kafka server has fully started.
 
-NOTE: `startup` is used exclusively when `KafkaServerStartable` is requested to link:kafka-KafkaServerStartable.adoc#startup[start up].
+NOTE: `startup` is used exclusively when `KafkaServerStartable` link:kafka-KafkaServerStartable.adoc#startup[starts up].
