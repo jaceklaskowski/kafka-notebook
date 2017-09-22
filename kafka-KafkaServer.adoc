@@ -124,7 +124,7 @@ CAUTION: FIXME
 
 * [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
 * [[time]] `Time` (defaults to `Time.SYSTEM`)
-* [[threadNamePrefix]] Optional prefix for thread names
+* [[threadNamePrefix]] Optional thread name prefix
 * [[kafkaMetricsReporters]] A collection of link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporters] (defaults to no reporters)
 
 CAUTION: FIXME

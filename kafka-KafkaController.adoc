@@ -1,6 +1,40 @@
 == [[KafkaController]] KafkaController
 
-CAUTION: FIXME
+`KafkaController` is...FIXME
+
+`KafkaController` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
+
+.KafkaController
+image::images/KafkaController.png[align="center"]
+
+[[logIdent]]
+`logIdent` is *[Controller id=[brokerId]]*.
+
+[[internal-registries]]
+.KafkaController's Internal Registries and Counters (in alphabetical order)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[controllerContext]] `controllerContext`
+|
+
+| [[eventManager]] `eventManager`
+|
+
+| [[kafkaScheduler]] `kafkaScheduler`
+|
+
+| [[partitionStateMachine]] `partitionStateMachine`
+|
+
+| [[replicaStateMachine]] `replicaStateMachine`
+|
+
+| [[stateChangeLogger]] `stateChangeLogger`
+|
+|===
 
 === [[startup]] `startup` Method
 
@@ -10,4 +44,10 @@ CAUTION: FIXME
 
 `KafkaController` takes the following when created:
 
-1. FIXME
+* [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
+* [[time]] `Time`
+* [[metrics]] `Metrics`
+* [[threadNamePrefix]] Optional thread name prefix
+
+`KafkaController` initializes the <<internal-registries, internal registries and counters>>.
