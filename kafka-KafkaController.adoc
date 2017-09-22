@@ -7,6 +7,8 @@
 .KafkaController
 image::images/KafkaController.png[align="center"]
 
+`KafkaController` is the <<isActive, current controller>> of...FIXME when...FIXME
+
 [[logIdent]]
 `logIdent` is *[Controller id=[brokerId]]*.
 
@@ -16,6 +18,11 @@ image::images/KafkaController.png[align="center"]
 |===
 | Name
 | Description
+
+| [[activeControllerId]] `activeControllerId`
+a| The ID of the active `KafkaController`
+
+* Initialized to `-1`
 
 | [[controllerContext]] `controllerContext`
 |
@@ -35,6 +42,28 @@ image::images/KafkaController.png[align="center"]
 | [[stateChangeLogger]] `stateChangeLogger`
 |
 |===
+
+=== [[elect]] `elect` Method
+
+[source, scala]
+----
+elect(): Unit
+----
+
+`elect`...FIXME
+
+NOTE: `elect` is used when `KafkaController` enters `Startup` and `Reelect` states.
+
+=== [[isActive]] `isActive` Method
+
+[source, scala]
+----
+isActive: Boolean
+----
+
+`isActive` says whether the <<activeControllerId, activeControllerId>> equals the broker ID (from <<config, KafkaConfig>>).
+
+CAUTION: FIXME When could they be different?
 
 === [[startup]] `startup` Method
 

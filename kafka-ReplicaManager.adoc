@@ -59,7 +59,7 @@ CAUTION: FIXME
 * [[isShuttingDown]] `isShuttingDown` flag
 * [[quotaManager]] `ReplicationQuotaManager`
 * [[brokerTopicStats]] `BrokerTopicStats`
-* [[metadataCache]] `MetadataCache`
+* [[metadataCache]] link:kafka-MetadataCache.adoc[MetadataCache]
 * [[logDirFailureChannel]] `LogDirFailureChannel`
 * [[delayedProducePurgatory]] `DelayedOperationPurgatory[DelayedProduce]`
 * [[delayedFetchPurgatory]] `DelayedOperationPurgatory[DelayedFetch]`

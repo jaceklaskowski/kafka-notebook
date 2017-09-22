@@ -1,5 +1,9 @@
 == Further Reading or Watching
 
+=== [[videos]] Videos
+
+1. https://www.confluent.io/kafka-summit-nyc17/apache-kafka-core-internals-a-deep-dive/[Apache Kafka Core Internals: A Deep Dive] by Jun Rao, Confluent at Kafka Summit 2017 in New York City
+
 === [[articles]] Articles
 
 1. http://blog.cloudera.com/blog/2014/09/apache-kafka-for-beginners/[Apache Kafka for Beginners] - an excellent article that you should start your Kafka journey with.

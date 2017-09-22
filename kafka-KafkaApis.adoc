@@ -1,8 +1,94 @@
-== [[KafkaApis]] KafkaApis
+== [[KafkaApis]] KafkaApis -- API Request Handler
 
-`KafkaApis` is...FIXME
+`KafkaApis` <<handle, handles API requests>> and routes them to their respective <<handlers, handlers>>.
 
-`KafkaApis` is <<creating-instance, created>> when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started] (to start processing requests).
+`KafkaApis` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started].
+
+.KafkaApis
+image::images/KafkaApis.png[align="center"]
+
+[[keys]]
+[[handlers]]
+.KafkaApis's API Keys and Handlers (in alphabetical order)
+[cols="1,1",options="header",width="100%"]
+|===
+| Key
+| Handler
+
+| [[CREATE_TOPICS]] `CREATE_TOPICS`
+| <<handleCreateTopicsRequest, handleCreateTopicsRequest>>
+|===
+
+=== [[handle]] Routing API Requests -- `handle` Method
+
+[source, scala]
+----
+handle(request: RequestChannel.Request): Unit
+----
+
+`handle` first prints out the following TRACE message to the logs:
+
+```
+Handling request:[request] from connection [id];securityProtocol:[protocol],principal:[principal]
+```
+
+`handle` then finds the <<handlers, handler>> that is responsible for the <<keys, apiKey>> (in the header of the input `request`) and routes the `request` along.
+
+NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is link:kafka-KafkaRequestHandler.adoc#run[started].
+
+=== [[handleCreateTopicsRequest]] `handleCreateTopicsRequest` Handler
+
+[source, scala]
+----
+handleCreateTopicsRequest(request: RequestChannel.Request): Unit
+----
+
+`handleCreateTopicsRequest`...FIXME
+
+`handleCreateTopicsRequest` checks whether <<controller, KafkaController>> is link:kafka-KafkaController.adoc#isActive[active]...FIXME
+
+`handleCreateTopicsRequest` <<authorize, authorizes>> the `Create` operation for `ClusterResource`...FIXME
+
+In the end, `handleCreateTopicsRequest` requests <<adminManager, AdminManager>> to link:kafka-AdminManager.adoc#createTopics[create the topics].
+
+NOTE: `handleCreateTopicsRequest` is used to handle <<CREATE_TOPICS, CREATE_TOPICS>>
+
+=== [[authorize]] `authorize` Internal Method
+
+CAUTION: FIXME
+
+=== [[handleCreatePartitionsRequest]] `handleCreatePartitionsRequest` Handler
+
+[source, scala]
+----
+handleCreatePartitionsRequest(request: RequestChannel.Request): Unit
+----
+
+`handleCreatePartitionsRequest`...FIXME
+
+NOTE: `handleCreatePartitionsRequest` is used when...FIXME
+
+=== [[handleDeleteTopicsRequest]] `handleDeleteTopicsRequest` Handler
+
+[source, scala]
+----
+handleDeleteTopicsRequest(request: RequestChannel.Request): Unit
+----
+
+`handleDeleteTopicsRequest`...FIXME
+
+NOTE: `handleDeleteTopicsRequest` is used when...FIXME
+
+=== [[handleControlledShutdownRequest]] `handleControlledShutdownRequest` Handler
+
+[source, scala]
+----
+handleControlledShutdownRequest(request: RequestChannel.Request): Unit
+----
+
+`handleControlledShutdownRequest`...FIXME
+
+NOTE: `handleControlledShutdownRequest` is used when...FIXME
 
 === [[creating-instance]] Creating KafkaApis Instance
 
@@ -17,9 +103,9 @@
 * [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
 * [[brokerId]] Broker ID
 * [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
-* [[metadataCache]] `MetadataCache`
+* [[metadataCache]] link:kafka-MetadataCache.adoc[MetadataCache]
 * [[metrics]] `Metrics`
-* [[authorizer]] Optional `Authorizer`
+* [[authorizer]] Optional link:kafka-Authorizer.adoc[Authorizer]
 * [[quotas]] `QuotaManagers`
 * [[brokerTopicStats]] `BrokerTopicStats`
 * [[clusterId]] Cluster ID

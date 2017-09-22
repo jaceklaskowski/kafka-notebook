@@ -14,7 +14,7 @@
 . link:kafka-GroupCoordinator.adoc[GroupCoordinator]
 . link:kafka-GroupMetadataManager.adoc[GroupMetadataManager]
 . link:kafka-Kafka.adoc[Kafka]
-. link:kafka-KafkaApis.adoc[KafkaApis]
+. link:kafka-KafkaApis.adoc[KafkaApis -- API Request Handler]
 . link:kafka-KafkaClient.adoc[KafkaClient]
 .. link:kafka-NetworkClient.adoc[NetworkClient]
 . link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
@@ -24,7 +24,7 @@
 . link:kafka-KafkaController.adoc[KafkaController]
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
-. link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool]
+. link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads]
 . link:kafka-KafkaScheduler.adoc[KafkaScheduler]
 . link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
 . link:kafka-LogManager.adoc[LogManager]
@@ -40,6 +40,10 @@
 . link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
 . link:kafka-ZkUtils.adoc[ZkUtils]
+
+=== Concepts
+
+. link:kafka-topic-replication.adoc[Topic Replication]
 
 === Architecture
 

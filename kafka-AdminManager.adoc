@@ -2,6 +2,10 @@
 
 CAUTION: FIXME
 
+=== [[createTopics]] `createTopics` Method
+
+CAUTION: FIXME
+
 === [[creating-instance]] Creating AdminManager Instance
 
 `AdminManager` takes the following when created:

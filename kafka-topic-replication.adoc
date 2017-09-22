@@ -1,0 +1,25 @@
+== Topic Replication
+
+*Topic Replication* is the process to offer fail-over capability for a topic.
+
+*Replication factor* defines the number of copies of a topic in a Kafka cluster.
+
+Replication factor can be defined at topic level.
+
+```
+./bin/kafka-topics.sh --create \
+  --topic my-topic \
+  --replication-factor 1 \  // <-- define replication factor
+  --partitions 1 \
+  --zookeeper localhost:2181
+```
+
+Replicas are distributed evenly among Kafka brokers in a cluster.
+
+*Leader replica* is...FIXME
+
+*Follower replica* is...FIXME
+
+Producers always send requests to the broker that is the current leader replica for a topic partition.
+
+Data from producers is first saved to a commit log before consumers can find out that it is available. It will only be visible to consumers when the followers acknowledge that they have got the data and stored in their local logs.

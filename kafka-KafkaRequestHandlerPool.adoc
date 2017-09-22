@@ -1,6 +1,11 @@
-== [[KafkaRequestHandlerPool]] KafkaRequestHandlerPool
+== [[KafkaRequestHandlerPool]] KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads
 
-`KafkaRequestHandlerPool` is...FIXME
+`KafkaRequestHandlerPool` is a <<runnables, pool>> of daemon *kafka-request-handler* threads that are started immediately when `KafkaRequestHandlerPool` is <<creating-instance, created>>.
+
+.KafkaRequestHandlerPool and KafkaRequestHandler Threads
+image::images/KafkaRequestHandlerPool.png[align="center"]
+
+NOTE: The number of *kafka-request-handler* threads is controlled by link:kafka-properties.adoc#num.network.threads[num.network.threads] Kafka property and defaults to `3`.
 
 `KafkaRequestHandlerPool` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started].
 
@@ -18,7 +23,7 @@
 |
 
 | [[runnables]] `runnables`
-|
+| Collection of link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
 |===
 
 === [[shutdown]] `shutdown` Method
@@ -33,6 +38,6 @@ CAUTION: FIXME
 * [[requestChannel]] `RequestChannel`
 * [[apis]] link:kafka-KafkaApis.adoc[KafkaApis]
 * [[time]] `Time`
-* [[numThreads]] Number of threads
+* [[numThreads]] Number of threads (i.e. instances of <<runnables, KafkaRequestHandlers>> as defined by link:kafka-KafkaConfig.adoc#numNetworkThreads[numNetworkThreads] property)
 
-`KafkaRequestHandlerPool` initializes the <<internal-registries, internal registries and counters>>.
+`KafkaRequestHandlerPool` initializes the <<internal-registries, internal registries and counters>> and starts <<numThreads, numThreads>>  daemon *kafka-request-handler* threads (as registered in <<runnables, runnables>>).
