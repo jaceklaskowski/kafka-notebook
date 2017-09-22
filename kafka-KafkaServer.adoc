@@ -95,7 +95,7 @@ Used when...FIXME
 | Flag for...FIXME
 
 | [[zkUtils]] `zkUtils`
-| `ZkUtils`
+| link:kafka-ZkUtils.adoc[ZkUtils]
 |===
 
 === [[getBrokerIdAndOfflineDirs]] Getting Broker ID and Initial Offline Directories -- `getBrokerIdAndOfflineDirs` Internal Method

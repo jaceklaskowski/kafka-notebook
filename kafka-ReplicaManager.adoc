@@ -53,7 +53,7 @@ CAUTION: FIXME
 * [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
 * [[metrics]] `Metrics`
 * [[time]] `Time`
-* [[zkUtils]] `ZkUtils`
+* [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
 * [[scheduler]] `Scheduler`
 * [[logManager]] link:kafka-LogManager.adoc[LogManager]
 * [[isShuttingDown]] `isShuttingDown` flag

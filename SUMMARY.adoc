@@ -71,6 +71,9 @@
 . link:kafka-Fetcher.adoc[Fetcher]
 . link:kafka-Cluster.adoc[Cluster]
 . link:kafka-MetadataResponse.adoc[MetadataResponse]
+. link:kafka-OffsetConfig.adoc[OffsetConfig]
+. link:kafka-TransactionStateManager.adoc[TransactionStateManager]
+. link:kafka-ZkUtils.adoc[ZkUtils]
 
 === Build Tips
 

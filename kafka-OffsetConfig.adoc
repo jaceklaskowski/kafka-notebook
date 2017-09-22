@@ -1,0 +1,14 @@
+== [[OffsetConfig]] OffsetConfig
+
+`OffsetConfig` is...FIXME
+
+[[properties]]
+.OffsetConfig's Properties (in alphabetical order)
+[cols="1,2",options="header",width="100%"]
+|===
+| Property
+| Default Value
+
+| [[offsetsTopicNumPartitions]] `offsetsTopicNumPartitions`
+| `50`
+|===

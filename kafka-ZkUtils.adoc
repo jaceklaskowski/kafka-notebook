@@ -1,0 +1,21 @@
+== [[ZkUtils]] ZkUtils
+
+`ZkUtils` is...FIXME
+
+=== [[getTopicPartitionCount]] `getTopicPartitionCount` Method
+
+[source, scala]
+----
+getTopicPartitionCount(topic: String): Option[Int]
+----
+
+`getTopicPartitionCount`...FIXME
+
+[NOTE]
+====
+`getTopicPartitionCount` is used when:
+
+1. `GroupMetadataManager` is requested for link:kafka-GroupMetadataManager.adoc#getGroupMetadataTopicPartitionCount[getGroupMetadataTopicPartitionCount] of `__consumer_offsets` topic
+
+1. `TransactionStateManager` is requested for link:kafka-TransactionStateManager.adoc#getTransactionTopicPartitionCount[getTransactionTopicPartitionCount] of `__transaction_state` topic
+====

@@ -23,7 +23,7 @@ CAUTION: FIXME
 
 * [[brokerId]] Broker ID
 * [[groupConfig]] `GroupConfig`
-* [[offsetConfig]] `OffsetConfig`
+* [[offsetConfig]] link:kafka-OffsetConfig.adoc[OffsetConfig]
 * [[groupManager]] `GroupMetadataManager`
 * [[heartbeatPurgatory]] `DelayedOperationPurgatory[DelayedHeartbeat]`
 * [[joinPurgatory]] `DelayedOperationPurgatory[DelayedJoin]`

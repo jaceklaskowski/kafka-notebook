@@ -1,0 +1,14 @@
+== [[TransactionStateManager]] TransactionStateManager
+
+`TransactionStateManager` is...FIXME
+
+=== [[getTransactionTopicPartitionCount]] `getTransactionTopicPartitionCount` Method
+
+[source, scala]
+----
+getTransactionTopicPartitionCount
+----
+
+`getTransactionTopicPartitionCount`...FIXME
+
+NOTE: `getTransactionTopicPartitionCount` is used when...FIXME

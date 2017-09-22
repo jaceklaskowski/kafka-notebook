@@ -14,7 +14,7 @@
 * [[groupCoordinator]] link:kafka-GroupCoordinator.adoc[GroupCoordinator]
 * [[txnCoordinator]] `TransactionCoordinator`
 * [[controller]] link:kafka-KafkaController.adoc[KafkaController]
-* [[zkUtils]] `ZkUtils`
+* [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
 * [[brokerId]] Broker ID
 * [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
 * [[metadataCache]] `MetadataCache`
