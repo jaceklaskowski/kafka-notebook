@@ -2,6 +2,24 @@
 
 `ZkUtils` is...FIXME
 
+=== [[registerBrokerInZk]] `registerBrokerInZk` Method
+
+[source, scala]
+----
+registerBrokerInZk(
+  id: Int,
+  host: String,
+  port: Int,
+  advertisedEndpoints: Seq[EndPoint],
+  jmxPort: Int,
+  rack: Option[String],
+  apiVersion: ApiVersion): Unit
+----
+
+`registerBrokerInZk`...FIXME
+
+NOTE: `registerBrokerInZk` is used exclusively when `KafkaHealthcheck` is requested to link:kafka-KafkaHealthcheck.adoc#register[register].
+
 === [[getTopicPartitionCount]] `getTopicPartitionCount` Method
 
 [source, scala]

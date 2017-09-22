@@ -1,13 +1,67 @@
 == [[AdminManager]] AdminManager
 
-CAUTION: FIXME
+`AdminManager` is...FIXME
 
-=== [[createTopics]] `createTopics` Method
+`AdminManager` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started].
 
-CAUTION: FIXME
+.AdminManager
+image::images/AdminManager.png[align="center"]
+
+[[logIdent]]
+`logIdent` is *[Admin Manager on Broker [brokerId]]*.
+
+[[internal-registries]]
+.AdminManager's Internal Registries and Counters
+[frame="topbot",cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[alterConfigPolicy]] `alterConfigPolicy`
+|
+
+| [[createTopicPolicy]] `createTopicPolicy`
+|
+
+| [[topicPurgatory]] `topicPurgatory`
+|
+|===
+
+[TIP]
+====
+Enable `INFO`, `DEBUG`, `TRACE` logging levels for `kafka.server.AdminManager` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.server.AdminManager=TRACE
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
+=== [[createTopics]] Creating Topics -- `createTopics` Method
+
+[source, scala]
+----
+createTopics(
+  timeout: Int,
+  validateOnly: Boolean,
+  createInfo: Map[String, CreateTopicsRequest.TopicDetails],
+  responseCallback: (Map[String, ApiError]) => Unit): Unit
+----
+
+`createTopics`...FIXME
+
+NOTE: `createTopics` is used exclusively when `KafkaApis` link:kafka-KafkaApis.adoc#handleCreateTopicsRequest[handles a CREATE_TOPICS request].
 
 === [[creating-instance]] Creating AdminManager Instance
 
 `AdminManager` takes the following when created:
 
-1. FIXME
+* [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[metrics]] `Metrics`
+* [[metadataCache]] link:kafka-MetadataCache.adoc[MetadataCache]
+* [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
+
+`AdminManager` initializes the <<internal-registries, internal registries and counters>>.

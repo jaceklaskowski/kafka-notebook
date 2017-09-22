@@ -36,7 +36,7 @@ Handling request:[request] from connection [id];securityProtocol:[protocol],prin
 
 NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is link:kafka-KafkaRequestHandler.adoc#run[started].
 
-=== [[handleCreateTopicsRequest]] `handleCreateTopicsRequest` Handler
+=== [[handleCreateTopicsRequest]] Handling CREATE_TOPICS Request -- `handleCreateTopicsRequest` Handler
 
 [source, scala]
 ----

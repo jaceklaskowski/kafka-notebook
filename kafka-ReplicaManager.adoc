@@ -1,6 +1,6 @@
 == [[ReplicaManager]] ReplicaManager
 
-`ReplicaManager` is <<creating-instance, created>> and <<startup, started>> when `KafkaServer` is requested to link:kafka-KafkaServer.adoc#startup[start].
+`ReplicaManager` is <<creating-instance, created>> and <<startup, started>> when `KafkaServer` is requested to link:kafka-KafkaServer.adoc#startup[start up].
 
 When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expiration>> and <<isr-change-propagation, isr-change-propagation>> recurring tasks.
 
