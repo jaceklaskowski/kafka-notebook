@@ -24,11 +24,14 @@ a| The ID of the active `KafkaController`
 
 * Initialized to `-1`
 
+| [[brokerChangeListener]] `brokerChangeListener`
+| `BrokerChangeListener` for this `KafkaController` and <<eventManager, eventManager>>
+
 | [[controllerContext]] `controllerContext`
 |
 
 | [[eventManager]] `eventManager`
-|
+| `ControllerEventManager`
 
 | [[kafkaScheduler]] `kafkaScheduler`
 |
@@ -53,6 +56,12 @@ elect(): Unit
 `elect`...FIXME
 
 NOTE: `elect` is used when `KafkaController` enters `Startup` and `Reelect` states.
+
+=== [[onControllerFailover]] `onControllerFailover` Method
+
+CAUTION: FIXME
+
+NOTE: `onControllerFailover` is used exclusively when `KafkaController` is requested to <<elect, elect>>.
 
 === [[isActive]] `isActive` Method
 
@@ -80,3 +89,14 @@ CAUTION: FIXME
 * [[threadNamePrefix]] Optional thread name prefix
 
 `KafkaController` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[registerBrokerChangeListener]] `registerBrokerChangeListener` Internal Method
+
+[source, scala]
+----
+registerBrokerChangeListener(): Option[Seq[String]]
+----
+
+`registerBrokerChangeListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#subscribeChildChanges[subscribeChildChanges] for `/brokers/ids` path with <<brokerChangeListener, BrokerChangeListener>>.
+
+NOTE: `registerBrokerChangeListener` is used exclusively when `KafkaController` does <<onControllerFailover, onControllerFailover>>.

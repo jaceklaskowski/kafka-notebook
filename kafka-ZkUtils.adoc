@@ -2,6 +2,17 @@
 
 `ZkUtils` is...FIXME
 
+=== [[subscribeChildChanges]] `subscribeChildChanges` Method
+
+[source, scala]
+----
+subscribeChildChanges(path: String, listener: IZkChildListener): Option[Seq[String]]
+----
+
+`subscribeChildChanges`...FIXME
+
+NOTE: `subscribeChildChanges` is used...
+
 === [[registerBrokerInZk]] `registerBrokerInZk` Method
 
 [source, scala]
