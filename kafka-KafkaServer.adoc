@@ -106,7 +106,7 @@ CAUTION: FIXME
 
 CAUTION: FIXME
 
-=== [[initZk]] `initZk` Internal Method
+=== [[initZk]] Connecting to Zookeeper -- `initZk` Internal Method
 
 CAUTION: FIXME
 

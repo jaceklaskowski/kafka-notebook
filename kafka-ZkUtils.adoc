@@ -2,6 +2,65 @@
 
 `ZkUtils` is...FIXME
 
+`ZkUtils` is <<creating-instance, created>> when...FIXME
+
+[NOTE]
+====
+Quoting http://zookeeper.apache.org/doc/trunk/zookeeperOver.html#Nodes+and+ephemeral+nodes[Nodes and ephemeral nodes] from the Zookeeper documentation:
+
+> Unlike standard file systems, each node in a ZooKeeper namespace can have data associated with it as well as children. It is like having a file-system that allows a file to also be a directory. (ZooKeeper was designed to store coordination data: status information, configuration, location information, etc., so the data stored at each node is usually small, in the byte to kilobyte range.) We use the term znode to make it clear that we are talking about ZooKeeper data nodes.
+
+> Znodes maintain a stat structure that includes version numbers for data changes, ACL changes, and timestamps, to allow cache validations and coordinated updates. Each time a znode's data changes, the version number increases. For instance, whenever a client retrieves data it also receives the version of the data.
+
+> The data stored at each znode in a namespace is read and written atomically. Reads get all the data bytes associated with a znode and a write replaces all the data. Each node has an Access Control List (ACL) that restricts who can do what.
+====
+
+[[paths]]
+.ZkUtils's ZNodes in Zookeeper
+[cols="1,2",options="header",width="100%"]
+|===
+| ZNode
+| Description
+
+| [[ControllerPath]] `ControllerPath`
+| `/controller`
+|===
+
+[[internal-registries]]
+.ZkUtils's Internal Registries and Counters (in alphabetical order)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[persistentZkPaths]] `persistentZkPaths`
+|
+
+| [[zkPath]] `zkPath`
+|
+|===
+
+=== [[apply]] Creating ZkUtils Instance -- `apply` Factory Method
+
+[source, scala]
+----
+apply(
+  zkUrl: String,
+  sessionTimeout: Int,
+  connectionTimeout: Int,
+  isZkSecurityEnabled: Boolean): ZkUtils
+----
+
+`apply`...FIXME
+
+[NOTE]
+====
+`apply` is used when:
+
+1. `KafkaServer` link:kafka-KafkaServer.adoc#initZk[connects to Zookeeper]
+1. FIXME
+====
+
 === [[subscribeChildChanges]] `subscribeChildChanges` Method
 
 [source, scala]
@@ -70,3 +129,24 @@ res0: String = {"version":1,"brokerid":1,"timestamp":"1506161225262"}
 ----
 
 NOTE: `controllerZkData` is used exclusively when `KafkaController` is requested for link:kafka-KafkaController.adoc#elect[elect].
+
+=== [[creating-instance]] Creating ZkUtils Instance
+
+`ZkUtils` takes the following when created:
+
+* [[zkClient]] `ZkClient`
+* [[zkConnection]] `ZkConnection`
+* [[isSecure]] `isSecure` flag
+
+`ZkUtils` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[readDataMaybeNull]] Reading Data Associated with ZNode -- `readDataMaybeNull` Method
+
+[source, scala]
+----
+readDataMaybeNull(path: String): (Option[String], Stat)
+----
+
+`readDataMaybeNull` requests <<zkClient, ZkClient>> to `readData` from `path` znode.
+
+`readDataMaybeNull` returns `None` (for `Option[String]`) when `path` znode is not available.

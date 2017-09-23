@@ -100,3 +100,48 @@ registerBrokerChangeListener(): Option[Seq[String]]
 `registerBrokerChangeListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#subscribeChildChanges[subscribeChildChanges] for `/brokers/ids` path with <<brokerChangeListener, BrokerChangeListener>>.
 
 NOTE: `registerBrokerChangeListener` is used exclusively when `KafkaController` does <<onControllerFailover, onControllerFailover>>.
+
+=== [[getControllerID]] Getting Active Controller ID (from JSON under /controller znode) -- `getControllerID` Method
+
+[source, scala]
+----
+getControllerID(): Int
+----
+
+`getControllerID` returns the ID of the active Kafka controller that is associated with `/controller` znode in JSON format or `-1` otherwise.
+
+Internally, `getControllerID` requests <<zkUtils, ZkUtils>> for link:kafka-ZkUtils.adoc#readDataMaybeNull[data associated with `/controller` znode].
+
+If available, `getControllerID` parses the data (being the current controller info in JSON format) to extract `brokerid` field.
+
+[source, shell]
+----
+$ ./bin/zookeeper-shell.sh 0.0.0.0:2181
+Connecting to 0.0.0.0:2181
+Welcome to ZooKeeper!
+...
+get /controller
+{"version":1,"brokerid":100,"timestamp":"1506197069724"}
+cZxid = 0xf9
+ctime = Sat Sep 23 22:04:29 CEST 2017
+mZxid = 0xf9
+mtime = Sat Sep 23 22:04:29 CEST 2017
+pZxid = 0xf9
+cversion = 0
+dataVersion = 0
+aclVersion = 0
+ephemeralOwner = 0x15eaa3a4fdd000d
+dataLength = 56
+numChildren = 0
+----
+
+Otherwise, when no `/controller` znode is available, `getControllerID` returns `-1`.
+
+[NOTE]
+====
+`getControllerID` is used when:
+
+1. Processing `Reelect` controller event
+
+1. <<elect, elect>>
+====
