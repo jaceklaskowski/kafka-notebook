@@ -79,9 +79,10 @@
 . link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
 . link:kafka-ConnectDistributed.adoc[ConnectDistributed]
 
-=== Build Tips
+=== Tips and Tricks
 
 . link:kafka-gradle-tips.adoc[Gradle Tips]
+. link:kafka-scala-repl.adoc[Kafka in Scala REPL for Interactive Exploration]
 
 === Appendix
 

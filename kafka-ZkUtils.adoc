@@ -11,7 +11,7 @@ subscribeChildChanges(path: String, listener: IZkChildListener): Option[Seq[Stri
 
 `subscribeChildChanges`...FIXME
 
-NOTE: `subscribeChildChanges` is used...
+NOTE: `subscribeChildChanges` is used...FIXME
 
 === [[registerBrokerInZk]] `registerBrokerInZk` Method
 
@@ -48,3 +48,25 @@ getTopicPartitionCount(topic: String): Option[Int]
 
 1. `TransactionStateManager` is requested for link:kafka-TransactionStateManager.adoc#getTransactionTopicPartitionCount[getTransactionTopicPartitionCount] of `__transaction_state` topic
 ====
+
+=== [[controllerZkData]] Creating JSON with Broker ID -- `controllerZkData` Method
+
+[source, scala]
+----
+controllerZkData(brokerId: Int, timestamp: Long): String
+----
+
+`controllerZkData` creates a JSON with the following fields:
+
+* `"version":1`
+* `"brokerid":[brokerId]`
+* `"timestamp":[timestamp]`
+
+[source, scala]
+----
+import kafka.utils._
+scala> ZkUtils.controllerZkData(1, System.currentTimeMillis())
+res0: String = {"version":1,"brokerid":1,"timestamp":"1506161225262"}
+----
+
+NOTE: `controllerZkData` is used exclusively when `KafkaController` is requested for link:kafka-KafkaController.adoc#elect[elect].

@@ -1,0 +1,47 @@
+== Kafka in Scala REPL for Interactive Exploration
+
+Use the following `build.sbt` and execute `sbt` followed by `console` command (while inside the sbt shell).
+
+NOTE: The reason for executing `console` command after sbt has started up is that command history did not work using the key-up and key-down keys. _YMMV_
+
+[[build.sbt]]
+.build.sbt
+[source, scala]
+----
+name := "kafka-sandbox"
+
+version := "1.0"
+
+scalaVersion := "2.12.3"
+
+//val kafkaVer = "0.11.0.1"
+resolvers += Resolver.mavenLocal
+val kafkaVer = "1.0.0-SNAPSHOT"
+libraryDependencies += "org.apache.kafka" % "kafka-clients" % kafkaVer
+libraryDependencies += "org.apache.kafka" %% "kafka" % kafkaVer
+
+val logback = "1.2.3"
+libraryDependencies += "ch.qos.logback" % "logback-core" % logback
+libraryDependencies += "ch.qos.logback" % "logback-classic" % logback
+----
+
+.sbt with console command
+[source, bash]
+----
+➜  kafka-sandbox sbt
+[info] Loading settings from plugins.sbt ...
+[info] Loading project definition from /Users/jacek/dev/sandbox/kafka-sandbox/project
+[info] Loading settings from build.sbt ...
+[info] Set current project to kafka-sandbox (in build file:/Users/jacek/dev/sandbox/kafka-sandbox/)
+[info] sbt server started at 127.0.0.1:4408
+sbt:kafka-sandbox> console
+[info] Starting scala interpreter...
+Welcome to Scala 2.12.3 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_144).
+Type in expressions for evaluation. Or try :help.
+
+scala> import kafka.utils._
+import kafka.utils._
+
+scala> ZkUtils.controllerZkData(1, System.currentTimeMillis())
+res0: String = {"version":1,"brokerid":1,"timestamp":"1506162122097"}
+----
