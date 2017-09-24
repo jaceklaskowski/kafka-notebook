@@ -1,0 +1,49 @@
+== [[ShutdownableThread]] ShutdownableThread
+
+`ShutdownableThread` is the <<contract, contract>> for <<run, non-daemon threads of execution>>.
+
+[[contract]]
+`ShutdownableThread` contract expects that the objects implement <<doWork, doWork>> method.
+
+[[doWork]]
+[source, scala]
+----
+def doWork(): Unit
+----
+
+[[internal-registries]]
+.ShutdownableThread's Internal Registries and Counters
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[isRunning]] `isRunning`
+| Flag that controls how long to execute <<run, run>> method.
+
+| [[shutdownLatch]] `shutdownLatch`
+| Java's https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html[java.util.concurrentCountDownLatch] with the number of passes being `1`
+|===
+
+=== [[run]] `run` Method
+
+[source, scala]
+----
+run(): Unit
+----
+
+NOTE: `run` is a part of http://download.java.net/java/jdk9/docs/api/java/lang/Runnable.html#run--[java.lang.Runnable] that is executed when the thread is started.
+
+`run` first prints out the following INFO message to the logs:
+
+```
+Starting
+```
+
+`run` then executes <<doWork, doWork>> method until <<isRunning, isRunning>> flag is disabled.
+
+In the end, `run` decrements the count of <<shutdownLatch, shutdownLatch>> and prints out the following INFO message to the logs:
+
+```
+Stopped
+```

@@ -1,13 +1,13 @@
 == [[KafkaRequestHandler]] KafkaRequestHandler
 
-`KafkaRequestHandler` is a thread of execution (i.e. Java's https://docs.oracle.com/javase/8/docs/api/java/lang/Runnable.html[Runnable]) that handles Kafka requests (i.e. `ShutdownRequests` directly while the others routes to <<apis, KafkaApis>>).
+`KafkaRequestHandler` is a thread of execution (i.e. Java's https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html[Runnable]) that handles Kafka requests (i.e. `ShutdownRequests` directly while the others routes to <<apis, KafkaApis>>).
 
 `KafkaRequestHandler` is <<creating-instance, created>>...FIXME
 
 [[logIdent]]
 `logIdent` is *[Kafka Request Handler [id] on Broker [brokerId]]*.
 
-=== [[run]] Starting -- `run` Method
+=== [[run]] Starting Thread -- `run` Method
 
 [source, scala]
 ----

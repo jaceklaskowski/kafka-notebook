@@ -89,7 +89,7 @@ Used when...FIXME
 | `QuotaManagers`
 
 | [[shutdownLatch]] `shutdownLatch`
-| Java's `CountDownLatch`
+| Java's https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html[java.util.concurrentCountDownLatch]
 
 | [[startupComplete]] `startupComplete`
 | Flag for...FIXME

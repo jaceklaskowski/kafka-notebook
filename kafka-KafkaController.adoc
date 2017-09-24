@@ -12,8 +12,19 @@ image::images/KafkaController.png[align="center"]
 [[logIdent]]
 `logIdent` is *[Controller id=[brokerId]]*.
 
+[[controller-events]]
+.KafkaController's Controller Events
+[cols="1,2",options="header",width="100%"]
+|===
+| Event
+| process Handler
+
+| [[BrokerChange]] `BrokerChange`
+|
+|===
+
 [[internal-registries]]
-.KafkaController's Internal Registries and Counters (in alphabetical order)
+.KafkaController's Internal Registries and Counters
 [cols="1,2",options="header",width="100%"]
 |===
 | Name
@@ -31,7 +42,7 @@ a| The ID of the active `KafkaController`
 |
 
 | [[eventManager]] `eventManager`
-| `ControllerEventManager`
+| link:kafka-ControllerEventManager.adoc[ControllerEventManager] for `controllerContext.stats.rateAndTimeMetrics` and updateMetrics listener
 
 | [[kafkaScheduler]] `kafkaScheduler`
 |
@@ -45,6 +56,21 @@ a| The ID of the active `KafkaController`
 | [[stateChangeLogger]] `stateChangeLogger`
 |
 |===
+
+=== [[updateMetrics]] `updateMetrics` Internal Method
+
+CAUTION: FIXME
+
+=== [[onBrokerStartup]] `onBrokerStartup` Method
+
+[source, scala]
+----
+onBrokerStartup(newBrokers: Seq[Int]): Unit
+----
+
+`onBrokerStartup`...FIXME
+
+NOTE: `onBrokerStartup` is used exclusively when `KafkaController` processes `BrokerChange` controller event.
 
 === [[elect]] `elect` Method
 
@@ -74,10 +100,6 @@ isActive: Boolean
 
 CAUTION: FIXME When could they be different?
 
-=== [[startup]] `startup` Method
-
-CAUTION: FIXME
-
 === [[creating-instance]] Creating KafkaController Instance
 
 `KafkaController` takes the following when created:
@@ -89,6 +111,17 @@ CAUTION: FIXME
 * [[threadNamePrefix]] Optional thread name prefix
 
 `KafkaController` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[startup]] Starting ControllerEventManager (and Putting Startup Event in Event Queue) -- `startup` Method
+
+[source, scala]
+----
+startup(): Unit
+----
+
+`startup` puts `Startup` event at the end of the event queue of <<eventManager, ControllerEventManager>> and requests it to link:kafka-ControllerEventManager.adoc#start[start].
+
+NOTE: `startup` is used exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started up].
 
 === [[registerBrokerChangeListener]] `registerBrokerChangeListener` Internal Method
 

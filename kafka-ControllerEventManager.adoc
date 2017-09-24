@@ -1,0 +1,32 @@
+== [[ControllerEventManager]] ControllerEventManager
+
+`ControllerEventManager` is...FIXME
+
+`ControllerEventManager` is <<creating-instance, created>> when...FIXME
+
+[[internal-registries]]
+.ControllerEventManager's Internal Registries and Counters
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[queue]] `queue`
+|
+
+| [[_state]] `_state`
+|
+|===
+
+=== [[start]] `start` Method
+
+CAUTION: FIXME
+
+=== [[creating-instance]] Creating ControllerEventManager Instance
+
+`ControllerEventManager` takes the following when created:
+
+* [[rateAndTimeMetrics]] `rateAndTimeMetrics` collection of `ControllerState` and `KafkaTimer`
+* [[eventProcessedListener]] `eventProcessedListener` Procedure of `ControllerEvent`
+
+`ControllerEventManager` initializes the <<internal-registries, internal registries and counters>>.

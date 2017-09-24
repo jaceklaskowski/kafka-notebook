@@ -9,14 +9,17 @@
 . link:kafka-Authorizer.adoc[Authorizer]
 . link:kafka-Cluster.adoc[Cluster]
 . link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+. link:kafka-ControllerEventManager.adoc[ControllerEventManager]
 . link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
 . link:kafka-Fetcher.adoc[Fetcher]
 . link:kafka-GroupCoordinator.adoc[GroupCoordinator]
 . link:kafka-GroupMetadataManager.adoc[GroupMetadataManager]
 . link:kafka-Kafka.adoc[Kafka]
 . link:kafka-KafkaApis.adoc[KafkaApis -- API Request Handler]
+
 . link:kafka-KafkaClient.adoc[KafkaClient]
 .. link:kafka-NetworkClient.adoc[NetworkClient]
+
 . link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
 . link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer over KafkaServer]
 . link:kafka-KafkaServer.adoc[KafkaServer]
@@ -31,11 +34,17 @@
 . link:kafka-Metadata.adoc[Metadata]
 . link:kafka-MetadataCache.adoc[MetadataCache]
 . link:kafka-MetadataResponse.adoc[MetadataResponse]
+
 . link:kafka-MetadataUpdater.adoc[MetadataUpdater]
 .. link:kafka-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
+
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 . link:kafka-Partition.adoc[Partition]
 . link:kafka-ReplicaManager.adoc[ReplicaManager]
+
+. link:kafka-ShutdownableThread.adoc[ShutdownableThread]
+.. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
+
 . link:kafka-SocketServer.adoc[SocketServer]
 . link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]

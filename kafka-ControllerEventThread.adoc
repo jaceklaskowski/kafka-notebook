@@ -1,0 +1,7 @@
+== [[ControllerEventThread]] ControllerEventThread
+
+`ControllerEventThread` is a link:kafka-ShutdownableThread.adoc[ShutdownableThread] that is <<doWork, started>> when...FIXME
+
+=== [[doWork]] `doWork` Method
+
+CAUTION: FIXME
