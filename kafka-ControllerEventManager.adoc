@@ -2,7 +2,12 @@
 
 `ControllerEventManager` is...FIXME
 
-`ControllerEventManager` is <<creating-instance, created>> when...FIXME
+`ControllerEventManager` is <<creating-instance, created>> when `KafkaController` is link:kafka-KafkaController.adoc#eventManager[created].
+
+`ControllerEventManager` is <<start, started>> when `KafkaController` is link:kafka-KafkaController.adoc#startup[started up].
+
+.ControllerEventManager is Created and Started Alongside KafkaController
+image::images/ControllerEventManager.png[align="center"]
 
 [[internal-registries]]
 .ControllerEventManager's Internal Registries and Counters
@@ -12,15 +17,14 @@
 | Description
 
 | [[queue]] `queue`
-|
+| Java's http://docs.oracle.com/javase/9/docs/api/java/util/concurrent/LinkedBlockingQueue.html[java.util.concurrent.LinkedBlockingQueue] (i.e. an optionally-bounded blocking queue based on linked nodes that orders elements in first-in-first-out fashion) of `ControllerEvents`
 
 | [[_state]] `_state`
 |
+
+| [[thread]] `thread`
+| link:kafka-ControllerEventThread.adoc[ControllerEventThread] with *controller-event-thread* thread name
 |===
-
-=== [[start]] `start` Method
-
-CAUTION: FIXME
 
 === [[creating-instance]] Creating ControllerEventManager Instance
 
@@ -30,3 +34,16 @@ CAUTION: FIXME
 * [[eventProcessedListener]] `eventProcessedListener` Procedure of `ControllerEvent`
 
 `ControllerEventManager` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[start]] Starting ControllerEventManager (and ControllerEventThread) -- `start` Method
+
+[source, scala]
+----
+start(): Unit
+----
+
+`start` requests <<thread, ControllerEventThread>> to link:kafka-ControllerEventThread.adoc#doWork[do the work].
+
+NOTE: `ControllerEventThread` is a `ShutdownableThread` that, once started, triggers `doWork()` method.
+
+NOTE: `start` is used exclusively when `KafkaController` is link:kafka-KafkaController.adoc#startup[started up].

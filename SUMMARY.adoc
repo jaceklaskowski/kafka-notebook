@@ -9,7 +9,10 @@
 . link:kafka-Authorizer.adoc[Authorizer]
 . link:kafka-Cluster.adoc[Cluster]
 . link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+
 . link:kafka-ControllerEventManager.adoc[ControllerEventManager]
+.. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
+
 . link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
 . link:kafka-Fetcher.adoc[Fetcher]
 . link:kafka-GroupCoordinator.adoc[GroupCoordinator]
@@ -41,10 +44,7 @@
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 . link:kafka-Partition.adoc[Partition]
 . link:kafka-ReplicaManager.adoc[ReplicaManager]
-
 . link:kafka-ShutdownableThread.adoc[ShutdownableThread]
-.. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
-
 . link:kafka-SocketServer.adoc[SocketServer]
 . link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
