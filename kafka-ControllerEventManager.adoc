@@ -20,7 +20,7 @@ image::images/ControllerEventManager.png[align="center"]
 | Java's http://docs.oracle.com/javase/9/docs/api/java/util/concurrent/LinkedBlockingQueue.html[java.util.concurrent.LinkedBlockingQueue] (i.e. an optionally-bounded blocking queue based on linked nodes that orders elements in first-in-first-out fashion) of `ControllerEvents`
 
 | [[_state]] `_state`
-|
+| `ControllerState` with `Idle` being the initial state
 
 | [[thread]] `thread`
 | link:kafka-ControllerEventThread.adoc[ControllerEventThread] with *controller-event-thread* thread name

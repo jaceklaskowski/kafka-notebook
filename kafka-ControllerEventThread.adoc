@@ -1,7 +1,25 @@
 == [[ControllerEventThread]] ControllerEventThread
 
-`ControllerEventThread` is a link:kafka-ShutdownableThread.adoc[ShutdownableThread] that is <<doWork, started>> when...FIXME
+`ControllerEventThread` is a link:kafka-ShutdownableThread.adoc[ShutdownableThread] that is <<doWork, started>> when `ControllerEventManager` is link:kafka-ControllerEventManager.adoc#start[started]
 
-=== [[doWork]] `doWork` Method
+.ControllerEventThread is Started Alongside ControllerEventManager
+image::images/ControllerEventThread-doWork.png[align="center"]
 
-CAUTION: FIXME
+=== [[doWork]] Processing ControllerEvents -- `doWork` Method
+
+[source, scala]
+----
+doWork(): Unit
+----
+
+`doWork` takes and removes the head of link:kafka-ControllerEventManager.adoc#queue[event queue] (waiting if necessary until an element becomes available).
+
+NOTE: The very first event in the event queue is `Startup` that `KafkaController` puts when it is link:kafka-KafkaController.adoc#startup[started].
+
+`doWork` sets link:kafka-ControllerEventManager.adoc#_state[_state] (of `ControllerEventManager`) as the state of the event.
+
+`doWork` finds the `KafkaTimer` for the state in link:kafka-ControllerEventManager.adoc#rateAndTimeMetrics[rateAndTimeMetrics] lookup table (of `ControllerEventManager`).
+
+`doWork` processes the event (i.e. calls `ControllerEvent.process` method).
+
+In the end, `doWork` passes the event to link:kafka-ControllerEventManager.adoc#eventProcessedListener[eventProcessedListener] (of `ControllerEventManager`) and sets link:kafka-ControllerEventManager.adoc#_state[_state] (of `ControllerEventManager`) as `Idle`.
