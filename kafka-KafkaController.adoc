@@ -24,11 +24,20 @@ image::images/KafkaController.png[align="center"]
 | `BrokerChange`
 |
 
+| [[ControllerChange]] `ControllerChange(newControllerId: Int)`
+| `ControllerChange`
+a|
+
+1. Assigns the <<getControllerID, current controller ID>> as the input `newControllerId`
+1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, onControllerResignation>>
+
+NOTE:  Similar to <<Reelect, Reelect>> event with the only difference that it does *not* trigger <<elect, election>>
+
 | [[Reelect]] `Reelect`
 | `ControllerChange`
 a|
 
-1. Records the <<getControllerID, current controller ID>> as <<activeControllerId, activeControllerId>>
+1. Assigns the <<getControllerID, current controller ID>> as <<activeControllerId, activeControllerId>>
 1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, onControllerResignation>>
 1. <<elect, elect>>
 
@@ -76,10 +85,6 @@ a| The ID of the active `KafkaController`
 |===
 
 === [[onControllerResignation]] `onControllerResignation` Method
-
-CAUTION: FIXME
-
-=== [[registerControllerChangeListener]] `registerControllerChangeListener` Method
 
 CAUTION: FIXME
 
@@ -161,6 +166,26 @@ registerSessionExpirationListener(): Unit
 NOTE: `SessionExpirationListener` puts <<Reelect, Reelect>> event on the link:kafka-ControllerEventManager.adoc#queue[event queue] of `ControllerEventManager` every time the Zookeeper session has expired and a new session has been created.
 
 NOTE: `registerSessionExpirationListener` is used exclusively when <<Startup, Startup>> event is processed (after `ControllerEventThread` is link:kafka-ControllerEventThread.adoc#doWork[started]).
+
+=== [[registerControllerChangeListener]] Registering ControllerChangeListener for /controller ZNode Changes -- `registerControllerChangeListener` Internal Method
+
+[source, scala]
+----
+registerControllerChangeListener(): Unit
+----
+
+`registerControllerChangeListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#subscribeDataChanges[subscribe to data changes] for `/controller` znode with a `ControllerChangeListener` (with the `KafkaController` and <<eventManager, ControllerEventManager>>).
+
+[NOTE]
+====
+`ControllerChangeListener` emits:
+
+1. <<ControllerChange, ControllerChange>> event with the current controller ID (on the link:kafka-ControllerEventManager.adoc#queue[event queue] of `ControllerEventManager`) every time the data of a znode changes
+
+1. <<Reelect, Reelect>> event when the data associated with a znode has been deleted
+====
+
+NOTE: `registerControllerChangeListener` is used exclusively when <<Startup, Startup>> event is processed (after `ControllerEventThread` is link:kafka-ControllerEventThread.adoc#doWork[started]).
 
 === [[registerBrokerChangeListener]] `registerBrokerChangeListener` Internal Method
 
