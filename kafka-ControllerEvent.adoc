@@ -1,3 +1,31 @@
 == [[ControllerEvent]] ControllerEvent
 
-`ControllerEvent` is...FIXME
+`ControllerEvent` is the <<contract, contract>> of events in the lifecycle of link:kafka-KafkaController.adoc[KafkaController] that trigger <<state, state>> change and the corresponding <<process, action>>.
+
+[source, scala]
+----
+package kafka.controller
+
+sealed trait ControllerEvent {
+  def state: ControllerState
+  def process(): Unit
+}
+----
+
+NOTE: `ControllerEvent` is a Scala sealed trait and so all the available events are in a single compilation unit (i.e. a file).
+
+[[contract]]
+.ControllerEvent Contract
+[cols="1,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| [[state]] `state`
+| `ControllerState` of the link:kafka-ControllerEventManager.adoc#_state[ControllerEventManager]
+
+Used when `ControllerEventThread` link:kafka-ControllerEventThread.adoc#doWork[does the work]
+
+| [[process]] `process`
+| Used when `ControllerEventThread` link:kafka-ControllerEventThread.adoc#doWork[does the work] to trigger an action associated with <<state, state>> change.
+|===

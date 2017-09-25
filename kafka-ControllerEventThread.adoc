@@ -20,6 +20,6 @@ NOTE: The very first event in the event queue is `Startup` that `KafkaController
 
 `doWork` finds the `KafkaTimer` for the state in link:kafka-ControllerEventManager.adoc#rateAndTimeMetrics[rateAndTimeMetrics] lookup table (of `ControllerEventManager`).
 
-`doWork` processes the event (i.e. calls `ControllerEvent.process` method).
+`doWork` link:kafka-ControllerEvent.adoc#process[processes the event] (i.e. calls `ControllerEvent.process` method).
 
 In the end, `doWork` passes the event to link:kafka-ControllerEventManager.adoc#eventProcessedListener[eventProcessedListener] (of `ControllerEventManager`) and sets link:kafka-ControllerEventManager.adoc#_state[_state] (of `ControllerEventManager`) as `Idle`.
