@@ -61,6 +61,24 @@ apply(
 1. FIXME
 ====
 
+=== [[subscribeStateChanges]] Registering Listener for State Changes -- `subscribeStateChanges` Method
+
+[source, scala]
+----
+subscribeStateChanges(listener: IZkStateListener): Unit
+----
+
+`subscribeStateChanges` requests <<zkClient, ZkClient>> to `subscribeStateChanges` with the `listener`.
+
+[NOTE]
+====
+`subscribeStateChanges` is used when:
+
+1. `KafkaController` is requested to link:kafka-KafkaController.adoc#registerSessionExpirationListener[register a SessionExpirationListener]
+
+1. FIXME
+====
+
 === [[subscribeChildChanges]] `subscribeChildChanges` Method
 
 [source, scala]

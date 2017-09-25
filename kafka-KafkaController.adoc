@@ -14,13 +14,31 @@ image::images/KafkaController.png[align="center"]
 
 [[controller-events]]
 .KafkaController's Controller Events
-[cols="1,2",options="header",width="100%"]
+[cols="1,1,2",options="header",width="100%"]
 |===
 | Event
+| ControllerState
 | process Handler
 
 | [[BrokerChange]] `BrokerChange`
+| `BrokerChange`
 |
+
+| [[Reelect]] `Reelect`
+| `ControllerChange`
+a|
+
+1. Records the <<getControllerID, current controller ID>> as <<activeControllerId, activeControllerId>>
+1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, onControllerResignation>>
+1. <<elect, elect>>
+
+| [[Startup]] `Startup`
+| `ControllerChange`
+a|
+
+1. <<registerSessionExpirationListener, registerSessionExpirationListener>>
+1. <<registerControllerChangeListener, registerControllerChangeListener>>
+1. <<elect, elect>>
 |===
 
 [[internal-registries]]
@@ -56,6 +74,14 @@ a| The ID of the active `KafkaController`
 | [[stateChangeLogger]] `stateChangeLogger`
 |
 |===
+
+=== [[onControllerResignation]] `onControllerResignation` Method
+
+CAUTION: FIXME
+
+=== [[registerControllerChangeListener]] `registerControllerChangeListener` Method
+
+CAUTION: FIXME
 
 === [[updateMetrics]] `updateMetrics` Internal Method
 
@@ -122,6 +148,19 @@ startup(): Unit
 `startup` puts `Startup` event at the end of the event queue of <<eventManager, ControllerEventManager>> and requests it to link:kafka-ControllerEventManager.adoc#start[start].
 
 NOTE: `startup` is used exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started up].
+
+=== [[registerSessionExpirationListener]] Registering SessionExpirationListener To Control Session Recreation -- `registerSessionExpirationListener` Internal Method
+
+[source, scala]
+----
+registerSessionExpirationListener(): Unit
+----
+
+`registerSessionExpirationListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#subscribeStateChanges[subscribe to state changes] with a `SessionExpirationListener` (with the `KafkaController` and <<eventManager, ControllerEventManager>>).
+
+NOTE: `SessionExpirationListener` puts <<Reelect, Reelect>> event on the link:kafka-ControllerEventManager.adoc#queue[event queue] of `ControllerEventManager` every time the Zookeeper session has expired and a new session has been created.
+
+NOTE: `registerSessionExpirationListener` is used exclusively when <<Startup, Startup>> event is processed (after `ControllerEventThread` is link:kafka-ControllerEventThread.adoc#doWork[started]).
 
 === [[registerBrokerChangeListener]] `registerBrokerChangeListener` Internal Method
 

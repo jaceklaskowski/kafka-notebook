@@ -9,10 +9,6 @@
 . link:kafka-Authorizer.adoc[Authorizer]
 . link:kafka-Cluster.adoc[Cluster]
 . link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
-
-. link:kafka-ControllerEventManager.adoc[ControllerEventManager]
-.. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
-
 . link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
 . link:kafka-Fetcher.adoc[Fetcher]
 . link:kafka-GroupCoordinator.adoc[GroupCoordinator]
@@ -27,7 +23,12 @@
 . link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer over KafkaServer]
 . link:kafka-KafkaServer.adoc[KafkaServer]
 . link:kafka-KafkaConfig.adoc[KafkaConfig]
+
 . link:kafka-KafkaController.adoc[KafkaController]
+.. link:kafka-ControllerEventManager.adoc[ControllerEventManager]
+.. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
+.. link:kafka-ControllerEvent.adoc[ControllerEvent]
+
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
 . link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads]
