@@ -1,8 +1,8 @@
 == Topics
 
-*Topics* are virtual groups of <<partitions, partitions>> that a link:kafka-broker.adoc[Kafka broker] uses as a set of logs to store link:kafka-messages.adoc[messages].
+*Topics* are virtual groups of one or many <<partitions, partitions>> across link:kafka-broker.adoc[Kafka brokers] in a Kafka cluster.
 
-A broker stores messages in a partition in an ordered fashion, i.e. appends them one message after another and creates a log file.
+A single Kafka broker stores messages in a partition in an ordered fashion, i.e. appends them one message after another and creates a log file.
 
 link:kafka-producers.adoc[Producers] write messages to the tail of these logs that link:kafka-consumers.adoc[consumers] read at their own pace.
 

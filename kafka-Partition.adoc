@@ -1,5 +1,13 @@
 == [[Partition]] Partition
 
+A Kafka topic is spread across a Kafka cluster as a virtual group of one or more *partitions*.
+
+A topic partition can be replicated across a Kafka cluster to one or more Kafka servers.
+
+A topic partition has one partition leader and zero or more topic replicas.
+
+Kafka producers publish messages to topic leaders as do Kafka consumers consume them from.
+
 `Partition` is...FIXME
 
 [[internal-registries]]
