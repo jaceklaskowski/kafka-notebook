@@ -33,7 +33,7 @@ a| [[ControllerChange]] `ControllerChange`
 a|
 
 1. Assigns the <<getControllerID, current controller ID>> as the input `newControllerId`
-1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, onControllerResignation>>
+1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, Resigns as the active controller>>
 
 NOTE:  Similar to <<Reelect, Reelect>> event with the only difference that it does *not* trigger <<elect, election>>
 
@@ -51,7 +51,7 @@ a| [[ControlledShutdown]] `ControlledShutdown`
 a|
 
 1. Assigns the <<getControllerID, current controller ID>> as <<activeControllerId, activeControllerId>>
-1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, onControllerResignation>>
+1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, Resigns as the active controller>>
 1. <<elect, elect>>
 
 | [[Startup]] `Startup`
@@ -87,6 +87,9 @@ a| The ID of the active `KafkaController`
 | [[eventManager]] `eventManager`
 | link:kafka-ControllerEventManager.adoc[ControllerEventManager] for `controllerContext.stats.rateAndTimeMetrics` and updateMetrics listener
 
+| [[isrChangeNotificationListener]] `isrChangeNotificationListener`
+| `IsrChangeNotificationListener`
+
 | [[kafkaScheduler]] `kafkaScheduler`
 | link:kafka-KafkaScheduler.adoc[KafkaScheduler] with a single daemon thread with prefix *kafka-scheduler*
 
@@ -105,17 +108,6 @@ a| The ID of the active `KafkaController`
 | [[topicDeletionManager]] `topicDeletionManager`
 | link:kafka-TopicDeletionManager.adoc[TopicDeletionManager]
 |===
-
-=== [[deregisterIsrChangeNotificationListener]] `deregisterIsrChangeNotificationListener` Method
-
-[source, scala]
-----
-deregisterIsrChangeNotificationListener
-----
-
-`deregisterIsrChangeNotificationListener`...FIXME
-
-NOTE: `deregisterIsrChangeNotificationListener` is used when...FIXME
 
 === [[deregisterPreferredReplicaElectionListener]] `deregisterPreferredReplicaElectionListener` Method
 
@@ -218,9 +210,9 @@ onControllerResignation(): Unit
 Resigning
 ```
 
-`onControllerResignation` triggers the following in order:
+`onControllerResignation` does the following in order:
 
-1. <<deregisterIsrChangeNotificationListener, deregisterIsrChangeNotificationListener>>
+1. <<deregisterIsrChangeNotificationListener, Unsubscribes from changes to /isr_change_notification znode>>
 
 1. <<deregisterPartitionReassignmentListener, deregisterPartitionReassignmentListener>>
 
@@ -271,6 +263,23 @@ Resigned
 
 1. `KafkaController` <<shutdown, shuts down>>
 ====
+
+=== [[deregisterIsrChangeNotificationListener]] Unsubscribing from Changes to /isr_change_notification ZNode -- `deregisterIsrChangeNotificationListener` Internal Method
+
+[source, scala]
+----
+deregisterIsrChangeNotificationListener(): Unit
+----
+
+`deregisterIsrChangeNotificationListener` prints out the following DEBUG message to the logs:
+
+```
+De-registering IsrChangeNotificationListener
+```
+
+`deregisterIsrChangeNotificationListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#unsubscribeChildChanges[unsubscribe from intercepting changes] to `/isr_change_notification` znode with <<isrChangeNotificationListener, IsrChangeNotificationListener>>.
+
+NOTE: `deregisterIsrChangeNotificationListener` is used exclusively when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
 
 === [[triggerControllerMove]] `triggerControllerMove` Internal Method
 

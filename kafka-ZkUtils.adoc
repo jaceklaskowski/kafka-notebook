@@ -40,6 +40,17 @@ Quoting http://zookeeper.apache.org/doc/trunk/zookeeperOver.html#Nodes+and+ephem
 |
 |===
 
+=== [[unsubscribeChildChanges]] `unsubscribeChildChanges` Method
+
+[source, scala]
+----
+unsubscribeChildChanges(path: String, childListener: IZkChildListener): Unit
+----
+
+`unsubscribeChildChanges` requests <<zkClient, ZkClient>> to `unsubscribeChildChanges` for the input `path` and `childListener`.
+
+NOTE: `unsubscribeChildChanges` is used when...FIXME
+
 === [[apply]] Creating ZkUtils Instance -- `apply` Factory Method
 
 [source, scala]
