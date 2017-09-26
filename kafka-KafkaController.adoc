@@ -93,6 +93,9 @@ a| The ID of the active `KafkaController`
 | [[kafkaScheduler]] `kafkaScheduler`
 | link:kafka-KafkaScheduler.adoc[KafkaScheduler] with a single daemon thread with prefix *kafka-scheduler*
 
+| [[logDirEventNotificationListener]] `logDirEventNotificationListener`
+| `LogDirEventNotificationListener`
+
 | [[partitionModificationsListeners]] `partitionModificationsListeners`
 | `PartitionModificationsListener` by name
 
@@ -130,17 +133,6 @@ deregisterPartitionReassignmentListener
 `deregisterPartitionReassignmentListener`...FIXME
 
 NOTE: `deregisterPartitionReassignmentListener` is used when...FIXME
-
-=== [[deregisterLogDirEventNotificationListener]] `deregisterLogDirEventNotificationListener` Method
-
-[source, scala]
-----
-deregisterLogDirEventNotificationListener
-----
-
-`deregisterLogDirEventNotificationListener`...FIXME
-
-NOTE: `deregisterLogDirEventNotificationListener` is used when...FIXME
 
 === [[deregisterPartitionReassignmentIsrChangeListeners]] `deregisterPartitionReassignmentIsrChangeListeners` Method
 
@@ -218,7 +210,7 @@ Resigning
 
 1. <<deregisterPreferredReplicaElectionListener, deregisterPreferredReplicaElectionListener>>
 
-1. <<deregisterLogDirEventNotificationListener, deregisterLogDirEventNotificationListener>>
+1. <<deregisterLogDirEventNotificationListener, Unsubscribes from changes to /log_dir_event_notification znode>>
 
 `onControllerResignation` requests <<topicDeletionManager, TopicDeletionManager>> to link:kafka-TopicDeletionManager.adoc#reset[reset].
 
@@ -280,6 +272,23 @@ De-registering IsrChangeNotificationListener
 `deregisterIsrChangeNotificationListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#unsubscribeChildChanges[unsubscribe from intercepting changes] to `/isr_change_notification` znode with <<isrChangeNotificationListener, IsrChangeNotificationListener>>.
 
 NOTE: `deregisterIsrChangeNotificationListener` is used exclusively when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
+
+=== [[deregisterLogDirEventNotificationListener]] Unsubscribing from Changes to /log_dir_event_notification ZNode -- `deregisterLogDirEventNotificationListener` Internal Method
+
+[source, scala]
+----
+deregisterLogDirEventNotificationListener(): Unit
+----
+
+`deregisterLogDirEventNotificationListener` prints out the following DEBUG message to the logs:
+
+```
+De-registering logDirEventNotificationListener
+```
+
+`deregisterLogDirEventNotificationListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#unsubscribeChildChanges[unsubscribe from intercepting changes] to `/log_dir_event_notification` znode with <<logDirEventNotificationListener, LogDirEventNotificationListener>>.
+
+NOTE: `deregisterLogDirEventNotificationListener` is used exclusively when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
 
 === [[triggerControllerMove]] `triggerControllerMove` Internal Method
 
