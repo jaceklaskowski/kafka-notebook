@@ -54,6 +54,7 @@
 === Concepts
 
 . link:kafka-topic-replication.adoc[Topic Replication]
+. link:kafka-controller-election.adoc[Kafka Controller Election]
 
 === Architecture
 
@@ -92,6 +93,7 @@
 === Tips and Tricks
 
 . link:kafka-gradle-tips.adoc[Gradle Tips]
+. link:kafka-zookeeper-tips.adoc[Zookeeper Tips]
 . link:kafka-scala-repl.adoc[Kafka in Scala REPL for Interactive Exploration]
 
 === Appendix

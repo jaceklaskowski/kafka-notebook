@@ -24,7 +24,10 @@ image::images/KafkaController.png[align="center"]
 | `BrokerChange`
 |
 
-| [[ControllerChange]] `ControllerChange(newControllerId: Int)`
+a| [[ControllerChange]] `ControllerChange`
+
+* `newControllerId`: Int
+
 | `ControllerChange`
 a|
 
@@ -32,6 +35,15 @@ a|
 1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, onControllerResignation>>
 
 NOTE:  Similar to <<Reelect, Reelect>> event with the only difference that it does *not* trigger <<elect, election>>
+
+a| [[ControlledShutdown]] `ControlledShutdown`
+
+* `ID`
+
+* `controlledShutdownCallback`: Try[Set[TopicAndPartition]] => Unit
+
+| `ControlledShutdown`
+|
 
 | [[Reelect]] `Reelect`
 | `ControllerChange`
@@ -86,7 +98,89 @@ a| The ID of the active `KafkaController`
 
 === [[onControllerResignation]] `onControllerResignation` Method
 
-CAUTION: FIXME
+[source, scala]
+----
+onControllerResignation(): Unit
+----
+
+`onControllerResignation` starts by printing out the DEBUG message to the logs:
+
+```
+Resigning
+```
+
+[NOTE]
+====
+`onControllerResignation` is used when:
+
+1.  `ControllerEventThread` link:kafka-ControllerEventThread.adoc#doWork[processes] <<ControllerChange, ControllerChange>> and <<Reelect, Reelect>> controller events
+
+1. <<triggerControllerMove, triggerControllerMove>>
+
+1. `KafkaController` <<shutdown, shuts down>>
+====
+
+=== [[triggerControllerMove]] `triggerControllerMove` Internal Method
+
+[source, scala]
+----
+triggerControllerMove(): Unit
+----
+
+`triggerControllerMove`...FIXME
+
+[NOTE]
+====
+`triggerControllerMove` is used when:
+
+1. `KafkaController` <<handleIllegalState, handleIllegalState>>
+
+1. `KafkaController` caught an exception while <<elect, electing or becoming a controller>>
+====
+
+=== [[handleIllegalState]] `handleIllegalState` Internal Method
+
+[source, scala]
+----
+handleIllegalState(e: IllegalStateException): Nothing
+----
+
+`handleIllegalState`...FIXME
+
+NOTE: `handleIllegalState` is used when `KafkaController` catches a `IllegalStateException` in <<updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<sendUpdateMetadataRequest, sendUpdateMetadataRequest>> and <<ControlledShutdown, ControlledShutdown>> event.
+
+=== [[sendUpdateMetadataRequest]] `sendUpdateMetadataRequest` Method
+
+[source, scala]
+----
+sendUpdateMetadataRequest(): Unit
+----
+
+`sendUpdateMetadataRequest`...FIXME
+
+NOTE: `sendUpdateMetadataRequest` is used when...FIXME
+
+=== [[updateLeaderEpochAndSendRequest]] `updateLeaderEpochAndSendRequest` Internal Method
+
+[source, scala]
+----
+updateLeaderEpochAndSendRequest(): Unit
+----
+
+`updateLeaderEpochAndSendRequest`...FIXME
+
+NOTE: `updateLeaderEpochAndSendRequest` is used when...FIXME
+
+=== [[shutdown]] `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown`...FIXME
+
+NOTE: `shutdown` is used when...FIXME
 
 === [[updateMetrics]] `updateMetrics` Internal Method
 

@@ -1,5 +1,33 @@
 == Logging
 
+=== Kafka Broker
+
+A Kafka broker (started using `kafka-server-start.sh`) uses `config/log4j.properties` for logging configuration.
+
+`config/log4j.properties` defaults to INFO logging level with `stdout` and `kafkaAppender` (that spit messages to standard output and `logs/server.log`, respectively).
+
+```
+log4j.rootLogger=INFO, stdout, kafkaAppender
+
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=[%d] %p %m (%c)%n
+
+log4j.appender.kafkaAppender=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.kafkaAppender.DatePattern='.'yyyy-MM-dd-HH
+log4j.appender.kafkaAppender.File=${kafka.logs.dir}/server.log
+log4j.appender.kafkaAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.kafkaAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
+```
+
+If you want to change the logging level of a logger, e.g. `kafka.controller.KafkaController`, to `DEBUG` add the following line to `config/log4j.properties` and restart the server.
+
+```
+log4j.logger.kafka.controller.KafkaController=DEBUG, stdout
+```
+
+=== Kafka Tools
+
 Kafka tools like `kafka-console-consumer.sh` (that uses link:kafka-KafkaConsumer.adoc[KafkaConsumer] under the covers) use `config/tools-log4j.properties` file.
 
 NOTE: Kafka tools use `bin/kafka-run-class.sh` to execute their implementations.
