@@ -1,0 +1,14 @@
+== [[PartitionStateMachine]] PartitionStateMachine
+
+`PartitionStateMachine` is...FIXME
+
+=== [[shutdown]] `shutdown` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`shutdown`...FIXME
+
+NOTE: `shutdown` is used when...FIXME

@@ -44,9 +44,12 @@
 
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 . link:kafka-Partition.adoc[Partition]
+. link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
 . link:kafka-ReplicaManager.adoc[ReplicaManager]
+. link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
 . link:kafka-ShutdownableThread.adoc[ShutdownableThread]
 . link:kafka-SocketServer.adoc[SocketServer]
+. link:kafka-TopicDeletionManager.adoc[TopicDeletionManager]
 . link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
 . link:kafka-ZkUtils.adoc[ZkUtils]

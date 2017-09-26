@@ -1,16 +1,17 @@
 == [[KafkaController]] KafkaController
 
-`KafkaController` is...FIXME
+Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Internals[Kafka Controller Internals]:
+
+> In a Kafka cluster, one of the brokers serves as the controller, which is responsible for managing the states of partitions and replicas and for performing administrative tasks like reassigning partitions.
 
 `KafkaController` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
 
 .KafkaController
 image::images/KafkaController.png[align="center"]
 
-`KafkaController` is the <<isActive, current controller>> of...FIXME when...FIXME
+`KafkaController` is part of every Kafka broker, but only one `KafkaController` can be <<isActive, active>> at any time.
 
-[[logIdent]]
-`logIdent` is *[Controller id=[brokerId]]*.
+`KafkaController` emulates a state machine using <<controller-events, controller events>>.
 
 [[controller-events]]
 .KafkaController's Controller Events
@@ -62,6 +63,9 @@ a|
 1. <<elect, elect>>
 |===
 
+[[logIdent]]
+`logIdent` is *[Controller id=[brokerId]]*.
+
 [[internal-registries]]
 .KafkaController's Internal Registries and Counters
 [cols="1,2",options="header",width="100%"]
@@ -84,29 +88,177 @@ a| The ID of the active `KafkaController`
 | link:kafka-ControllerEventManager.adoc[ControllerEventManager] for `controllerContext.stats.rateAndTimeMetrics` and updateMetrics listener
 
 | [[kafkaScheduler]] `kafkaScheduler`
-|
+| link:kafka-KafkaScheduler.adoc[KafkaScheduler] with a single daemon thread with prefix *kafka-scheduler*
+
+| [[partitionModificationsListeners]] `partitionModificationsListeners`
+| `PartitionModificationsListener` by name
 
 | [[partitionStateMachine]] `partitionStateMachine`
-|
+| link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
 
 | [[replicaStateMachine]] `replicaStateMachine`
-|
+| link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
 
 | [[stateChangeLogger]] `stateChangeLogger`
 |
+
+| [[topicDeletionManager]] `topicDeletionManager`
+| link:kafka-TopicDeletionManager.adoc[TopicDeletionManager]
 |===
 
-=== [[onControllerResignation]] `onControllerResignation` Method
+=== [[deregisterIsrChangeNotificationListener]] `deregisterIsrChangeNotificationListener` Method
+
+[source, scala]
+----
+deregisterIsrChangeNotificationListener
+----
+
+`deregisterIsrChangeNotificationListener`...FIXME
+
+NOTE: `deregisterIsrChangeNotificationListener` is used when...FIXME
+
+=== [[deregisterPreferredReplicaElectionListener]] `deregisterPreferredReplicaElectionListener` Method
+
+[source, scala]
+----
+deregisterPreferredReplicaElectionListener
+----
+
+`deregisterPreferredReplicaElectionListener`...FIXME
+
+NOTE: `deregisterPreferredReplicaElectionListener` is used when...FIXME
+
+=== [[deregisterPartitionReassignmentListener]] `deregisterPartitionReassignmentListener` Method
+
+[source, scala]
+----
+deregisterPartitionReassignmentListener
+----
+
+`deregisterPartitionReassignmentListener`...FIXME
+
+NOTE: `deregisterPartitionReassignmentListener` is used when...FIXME
+
+=== [[deregisterLogDirEventNotificationListener]] `deregisterLogDirEventNotificationListener` Method
+
+[source, scala]
+----
+deregisterLogDirEventNotificationListener
+----
+
+`deregisterLogDirEventNotificationListener`...FIXME
+
+NOTE: `deregisterLogDirEventNotificationListener` is used when...FIXME
+
+=== [[deregisterPartitionReassignmentIsrChangeListeners]] `deregisterPartitionReassignmentIsrChangeListeners` Method
+
+[source, scala]
+----
+deregisterPartitionReassignmentIsrChangeListeners
+----
+
+`deregisterPartitionReassignmentIsrChangeListeners`...FIXME
+
+NOTE: `deregisterPartitionReassignmentIsrChangeListeners` is used when...FIXME
+
+=== [[resetControllerContext]] `resetControllerContext` Method
+
+[source, scala]
+----
+resetControllerContext
+----
+
+`resetControllerContext`...FIXME
+
+NOTE: `resetControllerContext` is used when...FIXME
+
+=== [[deregisterBrokerChangeListener]] `deregisterBrokerChangeListener` Method
+
+[source, scala]
+----
+deregisterBrokerChangeListener
+----
+
+`deregisterBrokerChangeListener`...FIXME
+
+NOTE: `deregisterBrokerChangeListener` is used when...FIXME
+
+=== [[deregisterTopicDeletionListener]] `deregisterTopicDeletionListener` Method
+
+[source, scala]
+----
+deregisterTopicDeletionListener
+----
+
+`deregisterTopicDeletionListener`...FIXME
+
+NOTE: `deregisterTopicDeletionListener` is used when...FIXME
+
+=== [[deregisterTopicChangeListener]] `deregisterTopicChangeListener` Method
+
+[source, scala]
+----
+deregisterTopicChangeListener
+----
+
+`deregisterTopicChangeListener`...FIXME
+
+NOTE: `deregisterTopicChangeListener` is used when...FIXME
+
+=== [[onControllerResignation]] Resigning As Active Controller -- `onControllerResignation` Method
 
 [source, scala]
 ----
 onControllerResignation(): Unit
 ----
 
-`onControllerResignation` starts by printing out the DEBUG message to the logs:
+`onControllerResignation` starts by printing out the following DEBUG message to the logs:
 
 ```
 Resigning
+```
+
+`onControllerResignation` triggers the following in order:
+
+1. <<deregisterIsrChangeNotificationListener, deregisterIsrChangeNotificationListener>>
+
+1. <<deregisterPartitionReassignmentListener, deregisterPartitionReassignmentListener>>
+
+1. <<deregisterPreferredReplicaElectionListener, deregisterPreferredReplicaElectionListener>>
+
+1. <<deregisterLogDirEventNotificationListener, deregisterLogDirEventNotificationListener>>
+
+`onControllerResignation` requests <<topicDeletionManager, TopicDeletionManager>> to link:kafka-TopicDeletionManager.adoc#reset[reset].
+
+`onControllerResignation` requests <<kafkaScheduler, KafkaScheduler>> to link:kafka-KafkaScheduler.adoc#shutdown[shutdown].
+
+`onControllerResignation` resets the following internal counters:
+
+* <<offlinePartitionCount, offlinePartitionCount>>
+* <<preferredReplicaImbalanceCount, preferredReplicaImbalanceCount>>
+* <<globalTopicCount, globalTopicCount>>
+* <<globalPartitionCount, globalPartitionCount>>
+
+`onControllerResignation` <<deregisterPartitionReassignmentIsrChangeListeners, deregisterPartitionReassignmentIsrChangeListeners>>.
+
+`onControllerResignation` requests <<partitionStateMachine, PartitionStateMachine>> to link:kafka-PartitionStateMachine.adoc#shutdown[shutdown].
+
+`onControllerResignation` <<deregisterTopicChangeListener, deregisterTopicChangeListener>>.
+
+`onControllerResignation` <<deregisterPartitionModificationsListener, deregisterPartitionModificationsListener>> every listener in <<partitionModificationsListeners, partitionModificationsListeners>>.
+
+`onControllerResignation` <<deregisterTopicDeletionListener, deregisterTopicDeletionListener>>.
+
+`onControllerResignation` requests <<replicaStateMachine, ReplicaStateMachine>> to link:kafka-ReplicaStateMachine.adoc#shutdown[shutdown].
+
+`onControllerResignation` <<deregisterBrokerChangeListener, deregisterBrokerChangeListener>>.
+
+`onControllerResignation` <<resetControllerContext, resetControllerContext>>.
+
+In the end, `onControllerResignation` prints out the following DEBUG message to the logs:
+
+```
+Resigned
 ```
 
 [NOTE]

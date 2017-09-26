@@ -1,0 +1,14 @@
+== [[TopicDeletionManager]] TopicDeletionManager
+
+`TopicDeletionManager` is...FIXME
+
+=== [[reset]] `reset` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`reset`...FIXME
+
+NOTE: `reset` is used when...FIXME

@@ -1,6 +1,6 @@
 == [[ControllerEvent]] ControllerEvent
 
-`ControllerEvent` is the <<contract, contract>> of events in the lifecycle of link:kafka-KafkaController.adoc[KafkaController] that trigger <<state, state>> change and the corresponding <<process, action>>.
+`ControllerEvent` is the <<contract, contract>> of events in the lifecycle of link:kafka-KafkaController.adoc[KafkaController] state machine that, once link:kafka-ControllerEventManager.adoc#put[emitted], triggers <<state, state>> change and the corresponding <<process, process>> action.
 
 [source, scala]
 ----

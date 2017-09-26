@@ -35,6 +35,17 @@ image::images/ControllerEventManager.png[align="center"]
 
 `ControllerEventManager` initializes the <<internal-registries, internal registries and counters>>.
 
+=== [[put]] Inserting Controller Event to Event Queue -- `put` Method
+
+[source, scala]
+----
+put(event: ControllerEvent): Unit
+----
+
+`put` inserts `event` at the tail of <<queue, event queue>>.
+
+NOTE: `put` is used when...FIXME
+
 === [[start]] Starting ControllerEventManager (and ControllerEventThread) -- `start` Method
 
 [source, scala]
