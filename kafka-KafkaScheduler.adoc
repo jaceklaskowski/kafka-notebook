@@ -15,6 +15,7 @@
 Initialized when <<startup, `KafkaScheduler` starts up>> and shut down when <<shutdown, `KafkaScheduler` shuts down>>.
 |===
 
+[[logging]]
 [TIP]
 ====
 Enable `INFO` or `DEBUG` logging levels for `kafka.utils.KafkaScheduler` logger to see what happens in `KafkaScheduler`.
@@ -22,7 +23,7 @@ Enable `INFO` or `DEBUG` logging levels for `kafka.utils.KafkaScheduler` logger 
 Add the following line to `config/log4j.properties`:
 
 ```
-log4j.logger.kafka.utils.KafkaScheduler=DEBUG
+log4j.logger.kafka.utils.KafkaScheduler=DEBUG, stdout
 ```
 
 Refer to link:kafka-logging.adoc[Logging].

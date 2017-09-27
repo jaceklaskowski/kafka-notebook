@@ -27,6 +27,7 @@ image::images/AdminManager.png[align="center"]
 |
 |===
 
+[[logging]]
 [TIP]
 ====
 Enable `INFO`, `DEBUG`, `TRACE` logging levels for `kafka.server.AdminManager` logger to see what happens inside.
@@ -34,7 +35,7 @@ Enable `INFO`, `DEBUG`, `TRACE` logging levels for `kafka.server.AdminManager` l
 Add the following line to `config/log4j.properties`:
 
 ```
-log4j.logger.kafka.server.AdminManager=TRACE
+log4j.logger.kafka.server.AdminManager=TRACE, stdout
 ```
 
 Refer to link:kafka-logging.adoc[Logging].

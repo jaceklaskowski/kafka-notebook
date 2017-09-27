@@ -92,6 +92,7 @@ a| Corresponds to link:kafka-properties.adoc#request.timeout.ms[request.timeout.
 Created when `KafkaConsumer` <<creating-instance, is created>>.
 |===
 
+[[logging]]
 [TIP]
 ====
 Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.consumer.KafkaConsumer` logger to see what happens inside.
@@ -99,7 +100,7 @@ Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.consumer.
 Add the following line to `config/tools-log4j.properties`:
 
 ```
-log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE
+log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE, stdout
 ```
 
 Refer to link:kafka-logging.adoc[Logging].

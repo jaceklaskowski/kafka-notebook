@@ -2,6 +2,7 @@
 
 `Metadata`...FIXME
 
+[[logging]]
 [TIP]
 ====
 Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.Metadata` logger to see what happens inside.
@@ -9,7 +10,7 @@ Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.Metadata`
 Add the following line to `config/tools-log4j.properties`:
 
 ```
-log4j.logger.org.apache.kafka.clients.Metadata=TRACE
+log4j.logger.org.apache.kafka.clients.Metadata=TRACE, stdout
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
