@@ -40,6 +40,14 @@ Quoting http://zookeeper.apache.org/doc/trunk/zookeeperOver.html#Nodes+and+ephem
 |
 |===
 
+=== [[deletePathRecursive]] `deletePathRecursive` Method
+
+CAUTION: FIXME
+
+=== [[deletePath]] `deletePath` Method
+
+CAUTION: FIXME
+
 === [[apply]] Creating ZkUtils Instance -- `apply` Factory Method
 
 [source, scala]

@@ -29,3 +29,14 @@ Used when `ControllerEventThread` link:kafka-ControllerEventThread.adoc#doWork[d
 | [[process]] `process`
 | Used when `ControllerEventThread` link:kafka-ControllerEventThread.adoc#doWork[does the work] to trigger an action associated with <<state, state>> change.
 |===
+
+[[known-events]]
+.Known ControllerEvents
+[cols="1,2",options="header",width="100%"]
+|===
+| ControllerEvent
+| ControllerState
+
+| [[TopicDeletion]] link:kafka-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
+| `TopicDeletion`
+|===

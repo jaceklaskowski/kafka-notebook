@@ -1,0 +1,61 @@
+== [[TopicDeletion]] TopicDeletion Controller Event
+
+`TopicDeletion` is a link:kafka-ControllerEvent.adoc[ControllerEvent] that is <<process, executed>> on the active `KafkaController` (and does nothing otherwise).
+
+NOTE: `TopicDeletion` uses <<deleteTopicEnable, delete.topic.enable>> Kafka property.
+
+NOTE: Topics to be deleted are created in `/admin/delete_topics` path in Zookeeper.
+
+[[state]]
+`state` is `TopicDeletion`.
+
+=== [[process]] `process` Method
+
+[source, scala]
+----
+process(): Unit
+----
+
+NOTE: `process` is a part of link:kafka-ControllerEvent.adoc#process[ControllerEvent Contract].
+
+NOTE: `process` is executed on the link:kafka-KafkaController.adoc#isActive[active] controller only (and does nothing otherwise).
+
+`process` prints out the following DEBUG message to the logs:
+
+```
+Delete topics listener fired for topics [topicsToBeDeleted] to be deleted
+```
+
+[[nonExistentTopics]]
+`process` requests link:kafka-KafkaController.adoc#controllerContext[ControllerContext] for `allTopics` and finds topics that are supposed to be deleted, but are not available in the Kafka cluster.
+
+If there are any non-existent topics, `process` prints out the following WARN message to the logs and requests link:kafka-KafkaController.adoc#zkUtils[ZkUtils] to link:kafka-ZkUtils.adoc#deletePathRecursive[deletePathRecursive] `/admin/delete_topics/[topicName]` znode for every topic in the list.
+
+```
+Ignoring request to delete non-existing topics [nonExistentTopics]
+```
+
+[[deleteTopicEnable]]
+`process` branches off per link:kafka-KafkaConfig.adoc#deleteTopicEnable[delete.topic.enable] Kafka property.
+
+==== [[process-deleteTopicEnable-enabled]] `process` with `delete.topic.enable` Enabled
+
+With link:kafka-KafkaConfig.adoc#deleteTopicEnable[delete.topic.enable] enabled (i.e. `true`), `process` prints out the following INFO message to the logs:
+
+```
+Starting topic deletion for topics [topicsToBeDeleted]
+```
+
+`process` requests link:kafka-KafkaController.adoc#topicDeletionManager[TopicDeletionManager] to link:kafka-TopicDeletionManager.adoc#markTopicIneligibleForDeletion[markTopicIneligibleForDeletion] for topics to be deleted with partitions in `controllerContext.partitionsBeingReassigned` list.
+
+`process` requests link:kafka-KafkaController.adoc#topicDeletionManager[TopicDeletionManager] to link:kafka-TopicDeletionManager.adoc#enqueueTopicsForDeletion[enqueueTopicsForDeletion].
+
+==== [[process-deleteTopicEnable-disabled]] `process` with `delete.topic.enable` Disabled
+
+With link:kafka-KafkaConfig.adoc#deleteTopicEnable[delete.topic.enable] disabled (i.e. `false`), `process` prints out the following INFO message to the logs (for every topic):
+
+```
+Removing /admin/delete_topics/[topicName] since delete topic is disabled
+```
+
+`process` requests link:kafka-KafkaController.adoc#zkUtils[ZkUtils] to link:kafka-ZkUtils.adoc#deletePath[deletePath] `/admin/delete_topics/[topicName]` znode (for every topic).

@@ -9,6 +9,9 @@
 | Value
 | Kafka Property
 
+| [[deleteTopicEnable]] `deleteTopicEnable`
+| link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable]
+
 | [[hostName]] `hostName`
 | link:kafka-properties.adoc#host.name[host.name]
 

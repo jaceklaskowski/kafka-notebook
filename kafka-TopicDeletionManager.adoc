@@ -29,6 +29,14 @@ image::images/TopicDeletionManager.png[align="center"]
 | The names of the topics that must not be deleted
 |===
 
+=== [[markTopicIneligibleForDeletion]] `markTopicIneligibleForDeletion` Method
+
+CAUTION: FIXME
+
+=== [[enqueueTopicsForDeletion]] `enqueueTopicsForDeletion` Method
+
+CAUTION: FIXME
+
 === [[reset]] Reseting -- `reset` Method
 
 [source, scala]

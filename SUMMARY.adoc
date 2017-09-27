@@ -28,6 +28,7 @@
 .. link:kafka-ControllerEventManager.adoc[ControllerEventManager]
 .. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
 .. link:kafka-ControllerEvent.adoc[ControllerEvent]
+... link:kafka-ControllerEvent-TopicDeletion.adoc[TopicDeletion Controller Event]
 
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
