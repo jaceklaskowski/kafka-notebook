@@ -10,7 +10,7 @@ $ ./bin/zookeeper-server-start.sh config/zookeeper.properties
 INFO binding to port 0.0.0.0/0.0.0.0:2181 (org.apache.zookeeper.server.NIOServerCnxnFactory)
 ```
 
-Add the following line to `config/log4j.properties` to enable DEBUG logging level for `kafka.controller.KafkaController` logger.
+Add the following line to `config/log4j.properties` to enable `DEBUG` logging level for `kafka.controller.KafkaController` logger.
 
 ```
 log4j.logger.kafka.controller.KafkaController=DEBUG, stdout

@@ -2,13 +2,55 @@
 
 `TopicDeletionManager` is...FIXME
 
-=== [[reset]] `reset` Method
+`TopicDeletionManager` is <<creating-instance, created>> exclusively when `KafkaController` is link:kafka-KafkaController.adoc#topicDeletionManager[created].
+
+.TopicDeletionManager is Created Alongside KafkaController
+image::images/TopicDeletionManager.png[align="center"]
+
+`TopicDeletionManager` is controlled by link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable] Kafka property and does nothing when it is turned off (i.e. `false`).
+
+[[logIdent]]
+`logIdent` is *[Topic Deletion Manager [brokerId]]*.
+
+[[internal-registries]]
+.TopicDeletionManager's Internal Registries and Counters
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[partitionsToBeDeleted]] `partitionsToBeDeleted`
+| `TopicAndPartitions` to be deleted
+
+| [[topicsToBeDeleted]] `topicsToBeDeleted`
+| The names of the topics to be deleted
+
+| [[topicsIneligibleForDeletion]] `topicsIneligibleForDeletion`
+| The names of the topics that must not be deleted
+|===
+
+=== [[reset]] Reseting -- `reset` Method
 
 [source, scala]
 ----
-FIXME
+reset(): Unit
 ----
 
-`reset`...FIXME
+(only with link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable] Kafka property enabled) `reset` removes all elements from the following internal registries:
 
-NOTE: `reset` is used when...FIXME
+* <<topicsToBeDeleted, topicsToBeDeleted>>
+* <<partitionsToBeDeleted, partitionsToBeDeleted>>
+* <<topicsIneligibleForDeletion, topicsIneligibleForDeletion>>
+
+NOTE: `reset` does nothing when link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable] Kafka property is `false`.
+
+NOTE: `reset` is used exclusively when `KafkaController` link:kafka-KafkaController.adoc#onControllerResignation[resigns as the active controller].
+
+=== [[creating-instance]] Creating TopicDeletionManager Instance
+
+`TopicDeletionManager` takes the following when created:
+
+* [[controller]] link:kafka-KafkaController.adoc[KafkaController]
+* [[eventManager]] link:kafka-ControllerEventManager.adoc[ControllerEventManager]
+
+`TopicDeletionManager` initializes the <<internal-registries, internal registries and counters>>.

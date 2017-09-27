@@ -1,5 +1,12 @@
 == [[KafkaController]] KafkaController
 
+`KafkaController` is a Kafka service responsible for:
+
+* <<topicDeletionListener, topic deletion>>
+* ...FIXME
+
+`KafkaController` uses <<listeners, listeners>> as a notification system to monitor znodes in Zookeeper and react accordingly.
+
 Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Internals[Kafka Controller Internals]:
 
 > In a Kafka cluster, one of the brokers serves as the controller, which is responsible for managing the states of partitions and replicas and for performing administrative tasks like reassigning partitions.
@@ -9,7 +16,7 @@ Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Inter
 .KafkaController
 image::images/KafkaController.png[align="center"]
 
-`KafkaController` is part of every Kafka broker, but only one `KafkaController` can be <<isActive, active>> at any time.
+`KafkaController` is part of every Kafka broker, but only one `KafkaController` is <<isActive, active>> at all times.
 
 `KafkaController` emulates a state machine using <<controller-events, controller events>>.
 
@@ -78,9 +85,6 @@ a| The ID of the active `KafkaController`
 
 * Initialized to `-1`
 
-| [[brokerChangeListener]] `brokerChangeListener`
-| `BrokerChangeListener` for this `KafkaController` and <<eventManager, eventManager>>
-
 | [[controllerContext]] `controllerContext`
 |
 
@@ -93,20 +97,8 @@ a| The ID of the active `KafkaController`
 | [[kafkaScheduler]] `kafkaScheduler`
 | link:kafka-KafkaScheduler.adoc[KafkaScheduler] with a single daemon thread with prefix *kafka-scheduler*
 
-| [[logDirEventNotificationListener]] `logDirEventNotificationListener`
-| `LogDirEventNotificationListener`
-
-| [[partitionModificationsListeners]] `partitionModificationsListeners`
-| `PartitionModificationsListener` by name
-
-| [[partitionReassignmentListener]] `partitionReassignmentListener`
-| `PartitionReassignmentListener` for this `KafkaController` and <<eventManager, ControllerEventManager>>
-
 | [[partitionStateMachine]] `partitionStateMachine`
 | link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
-
-| [[preferredReplicaElectionListener]] `preferredReplicaElectionListener`
-| `PreferredReplicaElectionListener` for this `KafkaController` and <<eventManager, ControllerEventManager>>
 
 | [[replicaStateMachine]] `replicaStateMachine`
 | link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
@@ -117,6 +109,50 @@ a| The ID of the active `KafkaController`
 | [[topicDeletionManager]] `topicDeletionManager`
 | link:kafka-TopicDeletionManager.adoc[TopicDeletionManager]
 |===
+
+[[listeners]]
+.KafkaController's Listeners
+[cols="1,2",options="header",width="100%"]
+|===
+| Listener
+| Description
+
+| [[brokerChangeListener]] `brokerChangeListener`
+| `BrokerChangeListener` for this `KafkaController` and <<eventManager, eventManager>>
+
+| [[logDirEventNotificationListener]] `logDirEventNotificationListener`
+| `LogDirEventNotificationListener`
+
+| [[partitionModificationsListeners]] `partitionModificationsListeners`
+| `PartitionModificationsListener` by name
+
+| [[partitionReassignmentListener]] `partitionReassignmentListener`
+| `PartitionReassignmentListener` for this `KafkaController` and <<eventManager, ControllerEventManager>>
+
+| [[preferredReplicaElectionListener]] `preferredReplicaElectionListener`
+| `PreferredReplicaElectionListener` for this `KafkaController` and <<eventManager, ControllerEventManager>>
+
+| [[topicDeletionListener]] `topicDeletionListener`
+| `TopicDeletionListener` (for this `KafkaController` and <<eventManager, ControllerEventManager>>)
+
+Registered in <<registerTopicDeletionListener, registerTopicDeletionListener>> when `KafkaController` does <<onControllerFailover, onControllerFailover>>.
+
+De-registered in <<deregisterTopicDeletionListener, deregisterTopicDeletionListener>> when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
+|===
+
+[[logging]]
+[TIP]
+====
+Enable `INFO` or `DEBUG` logging levels for `kafka.controller.KafkaController` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.controller.KafkaController=DEBUG, stdout
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
 
 === [[deregisterPartitionReassignmentIsrChangeListeners]] `deregisterPartitionReassignmentIsrChangeListeners` Method
 
@@ -150,17 +186,6 @@ deregisterBrokerChangeListener
 `deregisterBrokerChangeListener`...FIXME
 
 NOTE: `deregisterBrokerChangeListener` is used when...FIXME
-
-=== [[deregisterTopicDeletionListener]] `deregisterTopicDeletionListener` Method
-
-[source, scala]
-----
-deregisterTopicDeletionListener
-----
-
-`deregisterTopicDeletionListener`...FIXME
-
-NOTE: `deregisterTopicDeletionListener` is used when...FIXME
 
 === [[deregisterTopicChangeListener]] `deregisterTopicChangeListener` Method
 
@@ -512,3 +537,25 @@ Otherwise, when no `/controller` znode is available, `getControllerID` returns `
 
 1. <<elect, elect>>
 ====
+
+=== [[registerTopicDeletionListener]] Registering TopicDeletionListener for Child Changes to /admin/delete_topics ZNode -- `registerTopicDeletionListener` Internal Method
+
+[source, scala]
+----
+registerTopicDeletionListener(): Option[Seq[String]]
+----
+
+`registerTopicDeletionListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#subscribeChildChanges[subscribeChildChanges] to `/admin/delete_topics` znode with <<topicDeletionListener, TopicDeletionListener>>.
+
+NOTE: `registerTopicDeletionListener` is used exclusively when `KafkaController` does <<onControllerFailover, onControllerFailover>>.
+
+=== [[deregisterTopicDeletionListener]] De-Registering TopicDeletionListener for Child Changes to /admin/delete_topics ZNode -- `deregisterTopicDeletionListener` Internal Method
+
+[source, scala]
+----
+deregisterTopicDeletionListener(): Unit
+----
+
+`deregisterTopicDeletionListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#unsubscribeChildChanges[unsubscribeChildChanges] to `/admin/delete_topics` znode with <<topicDeletionListener, TopicDeletionListener>>.
+
+NOTE: `deregisterTopicDeletionListener` is used exclusively when `KafkaController` <<onControllerResignation, resigns as the active controller>>.

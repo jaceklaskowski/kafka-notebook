@@ -43,6 +43,13 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 |
 |
 
+| [[delete.topic.enable]] `delete.topic.enable`
+| `true`
+| High
+a| Enables topic deletion
+
+NOTE: Deleting topic through the admin tool has no effect with the property disabled.
+
 | [[enable.auto.commit]] link:kafka-properties-enable-auto-commit.adoc[enable.auto.commit]
 |
 |

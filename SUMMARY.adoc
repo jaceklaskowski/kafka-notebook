@@ -54,9 +54,10 @@
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
 . link:kafka-ZkUtils.adoc[ZkUtils]
 
-=== Concepts
+=== Features
 
 . link:kafka-topic-replication.adoc[Topic Replication]
+. link:kafka-topic-deletion.adoc[Topic Deletion]
 . link:kafka-controller-election.adoc[Kafka Controller Election]
 
 === Architecture
