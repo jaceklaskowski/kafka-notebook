@@ -99,40 +99,24 @@ a| The ID of the active `KafkaController`
 | [[partitionModificationsListeners]] `partitionModificationsListeners`
 | `PartitionModificationsListener` by name
 
+| [[partitionReassignmentListener]] `partitionReassignmentListener`
+| `PartitionReassignmentListener` for this `KafkaController` and <<eventManager, ControllerEventManager>>
+
 | [[partitionStateMachine]] `partitionStateMachine`
 | link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
+
+| [[preferredReplicaElectionListener]] `preferredReplicaElectionListener`
+| `PreferredReplicaElectionListener` for this `KafkaController` and <<eventManager, ControllerEventManager>>
 
 | [[replicaStateMachine]] `replicaStateMachine`
 | link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
 
 | [[stateChangeLogger]] `stateChangeLogger`
-|
+| `StateChangeLogger` with the <<brokerId, broker ID>> and `inControllerContext` flag enabled
 
 | [[topicDeletionManager]] `topicDeletionManager`
 | link:kafka-TopicDeletionManager.adoc[TopicDeletionManager]
 |===
-
-=== [[deregisterPreferredReplicaElectionListener]] `deregisterPreferredReplicaElectionListener` Method
-
-[source, scala]
-----
-deregisterPreferredReplicaElectionListener
-----
-
-`deregisterPreferredReplicaElectionListener`...FIXME
-
-NOTE: `deregisterPreferredReplicaElectionListener` is used when...FIXME
-
-=== [[deregisterPartitionReassignmentListener]] `deregisterPartitionReassignmentListener` Method
-
-[source, scala]
-----
-deregisterPartitionReassignmentListener
-----
-
-`deregisterPartitionReassignmentListener`...FIXME
-
-NOTE: `deregisterPartitionReassignmentListener` is used when...FIXME
 
 === [[deregisterPartitionReassignmentIsrChangeListeners]] `deregisterPartitionReassignmentIsrChangeListeners` Method
 
@@ -202,15 +186,15 @@ onControllerResignation(): Unit
 Resigning
 ```
 
-`onControllerResignation` does the following in order:
+`onControllerResignation` unsubscribes from intercepting Zookeeper events for the following znodes in order:
 
-1. <<deregisterIsrChangeNotificationListener, Unsubscribes from changes to /isr_change_notification znode>>
+1. <<deregisterIsrChangeNotificationListener, Child changes to /isr_change_notification znode>>
 
-1. <<deregisterPartitionReassignmentListener, deregisterPartitionReassignmentListener>>
+1. <<deregisterPartitionReassignmentListener, Data changes to /admin/reassign_partitions znode>>
 
-1. <<deregisterPreferredReplicaElectionListener, deregisterPreferredReplicaElectionListener>>
+1. <<deregisterPreferredReplicaElectionListener, Data changes to /admin/preferred_replica_election znode>>
 
-1. <<deregisterLogDirEventNotificationListener, Unsubscribes from changes to /log_dir_event_notification znode>>
+1. <<deregisterLogDirEventNotificationListener, Child changes to /log_dir_event_notification znode>>
 
 `onControllerResignation` requests <<topicDeletionManager, TopicDeletionManager>> to link:kafka-TopicDeletionManager.adoc#reset[reset].
 
@@ -256,7 +240,7 @@ Resigned
 1. `KafkaController` <<shutdown, shuts down>>
 ====
 
-=== [[deregisterIsrChangeNotificationListener]] Unsubscribing from Changes to /isr_change_notification ZNode -- `deregisterIsrChangeNotificationListener` Internal Method
+=== [[deregisterIsrChangeNotificationListener]] Unsubscribing from Child Changes to /isr_change_notification ZNode -- `deregisterIsrChangeNotificationListener` Internal Method
 
 [source, scala]
 ----
@@ -273,7 +257,7 @@ De-registering IsrChangeNotificationListener
 
 NOTE: `deregisterIsrChangeNotificationListener` is used exclusively when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
 
-=== [[deregisterLogDirEventNotificationListener]] Unsubscribing from Changes to /log_dir_event_notification ZNode -- `deregisterLogDirEventNotificationListener` Internal Method
+=== [[deregisterLogDirEventNotificationListener]] Unsubscribing from Child Changes to /log_dir_event_notification ZNode -- `deregisterLogDirEventNotificationListener` Internal Method
 
 [source, scala]
 ----
@@ -289,6 +273,28 @@ De-registering logDirEventNotificationListener
 `deregisterLogDirEventNotificationListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#unsubscribeChildChanges[unsubscribe from intercepting changes] to `/log_dir_event_notification` znode with <<logDirEventNotificationListener, LogDirEventNotificationListener>>.
 
 NOTE: `deregisterLogDirEventNotificationListener` is used exclusively when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
+
+=== [[deregisterPreferredReplicaElectionListener]] Unsubscribing from Data Changes to /admin/preferred_replica_election ZNode -- `deregisterPreferredReplicaElectionListener` Method
+
+[source, scala]
+----
+deregisterPreferredReplicaElectionListener(): Unit
+----
+
+`deregisterPreferredReplicaElectionListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#unsubscribeDataChanges[unsubscribe from intercepting data changes] to `/admin/preferred_replica_election` znode with <<preferredReplicaElectionListener, PreferredReplicaElectionListener>>.
+
+NOTE: `deregisterPreferredReplicaElectionListener` is used exclusively when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
+
+=== [[deregisterPartitionReassignmentListener]] Unsubscribing from Data Changes to /admin/reassign_partitions ZNode -- `deregisterPartitionReassignmentListener` Method
+
+[source, scala]
+----
+deregisterPartitionReassignmentListener(): Unit
+----
+
+`deregisterPartitionReassignmentListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#unsubscribeDataChanges[unsubscribe from intercepting data changes] to `/admin/reassign_partitions` znode with <<partitionReassignmentListener, PartitionReassignmentListener>>.
+
+NOTE: `deregisterPartitionReassignmentListener` is used exclusively when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
 
 === [[triggerControllerMove]] `triggerControllerMove` Internal Method
 

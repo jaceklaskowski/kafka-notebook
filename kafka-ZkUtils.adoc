@@ -40,17 +40,6 @@ Quoting http://zookeeper.apache.org/doc/trunk/zookeeperOver.html#Nodes+and+ephem
 |
 |===
 
-=== [[unsubscribeChildChanges]] `unsubscribeChildChanges` Method
-
-[source, scala]
-----
-unsubscribeChildChanges(path: String, childListener: IZkChildListener): Unit
-----
-
-`unsubscribeChildChanges` requests <<zkClient, ZkClient>> to `unsubscribeChildChanges` for the input `path` and `childListener`.
-
-NOTE: `unsubscribeChildChanges` is used when...FIXME
-
 === [[apply]] Creating ZkUtils Instance -- `apply` Factory Method
 
 [source, scala]
@@ -90,7 +79,7 @@ subscribeStateChanges(listener: IZkStateListener): Unit
 1. FIXME
 ====
 
-=== [[subscribeChildChanges]] `subscribeChildChanges` Method
+=== [[subscribeChildChanges]] Registering Listener for Child Changes -- `subscribeChildChanges` Method
 
 [source, scala]
 ----
@@ -100,6 +89,28 @@ subscribeChildChanges(path: String, listener: IZkChildListener): Option[Seq[Stri
 `subscribeChildChanges`...FIXME
 
 NOTE: `subscribeChildChanges` is used...FIXME
+
+=== [[unsubscribeChildChanges]] De-Registering Listener for Child Changes -- `unsubscribeChildChanges` Method
+
+[source, scala]
+----
+unsubscribeChildChanges(path: String, childListener: IZkChildListener): Unit
+----
+
+`unsubscribeChildChanges` requests <<zkClient, ZkClient>> to `unsubscribeChildChanges` for the input `path` and `childListener`.
+
+NOTE: `unsubscribeChildChanges` is used when...FIXME
+
+=== [[unsubscribeDataChanges]] De-Registering Listener for Data Changes -- `unsubscribeDataChanges` Method
+
+[source, scala]
+----
+unsubscribeDataChanges(path: String, dataListener: IZkDataListener): Unit
+----
+
+`unsubscribeDataChanges` requests <<zkClient, ZkClient>> to `unsubscribeDataChanges` for the input `path` and `dataListener`.
+
+NOTE: `unsubscribeDataChanges` is used when...FIXME
 
 === [[registerBrokerInZk]] `registerBrokerInZk` Method
 
