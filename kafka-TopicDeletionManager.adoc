@@ -26,16 +26,69 @@ image::images/TopicDeletionManager.png[align="center"]
 | The names of the topics to be deleted
 
 | [[topicsIneligibleForDeletion]] `topicsIneligibleForDeletion`
-| The names of the topics that must not be deleted
+| The names of the topics that must not be deleted (i.e. are ineligible for deletion)
 |===
 
-=== [[markTopicIneligibleForDeletion]] `markTopicIneligibleForDeletion` Method
+[[logging]]
+[TIP]
+====
+Enable `INFO` logging level for `kafka.controller.TopicDeletionManager` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.controller.TopicDeletionManager=INFO, stdout
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
+=== [[startReplicaDeletion]] `startReplicaDeletion` Internal Method
 
 CAUTION: FIXME
 
 === [[enqueueTopicsForDeletion]] `enqueueTopicsForDeletion` Method
 
 CAUTION: FIXME
+
+=== [[failReplicaDeletion]] `failReplicaDeletion` Method
+
+CAUTION: FIXME
+
+=== [[creating-instance]] Creating TopicDeletionManager Instance
+
+`TopicDeletionManager` takes the following when created:
+
+* [[controller]] link:kafka-KafkaController.adoc[KafkaController]
+* [[eventManager]] link:kafka-ControllerEventManager.adoc[ControllerEventManager]
+
+`TopicDeletionManager` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[markTopicIneligibleForDeletion]] `markTopicIneligibleForDeletion` Method
+
+[source, scala]
+----
+markTopicIneligibleForDeletion(topics: Set[String]): Unit
+----
+
+(only with link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable] Kafka property enabled) `markTopicIneligibleForDeletion` computes the intersection between <<topicsToBeDeleted, topicsToBeDeleted>> and the input `topics` sets and adds the intersection to <<topicsIneligibleForDeletion, topicsIneligibleForDeletion>> set.
+
+If there are any topics in the intersection, `markTopicIneligibleForDeletion` prints out the following INFO message to the logs:
+
+```
+Halted deletion of topics [newTopicsToHaltDeletion]
+```
+
+[NOTE]
+====
+`markTopicIneligibleForDeletion` is used when:
+
+* `KafkaController` link:kafka-KafkaController.adoc#initiateReassignReplicasForTopicPartition[initiateReassignReplicasForTopicPartition]
+
+* `TopicDeletion` controller event is link:kafka-ControllerEvent-TopicDeletion.adoc#partitionReassignmentInProgress[processed] (for topics to be deleted with partitions in `controllerContext.partitionsBeingReassigned` list)
+
+* `TopicDeletionManager` does <<startReplicaDeletion, startReplicaDeletion>> and <<failReplicaDeletion, failReplicaDeletion>>
+====
 
 === [[reset]] Reseting -- `reset` Method
 
@@ -53,12 +106,3 @@ reset(): Unit
 NOTE: `reset` does nothing when link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable] Kafka property is `false`.
 
 NOTE: `reset` is used exclusively when `KafkaController` link:kafka-KafkaController.adoc#onControllerResignation[resigns as the active controller].
-
-=== [[creating-instance]] Creating TopicDeletionManager Instance
-
-`TopicDeletionManager` takes the following when created:
-
-* [[controller]] link:kafka-KafkaController.adoc[KafkaController]
-* [[eventManager]] link:kafka-ControllerEventManager.adoc[ControllerEventManager]
-
-`TopicDeletionManager` initializes the <<internal-registries, internal registries and counters>>.

@@ -46,6 +46,7 @@ With link:kafka-KafkaConfig.adoc#deleteTopicEnable[delete.topic.enable] enabled 
 Starting topic deletion for topics [topicsToBeDeleted]
 ```
 
+[[partitionReassignmentInProgress]]
 `process` requests link:kafka-KafkaController.adoc#topicDeletionManager[TopicDeletionManager] to link:kafka-TopicDeletionManager.adoc#markTopicIneligibleForDeletion[markTopicIneligibleForDeletion] for topics to be deleted with partitions in `controllerContext.partitionsBeingReassigned` list.
 
 `process` requests link:kafka-KafkaController.adoc#topicDeletionManager[TopicDeletionManager] to link:kafka-TopicDeletionManager.adoc#enqueueTopicsForDeletion[enqueueTopicsForDeletion].
