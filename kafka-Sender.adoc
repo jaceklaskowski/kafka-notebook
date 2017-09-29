@@ -1,0 +1,78 @@
+== [[Sender]] Sender
+
+`Sender` is a <<run, thread of execution>> that handles the sending of produce requests to a Kafka cluster.
+
+`Sender` is <<creating-instance, created>> exclusively when `KafkaProducer` is link:kafka-KafkaProducer.adoc#sender[created].
+
+[[internal-registries]]
+.Sender's Internal Registries and Counters
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[running]] `running`
+| Flag that controls whether <<run, run>> should finish or not
+|===
+
+=== [[sendProducerData]] `sendProducerData` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`sendProducerData`...FIXME
+
+NOTE: `sendProducerData` is used when...FIXME
+
+=== [[run-millis]] `run` Method
+
+[source, java]
+----
+void run(long now)
+----
+
+`run`...FIXME
+
+NOTE: `run` is used exclusively when `Sender` is <<run, started>> (as a thread of execution).
+
+=== [[run]] `run` Method (of Java's `Runnable`)
+
+[source, java]
+----
+void run()
+----
+
+NOTE: `run` is a part of http://download.java.net/java/jdk9/docs/api/java/lang/Runnable.html#run--[java.lang.Runnable] that is executed when the thread is started.
+
+`run` first prints out the following DEBUG message to the logs:
+
+```
+Starting Kafka producer I/O thread.
+```
+
+`run` keeps <<run-millis, running>> (with the current time in milliseconds) until <<running, running>> flag is turned off.
+
+`run`...FIXME
+
+=== [[creating-instance]] Creating Sender Instance
+
+`Sender` takes the following when created:
+
+* [[logContext]] `LogContext`
+* [[client]] link:kafka-KafkaClient.adoc[KafkaClient]
+* [[metadata]] link:kafka-Metadata.adoc[Metadata]
+* [[accumulator]] `RecordAccumulator`
+* [[guaranteeMessageOrder]] `guaranteeMessageOrder` flag
+* [[maxRequestSize]] `maxRequestSize`
+* [[acks]] `acks`
+* [[retries]] The number of retries
+* [[metricsRegistry]] `SenderMetricsRegistry`
+* [[time]] `Time`
+* [[requestTimeout]] `requestTimeout`
+* [[retryBackoffMs]] `retryBackoffMs`
+* [[transactionManager]] `TransactionManager`
+* [[apiVersions]] `ApiVersions`
+
+`Sender` initializes the <<internal-registries, internal registries and counters>>.

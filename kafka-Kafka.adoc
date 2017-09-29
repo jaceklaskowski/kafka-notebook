@@ -53,8 +53,7 @@ Terminating process due to signal [signal]
 $ jps -lm | grep -i kafka
 79965 kafka.Kafka config/server.properties
 
-// looks like pkill -nf kafka always sends TERM
-// using kill directly instead
+// You could use "pkill -TERM -nf kafka" instead
 $ kill -TERM 79965
 
 // In the Kafka server's console

@@ -66,15 +66,25 @@
 . link:kafka-broker.adoc[Broker -- Kafka Server]
 . link:kafka-topics.adoc[Topics]
 . link:kafka-messages.adoc[Messages]
-. link:kafka-producers.adoc[Producers]
-.. link:kafka-KafkaProducer.adoc[KafkaProducer]
-. link:kafka-consumers.adoc[Consumers]
-.. link:kafka-KafkaConsumer.adoc[KafkaConsumer -- Main Class For Kafka Consumers]
-.. link:kafka-Deserializer.adoc[Deserializer]
-.. link:kafka-ConsumerConfig.adoc[ConsumerConfig]
-.. link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor]
+
+. link:kafka-clients.adoc[Kafka Clients]
+.. link:kafka-producers.adoc[Producers]
+... link:kafka-KafkaProducer.adoc[KafkaProducer]
+... link:kafka-Sender.adoc[Sender]
+.. link:kafka-consumers.adoc[Consumers]
+... link:kafka-KafkaConsumer.adoc[KafkaConsumer -- Main Class For Kafka Consumers]
+... link:kafka-Deserializer.adoc[Deserializer]
+... link:kafka-ConsumerConfig.adoc[ConsumerConfig]
+... link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor]
+
 . link:kafka-clusters.adoc[Clusters]
+
+=== Metrics
+
+. link:kafka-Sensor.adoc[Sensor]
 . link:kafka-MetricsReporter.adoc[MetricsReporter]
+. link:kafka-ProducerMetrics.adoc[ProducerMetrics]
+. link:kafka-SenderMetrics.adoc[SenderMetrics]
 
 ---
 

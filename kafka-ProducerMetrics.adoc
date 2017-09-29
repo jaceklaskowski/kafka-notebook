@@ -1,0 +1,8 @@
+== [[ProducerMetrics]] ProducerMetrics
+
+`ProducerMetrics` is...FIXME
+
+```
+// Generate HTML with the metrics
+$ ./bin/kafka-run-class.sh org.apache.kafka.clients.producer.internals.ProducerMetrics > metrics.html
+```

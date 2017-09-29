@@ -1,7 +1,26 @@
 == [[KafkaProducer]] KafkaProducer
 
-CAUTION: FIXME
+`KafkaProducer` is one of the main parts of the public API of Apache Kafka to write Kafka clients that publish records to a Kafka cluster.
+
+`KafkaProducer` is <<creating-instance, created>> when...FIXME
+
+[[internal-registries]]
+.KafkaProducer's Internal Registries and Counters
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[sender]] `sender`
+a| link:kafka-Sender.adoc[Sender] with the following:
+
+* ...FIXME
+|===
 
 === [[creating-instance]] Creating KafkaProducer Instance
 
-CAUTION: FIXME
+`KafkaProducer` takes the following when created:
+
+* FIXME
+
+`KafkaProducer` initializes the <<internal-registries, internal registries and counters>>.
