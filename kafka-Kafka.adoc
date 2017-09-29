@@ -1,8 +1,17 @@
 == [[Kafka]] Kafka -- Standalone Command-Line Application
 
-`kafka.Kafka` is a standalone command-line application to <<main, start a Kafka broker>>.
+`kafka.Kafka` is a standalone command-line application that <<main, starts a Kafka broker>>.
 
-NOTE: `kafka.Kafka` is started using link:kafka-broker.adoc#kafka-server-start-script[`kafka-server-start.sh` shell script].
+`kafka.Kafka` is started using link:kafka-broker.adoc#kafka-server-start-script[kafka-server-start.sh] shell script.
+
+```
+// Using sh -xv to trace kafka-server-start.sh
+$ sh -xv ./bin/kafka-server-start.sh config/server.properties
+...
+exec $base_dir/kafka-run-class.sh $EXTRA_ARGS kafka.Kafka "$@"
++ exec ./bin/kafka-run-class.sh -name kafkaServer -loggc kafka.Kafka config/server.properties
+...
+```
 
 === [[getPropsFromArgs]] `getPropsFromArgs` Method
 
@@ -26,3 +35,32 @@ In the end, `main` link:kafka-KafkaServerStartable.adoc#startup[starts the `Kafk
 `main` terminates the JVM with status `0` when `KafkaServerStartable` shuts down properly and with status `1` in case of any exception.
 
 NOTE: `main` uses Java's link:++https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#exit-int-++[System.exit] to terminate a JVM.
+
+=== [[registerLoggingSignalHandler]] Registering INFO Logging Signal Handlers (for TERM, INT and HUP Signals) -- `registerLoggingSignalHandler` Internal Method
+
+[source, scala]
+----
+registerLoggingSignalHandler(): Unit
+----
+
+`registerLoggingSignalHandler` registers signal handlers for `TERM`, `INT` and `HUP` signals so that, once received, it prints out the following INFO message to the logs:
+
+```
+Terminating process due to signal [signal]
+```
+
+```
+$ jps -lm | grep -i kafka
+79965 kafka.Kafka config/server.properties
+
+// looks like pkill -nf kafka always sends TERM
+// using kill directly instead
+$ kill -TERM 79965
+
+// In the Kafka server's console
+INFO Terminating process due to signal SIGTERM (kafka.Kafka$)
+```
+
+NOTE: `registerLoggingSignalHandler` is used exclusively when a Kafka broker is <<main, started>>.
+
+NOTE: `registerLoggingSignalHandler` was added to Kafka 1.0.0 in https://github.com/apache/kafka/commit/8256f882c92daa1470382502ab94cbe2c16028f1[KAFKA-5679; Add logging for broker termination due to SIGTERM or SIGINT].
