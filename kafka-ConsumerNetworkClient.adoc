@@ -1,5 +1,22 @@
 == [[ConsumerNetworkClient]] ConsumerNetworkClient
 
+`ConsumerNetworkClient` is a high-level Kafka consumer that...FIXME
+
+`ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-KafkaConsumer.adoc#client[KafkaConsumer] (and for `AdminClient` and `WorkerGroupMember`).
+
+[[internal-registries]]
+.ConsumerNetworkClient's Internal Registries and Counters
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[pendingCompletion]] `pendingCompletion`
+|
+|===
+
+=== [[ensureFreshMetadata]] `ensureFreshMetadata` Method
+
 CAUTION: FIXME
 
 === [[send]] `send` Method
@@ -64,3 +81,16 @@ void pollNoWakeup()
 * `HeartbeatThread` runs
 * `ConsumerCoordinator` does `commitOffsetsAsync`
 ====
+
+=== [[creating-instance]] Creating ConsumerNetworkClient Instance
+
+`ConsumerNetworkClient` takes the following when created:
+
+* [[logContext]] `LogContext`
+* [[client]] link:kafka-KafkaClient.adoc[KafkaClient]
+* [[metadata]] link:kafka-Metadata.adoc[Metadata]
+* [[time]] `Time`
+* [[retryBackoffMs]] `retryBackoffMs`
+* [[requestTimeoutMs]] `requestTimeoutMs`
+
+`ConsumerNetworkClient` initializes the <<internal-registries, internal registries and counters>>.

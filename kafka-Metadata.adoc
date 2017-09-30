@@ -2,6 +2,39 @@
 
 `Metadata`...FIXME
 
+`Metadata` is <<creating-instance, created>> when...FIXME
+
+[[internal-registries]]
+.Metadata's Internal Registries and Counters
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[cluster]] `cluster`
+a| link:kafka-Cluster.adoc[Cluster]
+
+* Empty when `Metadata` is <<creating-instance, created>>
+
+* <<update, Updated>> when...FIXME
+
+| [[lastRefreshMs]] `lastRefreshMs`
+a| The time (in millis) of the last successful <<update, update>> (and <<failedUpdate, failed update>>)
+
+* Used in <<timeToNextUpdate, timeToNextUpdate>>
+
+* Starts `0` when `Metadata` is <<creating-instance, created>>
+
+* Reset (to `0`) in <<requestUpdateForNewTopics, requestUpdateForNewTopics>>
+
+| [[needMetadataForAllTopics-flag]] `needMetadataForAllTopics`
+a| Flag...FIXME
+
+* Disabled (i.e. `false`) when `Metadata` is <<creating-instance, created>>
+
+* Updated when `Metadata` is requested to <<needMetadataForAllTopics, set state to indicate that metadata for all topics in Kafka cluster is required>>
+|===
+
 [[logging]]
 [TIP]
 ====
@@ -16,11 +49,62 @@ log4j.logger.org.apache.kafka.clients.Metadata=TRACE, stdout
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
-=== [[setTopics]] Setting Topics to Track -- `setTopics` Method
+=== [[timeToNextUpdate]] `timeToNextUpdate` Method
+
+[source, java]
+----
+synchronized long timeToNextUpdate(long nowMs)
+----
+
+`timeToNextUpdate`...FIXME
+
+[NOTE]
+====
+`timeToNextUpdate` is used when:
+
+* `ConsumerNetworkClient` link:kafka-ConsumerNetworkClient.adoc#ensureFreshMetadata[ensureFreshMetadata]
+
+* `DefaultMetadataUpdater` (of `NetworkClient`) link:kafka-DefaultMetadataUpdater.adoc#isUpdateDue[isUpdateDue] and link:kafka-DefaultMetadataUpdater.adoc#maybeUpdate[maybeUpdate]
+====
+
+=== [[add]] `add` Method
+
+[source, java]
+----
+synchronized void add(String topic)
+----
+
+`add`...FIXME
+
+NOTE: `add` is used when...FIXME
+
+=== [[requestUpdate]] `requestUpdate` Method
+
+[source, java]
+----
+synchronized int requestUpdate()
+----
+
+`requestUpdate`...FIXME
+
+NOTE: `requestUpdate` is used when...FIXME
+
+=== [[fetch]] Getting Current Cluster Information -- `fetch` Method
+
+[source, scala]
+----
+synchronized Cluster fetch()
+----
+
+`fetch` returns current <<cluster, cluster>> information.
+
+NOTE: `fetch` is used when...FIXME
+
+=== [[setTopics]] Setting Topics to Maintain -- `setTopics` Method
 
 CAUTION: FIXME
 
-=== [[update]] `update` Method
+=== [[update]] Updating Cluster Metadata -- `update` Method
 
 [source, java]
 ----
@@ -33,7 +117,59 @@ synchronized void update(Cluster cluster, Set<String> unavailableTopics, long no
 ====
 `update` is used when:
 
-* `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
 * `KafkaConsumer` is link:kafka-KafkaConsumer.adoc#creating-instance[created]
 * `KafkaProducer` is link:kafka-KafkaProducer.adoc#creating-instance[created]
+* `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
+====
+
+=== [[creating-instance]] Creating Metadata Instance
+
+`Metadata` takes the following when created:
+
+* [[refreshBackoffMs]] `refreshBackoffMs`
+* [[metadataExpireMs]] `metadataExpireMs`
+* [[allowAutoTopicCreation]] `allowAutoTopicCreation` flag
+* [[topicExpiryEnabled]] `topicExpiryEnabled` flag
+* [[clusterResourceListeners]] `ClusterResourceListeners`
+
+`Metadata` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[needMetadataForAllTopics-method]] Conditionally Requesting Update For New Topics (for KafkaConsumer) -- `needMetadataForAllTopics` Method
+
+[source, java]
+----
+synchronized void needMetadataForAllTopics(boolean needMetadataForAllTopics)
+----
+
+`needMetadataForAllTopics` <<requestUpdateForNewTopics, requestUpdateForNewTopics>> when the input `needMetadataForAllTopics` flag is enabled (i.e. `true`) and the current <<needMetadataForAllTopics, needMetadataForAllTopics>> is disabled (i.e. `false`).
+
+`needMetadataForAllTopics` sets <<needMetadataForAllTopics, needMetadataForAllTopics>> to be the input `needMetadataForAllTopics`.
+
+[NOTE]
+====
+`needMetadataForAllTopics` is used when `KafkaConsumer`:
+
+* link:kafka-KafkaConsumer.adoc#subscribe-pattern[Subscribes to topics matching specified pattern] (and `needMetadataForAllTopics` flag is then enabled)
+
+* link:kafka-KafkaConsumer.adoc#unsubscribe[Unsubscribes from topics] (and `needMetadataForAllTopics` flag is then disabled)
+====
+
+=== [[requestUpdateForNewTopics]] `requestUpdateForNewTopics` Internal Method
+
+[source, java]
+----
+synchronized void requestUpdateForNewTopics()
+----
+
+`requestUpdateForNewTopics` sets <<lastRefreshMs, lastRefreshMs>> to `0` and <<requestUpdate, requests update>>.
+
+[NOTE]
+====
+`requestUpdateForNewTopics` is used when `Metadata`:
+
+* <<add, add>>
+
+* <<needMetadataForAllTopics-method, needMetadataForAllTopics>>
+
+* <<setTopics, setTopics>>
 ====

@@ -106,6 +106,14 @@ log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE, stdout
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[unsubscribe]] `unsubscribe` Method
+
+CAUTION: FIXME
+
+=== [[subscribe-pattern]] Subscribing to Topics Matching Pattern -- `subscribe` Method
+
+CAUTION: FIXME
+
 === [[subscribe]] Subscribing to Topics -- `subscribe` Method
 
 [source, java]

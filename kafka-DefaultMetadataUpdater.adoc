@@ -1,6 +1,14 @@
 == [[DefaultMetadataUpdater]] DefaultMetadataUpdater
 
-`DefaultMetadataUpdater` is `MetadataUpdater` that...FIXME
+`DefaultMetadataUpdater` is a link:kafka-MetadataUpdater.adoc[MetadataUpdater] that...FIXME
+
+CAUTION: FIXME
+
+=== [[isUpdateDue]] `isUpdateDue` Method
+
+CAUTION: FIXME
+
+=== [[maybeUpdate]] `maybeUpdate` Method
 
 CAUTION: FIXME
 
