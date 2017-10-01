@@ -27,7 +27,7 @@ Quoting http://zookeeper.apache.org/doc/trunk/zookeeperOver.html#Nodes+and+ephem
 |===
 
 [[internal-registries]]
-.ZkUtils's Internal Registries and Counters (in alphabetical order)
+.ZkUtils's Internal Properties (e.g. Registries and Counters) (in alphabetical order)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name

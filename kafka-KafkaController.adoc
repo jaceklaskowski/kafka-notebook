@@ -74,7 +74,7 @@ a|
 `logIdent` is *[Controller id=[brokerId]]*.
 
 [[internal-registries]]
-.KafkaController's Internal Registries and Counters
+.KafkaController's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name

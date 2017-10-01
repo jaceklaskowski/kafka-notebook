@@ -30,6 +30,9 @@ val consumer = new KafkaConsumer[String, String](
 
 CAUTION: FIXME How does the JMX registration happen?
 
+.KafkaConsumer
+image::images/KafkaConsumer.png[align="center"]
+
 [IMPORTANT]
 ====
 `KafkaConsumer` does not support multi-threaded access. You should use only one thread per `KafkaConsumer` instance.
@@ -42,7 +45,7 @@ KafkaConsumer is not safe for multi-threaded access
 ====
 
 [[internal-registries]]
-.KafkaConsumer's Internal Registries and Counters
+.KafkaConsumer's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name
@@ -51,7 +54,9 @@ KafkaConsumer is not safe for multi-threaded access
 | [[client]] `client`
 | link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 
-Used when...FIXME
+Used mainly _(?)_ to create the <<fetcher, Fetcher>> and <<coordinator, ConsumerCoordinator>>
+
+Used also in <<poll, poll>>, <<pollOnce, pollOnce>> and <<wakeup, wakeup>> (but _I_ think the usage should be limited to create <<fetcher, Fetcher>> and <<coordinator, ConsumerCoordinator>>)
 
 | [[clientId]] `clientId`
 |

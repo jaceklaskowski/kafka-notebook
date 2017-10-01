@@ -10,7 +10,7 @@
 image::images/ControllerEventManager.png[align="center"]
 
 [[internal-registries]]
-.ControllerEventManager's Internal Registries and Counters
+.ControllerEventManager's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name

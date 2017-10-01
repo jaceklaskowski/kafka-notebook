@@ -13,7 +13,7 @@ image::images/TopicDeletionManager.png[align="center"]
 `logIdent` is *[Topic Deletion Manager [brokerId]]*.
 
 [[internal-registries]]
-.TopicDeletionManager's Internal Registries and Counters
+.TopicDeletionManager's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name

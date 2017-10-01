@@ -5,7 +5,7 @@
 `Metadata` is <<creating-instance, created>> when...FIXME
 
 [[internal-registries]]
-.Metadata's Internal Registries and Counters
+.Metadata's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name

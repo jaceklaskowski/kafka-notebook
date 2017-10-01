@@ -25,7 +25,7 @@ image::images/SocketServer-startup.png[align="center"]
 |===
 
 [[internal-registries]]
-.SocketServer's Internal Registries and Counters (in alphabetical order)
+.SocketServer's Internal Properties (e.g. Registries and Counters) (in alphabetical order)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name

@@ -8,7 +8,7 @@
 image::images/KafkaHealthcheck.png[align="center"]
 
 [[internal-registries]]
-.KafkaHealthcheck's Internal Registries and Counters
+.KafkaHealthcheck's Internal Properties (e.g. Registries and Counters)
 [frame="topbot",cols="1,2",options="header",width="100%"]
 |===
 | Name

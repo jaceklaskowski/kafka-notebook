@@ -8,7 +8,7 @@
 image::images/GroupMetadataManager-creating-instance.png[align="center"]
 
 [[internal-registries]]
-.GroupMetadataManager's Internal Registries and Counters
+.GroupMetadataManager's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name

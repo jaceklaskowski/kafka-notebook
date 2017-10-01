@@ -11,7 +11,7 @@ image::images/AdminManager.png[align="center"]
 `logIdent` is *[Admin Manager on Broker [brokerId]]*.
 
 [[internal-registries]]
-.AdminManager's Internal Registries and Counters
+.AdminManager's Internal Properties (e.g. Registries and Counters)
 [frame="topbot",cols="1,2",options="header",width="100%"]
 |===
 | Name

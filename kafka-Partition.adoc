@@ -11,7 +11,7 @@ Kafka producers publish messages to topic leaders as do Kafka consumers consume 
 `Partition` is...FIXME
 
 [[internal-registries]]
-.Partition's Internal Registries and Counters
+.Partition's Internal Properties (e.g. Registries and Counters)
 [frame="topbot",cols="1,2",options="header",width="100%"]
 |===
 | Name

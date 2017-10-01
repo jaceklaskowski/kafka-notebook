@@ -7,7 +7,7 @@ When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expi
 `ReplicaManager` is a `KafkaMetricsGroup`.
 
 [[internal-registries]]
-.ReplicaManager's Internal Registries and Counters
+.ReplicaManager's Internal Properties (e.g. Registries and Counters)
 [frame="topbot",cols="1,2",options="header",width="100%"]
 |===
 | Name

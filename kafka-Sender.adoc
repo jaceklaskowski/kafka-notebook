@@ -5,7 +5,7 @@
 `Sender` is <<creating-instance, created>> exclusively when `KafkaProducer` is link:kafka-KafkaProducer.adoc#sender[created].
 
 [[internal-registries]]
-.Sender's Internal Registries and Counters
+.Sender's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name

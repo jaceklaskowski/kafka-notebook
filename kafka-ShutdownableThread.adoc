@@ -12,7 +12,7 @@ def doWork(): Unit
 ----
 
 [[internal-registries]]
-.ShutdownableThread's Internal Registries and Counters
+.ShutdownableThread's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name

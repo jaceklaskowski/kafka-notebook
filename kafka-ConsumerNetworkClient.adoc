@@ -5,7 +5,7 @@
 `ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-KafkaConsumer.adoc#client[KafkaConsumer] (and for `AdminClient` and `WorkerGroupMember`).
 
 [[internal-registries]]
-.ConsumerNetworkClient's Internal Registries and Counters
+.ConsumerNetworkClient's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name

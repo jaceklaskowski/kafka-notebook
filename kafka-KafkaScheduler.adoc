@@ -3,7 +3,7 @@
 `KafkaScheduler` is a <<contract, Scheduler>> to <<schedule, schedule tasks>> in Kafka.
 
 [[internal-registries]]
-.KafkaScheduler's Internal Registries and Counters
+.KafkaScheduler's Internal Properties (e.g. Registries and Counters)
 [frame="topbot",cols="1,2",options="header",width="100%"]
 |===
 | Name

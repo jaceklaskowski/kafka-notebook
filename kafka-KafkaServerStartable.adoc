@@ -8,7 +8,7 @@ image::images/KafkaServerStartable-KafkaServer.png[align="center"]
 `KafkaServerStartable` allows for the <<server, KafkaServer>> instance to be <<startup, started>>, <<shutdown, shut down>> and <<awaitShutdown, waited for until shutdown>>.
 
 [[internal-registries]]
-.KafkaServerStartable's Internal Registries and Counters
+.KafkaServerStartable's Internal Properties (e.g. Registries and Counters)
 [frame="topbot",cols="1,2",options="header",width="100%"]
 |===
 | Name

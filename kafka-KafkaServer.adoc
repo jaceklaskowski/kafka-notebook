@@ -8,7 +8,7 @@ image::images/KafkaServer-startup.png[align="center"]
 `KafkaServer` <<creating-instance, registers itself in the JMX system>> under *kafka.server*.
 
 [[internal-registries]]
-.KafkaServer's Internal Registries and Counters
+.KafkaServer's Internal Properties (e.g. Registries and Counters)
 [frame="topbot",cols="1,2",options="header",width="100%"]
 |===
 | Name

@@ -6,7 +6,7 @@
 image::images/Fetcher-KafkaConsumer.png[align="center"]
 
 [[internal-registries]]
-.Fetcher's Internal Registries and Counters (in alphabetical order)
+.Fetcher's Internal Properties (e.g. Registries and Counters) (in alphabetical order)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name

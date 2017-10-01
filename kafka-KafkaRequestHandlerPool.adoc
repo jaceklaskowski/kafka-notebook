@@ -13,7 +13,7 @@ NOTE: The number of *kafka-request-handler* threads is controlled by link:kafka-
 `logIdent` is *[Kafka Request Handler on Broker [brokerId]]*.
 
 [[internal-registries]]
-.KafkaRequestHandlerPool's Internal Registries and Counters
+.KafkaRequestHandlerPool's Internal Properties (e.g. Registries and Counters)
 [frame="topbot",cols="1,2",options="header",width="100%"]
 |===
 | Name
