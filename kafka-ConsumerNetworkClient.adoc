@@ -48,10 +48,10 @@ boolean poll(RequestFuture<?> future, long timeout)
 ====
 `poll` is used when:
 
-* `KafkaConsumer` link:kafka-KafkaConsumer.adoc#pollOnce[pollOnce]
+* `KafkaConsumer` link:kafka-KafkaConsumer.adoc#pollOnce[polls once]
 * `ConsumerNetworkClient` does <<pollNoWakeup, pollNoWakeup>>, <<awaitMetadataUpdate, awaitMetadataUpdate>>, <<awaitPendingRequests, awaitPendingRequests>>
 * `AbstractCoordinator` does `ensureCoordinatorReady` and `joinGroupIfNeeded`
-* `ConsumerCoordinator` does `commitOffsetsSync` and `fetchCommittedOffsets`
+* `ConsumerCoordinator` link:kafka-ConsumerCoordinator.adoc#commitOffsetsSync[commitOffsetsSync] and link:kafka-ConsumerCoordinator.adoc#fetchCommittedOffsets[fetchCommittedOffsets]
 * `Fetcher` is requested for link:kafka-Fetcher.adoc#getTopicMetadata[topic metadata] or link:kafka-Fetcher.adoc#retrieveOffsetsByTimes[retrieveOffsetsByTimes]
 ====
 

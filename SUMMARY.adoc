@@ -8,6 +8,7 @@
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-Authorizer.adoc[Authorizer]
 . link:kafka-Cluster.adoc[Cluster]
+. link:kafka-ConsumerCoordinator.adoc[ConsumerCoordinator]
 . link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 . link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
 . link:kafka-Fetcher.adoc[Fetcher]

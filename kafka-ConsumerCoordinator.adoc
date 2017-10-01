@@ -1,0 +1,175 @@
+== [[ConsumerCoordinator]] ConsumerCoordinator
+
+`ConsumerCoordinator` is a `AbstractCoordinator` that...FIXME
+
+`ConsumerCoordinator` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-KafkaConsumer.adoc#coordinator[created].
+
+.ConsumerCoordinator and KafkaConsumer
+image::images/ConsumerCoordinator.png[align="center"]
+
+[[internal-registries]]
+.ConsumerCoordinator's Internal Properties (e.g. Registries and Counters)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+|===
+
+=== [[refreshCommittedOffsetsIfNeeded]] `refreshCommittedOffsetsIfNeeded` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`refreshCommittedOffsetsIfNeeded`...FIXME
+
+NOTE: `refreshCommittedOffsetsIfNeeded` is used when...FIXME
+
+=== [[maybeLeaveGroup]] `maybeLeaveGroup` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`maybeLeaveGroup`...FIXME
+
+NOTE: `maybeLeaveGroup` is used when...FIXME
+
+=== [[updatePatternSubscription]] `updatePatternSubscription` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`updatePatternSubscription`...FIXME
+
+NOTE: `updatePatternSubscription` is used when...FIXME
+
+=== [[needRejoin]] `needRejoin` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`needRejoin`...FIXME
+
+NOTE: `needRejoin` is used when...FIXME
+
+=== [[timeToNextPoll]] `timeToNextPoll` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`timeToNextPoll`...FIXME
+
+NOTE: `timeToNextPoll` is used when...FIXME
+
+=== [[poll]] `poll` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`poll`...FIXME
+
+NOTE: `poll` is used when...FIXME
+
+=== [[commitOffsetsSync]] `commitOffsetsSync` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`commitOffsetsSync`...FIXME
+
+NOTE: `commitOffsetsSync` is used when...FIXME
+
+=== [[commitOffsetsAsync]] `commitOffsetsAsync` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`commitOffsetsAsync`...FIXME
+
+NOTE: `commitOffsetsAsync` is used when...FIXME
+
+=== [[maybeAutoCommitOffsetsNow]] `maybeAutoCommitOffsetsNow` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`maybeAutoCommitOffsetsNow`...FIXME
+
+NOTE: `maybeAutoCommitOffsetsNow` is used when...FIXME
+
+=== [[addMetadataListener]] `addMetadataListener` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`addMetadataListener`...FIXME
+
+NOTE: `addMetadataListener` is used when...FIXME
+
+=== [[commitOffsetsSync]] `commitOffsetsSync` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`commitOffsetsSync`...FIXME
+
+NOTE: `commitOffsetsSync` is used when...FIXME
+
+=== [[fetchCommittedOffsets]] `fetchCommittedOffsets` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`fetchCommittedOffsets`...FIXME
+
+NOTE: `fetchCommittedOffsets` is used when...FIXME
+
+=== [[creating-instance]] Creating ConsumerCoordinator Instance
+
+`ConsumerCoordinator` takes the following when created:
+
+* [[logContext]] `LogContext`
+* [[client]] link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+* [[groupId]] Group ID
+* [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
+* [[sessionTimeoutMs]] `sessionTimeoutMs`
+* [[heartbeatIntervalMs]] `heartbeatIntervalMs`
+* [[assignors]] Collection of `PartitionAssignors`
+* [[metadata]] link:kafka-Metadata.adoc[Metadata]
+* [[subscriptions]] `SubscriptionState`
+* [[metrics]] `Metrics`
+* [[metricGrpPrefix]] Prefix of the metric group
+* [[time]] `Time`
+* [[retryBackoffMs]] `retryBackoffMs`
+* [[autoCommitEnabled]] `autoCommitEnabled` flag
+* [[autoCommitIntervalMs]] `autoCommitIntervalMs`
+* [[interceptors]] `ConsumerInterceptors`
+* [[excludeInternalTopics]] `excludeInternalTopics` flag
+* [[leaveGroupOnClose]] `leaveGroupOnClose` flag
+
+`ConsumerCoordinator` initializes the <<internal-registries, internal registries and counters>>.
+
+In the end, `ConsumerCoordinator` requests <<metadata, Metadata>> to link:kafka-Metadata.adoc#requestUpdate[update] and <<addMetadataListener, addMetadataListener>>.

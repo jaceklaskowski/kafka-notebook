@@ -61,6 +61,9 @@ Used also in <<poll, poll>>, <<pollOnce, pollOnce>> and <<wakeup, wakeup>> (but 
 | [[clientId]] `clientId`
 |
 
+| [[coordinator]] `coordinator`
+| link:kafka-ConsumerCoordinator.adoc[ConsumerCoordinator]
+
 | [[fetcher]] `fetcher`
 | link:kafka-Fetcher.adoc[Fetcher]
 
