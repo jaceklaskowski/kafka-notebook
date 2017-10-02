@@ -15,6 +15,37 @@
 |
 |===
 
+[[logging]]
+[TIP]
+====
+Enable `DEBUG` logging level for `org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient=DEBUG, stdout
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
+=== [[wakeup]] `wakeup` Method
+
+[source, scala]
+----
+void wakeup()
+----
+
+`wakeup` prints out the following DEBUG message to the logs:
+
+```
+Received user wakeup
+```
+
+`wakeup` turns the internal <<wakeup, wakeup>> flag on and requests <<client, KafkaClient>> to link:kafka-KafkaClient.adoc#wakeup[wakeup]
+
+NOTE: `wakeup` is used when...FIXME
+
 === [[ensureFreshMetadata]] `ensureFreshMetadata` Method
 
 CAUTION: FIXME

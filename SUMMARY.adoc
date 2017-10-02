@@ -76,6 +76,7 @@
 ... link:kafka-KafkaConsumer.adoc[KafkaConsumer -- Main Class For Kafka Consumers]
 ... link:kafka-Deserializer.adoc[Deserializer]
 ... link:kafka-ConsumerConfig.adoc[ConsumerConfig]
+... link:kafka-Consumer.adoc[Consumer]
 ... link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor]
 
 . link:kafka-clusters.adoc[Clusters]

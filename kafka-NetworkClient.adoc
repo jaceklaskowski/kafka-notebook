@@ -2,6 +2,21 @@
 
 `NetworkClient` is a link:kafka-KafkaClient.adoc[KafkaClient] that...FIXME
 
+`NetworkClient` is <<creating-instance, created>> when...FIXME
+
+=== [[wakeup]] `wakeup` Method
+
+[source, scala]
+----
+void wakeup()
+----
+
+NOTE: `wakeup` is a part of link:kafka-KafkaClient.adoc#wakeup[KafkaClient Contract].
+
+`wakeup` simply requests the internal <<selector, Selectable>> to link:kafka-KafkaClient.adoc#wakeup[wakeup]
+
+NOTE: `wakeup` is used when...FIXME
+
 === [[poll]] `poll` Method
 
 [source, java]
@@ -23,3 +38,25 @@ void handleCompletedReceives(List<ClientResponse> responses, long now)
 `handleCompletedReceives`...FIXME
 
 NOTE: `handleCompletedReceives` is used exclusively when `NetworkClient` <<poll, polls>>.
+
+=== [[creating-instance]] Creating NetworkClient Instance
+
+`NetworkClient` takes the following when created:
+
+* [[metadataUpdater]] link:kafka-MetadataUpdater.adoc[MetadataUpdater]
+* [[metadata]] link:kafka-Metadata.adoc[Metadata]
+* [[selector]] `Selectable`
+* [[clientId]] Client ID
+* [[maxInFlightRequestsPerConnection]] `maxInFlightRequestsPerConnection`
+* [[reconnectBackoffMs]] `reconnectBackoffMs`
+* [[reconnectBackoffMax]] `reconnectBackoffMax`
+* [[socketSendBuffer]] `socketSendBuffer`
+* [[socketReceiveBuffer]] `socketReceiveBuffer`
+* [[requestTimeoutMs]] `requestTimeoutMs`
+* [[time]] `Time`
+* [[discoverBrokerVersions]] `discoverBrokerVersions` flag
+* [[apiVersions]] `ApiVersions`
+* [[throttleTimeSensor]] link:kafka-Sensor.adoc[Sensor]
+* [[logContext]] `LogContext`
+
+`NetworkClient` initializes the <<internal-registries, internal registries and counters>>.

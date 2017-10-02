@@ -1,6 +1,8 @@
 == [[KafkaClient]] KafkaClient
 
-CAUTION: FIXME
+`KafkaClient` is the <<contract, contract>> for...FIXME
+
+NOTE: link:kafka-NetworkClient.adoc[NetworkClient] is the one and only implementation.
 
 === [[contract]] KafkaClient Contract
 
@@ -31,11 +33,18 @@ public interface KafkaClient extends Closeable {
 }
 ----
 
-.KafkaClient Contract (in alphabetical order)
+.KafkaClient Contract
 [cols="1,2",options="header",width="100%"]
 |===
 | Method
 | Description
+
+| [[wakeup]] `wakeup`
+a|
+
+Used when:
+
+* ...FIXME
 
 | [[poll]] `poll`
 a| Used when:

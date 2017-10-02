@@ -34,6 +34,7 @@ NOTE: Kafka tools use `bin/kafka-run-class.sh` to execute their implementations.
 
 Kafka uses https://www.slf4j.org/index.html[Simple Logging Facade for Java (SLF4J)] for logging.
 
+[[logback-tip]]
 [TIP]
 ====
 Use `slf4j-simple` library dependency in Scala applications (in `build.sbt`) for basic logging where messages of level `INFO` and higher are printed to `System.err`.
@@ -52,6 +53,46 @@ libraryDependencies += "ch.qos.logback" % "logback-core" % logback
 libraryDependencies += "ch.qos.logback" % "logback-classic" % logback
 ```
 ====
+
+[NOTE]
+====
+
+With logback's configuration (as described in the <<logback-tip, above tip>>) you may see the following messages in the logs:
+
+```
+SLF4J: Class path contains multiple SLF4J bindings.
+SLF4J: Found binding in [jar:file:/Users/jacek/.ivy2/cache/org.slf4j/slf4j-log4j12/jars/slf4j-log4j12-1.7.25.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: Found binding in [jar:file:/Users/jacek/.ivy2/cache/ch.qos.logback/logback-classic/jars/logback-classic-1.2.3.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+```
+
+Commenting out `logback-classic` in `build.sbt` resolves it.
+
+.build.sbt
+```scala
+val logback = "1.2.3"
+libraryDependencies += "ch.qos.logback" % "logback-core" % logback
+//libraryDependencies += "ch.qos.logback" % "logback-classic" % logback
+```
+
+FIXME: Explain why the commenting out is required?
+====
+
+=== [[log4j.properties]] `log4j.properties` Logging Configuration File
+
+.log4j.properties
+```
+log4j.rootLogger=INFO, stdout
+
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=[%d] %p %m (%c)%n
+
+log4j.logger.org.apache.kafka.clients.consumer.ConsumerConfig=DEBUG
+```
+
+TIP: Save `log4j.properties` in `src/main/resources` in your Kafka application's project.
 
 === [[KAFKA_LOG4J_OPTS]] KAFKA_LOG4J_OPTS Environment Variable
 

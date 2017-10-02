@@ -1,14 +1,19 @@
 == [[KafkaConsumer]] KafkaConsumer -- Main Class For Kafka Consumers
 
-`KafkaConsumer` is the main class to write link:kafka-consumers.adoc[Kafka consumers].
+`KafkaConsumer` is the main public class that Kafka developers use to write link:kafka-consumers.adoc[Kafka consumers].
 
-`KafkaConsumer` is a part of the public API and is <<creating-instance, created>> by means of properties and key and value deserializers.
+`KafkaConsumer` is a part of the public API and is <<creating-instance, created>> with properties and (key and value) deserializers as configuration.
 
 NOTE: link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers] and link:kafka-properties.adoc#group.id[group.id] properties are mandatory. They usually appear in the code as `ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG` and  `ConsumerConfig.GROUP_ID_CONFIG` values, respectively.
+
+`KafkaConsumer` follows the link:kafka-Consumer.adoc[Consumer contract].
 
 [source, scala]
 ----
 // sandbox/kafka-sandbox
+val bootstrapServers = "localhost:9092"
+val groupId = "kafka-sandbox"
+import org.apache.kafka.clients.consumer.ConsumerConfig
 val configs: Map[String, Object] = Map(
   // required properties
   ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers,
@@ -120,7 +125,16 @@ CAUTION: FIXME
 
 === [[subscribe-pattern]] Subscribing to Topics Matching Pattern -- `subscribe` Method
 
-CAUTION: FIXME
+[source, scala]
+----
+void subscribe(Collection<String> topics)
+----
+
+NOTE: `subscribe` is a part of link:kafka-Consumer.adoc#contract[Consumer Contract].
+
+`subscribe`...FIXME
+
+NOTE: `subscribe` is used when...FIXME
 
 === [[subscribe]] Subscribing to Topics -- `subscribe` Method
 
@@ -329,3 +343,28 @@ Any issues while creating a `KafkaConsumer` are reported as `KafkaException`.
 ```
 org.apache.kafka.common.KafkaException: Failed to construct kafka consumer
 ```
+
+=== [[wakeup]] `wakeup` Method
+
+[source, scala]
+----
+void wakeup()
+----
+
+NOTE: `wakeup` is a part of link:kafka-Consumer.adoc#wakeup[Consumer Contract].
+
+`wakeup` simply requests <<client, ConsumerNetworkClient>> to link:kafka-ConsumerNetworkClient.adoc#wakeup[wakeup].
+
+.KafkaConsumer's wakeup Method
+image::images/KafkaConsumer-wakeup.png[align="center"]
+
+[NOTE]
+====
+Quoting `wakeup` of Java's link:++http://download.java.net/java/jdk9/docs/api/java/nio/channels/Selector.html#wakeup--++[java.nio.channels.Selector] given `wakeup` simply passes through the intermediaries and in the end triggers it.
+
+> Causes the first selection operation that has not yet returned to return immediately.
+
+Read about Selection in http://download.java.net/java/jdk9/docs/api/java/nio/channels/Selector.html#selop[java.nio.channels.Selector]'s javadoc.
+====
+
+NOTE: `wakeup` is used when...FIXME
