@@ -3,7 +3,7 @@
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
 
-=== Kafka Services
+=== Kafka Broker Services
 
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-Authorizer.adoc[Authorizer]

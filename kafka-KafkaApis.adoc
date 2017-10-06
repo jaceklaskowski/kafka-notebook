@@ -17,7 +17,37 @@ image::images/KafkaApis.png[align="center"]
 
 | [[CREATE_TOPICS]] `CREATE_TOPICS`
 | <<handleCreateTopicsRequest, handleCreateTopicsRequest>>
+
+| [[METADATA]] `METADATA`
+| <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
 |===
+
+[[logging]]
+[TIP]
+====
+Enable `INFO`, `DEBUG` or `TRACE` logging levels for `kafka.server.KafkaApis` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.server.KafkaApis=TRACE
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
+=== [[handleTopicMetadataRequest]] `handleTopicMetadataRequest` Method
+
+[source, scala]
+----
+handleTopicMetadataRequest(request: RequestChannel.Request): Unit
+----
+
+`handleTopicMetadataRequest` takes the body (from the input `request`) as `MetadataRequest`.
+
+CAUTION: FIXME
+
+NOTE: `handleTopicMetadataRequest` is used exclusively to handle <<METADATA, METADATA>> requests.
 
 === [[handle]] Routing API Requests -- `handle` Method
 
@@ -32,7 +62,7 @@ handle(request: RequestChannel.Request): Unit
 Handling request:[request] from connection [id];securityProtocol:[protocol],principal:[principal]
 ```
 
-`handle` then finds the <<handlers, handler>> that is responsible for the <<keys, apiKey>> (in the header of the input `request`) and routes the `request` along.
+`handle` then route the input `request` to the corresponding <<handlers, handler>> per the <<keys, apiKey>> (from the header of the input `request`).
 
 NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is link:kafka-KafkaRequestHandler.adoc#run[started].
 
@@ -51,7 +81,7 @@ handleCreateTopicsRequest(request: RequestChannel.Request): Unit
 
 In the end, `handleCreateTopicsRequest` requests <<adminManager, AdminManager>> to link:kafka-AdminManager.adoc#createTopics[create the topics].
 
-NOTE: `handleCreateTopicsRequest` is used to handle <<CREATE_TOPICS, CREATE_TOPICS>>
+NOTE: `handleCreateTopicsRequest` is used exclusively to handle <<CREATE_TOPICS, CREATE_TOPICS>>
 
 === [[authorize]] `authorize` Internal Method
 

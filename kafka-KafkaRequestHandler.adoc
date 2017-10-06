@@ -1,11 +1,28 @@
 == [[KafkaRequestHandler]] KafkaRequestHandler
 
-`KafkaRequestHandler` is a thread of execution (i.e. Java's https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html[Runnable]) that handles Kafka requests (i.e. `ShutdownRequests` directly while the others routes to <<apis, KafkaApis>>).
+`KafkaRequestHandler` is a thread of execution (i.e. Java's https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html[Runnable]) that is responsible for relaying client requests (from <<requestChannel, RequestChannel>>) to <<apis, KafkaApis>> (except `ShutdownRequest` requests that are handled directly).
 
-`KafkaRequestHandler` is <<creating-instance, created>>...FIXME
+`KafkaRequestHandler` is <<creating-instance, created>> exclusively when `KafkaRequestHandlerPool` is link:kafka-KafkaRequestHandlerPool.adoc#runnables[created] (and starts the internal `runnables` threads).
+
+.KafkaRequestHandler's Startup and Request Relay
+image::images/KafkaRequestHandler-start.png[align="center"]
 
 [[logIdent]]
 `logIdent` is *[Kafka Request Handler [id] on Broker [brokerId]]*.
+
+[[logging]]
+[TIP]
+====
+Enable `DEBUG` or `TRACE` logging levels for `kafka.server.KafkaRequestHandler` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.server.KafkaRequestHandler=TRACE
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
 
 === [[run]] Starting Thread -- `run` Method
 
