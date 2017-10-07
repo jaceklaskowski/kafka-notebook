@@ -1,10 +1,10 @@
 == [[KafkaApis]] KafkaApis -- API Request Handler
 
-`KafkaApis` <<handle, handles API requests>> and routes them to their respective <<handlers, handlers>>.
+`KafkaApis` <<handle, handles API requests>> (by means of <<handlers, handlers>>).
 
-`KafkaApis` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started].
+`KafkaApis` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started] (and creates link:kafka-KafkaServer.adoc#requestHandlerPool[KafkaRequestHandlerPool]).
 
-.KafkaApis
+.KafkaApis is Created for KafkaRequestHandlerPool when KafkaServer Starts Up
 image::images/KafkaApis.png[align="center"]
 
 [[keys]]
@@ -15,10 +15,19 @@ image::images/KafkaApis.png[align="center"]
 | Key
 | Handler
 
-| [[CREATE_TOPICS]] `CREATE_TOPICS`
+| [[ControlledShutdown]] `ControlledShutdown`
+| <<handleControlledShutdownRequest, handleControlledShutdownRequest>>
+
+| [[CreatePartitions]] `CreatePartitions`
+| <<handleCreatePartitionsRequest, handleCreatePartitionsRequest>>
+
+| [[CreateTopics]] `CreateTopics`
 | <<handleCreateTopicsRequest, handleCreateTopicsRequest>>
 
-| [[METADATA]] `METADATA`
+| [[DeleteTopics]] `DeleteTopics`
+| <<handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
+
+| [[Metadata]] `Metadata`
 | <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
 |===
 
@@ -36,19 +45,6 @@ log4j.logger.kafka.server.KafkaApis=TRACE
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
-=== [[handleTopicMetadataRequest]] `handleTopicMetadataRequest` Method
-
-[source, scala]
-----
-handleTopicMetadataRequest(request: RequestChannel.Request): Unit
-----
-
-`handleTopicMetadataRequest` takes the body (from the input `request`) as `MetadataRequest`.
-
-CAUTION: FIXME
-
-NOTE: `handleTopicMetadataRequest` is used exclusively to handle <<METADATA, METADATA>> requests.
-
 === [[handle]] Routing API Requests -- `handle` Method
 
 [source, scala]
@@ -62,11 +58,11 @@ handle(request: RequestChannel.Request): Unit
 Handling request:[request] from connection [id];securityProtocol:[protocol],principal:[principal]
 ```
 
-`handle` then route the input `request` to the corresponding <<handlers, handler>> per the <<keys, apiKey>> (from the header of the input `request`).
+`handle` then relays the input `request` to the corresponding <<handlers, handler>> per the <<keys, apiKey>> (from the header of the input `request`).
 
 NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is link:kafka-KafkaRequestHandler.adoc#run[started].
 
-=== [[handleCreateTopicsRequest]] Handling CREATE_TOPICS Request -- `handleCreateTopicsRequest` Handler
+=== [[handleCreateTopicsRequest]] Handling CreateTopics Request -- `handleCreateTopicsRequest` Handler
 
 [source, scala]
 ----
@@ -81,13 +77,26 @@ handleCreateTopicsRequest(request: RequestChannel.Request): Unit
 
 In the end, `handleCreateTopicsRequest` requests <<adminManager, AdminManager>> to link:kafka-AdminManager.adoc#createTopics[create the topics].
 
-NOTE: `handleCreateTopicsRequest` is used exclusively to handle <<CREATE_TOPICS, CREATE_TOPICS>>
+NOTE: `handleCreateTopicsRequest` is used exclusively to handle <<CreateTopics, CreateTopics>>.
+
+=== [[handleTopicMetadataRequest]] Handling Metadata Request -- `handleTopicMetadataRequest` Method
+
+[source, scala]
+----
+handleTopicMetadataRequest(request: RequestChannel.Request): Unit
+----
+
+`handleTopicMetadataRequest` takes the body (from the input `request`) as `MetadataRequest`.
+
+CAUTION: FIXME
+
+NOTE: `handleTopicMetadataRequest` is used exclusively to handle <<Metadata, Metadata>> requests.
 
 === [[authorize]] `authorize` Internal Method
 
 CAUTION: FIXME
 
-=== [[handleCreatePartitionsRequest]] `handleCreatePartitionsRequest` Handler
+=== [[handleCreatePartitionsRequest]] Handling CreatePartitions Request -- `handleCreatePartitionsRequest` Handler
 
 [source, scala]
 ----
@@ -98,7 +107,7 @@ handleCreatePartitionsRequest(request: RequestChannel.Request): Unit
 
 NOTE: `handleCreatePartitionsRequest` is used when...FIXME
 
-=== [[handleDeleteTopicsRequest]] `handleDeleteTopicsRequest` Handler
+=== [[handleDeleteTopicsRequest]] Handling DeleteTopics Request -- `handleDeleteTopicsRequest` Handler
 
 [source, scala]
 ----
@@ -109,7 +118,7 @@ handleDeleteTopicsRequest(request: RequestChannel.Request): Unit
 
 NOTE: `handleDeleteTopicsRequest` is used when...FIXME
 
-=== [[handleControlledShutdownRequest]] `handleControlledShutdownRequest` Handler
+=== [[handleControlledShutdownRequest]] Handling ControlledShutdown Request -- `handleControlledShutdownRequest` Handler
 
 [source, scala]
 ----
