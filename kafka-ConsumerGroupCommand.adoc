@@ -1,0 +1,23 @@
+== [[ConsumerGroupCommand]] ConsumerGroupCommand
+
+`ConsumerGroupCommand` is a <<main, standalone command-line application>> that...FIXME
+
+`ConsumerGroupCommand` can be <<main, executed>> as link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh] shell script.
+
+[NOTE]
+====
+Quoting http://kafka.apache.org/documentation/#upgrade_9[Kafka 0.9.0.0]:
+
+> The `kafka-consumer-offset-checker.sh` (`kafka.tools.ConsumerOffsetChecker`) has been deprecated. Going forward, please use `kafka-consumer-groups.sh` (`kafka.admin.ConsumerGroupCommand`) for this functionality.
+====
+
+=== [[main]] `main` Method
+
+[source, scala]
+----
+main(args: Array[String]): Unit
+----
+
+`main`...FIXME
+
+NOTE: `main` is used when...FIXME

@@ -1,0 +1,16 @@
+== [[AdminClient]] AdminClient
+
+`AdminClient`...FIXME
+
+NOTE: `AdminClient` is deprecated and will be replaced by `KafkaAdminClient` (whose public API is marked as evolving).
+
+=== [[listGroupOffsets]] `listGroupOffsets` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`listGroupOffsets`...FIXME
+
+NOTE: `listGroupOffsets` is used when `KafkaConsumerGroupService`...FIXME

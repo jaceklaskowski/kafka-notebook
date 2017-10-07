@@ -27,8 +27,14 @@ image::images/KafkaApis.png[align="center"]
 | [[DeleteTopics]] `DeleteTopics`
 | <<handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
 
+| [[Fetch]] `Fetch`
+| <<handleFetchRequest, handleFetchRequest>>
+
 | [[Metadata]] `Metadata`
 | <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
+
+| [[OffsetFetch]] `OffsetFetch`
+| <<handleOffsetFetchRequest, handleOffsetFetchRequest>>
 |===
 
 [[logging]]
@@ -78,6 +84,28 @@ handleCreateTopicsRequest(request: RequestChannel.Request): Unit
 In the end, `handleCreateTopicsRequest` requests <<adminManager, AdminManager>> to link:kafka-AdminManager.adoc#createTopics[create the topics].
 
 NOTE: `handleCreateTopicsRequest` is used exclusively to handle <<CreateTopics, CreateTopics>>.
+
+=== [[handleFetchRequest]] Handling OffsetFetch Request -- `handleFetchRequest` Handler
+
+[source, scala]
+----
+handleFetchRequest(request: RequestChannel.Request): Unit
+----
+
+`handleFetchRequest`...FIXME
+
+NOTE: `handleFetchRequest` is used exclusively to handle <<OffsetFetch, OffsetFetch>> requests.
+
+=== [[handleOffsetFetchRequest]] Handling Fetch Request -- `handleOffsetFetchRequest` Handler
+
+[source, scala]
+----
+handleOffsetFetchRequest(request: RequestChannel.Request): Unit
+----
+
+`handleOffsetFetchRequest`...FIXME
+
+NOTE: `handleOffsetFetchRequest` is used exclusively to handle <<Fetch, Fetch>> requests.
 
 === [[handleTopicMetadataRequest]] Handling Metadata Request -- `handleTopicMetadataRequest` Method
 

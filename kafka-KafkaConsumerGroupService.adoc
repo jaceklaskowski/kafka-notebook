@@ -1,0 +1,48 @@
+== [[KafkaConsumerGroupService]] KafkaConsumerGroupService
+
+`KafkaConsumerGroupService` is a link:kafka-ConsumerGroupService.adoc[ConsumerGroupService] that...FIXME
+
+`KafkaConsumerGroupService` is <<creating-instance, created>> exclusively when `ConsumerGroupCommand` is link:kafka-ConsumerGroupCommand.adoc#main[executed] (as a standalone command-line application, i.e. using link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh] shell script).
+
+`KafkaConsumerGroupService` is used by link:kafka-ConsumerGroupCommand.adoc#main[ConsumerGroupCommand] for consumer groups that use the new Java consumer API (and hence do not use Zookeeper to store information).
+
+=== [[creating-instance]] Creating KafkaConsumerGroupService Instance
+
+`KafkaConsumerGroupService` takes the following when created:
+
+* [[opts]] `ConsumerGroupCommandOptions`
+
+`KafkaConsumerGroupService` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[prepareOffsetsToReset]] `prepareOffsetsToReset` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`prepareOffsetsToReset`...FIXME
+
+NOTE: `prepareOffsetsToReset` is used when...FIXME
+
+=== [[getPartitionsToReset]] `getPartitionsToReset` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`getPartitionsToReset`...FIXME
+
+NOTE: `getPartitionsToReset` is used when...FIXME
+
+=== [[collectGroupAssignment]] `collectGroupAssignment` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`collectGroupAssignment`...FIXME
+
+NOTE: `collectGroupAssignment` is used when...FIXME

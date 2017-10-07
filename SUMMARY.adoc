@@ -5,6 +5,7 @@
 
 === Kafka Broker Services
 
+. link:kafka-AdminClient.adoc[AdminClient]
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-Authorizer.adoc[Authorizer]
 . link:kafka-Cluster.adoc[Cluster]
@@ -81,6 +82,13 @@
 
 . link:kafka-clusters.adoc[Clusters]
 
+=== Kafka Operations
+
+. link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
+.. link:kafka-ConsumerGroupCommand.adoc[ConsumerGroupCommand]
+.. link:kafka-KafkaConsumerGroupService.adoc[KafkaConsumerGroupService]
+... link:kafka-ConsumerGroupService.adoc[ConsumerGroupService]
+
 === Metrics
 
 . link:kafka-Sensor.adoc[Sensor]
@@ -92,7 +100,6 @@
 
 . link:kafka-tools.adoc[Kafka Tools]
 .. link:kafka-tools-kafka-configs.adoc[kafka-configs.sh]
-.. link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
 .. link:kafka-tools-kafka-topics.adoc[kafka-topics.sh]
 . link:kafka-properties.adoc[Properties]
 .. link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
