@@ -82,7 +82,7 @@
 
 . link:kafka-clusters.adoc[Clusters]
 
-=== Kafka Operations
+=== Kafka Operations and Administration
 
 . link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
 .. link:kafka-ConsumerGroupCommand.adoc[ConsumerGroupCommand]

@@ -4,6 +4,157 @@
 
 NOTE: `AdminClient` is deprecated and will be replaced by `KafkaAdminClient` (whose public API is marked as evolving).
 
+[[logging]]
+[TIP]
+====
+Enable `DEBUG` logging level for `kafka.admin.AdminClient` logger to see what happens inside.
+
+Add the following line to `config/tools-log4j.properties`:
+
+```
+log4j.logger.kafka.admin.AdminClient=DEBUG
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
+=== [[findAllBrokers]] `findAllBrokers` Method
+
+[source, scala]
+----
+findAllBrokers(): List[Node]
+----
+
+`findAllBrokers` creates a `Metadata` request and <<sendAnyNode, sends it to one of the bootstrap brokers>>.
+
+`findAllBrokers` returns the nodes from the link:kafka-MetadataResponse.adoc#cluster[cluster metadata] of the `MetadataResponse`.
+
+NOTE: `findAllBrokers` is used when `AdminClient` does <<awaitBrokers, awaitBrokers>>, <<listAllGroups, lists all groups per broker>> and <<listAllBrokerVersionInfo, listAllBrokerVersionInfo>>.
+
+=== [[sendAnyNode]] Sending API Request to Bootstrap Broker -- `sendAnyNode` Internal Method
+
+[source, scala]
+----
+sendAnyNode(api: ApiKeys, request: AbstractRequest.Builder[_ <: AbstractRequest]): AbstractResponse
+----
+
+`sendAnyNode` walks over <<bootstrapBrokers, bootstrapBrokers>> and <<send, sends>> the input `request`.
+
+`sendAnyNode` exits in case of `AuthenticationException`.
+
+In case of any other `Exceptions` (but `AuthenticationException`) `sendAnyNode` prints DEBUG message to the logs and tries the remaining brokers.
+
+```
+Request [api] failed against node [broker]
+```
+
+When no brokers succeeded, `sendAnyNode` reports a `RuntimeException` with the following message:
+
+```
+Request [api] failed on brokers [bootstrapBrokers]
+```
+
+NOTE: `sendAnyNode` is used when `AdminClient` is requested to <<findCoordinator, find the coordinator>>, <<findAllBrokers, finds all brokers>> and <<deleteRecordsBefore, deleteRecordsBefore>>.
+
+=== [[findCoordinator]] `findCoordinator` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`findCoordinator`...FIXME
+
+NOTE: `findCoordinator` is used when `KafkaConsumerGroupService`...FIXME
+
+=== [[deleteRecordsBefore]] `deleteRecordsBefore` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`deleteRecordsBefore`...FIXME
+
+NOTE: `deleteRecordsBefore` is used when `KafkaConsumerGroupService`...FIXME
+
+=== [[listGroups]] `listGroups` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`listGroups`...FIXME
+
+NOTE: `listGroups` is used when `KafkaConsumerGroupService`...FIXME
+
+=== [[listAllBrokerVersionInfo]] `listAllBrokerVersionInfo` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`listAllBrokerVersionInfo`...FIXME
+
+NOTE: `listAllBrokerVersionInfo` is used when `KafkaConsumerGroupService`...FIXME
+
+=== [[awaitBrokers]] `awaitBrokers` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`awaitBrokers`...FIXME
+
+NOTE: `awaitBrokers` is used when `KafkaConsumerGroupService`...FIXME
+
+=== [[listAllConsumerGroups]] `listAllConsumerGroups` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`listAllConsumerGroups`...FIXME
+
+NOTE: `listAllConsumerGroups` is used when `KafkaConsumerGroupService`...FIXME
+
+=== [[listAllGroups]] Listing All Groups per Broker -- `listAllGroups` Method
+
+[source, scala]
+----
+listAllGroups(): Map[Node, List[GroupOverview]]
+----
+
+`listAllGroups` <<findAllBrokers, finds all brokers>> (in a cluster) and collects <<listGroups, their groups>>.
+
+NOTE: `listAllGroups` is used when `AdminClient` does <<listAllConsumerGroups, listAllConsumerGroups>> and <<listAllGroupsFlattened, listAllGroupsFlattened>>.
+
+=== [[listAllGroupsFlattened]] `listAllGroupsFlattened` Method
+
+[source, scala]
+----
+listAllGroupsFlattened(): List[GroupOverview]
+----
+
+`listAllGroupsFlattened` simply <<listAllGroups, takes all groups>> (across all brokers in a cluster).
+
+NOTE: `listAllGroupsFlattened` is used excusively when `AdminClient` <<listAllConsumerGroupsFlattened, lists all consumer groups>>.
+
+=== [[listAllConsumerGroupsFlattened]] Listing All Consumer Groups -- `listAllConsumerGroupsFlattened` Method
+
+[source, scala]
+----
+listAllConsumerGroupsFlattened(): List[GroupOverview]
+----
+
+`listAllConsumerGroupsFlattened` takes <<listAllGroupsFlattened, all groups>> with `consumer` protocol type.
+
+NOTE: `listAllConsumerGroupsFlattened` is used exclusively when `KafkaConsumerGroupService` is requested for link:kafka-KafkaConsumerGroupService.adoc#listGroups[all consumer groups].
+
 === [[listGroupOffsets]] `listGroupOffsets` Method
 
 [source, scala]

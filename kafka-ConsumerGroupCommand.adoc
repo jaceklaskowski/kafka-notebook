@@ -1,6 +1,11 @@
 == [[ConsumerGroupCommand]] ConsumerGroupCommand
 
-`ConsumerGroupCommand` is a <<main, standalone command-line application>> that...FIXME
+`ConsumerGroupCommand` is a <<main, standalone command-line application>> that is used for the following actions:
+
+* Listing all consumer groups (<<list, --list>> option)
+* Describing a consumer group (`--describe` option)
+* Resetting consumer group offsets (`--reset-offsets` option)
+* (only for the old Zookeeper-based consumer API) Deleting consumer group info (`--delete` option)
 
 `ConsumerGroupCommand` can be <<main, executed>> as link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh] shell script.
 
@@ -18,6 +23,20 @@ Quoting http://kafka.apache.org/documentation/#upgrade_9[Kafka 0.9.0.0]:
 main(args: Array[String]): Unit
 ----
 
-`main`...FIXME
+`main` parses and checks the command-line arguments (using `ConsumerGroupCommandOptions`).
 
-NOTE: `main` is used when...FIXME
+`main` creates a link:kafka-KafkaConsumerGroupService.adoc#creating-instance[KafkaConsumerGroupService].
+
+NOTE: `main` creates the old `ZkConsumerGroupService` when `--zookeeper` option for the old client API is used.
+
+`main` branches per option used.
+
+* <<list, --list>> option
+* Describing a consumer group (`--describe` option)
+* Resetting consumer group offsets (`--reset-offsets` option)
+
+CAUTION: FIXME
+
+==== [[list]] list Option
+
+`main` simply link:kafka-KafkaConsumerGroupService.adoc#listGroups[request groups] from the consumer group service (e.g. `KafkaConsumerGroupService` for the new consumer API) and prints them out to the console.
