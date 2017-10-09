@@ -1,0 +1,25 @@
+== [[ClusterConnectionStates]] ClusterConnectionStates
+
+`ClusterConnectionStates` is...FIXME
+
+=== [[connecting]] `connecting` Method
+
+[source, java]
+----
+void connecting(String id, long now)
+----
+
+`connecting`...FIXME
+
+NOTE: `connecting` is used when...FIXME
+
+=== [[disconnected]] `disconnected` Method
+
+[source, java]
+----
+void disconnected(String id, long now)
+----
+
+`disconnected`...FIXME
+
+NOTE: `disconnected` is used when...FIXME

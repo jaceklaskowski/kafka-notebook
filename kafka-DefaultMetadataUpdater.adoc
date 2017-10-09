@@ -8,7 +8,12 @@ CAUTION: FIXME
 
 CAUTION: FIXME
 
-=== [[maybeUpdate]] `maybeUpdate` Method
+=== [[maybeUpdate]] `maybeUpdate` Internal Method
+
+[source, java]
+----
+long maybeUpdate(long now, Node node)
+----
 
 CAUTION: FIXME
 

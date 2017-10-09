@@ -39,6 +39,13 @@ public interface KafkaClient extends Closeable {
 | Method
 | Description
 
+| [[newClientRequest]] `newClientRequest`
+a|
+
+Used when:
+
+* ...FIXME
+
 | [[wakeup]] `wakeup`
 a|
 

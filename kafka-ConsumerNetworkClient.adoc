@@ -13,6 +13,9 @@
 
 | [[pendingCompletion]] `pendingCompletion`
 |
+
+| [[unsent]] `unsent`
+| `UnsentRequests` with pending requests per node that have not been sent yet (i.e. awaiting transmission).
 |===
 
 [[logging]]
@@ -29,9 +32,20 @@ log4j.logger.org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient=D
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
-=== [[send]] `send` Method
+=== [[send]] "Sending" Request to Broker -- `send` Method
 
-CAUTION: FIXME
+[source, java]
+----
+RequestFuture<ClientResponse> send(Node node, AbstractRequest.Builder<?> requestBuilder)
+----
+
+`send` creates a `RequestFutureCompletionHandler` and requests the <<client, KafkaClient>> for a link:kafka-KafkaClient.adoc#newClientRequest[new ClientRequest] (with the `RequestFutureCompletionHandler` and expecting a response).
+
+`send` records the new `ClientRequest` with the `node` in <<unsent, unsent>> internal registry.
+
+`send` requests the <<client, KafkaClient>> to link:kafka-KafkaClient.adoc#wakeup[wake up].
+
+NOTE: `send` is used...FIXME
 
 === [[wakeup]] `wakeup` Method
 

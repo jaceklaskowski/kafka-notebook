@@ -4,6 +4,82 @@
 
 `NetworkClient` is <<creating-instance, created>> when...FIXME
 
+[[internal-registries]]
+.NetworkClient's Internal Properties (e.g. Registries and Counters)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[connectionStates]] `connectionStates`
+| `ClusterConnectionStates`
+
+Used when...FIXME
+|===
+
+[[logging]]
+[TIP]
+====
+Enable `DEBUG` logging level for `org.apache.kafka.clients.NetworkClient` logger to see what happens inside.
+
+Add the following line to `config/tools-log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
+=== [[initiateConnect]] Establishing Connection to Broker Node -- `initiateConnect` Internal Method
+
+[source, java]
+----
+void initiateConnect(Node node, long now)
+----
+
+`initiateConnect` prints out the following DEBUG message to the logs:
+
+```
+Initiating connection to node [node]
+```
+
+`initiateConnect` requests <<connectionStates, ClusterConnectionStates>> to link:kafka-ClusterConnectionStates.adoc#connecting[enter the connecting state for the connection] to the broker `node`.
+
+`initiateConnect` requests <<selector, Selectable>> to connect to the broker `node` (at a given host and port).
+
+In case of an IO failure, `initiateConnect` requests <<connectionStates, ClusterConnectionStates>> to link:kafka-ClusterConnectionStates.adoc#disconnected[enter the disconnected state for the connection] to the broker `node`.
+
+`initiateConnect` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-MetadataUpdater.adoc#requestUpdate[update].
+
+You should see the following DEBUG message in the logs:
+
+```
+Error connecting to node [node]
+```
+
+[NOTE]
+====
+`initiateConnect` is used when:
+
+* `NetworkClient` <<ready, attempts to connect to a broker node>>
+
+* `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#maybeUpdate[maybeUpdate]
+====
+
+=== [[ready]] `ready` Method
+
+[source, java]
+----
+boolean ready(Node node, long now)
+----
+
+NOTE: `ready` is a part of link:kafka-KafkaClient.adoc#ready[KafkaClient Contract].
+
+`ready`...FIXME
+
+NOTE: `ready` is used when...FIXME
+
 === [[wakeup]] `wakeup` Method
 
 [source, scala]
@@ -50,8 +126,8 @@ NOTE: `handleCompletedReceives` is used exclusively when `NetworkClient` <<poll,
 * [[maxInFlightRequestsPerConnection]] `maxInFlightRequestsPerConnection`
 * [[reconnectBackoffMs]] `reconnectBackoffMs`
 * [[reconnectBackoffMax]] `reconnectBackoffMax`
-* [[socketSendBuffer]] `socketSendBuffer`
-* [[socketReceiveBuffer]] `socketReceiveBuffer`
+* [[socketSendBuffer]] Socket send buffer size (in bytes)
+* [[socketReceiveBuffer]] Socket receive buffer size (in bytes)
 * [[requestTimeoutMs]] `requestTimeoutMs`
 * [[time]] `Time`
 * [[discoverBrokerVersions]] `discoverBrokerVersions` flag
