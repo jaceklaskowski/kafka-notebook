@@ -2,7 +2,7 @@
 
 `AdminClient`...FIXME
 
-NOTE: `AdminClient` is deprecated and will be replaced by `KafkaAdminClient` (whose public API is marked as evolving).
+NOTE: `AdminClient` is deprecated and is going to be replaced by `KafkaAdminClient` (after the public API becomes stable).
 
 [[logging]]
 [TIP]
@@ -18,6 +18,31 @@ log4j.logger.kafka.admin.AdminClient=DEBUG
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[send]] Sending Request (Using ConsumerNetworkClient) -- `send` Internal Method
+
+[source, scala]
+----
+send(
+  target: Node,
+  api: ApiKeys,
+  request: AbstractRequest.Builder[_ <: AbstractRequest]): AbstractResponse
+----
+
+`send` requests <<client, ConsumerNetworkClient>> to link:kafka-ConsumerNetworkClient.adoc#send[send] the input `request` to the `target`.
+
+.AdminClient Sends Requests Using ConsumerNetworkClient
+image::images/AdminClient-send.png[align="center"]
+
+`send` records the future result in <<pendingFutures, pendingFutures>> registry.
+
+`send` waits until the future result has come after which it is removed from <<pendingFutures, pendingFutures>> registry.
+
+CAUTION: FIXME Why is the future result registed in `pendingFutures`?
+
+When the future result has completed, `send` takes the response body for a successful result or reports a `RuntimeException`.
+
+NOTE: `send` is used when `AdminClient` does <<sendAnyNode, sendAnyNode>>, <<listGroups, listGroups>>, <<getApiVersions, getApiVersions>>, <<listGroupOffsets, listGroupOffsets>> and <<describeConsumerGroupHandler, describeConsumerGroupHandler>>.
+
 === [[findAllBrokers]] `findAllBrokers` Method
 
 [source, scala]
@@ -25,7 +50,7 @@ Refer to link:kafka-logging.adoc[Logging].
 findAllBrokers(): List[Node]
 ----
 
-`findAllBrokers` creates a `Metadata` request and <<sendAnyNode, sends it to one of the bootstrap brokers>>.
+`findAllBrokers` creates a `Metadata` API request and <<sendAnyNode, sends it to one of the bootstrap brokers>>.
 
 `findAllBrokers` returns the nodes from the link:kafka-MetadataResponse.adoc#cluster[cluster metadata] of the `MetadataResponse`.
 

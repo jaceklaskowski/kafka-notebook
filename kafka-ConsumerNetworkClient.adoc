@@ -29,6 +29,10 @@ log4j.logger.org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient=D
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[send]] `send` Method
+
+CAUTION: FIXME
+
 === [[wakeup]] `wakeup` Method
 
 [source, scala]
@@ -47,10 +51,6 @@ Received user wakeup
 NOTE: `wakeup` is used when...FIXME
 
 === [[ensureFreshMetadata]] `ensureFreshMetadata` Method
-
-CAUTION: FIXME
-
-=== [[send]] `send` Method
 
 CAUTION: FIXME
 
