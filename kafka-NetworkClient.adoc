@@ -46,7 +46,9 @@ Initiating connection to node [node]
 
 `initiateConnect` requests <<connectionStates, ClusterConnectionStates>> to link:kafka-ClusterConnectionStates.adoc#connecting[enter the connecting state for the connection] to the broker `node`.
 
-`initiateConnect` requests <<selector, Selectable>> to connect to the broker `node` (at a given host and port).
+`initiateConnect` requests <<selector, Selectable>> to link:kafka-Selectable.adoc#connect[connect] to the broker `node` (at a given host and port).
+
+NOTE: `initiateConnect` passes the sizes of <<socketSendBuffer, send>> and <<socketReceiveBuffer, receive>> buffers for the socket connection.
 
 In case of an IO failure, `initiateConnect` requests <<connectionStates, ClusterConnectionStates>> to link:kafka-ClusterConnectionStates.adoc#disconnected[enter the disconnected state for the connection] to the broker `node`.
 
@@ -119,20 +121,64 @@ NOTE: `handleCompletedReceives` is used exclusively when `NetworkClient` <<poll,
 
 `NetworkClient` takes the following when created:
 
-* [[metadataUpdater]] link:kafka-MetadataUpdater.adoc[MetadataUpdater]
-* [[metadata]] link:kafka-Metadata.adoc[Metadata]
-* [[selector]] `Selectable`
-* [[clientId]] Client ID
-* [[maxInFlightRequestsPerConnection]] `maxInFlightRequestsPerConnection`
-* [[reconnectBackoffMs]] `reconnectBackoffMs`
-* [[reconnectBackoffMax]] `reconnectBackoffMax`
-* [[socketSendBuffer]] Socket send buffer size (in bytes)
-* [[socketReceiveBuffer]] Socket receive buffer size (in bytes)
-* [[requestTimeoutMs]] `requestTimeoutMs`
-* [[time]] `Time`
-* [[discoverBrokerVersions]] `discoverBrokerVersions` flag
-* [[apiVersions]] `ApiVersions`
-* [[throttleTimeSensor]] link:kafka-Sensor.adoc[Sensor]
-* [[logContext]] `LogContext`
+[cols="1,2",options="header",width="100%"]
+|===
+| Arguments
+| Description
+
+| [[metadataUpdater]] link:kafka-MetadataUpdater.adoc[MetadataUpdater]
+|
+
+| [[metadata]] link:kafka-Metadata.adoc[Metadata]
+|
+
+| [[selector]] link:kafka-Selectable.adoc[Selectable]
+|
+
+| [[clientId]] Client ID
+|
+
+| [[maxInFlightRequestsPerConnection]] `maxInFlightRequestsPerConnection`
+|
+
+| [[reconnectBackoffMs]] `reconnectBackoffMs`
+|
+
+| [[reconnectBackoffMax]] `reconnectBackoffMax`
+|
+
+| [[socketSendBuffer]] `socketSendBuffer`
+a| Size of the TCP send buffer (SO_SNDBUF) for socket connection (in bytes)
+
+NOTE: Use link:kafka-properties.adoc#send.buffer.bytes[send.buffer.bytes] property to configure it.
+
+Used when `NetworkClient` <<initiateConnect, establishes connection to a broker node>>.
+
+| [[socketReceiveBuffer]] `socketReceiveBuffer`
+a| Size of the TCP receive buffer (SO_RCVBUF) for socket connection (in bytes)
+
+NOTE: Use link:kafka-properties.adoc#receive.buffer.bytes[receive.buffer.bytes] property to configure it.
+
+Used when `NetworkClient` <<initiateConnect, establishes connection to a broker node>>
+
+| [[requestTimeoutMs]] `requestTimeoutMs`
+|
+
+| [[time]] `Time`
+|
+
+| [[discoverBrokerVersions]] `discoverBrokerVersions`
+| Flag...
+
+| [[apiVersions]] `ApiVersions`
+|
+
+| [[throttleTimeSensor]] link:kafka-Sensor.adoc[Sensor]
+|
+
+| [[logContext]] `LogContext`
+|
+
+|===
 
 `NetworkClient` initializes the <<internal-registries, internal registries and counters>>.

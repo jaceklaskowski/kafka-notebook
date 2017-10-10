@@ -1,0 +1,42 @@
+== [[Selectable]] Selectable
+
+`Selectable` is the <<contract, contract>> for asynchronous, multi-channel network I/O.
+
+[[contract]]
+[source, java]
+----
+package org.apache.kafka.common.network;
+
+public interface Selectable {
+  void connect(String id, InetSocketAddress address, int sendBufferSize, int receiveBufferSize) throws IOException;
+  void close();
+  void close(String id);
+
+  void send(Send send);
+  void poll(long timeout) throws IOException;
+  void wakeup();
+
+  List<Send> completedSends();
+  List<NetworkReceive> completedReceives();
+
+  Map<String, ChannelState> disconnected();
+  List<String> connected();
+
+  void mute(String id);
+  void unmute(String id);
+  void muteAll();
+  void unmuteAll();
+
+  boolean isChannelReady(String id);
+}
+----
+
+.Selectable Contract (in alphabetical order)
+[cols="1,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| [[connect]] `connect`
+| Used when...
+|===

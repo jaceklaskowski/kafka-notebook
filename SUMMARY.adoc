@@ -51,6 +51,7 @@
 . link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
 . link:kafka-ReplicaManager.adoc[ReplicaManager]
 . link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
+. link:kafka-Selectable.adoc[Selectable]
 . link:kafka-ShutdownableThread.adoc[ShutdownableThread]
 . link:kafka-SocketServer.adoc[SocketServer]
 . link:kafka-TopicDeletionManager.adoc[TopicDeletionManager]
