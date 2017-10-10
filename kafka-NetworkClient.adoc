@@ -1,8 +1,19 @@
-== [[NetworkClient]] NetworkClient
+== [[NetworkClient]] NetworkClient -- Non-Blocking KafkaClient
 
-`NetworkClient` is a link:kafka-KafkaClient.adoc[KafkaClient] that...FIXME
+`NetworkClient` is a non-blocking link:kafka-KafkaClient.adoc[KafkaClient] that uses <<selector, Selectable>> for network communication.
 
-`NetworkClient` is <<creating-instance, created>> when...FIXME
+NOTE: link:kafka-Selector.adoc[Selector] is the one and only link:kafka-Selectable.adoc[Selectable] that uses Java's selectable channels for stream-oriented connecting sockets (i.e. Java's http://download.java.net/java/jdk9/docs/api/java/nio/channels/SocketChannel.html[java.nio.channels.SocketChannel]).
+
+`NetworkClient` is <<creating-instance, created>> when:
+
+* `KafkaAdminClient` is created (using `createInternal`)
+* `KafkaConsumer` is created (with `ConsumerNetworkClient`)
+* `KafkaProducer` is created (with `Sender`)
+* `AdminClient` is created (with `ConsumerNetworkClient`)
+* `ControllerChannelManager` does `addNewBroker` (and creates a `RequestSendThread` daemon thread and a `ControllerBrokerStateInfo`)
+* `TransactionMarkerChannelManager` is created
+* `KafkaServer` does `doControlledShutdown`
+* `ReplicaFetcherBlockingSend` is created
 
 [[internal-registries]]
 .NetworkClient's Internal Properties (e.g. Registries and Counters)

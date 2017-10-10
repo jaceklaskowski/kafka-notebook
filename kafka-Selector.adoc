@@ -9,16 +9,15 @@ image::images/Selector.png[align="center"]
 
 `Selector` is created when:
 
-* `KafkaAdminClient` does `createInternal`
+* `KafkaAdminClient` is created (using `createInternal`)
 * `KafkaConsumer` is created
 * `KafkaProducer` is created
-* `AdminClient` does `create`
+* `AdminClient` is created
 * `ControllerChannelManager` does `addNewBroker`
 * `TransactionMarkerChannelManager` is created
 * `Processor` is created
 * `KafkaServer` does `doControlledShutdown`
 * `ReplicaFetcherBlockingSend` is created
-* `WorkerGroupMember` is created
 
 === [[connect]] `connect` Method
 

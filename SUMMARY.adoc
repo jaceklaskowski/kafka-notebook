@@ -21,9 +21,6 @@
 . link:kafka-Kafka.adoc[Kafka]
 . link:kafka-KafkaApis.adoc[KafkaApis -- API Request Handler]
 
-. link:kafka-KafkaClient.adoc[KafkaClient]
-.. link:kafka-NetworkClient.adoc[NetworkClient]
-
 . link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
 . link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer over KafkaServer]
 . link:kafka-KafkaServer.adoc[KafkaServer]
@@ -47,6 +44,9 @@
 
 . link:kafka-MetadataUpdater.adoc[MetadataUpdater]
 .. link:kafka-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
+
+. link:kafka-NetworkClient.adoc[NetworkClient -- Non-Blocking KafkaClient]
+.. link:kafka-KafkaClient.adoc[KafkaClient]
 
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 . link:kafka-Partition.adoc[Partition]
