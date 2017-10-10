@@ -152,7 +152,7 @@ The maximum allowed time for each worker to join the group once a rebalance has 
 | [[receive.buffer.bytes]] `receive.buffer.bytes`
 |
 |
-| The size of the TCP receive buffer (SO_RCVBUF) to use when reading data. If the value is -1, the OS default will be used.
+| The hint about the size of the TCP network receive buffer (SO_RCVBUF) to use (for a socket) when reading data. If the value is -1, the OS default will be used.
 
 | [[retry.backoff.ms]] link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
 |
@@ -173,7 +173,7 @@ This avoids repeatedly sending requests in a tight loop under some failure scena
 | [[send.buffer.bytes]] `send.buffer.bytes`
 |
 |
-| The size of the TCP send buffer (SO_SNDBUF) to use when sending data. If the value is -1, the OS default will be used.
+| The hint about the size of the TCP network send buffer (SO_SNDBUF) to use (for a socket) when sending data. If the value is -1, the OS default will be used.
 
 | [[session_timeout_ms]] `session.timeout.ms` | 10000 | High | The timeout used to detect worker failures.
 

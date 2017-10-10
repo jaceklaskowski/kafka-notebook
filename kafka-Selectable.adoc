@@ -2,6 +2,8 @@
 
 `Selectable` is the <<contract, contract>> for asynchronous, multi-channel network I/O.
 
+NOTE: link:kafka-Selector.adoc[Selector] is the one and only `Selectable`.
+
 [[contract]]
 [source, java]
 ----
@@ -38,5 +40,5 @@ public interface Selectable {
 | Description
 
 | [[connect]] `connect`
-| Used when...
+| Used exclusively when `NetworkClient` is requested to link:kafka-NetworkClient.adoc#initiateConnect[establish a connection to a broker]
 |===

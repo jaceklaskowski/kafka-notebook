@@ -1,0 +1,36 @@
+== [[Selector]] Selector -- Selectable on Socket Channels (from Java's New IO API)
+
+`Selector` is the one and only link:kafka-Selectable.adoc[Selectable] that uses Java's selectable channels for stream-oriented connecting sockets (i.e. Java's http://download.java.net/java/jdk9/docs/api/java/nio/channels/SocketChannel.html[java.nio.channels.SocketChannel]).
+
+`Selector` is used by Kafka services to link:kafka-NetworkClient.adoc#creating-instance[create] a `NetworkClient`.
+
+.Selector is Created for Kafka Services For NetworkClient
+image::images/Selector.png[align="center"]
+
+`Selector` is created when:
+
+* `KafkaAdminClient` does `createInternal`
+* `KafkaConsumer` is created
+* `KafkaProducer` is created
+* `AdminClient` does `create`
+* `ControllerChannelManager` does `addNewBroker`
+* `TransactionMarkerChannelManager` is created
+* `Processor` is created
+* `KafkaServer` does `doControlledShutdown`
+* `ReplicaFetcherBlockingSend` is created
+* `WorkerGroupMember` is created
+
+=== [[connect]] `connect` Method
+
+[source, scala]
+----
+void connect(
+  String id,
+  InetSocketAddress address,
+  int sendBufferSize,
+  int receiveBufferSize) throws IOException
+----
+
+NOTE: `connect` is a part of link:kafka-Selectable.adoc#connect[Selectable Contract] that `NetworkClient` uses when requested to link:kafka-NetworkClient.adoc#initiateConnect[establish a connection to a broker].
+
+`connect`...FIXME

@@ -1,0 +1,3 @@
+== [[KafkaAdminClient]] KafkaAdminClient
+
+`KafkaAdminClient` is a link:kafka-AdminClient.adoc[AdminClient] that...FIXME

@@ -5,7 +5,9 @@
 
 === Kafka Broker Services
 
-. link:kafka-AdminClient.adoc[AdminClient]
+. link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
+.. link:kafka-AdminClient.adoc[AdminClient]
+
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-Authorizer.adoc[Authorizer]
 . link:kafka-Cluster.adoc[Cluster]
@@ -51,7 +53,10 @@
 . link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
 . link:kafka-ReplicaManager.adoc[ReplicaManager]
 . link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
-. link:kafka-Selectable.adoc[Selectable]
+
+. link:kafka-Selector.adoc[Selector -- Selectable on Socket Channels (from Java's New IO API)]
+.. link:kafka-Selectable.adoc[Selectable]
+
 . link:kafka-ShutdownableThread.adoc[ShutdownableThread]
 . link:kafka-SocketServer.adoc[SocketServer]
 . link:kafka-TopicDeletionManager.adoc[TopicDeletionManager]
