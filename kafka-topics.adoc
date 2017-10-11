@@ -1,6 +1,6 @@
 == Topics
 
-*Topics* are virtual groups of one or many <<partitions, partitions>> across link:kafka-broker.adoc[Kafka brokers] in a Kafka cluster.
+*Topics* are virtual groups of one or many <<partitions, partitions>> across link:kafka-brokers.adoc[Kafka brokers] in a Kafka cluster.
 
 A single Kafka broker stores messages in a partition in an ordered fashion, i.e. appends them one message after another and creates a log file.
 

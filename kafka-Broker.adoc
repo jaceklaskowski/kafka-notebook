@@ -1,0 +1,14 @@
+== [[Broker]] Broker
+
+`Broker` represents a Kafka broker that has an id, a host, a port, communication endpoints (and few other properties).
+
+=== [[createBroker]] `createBroker` Method
+
+[source, scala]
+----
+createBroker(id: Int, brokerInfoString: String): Broker
+----
+
+`createBroker`...FIXME
+
+NOTE: `createBroker` is used when...FIXME

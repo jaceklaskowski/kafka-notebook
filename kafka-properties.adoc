@@ -26,7 +26,7 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 | [[bootstrap.servers]] link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
 | (empty)
 | Yes
-| A comma-separated list of `host:port` pairs that are the addresses of one or more brokers in a link:kafka-broker.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
+| A comma-separated list of `host:port` pairs that are the addresses of one or more brokers in a link:kafka-brokers.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
 
 | [[broker.rack]] `broker.rack`
 |

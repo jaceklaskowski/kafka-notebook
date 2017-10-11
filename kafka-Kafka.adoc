@@ -2,7 +2,7 @@
 
 `kafka.Kafka` is a standalone command-line application that <<main, starts a Kafka broker>>.
 
-`kafka.Kafka` is started using link:kafka-broker.adoc#kafka-server-start-script[kafka-server-start.sh] shell script.
+`kafka.Kafka` is started using link:kafka-brokers.adoc#kafka-server-start-script[kafka-server-start.sh] shell script.
 
 ```
 // Using sh -xv to trace kafka-server-start.sh

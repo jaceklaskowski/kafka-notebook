@@ -40,6 +40,19 @@ Quoting http://zookeeper.apache.org/doc/trunk/zookeeperOver.html#Nodes+and+ephem
 |
 |===
 
+=== [[getCluster]] `getCluster` Method
+
+[source, scala]
+----
+getCluster(): Cluster
+----
+
+`getCluster` <<getChildrenParentMayNotExist, gets the children znodes>> of `/brokers/ids` znode and <<readData, reads their data>> (as a JSON blob).
+
+`getCluster` then adds link:kafka-Broker.adoc#createBroker[creates] a `Broker` from the znode id and the JSON blob (with a host, a port and endpoints).
+
+NOTE: `getCluster` is used exclusively when `ZKRebalancerListener` does link:kafka-ZKRebalancerListener.adoc#syncedRebalance[syncedRebalance] (that happens for the currently-deprecated `ZookeeperConsumerConnector`).
+
 === [[deletePathRecursive]] `deletePathRecursive` Method
 
 CAUTION: FIXME

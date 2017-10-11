@@ -10,7 +10,10 @@
 
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-Authorizer.adoc[Authorizer]
+
 . link:kafka-Cluster.adoc[Cluster]
+.. link:kafka-Cluster-deprecated.adoc[Cluster (deprecated)]
+
 . link:kafka-ClusterConnectionStates.adoc[ClusterConnectionStates]
 . link:kafka-ConsumerCoordinator.adoc[ConsumerCoordinator]
 . link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
@@ -63,6 +66,7 @@
 . link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
 . link:kafka-ZkUtils.adoc[ZkUtils]
+. link:kafka-ZKRebalancerListener.adoc[ZKRebalancerListener]
 
 === Features
 
@@ -72,7 +76,9 @@
 
 === Architecture
 
-. link:kafka-broker.adoc[Broker -- Kafka Server]
+. link:kafka-brokers.adoc[Broker Nodes -- Kafka Servers]
+.. link:kafka-Broker.adoc[Broker]
+
 . link:kafka-topics.adoc[Topics]
 . link:kafka-messages.adoc[Messages]
 

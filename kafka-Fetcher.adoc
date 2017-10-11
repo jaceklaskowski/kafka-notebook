@@ -79,7 +79,7 @@ Internally, `getTopicMetadata` <<sendMetadataRequest, sends the metadata request
 
 After `poll` finishes, `getTopicMetadata` link:kafka-MetadataResponse.adoc#cluster[takes the cluster information] from `MetadataResponse`.
 
-When `MetadataResponse` is successful, `getTopicMetadata` link:kafka-Cluster.adoc#topics[takes topics] (from `Cluster`) and requests `Cluster` for link:kafka-Cluster.adoc#availablePartitionsForTopic[available partitions for every topic].
+When `MetadataResponse` is successful, `getTopicMetadata` link:kafka-Cluster-deprecated.adoc#topics[takes topics] (from `Cluster`) and requests `Cluster` for link:kafka-Cluster-deprecated.adoc#availablePartitionsForTopic[available partitions for every topic].
 
 In the end, `getTopicMetadata` creates a collection of topic and partitions pairs.
 

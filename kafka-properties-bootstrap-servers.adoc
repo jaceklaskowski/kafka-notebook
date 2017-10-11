@@ -1,6 +1,6 @@
 == [[bootstrap.servers]] bootstrap.servers Property
 
-`bootstrap.servers` is a comma-separated list of host and port pairs that are the addresses of the Kafka brokers in a "bootstrap" link:kafka-broker.adoc[Kafka cluster] that a Kafka client connects to initially to bootstrap itself.
+`bootstrap.servers` is a comma-separated list of host and port pairs that are the addresses of the Kafka brokers in a "bootstrap" link:kafka-brokers.adoc[Kafka cluster] that a Kafka client connects to initially to bootstrap itself.
 
 A host and port pair uses `:` as the separator.
 

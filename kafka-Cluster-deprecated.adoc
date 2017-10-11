@@ -1,0 +1,20 @@
+== [[Cluster]] Cluster (deprecated)
+
+[IMPORTANT]
+====
+It _seems_ that `Cluster` class is created using link:kafka-ZkUtils.adoc#getCluster[ZkUtils.getCluster] that is used exclusively when `ZKRebalancerListener` does link:kafka-ZKRebalancerListener.adoc#syncedRebalance[syncedRebalance] (that in turn happens for the currently-deprecated `ZookeeperConsumerConnector`).
+
+In other words, `Cluster` class and the page are _soon_ to be removed.
+====
+
+`kafka.cluster.Cluster` private class represents a set of active brokers in a Kafka cluster.
+
+NOTE: There is also `org.apache.kafka.common.Cluster`.
+
+=== [[topics]] `topics` Method
+
+CAUTION: FIXME
+
+=== [[availablePartitionsForTopic]] `availablePartitionsForTopic` Method
+
+CAUTION: FIXME

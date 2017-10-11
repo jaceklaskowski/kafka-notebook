@@ -1,11 +1,16 @@
 == [[Cluster]] Cluster
 
-CAUTION: FIXME
+`Cluster` represents a subset of the nodes and topic partitions in a Kafka cluster.
 
-=== [[topics]] `topics` Method
+NOTE: `org.apache.kafka.common.Cluster` is a `public final` class.
 
-CAUTION: FIXME
+=== [[bootstrap]] `bootstrap` Method
 
-=== [[availablePartitionsForTopic]] `availablePartitionsForTopic` Method
+[source, java]
+----
+static Cluster bootstrap(List<InetSocketAddress> addresses)
+----
 
-CAUTION: FIXME
+`bootstrap`...FIXME
+
+NOTE: `bootstrap` is used when...FIXME

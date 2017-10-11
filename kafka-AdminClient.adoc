@@ -18,6 +18,17 @@ log4j.logger.kafka.admin.AdminClient=DEBUG
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[create]] Creating AdminClient -- `create` Method
+
+[source, scala]
+----
+create(config: AdminConfig): AdminClient
+----
+
+`create`...FIXME
+
+NOTE: `create` is used when...FIXME
+
 === [[send]] Sending Request (Using ConsumerNetworkClient) -- `send` Internal Method
 
 [source, scala]

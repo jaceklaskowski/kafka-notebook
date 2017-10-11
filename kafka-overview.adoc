@@ -2,7 +2,7 @@
 
 http://kafka.apache.org/[Apache Kafka] is an open source project for a distributed publish-subscribe messaging system rethought as a distributed commit log.
 
-Kafka stores link:kafka-messages.adoc[messages] in link:kafka-topics.adoc[topics] that are link:kafka-topics.adoc#partitions[partitioned] and replicated across multiple link:kafka-broker.adoc[brokers] in a cluster. link:kafka-producers.adoc[Producers] send messages to topics from which link:kafka-consumers.adoc[consumers] read.
+Kafka stores link:kafka-messages.adoc[messages] in link:kafka-topics.adoc[topics] that are link:kafka-topics.adoc#partitions[partitioned] and replicated across multiple link:kafka-brokers.adoc[brokers] in a cluster. link:kafka-producers.adoc[Producers] send messages to topics from which link:kafka-consumers.adoc[consumers] read.
 
 *Language Agnostic* -- producers and consumers use binary protocol to talk to a Kafka cluster.
 

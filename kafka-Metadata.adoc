@@ -12,11 +12,15 @@
 | Description
 
 | [[cluster]] `cluster`
-a| link:kafka-Cluster.adoc[Cluster]
+a| link:kafka-Cluster.adoc[Cluster] with a subset of the nodes and topic partitions in a Kafka cluster.
 
-* Empty when `Metadata` is <<creating-instance, created>>
+* Empty (with no nodes and no topic partitions) when `Metadata` is <<creating-instance, created>>
 
-* <<update, Updated>> when...FIXME
+* <<update, Updated>> when:
+** `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
+** `KafkaConsumer`, `KafkaProducer`, `KafkaAdminClient` and `AdminClient` are created and update the cluster with a "bootstrap" cluster with bootstrap brokers
+
+* Can be accessed using <<fetch, fetch>>
 
 | [[lastRefreshMs]] `lastRefreshMs`
 a| The time (in millis) of the last successful <<update, update>> (and <<failedUpdate, failed update>>)
@@ -48,6 +52,17 @@ log4j.logger.org.apache.kafka.clients.Metadata=TRACE, stdout
 
 Refer to link:kafka-logging.adoc[Logging].
 ====
+
+=== [[getClusterForCurrentTopics]] `getClusterForCurrentTopics` Internal Method
+
+[source, java]
+----
+Cluster getClusterForCurrentTopics(Cluster cluster)
+----
+
+`getClusterForCurrentTopics`...FIXME
+
+NOTE: `getClusterForCurrentTopics` is used when...FIXME
 
 === [[timeToNextUpdate]] `timeToNextUpdate` Method
 
@@ -117,9 +132,12 @@ synchronized void update(Cluster cluster, Set<String> unavailableTopics, long no
 ====
 `update` is used when:
 
-* `KafkaConsumer` is link:kafka-KafkaConsumer.adoc#creating-instance[created]
-* `KafkaProducer` is link:kafka-KafkaProducer.adoc#creating-instance[created]
 * `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
+
+* `KafkaConsumer` is link:kafka-KafkaConsumer.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap servers)
+* `KafkaProducer` is link:kafka-KafkaProducer.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap servers)
+* `KafkaAdminClient` is link:kafka-KafkaAdminClient.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap brokers)
+* `AdminClient` is link:kafka-AdminClient.adoc#create[created] (and updates the cluster with a "bootstrap" cluster with bootstrap brokers)
 ====
 
 === [[creating-instance]] Creating Metadata Instance

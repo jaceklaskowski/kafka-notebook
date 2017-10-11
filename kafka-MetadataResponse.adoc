@@ -1,5 +1,14 @@
 == [[MetadataResponse]] MetadataResponse
 
+`MetadataResponse` is...FIXME
+
 === [[cluster]] `cluster` Method
 
-CAUTION: FIXME
+[source, java]
+----
+Cluster cluster()
+----
+
+`cluster`...FIXME
+
+NOTE: `cluster` is used when...FIXME

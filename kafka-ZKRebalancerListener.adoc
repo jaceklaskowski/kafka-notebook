@@ -1,0 +1,23 @@
+== [[ZKRebalancerListener]] ZKRebalancerListener
+
+`ZKRebalancerListener` is...FIXME
+
+=== [[syncedRebalance]] `syncedRebalance` Method
+
+[source, scala]
+----
+syncedRebalance(): Unit
+----
+
+`syncedRebalance`...FIXME
+
+[NOTE]
+====
+`syncedRebalance` is used when:
+
+* `ZKSessionExpireListener` does `handleNewSession`
+  * That happens exclusively in (deprecated) `ZookeeperConsumerConnector`
+* `ZKRebalancerListener` is created (and creates `watcherExecutorThread`)
+  * That happens exclusively in (deprecated) `ZookeeperConsumerConnector`
+* (deprecated) `ZookeeperConsumerConnector` does `reinitializeConsumer`
+====
