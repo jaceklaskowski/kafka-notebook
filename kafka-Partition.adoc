@@ -25,6 +25,50 @@ Kafka producers publish messages to topic leaders as do Kafka consumers consume 
 | Optional leader replica ID
 |===
 
+=== [[maybeExpandIsr]] `maybeExpandIsr` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`maybeExpandIsr`...FIXME
+
+NOTE: `maybeExpandIsr` is used exclusively when `Partition` does <<updateReplicaLogReadResult, updateReplicaLogReadResult>>.
+
+=== [[maybeShrinkIsr]] `maybeShrinkIsr` Method
+
+[source, scala]
+----
+maybeShrinkIsr(replicaMaxLagTimeMs: Long): Unit
+----
+
+`maybeShrinkIsr`...FIXME
+
+NOTE: `maybeShrinkIsr` is used exclusively when `ReplicaManager` link:kafka-ReplicaManager.adoc#maybeShrinkIsr[maybeShrinkIsr].
+
+=== [[updateReplicaLogReadResult]] `updateReplicaLogReadResult` Method
+
+[source, scala]
+----
+updateReplicaLogReadResult(replica: Replica, logReadResult: LogReadResult): Boolean
+----
+
+`updateReplicaLogReadResult`...FIXME
+
+NOTE: `updateReplicaLogReadResult` is used exclusively when `ReplicaManager` link:kafka-ReplicaManager.adoc#updateFollowerLogReadResults[updateFollowerLogReadResults].
+
+=== [[updateIsr]] `updateIsr` Internal Method
+
+[source, scala]
+----
+updateIsr(newIsr: Set[Replica]): Unit
+----
+
+`updateIsr`...FIXME
+
+NOTE: `updateIsr` is used when `Partition` is requested to <<maybeExpandIsr, expand>> or <<maybeShrinkIsr, shrink>> the ISR.
+
 === [[makeLeader]] `makeLeader` Method
 
 [source, scala]

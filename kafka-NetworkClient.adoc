@@ -1,14 +1,16 @@
 == [[NetworkClient]] NetworkClient -- Non-Blocking KafkaClient
 
-`NetworkClient` is a non-blocking link:kafka-KafkaClient.adoc[KafkaClient] that uses <<selector, Selectable>> for network communication.
+`NetworkClient` is a non-blocking link:kafka-KafkaClient.adoc[KafkaClient] that uses <<selector, Selectable>> for network communication, i.e. sending and receiving messages.
 
 NOTE: link:kafka-Selector.adoc[Selector] is the one and only link:kafka-Selectable.adoc[Selectable] that uses Java's selectable channels for stream-oriented connecting sockets (i.e. Java's http://download.java.net/java/jdk9/docs/api/java/nio/channels/SocketChannel.html[java.nio.channels.SocketChannel]).
 
+`NetworkClient` does the actual reads and writes (to sockets) every <<poll, poll>>.
+
 `NetworkClient` is <<creating-instance, created>> when:
 
-* `KafkaAdminClient` is created (using `createInternal`)
 * `KafkaConsumer` is created (with `ConsumerNetworkClient`)
 * `KafkaProducer` is created (with `Sender`)
+* `KafkaAdminClient` is created (using `createInternal`)
 * `AdminClient` is created (with `ConsumerNetworkClient`)
 * `ControllerChannelManager` does `addNewBroker` (and creates a `RequestSendThread` daemon thread and a `ControllerBrokerStateInfo`)
 * `TransactionMarkerChannelManager` is created
@@ -113,9 +115,15 @@ NOTE: `wakeup` is used when...FIXME
 List<ClientResponse> poll(long timeout, long now)
 ----
 
-`poll`...FIXME
+NOTE: `poll` is a part of link:kafka-KafkaClient.adoc#poll[KafkaClient Contract].
 
-NOTE: `poll` is a part of link:kafka-KafkaClient.adoc#poll[KafkaClient Contract] to..FIXME.
+`poll` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-MetadataUpdater.adoc#maybeUpdate[maybeUpdate].
+
+`poll` then requests <<selector, Selectable>> to link:kafka-Selectable.adoc#poll[poll].
+
+In the end, `poll` handles completed request sends, receives, disconnected connections, records any connections to new brokers, initiates API version requests, expire in-flight requests, and finally triggers their `RequestCompletionHandlers`.
+
+In case <<abortedSends, abortedSends>> is not empty, `poll` creates a collection of `ClientResponse` with <<abortedSends, abortedSends>>, triggers their `RequestCompletionHandlers` and returns them.
 
 === [[handleCompletedReceives]] `handleCompletedReceives` Method
 

@@ -1,8 +1,8 @@
 == [[ReplicaManager]] ReplicaManager
 
-`ReplicaManager` is <<creating-instance, created>> and <<startup, started>> when `KafkaServer` is requested to link:kafka-KafkaServer.adoc#startup[start up].
+`ReplicaManager` is <<creating-instance, created>> and <<startup, started>> when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
 
-When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expiration>> and <<isr-change-propagation, isr-change-propagation>> recurring tasks.
+When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expiration>> and <<isr-change-propagation, isr-change-propagation>> recurring tasks (every half of link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms] property and 2500 ms, respectively).
 
 `ReplicaManager` is a `KafkaMetricsGroup`.
 
@@ -16,12 +16,62 @@ When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expi
 | [[allPartitions]] `allPartitions`
 | Pool of `TopicPartition` and link:kafka-Partition.adoc[Partitions]
 
+| [[isrChangeSet]] `isrChangeSet`
+| Collection of `TopicPartition` that...FIXME
+
+| [[lastIsrChangeMs]] `lastIsrChangeMs`
+| Time when <<isrChangeSet, isrChangeSet>> has a new `TopicPartition` <<recordIsrChange, added>>.
+
 | [[logDirFailureHandler]] `logDirFailureHandler`
 | link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
 
 | [[OfflinePartition]] `OfflinePartition`
 |
 |===
+
+=== [[recordIsrChange]] `recordIsrChange` Method
+
+[source, scala]
+----
+recordIsrChange(topicPartition: TopicPartition): Unit
+----
+
+`recordIsrChange` adds the input `topicPartition` to <<isrChangeSet, isrChangeSet>> internal registry and sets <<lastIsrChangeMs, lastIsrChangeMs>> to the current time.
+
+NOTE: `recordIsrChange` is used exclusively when `Partition` does link:kafka-Partition.adoc#updateIsr[updateIsr]
+
+=== [[updateFollowerLogReadResults]] `updateFollowerLogReadResults` Internal Method
+
+[source, scala]
+----
+updateFollowerLogReadResults(
+  replicaId: Int,
+  readResults: Seq[(TopicPartition, LogReadResult)]): Seq[(TopicPartition, LogReadResult)]
+----
+
+`updateFollowerLogReadResults`...FIXME
+
+NOTE: `updateFollowerLogReadResults` is used exclusively when `ReplicaManager` <<fetchMessages, fetches messages from the leader replica>>.
+
+=== [[fetchMessages]] `fetchMessages` Method
+
+[source, scala]
+----
+fetchMessages(
+  timeout: Long,
+  replicaId: Int,
+  fetchMinBytes: Int,
+  fetchMaxBytes: Int,
+  hardMaxBytesLimit: Boolean,
+  fetchInfos: Seq[(TopicPartition, FetchRequest.PartitionData)],
+  quota: ReplicaQuota = UnboundedQuota,
+  responseCallback: Seq[(TopicPartition, FetchPartitionData)] => Unit,
+  isolationLevel: IsolationLevel): Unit
+----
+
+`fetchMessages`...FIXME
+
+NOTE: `fetchMessages` is used exclusively when `KafkaApis` link:kafka-KafkaApis.adoc#handleFetchRequest[handles a Fetch request].
 
 === [[getLeaderPartitions]] `getLeaderPartitions` Internal Method
 
@@ -32,11 +82,7 @@ getLeaderPartitions: List[Partition]
 
 `getLeaderPartitions` gives the partitions from <<allPartitions, allPartitions>> that are not <<OfflinePartition, offline>> and their leaderReplicaIfLocal property is defined.
 
-NOTE: `getLeaderPartitions` is used
-
-=== [[maybePropagateIsrChanges]] `maybePropagateIsrChanges` Method
-
-CAUTION: FIXME
+NOTE: `getLeaderPartitions` is used when...FIXME
 
 === [[isr-expiration]] `isr-expiration` Task
 
@@ -45,6 +91,17 @@ CAUTION: FIXME
 === [[isr-change-propagation]] `isr-change-propagation` Task
 
 CAUTION: FIXME
+
+=== [[maybePropagateIsrChanges]] `maybePropagateIsrChanges` Method
+
+[source, scala]
+----
+maybePropagateIsrChanges(): Unit
+----
+
+`maybePropagateIsrChanges`...FIXME
+
+NOTE: `maybePropagateIsrChanges` is used exclusively when <<isr-change-propagation, isr-change-propagation>> task is executed (every 2500 milliseconds).
 
 === [[creating-instance]] Creating ReplicaManager Instance
 
@@ -99,6 +156,6 @@ maybeShrinkIsr(): Unit
 TRACE Evaluating ISR list of partitions to see which replicas can be removed from the ISR
 ```
 
-`maybeShrinkIsr` requests the partitions (from <<allPartitions, allPartitions>> pool that are not <<OfflinePartition, offline partitions>>) to link:kafka-Partition.adoc#maybeShrinkIsr[maybeShrinkIsr] (with link:kafka-KafkaConfig.adoc#replicaLagTimeMaxMs[replicaLagTimeMaxMs] setting).
+`maybeShrinkIsr` requests the partitions (from <<allPartitions, allPartitions>> pool that are not <<OfflinePartition, offline partitions>>) to link:kafka-Partition.adoc#maybeShrinkIsr[maybeShrinkIsr] (with link:kafka-KafkaConfig.adoc#replicaLagTimeMaxMs[replicaLagTimeMaxMs] property).
 
 NOTE: `maybeShrinkIsr` is used exclusively to schedule `isr-expiration` recurring task when `ReplicaManager` <<startup, starts up>>.

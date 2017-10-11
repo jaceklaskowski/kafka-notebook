@@ -2,7 +2,7 @@
 
 `ConsumerNetworkClient` is a high-level Kafka consumer that...FIXME
 
-`ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-KafkaConsumer.adoc#client[KafkaConsumer] and link:kafka-AdminClient.adoc[AdminClient] (and `WorkerGroupMember`).
+`ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-KafkaConsumer.adoc#client[KafkaConsumer] and link:kafka-AdminClient.adoc[AdminClient].
 
 [[internal-registries]]
 .ConsumerNetworkClient's Internal Properties (e.g. Registries and Counters)
@@ -102,7 +102,14 @@ boolean poll(RequestFuture<?> future, long timeout)
 
 === [[awaitMetadataUpdate]] `awaitMetadataUpdate` Method
 
-CAUTION: FIXME
+[source, java]
+----
+boolean awaitMetadataUpdate(long timeout)
+----
+
+`awaitMetadataUpdate`...FIXME
+
+NOTE: `awaitMetadataUpdate` is used when...FIXME
 
 === [[awaitPendingRequests]] `awaitPendingRequests` Method
 

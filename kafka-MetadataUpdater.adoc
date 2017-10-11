@@ -22,6 +22,9 @@ interface MetadataUpdater {
 | Method
 | Description
 
+| [[maybeUpdate]] `maybeUpdate`
+|
+
 | [[requestUpdate]] `requestUpdate`
 |
 

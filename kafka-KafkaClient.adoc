@@ -57,5 +57,8 @@ Used when:
 a| Used when:
 
 * `ConsumerNetworkClient` link:kafka-ConsumerNetworkClient.adoc#poll[polls]
-* ...FIXME
+* (Blocking) `NetworkClientUtils` does `awaitReady`, `isReady` or `sendAndReceive`
+* `AdminClientRunnable` is started (and `run` is executed)
+* `Sender` is requested to link:kafka-Sender.adoc#run-millis[run once]
+* `InterBrokerSendThread` does its work
 |===

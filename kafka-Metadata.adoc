@@ -37,6 +37,9 @@ a| Flag...FIXME
 * Disabled (i.e. `false`) when `Metadata` is <<creating-instance, created>>
 
 * Updated when `Metadata` is requested to <<needMetadataForAllTopics, set state to indicate that metadata for all topics in Kafka cluster is required>>
+
+| [[needUpdate]] `needUpdate`
+a| Flag...FIXME
 |===
 
 [[logging]]

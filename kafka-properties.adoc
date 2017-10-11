@@ -154,6 +154,11 @@ The maximum allowed time for each worker to join the group once a rebalance has 
 |
 | The hint about the size of the TCP network receive buffer (SO_RCVBUF) to use (for a socket) when reading data. If the value is -1, the OS default will be used.
 
+| [[replica.lag.time.max.ms]] `replica.lag.time.max.ms`
+|
+|
+|
+
 | [[retry.backoff.ms]] link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
 |
 |

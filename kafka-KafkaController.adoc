@@ -91,9 +91,6 @@ a| The ID of the active `KafkaController`
 | [[eventManager]] `eventManager`
 | link:kafka-ControllerEventManager.adoc[ControllerEventManager] for `controllerContext.stats.rateAndTimeMetrics` and updateMetrics listener
 
-| [[isrChangeNotificationListener]] `isrChangeNotificationListener`
-| `IsrChangeNotificationListener`
-
 | [[kafkaScheduler]] `kafkaScheduler`
 | link:kafka-KafkaScheduler.adoc[KafkaScheduler] with a single daemon thread with prefix *kafka-scheduler*
 
@@ -119,6 +116,13 @@ a| The ID of the active `KafkaController`
 
 | [[brokerChangeListener]] `brokerChangeListener`
 | `BrokerChangeListener` for this `KafkaController` and <<eventManager, eventManager>>
+
+| [[isrChangeNotificationListener]] `isrChangeNotificationListener`
+| `IsrChangeNotificationListener` for this `KafkaController` and <<eventManager, eventManager>>
+
+Registered in <<registerIsrChangeNotificationListener, registerIsrChangeNotificationListener>> when `KafkaController` does <<onControllerFailover, onControllerFailover>>.
+
+De-registered in <<deregisterIsrChangeNotificationListener, deregisterIsrChangeNotificationListener>> when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
 
 | [[logDirEventNotificationListener]] `logDirEventNotificationListener`
 | `LogDirEventNotificationListener`
@@ -436,6 +440,28 @@ isActive: Boolean
 `isActive` says whether the <<activeControllerId, activeControllerId>> equals the broker ID (from <<config, KafkaConfig>>).
 
 CAUTION: FIXME When could they be different?
+
+=== [[registerIsrChangeNotificationListener]] `registerIsrChangeNotificationListener` Internal Method
+
+[source, scala]
+----
+registerIsrChangeNotificationListener(): Option[Seq[String]]
+----
+
+`registerIsrChangeNotificationListener`...FIXME
+
+NOTE: `registerIsrChangeNotificationListener` is used when...FIXME
+
+=== [[deregisterIsrChangeNotificationListener]] `deregisterIsrChangeNotificationListener` Internal Method
+
+[source, scala]
+----
+deregisterIsrChangeNotificationListener(): Unit
+----
+
+`deregisterIsrChangeNotificationListener`...FIXME
+
+NOTE: `deregisterIsrChangeNotificationListener` is used when...FIXME
 
 === [[creating-instance]] Creating KafkaController Instance
 

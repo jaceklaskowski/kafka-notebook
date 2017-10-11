@@ -85,18 +85,7 @@ In the end, `handleCreateTopicsRequest` requests <<adminManager, AdminManager>> 
 
 NOTE: `handleCreateTopicsRequest` is used exclusively to handle <<CreateTopics, CreateTopics>>.
 
-=== [[handleFetchRequest]] Handling OffsetFetch Request -- `handleFetchRequest` Handler
-
-[source, scala]
-----
-handleFetchRequest(request: RequestChannel.Request): Unit
-----
-
-`handleFetchRequest`...FIXME
-
-NOTE: `handleFetchRequest` is used exclusively to handle <<OffsetFetch, OffsetFetch>> requests.
-
-=== [[handleOffsetFetchRequest]] Handling Fetch Request -- `handleOffsetFetchRequest` Handler
+=== [[handleOffsetFetchRequest]] Handling OffsetFetch Request -- `handleOffsetFetchRequest` Handler
 
 [source, scala]
 ----
@@ -105,7 +94,18 @@ handleOffsetFetchRequest(request: RequestChannel.Request): Unit
 
 `handleOffsetFetchRequest`...FIXME
 
-NOTE: `handleOffsetFetchRequest` is used exclusively to handle <<Fetch, Fetch>> requests.
+NOTE: `handleOffsetFetchRequest` is used exclusively to handle <<OffsetFetch, OffsetFetch>> requests.
+
+=== [[handleFetchRequest]] Handling Fetch Request -- `handleFetchRequest` Handler
+
+[source, scala]
+----
+handleFetchRequest(request: RequestChannel.Request): Unit
+----
+
+`handleFetchRequest`...FIXME
+
+NOTE: `handleFetchRequest` is used exclusively to handle <<Fetch, Fetch>> requests.
 
 === [[handleTopicMetadataRequest]] Handling Metadata Request -- `handleTopicMetadataRequest` Method
 

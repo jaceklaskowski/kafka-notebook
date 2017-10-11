@@ -41,4 +41,7 @@ public interface Selectable {
 
 | [[connect]] `connect`
 | Used exclusively when `NetworkClient` is requested to link:kafka-NetworkClient.adoc#initiateConnect[establish a connection to a broker]
+
+| [[poll]] `poll`
+|
 |===

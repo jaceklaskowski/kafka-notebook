@@ -2,7 +2,20 @@
 
 `AdminClient`...FIXME
 
+`AdminClient` uses the <<networkThread, admin-client-network-thread>> to poll continuously (using <<client, ConsumerNetworkClient>>).
+
 NOTE: `AdminClient` is deprecated and is going to be replaced by `KafkaAdminClient` (after the public API becomes stable).
+
+[[internal-registries]]
+.ConsumerNetworkClient's Internal Properties (e.g. Registries and Counters)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[networkThread]] `networkThread`
+| *admin-client-network-thread*
+|===
 
 [[logging]]
 [TIP]

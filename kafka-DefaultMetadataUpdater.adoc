@@ -1,8 +1,26 @@
 == [[DefaultMetadataUpdater]] DefaultMetadataUpdater
 
-`DefaultMetadataUpdater` is a link:kafka-MetadataUpdater.adoc[MetadataUpdater] that...FIXME
+`DefaultMetadataUpdater` is a link:kafka-MetadataUpdater.adoc[MetadataUpdater] that `NetworkClient` uses to...FIXME
 
-CAUTION: FIXME
+[[logging]]
+[TIP]
+====
+Enable `DEBUG` logging level for `org.apache.kafka.clients.NetworkClient` logger to see what happens inside.
+
+Add the following line to `config/tools-log4j.properties` (for Kafka tools):
+
+```
+log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG
+```
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG, stdout
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
 
 === [[isUpdateDue]] `isUpdateDue` Method
 

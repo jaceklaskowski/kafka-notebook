@@ -54,7 +54,10 @@
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 . link:kafka-Partition.adoc[Partition]
 . link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
+
 . link:kafka-ReplicaManager.adoc[ReplicaManager]
+.. link:kafka-ReplicationUtils.adoc[ReplicationUtils]
+
 . link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
 
 . link:kafka-Selector.adoc[Selector -- Selectable on Socket Channels (from Java's New IO API)]
