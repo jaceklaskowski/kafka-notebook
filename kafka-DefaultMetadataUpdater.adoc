@@ -24,6 +24,8 @@ CAUTION: FIXME
 handleCompletedMetadataResponse(RequestHeader requestHeader, long now, MetadataResponse response)
 ----
 
-`handleCompletedMetadataResponse`...FIXME
+NOTE: `handleCompletedMetadataResponse` is a part of link:kafka-MetadataUpdater.adoc#handleCompletedMetadataResponse[MetadataUpdater Contract].
 
-NOTE: `handleCompletedMetadataResponse` is a part of link:FIXME#handleCompletedMetadataResponse[MetadataUpdater Contract] to..FIXME.
+`handleCompletedMetadataResponse` turns <<metadataFetchInProgress, metadataFetchInProgress>> flag off.
+
+`handleCompletedMetadataResponse` takes the link:kafka-MetadataResponse.adoc#cluster[cluster] from the `response`.

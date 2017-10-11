@@ -2,11 +2,15 @@
 
 A Kafka topic is spread across a Kafka cluster as a virtual group of one or more *partitions*.
 
-A topic partition can be replicated across a Kafka cluster to one or more Kafka servers.
+A single partition of a topic (*topic partition*) can be replicated across a Kafka cluster to one or more Kafka brokers.
 
-A topic partition has one partition leader and zero or more topic replicas.
+A topic partition has one partition leader node and zero or more replicas.
 
 Kafka producers publish messages to topic leaders as do Kafka consumers consume them from.
+
+*In-Sync Replicas* are brokers that...FIXME
+
+*Offline Replicas* are...FIXME
 
 `Partition` is...FIXME
 

@@ -2,9 +2,9 @@
 
 NOTE: A *Kafka server*, a *Kafka broker* and a *Kafka node* all refer to the same concept and are synonyms (see the scaladoc of https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/server/KafkaServer.scala#L89[KafkaServer]).
 
-A *Kafka broker* is a link:kafka-KafkaServer.adoc[KafkaServer] that hosts link:kafka-topics.adoc[topics].
+A *Kafka broker* is modelled as link:kafka-KafkaServer.adoc[KafkaServer] that hosts link:kafka-topics.adoc[topics].
 
-NOTE: Given topics are always partitioned across brokers in a cluster a single broker hosts topic partitions of one or more topics actually (even when a topic is partitioned to just a single partition).
+NOTE: Given topics are always partitioned across brokers in a cluster a single broker hosts topic partitions of one or more topics actually (even when a topic is only partitioned to just a single partition).
 
 Quoting https://en.wikipedia.org/wiki/Broker[Broker] article (from Wikipedia, the free encyclopedia):
 
@@ -17,6 +17,8 @@ A Kafka broker receives messages from producers and stores them on disk keyed by
 A Kafka broker allows consumers to fetch messages by topic, partition and offset.
 
 Kafka brokers can create a Kafka cluster by sharing information between each other directly or indirectly using Zookeeper.
+
+A Kafka cluster has exactly one broker that acts as the link:kafka-KafkaController.adoc[Controller].
 
 You can <<starting-broker, start a single Kafka broker>> using `kafka-server-start.sh` script.
 
