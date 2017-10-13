@@ -1,8 +1,13 @@
 == [[Sender]] Sender
 
-`Sender` is a <<run, thread of execution>> that handles the sending of produce requests to a Kafka cluster.
+`Sender` is <<run, thread of execution>> that handles the sending of produce requests to a Kafka cluster.
+
+.Sender and KafkaProducer
+image::images/Sender.png[align="center"]
 
 `Sender` is <<creating-instance, created>> exclusively when `KafkaProducer` is link:kafka-KafkaProducer.adoc#sender[created].
+
+`Sender` is started under the name *kafka-producer-network-thread | [clientId]* when `KafkaProducer` is link:kafka-KafkaProducer.adoc#ioThread[created].
 
 [[internal-registries]]
 .Sender's Internal Properties (e.g. Registries and Counters)

@@ -15,6 +15,9 @@
 a| link:kafka-Sender.adoc[Sender] with the following:
 
 * ...FIXME
+
+| [[ioThread]] `ioThread`
+a| Thread of execution...FIXME
 |===
 
 === [[creating-instance]] Creating KafkaProducer Instance
