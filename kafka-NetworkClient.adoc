@@ -44,6 +44,17 @@ log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[completeResponses]] `completeResponses` Internal Method
+
+[source, java]
+----
+void completeResponses(List<ClientResponse> responses)
+----
+
+`completeResponses`...FIXME
+
+NOTE: `completeResponses` is used when `NetworkClient` <<poll, poll>> (for both <<abortedSends, abortedSends>> and completed actions).
+
 === [[initiateConnect]] Establishing Connection to Broker Node -- `initiateConnect` Internal Method
 
 [source, java]

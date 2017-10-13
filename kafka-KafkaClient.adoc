@@ -60,5 +60,5 @@ a| Used when:
 * (Blocking) `NetworkClientUtils` does `awaitReady`, `isReady` or `sendAndReceive`
 * `AdminClientRunnable` is started (and `run` is executed)
 * `Sender` is requested to link:kafka-Sender.adoc#run-millis[run once]
-* `InterBrokerSendThread` does its work
+* `InterBrokerSendThread` link:kafka-InterBrokerSendThread.adoc#doWork[does its work]
 |===

@@ -15,6 +15,33 @@
 | Flag that controls whether <<run, run>> should finish or not
 |===
 
+=== [[sendProduceRequests]] `sendProduceRequests` Internal Method
+
+[source, scala]
+----
+void sendProduceRequests(Map<Integer, List<ProducerBatch>> collated, long now)
+----
+
+`sendProduceRequests`...FIXME
+
+NOTE: `sendProduceRequests` is used exclusively when `Sender` <<sendProducerData, sendProducerData>>.
+
+=== [[sendProduceRequest]] `sendProduceRequest` Internal Method
+
+[source, scala]
+----
+void sendProduceRequest(
+  long now,
+  int destination,
+  short acks,
+  int timeout,
+  List<ProducerBatch> batches)
+----
+
+`sendProduceRequest`...FIXME
+
+NOTE: `sendProduceRequest` is used exclusively when `Sender` <<sendProduceRequests, sendProduceRequests>>.
+
 === [[sendProducerData]] `sendProducerData` Internal Method
 
 [source, java]
@@ -37,7 +64,7 @@ void run(long now)
 
 NOTE: `run` is used exclusively when `Sender` is <<run, started>> (as a thread of execution).
 
-=== [[run]] `run` Method (of Java's `Runnable`)
+=== [[run]] Starting Thread of Execution -- `run` Method (of Java's `Runnable`)
 
 [source, java]
 ----

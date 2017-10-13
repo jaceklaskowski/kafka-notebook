@@ -1,0 +1,14 @@
+== [[ClientResponse]] ClientResponse
+
+`ClientResponse` is...FIXME
+
+=== [[onComplete]] `onComplete` Method
+
+[source, java]
+----
+void onComplete()
+----
+
+`onComplete`...FIXME
+
+NOTE: `onComplete` is used exclusively when `NetworkClient` link:kafka-NetworkClient.adoc#completeResponses[completeResponses]

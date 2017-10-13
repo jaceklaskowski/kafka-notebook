@@ -32,6 +32,17 @@ log4j.logger.org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient=D
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[checkDisconnects]] `checkDisconnects` Internal Method
+
+[source, java]
+----
+void checkDisconnects(long now)
+----
+
+`checkDisconnects`...FIXME
+
+NOTE: `checkDisconnects` is used exclusively when `ConsumerNetworkClient` is requested to <<poll, poll>>.
+
 === [[send]] "Sending" Request to Broker -- `send` Method
 
 [source, java]

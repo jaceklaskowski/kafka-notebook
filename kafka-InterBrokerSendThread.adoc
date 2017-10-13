@@ -1,0 +1,16 @@
+== [[InterBrokerSendThread]] InterBrokerSendThread
+
+`InterBrokerSendThread`...FIXME
+
+=== [[doWork]] `doWork` Method
+
+[source, scala]
+----
+def doWork(): Unit
+----
+
+NOTE: `doWork` is a part of link:kafka-ShutdownableThread.adoc#doWork[ShutdownableThread Contract].
+
+`doWork`...FIXME
+
+NOTE: `doWork` is used when...FIXME
