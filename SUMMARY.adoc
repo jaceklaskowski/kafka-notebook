@@ -42,7 +42,12 @@
 . link:kafka-KafkaScheduler.adoc[KafkaScheduler]
 . link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
 . link:kafka-LogManager.adoc[LogManager]
+
 . link:kafka-Metadata.adoc[Metadata]
+.. link:kafka-Metadata-Listener.adoc[Metadata Update Listener]
+
+. link:kafka-ClusterResourceListener.adoc[ClusterResourceListener]
+
 . link:kafka-MetadataCache.adoc[MetadataCache]
 . link:kafka-MetadataResponse.adoc[MetadataResponse]
 

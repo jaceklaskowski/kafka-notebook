@@ -1,0 +1,16 @@
+== [[Listener]] Metadata Update Listener
+
+`Listener` is the <<contract, contract>> of...FIXME
+
+[[contract]]
+[[onMetadataUpdate]]
+[source, java]
+----
+package org.apache.kafka.clients;
+
+public final class Metadata {
+  public interface Listener {
+    void onMetadataUpdate(Cluster cluster, Set<String> unavailableTopics);
+  }
+}
+----

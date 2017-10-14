@@ -113,7 +113,7 @@ Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.consumer.
 Add the following line to `config/tools-log4j.properties`:
 
 ```
-log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE, stdout
+log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
@@ -313,7 +313,7 @@ CAUTION: FIXME Finish me!
 1. link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms]
 1. `allowAutoTopicCreation` enabled
 1. `topicExpiryEnabled` disabled
-1. `ClusterResourceListeners` with user-defined list of link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptors] in link:kafka-properties.adoc#interceptor.classes[interceptor.classes] property
+1. link:kafka-ClusterResourceListener.adoc[ClusterResourceListeners] with user-defined list of link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptors] in link:kafka-properties.adoc#interceptor.classes[interceptor.classes] property
 
 `KafkaConsumer` link:kafka-Metadata.adoc#update[updates] `metadata` with link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers].
 

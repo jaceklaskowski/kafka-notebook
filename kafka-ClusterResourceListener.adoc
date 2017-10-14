@@ -1,0 +1,14 @@
+== [[ClusterResourceListener]] ClusterResourceListener
+
+`ClusterResourceListener` is the <<contract, contract>> of...FIXME
+
+[[contract]]
+[[onUpdate]]
+[source, java]
+----
+package org.apache.kafka.common;
+
+public interface ClusterResourceListener {
+  void onUpdate(ClusterResource clusterResource);
+}
+----

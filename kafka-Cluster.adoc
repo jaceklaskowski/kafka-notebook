@@ -4,6 +4,23 @@
 
 NOTE: `org.apache.kafka.common.Cluster` is a `public final` class.
 
+A special variant of a cluster is *boostrap cluster* that is made up of the <<bootstrap, bootstrap brokers>> that are mandatory (and specified explicitly) when Kafka clients are created, i.e. link:kafka-KafkaAdminClient.adoc#creating-instance[KafkaAdminClient], link:kafka-AdminClient.adoc#create[AdminClient], link:kafka-KafkaConsumer.adoc#creating-instance[KafkaConsumer] and link:kafka-KafkaProducer.adoc#creating-instance[KafkaProducer].
+
+NOTE: A bootstrap cluster does not hold all information about the cluster.
+
+[[internal-registries]]
+.Cluster's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[isBootstrapConfigured-flag]] `isBootstrapConfigured`
+| Flag...FIXME
+
+Used when...FIXME
+|===
+
 === [[bootstrap]] `bootstrap` Method
 
 [source, java]
@@ -13,4 +30,15 @@ static Cluster bootstrap(List<InetSocketAddress> addresses)
 
 `bootstrap`...FIXME
 
-NOTE: `bootstrap` is used when...FIXME
+NOTE: `bootstrap` is used when link:kafka-KafkaAdminClient.adoc#creating-instance[KafkaAdminClient], link:kafka-AdminClient.adoc#create[AdminClient], link:kafka-KafkaConsumer.adoc#creating-instance[KafkaConsumer] and link:kafka-KafkaProducer.adoc#creating-instance[KafkaProducer] are created.
+
+=== [[isBootstrapConfigured]] `isBootstrapConfigured` Method
+
+[source, java]
+----
+boolean isBootstrapConfigured()
+----
+
+`isBootstrapConfigured` gives <<isBootstrapConfigured-flag, isBootstrapConfigured>> internal flag.
+
+NOTE: `isBootstrapConfigured` is used when...FIXME

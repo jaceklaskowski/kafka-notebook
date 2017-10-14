@@ -22,6 +22,9 @@ a| link:kafka-Cluster.adoc[Cluster] with a subset of the nodes and topic partiti
 
 * Can be accessed using <<fetch, fetch>>
 
+| [[listeners]] `listeners`
+|
+
 | [[lastRefreshMs]] `lastRefreshMs`
 a| The time (in millis) of the last successful <<update, update>> (and <<failedUpdate, failed update>>)
 
@@ -30,6 +33,9 @@ a| The time (in millis) of the last successful <<update, update>> (and <<failedU
 * Starts `0` when `Metadata` is <<creating-instance, created>>
 
 * Reset (to `0`) in <<requestUpdateForNewTopics, requestUpdateForNewTopics>>
+
+| [[lastSuccessfulRefreshMs]] `lastSuccessfulRefreshMs`
+|
 
 | [[needMetadataForAllTopics-flag]] `needMetadataForAllTopics`
 a| Flag...FIXME
@@ -40,6 +46,9 @@ a| Flag...FIXME
 
 | [[needUpdate]] `needUpdate`
 a| Flag...FIXME
+
+| [[version]] `version`
+|
 |===
 
 [[logging]]
@@ -50,7 +59,7 @@ Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.Metadata`
 Add the following line to `config/tools-log4j.properties`:
 
 ```
-log4j.logger.org.apache.kafka.clients.Metadata=TRACE, stdout
+log4j.logger.org.apache.kafka.clients.Metadata=TRACE
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
@@ -129,7 +138,23 @@ CAUTION: FIXME
 synchronized void update(Cluster cluster, Set<String> unavailableTopics, long now)
 ----
 
-`update`...FIXME
+`update` turns <<needUpdate, needUpdate>> off and increments <<version, version>>.
+
+`update` sets <<lastRefreshMs, lastRefreshMs>> and <<lastSuccessfulRefreshMs, lastSuccessfulRefreshMs>> internal registries to the input `now`.
+
+(only when <<topicExpiryEnabled, topicExpiryEnabled>> is enabled) `update`...FIXME
+
+`update` notifies <<listeners, listeners>> that the link:kafka-Metadata-Listener.adoc#onMetadataUpdate[metadata has been updated].
+
+`update` does <<getClusterForCurrentTopics, getClusterForCurrentTopics>> for the `cluster` when <<needMetadataForAllTopics, needMetadataForAllTopics>> flag is on and turns <<needUpdate, needUpdate>> flag off (that may have been turned on...FIXME).
+
+`update` sets the <<cluster, cluster>> to the input `cluster`.
+
+`update` prints out the cluster ID and notifies <<clusterResourceListeners, clusterResourceListeners>> that link:kafka-ClusterResourceListener.adoc#onUpdate[cluster has changed] (only for a link:kafka-Cluster.adoc#isBootstrapConfigured[non-bootstrap cluster]).
+
+```
+Cluster ID: [clusterId]
+```
 
 [NOTE]
 ====
@@ -151,7 +176,7 @@ synchronized void update(Cluster cluster, Set<String> unavailableTopics, long no
 * [[metadataExpireMs]] `metadataExpireMs`
 * [[allowAutoTopicCreation]] `allowAutoTopicCreation` flag
 * [[topicExpiryEnabled]] `topicExpiryEnabled` flag
-* [[clusterResourceListeners]] `ClusterResourceListeners`
+* [[clusterResourceListeners]] link:kafka-ClusterResourceListener.adoc[ClusterResourceListeners]
 
 `Metadata` initializes the <<internal-registries, internal registries and counters>>.
 
