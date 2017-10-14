@@ -2,7 +2,22 @@
 
 `Metadata`...FIXME
 
-`Metadata` is <<creating-instance, created>> when...FIXME
+`Metadata` is <<creating-instance, created>> when:
+
+* `KafkaConsumer` is link:kafka-KafkaConsumer.adoc#creating-instance[created]
+** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for <<refreshBackoffMs, refreshBackoffMs>>
+** link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms] for <<metadataExpireMs, metadataExpireMs>>
+** <<allowAutoTopicCreation, allowAutoTopicCreation>> flag enabled
+** <<topicExpiryEnabled, topicExpiryEnabled>> flag disabled
+* `KafkaProducer` is link:kafka-KafkaProducer.adoc#creating-instance[created]
+** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for <<refreshBackoffMs, refreshBackoffMs>>
+** link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms] for <<metadataExpireMs, metadataExpireMs>>
+** <<allowAutoTopicCreation, allowAutoTopicCreation>> flag enabled
+** <<topicExpiryEnabled, topicExpiryEnabled>> flag enabled
+* `KafkaAdminClient` is link:kafka-KafkaAdminClient.adoc#creating-instance[created]
+** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for <<refreshBackoffMs, refreshBackoffMs>>
+** link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms] for <<metadataExpireMs, metadataExpireMs>>
+* `AdminClient` is link:kafka-AdminClient.adoc#create[created]
 
 [[internal-registries]]
 .Metadata's Internal Properties (e.g. Registries and Counters)
@@ -142,7 +157,7 @@ synchronized void update(Cluster cluster, Set<String> unavailableTopics, long no
 
 `update` sets <<lastRefreshMs, lastRefreshMs>> and <<lastSuccessfulRefreshMs, lastSuccessfulRefreshMs>> internal registries to the input `now`.
 
-(only when <<topicExpiryEnabled, topicExpiryEnabled>> is enabled) `update`...FIXME
+(only when <<topicExpiryEnabled, topicExpiryEnabled>> is enabled, e.g. link:kafka-KafkaProducer.adoc#creating-instance[KafkaProducer]) `update`...FIXME
 
 `update` notifies <<listeners, listeners>> that the link:kafka-Metadata-Listener.adoc#onMetadataUpdate[metadata has been updated].
 
