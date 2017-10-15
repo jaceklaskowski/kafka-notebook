@@ -1,6 +1,9 @@
 == [[KafkaConsumer]] KafkaConsumer -- Main Class For Kafka Consumers
 
-`KafkaConsumer` is the main public class that Kafka developers use to write link:kafka-consumers.adoc[Kafka consumers].
+`KafkaConsumer` is the main public class that you and other Kafka developers use to write link:kafka-consumers.adoc[Kafka consumers] that consume records from a Kafka cluster.
+
+.KafkaConsumer
+image::images/KafkaConsumer.png[align="center"]
 
 `KafkaConsumer` is a part of the public API and is <<creating-instance, created>> with properties and (key and value) deserializers as configuration.
 
@@ -34,9 +37,6 @@ val consumer = new KafkaConsumer[String, String](
 `KafkaConsumer` registers itself in JMX with *kafka.consumer* prefix.
 
 CAUTION: FIXME How does the JMX registration happen?
-
-.KafkaConsumer
-image::images/KafkaConsumer.png[align="center"]
 
 [IMPORTANT]
 ====

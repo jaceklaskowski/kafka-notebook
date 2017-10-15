@@ -83,6 +83,18 @@
 . link:kafka-topic-deletion.adoc[Topic Deletion]
 . link:kafka-controller-election.adoc[Kafka Controller Election]
 
+=== Kafka Client API
+
+. link:kafka-KafkaProducer.adoc[KafkaProducer -- Main Class For Kafka Producers]
+.. link:kafka-Sender.adoc[Sender]
+.. link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
+
+. link:kafka-KafkaConsumer.adoc[KafkaConsumer -- Main Class For Kafka Consumers]
+.. link:kafka-Deserializer.adoc[Deserializer]
+.. link:kafka-ConsumerConfig.adoc[ConsumerConfig]
+.. link:kafka-Consumer.adoc[Consumer]
+.. link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor]
+
 === Architecture
 
 . link:kafka-brokers.adoc[Broker Nodes -- Kafka Servers]
@@ -93,14 +105,7 @@
 
 . link:kafka-clients.adoc[Kafka Clients]
 .. link:kafka-producers.adoc[Producers]
-... link:kafka-KafkaProducer.adoc[KafkaProducer]
-... link:kafka-Sender.adoc[Sender]
 .. link:kafka-consumers.adoc[Consumers]
-... link:kafka-KafkaConsumer.adoc[KafkaConsumer -- Main Class For Kafka Consumers]
-... link:kafka-Deserializer.adoc[Deserializer]
-... link:kafka-ConsumerConfig.adoc[ConsumerConfig]
-... link:kafka-Consumer.adoc[Consumer]
-... link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor]
 
 . link:kafka-RequestCompletionHandler.adoc[RequestCompletionHandler]
 . link:kafka-ClientResponse.adoc[ClientResponse]

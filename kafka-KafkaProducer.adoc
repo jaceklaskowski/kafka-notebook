@@ -1,8 +1,11 @@
-== [[KafkaProducer]] KafkaProducer
+== [[KafkaProducer]] KafkaProducer -- Main Class For Kafka Producers
 
-`KafkaProducer` is one of the main parts of the public API of Apache Kafka to write Kafka clients that publish records to a Kafka cluster.
+`KafkaProducer` is the main public class that you and other Kafka developers use to write link:kafka-producers.adoc[Kafka producers] that publish records to a Kafka cluster.
 
-`KafkaProducer` is <<creating-instance, created>> when...FIXME
+.KafkaProducer
+image::images/KafkaProducer.png[align="center"]
+
+`KafkaProducer` is a part of the public API and is <<creating-instance, created>> with properties and (key and value) serializers as configuration.
 
 [[internal-registries]]
 .KafkaProducer's Internal Properties (e.g. Registries and Counters)
@@ -10,6 +13,19 @@
 |===
 | Name
 | Description
+
+| [[metadata]] `metadata`
+a| link:kafka-Metadata.adoc[Metadata]
+
+* Created when `KafkaProducer` is <<creating-instance, created>> with the following properties:
+** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for link:kafka-Metadata.adoc#refreshBackoffMs[refreshBackoffMs]
+** link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms] for link:kafka-Metadata.adoc#metadataExpireMs[metadataExpireMs]
+** link:kafka-Metadata.adoc#allowAutoTopicCreation[allowAutoTopicCreation] flag enabled
+** link:kafka-Metadata.adoc#topicExpiryEnabled[topicExpiryEnabled] flag enabled
+
+* link:kafka-Metadata.adoc#update[Updated] with a bootstrap cluster when `KafkaProducer` is <<creating-instance, created>>
+
+* Used in <<waitOnMetadata, waitOnMetadata>>
 
 | [[sender]] `sender`
 a| link:kafka-Sender.adoc[Sender] with the following:
@@ -20,7 +36,29 @@ a| link:kafka-Sender.adoc[Sender] with the following:
 a| Thread of execution...FIXME
 |===
 
-=== [[configureClusterResourceListeners]] `configureClusterResourceListeners` Internal Method
+=== [[waitOnMetadata]] `waitOnMetadata` Internal Recursive Method
+
+[source, scala]
+----
+ClusterAndWaitTime waitOnMetadata(
+  String topic,
+  Integer partition,
+  long maxWaitMs) throws InterruptedException
+----
+
+`waitOnMetadata`...FIXME
+
+NOTE: `waitOnMetadata` is used when...FIXME
+
+=== [[creating-instance]] Creating KafkaProducer Instance
+
+`KafkaProducer` takes the following when created:
+
+* FIXME
+
+`KafkaProducer` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[configureClusterResourceListeners]] Configuring ClusterResourceListeners -- `configureClusterResourceListeners` Internal Method
 
 [source, java]
 ----
@@ -30,14 +68,15 @@ ClusterResourceListeners configureClusterResourceListeners(
   List<?>... candidateLists)
 ----
 
-`configureClusterResourceListeners`...FIXME
+`configureClusterResourceListeners` creates a link:kafka-ClusterResourceListener.adoc#ClusterResourceListeners[ClusterResourceListeners] and registers `ClusterResourceListener` instances from the input `candidateLists`, `keySerializer` and `valueSerializer`.
 
-NOTE: `configureClusterResourceListeners` is used when...FIXME
+[NOTE]
+====
+`configureClusterResourceListeners` is used exclusively when `KafkaProducer` is <<creating-instance, created>> (to create the <<metadata, Metadata>>) with the following input arguments:
 
-=== [[creating-instance]] Creating KafkaProducer Instance
+* <<keySerializer, key>> and <<valueSerializer, value>> serializers (defined when `KafkaProducer` is created)
 
-`KafkaProducer` takes the following when created:
+* link:kafka-ProducerInterceptor.adoc[ProducerInterceptors] from link:kafka-properties.adoc#interceptor.classes[interceptor.classes] Kafka property
 
-* FIXME
-
-`KafkaProducer` initializes the <<internal-registries, internal registries and counters>>.
+* link:kafka-MetricsReporter.adoc[MetricsReporters] from link:kafka-properties.adoc#metric_reporters[metric.reporters] Kafka property
+====
