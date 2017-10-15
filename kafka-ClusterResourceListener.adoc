@@ -16,7 +16,7 @@ public interface ClusterResourceListener {
 [[registering-listeners]]
 You can register a `ClusterResourceListener` for the following Kafka services:
 
-* link:kafka-KafkaServer.adoc#notifyClusterListeners[KafkaServer]
+* `KafkaServer` to get notified once at link:notifyClusterListeners#notifyClusterListeners[startup]
 * link:kafka-KafkaProducer.adoc#configureClusterResourceListeners[KafkaProducer]
 * link:kafka-KafkaConsumer.adoc#configureClusterResourceListeners[KafkaConsumer]
 

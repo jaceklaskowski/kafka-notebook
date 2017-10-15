@@ -98,17 +98,6 @@ Used when...FIXME
 | link:kafka-ZkUtils.adoc[ZkUtils]
 |===
 
-=== [[notifyClusterListeners]] `notifyClusterListeners` Internal Method
-
-[source, scala]
-----
-notifyClusterListeners(clusterListeners: Seq[AnyRef]): Unit
-----
-
-`notifyClusterListeners`...FIXME
-
-NOTE: `notifyClusterListeners` is used when...FIXME
-
 === [[getBrokerIdAndOfflineDirs]] Getting Broker ID and Initial Offline Directories -- `getBrokerIdAndOfflineDirs` Internal Method
 
 CAUTION: FIXME
@@ -238,3 +227,14 @@ INFO [Kafka Server [brokerId]], started (kafka.server.KafkaServer)
 NOTE: The INFO message above uses so-called *log ident* with the value of `broker.id` property and is always in the format ``[Kafka Server [brokerId]], `` after a Kafka server has fully started.
 
 NOTE: `startup` is used exclusively when `KafkaServerStartable` link:kafka-KafkaServerStartable.adoc#startup[starts up].
+
+=== [[notifyClusterListeners]] Sending Updated Cluster Metadata to ClusterResourceListeners -- `notifyClusterListeners` Internal Method
+
+[source, scala]
+----
+notifyClusterListeners(clusterListeners: Seq[AnyRef]): Unit
+----
+
+`notifyClusterListeners` creates a link:kafka-ClusterResourceListener.adoc#ClusterResourceListeners[ClusterResourceListeners] (with the objects from the input `clusterListeners` of type `ClusterResourceListener`) and link:kafka-ClusterResourceListener.adoc#onUpdate[sends the updated cluster metadata] to them.
+
+NOTE: `notifyClusterListeners` is used exclusively when `KafkaServer` <<startup, starts up>> (with `clusterListeners` as <<kafkaMetricsReporters, kafkaMetricsReporters>> and the `MetricsReporter` reporters from link:kafka-properties.adoc#metric_reporters[metric.reporters] Kafka property).
