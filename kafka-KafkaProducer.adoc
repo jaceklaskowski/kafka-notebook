@@ -20,6 +20,20 @@ a| link:kafka-Sender.adoc[Sender] with the following:
 a| Thread of execution...FIXME
 |===
 
+=== [[configureClusterResourceListeners]] `configureClusterResourceListeners` Internal Method
+
+[source, java]
+----
+ClusterResourceListeners configureClusterResourceListeners(
+  Serializer<K> keySerializer,
+  Serializer<V> valueSerializer,
+  List<?>... candidateLists)
+----
+
+`configureClusterResourceListeners`...FIXME
+
+NOTE: `configureClusterResourceListeners` is used when...FIXME
+
 === [[creating-instance]] Creating KafkaProducer Instance
 
 `KafkaProducer` takes the following when created:

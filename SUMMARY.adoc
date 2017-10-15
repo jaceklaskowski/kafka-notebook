@@ -46,7 +46,7 @@
 . link:kafka-Metadata.adoc[Metadata]
 .. link:kafka-Metadata-Listener.adoc[Metadata Update Listener]
 
-. link:kafka-ClusterResourceListener.adoc[ClusterResourceListener]
+. link:kafka-ClusterResourceListener.adoc[ClusterResourceListener (and ClusterResourceListeners Collection)]
 
 . link:kafka-MetadataCache.adoc[MetadataCache]
 . link:kafka-MetadataResponse.adoc[MetadataResponse]

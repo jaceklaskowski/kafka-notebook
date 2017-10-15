@@ -98,6 +98,17 @@ Used when...FIXME
 | link:kafka-ZkUtils.adoc[ZkUtils]
 |===
 
+=== [[notifyClusterListeners]] `notifyClusterListeners` Internal Method
+
+[source, scala]
+----
+notifyClusterListeners(clusterListeners: Seq[AnyRef]): Unit
+----
+
+`notifyClusterListeners`...FIXME
+
+NOTE: `notifyClusterListeners` is used when...FIXME
+
 === [[getBrokerIdAndOfflineDirs]] Getting Broker ID and Initial Offline Directories -- `getBrokerIdAndOfflineDirs` Internal Method
 
 CAUTION: FIXME
@@ -111,10 +122,6 @@ CAUTION: FIXME
 CAUTION: FIXME
 
 === [[checkpointBrokerId]] `checkpointBrokerId` Internal Method
-
-CAUTION: FIXME
-
-=== [[notifyClusterListeners]] `notifyClusterListeners` Method
 
 CAUTION: FIXME
 

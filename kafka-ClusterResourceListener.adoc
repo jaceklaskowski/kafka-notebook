@@ -1,6 +1,6 @@
-== [[ClusterResourceListener]] ClusterResourceListener
+== [[ClusterResourceListener]] ClusterResourceListener (and ClusterResourceListeners Collection)
 
-`ClusterResourceListener` is the <<contract, contract>> of...FIXME
+`ClusterResourceListener` is the <<contract, contract>> for objects that want to be notified about <<onUpdate, changes in the Cluster metadata>>.
 
 [[contract]]
 [[onUpdate]]
@@ -12,3 +12,16 @@ public interface ClusterResourceListener {
   void onUpdate(ClusterResource clusterResource);
 }
 ----
+
+[[registering-listeners]]
+You can register a `ClusterResourceListener` for the following Kafka services:
+
+* link:kafka-KafkaServer.adoc#notifyClusterListeners[KafkaServer]
+* link:kafka-KafkaProducer.adoc#configureClusterResourceListeners[KafkaProducer]
+* link:kafka-KafkaConsumer.adoc#configureClusterResourceListeners[KafkaConsumer]
+
+=== [[ClusterResourceListeners]] ClusterResourceListeners Collection
+
+`ClusterResourceListeners` collection holds zero or more `ClusterResourceListener` objects and uses them as one.
+
+`ClusterResourceListeners` is used mainly by link:kafka-Metadata.adoc#clusterResourceListeners[Metadata] that manages and notifies <<registering-listeners, registered listeners>> when a cluster metadata change occurs.

@@ -119,6 +119,20 @@ log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[configureClusterResourceListeners]] `configureClusterResourceListeners` Internal Method
+
+[source, java]
+----
+ClusterResourceListeners configureClusterResourceListeners(
+  Deserializer<K> keyDeserializer,
+  Deserializer<V> valueDeserializer,
+  List<?>... candidateLists)
+----
+
+`configureClusterResourceListeners`...FIXME
+
+NOTE: `configureClusterResourceListeners` is used when...FIXME
+
 === [[unsubscribe]] `unsubscribe` Method
 
 CAUTION: FIXME
