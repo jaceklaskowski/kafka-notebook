@@ -119,20 +119,6 @@ log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
-=== [[configureClusterResourceListeners]] `configureClusterResourceListeners` Internal Method
-
-[source, java]
-----
-ClusterResourceListeners configureClusterResourceListeners(
-  Deserializer<K> keyDeserializer,
-  Deserializer<V> valueDeserializer,
-  List<?>... candidateLists)
-----
-
-`configureClusterResourceListeners`...FIXME
-
-NOTE: `configureClusterResourceListeners` is used when...FIXME
-
 === [[unsubscribe]] `unsubscribe` Method
 
 CAUTION: FIXME
@@ -382,3 +368,26 @@ Read about Selection in http://download.java.net/java/jdk9/docs/api/java/nio/cha
 ====
 
 NOTE: `wakeup` is used when...FIXME
+
+=== [[configureClusterResourceListeners]] Configuring ClusterResourceListeners -- `configureClusterResourceListeners` Internal Method
+
+[source, java]
+----
+ClusterResourceListeners configureClusterResourceListeners(
+  Deserializer<K> keyDeserializer,
+  Deserializer<V> valueDeserializer,
+  List<?>... candidateLists)
+----
+
+`configureClusterResourceListeners` creates a link:kafka-ClusterResourceListener.adoc#ClusterResourceListeners[ClusterResourceListeners] and registers `ClusterResourceListener` instances from the input `candidateLists`, `keyDeserializer` and `valueDeserializer`.
+
+[NOTE]
+====
+`configureClusterResourceListeners` is used exclusively when `KafkaConsumer` is <<creating-instance, created>> (to create the <<metadata, Metadata>>) with the following input arguments:
+
+* <<keyDeserializer, key>> and <<valueDeserializer, value>> deserializers (defined when `KafkaConsumer` is created)
+
+* link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptors] from link:kafka-properties.adoc#interceptor.classes[interceptor.classes] Kafka property
+
+* link:kafka-MetricsReporter.adoc[MetricsReporters] from link:kafka-properties.adoc#metric_reporters[metric.reporters] Kafka property
+====
