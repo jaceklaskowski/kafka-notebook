@@ -77,7 +77,7 @@
 . link:kafka-ZkUtils.adoc[ZkUtils]
 . link:kafka-ZKRebalancerListener.adoc[ZKRebalancerListener]
 
-=== Features
+=== Kafka Features
 
 . link:kafka-topic-replication.adoc[Topic Replication]
 . link:kafka-topic-deletion.adoc[Topic Deletion]
@@ -119,14 +119,14 @@
 .. link:kafka-KafkaConsumerGroupService.adoc[KafkaConsumerGroupService]
 ... link:kafka-ConsumerGroupService.adoc[ConsumerGroupService]
 
-=== Metrics
+=== Kafka Metrics
 
 . link:kafka-Sensor.adoc[Sensor]
 . link:kafka-MetricsReporter.adoc[MetricsReporter]
 . link:kafka-ProducerMetrics.adoc[ProducerMetrics]
 . link:kafka-SenderMetrics.adoc[SenderMetrics]
 
----
+=== Kafka Tools
 
 . link:kafka-tools.adoc[Kafka Tools]
 .. link:kafka-tools-kafka-configs.adoc[kafka-configs.sh]
@@ -139,16 +139,16 @@
 .. link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
 . link:kafka-logging.adoc[Logging]
 
----
-
-. link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
-. link:kafka-ConnectDistributed.adoc[ConnectDistributed]
-
 === Tips and Tricks
 
 . link:kafka-gradle-tips.adoc[Gradle Tips]
 . link:kafka-zookeeper-tips.adoc[Zookeeper Tips]
 . link:kafka-scala-repl.adoc[Kafka in Scala REPL for Interactive Exploration]
+
+=== Kafka Connect
+
+. link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
+. link:kafka-ConnectDistributed.adoc[ConnectDistributed]
 
 === Appendix
 
