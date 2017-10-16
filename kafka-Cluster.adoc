@@ -19,6 +19,9 @@ NOTE: A bootstrap cluster does not hold all information about the cluster.
 | Flag...FIXME
 
 Used when...FIXME
+
+| [[partitionsByTopic]] `partitionsByTopic`
+|
 |===
 
 === [[bootstrap]] `bootstrap` Method
@@ -42,3 +45,23 @@ boolean isBootstrapConfigured()
 `isBootstrapConfigured` gives <<isBootstrapConfigured-flag, isBootstrapConfigured>> internal flag.
 
 NOTE: `isBootstrapConfigured` is used when...FIXME
+
+=== [[partitionsForTopic]] Getting Partitions for Topic -- `partitionsForTopic` Method
+
+[source, java]
+----
+List<PartitionInfo> partitionsForTopic(String topic)
+----
+
+`partitionsForTopic` returns a collection of zero or more partition of the input `topic` from <<partitionsByTopic, partitionsByTopic>> internal lookup table.
+
+[NOTE]
+====
+`partitionsForTopic` is used when:
+
+* `Metadata` link:kafka-Metadata.adoc#getClusterForCurrentTopics[getClusterForCurrentTopics]
+* `KafkaAdminClient` link:kafka-KafkaAdminClient.adoc#describeTopics[describeTopics]
+* `KafkaConsumer` link:kafka-KafkaConsumer.adoc#partitionsFor[partitionsFor]
+* `KafkaProducer` link:kafka-KafkaProducer.adoc#partitionsFor[requests partitions for a topic]
+* `DefaultPartitioner` link:kafka-DefaultPartitioner.adoc#partition[assigns the partition for a record]
+====

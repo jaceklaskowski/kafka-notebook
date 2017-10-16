@@ -107,6 +107,11 @@ props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, "pl.jaceklaskowski.kafka.Ka
 |
 | How to deserialize message keys.
 
+| [[max.block.ms]] `max.block.ms`
+|
+|
+|
+
 | [[max.partition.fetch.bytes]] `max.partition.fetch.bytes`
 |
 |

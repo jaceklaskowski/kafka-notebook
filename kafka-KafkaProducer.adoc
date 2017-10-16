@@ -7,12 +7,19 @@ image::images/KafkaProducer.png[align="center"]
 
 `KafkaProducer` is a part of the public API and is <<creating-instance, created>> with properties and (key and value) serializers as configuration.
 
+`KafkaProducer` follows the link:kafka-Producer.adoc[Producer contract].
+
 [[internal-registries]]
 .KafkaProducer's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name
 | Description
+
+| [[maxBlockTimeMs]] `maxBlockTimeMs`
+a| Time `KafkaProducer` uses to block when requesting <<partitionsFor, partitions for a topic>>.
+
+NOTE: Use link:kafka-properties.adoc#max.block.ms[max.block.ms] Kafka property to set the value.
 
 | [[metadata]] `metadata`
 a| link:kafka-Metadata.adoc[Metadata]
@@ -36,6 +43,28 @@ a| link:kafka-Sender.adoc[Sender] with the following:
 a| Thread of execution...FIXME
 |===
 
+=== [[send]] Asynchronously Sending Record to Topic and Notifying Producer Interceptors -- `send` Method
+
+[source, scala]
+----
+Future<RecordMetadata> send(ProducerRecord<K, V> record, Callback callback)
+----
+
+NOTE: `send` is a part of link:kafka-Producer.adoc#send[Producer Contract].
+
+`send`...FIXME
+
+=== [[doSend]] Asynchronously Sending Record to Topic -- `doSend` Internal Method
+
+[source, scala]
+----
+Future<RecordMetadata> doSend(ProducerRecord<K, V> record, Callback callback)
+----
+
+`doSend`...FIXME
+
+NOTE: `doSend` is used exclusively when `KafkaProducer` <<send, asynchronously sends a record to a topic and notifies producer interceptors>>.
+
 === [[waitOnMetadata]] `waitOnMetadata` Internal Recursive Method
 
 [source, scala]
@@ -48,7 +77,7 @@ ClusterAndWaitTime waitOnMetadata(
 
 `waitOnMetadata`...FIXME
 
-NOTE: `waitOnMetadata` is used when...FIXME
+NOTE: `waitOnMetadata` is used when `KafkaProducer` <<partitionsFor, requests partitions for a topic>> and <<doSend, asynchronously sends a record to a topic>>.
 
 === [[creating-instance]] Creating KafkaProducer Instance
 
@@ -80,3 +109,14 @@ ClusterResourceListeners configureClusterResourceListeners(
 
 * link:kafka-MetricsReporter.adoc[MetricsReporters] from link:kafka-properties.adoc#metric_reporters[metric.reporters] Kafka property
 ====
+
+=== [[partitionsFor]] Requesting Partitions for Topic -- `partitionsFor` Method
+
+[source, scala]
+----
+List<PartitionInfo> partitionsFor(String topic)
+----
+
+NOTE: `partitionsFor` is a part of link:kafka-Producer.adoc#partitionsFor[Producer Contract].
+
+`partitionsFor` <<waitOnMetadata, waits on cluster metadata>> for the input `topic` and <<maxBlockTimeMs, max.block.ms>> time. Once retrieved, `partitionsFor` requests `Cluster` for the link:kafka-Cluster.adoc#partitionsForTopic[partitions].

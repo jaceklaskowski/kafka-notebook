@@ -4,6 +4,17 @@
 
 `KafkaAdminClient` is <<creating-instance, created>> when...FIXME
 
+=== [[describeTopics]] `describeTopics` Method
+
+[source, java]
+----
+DescribeTopicsResult describeTopics(final Collection<String> topicNames, DescribeTopicsOptions options)
+----
+
+`describeTopics`...FIXME
+
+NOTE: `describeTopics` is used when...FIXME
+
 === [[creating-instance]] Creating KafkaAdminClient Instance
 
 `KafkaAdminClient` takes the following when created:

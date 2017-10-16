@@ -59,6 +59,10 @@
 
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 . link:kafka-Partition.adoc[Partition]
+
+. link:kafka-DefaultPartitioner.adoc[DefaultPartitioner]
+.. link:kafka-Partitioner.adoc[Partitioner]
+
 . link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
 
 . link:kafka-ReplicaManager.adoc[ReplicaManager]
@@ -86,13 +90,15 @@
 === Kafka Client API
 
 . link:kafka-KafkaProducer.adoc[KafkaProducer -- Main Class For Kafka Producers]
+.. link:kafka-Producer.adoc[Producer]
+.. link:kafka-Serializer.adoc[Serializer]
 .. link:kafka-Sender.adoc[Sender]
 .. link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
 
 . link:kafka-KafkaConsumer.adoc[KafkaConsumer -- Main Class For Kafka Consumers]
+.. link:kafka-Consumer.adoc[Consumer]
 .. link:kafka-Deserializer.adoc[Deserializer]
 .. link:kafka-ConsumerConfig.adoc[ConsumerConfig]
-.. link:kafka-Consumer.adoc[Consumer]
 .. link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor]
 
 === Architecture
