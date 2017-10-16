@@ -131,6 +131,19 @@ synchronized int requestUpdate()
 
 NOTE: `requestUpdate` is used when...FIXME
 
+=== [[awaitUpdate]] `awaitUpdate` Method
+
+[source, java]
+----
+synchronized void awaitUpdate(
+  final int lastVersion,
+  final long maxWaitMs) throws InterruptedException
+----
+
+`awaitUpdate`...FIXME
+
+NOTE: `awaitUpdate` is used when...FIXME
+
 === [[fetch]] Getting Current Cluster Information -- `fetch` Method
 
 [source, scala]
