@@ -24,7 +24,9 @@ interface MetadataUpdater {
 | Description
 
 | [[maybeUpdate]] `maybeUpdate`
-|
+| Starts a cluster metadata update if needed and possible.
+
+Used exclusively when `NetworkClient` is requested to link:kafka-NetworkClient.adoc#poll[read and write to sockets].
 
 | [[requestUpdate]] `requestUpdate`
 |

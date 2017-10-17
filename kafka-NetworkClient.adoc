@@ -27,9 +27,6 @@ image::images/NetworkClient.png[align="center"]
 | Name
 | Description
 
-| [[metadataFetchInProgress]] `metadataFetchInProgress`
-| Flag to control whether...FIXME
-
 | [[connectionStates]] `connectionStates`
 | `ClusterConnectionStates`
 
@@ -125,7 +122,7 @@ NOTE: `wakeup` is a part of link:kafka-KafkaClient.adoc#wakeup[KafkaClient Contr
 
 NOTE: `wakeup` is used when...FIXME
 
-=== [[poll]] `poll` Method
+=== [[poll]] Reading and Writing to Sockets -- `poll` Method
 
 [source, java]
 ----
@@ -134,7 +131,7 @@ List<ClientResponse> poll(long timeout, long now)
 
 NOTE: `poll` is a part of link:kafka-KafkaClient.adoc#poll[KafkaClient Contract].
 
-`poll` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-MetadataUpdater.adoc#maybeUpdate[maybeUpdate].
+`poll` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-MetadataUpdater.adoc#maybeUpdate[cluster metadata update (if needed and possible)].
 
 `poll` then requests <<selector, Selectable>> to link:kafka-Selectable.adoc#poll[poll].
 

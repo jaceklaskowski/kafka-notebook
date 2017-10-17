@@ -2,6 +2,8 @@
 
 `DefaultMetadataUpdater` is a link:kafka-MetadataUpdater.adoc[MetadataUpdater] that `NetworkClient` uses to...FIXME
 
+`DefaultMetadataUpdater` is <<creating-instance, created>> when...FIXME
+
 [[internal-registries]]
 .DefaultMetadataUpdater's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
@@ -11,6 +13,15 @@
 
 | [[metadata]] `metadata`
 | link:kafka-Metadata.adoc[Metadata]
+
+| [[metadataFetchInProgress]] `metadataFetchInProgress`
+a| Flag to control whether a cluster metadata update is in progress, i.e. FIXME
+
+* Disabled when `DefaultMetadataUpdater` is <<creating-instance, created>>
+
+* Turned on exclusively when `DefaultMetadataUpdater` does <<maybeUpdate-long-node, maybeUpdate>> (with a timestamp and a broker node)
+
+* Turned off when `DefaultMetadataUpdater` handles <<handleCompletedMetadataResponse, completed metadata response>>, <<handleDisconnection, disconnection>> or <<handleAuthenticationFailure, authentication failure>>
 |===
 
 [[logging]]
@@ -33,18 +44,53 @@ log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG, stdout
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[creating-instance]] Creating DefaultMetadataUpdater Instance
+
+`DefaultMetadataUpdater` takes the following when created:
+
+* FIXME
+
+`DefaultMetadataUpdater` initializes the <<internal-registries, internal registries and counters>>.
+
 === [[isUpdateDue]] `isUpdateDue` Method
 
 CAUTION: FIXME
 
-=== [[maybeUpdate]] `maybeUpdate` Internal Method
+=== [[maybeUpdate-long]] `maybeUpdate` Internal Method (with timestamp only)
+
+[source, java]
+----
+maybeUpdate(long now)
+----
+
+NOTE: `maybeUpdate` is a part of link:kafka-MetadataUpdater.adoc#maybeUpdate[MetadataUpdater Contract].
+
+`maybeUpdate` requests <<metadata, Metadata>> for link:kafka-Metadata.adoc#timeToNextUpdate[timeToNextUpdate] (with the input `now`).
+
+`maybeUpdate` takes link:kafka-NetworkClient.adoc#requestTimeoutMs[requestTimeoutMs] for the time to wait till metadata fetch in progress finishes if <<metadataFetchInProgress, metadataFetchInProgress>> flag is turned on or `0` otherwise.
+
+`maybeUpdate` takes the maximum of the two values above to check if the current cluster metadata has expired.
+
+If not, `maybeUpdate` gives the maximum value (that says how long to wait till the current cluster metadata expires).
+
+Otherwise, `maybeUpdate` <<leastLoadedNode, selects the node>> to request a cluster metadata from and <<maybeUpdate-long-node, maybeUpdate>> (with the input `now` timestamp and the node).
+
+If no node was found, `maybeUpdate` prints out the following DEBUG message to the logs and gives link:kafka-NetworkClient.adoc#reconnectBackoffMs[reconnectBackoffMs].
+
+```
+Give up sending metadata request since no node is available
+```
+
+=== [[maybeUpdate-long-node]] `maybeUpdate` Internal Method (with timestamp and node)
 
 [source, java]
 ----
 long maybeUpdate(long now, Node node)
 ----
 
-CAUTION: FIXME
+`maybeUpdate`...FIXME
+
+NOTE: `maybeUpdate` is used exclusively when `DefaultMetadataUpdater` is requested to <<maybeUpdate-long, maybeUpdate>> (with the timestamp only).
 
 === [[handleAuthenticationFailure]] `handleAuthenticationFailure` Callback Method
 
