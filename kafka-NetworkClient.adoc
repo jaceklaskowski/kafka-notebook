@@ -6,6 +6,9 @@ NOTE: link:kafka-Selector.adoc[Selector] is the one and only link:kafka-Selectab
 
 `NetworkClient` does the actual reads and writes (to sockets) every <<poll, poll>>.
 
+.NetworkClient
+image::images/NetworkClient.png[align="center"]
+
 `NetworkClient` is <<creating-instance, created>> when:
 
 * `KafkaConsumer` is created (with `ConsumerNetworkClient`)

@@ -2,10 +2,21 @@
 
 `DefaultMetadataUpdater` is a link:kafka-MetadataUpdater.adoc[MetadataUpdater] that `NetworkClient` uses to...FIXME
 
+[[internal-registries]]
+.DefaultMetadataUpdater's Internal Properties (e.g. Registries and Counters)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[metadata]] `metadata`
+| link:kafka-Metadata.adoc[Metadata]
+|===
+
 [[logging]]
 [TIP]
 ====
-Enable `DEBUG` logging level for `org.apache.kafka.clients.NetworkClient` logger to see what happens inside.
+Enable `WARN`, `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.NetworkClient` logger to see what happens inside.
 
 Add the following line to `config/tools-log4j.properties` (for Kafka tools):
 
@@ -60,3 +71,17 @@ NOTE: `handleCompletedMetadataResponse` is a part of link:kafka-MetadataUpdater.
 `handleCompletedMetadataResponse` turns <<metadataFetchInProgress, metadataFetchInProgress>> flag off.
 
 `handleCompletedMetadataResponse` takes the link:kafka-MetadataResponse.adoc#cluster[cluster] from the `response`.
+
+`handleCompletedMetadataResponse` requests <<metadata, Metadata>> to link:kafka-Metadata.adoc#update[update] (with the cluster and unavailable topics) when there is at least one node in the cluster.
+
+When there are no nodes in the cluster, `handleCompletedMetadataResponse` prints out the following TRACE message to the logs and requests <<metadata, Metadata>> to link:kafka-Metadata.adoc#failedUpdate[record a failure] (with no exception).
+
+```
+Ignoring empty metadata response with correlation id [correlationId].
+```
+
+In case `response` has errors, `handleCompletedMetadataResponse` prints out the following WARN message to the logs:
+
+```
+Error while fetching metadata with correlation id [correlationId] : [errors]"
+```

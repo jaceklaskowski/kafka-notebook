@@ -96,7 +96,11 @@ a| Flag that controls whether a metadata update has been requested (enabled) or 
 Use <<updateRequested, updateRequested>> to know the current value.
 
 | [[version]] `version`
-| Metadata version
+a| Metadata version
+
+* `0` when `Metadata` is <<creating-instance, created>>
+
+* Incremented every <<update, update>>
 |===
 
 [[logging]]
@@ -230,7 +234,7 @@ CAUTION: FIXME
 synchronized void update(Cluster cluster, Set<String> unavailableTopics, long now)
 ----
 
-`update` turns <<needUpdate, needUpdate>> off and increments <<version, version>>.
+`update` turns <<needUpdate, needUpdate>> flag off and increments <<version, version>>.
 
 `update` sets <<lastRefreshMs, lastRefreshMs>> and <<lastSuccessfulRefreshMs, lastSuccessfulRefreshMs>> internal registries to the input `now`.
 
