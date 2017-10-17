@@ -24,6 +24,9 @@ NOTE: link:kafka-Selector.adoc[Selector] is the one and only link:kafka-Selectab
 | Name
 | Description
 
+| [[metadataFetchInProgress]] `metadataFetchInProgress`
+| Flag to control whether...FIXME
+
 | [[connectionStates]] `connectionStates`
 | `ClusterConnectionStates`
 

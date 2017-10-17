@@ -5,18 +5,14 @@
 
 === Kafka Broker Services
 
-. link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
-.. link:kafka-AdminClient.adoc[AdminClient]
-
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-Authorizer.adoc[Authorizer]
 
 . link:kafka-Cluster.adoc[Cluster]
 .. link:kafka-Cluster-deprecated.adoc[Cluster (deprecated)]
-
 . link:kafka-ClusterConnectionStates.adoc[ClusterConnectionStates]
-. link:kafka-ConsumerCoordinator.adoc[ConsumerCoordinator]
-. link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+. link:kafka-ClusterResourceListener.adoc[ClusterResourceListener (and ClusterResourceListeners Collection)]
+
 . link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
 . link:kafka-Fetcher.adoc[Fetcher]
 . link:kafka-GroupCoordinator.adoc[GroupCoordinator]
@@ -45,12 +41,8 @@
 
 . link:kafka-Metadata.adoc[Metadata]
 .. link:kafka-Metadata-Listener.adoc[Metadata Update Listener]
-
-. link:kafka-ClusterResourceListener.adoc[ClusterResourceListener (and ClusterResourceListeners Collection)]
-
 . link:kafka-MetadataCache.adoc[MetadataCache]
 . link:kafka-MetadataResponse.adoc[MetadataResponse]
-
 . link:kafka-MetadataUpdater.adoc[MetadataUpdater]
 .. link:kafka-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
 
@@ -59,9 +51,6 @@
 
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 . link:kafka-Partition.adoc[Partition]
-
-. link:kafka-DefaultPartitioner.adoc[DefaultPartitioner]
-.. link:kafka-Partitioner.adoc[Partitioner]
 
 . link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
 
@@ -87,21 +76,30 @@
 . link:kafka-topic-deletion.adoc[Topic Deletion]
 . link:kafka-controller-election.adoc[Kafka Controller Election]
 
-=== Kafka Client API
+=== Kafka Producer API
 
 . link:kafka-KafkaProducer.adoc[KafkaProducer -- Main Class For Kafka Producers]
 .. link:kafka-Producer.adoc[Producer]
-.. link:kafka-Serializer.adoc[Serializer]
-.. link:kafka-Sender.adoc[Sender]
-.. link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
+
+. link:kafka-DefaultPartitioner.adoc[DefaultPartitioner]
+.. link:kafka-Partitioner.adoc[Partitioner]
+
+. link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
+. link:kafka-Sender.adoc[Sender]
+. link:kafka-Serializer.adoc[Serializer]
+
+=== Kafka Consumer API
 
 . link:kafka-KafkaConsumer.adoc[KafkaConsumer -- Main Class For Kafka Consumers]
 .. link:kafka-Consumer.adoc[Consumer]
-.. link:kafka-Deserializer.adoc[Deserializer]
-.. link:kafka-ConsumerConfig.adoc[ConsumerConfig]
-.. link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor]
 
-=== Architecture
+. link:kafka-Deserializer.adoc[Deserializer]
+. link:kafka-ConsumerConfig.adoc[ConsumerConfig]
+. link:kafka-ConsumerCoordinator.adoc[ConsumerCoordinator]
+. link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor]
+. link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+
+=== Kafka Architecture
 
 . link:kafka-brokers.adoc[Broker Nodes -- Kafka Servers]
 .. link:kafka-Broker.adoc[Broker]
@@ -125,6 +123,9 @@
 .. link:kafka-KafkaConsumerGroupService.adoc[KafkaConsumerGroupService]
 ... link:kafka-ConsumerGroupService.adoc[ConsumerGroupService]
 
+. link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
+.. link:kafka-AdminClient.adoc[AdminClient]
+
 === Kafka Metrics
 
 . link:kafka-Sensor.adoc[Sensor]
@@ -137,6 +138,9 @@
 . link:kafka-tools.adoc[Kafka Tools]
 .. link:kafka-tools-kafka-configs.adoc[kafka-configs.sh]
 .. link:kafka-tools-kafka-topics.adoc[kafka-topics.sh]
+
+=== Kafka Configuration
+
 . link:kafka-properties.adoc[Properties]
 .. link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
 .. link:kafka-properties-client-id.adoc[client.id]

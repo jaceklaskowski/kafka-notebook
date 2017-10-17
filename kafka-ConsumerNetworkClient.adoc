@@ -75,9 +75,16 @@ Received user wakeup
 
 NOTE: `wakeup` is used when...FIXME
 
-=== [[ensureFreshMetadata]] `ensureFreshMetadata` Method
+=== [[ensureFreshMetadata]] Ensuring Fresh Metadata (and Possibly Blocking Until It Refreshes) -- `ensureFreshMetadata` Method
 
-CAUTION: FIXME
+[source, java]
+----
+void ensureFreshMetadata()
+----
+
+`ensureFreshMetadata` <<awaitMetadataUpdate, waits for metadata update>> when <<metadata, Metadata>> was requested for link:kafka-Metadata.adoc#updateRequested[update] or link:kafka-Metadata.adoc#timeToNextUpdate[time to the next update] is now.
+
+NOTE: `ensureFreshMetadata` is used when `ConsumerCoordinator` does link:kafka-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete], link:kafka-ConsumerCoordinator.adoc#performAssignment[performAssignment] and link:kafka-ConsumerCoordinator.adoc#poll[poll].
 
 === [[pendingRequestCount]] `pendingRequestCount` Method
 
@@ -111,7 +118,7 @@ boolean poll(RequestFuture<?> future, long timeout)
 * `Fetcher` is requested for link:kafka-Fetcher.adoc#getTopicMetadata[topic metadata] or link:kafka-Fetcher.adoc#retrieveOffsetsByTimes[retrieveOffsetsByTimes]
 ====
 
-=== [[awaitMetadataUpdate]] `awaitMetadataUpdate` Method
+=== [[awaitMetadataUpdate]] Waiting for Metadata Update -- `awaitMetadataUpdate` Method
 
 [source, java]
 ----

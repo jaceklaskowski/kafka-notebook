@@ -9,6 +9,7 @@ package org.apache.kafka.clients;
 interface MetadataUpdater {
   List<Node> fetchNodes();
   void handleDisconnection(String destination);
+  void handleAuthenticationFailure(AuthenticationException exception);
   void handleCompletedMetadataResponse(RequestHeader requestHeader, long now, MetadataResponse metadataResponse);
   boolean isUpdateDue(long now);
   long maybeUpdate(long now);
@@ -26,6 +27,9 @@ interface MetadataUpdater {
 |
 
 | [[requestUpdate]] `requestUpdate`
+|
+
+| [[handleAuthenticationFailure]] `handleAuthenticationFailure`
 |
 
 | [[handleCompletedMetadataResponse]] `handleCompletedMetadataResponse`

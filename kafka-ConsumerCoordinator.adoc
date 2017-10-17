@@ -26,6 +26,28 @@ FIXME
 
 NOTE: `refreshCommittedOffsetsIfNeeded` is used when...FIXME
 
+=== [[onJoinComplete]] `onJoinComplete` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`onJoinComplete`...FIXME
+
+NOTE: `onJoinComplete` is used when...FIXME
+
+=== [[performAssignment]] `performAssignment` Method
+
+[source, scala]
+----
+FIXME
+----
+
+`performAssignment`...FIXME
+
+NOTE: `performAssignment` is used when...FIXME
+
 === [[maybeLeaveGroup]] `maybeLeaveGroup` Method
 
 [source, scala]
@@ -70,7 +92,7 @@ FIXME
 
 NOTE: `timeToNextPoll` is used when...FIXME
 
-=== [[poll]] `poll` Method
+=== [[poll]] Polling for Coordinator Events -- `poll` Method
 
 [source, scala]
 ----

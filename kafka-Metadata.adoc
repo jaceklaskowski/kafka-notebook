@@ -1,23 +1,48 @@
 == [[Metadata]] Metadata
 
-`Metadata`...FIXME
+`Metadata` describes a Kafka <<cluster, cluster>>...FIXME
 
-`Metadata` is <<creating-instance, created>> when:
+`Metadata` is <<creating-instance, created>> right when link:kafka-KafkaConsumer.adoc#creating-instance[KafkaConsumer], link:kafka-KafkaProducer.adoc#creating-instance[KafkaProducer], link:kafka-KafkaAdminClient.adoc#creating-instance[KafkaAdminClient] and link:kafka-AdminClient.adoc#create[AdminClient] are created.
 
-* `KafkaConsumer` is link:kafka-KafkaConsumer.adoc#creating-instance[created]
-** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for <<refreshBackoffMs, refreshBackoffMs>>
-** link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms] for <<metadataExpireMs, metadataExpireMs>>
-** <<allowAutoTopicCreation, allowAutoTopicCreation>> flag enabled
-** <<topicExpiryEnabled, topicExpiryEnabled>> flag disabled
-* `KafkaProducer` is link:kafka-KafkaProducer.adoc#creating-instance[created]
-** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for <<refreshBackoffMs, refreshBackoffMs>>
-** link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms] for <<metadataExpireMs, metadataExpireMs>>
-** <<allowAutoTopicCreation, allowAutoTopicCreation>> flag enabled
-** <<topicExpiryEnabled, topicExpiryEnabled>> flag enabled
-* `KafkaAdminClient` is link:kafka-KafkaAdminClient.adoc#creating-instance[created]
-** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for <<refreshBackoffMs, refreshBackoffMs>>
-** link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms] for <<metadataExpireMs, metadataExpireMs>>
-* `AdminClient` is link:kafka-AdminClient.adoc#create[created]
+.Metadata's Properties When Created by Clients
+[cols="m,^1,^1,^1,^1",options="header",width="100%"]
+|===
+| Client
+| refreshBackoffMs
+| metadataExpireMs
+| allowAutoTopicCreation
+| topicExpiryEnabled
+
+| KafkaConsumer
+| link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
+| link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms]
+| enabled
+| disabled
+
+| KafkaProducer
+| link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
+| link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms]
+| enabled
+| enabled
+
+| KafkaAdminClient
+| link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
+| link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms]
+|
+|
+
+| AdminClient
+|
+|
+|
+|
+|===
+
+A (_seemingly_) common usage pattern is as follows:
+
+1. Request `Metadata` for a <<requestUpdate, update>> (that simply turns the `needUpdate` flag on)
+1. Request (indirectly) `KafkaClient` to link:kafka-KafkaClient.adoc#wakeup[wake up] if blocked on I/O
+1. Request `Metadata` to <<awaitUpdate, wait for metadata change>> (i.e. until the <<version, metadata version>> has changed)
 
 [[internal-registries]]
 .Metadata's Internal Properties (e.g. Registries and Counters)
@@ -60,10 +85,18 @@ a| Flag...FIXME
 * Updated when `Metadata` is requested to <<needMetadataForAllTopics, set state to indicate that metadata for all topics in Kafka cluster is required>>
 
 | [[needUpdate]] `needUpdate`
-a| Flag...FIXME
+a| Flag that controls whether a metadata update has been requested (enabled) or not (disabled).
+
+* Starts turned off when `Metadata` is <<creating-instance, created>>
+
+* Turned on exclusively when `Metadata` is requested for an <<requestUpdate, update>>
+
+* Turned off when `Metadata` is <<update, updated>>
+
+Use <<updateRequested, updateRequested>> to know the current value.
 
 | [[version]] `version`
-|
+| Metadata version
 |===
 
 [[logging]]
@@ -79,6 +112,37 @@ log4j.logger.org.apache.kafka.clients.Metadata=TRACE
 
 Refer to link:kafka-logging.adoc[Logging].
 ====
+
+=== [[updateRequested]] Checking if Metadata Update was Requested -- `updateRequested` Method
+
+[source, java]
+----
+synchronized boolean updateRequested()
+----
+
+`updateRequested`...FIXME
+
+[NOTE]
+====
+`updateRequested` is used when:
+
+* `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleAuthenticationFailure[handles an authentication failure]
+
+* `ConsumerCoordinator` link:kafka-ConsumerCoordinator.adoc#poll[polls for coordinator events]
+
+* `ConsumerNetworkClient` link:kafka-ConsumerNetworkClient.adoc#ensureFreshMetadata[makes sure that the metadata is fresh]
+====
+
+=== [[failedUpdate]] Recording Update Request Failure -- `failedUpdate` Method
+
+[source, java]
+----
+synchronized void failedUpdate(long now, AuthenticationException authenticationException)
+----
+
+`failedUpdate`...FIXME
+
+NOTE: `failedUpdate` is used when...FIXME
 
 === [[getClusterForCurrentTopics]] `getClusterForCurrentTopics` Internal Method
 
@@ -131,7 +195,7 @@ synchronized int requestUpdate()
 
 NOTE: `requestUpdate` is used when...FIXME
 
-=== [[awaitUpdate]] `awaitUpdate` Method
+=== [[awaitUpdate]] Waiting for Metadata Update (i.e. Metadata Version Change) -- `awaitUpdate` Method
 
 [source, java]
 ----

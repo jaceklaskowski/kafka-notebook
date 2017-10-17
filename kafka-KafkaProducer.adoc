@@ -43,6 +43,20 @@ a| link:kafka-Sender.adoc[Sender] with the following:
 a| Thread of execution...FIXME
 |===
 
+[[logging]]
+[TIP]
+====
+Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.producer.KafkaProducer` logger to see what happens inside.
+
+Add the following line to `config/tools-log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.producer.KafkaProducer=TRACE
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
 === [[send]] Asynchronously Sending Record to Topic and Notifying Producer Interceptors -- `send` Method
 
 [source, scala]

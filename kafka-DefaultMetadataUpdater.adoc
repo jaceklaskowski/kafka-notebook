@@ -35,11 +35,24 @@ long maybeUpdate(long now, Node node)
 
 CAUTION: FIXME
 
+=== [[handleAuthenticationFailure]] `handleAuthenticationFailure` Callback Method
+
+[source, java]
+----
+void handleAuthenticationFailure(AuthenticationException exception)
+----
+
+NOTE: `handleAuthenticationFailure` is a part of link:kafka-MetadataUpdater.adoc#handleAuthenticationFailure[MetadataUpdater Contract].
+
+`handleCompletedMetadataResponse` turns link:kafka-NetworkClient.adoc#metadataFetchInProgress[metadataFetchInProgress] flag off.
+
+`handleCompletedMetadataResponse` asks <<metadata, Metadata>> whether link:kafka-Metadata.adoc#updateRequested[metadata update was requested] and if so requests it to link:kafka-Metadata.adoc#failedUpdate[record a failure] (passing on the `exception`).
+
 === [[handleCompletedMetadataResponse]] `handleCompletedMetadataResponse` Callback Method
 
 [source, java]
 ----
-handleCompletedMetadataResponse(RequestHeader requestHeader, long now, MetadataResponse response)
+void handleCompletedMetadataResponse(RequestHeader requestHeader, long now, MetadataResponse response)
 ----
 
 NOTE: `handleCompletedMetadataResponse` is a part of link:kafka-MetadataUpdater.adoc#handleCompletedMetadataResponse[MetadataUpdater Contract].
