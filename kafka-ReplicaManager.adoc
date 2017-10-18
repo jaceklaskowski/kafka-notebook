@@ -70,7 +70,7 @@ alterReplicaLogDirs(partitionDirs: Map[TopicPartition, String]): Map[TopicPartit
 
 `alterReplicaLogDirs`...FIXME
 
-NOTE: `alterReplicaLogDirs` is used when...FIXME
+NOTE: `alterReplicaLogDirs` is used exclusively when `KafkaApis` link:kafka-KafkaApis.adoc#handleAlterReplicaLogDirsRequest[handles AlterReplicaLogDirs request].
 
 === [[becomeLeaderOrFollower]] `becomeLeaderOrFollower` Method
 
@@ -84,7 +84,7 @@ becomeLeaderOrFollower(
 
 `becomeLeaderOrFollower`...FIXME
 
-NOTE: `becomeLeaderOrFollower` is used when...FIXME
+NOTE: `becomeLeaderOrFollower` is used exclusively when `KafkaApis` link:kafka-KafkaApis.adoc#handleLeaderAndIsrRequest[handles LeaderAndIsr request].
 
 === [[makeFollowers]] `makeFollowers` Internal Method
 
@@ -100,7 +100,7 @@ makeFollowers(
 
 `makeFollowers`...FIXME
 
-NOTE: `makeFollowers` is used when...FIXME
+NOTE: `makeFollowers` is used exclusively when `ReplicaManager` <<becomeLeaderOrFollower, becomeLeaderOrFollower>>.
 
 === [[recordIsrChange]] `recordIsrChange` Method
 

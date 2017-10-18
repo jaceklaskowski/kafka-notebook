@@ -2,6 +2,20 @@
 
 `ReplicaStateMachine` is...FIXME
 
+=== [[handleStateChanges]] `handleStateChanges` Method
+
+[source, scala]
+----
+handleStateChanges(
+  replicas: Set[PartitionAndReplica],
+  targetState: ReplicaState,
+  callbacks: Callbacks): Unit
+----
+
+`handleStateChanges`...FIXME
+
+NOTE: `handleStateChanges` is used when...FIXME
+
 === [[shutdown]] `shutdown` Method
 
 [source, scala]

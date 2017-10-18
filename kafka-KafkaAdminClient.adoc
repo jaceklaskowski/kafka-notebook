@@ -15,6 +15,19 @@ DescribeTopicsResult describeTopics(final Collection<String> topicNames, Describ
 
 NOTE: `describeTopics` is used when...FIXME
 
+=== [[alterReplicaLogDirs]] `alterReplicaLogDirs` Method
+
+[source, java]
+----
+AlterReplicaLogDirsResult alterReplicaLogDirs(
+  Map<TopicPartitionReplica, String> replicaAssignment,
+  final AlterReplicaLogDirsOptions options)
+----
+
+`alterReplicaLogDirs`...FIXME
+
+NOTE: `alterReplicaLogDirs` is used when...FIXME
+
 === [[creating-instance]] Creating KafkaAdminClient Instance
 
 `KafkaAdminClient` takes the following when created:

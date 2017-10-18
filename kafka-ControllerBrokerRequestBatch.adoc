@@ -1,0 +1,20 @@
+== [[ControllerBrokerRequestBatch]] ControllerBrokerRequestBatch
+
+`ControllerBrokerRequestBatch` is...FIXME
+
+=== [[sendRequestsToBrokers]] `sendRequestsToBrokers` Method
+
+[source, scala]
+----
+sendRequestsToBrokers(controllerEpoch: Int): Unit
+----
+
+`sendRequestsToBrokers`...FIXME
+
+NOTE: `sendRequestsToBrokers` is used when:
+
+* `KafkaController` link:kafka-KafkaController.adoc#updateLeaderEpochAndSendRequest[updateLeaderEpochAndSendRequest], link:kafka-KafkaController.adoc#sendUpdateMetadataRequest[sendUpdateMetadataRequest] and `ControlledShutdown` link:kafka-KafkaController.adoc#ControlledShutdown[is processed].
+
+* `PartitionStateMachine` link:kafka-PartitionStateMachine.adoc#handleStateChanges[handleStateChanges] and link:kafka-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange[triggerOnlinePartitionStateChange]
+
+* `ReplicaStateMachine` link:kafka-ReplicaStateMachine.adoc#handleStateChanges[handleStateChanges]

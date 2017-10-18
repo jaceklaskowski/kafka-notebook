@@ -15,6 +15,9 @@ image::images/KafkaApis.png[align="center"]
 | Key
 | Handler
 
+| [[AlterReplicaLogDirs]] `AlterReplicaLogDirs`
+| <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
+
 | [[ControlledShutdown]] `ControlledShutdown`
 | <<handleControlledShutdownRequest, handleControlledShutdownRequest>>
 
@@ -29,6 +32,9 @@ image::images/KafkaApis.png[align="center"]
 
 | [[Fetch]] `Fetch`
 | <<handleFetchRequest, handleFetchRequest>>
+
+| [[LeaderAndIsr]] `LeaderAndIsr`
+| <<handleAlterReplicaLogDirsRequest, handleAlterReplicaLogDirsRequest>>
 
 | [[Metadata]] `Metadata`
 | <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
@@ -68,6 +74,28 @@ Handling request:[request] from connection [id];securityProtocol:[protocol],prin
 
 NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is link:kafka-KafkaRequestHandler.adoc#run[started].
 
+=== [[handleLeaderAndIsrRequest]] Handling LeaderAndIsr Request -- `handleLeaderAndIsrRequest` Handler
+
+[source, scala]
+----
+handleLeaderAndIsrRequest(request: RequestChannel.Request): Unit
+----
+
+`handleLeaderAndIsrRequest`...FIXME
+
+NOTE: `handleLeaderAndIsrRequest` is used exclusively to handle <<LeaderAndIsr, LeaderAndIsr>> requests.
+
+=== [[handleAlterReplicaLogDirsRequest]] Handling AlterReplicaLogDirs Request -- `handleAlterReplicaLogDirsRequest` Handler
+
+[source, scala]
+----
+handleAlterReplicaLogDirsRequest(request: RequestChannel.Request): Unit
+----
+
+`handleAlterReplicaLogDirsRequest`...FIXME
+
+NOTE: `handleAlterReplicaLogDirsRequest` is used exclusively to handle <<AlterReplicaLogDirs, AlterReplicaLogDirs>> requests.
+
 === [[handleCreateTopicsRequest]] Handling CreateTopics Request -- `handleCreateTopicsRequest` Handler
 
 [source, scala]
@@ -83,7 +111,7 @@ handleCreateTopicsRequest(request: RequestChannel.Request): Unit
 
 In the end, `handleCreateTopicsRequest` requests <<adminManager, AdminManager>> to link:kafka-AdminManager.adoc#createTopics[create the topics].
 
-NOTE: `handleCreateTopicsRequest` is used exclusively to handle <<CreateTopics, CreateTopics>>.
+NOTE: `handleCreateTopicsRequest` is used exclusively to handle <<CreateTopics, CreateTopics>> requests.
 
 === [[handleOffsetFetchRequest]] Handling OffsetFetch Request -- `handleOffsetFetchRequest` Handler
 

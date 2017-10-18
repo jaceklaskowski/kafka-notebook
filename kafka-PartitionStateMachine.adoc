@@ -2,6 +2,32 @@
 
 `PartitionStateMachine` is...FIXME
 
+=== [[triggerOnlinePartitionStateChange]] `triggerOnlinePartitionStateChange` Method
+
+[source, scala]
+----
+triggerOnlinePartitionStateChange(): Unit
+----
+
+`triggerOnlinePartitionStateChange`...FIXME
+
+NOTE: `triggerOnlinePartitionStateChange` is used when...FIXME
+
+=== [[handleStateChanges]] `handleStateChanges` Method
+
+[source, scala]
+----
+handleStateChanges(
+  partitions: Set[TopicAndPartition],
+  targetState: PartitionState,
+  leaderSelector: PartitionLeaderSelector = noOpPartitionLeaderS...,
+  callbacks: Callbacks): Unit
+----
+
+`handleStateChanges`...FIXME
+
+NOTE: `handleStateChanges` is used when...FIXME
+
 === [[shutdown]] `shutdown` Method
 
 [source, scala]

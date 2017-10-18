@@ -1,0 +1,58 @@
+== [[ReassignPartitionsCommand]] ReassignPartitionsCommand
+
+`ReassignPartitionsCommand` is...FIXME
+
+=== [[main]] Starting ReassignPartitionsCommand on Command Line -- `main` Entry Method
+
+[source, scala]
+----
+main(args: Array[String]): Unit
+----
+
+`main`...FIXME
+
+=== [[executeAssignment]] `executeAssignment` Method
+
+[source, scala]
+----
+executeAssignment(
+  zkUtils: ZkUtils,
+  adminClientOpt: Option[AdminClient],
+  opts: ReassignPartitionsCommand.ReassignPartitionsCommandOptions): Unit
+
+executeAssignment(
+  zkUtils: ZkUtils,
+  adminClientOpt: Option[AdminClient],
+  reassignmentJsonString: String,
+  throttle: ReassignPartitionsCommand.Throttle,
+  timeoutMs: Long = 10000L): Unit
+----
+
+`executeAssignment`...FIXME
+
+NOTE: `executeAssignment` is used exclusively when `ReassignPartitionsCommand` is <<main, started on command line>> with `execute` option.
+
+=== [[reassignPartitions]] `reassignPartitions` Method
+
+[source, scala]
+----
+reassignPartitions(throttle: Throttle = NoThrottle, timeoutMs: Long = 10000L): Boolean
+----
+
+`reassignPartitions`...FIXME
+
+NOTE: `reassignPartitions` is used exclusively when `ReassignPartitionsCommand` <<executeAssignment, executeAssignment>>.
+
+=== [[alterReplicaLogDirsIgnoreReplicaNotAvailable]] `alterReplicaLogDirsIgnoreReplicaNotAvailable` Internal Method
+
+[source, scala]
+----
+alterReplicaLogDirsIgnoreReplicaNotAvailable(
+  replicaAssignment: Map[TopicPartitionReplica, String],
+  adminClient: JAdminClient,
+  timeoutMs: Long): Set[TopicPartitionReplica]
+----
+
+`alterReplicaLogDirsIgnoreReplicaNotAvailable`...FIXME
+
+NOTE: `alterReplicaLogDirsIgnoreReplicaNotAvailable` is used exclusively when `ReassignPartitionsCommand` <<reassignPartitions, reassignPartitions>>

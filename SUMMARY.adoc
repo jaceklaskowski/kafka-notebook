@@ -31,6 +31,7 @@
 .. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
 .. link:kafka-ControllerEvent.adoc[ControllerEvent]
 ... link:kafka-ControllerEvent-TopicDeletion.adoc[TopicDeletion Controller Event]
+.. link:kafka-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
 
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
@@ -131,6 +132,9 @@
 
 . link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
 .. link:kafka-AdminClient.adoc[AdminClient]
+
+. link:kafka-ReassignPartitionsCommand.adoc[ReassignPartitionsCommand]
+. link:kafka-TopicCommand.adoc[TopicCommand]
 
 === Kafka Metrics
 
