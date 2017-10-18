@@ -1,0 +1,45 @@
+== [[ReplicaFetcherThread]] ReplicaFetcherThread
+
+`ReplicaFetcherThread` is a link:kafka-AbstractFetcherThread.adoc[AbstractFetcherThread]...FIXME
+
+`ReplicaFetcherThread` is <<creating-instance, created>> exclusively when `ReplicaFetcherManager` is requested to link:kafka-ReplicaFetcherManager.adoc#createFetcherThread[create one] (when...FIXME).
+
+=== [[creating-instance]] Creating ReplicaFetcherThread Instance
+
+`ReplicaFetcherThread` takes the following when created:
+
+* [[name]] Name
+* [[fetcherId]] Fetcher ID
+* [[sourceBroker]] Source `BrokerEndPoint`
+* [[brokerConfig]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[replicaMgr]] link:kafka-ReplicaManager.adoc[ReplicaManager]
+* [[metrics]] `Metrics`
+* [[time]] `Time`
+* [[quota]] link:kafka-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
+* [[leaderEndpointBlockingSend]] Optional `BlockingSend` (undefined by default)
+
+`ReplicaFetcherThread` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[earliestOrLatestOffset]] `earliestOrLatestOffset` Internal Method
+
+[source, scala]
+----
+earliestOrLatestOffset(topicPartition: TopicPartition, earliestOrLatest: Long): Long
+----
+
+`earliestOrLatestOffset`...FIXME
+
+NOTE: `earliestOrLatestOffset` is used when...FIXME
+
+=== [[fetchEpochsFromLeader]] `fetchEpochsFromLeader` Method
+
+[source, scala]
+----
+fetchEpochsFromLeader(partitions: Map[TopicPartition, Int]): Map[TopicPartition, EpochEndOffset]
+----
+
+NOTE: `fetchEpochsFromLeader` is a part of link:kafka-AbstractFetcherThread.adoc#fetchEpochsFromLeader[AbstractFetcherThread Contract].
+
+`fetchEpochsFromLeader`...FIXME
+
+NOTE: `fetchEpochsFromLeader` is used when...FIXME

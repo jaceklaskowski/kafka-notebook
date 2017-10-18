@@ -48,6 +48,7 @@
 
 . link:kafka-NetworkClient.adoc[NetworkClient -- Non-Blocking KafkaClient]
 .. link:kafka-KafkaClient.adoc[KafkaClient]
+.. link:kafka-NetworkClientUtils.adoc[NetworkClientUtils]
 
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 . link:kafka-Partition.adoc[Partition]
@@ -55,9 +56,14 @@
 . link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
 
 . link:kafka-ReplicaManager.adoc[ReplicaManager]
+.. link:kafka-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
+... link:kafka-AbstractFetcherManager.adoc[AbstractFetcherManager]
+.. link:kafka-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
+... link:kafka-AbstractFetcherThread.adoc[AbstractFetcherThread]
+... link:kafka-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend]
+.. link:kafka-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 .. link:kafka-ReplicationUtils.adoc[ReplicationUtils]
 
-. link:kafka-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend]
 . link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
 
 . link:kafka-Selector.adoc[Selector -- Selectable on Socket Channels (from Java's New IO API)]

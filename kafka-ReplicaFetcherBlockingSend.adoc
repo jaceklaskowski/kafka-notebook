@@ -2,8 +2,14 @@
 
 `ReplicaFetcherBlockingSend` is...FIXME
 
+`ReplicaFetcherBlockingSend` is <<creating-instance, created>> exclusively when `ReplicaFetcherThread` is link:kafka-ReplicaFetcherThread.adoc#leaderEndpoint[created].
+
 `ReplicaFetcherBlockingSend` uses <<networkClient, NetworkClient>> to <<sendRequest, send requests>> for...FIXME
 
+.ReplicaFetcherBlockingSend's Sending Client Request and Waiting for Response
+image::images/ReplicaFetcherBlockingSend-sendRequest.png[align="center"]
+
+[[socketTimeout]]
 `ReplicaFetcherBlockingSend` uses link:kafka-properties.adoc#replica.socket.timeout.ms[replica.socket.timeout.ms] Kafka property for...FIXME
 
 [[internal-registries]]
@@ -24,16 +30,42 @@ Used when...FIXME
 Used when...FIXME
 |===
 
-=== [[sendRequest]] `sendRequest` Method
+=== [[creating-instance]] Creating ReplicaFetcherBlockingSend Instance
+
+`ReplicaFetcherBlockingSend` takes the following when created:
+
+* [[sourceBroker]] `BrokerEndPoint`
+* [[brokerConfig]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[metrics]] `Metrics`
+* [[time]] `Time`
+* [[fetcherId]] Fetcher ID
+* [[clientId]] Client ID
+* [[logContext]] `LogContext`
+
+`ReplicaFetcherBlockingSend` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[sendRequest]] Sending Client Request and Waiting for Response -- `sendRequest` Method
 
 [source, scala]
 ----
 sendRequest(requestBuilder: Builder[_ <: AbstractRequest]): ClientResponse
 ----
 
-`sendRequest`...FIXME
+`sendRequest` requests `NetworkClientUtils` to link:kafka-NetworkClientUtils.adoc#[wait until the connection is ready] to the <<sourceNode, source broker node>> (in <<socketTimeout, replica.socket.timeout.ms>>).
 
-NOTE: `sendRequest` is used when...FIXME
+`sendRequest` requests <<networkClient, NetworkClient>> to link:kafka-NetworkClient.adoc#newClientRequest[create a new client request] to the <<sourceBroker, source broker>>.
+
+`sendRequest` requests `NetworkClientUtils` to link:#sendAndReceive[send the client request and wait for a response].
+
+NOTE: `sendRequest` is a blocking operation (i.e. blocks the current thread) and polls for responses until the one arrives or a disconnection or a version mismatch happens.
+
+In case `NetworkClientUtils` found the broker node unavailable, `sendRequest` reports a `SocketTimeoutException`:
+
+```
+Failed to connect to [sourceNode] within [socketTimeout] ms
+```
+
+NOTE: `sendRequest` is used when `ReplicaFetcherThread` link:kafka-ReplicaFetcherThread.adoc#earliestOrLatestOffset[earliestOrLatestOffset] and link:kafka-ReplicaFetcherThread.adoc#fetchEpochsFromLeader[fetchEpochsFromLeader].
 
 === [[close]] `close` Method
 

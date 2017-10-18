@@ -1,0 +1,21 @@
+== [[AbstractFetcherManager]] AbstractFetcherManager
+
+`AbstractFetcherManager` is...FIXME
+
+=== [[addFetcherForPartitions]] `addFetcherForPartitions` Method
+
+[source, scala]
+----
+addFetcherForPartitions(partitionAndOffsets: Map[TopicPartition, BrokerAndInitialOffset]): Unit
+----
+
+`addFetcherForPartitions`...FIXME
+
+[NOTE]
+====
+`addFetcherForPartitions` is used when:
+
+* `ReplicaManager` link:kafka-ReplicaManager.adoc#alterReplicaLogDirs[alterReplicaLogDirs], link:kafka-ReplicaManager.adoc#becomeLeaderOrFollower[becomeLeaderOrFollower], link:link:kafka-ReplicaManager.adoc#makeFollowers[makeFollowers]
+
+* `LeaderFinderThread` (of the currently-deprecated `ConsumerFetcherManager`) does `doWork`
+====

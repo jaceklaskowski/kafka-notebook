@@ -13,6 +13,9 @@ When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expi
 | Name
 | Description
 
+| [[replicaFetcherManager]] `replicaFetcherManager`
+| link:kafka-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
+
 | [[allPartitions]] `allPartitions`
 | Pool of `TopicPartition` and link:kafka-Partition.adoc[Partitions]
 
@@ -28,6 +31,62 @@ When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expi
 | [[OfflinePartition]] `OfflinePartition`
 |
 |===
+
+=== [[createReplicaFetcherManager]] `createReplicaFetcherManager` Internal Method
+
+[source, scala]
+----
+createReplicaFetcherManager(
+  metrics: Metrics
+  time: Time
+  threadNamePrefix: Option[String]
+  quotaManager: ReplicationQuotaManager): ReplicaFetcherManager
+----
+
+`createReplicaFetcherManager`...FIXME
+
+NOTE: `createReplicaFetcherManager` is used when...FIXME
+
+=== [[alterReplicaLogDirs]] `alterReplicaLogDirs` Method
+
+[source, scala]
+----
+alterReplicaLogDirs(partitionDirs: Map[TopicPartition, String]): Map[TopicPartition, Errors]
+----
+
+`alterReplicaLogDirs`...FIXME
+
+NOTE: `alterReplicaLogDirs` is used when...FIXME
+
+=== [[becomeLeaderOrFollower]] `becomeLeaderOrFollower` Method
+
+[source, scala]
+----
+becomeLeaderOrFollower(
+  correlationId: Int,
+  leaderAndISRRequest: LeaderAndIsrRequest,
+  onLeadershipChange: (Iterable[Partition], Iterable[Partition]) => Unit): BecomeLeaderOrFollowerResult
+----
+
+`becomeLeaderOrFollower`...FIXME
+
+NOTE: `becomeLeaderOrFollower` is used when...FIXME
+
+=== [[makeFollowers]] `makeFollowers` Internal Method
+
+[source, scala]
+----
+makeFollowers(
+  controllerId: Int,
+  epoch: Int,
+  partitionState: Map[Partition, LeaderAndIsrRequest.PartitionState],
+  correlationId: Int,
+  responseMap: mutable.Map[TopicPartition, Errors]) : Set[Partition]
+----
+
+`makeFollowers`...FIXME
+
+NOTE: `makeFollowers` is used when...FIXME
 
 === [[recordIsrChange]] `recordIsrChange` Method
 
@@ -114,7 +173,7 @@ NOTE: `maybePropagateIsrChanges` is used exclusively when <<isr-change-propagati
 * [[scheduler]] `Scheduler`
 * [[logManager]] link:kafka-LogManager.adoc[LogManager]
 * [[isShuttingDown]] `isShuttingDown` flag
-* [[quotaManager]] `ReplicationQuotaManager`
+* [[quotaManager]] link:kafka-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 * [[brokerTopicStats]] `BrokerTopicStats`
 * [[metadataCache]] link:kafka-MetadataCache.adoc[MetadataCache]
 * [[logDirFailureChannel]] `LogDirFailureChannel`

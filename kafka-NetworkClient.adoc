@@ -53,6 +53,21 @@ log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG, stdout
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[newClientRequest]] Creating ClientRequest -- `newClientRequest` Method
+
+[source, scala]
+----
+ClientRequest newClientRequest(
+  String nodeId
+  AbstractRequest.Builder<?> requestBuilder
+  long createdTimeMs,
+  boolean expectResponse)
+----
+
+`newClientRequest`...FIXME
+
+NOTE: `newClientRequest` is used when...FIXME
+
 === [[initiateConnect]] Establishing Connection to Broker Node -- `initiateConnect` Internal Method
 
 [source, java]

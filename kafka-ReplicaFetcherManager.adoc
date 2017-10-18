@@ -1,0 +1,29 @@
+== [[ReplicaFetcherManager]] ReplicaFetcherManager
+
+`ReplicaFetcherManager` is a link:kafka-AbstractFetcherManager.adoc[AbstractFetcherManager] that...FIXME (describe properties)
+
+`ReplicaFetcherManager` is <<creating-instance, created>> exclusively when `ReplicaManager` is requested to link:kafka-ReplicaManager.adoc#createReplicaFetcherManager[create one] (which is when `ReplicaManager` is link:kafka-ReplicaManager.adoc#replicaFetcherManager[created]).
+
+=== [[createFetcherThread]] `createFetcherThread` Method
+
+[source, scala]
+----
+createFetcherThread(fetcherId: Int, sourceBroker: BrokerEndPoint): AbstractFetcherThread
+----
+
+`createFetcherThread`...FIXME
+
+NOTE: `createFetcherThread` is used exclusively when `AbstractFetcherManager` link:kafka-AbstractFetcherManager.adoc#addFetcherForPartitions[addFetcherForPartitions]
+
+=== [[creating-instance]] Creating ReplicaFetcherManager Instance
+
+`ReplicaFetcherManager` takes the following when created:
+
+* [[brokerConfig]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[replicaManager]] link:kafka-ReplicaManager.adoc[ReplicaManager]
+* [[metrics]] `Metrics`
+* [[time]] `Time`
+* [[threadNamePrefix]] Optional thread name prefix (undefined by default)
+* [[quotaManager]] link:kafka-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
+
+`ReplicaFetcherManager` initializes the <<internal-registries, internal registries and counters>>.
