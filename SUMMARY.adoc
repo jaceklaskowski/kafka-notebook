@@ -57,6 +57,7 @@
 . link:kafka-ReplicaManager.adoc[ReplicaManager]
 .. link:kafka-ReplicationUtils.adoc[ReplicationUtils]
 
+. link:kafka-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend]
 . link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
 
 . link:kafka-Selector.adoc[Selector -- Selectable on Socket Channels (from Java's New IO API)]

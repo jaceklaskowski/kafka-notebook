@@ -1,0 +1,47 @@
+== [[ReplicaFetcherBlockingSend]] ReplicaFetcherBlockingSend
+
+`ReplicaFetcherBlockingSend` is...FIXME
+
+`ReplicaFetcherBlockingSend` uses <<networkClient, NetworkClient>> to <<sendRequest, send requests>> for...FIXME
+
+`ReplicaFetcherBlockingSend` uses link:kafka-properties.adoc#replica.socket.timeout.ms[replica.socket.timeout.ms] Kafka property for...FIXME
+
+[[internal-registries]]
+.ReplicaFetcherBlockingSend's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[networkClient]] `networkClient`
+| link:kafka-NetworkClient.adoc[NetworkClient]
+
+Used when...FIXME
+
+| [[sourceNode]] `sourceNode`
+| `Node`
+
+Used when...FIXME
+|===
+
+=== [[sendRequest]] `sendRequest` Method
+
+[source, scala]
+----
+sendRequest(requestBuilder: Builder[_ <: AbstractRequest]): ClientResponse
+----
+
+`sendRequest`...FIXME
+
+NOTE: `sendRequest` is used when...FIXME
+
+=== [[close]] `close` Method
+
+[source, scala]
+----
+close(): Unit
+----
+
+`close`...FIXME
+
+NOTE: `close` is used when...FIXME

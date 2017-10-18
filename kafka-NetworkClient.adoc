@@ -1,6 +1,6 @@
 == [[NetworkClient]] NetworkClient -- Non-Blocking KafkaClient
 
-`NetworkClient` is a non-blocking link:kafka-KafkaClient.adoc[KafkaClient] that uses <<selector, Selectable>> for network communication, i.e. sending and receiving messages.
+`NetworkClient` is a non-blocking link:kafka-KafkaClient.adoc[KafkaClient] that uses <<selector, Selectable>> for network communication (i.e. sending and receiving messages).
 
 NOTE: link:kafka-Selector.adoc[Selector] is the one and only link:kafka-Selectable.adoc[Selectable] that uses Java's selectable channels for stream-oriented connecting sockets (i.e. Java's http://download.java.net/java/jdk9/docs/api/java/nio/channels/SocketChannel.html[java.nio.channels.SocketChannel]).
 
@@ -38,25 +38,20 @@ Used when...FIXME
 ====
 Enable `DEBUG` logging level for `org.apache.kafka.clients.NetworkClient` logger to see what happens inside.
 
-Add the following line to `config/tools-log4j.properties`:
+Add the following line to `config/tools-log4j.properties` (for Kafka tools):
 
 ```
 log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG
 ```
 
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG, stdout
+```
+
 Refer to link:kafka-logging.adoc[Logging].
 ====
-
-=== [[completeResponses]] `completeResponses` Internal Method
-
-[source, java]
-----
-void completeResponses(List<ClientResponse> responses)
-----
-
-`completeResponses`...FIXME
-
-NOTE: `completeResponses` is used when `NetworkClient` <<poll, poll>> (for both <<abortedSends, abortedSends>> and completed actions).
 
 === [[initiateConnect]] Establishing Connection to Broker Node -- `initiateConnect` Internal Method
 
@@ -215,3 +210,20 @@ Used when `NetworkClient` <<initiateConnect, establishes connection to a broker 
 |===
 
 `NetworkClient` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[completeResponses]] Informing ClientResponse about Response Being Completed -- `completeResponses` Internal Method
+
+[source, java]
+----
+void completeResponses(List<ClientResponse> responses)
+----
+
+`completeResponses` informs every `ClientResponse` (in the input `responses`) that a link:kafka-ClientResponse.adoc#onComplete[response has been completed].
+
+In case of any exception, `completeResponses` prints out the following ERROR message to the logs:
+
+```
+Uncaught error in request completion: [exception]
+```
+
+NOTE: `completeResponses` is used when `NetworkClient` <<poll, poll>> (for both <<abortedSends, abortedSends>> and completed actions).

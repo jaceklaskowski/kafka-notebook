@@ -164,6 +164,11 @@ The maximum allowed time for each worker to join the group once a rebalance has 
 |
 |
 
+| [[replica.socket.timeout.ms]] `replica.socket.timeout.ms`
+|
+|
+|
+
 | [[retry.backoff.ms]] link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
 |
 |
