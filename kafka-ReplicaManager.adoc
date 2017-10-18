@@ -2,6 +2,9 @@
 
 `ReplicaManager` is <<creating-instance, created>> and <<startup, started>> when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
 
+.ReplicaManager and KafkaServer
+image::images/ReplicaManager.png[align="center"]
+
 When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expiration>> and <<isr-change-propagation, isr-change-propagation>> recurring tasks (every half of link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms] property and 2500 ms, respectively).
 
 `ReplicaManager` is a `KafkaMetricsGroup`.
@@ -46,6 +49,17 @@ createReplicaFetcherManager(
 `createReplicaFetcherManager`...FIXME
 
 NOTE: `createReplicaFetcherManager` is used when...FIXME
+
+=== [[shutdown]] `shutdown` Method
+
+[source, scala]
+----
+shutdown(checkpointHW: Boolean = true): Unit
+----
+
+`shutdown`...FIXME
+
+NOTE: `shutdown` is used when...FIXME
 
 === [[alterReplicaLogDirs]] `alterReplicaLogDirs` Method
 

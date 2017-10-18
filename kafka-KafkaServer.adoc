@@ -1,6 +1,6 @@
 == [[KafkaServer]] KafkaServer
 
-`KafkaServer` is a Kafka broker.
+`KafkaServer` is a Kafka broker that wires (creates and starts) Kafka services together.
 
 .KafkaServer's Startup and Auxiliary Services
 image::images/KafkaServer-startup.png[align="center"]
@@ -69,7 +69,17 @@ image::images/KafkaServer-startup.png[align="center"]
 | link:kafka-MetadataCache.adoc[MetadataCache]
 
 | [[replicaManager]] `replicaManager`
-| link:kafka-ReplicaManager.adoc[ReplicaManager]
+a| link:kafka-ReplicaManager.adoc[ReplicaManager] exclusively to create:
+
+* <<apis, KafkaApis>>
+* <<groupCoordinator, GroupCoordinator>>
+* <<transactionCoordinator, TransactionCoordinator>>
+
+---
+
+* link:kafka-ReplicaManager.adoc#creating-instance[Created] (and link:kafka-ReplicaManager.adoc#startup[started] immmediately) when `KafkaServer` <<startup, starts up>>
+
+* link:kafka-ReplicaManager.adoc#shutdown[Shut down] when `KafkaServer` <<shutdown, shuts down>>
 
 | [[reporters]] `reporters`
 | Collection of link:kafka-MetricsReporter.adoc[MetricsReporter]
@@ -238,3 +248,14 @@ notifyClusterListeners(clusterListeners: Seq[AnyRef]): Unit
 `notifyClusterListeners` creates a link:kafka-ClusterResourceListener.adoc#ClusterResourceListeners[ClusterResourceListeners] (with the objects from the input `clusterListeners` of type `ClusterResourceListener`) and link:kafka-ClusterResourceListener.adoc#onUpdate[sends the updated cluster metadata] to them.
 
 NOTE: `notifyClusterListeners` is used exclusively when `KafkaServer` <<startup, starts up>> (with `clusterListeners` as <<kafkaMetricsReporters, kafkaMetricsReporters>> and the `MetricsReporter` reporters from link:kafka-properties.adoc#metric_reporters[metric.reporters] Kafka property).
+
+=== [[createReplicaManager]] Creating ReplicaManager -- `createReplicaManager` Internal Method
+
+[source, scala]
+----
+createReplicaManager(isShuttingDown: AtomicBoolean): ReplicaManager
+----
+
+`createReplicaManager` simply link:kafka-ReplicaManager.adoc#creating-instance[creates] a `ReplicaManager`.
+
+NOTE: `createReplicaManager` is used exclusively when `KafkaServer` <<startup, starts up>>.
