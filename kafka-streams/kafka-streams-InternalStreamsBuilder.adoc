@@ -1,0 +1,17 @@
+== [[InternalStreamsBuilder]] InternalStreamsBuilder
+
+`InternalStreamsBuilder` is...FIXME
+
+=== [[stream]] `stream` Method
+
+[source, java]
+----
+KStream<K, V> stream(
+  final Collection<String> topics,
+  final ConsumedInternal<K, V> consumed)
+KStream<K, V> stream(
+  final Pattern topicPattern,
+  final ConsumedInternal<K, V> consumed)
+----
+
+`stream` creates a new processor name (with *KSTREAM-SOURCE-* prefix) and requests <<internalTopologyBuilder, InternalTopologyBuilder>> to `addSource` and returns a new instance of link:kafka-streams-KStreamImpl.adoc#creating-instance[KStreamImpl]

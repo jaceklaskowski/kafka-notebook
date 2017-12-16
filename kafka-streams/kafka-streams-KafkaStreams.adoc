@@ -1,0 +1,7 @@
+== [[KafkaStreams]] KafkaStreams
+
+`KafkaStreams` is the entry point to continuous message processing in Kafka Streams.
+
+`KafkaStreams` is "merely" a Kafka client that consumes messages from one or many Kafka topics and publishes the results to zero, one or more Kafka topics.
+
+The processing logic is defined using...

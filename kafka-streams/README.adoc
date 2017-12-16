@@ -1,0 +1,3 @@
+== Kafka Streams -- Stream Processing Library on Apache Kafka
+
+*Kafka Streams* is a stream processing library on top of Apache Kafka.

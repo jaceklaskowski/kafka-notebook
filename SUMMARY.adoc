@@ -165,6 +165,18 @@
 . link:kafka-zookeeper-tips.adoc[Zookeeper Tips]
 . link:kafka-scala-repl.adoc[Kafka in Scala REPL for Interactive Exploration]
 
+=== Kafka Streams
+
+. link:kafka-streams/README.adoc[Kafka Streams -- Stream Processing Library on Apache Kafka]
+. link:kafka-streams/kafka-streams-KafkaStreams.adoc[KafkaStreams]
+. link:kafka-streams/kafka-streams-KStream.adoc[KStream]
+.. link:kafka-streams/kafka-streams-KStreamImpl.adoc[KStreamImpl]
+. link:kafka-streams/kafka-streams-StreamsBuilder.adoc[StreamsBuilder]
+. link:kafka-streams/kafka-streams-Topology.adoc[Topology]
+. link:kafka-streams/kafka-streams-Consumed.adoc[Consumed]
+. link:kafka-streams/kafka-streams-InternalStreamsBuilder.adoc[InternalStreamsBuilder]
+. link:kafka-streams/kafka-streams-KeyValueMapper.adoc[KeyValueMapper]
+
 === Kafka Connect
 
 . link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]

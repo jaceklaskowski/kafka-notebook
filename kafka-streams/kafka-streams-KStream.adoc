@@ -1,0 +1,16 @@
+== [[KStream]] KStream
+
+`KStream` is an abstraction of a *record stream* of key-value pairs (where each record represents an independent entity or event in the real world).
+
+`KStream` is created directly from one or many Kafka topics (using link:kafka-streams-StreamsBuilder.adoc[StreamsBuilder.stream]) or through `KStream` transformations.
+
+[source, scala]
+----
+import org.apache.kafka.streams.StreamsBuilder
+val builder = new StreamsBuilder
+
+import org.apache.kafka.streams.kstream.KStream
+// Use type annotation to describe the stream, i.e. KStream[String, String]
+// Else...Scala type inferencer gives us a stream of "nothing", i.e. KStream[Nothing, Nothing]
+val input: KStream[String, String] = builder.stream("input")
+----
