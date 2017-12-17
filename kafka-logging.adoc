@@ -79,13 +79,13 @@ libraryDependencies += "ch.qos.logback" % "logback-core" % logback
 FIXME: Explain why the commenting out is required?
 ====
 
-=== [[log4j.properties]] `log4j.properties` Logging Configuration File
+=== [[log4j.properties]] Application Logging Using log4j -- `log4j.properties` Logging Configuration File
 
 .log4j.properties
 ```
 log4j.rootLogger=INFO, stdout
-
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.target=System.out
 log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
 log4j.appender.stdout.layout.ConversionPattern=[%d] %p %m (%c)%n
 

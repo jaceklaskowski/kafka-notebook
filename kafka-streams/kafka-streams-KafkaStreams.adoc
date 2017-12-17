@@ -1,7 +1,99 @@
 == [[KafkaStreams]] KafkaStreams
 
-`KafkaStreams` is the entry point to continuous message processing in Kafka Streams.
+`KafkaStreams` is the entry point for *continuous message processing* in Kafka Streams.
 
-`KafkaStreams` is "merely" a Kafka client that consumes messages from one or many Kafka topics and publishes the results to zero, one or more Kafka topics.
+`KafkaStreams` is "merely" a <<clientSupplier, Kafka client>> that consumes messages from one or many Kafka topics and publishes the processing results to zero, one or more Kafka topics.
 
-The processing logic is defined using...
+NOTE: In other words, Kafka Streams (and `KafkaStreams` in particular) allows for an easier development of stream processing applications if Apache Kafka is the data storage for input and output messages.
+
+[[topology]]
+The processing logic is defined either using a link:kafka-streams-Topology.adoc[Topology] to define a DAG topology of `Processor`s or the link:kafka-streams-StreamsBuilder.adoc[StreamsBuilder] which provides the high-level DSL to define transformations.
+
+[source, scala]
+----
+import org.apache.kafka.streams.KafkaStreams
+val topology: Topology = ...
+val config: StreamsConfig = ...
+val ks = new KafkaStreams(topology, config)
+----
+
+Once <<creating-instance, created>>, you should <<start, start>> `KafkaStreams` (and start consuming, processing, and producing records as described in <<topology, Topology>>).
+
+[source, scala]
+----
+ks.start()
+----
+
+[[logging]]
+[TIP]
+====
+Enable `DEBUG` logging level for `org.apache.kafka.streams.KafkaStreams` logger to see what happens inside.
+
+Add the following line to `log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.streams.KafkaStreams=DEBUG
+```
+
+Refer to link:../kafka-logging.adoc#log4j.properties[Application Logging Using log4j].
+====
+
+=== [[start]] Starting KafkaStreams -- `start` Method
+
+[source, java]
+----
+public synchronized void start()
+  throws IllegalStateException, StreamsException
+----
+
+`start` starts <<topology, Topology>> (and so consuming, processing, and producing records).
+
+Internally, `start`...FIXME
+
+=== [[creating-instance]] Creating KafkaStreams Instance
+
+[source, java]
+----
+// public API
+KafkaStreams(
+  final Topology topology,
+  final Properties props) // <1>
+KafkaStreams(
+  final Topology topology,
+  final StreamsConfig config) // <2>
+
+// public API mostly for testing
+KafkaStreams(
+  final Topology topology,
+  final StreamsConfig config,
+  final KafkaClientSupplier clientSupplier) // <3>
+KafkaStreams(
+  final Topology topology,
+  final StreamsConfig config,
+  final Time time)  // <4>
+
+// private/internal API
+KafkaStreams(
+  final InternalTopologyBuilder internalTopologyBuilder,
+  final StreamsConfig config,
+  final KafkaClientSupplier clientSupplier) // <5>
+KafkaStreams(
+  final InternalTopologyBuilder internalTopologyBuilder,
+  final StreamsConfig config,
+  final KafkaClientSupplier clientSupplier,
+  final Time time)  // <6>
+----
+<1> Calls `KafkaStreams` (2) with `StreamsConfig` with the input `props`
+<2> Calls `KafkaStreams` (3) with `DefaultKafkaClientSupplier`
+<5> Calls the internal `KafkaStreams` (6) with `SystemTime`
+
+`KafkaStreams` takes the following when created:
+
+* [[internalTopologyBuilder]] link:kafka-streams-InternalTopologyBuilder.adoc[InternalTopologyBuilder]
+* [[config]] link:kafka-streams-StreamsConfig.adoc[StreamsConfig]
+* [[clientSupplier]] link:kafka-streams-KafkaClientSupplier.adoc[KafkaClientSupplier]
+* [[time]] `Time`
+
+`KafkaStreams` initializes the <<internal-registries, internal registries and counters>>.
+
+`KafkaStreams` is <<creating-instance, created>> when...FIXME

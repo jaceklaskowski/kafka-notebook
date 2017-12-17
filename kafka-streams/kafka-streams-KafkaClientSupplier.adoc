@@ -1,0 +1,38 @@
+== [[KafkaClientSupplier]] KafkaClientSupplier
+
+`KafkaClientSupplier` is the <<contract, contract>> in Kafka Streams to...FIXME
+
+NOTE: link:kafka-streams-DefaultKafkaClientSupplier.adoc[DefaultKafkaClientSupplier] is the default `KafkaClientSupplier` that...FIXME
+
+=== [[contract]] KafkaClientSupplier Contract
+
+[source, java]
+----
+package org.apache.kafka.streams;
+
+interface KafkaClientSupplier {
+  AdminClient getAdminClient(final Map<String, Object> config);
+  Producer<byte[], byte[]> getProducer(final Map<String, Object> config);
+  Consumer<byte[], byte[]> getConsumer(final Map<String, Object> config);
+  Consumer<byte[], byte[]> getRestoreConsumer(final Map<String, Object> config);
+}
+----
+
+.KafkaClientSupplier Contract
+[cols="1,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| [[getAdminClient]] `getAdminClient`
+| Used when...
+
+| [[getProducer]] `getProducer`
+| Used when...
+
+| [[getConsumer]] `getConsumer`
+| Used when...
+
+| [[getRestoreConsumer]] `getRestoreConsumer`
+| Used when...
+|===

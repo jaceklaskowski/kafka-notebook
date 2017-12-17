@@ -1,7 +1,7 @@
 == [[StreamsBuilder]] StreamsBuilder
 
 [[topology]]
-`StreamsBuilder` is the *high-level DSL* in Kafka Streams to define a link:kafka-streams-Topology.adoc[topology].
+`StreamsBuilder` is the *high-level stream processing DSL* in Kafka Streams to define transformations of a message stream that all together create a link:kafka-streams-Topology.adoc[topology].
 
 [[internalStreamsBuilder]]
 `StreamsBuilder` uses link:kafka-streams-InternalStreamsBuilder.adoc[InternalStreamsBuilder] for...FIXME

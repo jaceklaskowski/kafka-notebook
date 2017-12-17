@@ -2,6 +2,9 @@
 
 `InternalStreamsBuilder` is...FIXME
 
+[[internalTopologyBuilder]]
+`InternalStreamsBuilder` uses a link:kafka-streams-InternalTopologyBuilder.adoc[InternalTopologyBuilder] for...FIXME
+
 === [[stream]] `stream` Method
 
 [source, java]

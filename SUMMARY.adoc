@@ -173,9 +173,13 @@
 .. link:kafka-streams/kafka-streams-KStreamImpl.adoc[KStreamImpl]
 . link:kafka-streams/kafka-streams-StreamsBuilder.adoc[StreamsBuilder]
 . link:kafka-streams/kafka-streams-Topology.adoc[Topology]
+. link:kafka-streams/kafka-streams-InternalTopologyBuilder.adoc[InternalTopologyBuilder]
 . link:kafka-streams/kafka-streams-Consumed.adoc[Consumed]
 . link:kafka-streams/kafka-streams-InternalStreamsBuilder.adoc[InternalStreamsBuilder]
 . link:kafka-streams/kafka-streams-KeyValueMapper.adoc[KeyValueMapper]
+. link:kafka-streams/kafka-streams-StreamsConfig.adoc[StreamsConfig]
+. link:kafka-streams/kafka-streams-KafkaClientSupplier.adoc[KafkaClientSupplier]
+.. link:kafka-streams/kafka-streams-DefaultKafkaClientSupplier.adoc[DefaultKafkaClientSupplier]
 
 === Kafka Connect
 
