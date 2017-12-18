@@ -1,0 +1,13 @@
+== Configuration Properties
+
+.Configuration Properties
+[cols="1,1,2",options="header",width="100%"]
+|===
+| Name
+| Default Value
+| Description
+
+| [[state.cleanup.delay.ms]] `state.cleanup.delay.ms`
+| 10 * 60 * 1000
+| The amount of time (in milliseconds) to wait before deleting state when a partition has migrated. Only state directories that have not been modified for at least `state.cleanup.delay.ms` will be removed.
+|===

@@ -7,7 +7,7 @@
 NOTE: In other words, Kafka Streams (and `KafkaStreams` in particular) allows for an easier development of stream processing applications if Apache Kafka is the data storage for input and output messages.
 
 [[topology]]
-The processing logic is defined either using a link:kafka-streams-Topology.adoc[Topology] to define a DAG topology of `Processor`s or the link:kafka-streams-StreamsBuilder.adoc[StreamsBuilder] which provides the high-level DSL to define transformations.
+A Kafka Streams developer defines the processing logic either using a link:kafka-streams-Topology.adoc[Topology] directly (and define a DAG topology of `Processor`s) or indirectly through a link:kafka-streams-StreamsBuilder.adoc[StreamsBuilder] that provides the high-level DSL to define transformations.
 
 [source, scala]
 ----
@@ -23,6 +23,23 @@ Once <<creating-instance, created>>, you should <<start, start>> `KafkaStreams` 
 ----
 ks.start()
 ----
+
+[[internal-registries]]
+.KafkaStreams's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[globalStreamThread]] `globalStreamThread`
+| Global stream thread (`GlobalStreamThread`) that...FIXME
+
+| [[stateDirectory]] `stateDirectory`
+| `StateDirectory`
+
+| [[threads]] `threads`
+| `StreamThread`
+|===
 
 [[logging]]
 [TIP]
@@ -48,7 +65,31 @@ public synchronized void start()
 
 `start` starts <<topology, Topology>> (and so consuming, processing, and producing records).
 
-Internally, `start`...FIXME
+Internally, `start` prints out the following DEBUG message to the logs:
+
+```
+Starting Streams client
+```
+
+`start` <<setRunningFromCreated, sets state to running>> (and notifies link:kafka-streams-StateListener.adoc[StateListeners]).
+
+`start` starts <<globalStreamThread, global stream thread>> if defined (which is when...FIXME)
+
+`start` starts <<threads, stream threads>>.
+
+`start` schedules a thread that requests <<stateDirectory, StateDirectory>> to `cleanRemovedTasks` every link:kafka-streams-properties.adoc#state.cleanup.delay.ms[state.cleanup.delay.ms] milliseconds.
+
+You should see the following DEBUG message in the logs:
+
+```
+Started Streams client
+```
+
+In case the <<setRunningFromCreated, changing state to running>> fails, `start` merely prints out the following ERROR message to the logs:
+
+```
+Already stopped, cannot re-start
+```
 
 === [[creating-instance]] Creating KafkaStreams Instance
 
@@ -62,7 +103,7 @@ KafkaStreams(
   final Topology topology,
   final StreamsConfig config) // <2>
 
-// public API mostly for testing
+// public API (mostly for testing)
 KafkaStreams(
   final Topology topology,
   final StreamsConfig config,
@@ -97,3 +138,14 @@ KafkaStreams(
 `KafkaStreams` initializes the <<internal-registries, internal registries and counters>>.
 
 `KafkaStreams` is <<creating-instance, created>> when...FIXME
+
+=== [[setRunningFromCreated]] `setRunningFromCreated` Internal Method
+
+[source, java]
+----
+boolean setRunningFromCreated()
+----
+
+`setRunningFromCreated`...FIXME
+
+NOTE: `setRunningFromCreated` is used exclusively when `KafkaStreams` is <<start, started>>.
