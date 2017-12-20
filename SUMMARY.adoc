@@ -168,8 +168,11 @@
 === Kafka Streams
 
 . link:kafka-streams/README.adoc[Kafka Streams -- Stream Processing Library on Apache Kafka]
+
 . link:kafka-streams/kafka-streams-KafkaStreams.adoc[KafkaStreams]
 .. link:kafka-streams/kafka-streams-StateListener.adoc[StateListener -- KafkaStreams State Listener]
+.. link:kafka-streams/kafka-streams-StreamThread.adoc[StreamThread -- Stream Processor Thread]
+
 . link:kafka-streams/kafka-streams-KStream.adoc[KStream]
 .. link:kafka-streams/kafka-streams-KStreamImpl.adoc[KStreamImpl]
 . link:kafka-streams/kafka-streams-StreamsBuilder.adoc[StreamsBuilder]

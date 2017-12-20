@@ -1,0 +1,27 @@
+== [[StreamThread]] StreamThread -- Stream Processor Thread
+
+`StreamThread` is a thread of execution (i.e. Java's https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html[Thread]) that...FIXME
+
+=== [[run]] Starting StreamThread -- `run` Method
+
+[source, java]
+----
+void run()
+----
+
+NOTE: `run` is a part of Java's https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html#run--[Thread Contract] to be executed by a JVM thread.
+
+`run`...FIXME
+
+NOTE: `run` is used when...FIXME
+
+=== [[runLoop]] `runLoop` Internal Method
+
+[source, java]
+----
+void runLoop()
+----
+
+`runLoop`...FIXME
+
+NOTE: `runLoop` is used exclusively when `StreamThread` is <<run, started>>.

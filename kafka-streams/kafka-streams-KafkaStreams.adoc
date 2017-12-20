@@ -2,12 +2,12 @@
 
 `KafkaStreams` is the entry point for *continuous message processing* in Kafka Streams.
 
-`KafkaStreams` is "merely" a <<clientSupplier, Kafka client>> that consumes messages from one or many Kafka topics and publishes the processing results to zero, one or more Kafka topics.
-
-NOTE: In other words, Kafka Streams (and `KafkaStreams` in particular) allows for an easier development of stream processing applications if Apache Kafka is the data storage for input and output messages.
+NOTE: `KafkaStreams` is "merely" a <<clientSupplier, Kafka client>> that consumes messages from one or many Kafka topics and publishes the processing results to zero, one or more Kafka topics.
 
 [[topology]]
-A Kafka Streams developer defines the processing logic either using a link:kafka-streams-Topology.adoc[Topology] directly (and define a DAG topology of `Processor`s) or indirectly through a link:kafka-streams-StreamsBuilder.adoc[StreamsBuilder] that provides the high-level DSL to define transformations.
+`KafkaStreams` processes records through a topology.
+
+NOTE: A Kafka Streams developer defines the processing logic either using a link:kafka-streams-Topology.adoc[Topology] directly (and define a DAG topology of `Processor`s) or indirectly through a link:kafka-streams-StreamsBuilder.adoc[StreamsBuilder] that provides the high-level DSL to define transformations.
 
 [source, scala]
 ----
@@ -38,7 +38,13 @@ ks.start()
 | `StateDirectory`
 
 | [[threads]] `threads`
-| `StreamThread`
+a| Collection of link:kafka-streams-StreamThread.adoc[StreamThread] stream processor threads
+
+NOTE: The number of `threads` is controlled using link:kafka-streams-properties.adoc#num.stream.threads[num.stream.threads] configuration property with the default being 1 thread.
+
+* Created when `KafkaStreams` is <<creating-instance, created>>
+* Started when `KafkaStreams` is <<start, started>>
+* Shut down when `KafkaStreams` is <<close, closed>>
 |===
 
 [[logging]]
@@ -90,6 +96,30 @@ In case the <<setRunningFromCreated, changing state to running>> fails, `start` 
 ```
 Already stopped, cannot re-start
 ```
+
+=== [[close]] Closing KafkaStreams -- `close` Method
+
+[source, scala]
+----
+void close()  // <1>
+synchronized boolean close(final long timeout, final TimeUnit timeUnit)
+----
+<1> Calls `close(final long timeout, final TimeUnit timeUnit)` with 0 timeout
+
+`close`...FIXME
+
+NOTE: `close` is used when...FIXME
+
+=== [[localThreadsMetadata]] `localThreadsMetadata` Method
+
+[source, scala]
+----
+Set<ThreadMetadata> localThreadsMetadata()
+----
+
+`localThreadsMetadata`...FIXME
+
+NOTE: `localThreadsMetadata` is used when...FIXME
 
 === [[creating-instance]] Creating KafkaStreams Instance
 
