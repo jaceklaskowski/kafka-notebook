@@ -2,7 +2,62 @@
 
 `StreamThread` is a <<run, thread of execution>> (i.e. Java's https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html[Thread]) that...FIXME
 
-=== [[run]] Starting StreamThread -- `run` Method
+[[internal-registries]]
+.FIXME's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[consumer]] `consumer`
+| Kafka `Consumer`
+
+| [[builder]] `builder`
+| link:kafka-streams-InternalTopologyBuilder.adoc[InternalTopologyBuilder]
+|===
+
+=== [[runOnce]] `runOnce` Method
+
+[source, scala]
+----
+long runOnce(final long recordsProcessedBeforeCommit)
+----
+
+`runOnce`...FIXME
+
+NOTE: `runOnce` is used exclusively when `StreamThread` is requested to <<runLoop, run main event loop>>.
+
+=== [[runLoop]] Running Main Event Loop -- `runLoop` Internal Method
+
+[source, java]
+----
+void runLoop()
+----
+
+`runLoop` requests <<consumer, Consumer>> to subscribe to the link:kafka-streams-InternalTopologyBuilder.adoc#sourceTopicPattern[source topics] (from <<builder, InternalTopologyBuilder>>) with <<rebalanceListener, ConsumerRebalanceListener>>.
+
+`runLoop` <<runOnce, runs once>> in a loop (as long as <<isRunning, isRunning>> flag is turned on).
+
+In case of `TaskMigratedException`, `runLoop` prints out the following WARN message to the logs.
+
+```
+Detected a task that got migrated to another thread. This implies that this thread missed a rebalance and dropped out of the consumer group. Trying to rejoin the consumer group now.
+```
+
+NOTE: `runLoop` is used exclusively when `StreamThread` is <<run, started>>.
+
+=== [[isRunning]] `isRunning` Method
+
+[source, scala]
+----
+boolean isRunning()
+----
+
+`isRunning`...FIXME
+
+NOTE: `isRunning` is used when...FIXME
+
+=== [[run]] Starting Stream Processor Thread -- `run` Method
 
 [source, java]
 ----
@@ -41,14 +96,3 @@ boolean setState(final State newState)
 `setState`...FIXME
 
 NOTE: `setState` is used when...FIXME
-
-=== [[runLoop]] Running Processing Loop -- `runLoop` Internal Method
-
-[source, java]
-----
-void runLoop()
-----
-
-`runLoop`...FIXME
-
-NOTE: `runLoop` is used exclusively when `StreamThread` is <<run, started>>.

@@ -1,3 +1,14 @@
 == [[InternalTopologyBuilder]] InternalTopologyBuilder
 
 `InternalTopologyBuilder` is...FIXME
+
+=== [[sourceTopicPattern]] `sourceTopicPattern` Method
+
+[source, scala]
+----
+synchronized Pattern sourceTopicPattern()
+----
+
+`sourceTopicPattern`...FIXME
+
+NOTE: `sourceTopicPattern` is used when...FIXME
