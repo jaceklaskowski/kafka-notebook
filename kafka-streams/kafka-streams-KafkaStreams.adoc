@@ -2,7 +2,7 @@
 
 `KafkaStreams` is the entry point for *continuous message processing* in Kafka Streams.
 
-NOTE: `KafkaStreams` is "merely" a <<clientSupplier, Kafka client>> that consumes messages from one or many Kafka topics and publishes the processing results to zero, one or more Kafka topics.
+NOTE: `KafkaStreams` is "merely" a <<clientSupplier, Kafka client>> that consumes messages from one or many Kafka source topics and publishes the processing results to zero, one or more Kafka target topics.
 
 [[topology]]
 `KafkaStreams` processes records through a topology.
@@ -17,7 +17,7 @@ val config: StreamsConfig = ...
 val ks = new KafkaStreams(topology, config)
 ----
 
-Once <<creating-instance, created>>, you should <<start, start>> `KafkaStreams` (and start consuming, processing, and producing records as described in <<topology, Topology>>).
+Once <<creating-instance, created>>, you should <<start, start>> `KafkaStreams` to start consuming, processing, and producing records (described in <<topology, Topology>>).
 
 [source, scala]
 ----
@@ -70,6 +70,8 @@ public synchronized void start()
 ----
 
 `start` starts <<topology, Topology>> (and so consuming, processing, and producing records).
+
+NOTE: `start` is called and is actually when a Kafka Streams application starts processing records.
 
 Internally, `start` prints out the following DEBUG message to the logs:
 

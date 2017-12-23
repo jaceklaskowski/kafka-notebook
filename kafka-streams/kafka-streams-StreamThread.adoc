@@ -2,8 +2,11 @@
 
 `StreamThread` is a <<run, thread of execution>> (i.e. Java's https://docs.oracle.com/javase/9/docs/api/java/lang/Thread.html[Thread]) that...FIXME
 
+.StreamThread and Stream Processing
+image::images/kafka-streams-StreamThread.png[align="center"]
+
 [[internal-registries]]
-.FIXME's Internal Properties (e.g. Registries, Counters and Flags)
+.StreamThread's Internal Properties (e.g. Registries, Counters and Flags)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name
