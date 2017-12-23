@@ -18,13 +18,16 @@ image::images/kafka-streams-StreamThread.png[align="center"]
 | [[builder]] `builder`
 | link:kafka-streams-InternalTopologyBuilder.adoc[InternalTopologyBuilder]
 
+| [[rebalanceListener]] `rebalanceListener`
+| link:kafka-streams-StreamThread-RebalanceListener.adoc[RebalanceListener]
+
 | [[timerStartedMs]] `timerStartedMs`
 | The timestamp when the timer has started
 |===
 
 === [[processAndMaybeCommit]] `processAndMaybeCommit` Internal Method
 
-[source, scala]
+[source, java]
 ----
 long processAndMaybeCommit(final long recordsProcessedBeforeCommit)
 ----
@@ -35,7 +38,7 @@ NOTE: `processAndMaybeCommit` is used exclusively when `StreamThread` is request
 
 === [[pollRequests]] `pollRequests` Internal Method
 
-[source, scala]
+[source, java]
 ----
 ConsumerRecords<byte[], byte[]> pollRequests(final long pollTimeMs)
 ----
@@ -46,7 +49,7 @@ NOTE: `pollRequests` is used exclusively when `StreamThread` is requested to <<r
 
 === [[runOnce]] Consuming Records Once -- `runOnce` Method
 
-[source, scala]
+[source, java]
 ----
 long runOnce(final long recordsProcessedBeforeCommit)
 ----
@@ -69,7 +72,7 @@ NOTE: `runOnce` is used exclusively when `StreamThread` is requested to <<runLoo
 
 === [[addRecordsToTasks]] `addRecordsToTasks` Internal Method
 
-[source, scala]
+[source, java]
 ----
 void addRecordsToTasks(final ConsumerRecords<byte[], byte[]> records)
 ----
@@ -80,7 +83,7 @@ NOTE: `addRecordsToTasks` is used exclusively when `StreamThread` is requested t
 
 === [[maybeUpdateStandbyTasks]] `maybeUpdateStandbyTasks` Internal Method
 
-[source, scala]
+[source, java]
 ----
 void maybeUpdateStandbyTasks(final long now)
 ----
@@ -91,7 +94,7 @@ NOTE: `maybeUpdateStandbyTasks` is used exclusively when `StreamThread` is reque
 
 === [[maybeCommit]] `maybeCommit` Method
 
-[source, scala]
+[source, java]
 ----
 void maybeCommit(final long now)
 ----
@@ -102,7 +105,7 @@ NOTE: `maybeCommit` is used when...FIXME
 
 === [[punctuate]] `punctuate` Internal Method
 
-[source, scala]
+[source, java]
 ----
 void punctuate()
 ----
@@ -113,7 +116,7 @@ NOTE: `punctuate` is used when...FIXME
 
 === [[create]] Creating StreamThread -- `create` Factory Method
 
-[source, scala]
+[source, java]
 ----
 StreamThread create(
   final InternalTopologyBuilder builder,
@@ -174,7 +177,7 @@ NOTE: `runLoop` is used exclusively when `StreamThread` is <<run, started>>.
 
 === [[isRunning]] `isRunning` Method
 
-[source, scala]
+[source, java]
 ----
 boolean isRunning()
 ----

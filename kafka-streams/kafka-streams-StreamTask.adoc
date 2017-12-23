@@ -29,7 +29,7 @@ Refer to link:../kafka-logging.adoc#log4j.properties[Application Logging Using l
 
 === [[process]] Processing Single Record -- `process` Method
 
-[source, scala]
+[source, java]
 ----
 boolean process()
 ----
@@ -60,7 +60,7 @@ NOTE: `process` is used exclusively when `AssignedStreamsTasks` does link:kafka-
 
 === [[addRecords]] `addRecords` Method
 
-[source, scala]
+[source, java]
 ----
 int addRecords(
   final TopicPartition partition,

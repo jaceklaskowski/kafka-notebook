@@ -2,9 +2,46 @@
 
 `InternalTopologyBuilder` is...FIXME
 
+=== [[build]] Building Processor Task Topology -- `build` Factory Method
+
+[source, java]
+----
+synchronized ProcessorTopology build()
+synchronized ProcessorTopology build(final Integer topicGroupId)
+ProcessorTopology build(final Set<String> nodeGroup)
+----
+
+`build`...FIXME
+
+[NOTE]
+====
+`build` is used internally when:
+
+* `InternalTopologyBuilder` is requested to <<buildGlobalStateTopology, build a global processor task topology>>
+* `StandbyTaskCreator` is requested to create a `StandbyTask`
+* `TaskCreator` is requested to create a `StreamTask`
+====
+
+=== [[buildGlobalStateTopology]] Building Global Processor Task Topology -- `buildGlobalStateTopology` Method
+
+[source, java]
+----
+synchronized ProcessorTopology buildGlobalStateTopology()
+----
+
+`buildGlobalStateTopology`...FIXME
+
+[NOTE]
+====
+`buildGlobalStateTopology` is used when:
+
+* `KafkaStreams` is link:kafka-streams-KafkaStreams.adoc#creating-instance[created]
+* `ProcessorTopology` is requested to `buildGlobalStateTopology`
+====
+
 === [[sourceTopicPattern]] `sourceTopicPattern` Method
 
-[source, scala]
+[source, java]
 ----
 synchronized Pattern sourceTopicPattern()
 ----

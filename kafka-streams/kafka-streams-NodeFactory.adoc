@@ -1,0 +1,46 @@
+== [[NodeFactory]] NodeFactory
+
+`NodeFactory` is the internal <<contract, contract>> for...FIXME
+
+[[contract]]
+[source, java]
+----
+package org.apache.kafka.streams.processor.internals;
+
+abstract class NodeFactory {
+  ProcessorNode build();
+  AbstractNode describe();
+}
+----
+
+NOTE: `NodeFactory` is a `private` contract.
+
+.NodeFactory Contract
+[cols="1,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| [[build]] `build`
+| Used exclusively when `InternalTopologyBuilder`...FIXME
+
+| [[describe]] `describe`
+| Used when...
+|===
+
+[[implementations]]
+.NodeFactories
+[cols="1,2",options="header",width="100%"]
+|===
+| NodeFactory
+| Description
+
+| link:kafka-streams-ProcessorNodeFactory.adoc[ProcessorNodeFactory]
+|
+
+| `SinkNodeFactory`
+|
+
+| `SourceNodeFactory`
+|
+|===

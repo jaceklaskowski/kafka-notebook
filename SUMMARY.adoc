@@ -172,6 +172,7 @@
 . link:kafka-streams/kafka-streams-KafkaStreams.adoc[KafkaStreams]
 .. link:kafka-streams/kafka-streams-StateListener.adoc[StateListener -- KafkaStreams State Listener]
 .. link:kafka-streams/kafka-streams-StreamThread.adoc[StreamThread -- Stream Processor Thread]
+... link:kafka-streams/kafka-streams-StreamThread-RebalanceListener.adoc[RebalanceListener]
 .. link:kafka-streams/kafka-streams-TaskManager.adoc[TaskManager]
 .. link:kafka-streams/kafka-streams-PartitionGroup.adoc[PartitionGroup]
 .. link:kafka-streams/kafka-streams-AssignedStreamsTasks.adoc[AssignedStreamsTasks]
@@ -180,6 +181,13 @@
 .. link:kafka-streams/kafka-streams-StreamTask.adoc[StreamTask]
 .. link:kafka-streams/kafka-streams-StandbyTask.adoc[StandbyTask]
 .. link:kafka-streams/kafka-streams-AbstractTask.adoc[AbstractTask]
+
+. link:kafka-streams/kafka-streams-ProcessorNode.adoc[ProcessorNode]
+. link:kafka-streams/kafka-streams-ProcessorNodeFactory.adoc[ProcessorNodeFactory]
+. link:kafka-streams/kafka-streams-NodeFactory.adoc[NodeFactory]
+. link:kafka-streams/kafka-streams-StandbyTaskCreator.adoc[StandbyTaskCreator]
+. link:kafka-streams/kafka-streams-TaskCreator.adoc[TaskCreator]
+. link:kafka-streams/kafka-streams-AbstractTaskCreator.adoc[AbstractTaskCreator]
 
 . link:kafka-streams/kafka-streams-KStream.adoc[KStream]
 .. link:kafka-streams/kafka-streams-KStreamImpl.adoc[KStreamImpl]

@@ -101,7 +101,7 @@ Already stopped, cannot re-start
 
 === [[close]] Closing KafkaStreams -- `close` Method
 
-[source, scala]
+[source, java]
 ----
 void close()  // <1>
 synchronized boolean close(final long timeout, final TimeUnit timeUnit)
@@ -114,7 +114,7 @@ NOTE: `close` is used when...FIXME
 
 === [[localThreadsMetadata]] `localThreadsMetadata` Method
 
-[source, scala]
+[source, java]
 ----
 Set<ThreadMetadata> localThreadsMetadata()
 ----

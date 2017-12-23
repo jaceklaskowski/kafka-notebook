@@ -1,0 +1,51 @@
+== [[AbstractTaskCreator]] AbstractTaskCreator
+
+`AbstractTaskCreator` is the <<contract, contract>> in Kafka Streams to <<createTask, create stream processor tasks>>.
+
+[[contract]]
+[source, java]
+----
+package org.apache.kafka.streams.processor.internals;
+
+abstract class StreamThread.AbstractTaskCreator<T extends Task> {
+  // only required method that has no implementation
+  T createTask(final Consumer<byte[], byte[]> consumer, final TaskId id, final Set<TopicPartition> partitions);
+}
+----
+
+.AbstractTaskCreator Contract
+[cols="1,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| [[createTask]] `createTask`
+| Used when...
+|===
+
+[[implementations]]
+.AbstractTaskCreators
+[cols="1,2",options="header",width="100%"]
+|===
+| AbstractTaskCreator
+| Description
+
+| link:kafka-streams-StandbyTaskCreator.adoc[StandbyTaskCreator]
+|
+
+| link:kafka-streams-TaskCreator.adoc[TaskCreator]
+|
+|===
+
+=== [[createTasks]] `createTasks` Method
+
+[source, java]
+----
+Collection<T> createTasks(
+  final Consumer<byte[], byte[]> consumer,
+  final Map<TaskId, Set<TopicPartition>> tasksToBeCreated)
+----
+
+`createTasks`...FIXME
+
+NOTE: `createTasks` is used when `TaskManager` is requested for link:kafka-streams-TaskManager.adoc#addStandbyTasks[addStandbyTasks] or link:kafka-streams-TaskManager.adoc#addStreamTasks[addStreamTasks].

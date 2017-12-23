@@ -1,0 +1,15 @@
+== [[ProcessorNode]] ProcessorNode
+
+`ProcessorNode` is...FIXME
+
+`ProcessorNode` is <<creating-instance, created>> exclusively when `ProcessorNodeFactory` is requested to link:kafka-streams-ProcessorNodeFactory.adoc#build[build] a processor node.
+
+=== [[creating-instance]] Creating ProcessorNode Instance
+
+`ProcessorNode` takes the following when created:
+
+* [[name]] Name
+* [[processor]] `Processor`
+* [[stateStores]] State stores
+
+`ProcessorNode` initializes the <<internal-registries, internal registries and counters>>.

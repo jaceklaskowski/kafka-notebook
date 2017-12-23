@@ -15,7 +15,7 @@
 
 === [[nextRecord]] `nextRecord` Method
 
-[source, scala]
+[source, java]
 ----
 StampedRecord nextRecord(final RecordInfo info)
 ----

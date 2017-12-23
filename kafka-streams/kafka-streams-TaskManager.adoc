@@ -2,9 +2,42 @@
 
 `TaskManager` is...FIXME
 
+=== [[addStreamTasks]] `addStreamTasks` Internal Method
+
+[source, java]
+----
+void addStreamTasks(final Collection<TopicPartition> assignment)
+----
+
+`addStreamTasks`...FIXME
+
+NOTE: `addStreamTasks` is used exclusively when `TaskManager` is requested to <<createTasks, create processor tasks for assigned topic partitions>>.
+
+=== [[createTasks]] Creating Processor Tasks for Assigned Topic Partitions -- `createTasks` Method
+
+[source, java]
+----
+void createTasks(final Collection<TopicPartition> assignment)
+----
+
+`createTasks`...FIXME
+
+NOTE: `createTasks` is used exclusively when `RebalanceListener` handles link:kafka-streams-StreamThread-RebalanceListener.adoc#onPartitionsAssigned[onPartitionsAssigned].
+
+=== [[addStandbyTasks]] `addStandbyTasks` Internal Method
+
+[source, java]
+----
+void addStreamTasks(final Collection<TopicPartition> assignment)
+----
+
+`addStandbyTasks`...FIXME
+
+NOTE: `addStandbyTasks` is used exclusively when `TaskManager` is requested to <<createTasks, create tasks for assigned topic partitions>>.
+
 === [[process]] `process` Method
 
-[source, scala]
+[source, java]
 ----
 int process()
 ----

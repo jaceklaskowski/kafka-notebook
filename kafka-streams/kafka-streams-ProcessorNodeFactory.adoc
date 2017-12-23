@@ -1,0 +1,14 @@
+== [[ProcessorNodeFactory]] ProcessorNodeFactory
+
+`ProcessorNodeFactory` is...FIXME
+
+=== [[build]] `build` Factory Method
+
+[source, java]
+----
+ProcessorNode build()
+----
+
+NOTE: `build` is a part of link:kafka-streams-NodeFactory.adoc#build[NodeFactory Contract] to...FIXME.
+
+`build`...FIXME

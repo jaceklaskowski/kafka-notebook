@@ -1,0 +1,19 @@
+== [[StandbyTaskCreator]] StandbyTaskCreator
+
+`StandbyTaskCreator` is...FIXME
+
+=== [[createTask]] `createTask` Factory Method
+
+[source, java]
+----
+StandbyTask createTask(
+  final Consumer<byte[], byte[]> consumer,
+  final TaskId taskId,
+  final Set<TopicPartition> partitions)
+----
+
+NOTE: `createTask` is a part of link:kafka-streams-AbstractTaskCreator.adoc#createTask[AbstractTaskCreator Contract] to...FIXME.
+
+`createTask`...FIXME
+
+NOTE: `createTask` is used when...FIXME

@@ -1,0 +1,14 @@
+== [[RebalanceListener]] RebalanceListener
+
+`RebalanceListener` is a `ConsumerRebalanceListener` in Apache Kafka that `StreamThread` uses for...FIXME
+
+=== [[onPartitionsAssigned]] `onPartitionsAssigned` Handler Method
+
+[source, java]
+----
+void onPartitionsAssigned(final Collection<TopicPartition> assignment)
+----
+
+NOTE: `onPartitionsAssigned` is a part of `ConsumerRebalanceListener` Contract in Apache Kafka to...FIXME.
+
+`onPartitionsAssigned`...FIXME

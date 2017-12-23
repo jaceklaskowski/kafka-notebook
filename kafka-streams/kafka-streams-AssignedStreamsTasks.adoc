@@ -4,7 +4,7 @@
 
 === [[process]] `process` Method
 
-[source, scala]
+[source, java]
 ----
 int process()
 ----
