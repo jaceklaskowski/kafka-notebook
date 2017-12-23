@@ -1,0 +1,25 @@
+== [[PartitionGroup]] PartitionGroup
+
+`PartitionGroup` is...FIXME
+
+[[internal-registries]]
+.PartitionGroup's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[partitionQueues]] `partitionQueues`
+| Collection of `RecordQueues` per partition (i.e. `TopicPartition`)
+|===
+
+=== [[nextRecord]] `nextRecord` Method
+
+[source, scala]
+----
+StampedRecord nextRecord(final RecordInfo info)
+----
+
+`nextRecord`...FIXME
+
+NOTE: `nextRecord` is used exclusively when `StreamTask` is link:kafka-streams-StreamTask.adoc#process[processing]...FIXME

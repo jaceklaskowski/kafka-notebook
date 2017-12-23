@@ -1,0 +1,3 @@
+== [[StandbyTask]] StandbyTask
+
+`StandbyTask` is a concrete link:kafka-streams-AbstractTask.adoc[stream processor task] that...FIXME

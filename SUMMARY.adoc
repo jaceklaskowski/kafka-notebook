@@ -172,6 +172,14 @@
 . link:kafka-streams/kafka-streams-KafkaStreams.adoc[KafkaStreams]
 .. link:kafka-streams/kafka-streams-StateListener.adoc[StateListener -- KafkaStreams State Listener]
 .. link:kafka-streams/kafka-streams-StreamThread.adoc[StreamThread -- Stream Processor Thread]
+.. link:kafka-streams/kafka-streams-TaskManager.adoc[TaskManager]
+.. link:kafka-streams/kafka-streams-PartitionGroup.adoc[PartitionGroup]
+.. link:kafka-streams/kafka-streams-AssignedStreamsTasks.adoc[AssignedStreamsTasks]
+
+. link:kafka-streams/kafka-streams-Task.adoc[Task -- Contract for Stream Processor Tasks]
+.. link:kafka-streams/kafka-streams-StreamTask.adoc[StreamTask]
+.. link:kafka-streams/kafka-streams-StandbyTask.adoc[StandbyTask]
+.. link:kafka-streams/kafka-streams-AbstractTask.adoc[AbstractTask]
 
 . link:kafka-streams/kafka-streams-KStream.adoc[KStream]
 .. link:kafka-streams/kafka-streams-KStreamImpl.adoc[KStreamImpl]

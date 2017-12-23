@@ -1,0 +1,72 @@
+== [[StreamTask]] StreamTask
+
+`StreamTask` is a concrete link:kafka-streams-AbstractTask.adoc[stream processor task] that uses a <<partitionGroup, PartitionGroup>> for...FIXME
+
+[[internal-registries]]
+.StreamTask's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[partitionGroup]] `partitionGroup`
+| link:kafka-streams-PartitionGroup.adoc[PartitionGroup]
+|===
+
+[[logging]]
+[TIP]
+====
+Enable `TRACE` logging level for `org.apache.kafka.streams.processor.internals.StreamTask` logger to see what happens inside.
+
+Add the following line to `log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.streams.processor.internals.StreamTask=TRACE
+```
+
+Refer to link:../kafka-logging.adoc#log4j.properties[Application Logging Using log4j].
+====
+
+=== [[process]] Processing Single Record -- `process` Method
+
+[source, scala]
+----
+boolean process()
+----
+
+`process`...FIXME
+
+NOTE: `process` is used exclusively when `AssignedStreamsTasks` does link:kafka-streams-AssignedStreamsTasks.adoc#process[process].
+
+=== [[creating-instance]] Creating StreamTask Instance
+
+`StreamTask` takes the following when created:
+
+* [[id]] `TaskId`
+* [[partitions]] Collection of `TopicPartition`
+* [[topology]] `ProcessorTopology`
+* [[consumer]] Kafka consumer (of keys and values as array of bytes)
+* [[changelogReader]] `ChangelogReader`
+* [[config]] link:kafka-streams-StreamsConfig.adoc[StreamsConfig]
+* [[metrics]] `StreamsMetrics`
+* [[stateDirectory]] `StateDirectory`
+* [[cache]] `ThreadCache`
+* [[time]] `Time`
+* [[producer]] Kafka producer (of keys and values as array of bytes)
+
+`StreamTask` initializes the <<internal-registries, internal registries and counters>>.
+
+`StreamTask` is <<creating-instance, created>> when...FIXME
+
+=== [[addRecords]] `addRecords` Method
+
+[source, scala]
+----
+int addRecords(
+  final TopicPartition partition,
+  final Iterable<ConsumerRecord<byte[], byte[]>> records)
+----
+
+`addRecords`...FIXME
+
+NOTE: `addRecords` is used exclusively when `StreamThread` is requested to link:kafka-streams-StreamThread.adoc#addRecordsToTasks[addRecordsToTasks].

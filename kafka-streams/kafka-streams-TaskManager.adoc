@@ -1,0 +1,47 @@
+== [[TaskManager]] TaskManager
+
+`TaskManager` is...FIXME
+
+=== [[process]] `process` Method
+
+[source, scala]
+----
+int process()
+----
+
+`process`...FIXME
+
+NOTE: `process` is used exclusively when `StreamThread` is requested to link:kafka-streams-StreamThread.adoc#processAndMaybeCommit[processAndMaybeCommit].
+
+=== [[updateNewAndRestoringTasks]] `updateNewAndRestoringTasks` Method
+
+[source, java]
+----
+boolean updateNewAndRestoringTasks()
+----
+
+`updateNewAndRestoringTasks`...FIXME
+
+NOTE: `updateNewAndRestoringTasks` is used exclusively when `StreamThread` is requested to link:kafka-streams-StreamThread.adoc#runOnce[consume records once].
+
+=== [[activeTask]] Getting Active Stream Processor Task for Topic Partition -- `activeTask` Method
+
+[source, java]
+----
+StreamTask activeTask(final TopicPartition partition)
+----
+
+`activeTask`...FIXME
+
+NOTE: `activeTask` is used exclusively when `StreamThread` is requested to link:kafka-streams-StreamThread.adoc#addRecordsToTasks[addRecordsToTasks].
+
+=== [[hasActiveRunningTasks]] `hasActiveRunningTasks` Method
+
+[source, java]
+----
+boolean hasActiveRunningTasks()
+----
+
+`hasActiveRunningTasks`...FIXME
+
+NOTE: `hasActiveRunningTasks` is used exclusively when `StreamThread` is requested to link:kafka-streams-StreamThread.adoc#runOnce[consume records once].

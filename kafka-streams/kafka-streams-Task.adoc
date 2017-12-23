@@ -1,0 +1,56 @@
+== [[Task]] Task -- Contract for Stream Processor Tasks
+
+`Task` is the <<contract, contract>> in Kafka Streams for *stream processor tasks* that...FIXME
+
+[[contract]]
+[source, java]
+----
+package org.apache.kafka.streams.processor.internals;
+
+public interface Task {
+  boolean initialize();
+  void commit();
+  void suspend();
+  void resume();
+  void closeSuspended(
+    final boolean clean,
+    final boolean isZombie,
+    final RuntimeException e);
+  void close(
+    final boolean clean,
+    final boolean isZombie);
+  StateStore getStore(final String name);
+  String applicationId();
+  ProcessorTopology topology();
+  ProcessorContext context();
+  TaskId id();
+  Set<TopicPartition> partitions();
+  Collection<TopicPartition> changelogPartitions();
+  boolean hasStateStores();
+  String toString(final String indent);
+}
+----
+
+.Task Contract
+[cols="1,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| [[initialize]] `initialize`
+| Used when...
+|===
+
+[[implementations]]
+.Concrete Stream Processor Tasks
+[cols="1,2",options="header",width="100%"]
+|===
+| Task
+| Description
+
+| link:kafka-streams-StreamTask.adoc[StreamTask]
+|
+
+| link:kafka-streams-StandbyTask.adoc[StandbyTask]
+|
+|===
