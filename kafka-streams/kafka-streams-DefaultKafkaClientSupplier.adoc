@@ -1,3 +1,0 @@
-== [[DefaultKafkaClientSupplier]] DefaultKafkaClientSupplier
-
-`DefaultKafkaClientSupplier` is the default link:kafka-streams-KafkaClientSupplier.adoc[KafkaClientSupplier] that...FIXME

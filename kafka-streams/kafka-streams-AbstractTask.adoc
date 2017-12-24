@@ -1,3 +1,0 @@
-== [[AbstractTask]] AbstractTask
-
-`AbstractTask` is a base link:kafka-streams-Task.adoc[stream processor task] that...FIXME
