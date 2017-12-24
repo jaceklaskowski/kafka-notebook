@@ -13,6 +13,22 @@
 | link:kafka-streams-KeyValueMapper.adoc[KeyValueMapper]
 |===
 
+=== [[createReparitionedSource]] `createReparitionedSource` Method
+
+[source, scala]
+----
+String createReparitionedSource(
+  final InternalStreamsBuilder builder,
+  final Serde<K1> keySerde,
+  final Serde<V1> valSerde,
+  final String topicNamePrefix,
+  final String name)
+----
+
+`createReparitionedSource`...FIXME
+
+NOTE: `createReparitionedSource` is used when...FIXME
+
 === [[creating-instance]] Creating KStreamImpl Instance
 
 `KStreamImpl` takes the following when created:

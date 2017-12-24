@@ -17,4 +17,21 @@ KStream<K, V> stream(
   final ConsumedInternal<K, V> consumed)
 ----
 
-`stream` creates a new processor name (with *KSTREAM-SOURCE-* prefix) and requests <<internalTopologyBuilder, InternalTopologyBuilder>> to `addSource` and returns a new instance of link:kafka-streams-KStreamImpl.adoc#creating-instance[KStreamImpl]
+`stream` creates a new processor name (with *KSTREAM-SOURCE-* prefix) and requests <<internalTopologyBuilder, InternalTopologyBuilder>> to link:kafka-streams-InternalTopologyBuilder.adoc#addSource[register a new source topic] and returns a new instance of link:kafka-streams-KStreamImpl.adoc#creating-instance[KStreamImpl]
+
+=== [[createKTable]] `createKTable` Internal Method
+
+[source, scala]
+----
+KTable<K, V> createKTable(
+  final ConsumedInternal<K, V> consumed,
+  final String topic,
+  final String storeName,
+  final boolean isQueryable,
+  final String source,
+  final String name)
+----
+
+`createKTable`...FIXME
+
+NOTE: `createKTable` is used when...FIXME

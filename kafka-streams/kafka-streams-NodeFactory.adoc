@@ -41,6 +41,6 @@ NOTE: `NodeFactory` is a `private` contract.
 | `SinkNodeFactory`
 |
 
-| `SourceNodeFactory`
+| link:kafka-streams-SourceNodeFactory.adoc[SourceNodeFactory]
 |
 |===

@@ -184,6 +184,7 @@
 
 . link:kafka-streams/kafka-streams-ProcessorNode.adoc[ProcessorNode]
 . link:kafka-streams/kafka-streams-ProcessorNodeFactory.adoc[ProcessorNodeFactory]
+. link:kafka-streams/kafka-streams-SourceNodeFactory.adoc[SourceNodeFactory]
 . link:kafka-streams/kafka-streams-NodeFactory.adoc[NodeFactory]
 . link:kafka-streams/kafka-streams-StandbyTaskCreator.adoc[StandbyTaskCreator]
 . link:kafka-streams/kafka-streams-TaskCreator.adoc[TaskCreator]
