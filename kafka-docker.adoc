@@ -1,0 +1,53 @@
+== Running Kafka Broker in Docker
+
+A very basic installation of Apache Kafka is made up of the following components:
+
+1. An instance of Apache Zookeeper
+1. At least one Kafka broker
+
+You can use https://docs.docker.com/compose/[Docker Compose] to run such an installation where all the components are _dockerized_ (i.e. run as Docker containers).
+
+There are two projects with the Docker images for the components that seem to have been trusted the most:
+
+1. https://hub.docker.com/r/wurstmeister/kafka/[wurstmeister/kafka]
+1. https://hub.docker.com/r/spotify/kafka/[spotify/kafka]
+
+NOTE: https://github.com/ches/docker-kafka[ches/docker-kafka] is another Docker image (that I have not tried myself yet).
+
+`wurstmeister/kafka` gives separate images for Apache Zookeeper and Apache Kafka while `spotify/kafka` runs both Zookeeper and Kafka in the same container.
+
+With the separate images for Apache Zookeeper and Apache Kafka in `wurstmeister/kafka` project and a `docker-compose.yml` configuration for Docker Compose that is a very good starting point as well as allows for further customizations.
+
+TIP: Read the http://wurstmeister.github.io/kafka-docker/[official tutorial] on how to use `wurstmeister/kafka` project.
+
+Let's start a very basic one-broker Kafka cluster using Docker and `wurstmeister/kafka` project.
+
+```
+// Clone wurstmeister/kafka repo
+$ git clone https://github.com/wurstmeister/kafka-docker
+
+$ cd kafka-docker
+
+// Edit `docker-compose.yml`
+// 1. Change the docker host IP in `KAFKA_ADVERTISED_HOST_NAME`
+// e.g. KAFKA_ADVERTISED_HOST_NAME: docker.for.mac.localhost on macOS
+// See https://docs.docker.com/docker-for-mac/networking/
+// 2. Expose port `9092` of `kafka` service to the host
+// i.e. change it to `9092:9092`
+
+// Start services from `docker-compose.yml`
+$ docker-compose up
+
+// Check the connection from the host to the single Kafka broker
+$ nc -vz localhost 9092
+found 0 associations
+found 1 connections:
+     1:	flags=82<CONNECTED,PREFERRED>
+	outif lo0
+	src ::1 port 60643
+	dst ::1 port 9092
+	rank info not available
+	TCP aux info available
+
+Connection to localhost port 9092 [tcp/XmlIpcRegSvc] succeeded!
+```

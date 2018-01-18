@@ -164,6 +164,7 @@
 . link:kafka-gradle-tips.adoc[Gradle Tips]
 . link:kafka-zookeeper-tips.adoc[Zookeeper Tips]
 . link:kafka-scala-repl.adoc[Kafka in Scala REPL for Interactive Exploration]
+. link:kafka-docker.adoc[Running Kafka Broker in Docker]
 
 === Kafka Connect
 
