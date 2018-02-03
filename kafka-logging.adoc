@@ -1,36 +1,26 @@
 == Logging
 
-=== Kafka Broker
+Kafka Streams uses https://logging.apache.org/log4j/2.x/[Apache Log4j 2] for logging service.
 
-A Kafka broker (started using `kafka-server-start.sh`) uses `config/log4j.properties` for logging configuration.
+The main logger is *org.apache.kafka.streams*. Use <<log4j.properties, log4j.properties>> to set the logging levels.
 
-`config/log4j.properties` defaults to INFO logging level with `stdout` and `kafkaAppender` (that spit messages to standard output and `logs/server.log`, respectively).
+=== [[log4j.properties]] Application Logging Using log4j -- `log4j.properties` Logging Configuration File
 
+.log4j.properties
 ```
-log4j.rootLogger=INFO, stdout, kafkaAppender
-
+log4j.rootLogger=INFO, stdout
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.target=System.out
 log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
 log4j.appender.stdout.layout.ConversionPattern=[%d] %p %m (%c)%n
 
-log4j.appender.kafkaAppender=org.apache.log4j.DailyRollingFileAppender
-log4j.appender.kafkaAppender.DatePattern='.'yyyy-MM-dd-HH
-log4j.appender.kafkaAppender.File=${kafka.logs.dir}/server.log
-log4j.appender.kafkaAppender.layout=org.apache.log4j.PatternLayout
-log4j.appender.kafkaAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
+log4j.logger.org.apache.kafka.streams=DEBUG, stdout
+log4j.additivity.org.apache.kafka.streams=false
 ```
 
-If you want to change the logging level of a logger, e.g. `kafka.controller.KafkaController`, to `DEBUG` add the following line to `config/log4j.properties` and restart the server.
+TIP: Save `log4j.properties` in `src/main/resources` in your Kafka Streams application's project.
 
-```
-log4j.logger.kafka.controller.KafkaController=DEBUG, stdout
-```
-
-=== Kafka Tools
-
-Kafka tools like `kafka-console-consumer.sh` (that uses link:kafka-KafkaConsumer.adoc[KafkaConsumer] under the covers) use `config/tools-log4j.properties` file.
-
-NOTE: Kafka tools use `bin/kafka-run-class.sh` to execute their implementations.
+=== [[slf4j]] Simple Logging Facade for Java (SLF4J)
 
 Kafka uses https://www.slf4j.org/index.html[Simple Logging Facade for Java (SLF4J)] for logging.
 
@@ -78,28 +68,3 @@ libraryDependencies += "ch.qos.logback" % "logback-core" % logback
 
 FIXME: Explain why the commenting out is required?
 ====
-
-=== [[log4j.properties]] Application Logging Using log4j -- `log4j.properties` Logging Configuration File
-
-.log4j.properties
-```
-log4j.rootLogger=INFO, stdout
-log4j.appender.stdout=org.apache.log4j.ConsoleAppender
-log4j.appender.stdout.target=System.out
-log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
-log4j.appender.stdout.layout.ConversionPattern=[%d] %p %m (%c)%n
-
-log4j.logger.org.apache.kafka.clients.consumer.ConsumerConfig=DEBUG
-```
-
-TIP: Save `log4j.properties` in `src/main/resources` in your Kafka application's project.
-
-=== [[KAFKA_LOG4J_OPTS]] KAFKA_LOG4J_OPTS Environment Variable
-
-You can use `KAFKA_LOG4J_OPTS` environment variable to specify the log4j configuration to use.
-
-```
-KAFKA_LOG4J_OPTS=-Dlog4j.configuration=file:[your-log4j-configuration-here]
-```
-
-NOTE: Unless defined, `kafka-run-class.sh` sets it to `config/tools-log4j.properties`.
