@@ -123,29 +123,19 @@ Refer to link:kafka-logging.adoc[Logging].
 
 CAUTION: FIXME
 
-=== [[subscribe-pattern]] Subscribing to Topics Matching Pattern -- `subscribe` Method
-
-[source, scala]
-----
-void subscribe(Collection<String> topics)
-----
-
-NOTE: `subscribe` is a part of link:kafka-Consumer.adoc#contract[Consumer Contract].
-
-`subscribe`...FIXME
-
-NOTE: `subscribe` is used when...FIXME
-
 === [[subscribe]] Subscribing to Topics -- `subscribe` Method
 
 [source, java]
 ----
 void subscribe(Collection<String> topics) // <1>
 void subscribe(Collection<String> topics, ConsumerRebalanceListener listener)
+void subscribe(Pattern pattern, ConsumerRebalanceListener listener)
 ----
 <1> A short-hand for the other subscribe with `NoOpConsumerRebalanceListener` as `ConsumerRebalanceListener`
 
 `subscribe` subscribes `KafkaConsumer` to the given topics.
+
+NOTE: `subscribe` is a part of link:kafka-Consumer.adoc#subscribe[Consumer Contract] to...FIXME
 
 [source, scala]
 ----
@@ -223,9 +213,16 @@ CAUTION: FIXME
 
 CAUTION: FIXME
 
-=== [[pollOnce]] Polling Once for ConsumerRecords per TopicPartition -- `pollOnce` Internal Method
+=== [[pollOnce]] Polling One-Off for ConsumerRecords per TopicPartition -- `pollOnce` Internal Method
 
-CAUTION: FIXME
+[source, java]
+----
+Map<TopicPartition, List<ConsumerRecord<K, V>>> pollOnce(long timeout)
+----
+
+`pollOnce`...FIXME
+
+NOTE: `pollOnce` is used exclusively when `KafkaConsumer` is requested to <<poll, poll>>
 
 === [[listTopics]] Requesting Metadata for All Topics (From Brokers) -- `listTopics` Method
 

@@ -1,6 +1,6 @@
 == [[ConsumerCoordinator]] ConsumerCoordinator
 
-`ConsumerCoordinator` is a `AbstractCoordinator` that...FIXME
+`ConsumerCoordinator` is a concrete link:kafka-consumer-AbstractCoordinator.adoc[AbstractCoordinator] that...FIXME
 
 `ConsumerCoordinator` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-KafkaConsumer.adoc#coordinator[created].
 
@@ -8,7 +8,7 @@
 image::images/ConsumerCoordinator.png[align="center"]
 
 [[internal-registries]]
-.ConsumerCoordinator's Internal Properties (e.g. Registries and Counters)
+.ConsumerCoordinator's Internal Properties (e.g. Registries, Counters and Flags)
 [cols="1,2",options="header",width="100%"]
 |===
 | Name
@@ -28,14 +28,29 @@ NOTE: `refreshCommittedOffsetsIfNeeded` is used when...FIXME
 
 === [[onJoinComplete]] `onJoinComplete` Method
 
-[source, scala]
+[source, java]
 ----
-FIXME
+void onJoinComplete(
+  int generation,
+  String memberId,
+  String assignmentStrategy,
+  ByteBuffer assignmentBuffer)
 ----
+
+NOTE: `onJoinComplete` is part of link:kafka-consumer-AbstractCoordinator.adoc#onJoinComplete[AbstractCoordinator Contract] to...FIXME.
 
 `onJoinComplete`...FIXME
 
-NOTE: `onJoinComplete` is used when...FIXME
+=== [[onJoinPrepare]] `onJoinPrepare` Method
+
+[source, java]
+----
+void onJoinPrepare(int generation, String memberId)
+----
+
+NOTE: `onJoinPrepare` is part of link:kafka-consumer-AbstractCoordinator.adoc#onJoinPrepare[AbstractCoordinator Contract] to...FIXME.
+
+`onJoinPrepare`...FIXME
 
 === [[performAssignment]] `performAssignment` Method
 
@@ -94,14 +109,14 @@ NOTE: `timeToNextPoll` is used when...FIXME
 
 === [[poll]] Polling for Coordinator Events -- `poll` Method
 
-[source, scala]
+[source, java]
 ----
-FIXME
+void poll(long now, long remainingMs)
 ----
 
 `poll`...FIXME
 
-NOTE: `poll` is used when...FIXME
+NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka-KafkaConsumer.adoc#pollOnce[pollOnce].
 
 === [[commitOffsetsSync]] `commitOffsetsSync` Method
 

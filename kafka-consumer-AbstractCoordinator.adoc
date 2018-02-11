@@ -1,0 +1,82 @@
+== [[AbstractCoordinator]] AbstractCoordinator
+
+`AbstractCoordinator` is...FIXME
+
+[[contract]]
+[source, java]
+----
+package org.apache.kafka.clients.consumer.internals;
+
+abstract class AbstractCoordinator {
+  void onJoinComplete(
+    int generation,
+    String memberId,
+    String protocol,
+    ByteBuffer memberAssignment);
+  void onJoinPrepare(int generation, String memberId);
+  ...FIXME
+}
+----
+
+.AbstractCoordinator Contract
+[cols="1,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| [[onJoinComplete]] `onJoinComplete`
+| Used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>> (and the request to <<initiateJoinGroup, initiateJoinGroup>> succeeded)
+
+| [[onJoinPrepare]] `onJoinPrepare`
+| Used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>> (and <<needsJoinPrepare, needsJoinPrepare>> flag is on)
+|===
+
+[[internal-registries]]
+.AbstractCoordinator's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| [[joinFuture]] `joinFuture`
+| `RequestFuture<ByteBuffer>` for...FIXME
+
+| [[needsJoinPrepare]] `needsJoinPrepare`
+| Controls when to execute <<onJoinPrepare, onJoinPrepare>> while performing <<joinGroupIfNeeded, joinGroupIfNeeded>>
+
+| [[rejoinNeeded]] `rejoinNeeded`
+| Controls when to...FIXME
+|===
+
+=== [[joinGroupIfNeeded]] `joinGroupIfNeeded` Method
+
+[source, java]
+----
+void joinGroupIfNeeded()
+----
+
+`joinGroupIfNeeded`...FIXME
+
+NOTE: `joinGroupIfNeeded` is used exclusively when `AbstractCoordinator` is requested to <<ensureActiveGroup, ensureActiveGroup>>.
+
+=== [[initiateJoinGroup]] `initiateJoinGroup` Internal Method
+
+[source, java]
+----
+synchronized RequestFuture<ByteBuffer> initiateJoinGroup()
+----
+
+`initiateJoinGroup`...FIXME
+
+NOTE: `initiateJoinGroup` is used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>> (when a rejoin is <<rejoinNeeded, needed>> or <<joinFuture, still in progress and incomplete>>).
+
+=== [[ensureActiveGroup]] `ensureActiveGroup` Method
+
+[source, java]
+----
+void ensureActiveGroup()
+----
+
+`ensureActiveGroup`...FIXME
+
+NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to link:kafka-ConsumerCoordinator.adoc#poll[poll for coordinator events]

@@ -16,8 +16,8 @@ public interface Consumer<K, V> extends Closeable {
 
   void subscribe(Collection<String> topics);
   void subscribe(Collection<String> topics, ConsumerRebalanceListener callback);
-  void subscribe(Pattern pattern, ConsumerRebalanceListener callback);
   void subscribe(Pattern pattern);
+  void subscribe(Pattern pattern, ConsumerRebalanceListener callback);
   Set<String> subscription();
   void unsubscribe();
 
@@ -57,6 +57,9 @@ public interface Consumer<K, V> extends Closeable {
 |===
 | Method
 | Description
+
+| [[subscribe]] `subscribe`
+|
 
 | [[wakeup]] `wakeup`
 |
