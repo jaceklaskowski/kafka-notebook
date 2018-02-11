@@ -90,7 +90,7 @@ NOTE: Deleting topic through the admin tool has no effect with the property disa
 | [[interceptor.classes]] `interceptor.classes`
 | (empty)
 |
-a| Comma-separated list of link:kafka-ConsumerInterceptor.adoc[ConsumerInterceptor] class names.
+a| Comma-separated list of link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor] class names.
 
 [source, scala]
 ----

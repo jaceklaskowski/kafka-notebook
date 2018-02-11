@@ -2,7 +2,7 @@
 
 `ConsumerCoordinator` is a concrete link:kafka-consumer-AbstractCoordinator.adoc[AbstractCoordinator] that...FIXME
 
-`ConsumerCoordinator` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-KafkaConsumer.adoc#coordinator[created].
+`ConsumerCoordinator` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#coordinator[created].
 
 .ConsumerCoordinator and KafkaConsumer
 image::images/ConsumerCoordinator.png[align="center"]
@@ -116,7 +116,7 @@ void poll(long now, long remainingMs)
 
 `poll`...FIXME
 
-NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka-KafkaConsumer.adoc#pollOnce[pollOnce].
+NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#pollOnce[pollOnce].
 
 === [[commitOffsetsSync]] `commitOffsetsSync` Method
 
@@ -189,7 +189,7 @@ NOTE: `fetchCommittedOffsets` is used when...FIXME
 `ConsumerCoordinator` takes the following when created:
 
 * [[logContext]] `LogContext`
-* [[client]] link:kafka-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+* [[client]] link:kafka-consumer-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 * [[groupId]] Group ID
 * [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
 * [[sessionTimeoutMs]] `sessionTimeoutMs`

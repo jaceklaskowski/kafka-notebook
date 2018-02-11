@@ -2,7 +2,7 @@
 
 `ConsumerNetworkClient` is a high-level Kafka consumer that...FIXME
 
-`ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-KafkaConsumer.adoc#client[KafkaConsumer] and link:kafka-AdminClient.adoc[AdminClient].
+`ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-consumer-KafkaConsumer.adoc#client[KafkaConsumer] and link:kafka-AdminClient.adoc[AdminClient].
 
 [[internal-registries]]
 .ConsumerNetworkClient's Internal Properties (e.g. Registries and Counters)
@@ -84,7 +84,7 @@ void ensureFreshMetadata()
 
 `ensureFreshMetadata` <<awaitMetadataUpdate, waits for metadata update>> when <<metadata, Metadata>> was requested for link:kafka-Metadata.adoc#updateRequested[update] or link:kafka-Metadata.adoc#timeToNextUpdate[time to the next update] is now.
 
-NOTE: `ensureFreshMetadata` is used when `ConsumerCoordinator` does link:kafka-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete], link:kafka-ConsumerCoordinator.adoc#performAssignment[performAssignment] and link:kafka-ConsumerCoordinator.adoc#poll[poll].
+NOTE: `ensureFreshMetadata` is used when `ConsumerCoordinator` does link:kafka-consumer-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete], link:kafka-consumer-ConsumerCoordinator.adoc#performAssignment[performAssignment] and link:kafka-consumer-ConsumerCoordinator.adoc#poll[poll].
 
 === [[pendingRequestCount]] `pendingRequestCount` Method
 
@@ -111,10 +111,10 @@ boolean poll(RequestFuture<?> future, long timeout)
 ====
 `poll` is used when:
 
-* `KafkaConsumer` link:kafka-KafkaConsumer.adoc#pollOnce[polls once]
+* `KafkaConsumer` link:kafka-consumer-KafkaConsumer.adoc#pollOnce[polls once]
 * `ConsumerNetworkClient` does <<pollNoWakeup, pollNoWakeup>>, <<awaitMetadataUpdate, awaitMetadataUpdate>>, <<awaitPendingRequests, awaitPendingRequests>>
 * `AbstractCoordinator` does `ensureCoordinatorReady` and `joinGroupIfNeeded`
-* `ConsumerCoordinator` link:kafka-ConsumerCoordinator.adoc#commitOffsetsSync[commitOffsetsSync] and link:kafka-ConsumerCoordinator.adoc#fetchCommittedOffsets[fetchCommittedOffsets]
+* `ConsumerCoordinator` link:kafka-consumer-ConsumerCoordinator.adoc#commitOffsetsSync[commitOffsetsSync] and link:kafka-consumer-ConsumerCoordinator.adoc#fetchCommittedOffsets[fetchCommittedOffsets]
 * `Fetcher` is requested for link:kafka-Fetcher.adoc#getTopicMetadata[topic metadata] or link:kafka-Fetcher.adoc#retrieveOffsetsByTimes[retrieveOffsetsByTimes]
 ====
 
@@ -146,7 +146,7 @@ void pollNoWakeup()
 ====
 `pollNoWakeup` is used when:
 
-* `KafkaConsumer` link:kafka-KafkaConsumer.adoc#poll[polls]
+* `KafkaConsumer` link:kafka-consumer-KafkaConsumer.adoc#poll[polls]
 * `AbstractCoordinator` does `maybeLeaveGroup`
 * `HeartbeatThread` runs
 * `ConsumerCoordinator` does `commitOffsetsAsync`

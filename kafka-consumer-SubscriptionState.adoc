@@ -14,8 +14,8 @@ a| link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener]
 
 Used exclusively when `ConsumerCoordinator` is notified about:
 
-* link:kafka-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete] (that triggers link:kafka-consumer-ConsumerRebalanceListener.adoc#onPartitionsAssigned[ConsumerRebalanceListener.onPartitionsAssigned])
-* link:kafka-ConsumerCoordinator.adoc#onJoinPrepare[onJoinPrepare] (that triggers link:kafka-consumer-ConsumerRebalanceListener.adoc#onPartitionsRevoked[ConsumerRebalanceListener.onPartitionsRevoked])
+* link:kafka-consumer-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete] (that triggers link:kafka-consumer-ConsumerRebalanceListener.adoc#onPartitionsAssigned[ConsumerRebalanceListener.onPartitionsAssigned])
+* link:kafka-consumer-ConsumerCoordinator.adoc#onJoinPrepare[onJoinPrepare] (that triggers link:kafka-consumer-ConsumerRebalanceListener.adoc#onPartitionsRevoked[ConsumerRebalanceListener.onPartitionsRevoked])
 |===
 
 === [[subscribe]] `subscribe` Method
@@ -27,4 +27,4 @@ void subscribe(Pattern pattern, ConsumerRebalanceListener listener)
 
 `subscribe`...FIXME
 
-NOTE: `subscribe` is used exclusively when `KafkaConsumer` is requested to link:kafka-KafkaConsumer.adoc#subscribe[subscribe to the topics that match a pattern with a ConsumerRebalanceListener].
+NOTE: `subscribe` is used exclusively when `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#subscribe[subscribe to the topics that match a pattern with a ConsumerRebalanceListener].

@@ -79,4 +79,4 @@ void ensureActiveGroup()
 
 `ensureActiveGroup`...FIXME
 
-NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to link:kafka-ConsumerCoordinator.adoc#poll[poll for coordinator events]
+NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to link:kafka-consumer-ConsumerCoordinator.adoc#poll[poll for coordinator events]
