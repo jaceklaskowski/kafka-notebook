@@ -67,7 +67,11 @@ Used also in <<poll, poll>>, <<pollOnce, pollOnce>> and <<wakeup, wakeup>> (but 
 |
 
 | [[coordinator]] `coordinator`
-| link:kafka-consumer-ConsumerCoordinator.adoc[ConsumerCoordinator]
+a| link:kafka-consumer-ConsumerCoordinator.adoc[ConsumerCoordinator]
+
+* Initialized when `KafkaConsumer` is <<creating-instance, created>>
+
+* Used for...FIXME
 
 | [[fetcher]] `fetcher`
 | link:kafka-Fetcher.adoc[Fetcher]
@@ -119,9 +123,27 @@ log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
+=== [[assign]] (Manually) Assigning Partitions -- `assign` Method
+
+[source, java]
+----
+void assign(Collection<TopicPartition> partitions)
+----
+
+NOTE: `assign` is part of link:kafka-consumer-Consumer.adoc#assign[Consumer Contract] to...FIXME.
+
+`assign`...FIXME
+
 === [[unsubscribe]] `unsubscribe` Method
 
-CAUTION: FIXME
+[source, java]
+----
+void unsubscribe()
+----
+
+NOTE: `unsubscribe` is part of link:kafka-consumer-Consumer.adoc#unsubscribe[Consumer Contract] to...FIXME.
+
+`unsubscribe`...FIXME
 
 === [[subscribe]] Subscribing to Topics -- `subscribe` Method
 
@@ -196,6 +218,28 @@ CAUTION: FIXME Make the above more user-friendly, e.g. when could `interceptors`
 image::images/KafkaConsumer-poll.png[align="center"]
 
 NOTE: `poll` is a part of link:kafka-consumers.adoc#poll[Consumer contract] to...FIXME
+
+=== [[commitSync]] `commitSync` Method
+
+[source, java]
+----
+void commitSync()
+----
+
+NOTE: `commitSync` is part of link:kafka-consumer-Consumer.adoc#commitSync[Consumer Contract] to...FIXME.
+
+`commitSync`...FIXME
+
+=== [[seek]] `seek` Method
+
+[source, java]
+----
+void seek(TopicPartition partition, long offset)
+----
+
+NOTE: `seek` is part of link:kafka-consumer-Consumer.adoc#seek[Consumer Contract] to...FIXME.
+
+`seek`...FIXME
 
 === [[partitionsFor]] Getting Partitions For Topic -- `partitionsFor` Method
 

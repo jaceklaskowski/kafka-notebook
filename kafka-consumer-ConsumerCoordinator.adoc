@@ -7,6 +7,46 @@
 .ConsumerCoordinator and KafkaConsumer
 image::images/ConsumerCoordinator.png[align="center"]
 
+`KafkaConsumer` uses the <<consumer-configuration-properties, Consumer configuration properties>> to create a `ConsumerCoordinator`.
+
+[[consumer-configuration-properties]]
+.ConsumerCoordinator's Consumer Configuration Properties
+[cols="1,2",options="header",width="100%"]
+|===
+| Configuration Property
+| ConsumerCoordinator's Property
+
+| `max.poll.interval.ms`
+| <<rebalanceTimeoutMs, rebalanceTimeoutMs>>
+
+| `session.timeout.ms`
+| <<sessionTimeoutMs, sessionTimeoutMs>>
+
+| `heartbeat.interval.ms`
+| <<heartbeatIntervalMs, heartbeatIntervalMs>>
+
+| `retry.backoff.ms`
+| <<retryBackoffMs, retryBackoffMs>>
+
+| link:kafka-properties.adoc#enable.auto.commit[enable.auto.commit]
+| <<autoCommitEnabled, autoCommitEnabled>>
+
+| `auto.commit.interval.ms`
+| <<autoCommitIntervalMs, autoCommitIntervalMs>>
+
+| `exclude.internal.topics`
+| <<excludeInternalTopics, excludeInternalTopics>>
+
+| `internal.leave.group.on.close`
+| <<leaveGroupOnClose, leaveGroupOnClose>>
+|===
+
+With <<autoCommitEnabled, autoCommitEnabled>> enabled (i.e. link:kafka-properties.adoc#enable.auto.commit[enable.auto.commit] is `true`), `ConsumerCoordinator` does:
+
+1. <<maybeAutoCommitOffsetsAsync, Sending asynchronous auto-commit of offsets>>
+
+1. <<maybeAutoCommitOffsetsSync, Sending synchronous auto-commit of offsets>>
+
 [[internal-registries]]
 .ConsumerCoordinator's Internal Properties (e.g. Registries, Counters and Flags)
 [cols="1,2",options="header",width="100%"]
@@ -15,11 +55,90 @@ image::images/ConsumerCoordinator.png[align="center"]
 | Description
 |===
 
+=== [[maybeAutoCommitOffsetsAsync]] Sending Asynchronous Auto-Commit of Offsets -- `maybeAutoCommitOffsetsAsync` Method
+
+[source, java]
+----
+void maybeAutoCommitOffsetsAsync(long now)
+----
+
+`maybeAutoCommitOffsetsAsync`...FIXME
+
+[NOTE]
+====
+`maybeAutoCommitOffsetsAsync` is used when:
+
+* `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#assign[manually assign partitions]
+
+* `ConsumerCoordinator` is requested to <<poll, poll>>
+====
+
+=== [[maybeAutoCommitOffsetsSync]] Sending Synchronous Auto-Commit of Offsets -- `maybeAutoCommitOffsetsSync` Internal Method
+
+[source, java]
+----
+void maybeAutoCommitOffsetsSync(long timeoutMs)
+----
+
+`maybeAutoCommitOffsetsSync`...FIXME
+
+NOTE: `maybeAutoCommitOffsetsSync` is used when `ConsumerCoordinator` is requested to <<close, close>> or <<onJoinPrepare, onJoinPrepare>>
+
+=== [[doAutoCommitOffsetsAsync]] `doAutoCommitOffsetsAsync` Internal Method
+
+[source, java]
+----
+void doAutoCommitOffsetsAsync()
+----
+
+`doAutoCommitOffsetsAsync`...FIXME
+
+NOTE: `doAutoCommitOffsetsAsync` is used when...FIXME
+
+=== [[close]] `close` Method
+
+[source, java]
+----
+void close(long timeoutMs)
+----
+
+`close`...FIXME
+
+NOTE: `close` is used when...FIXME
+
+=== [[commitOffsetsAsync]] `commitOffsetsAsync` Method
+
+[source, java]
+----
+void commitOffsetsAsync(
+  final Map<TopicPartition,
+  OffsetAndMetadata> offsets,
+  final OffsetCommitCallback callback)
+----
+
+`commitOffsetsAsync`...FIXME
+
+NOTE: `commitOffsetsAsync` is used when...FIXME
+
+=== [[commitOffsetsSync]] `commitOffsetsSync` Method
+
+[source, java]
+----
+boolean commitOffsetsSync(
+  Map<TopicPartition,
+  OffsetAndMetadata> offsets,
+  long timeoutMs)
+----
+
+`commitOffsetsSync`...FIXME
+
+NOTE: `commitOffsetsSync` is used when...FIXME
+
 === [[refreshCommittedOffsetsIfNeeded]] `refreshCommittedOffsetsIfNeeded` Method
 
-[source, scala]
+[source, java]
 ----
-FIXME
+void refreshCommittedOffsetsIfNeeded()
 ----
 
 `refreshCommittedOffsetsIfNeeded`...FIXME
@@ -56,18 +175,21 @@ NOTE: `onJoinPrepare` is part of link:kafka-consumer-AbstractCoordinator.adoc#on
 
 [source, scala]
 ----
-FIXME
+Map<String, ByteBuffer> performAssignment(
+  String leaderId,
+  String assignmentStrategy,
+  Map<String, ByteBuffer> allSubscriptions)
 ----
+
+NOTE: `performAssignment` is part of link:kafka-consumer-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to...FIXME.
 
 `performAssignment`...FIXME
 
-NOTE: `performAssignment` is used when...FIXME
-
 === [[maybeLeaveGroup]] `maybeLeaveGroup` Method
 
-[source, scala]
+[source, java]
 ----
-FIXME
+synchronized void maybeLeaveGroup()
 ----
 
 `maybeLeaveGroup`...FIXME
@@ -76,9 +198,9 @@ NOTE: `maybeLeaveGroup` is used when...FIXME
 
 === [[updatePatternSubscription]] `updatePatternSubscription` Method
 
-[source, scala]
+[source, java]
 ----
-FIXME
+void updatePatternSubscription(Cluster cluster)
 ----
 
 `updatePatternSubscription`...FIXME
@@ -87,20 +209,20 @@ NOTE: `updatePatternSubscription` is used when...FIXME
 
 === [[needRejoin]] `needRejoin` Method
 
-[source, scala]
+[source, java]
 ----
-FIXME
+boolean needRejoin()
 ----
+
+NOTE: `needRejoin` is part of link:kafka-consumer-AbstractCoordinator.adoc#needRejoin[AbstractCoordinator Contract] to...FIXME.
 
 `needRejoin`...FIXME
 
-NOTE: `needRejoin` is used when...FIXME
-
 === [[timeToNextPoll]] `timeToNextPoll` Method
 
-[source, scala]
+[source, java]
 ----
-FIXME
+long timeToNextPoll(long now)
 ----
 
 `timeToNextPoll`...FIXME
@@ -118,66 +240,22 @@ void poll(long now, long remainingMs)
 
 NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#pollOnce[pollOnce].
 
-=== [[commitOffsetsSync]] `commitOffsetsSync` Method
+=== [[addMetadataListener]] `addMetadataListener` Internal Method
 
-[source, scala]
+[source, java]
 ----
-FIXME
-----
-
-`commitOffsetsSync`...FIXME
-
-NOTE: `commitOffsetsSync` is used when...FIXME
-
-=== [[commitOffsetsAsync]] `commitOffsetsAsync` Method
-
-[source, scala]
-----
-FIXME
-----
-
-`commitOffsetsAsync`...FIXME
-
-NOTE: `commitOffsetsAsync` is used when...FIXME
-
-=== [[maybeAutoCommitOffsetsNow]] `maybeAutoCommitOffsetsNow` Method
-
-[source, scala]
-----
-FIXME
-----
-
-`maybeAutoCommitOffsetsNow`...FIXME
-
-NOTE: `maybeAutoCommitOffsetsNow` is used when...FIXME
-
-=== [[addMetadataListener]] `addMetadataListener` Method
-
-[source, scala]
-----
-FIXME
+void addMetadataListener()
 ----
 
 `addMetadataListener`...FIXME
 
 NOTE: `addMetadataListener` is used when...FIXME
 
-=== [[commitOffsetsSync]] `commitOffsetsSync` Method
-
-[source, scala]
-----
-FIXME
-----
-
-`commitOffsetsSync`...FIXME
-
-NOTE: `commitOffsetsSync` is used when...FIXME
-
 === [[fetchCommittedOffsets]] `fetchCommittedOffsets` Method
 
-[source, scala]
+[source, java]
 ----
-FIXME
+Map<TopicPartition, OffsetAndMetadata> fetchCommittedOffsets(Set<TopicPartition> partitions)
 ----
 
 `fetchCommittedOffsets`...FIXME

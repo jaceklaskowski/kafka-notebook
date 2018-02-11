@@ -19,12 +19,14 @@ public interface Consumer<K, V> extends Closeable {
   void subscribe(Pattern pattern);
   void subscribe(Pattern pattern, ConsumerRebalanceListener callback);
   Set<String> subscription();
+
   void unsubscribe();
 
   ConsumerRecords<K, V> poll(long timeout);
 
   void commitSync();
   void commitSync(Map<TopicPartition, OffsetAndMetadata> offsets);
+
   void commitAsync();
   void commitAsync(OffsetCommitCallback callback);
   void commitAsync(Map<TopicPartition, OffsetAndMetadata> offsets, OffsetCommitCallback callback);
@@ -58,7 +60,19 @@ public interface Consumer<K, V> extends Closeable {
 | Method
 | Description
 
+| [[assign]] `assign`
+|
+
+| [[commitSync]] `commitSync`
+|
+
+| [[seek]] `seek`
+|
+
 | [[subscribe]] `subscribe`
+|
+
+| [[unsubscribe]] `unsubscribe`
 |
 
 | [[wakeup]] `wakeup`

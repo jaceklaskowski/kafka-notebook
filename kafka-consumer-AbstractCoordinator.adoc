@@ -1,6 +1,8 @@
 == [[AbstractCoordinator]] AbstractCoordinator
 
-`AbstractCoordinator` is...FIXME
+`AbstractCoordinator` is a <<contract, contract>> for...FIXME
+
+NOTE: link:kafka-consumer-ConsumerCoordinator.adoc[ConsumerCoordinator] is the default `AbstractCoordinator` in Apache Kafka's Consumer API.
 
 [[contract]]
 [source, java]
@@ -14,6 +16,10 @@ abstract class AbstractCoordinator {
     String protocol,
     ByteBuffer memberAssignment);
   void onJoinPrepare(int generation, String memberId);
+  Map<String, ByteBuffer> performAssignment(
+    String leaderId,
+    String protocol,
+    Map<String, ByteBuffer> allMemberMetadata);
   ...FIXME
 }
 ----
@@ -29,6 +35,9 @@ abstract class AbstractCoordinator {
 
 | [[onJoinPrepare]] `onJoinPrepare`
 | Used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>> (and <<needsJoinPrepare, needsJoinPrepare>> flag is on)
+
+| [[performAssignment]] `performAssignment`
+|
 |===
 
 [[internal-registries]]
@@ -47,6 +56,22 @@ abstract class AbstractCoordinator {
 | [[rejoinNeeded]] `rejoinNeeded`
 | Controls when to...FIXME
 |===
+
+=== [[creating-instance]] Creating AbstractCoordinator Instance
+
+`AbstractCoordinator` takes the following when created:
+
+* [[logContext]] `LogContext`
+* [[client]] link:kafka-consumer-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+* [[groupId]] Group ID
+* [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
+* [[sessionTimeoutMs]] `sessionTimeoutMs`
+* [[heartbeatIntervalMs]] `heartbeatIntervalMs`
+* [[metrics]] `Metrics`
+* [[metricGrpPrefix]] Metric group prefix
+* [[time]] `Time`
+* [[retryBackoffMs]] `retryBackoffMs`
+* [[leaveGroupOnClose]] `leaveGroupOnClose` flag
 
 === [[joinGroupIfNeeded]] `joinGroupIfNeeded` Method
 

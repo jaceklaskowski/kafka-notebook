@@ -8,6 +8,11 @@
 | Importance
 | Description
 
+| [[auto.commit.interval.ms]] `auto.commit.interval.ms`
+|
+|
+| How often (in milliseconds) consumer offsets should be auto-committed when <<enable.auto.commit, enable.auto.commit>> is enabled
+
 | [[auto.offset.reset]] `auto.offset.reset`
 | `latest`
 | No
@@ -51,9 +56,13 @@ a| Enables topic deletion
 NOTE: Deleting topic through the admin tool has no effect with the property disabled.
 
 | [[enable.auto.commit]] link:kafka-properties-enable-auto-commit.adoc[enable.auto.commit]
-|
-|
-|
+| `true`
+| MEDIUM
+| When enabled (i.e. `true`) consumer offsets are committed automatically in the background (aka _consumer auto commit_) every <<auto.commit.interval.ms, auto.commit.interval.ms>>
+
+When disabled, offsets have to be committed manually (synchronously using link:kafka-consumer-KafkaConsumer.adoc#commitSync[KafkaConsumer.commitSync] or asynchronously link:kafka-consumer-KafkaConsumer.adoc#commitAsync[KafkaConsumer.commitAsync]). On restart restore the position of a consumer using link:kafka-consumer-KafkaConsumer.adoc#seek[KafkaConsumer.seek].
+
+Used when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#creating-instance[created] and creates a link:kafka-consumer-ConsumerCoordinator.adoc#autoCommitEnabled[ConsumerCoordinator].
 
 | [[fetch.min.bytes]] `fetch.min.bytes`
 |
