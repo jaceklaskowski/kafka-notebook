@@ -66,6 +66,9 @@ public interface Consumer<K, V> extends Closeable {
 | [[commitSync]] `commitSync`
 |
 
+| [[poll]] `poll`
+| Polling topics for data
+
 | [[seek]] `seek`
 |
 

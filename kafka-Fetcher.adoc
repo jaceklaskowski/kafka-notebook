@@ -5,6 +5,17 @@
 .Fetcher and KafkaConsumer
 image::images/Fetcher-KafkaConsumer.png[align="center"]
 
+`KafkaConsumer` uses the following configuration properties to create a link:kafka-consumer-KafkaConsumer.adoc#fetcher[Fetcher]:
+
+* link:kafka-properties.adoc#fetch.min.bytes[fetch.min.bytes] for <<minBytes, minimum number of bytes>>
+* link:kafka-properties.adoc#fetch.max.bytes[fetch.max.bytes] for <<maxBytes, maximum number of bytes>>
+* link:kafka-properties.adoc#fetch.max.wait.ms[fetch.max.wait.ms] for <<maxWaitMs, maximum wait time>>
+* link:kafka-properties.adoc#max.partition.fetch.bytes[max.partition.fetch.bytes] for <<fetchSize, fetch size>>
+* link:kafka-properties.adoc#max.poll.records[max.poll.records] for <<maxPollRecords, how many records to poll>>
+* link:kafka-properties.adoc#check.crcs[check.crcs] for <<checkCrcs, flag to check CRC or not>>
+* link:kafka-properties.adoc#retry.backoff.ms[retry.backoff.ms] for <<retryBackoffMs, retry backoff (in milliseconds)>>
+* link:kafka-properties.adoc#request.timeout.ms[request.timeout.ms] for <<requestTimeoutMs, request timeout (in milliseconds)>>
+
 [[internal-registries]]
 .Fetcher's Internal Properties (e.g. Registries and Counters) (in alphabetical order)
 [cols="1,2",options="header",width="100%"]
@@ -34,7 +45,8 @@ image::images/Fetcher-KafkaConsumer.png[align="center"]
 * [[metrics]] `Metrics`
 * [[metricsRegistry]] `FetcherMetricsRegistry`
 * [[time]] `Time`
-* [[retryBackoffMs]] Retry backoff in milliseconds
+* [[retryBackoffMs]] Retry backoff (in milliseconds)
+* [[requestTimeoutMs]] Request timeout (in milliseconds)
 * [[isolationLevel]] `IsolationLevel`
 
 `Fetcher` initializes the <<internal-registries, internal registries and counters>>.

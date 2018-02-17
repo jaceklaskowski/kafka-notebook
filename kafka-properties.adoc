@@ -41,7 +41,9 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 | [[check.crcs]] `check.crcs`
 |
 |
-|
+| Automatically check the CRC32 of the records consumed. This ensures no on-the-wire or on-disk corruption to the messages occurred. This check adds some overhead, so it may be disabled in cases seeking extreme performance.
+
+Use `ConsumerConfig.CHECK_CRCS_CONFIG`
 
 | [[client.id]] link:kafka-properties-client-id.adoc[client.id]
 | (random-generated)
@@ -67,17 +69,23 @@ Used when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#creating-ins
 | [[fetch.min.bytes]] `fetch.min.bytes`
 |
 |
-|
+| The minimum amount of data the server should return for a fetch request. If insufficient data is available the request will wait for that much data to accumulate before answering the request. The default setting of 1 byte means that fetch requests are answered as soon as a single byte of data is available or the fetch request times out waiting for data to arrive. Setting this to something greater than 1 will cause the server to wait for larger amounts of data to accumulate which can improve server throughput a bit at the cost of some additional latency.
+
+Use `ConsumerConfig.FETCH_MIN_BYTES_CONFIG`
 
 | [[fetch.max.bytes]] `fetch.max.bytes`
 |
 |
-|
+| The maximum amount of data the server should return for a fetch request. Records are fetched in batches by the consumer, and if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that the consumer can make progress. As such, this is not a absolute maximum. The maximum record batch size accepted by the broker is defined via <<message.max.bytes, message.max.bytes>> (broker config) or <<max.message.bytes, max.message.bytes>> (topic config). Note that the consumer performs multiple fetches in parallel.
+
+Use `ConsumerConfig.FETCH_MAX_BYTES_CONFIG`
 
 | [[fetch.max.wait.ms]] `fetch.max.wait.ms`
 |
 |
-|
+| The maximum amount of time the server will block before answering the fetch request if there isn't sufficient data to immediately satisfy the requirement given by fetch.min.bytes.
+
+Use `ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG`
 
 | [[group.id]] link:kafka-properties-group-id.adoc[group.id]
 |
@@ -124,12 +132,30 @@ props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, "pl.jaceklaskowski.kafka.Ka
 | [[max.partition.fetch.bytes]] `max.partition.fetch.bytes`
 |
 |
-| How to deserialize message keys.
+a| The maximum amount of data per-partition the server will return. Records are fetched in batches by the consumer. If the first record batch in the first non-empty partition of the fetch is larger than this limit, the batch will still be returned to ensure that the consumer can make progress. The maximum record batch size accepted by the broker is defined via <<message.max.bytes, message.max.bytes>> (broker config) or <<max.message.bytes, max.message.bytes>> (topic config).
+
+Use `ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG`
+
+NOTE: Use <<fetch.max.bytes, fetch.max.bytes>> for limiting the consumer request size.
 
 | [[max.poll.records]] `max.poll.records`
-|
-|
-|
+| `500`
+| MEDIUM
+a| (KafkaConsumer) The maximum number of records returned from a Kafka `Consumer` when link:kafka-consumer-Consumer.adoc#poll[polling topics for records].
+
+The default setting (`-1`) sets no upper bound on the number of records, i.e. `Consumer.poll()` will return as soon as either any data is available or the passed timeout expires.
+
+`max.poll.records` was added to Kafka in https://issues.apache.org/jira/browse/KAFKA-3007[0.10.0.0] by https://cwiki.apache.org/confluence/display/KAFKA/KIP-41%3A+KafkaConsumer+Max+Records[KIP-41: KafkaConsumer Max Records].
+
+From https://groups.google.com/d/msg/kafka-clients/5jagwTywVb8/2v7vYg9SBAAJ[kafka-clients] mailing list:
+
+> `max.poll.records` only controls the number of records returned from poll, but does not affect fetching. The consumer will try to prefetch records from all partitions it is assigned. It will then buffer those records and return them in batches of `max.poll.records` each (either all from the same topic partition if there are enough left to satisfy the number of records, or from multiple topic partitions if the data from the last fetch for one of the topic partitions does not cover the `max.poll.records`).
+
+Use `ConsumerConfig.MAX_POLL_RECORDS_CONFIG`.
+
+---
+
+Internally, `max.poll.records` is used exclusively when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#creating-instance[created] (to create a link:kafka-consumer-KafkaConsumer.adoc#fetcher[Fetcher]).
 
 | [[metadata.max.age.ms]] `metadata.max.age.ms`
 |
@@ -181,13 +207,16 @@ The maximum allowed time for each worker to join the group once a rebalance has 
 | [[retry.backoff.ms]] link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
 |
 |
+| Time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
+
+Use `ConsumerConfig.RETRY_BACKOFF_MS_CONFIG`
+
+| [[request.timeout.ms]] `request.timeout.ms`
 |
+|
+| The configuration controls the maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
 
-Time to wait before attempting to retry a failed request to a given topic partition.
-
-This avoids repeatedly sending requests in a tight loop under some failure scenarios.
-
-| [[request_timeout_ms]] `request.timeout.ms` |  |  |
+Use `ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG`
 
 | [[sasl.enabled.mechanisms]] `sasl.enabled.mechanisms`
 |
