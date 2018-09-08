@@ -1,0 +1,195 @@
+== [[KafkaMetricsGroup]] KafkaMetricsGroup
+
+`KafkaMetricsGroup` is the <<contract, contract>> of <<implementations, metrics groups>> that can register new *performance metrics*, e.g. <<newGauge, gauge>>, <<newHistogram, histogram>>, <<newMeter, meter>> and <<newTimer, timer>>.
+
+[[contract]]
+[source, scala]
+----
+package kafka.metrics
+
+trait KafkaMetricsGroup {
+  // No required properties (vals and methods) that have no implementation
+}
+----
+
+[[implementations]]
+.KafkaMetricsGroups (Direct Implementations)
+[cols="1,2",options="header",width="100%"]
+|===
+| KafkaMetricsGroup
+| Description
+
+| <<kafka-AbstractFetcherManager.adoc#, AbstractFetcherManager>>
+| [[AbstractFetcherManager]]
+
+| Acceptor
+| [[Acceptor]]
+
+| <<kafka-AdminManager.adoc#, AdminManager>>
+| [[AdminManager]]
+
+| AppInfo
+| [[AppInfo]]
+
+| <<kafka-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>>
+| [[BrokerTopicMetrics]]
+
+| ControllerChannelManager
+| [[ControllerChannelManager]]
+
+| <<kafka-ControllerEventManager.adoc#, ControllerEventManager>>
+| [[ControllerEventManager]]
+
+| ControllerStats
+| [[ControllerStats]]
+
+| DelayedDeleteRecordsMetrics
+| [[DelayedDeleteRecordsMetrics]]
+
+| DelayedFetchMetrics
+| [[DelayedFetchMetrics]]
+
+| DelayedOperationPurgatory
+| [[DelayedOperationPurgatory]]
+
+| DelayedProduceMetrics
+| [[DelayedProduceMetrics]]
+
+| DelegationTokenManager
+| [[DelegationTokenManager]]
+
+| FetcherLagMetrics
+| [[FetcherLagMetrics]]
+
+| FetcherStats
+| [[FetcherStats]]
+
+| FetchSessionCache
+| [[FetchSessionCache]]
+
+| <<kafka-GroupMetadataManager.adoc#, GroupMetadataManager>>
+| [[GroupMetadataManager]]
+
+| <<kafka-KafkaController.adoc#, KafkaController>>
+| [[KafkaController]]
+
+| <<kafka-KafkaRequestHandlerPool.adoc#, KafkaRequestHandlerPool>>
+| [[KafkaRequestHandlerPool]]
+
+| <<kafka-KafkaServer.adoc#, KafkaServer>>
+| [[KafkaServer]]
+
+| KafkaZkClient
+| [[KafkaZkClient]]
+
+| <<kafka-Log.adoc#, Log>>
+| [[Log]]
+
+| LogCleaner
+| [[LogCleaner]]
+
+| LogCleanerManager
+| [[LogCleanerManager]]
+
+| LogFlushStats
+| [[LogFlushStats]]
+
+| <<kafka-LogManager.adoc#, LogManager>>
+| [[LogManager]]
+
+| <<kafka-cluster-Partition.adoc#, Partition>>
+| [[Partition]]
+
+| Processor
+| [[Processor]]
+
+| <<kafka-ReplicaManager.adoc#, ReplicaManager>>
+| [[ReplicaManager]]
+
+| RequestChannel
+| [[RequestChannel]]
+
+| RequestMetrics
+| [[RequestMetrics]]
+
+| <<kafka-SocketServer.adoc#, SocketServer>>
+| [[SocketServer]]
+
+| Throttler
+| [[Throttler]]
+
+| TransactionMarkerChannelManager
+| [[TransactionMarkerChannelManager]]
+
+| ZooKeeperClient
+| [[ZooKeeperClient]]
+|===
+
+=== [[newGauge]] `newGauge` Method
+
+[source, scala]
+----
+newGauge[T](
+  name: String,
+  metric: Gauge[T],
+  tags: scala.collection.Map[String, String] = Map.empty): Gauge[T]
+----
+
+`newGauge`...FIXME
+
+NOTE: `newGauge` is used when...FIXME
+
+=== [[newMeter]] `newMeter` Method
+
+[source, scala]
+----
+newMeter(
+  name: String,
+  eventType: String,
+  timeUnit: TimeUnit,
+  tags: scala.collection.Map[String, String] = Map.empty): Meter
+----
+
+`newMeter`...FIXME
+
+NOTE: `newMeter` is used when...FIXME
+
+=== [[newHistogram]] `newHistogram` Method
+
+[source, scala]
+----
+newHistogram(
+  name: String,
+  biased: Boolean = true,
+  tags: scala.collection.Map[String, String] = Map.empty): Histogram
+----
+
+`newHistogram`...FIXME
+
+NOTE: `newHistogram` is used when...FIXME
+
+=== [[newTimer]] `newTimer` Method
+
+[source, scala]
+----
+newTimer(
+  name: String,
+  durationUnit: TimeUnit,
+  rateUnit: TimeUnit,
+  tags: scala.collection.Map[String, String] = Map.empty): Timer
+----
+
+`newTimer`...FIXME
+
+NOTE: `newTimer` is used when...FIXME
+
+=== [[metricName]] `metricName` Method
+
+[source, scala]
+----
+metricName(name: String, tags: scala.collection.Map[String, String]): MetricName
+----
+
+`metricName`...FIXME
+
+NOTE: `metricName` is used when...FIXME

@@ -8,33 +8,52 @@ A topic partition has one partition leader node and zero or more replicas.
 
 Kafka producers publish messages to topic leaders as do Kafka consumers consume them from.
 
-*In-Sync Replicas* are brokers that...FIXME
+*In-Sync Replicas* (ISR) are brokers that...FIXME
 
 *Offline Replicas* are...FIXME
 
 `Partition` is...FIXME
 
 [[internal-registries]]
-.Partition's Internal Properties (e.g. Registries and Counters)
-[frame="topbot",cols="1,2",options="header",width="100%"]
+.Partition's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,2",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| [[leaderReplicaIdOpt]] `leaderReplicaIdOpt`
-| Optional leader replica ID
+| inSyncReplicas
+| [[inSyncReplicas]] In-sync <<kafka-cluster-Replica.adoc#, Replicas>>
+
+| leaderReplicaIdOpt
+| [[leaderReplicaIdOpt]] Optional leader replica ID
+
+| localBrokerId
+a| [[localBrokerId]] One of the following:
+
+* `broker.id` configuration property (from the <<replicaManager, ReplicaManager>>) if not <<isOffline, offline>>
+
+* `-1` if <<isOffline, offline>>
+
+| logManager
+a| [[logManager]] <<kafka-LogManager.adoc#, LogManager>> (of the <<replicaManager, ReplicaManager>>) if not <<isOffline, offline>> or `null`
+
+| zkClient
+a| [[zkClient]] `KafkaZkClient` (of the <<replicaManager, ReplicaManager>>) if not <<isOffline, offline>> or `null`
+
+| topicPartition
+| [[topicPartition]] `TopicPartition` (with the <<topic, topic>> and <<partitionId, partitionId>>)
 |===
 
 === [[maybeExpandIsr]] `maybeExpandIsr` Method
 
 [source, scala]
 ----
-FIXME
+maybeExpandIsr(replicaId: Int, logReadResult: LogReadResult): Boolean
 ----
 
 `maybeExpandIsr`...FIXME
 
-NOTE: `maybeExpandIsr` is used exclusively when `Partition` does <<updateReplicaLogReadResult, updateReplicaLogReadResult>>.
+NOTE: `maybeExpandIsr` is used exclusively when `Partition` is requested to <<updateReplicaLogReadResult, updateReplicaLogReadResult>>.
 
 === [[maybeShrinkIsr]] `maybeShrinkIsr` Method
 
@@ -119,7 +138,40 @@ CAUTION: FIXME
 * [[topic]] Topic name
 * [[partitionId]] Partition ID
 * [[time]] `Time`
-* [[replicaManager]] link:kafka-ReplicaManager.adoc[ReplicaManager]
-* [[isOffline]] `isOffline` flag (disabled by default)
+* [[replicaManager]] <<kafka-ReplicaManager.adoc#, ReplicaManager>>
+* [[isOffline]] `isOffline` flag (default: `false`)
 
 `Partition` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[isUnderReplicated]] `isUnderReplicated` Predicate
+
+[source, scala]
+----
+isUnderReplicated: Boolean
+----
+
+`isUnderReplicated` is `true` only if the partition <<isLeaderReplicaLocal, isLeaderReplicaLocal>> and the number of <<inSyncReplicas, in-sync replicas>> is below the <<assignedReplicas, assignedReplicas>>.
+
+NOTE: `isUnderReplicated` is used when...FIXME
+
+=== [[isUnderMinIsr]] `isUnderMinIsr` Predicate
+
+[source, scala]
+----
+isUnderMinIsr: Boolean
+----
+
+`isUnderMinIsr` is `true` only if the partition <<isLeaderReplicaLocal, isLeaderReplicaLocal>> and the number of <<inSyncReplicas, in-sync replicas>> is below the <<kafka-properties.adoc#min.insync.replicas, min.insync.replicas>> configuration property (as configured for the <<kafka-Log.adoc#, Log>> of the <<leaderReplica, leader replica>>).
+
+NOTE: `isUnderMinIsr` is used when...FIXME
+
+=== [[checkEnoughReplicasReachOffset]] `checkEnoughReplicasReachOffset` Method
+
+[source, scala]
+----
+checkEnoughReplicasReachOffset(requiredOffset: Long): (Boolean, Errors)
+----
+
+`checkEnoughReplicasReachOffset`...FIXME
+
+NOTE: `checkEnoughReplicasReachOffset` is used when...FIXME

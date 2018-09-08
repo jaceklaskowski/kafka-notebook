@@ -40,6 +40,8 @@
 . link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
 . link:kafka-LogManager.adoc[LogManager]
 
+. link:kafka-Log.adoc[Log]
+
 . link:kafka-Metadata.adoc[Metadata]
 .. link:kafka-Metadata-Listener.adoc[Metadata Update Listener]
 . link:kafka-MetadataCache.adoc[MetadataCache]
@@ -52,9 +54,6 @@
 .. link:kafka-NetworkClientUtils.adoc[NetworkClientUtils]
 
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
-. link:kafka-Partition.adoc[Partition]
-
-. link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
 
 . link:kafka-ReplicaManager.adoc[ReplicaManager]
 .. link:kafka-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
@@ -76,6 +75,18 @@
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
 . link:kafka-ZkUtils.adoc[ZkUtils]
 . link:kafka-ZKRebalancerListener.adoc[ZKRebalancerListener]
+
+=== Kafka Cluster
+
+. link:kafka-cluster-Partition.adoc[Partition]
+. link:kafka-cluster-Replica.adoc[Replica]
+. link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
+
+=== Kafka Metrics
+
+. link:kafka-BrokerTopicStats.adoc[BrokerTopicStats]
+. link:kafka-BrokerTopicMetrics.adoc[BrokerTopicMetrics]
+. link:kafka-metrics-KafkaMetricsGroup.adoc[KafkaMetricsGroup]
 
 === Kafka Features
 
@@ -140,7 +151,9 @@
 . link:kafka-ReassignPartitionsCommand.adoc[ReassignPartitionsCommand]
 . link:kafka-TopicCommand.adoc[TopicCommand]
 
-=== Kafka Metrics
+=== Kafka Monitoring (Metrics)
+
+. link:kafka-Metrics.adoc[Metrics]
 
 . link:kafka-Sensor.adoc[Sensor]
 . link:kafka-MetricsReporter.adoc[MetricsReporter]
@@ -174,6 +187,10 @@
 
 . link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
 . link:kafka-ConnectDistributed.adoc[ConnectDistributed]
+
+=== Varia / Misc
+
+. link:kafka-Scheduler.adoc[Scheduler]
 
 === Appendix
 
