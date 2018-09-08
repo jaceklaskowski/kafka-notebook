@@ -3,28 +3,45 @@
 `KafkaConfig` is the configuration of a Kafka server and the services.
 
 [[configuration-values]]
-.KafkaConfig's Configuration Values (in alphabetical order)
-[cols="1,2",options="header",width="100%"]
+.KafkaConfig's Configuration Values
+[cols="1m,2",options="header",width="100%"]
 |===
 | Value
 | Kafka Property
 
-| [[deleteTopicEnable]] `deleteTopicEnable`
+| [[deleteTopicEnable]] deleteTopicEnable
 | link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable]
 
-| [[hostName]] `hostName`
+| [[hostName]] hostName
 | link:kafka-properties.adoc#host.name[host.name]
 
-| [[listeners]] `listeners`
+| [[listeners]] listeners
 | link:kafka-properties.adoc#listeners[listeners] (see <<getListeners, getListeners>>)
 
-| [[numNetworkThreads]] `numNetworkThreads`
+| logDirs
+a| [[logDirs]] <<kafka-properties.adoc#log.dirs, log.dirs>> or <<kafka-properties.adoc#log.dir, log.dir>>
+
+At least one log directory must be defined via <<kafka-properties.adoc#log.dirs, log.dirs>> or <<kafka-properties.adoc#log.dir, log.dir>> properties.
+
+Used when:
+
+* `LogManager` is <<kafka-LogManager.adoc#logDirs, created>>
+
+* `LogDirFailureChannel` is created (when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>)
+
+* `KafkaConfig` is requested to <<getNumReplicaAlterLogDirsThreads, getNumReplicaAlterLogDirsThreads>>
+
+* `KafkaServer` is <<kafka-KafkaServer.adoc#brokerMetadataCheckpoints, created>> and is requested to <<kafka-KafkaServer.adoc#getBrokerIdAndOfflineDirs, getBrokerIdAndOfflineDirs>> and <<kafka-KafkaServer.adoc#checkpointBrokerId, checkpointBrokerId>>
+
+* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#describeLogDirs, describeLogDirs>>
+
+| [[numNetworkThreads]] numNetworkThreads
 | link:kafka-properties.adoc#num.network.threads[num.network.threads]
 
-| [[port]] `port`
+| [[port]] port
 | link:kafka-properties.adoc#port[port]
 
-| [[replicaLagTimeMaxMs]] `replicaLagTimeMaxMs`
+| [[replicaLagTimeMaxMs]] replicaLagTimeMaxMs
 |
 |===
 
@@ -46,3 +63,14 @@ getListeners: Seq[EndPoint]
 `getListeners` creates the `EndPoints` if defined using link:kafka-properties.adoc#listeners[listeners] Kafka property or defaults to `PLAINTEXT://[hostName]:[port]` (for <<hostName, hostName>> and <<port, port>> Kafka properties).
 
 NOTE: `getListeners` is used when `KafkaConfig` is <<listeners, created>> and for <<getAdvertisedListeners, getAdvertisedListeners>>.
+
+=== [[getNumReplicaAlterLogDirsThreads]] `getNumReplicaAlterLogDirsThreads` Method
+
+[source, scala]
+----
+getNumReplicaAlterLogDirsThreads: Int
+----
+
+`getNumReplicaAlterLogDirsThreads`...FIXME
+
+NOTE: `getNumReplicaAlterLogDirsThreads` is used when...FIXME

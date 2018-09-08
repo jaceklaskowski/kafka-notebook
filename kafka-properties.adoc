@@ -119,6 +119,18 @@ props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, "pl.jaceklaskowski.kafka.Ka
 | (empty)
 | The addresses the socket server listens on.
 
+| `log.dir`
+| HIGH
+| `/tmp/kafka-logs`
+| [[log.dir]] The directory in which the log data is kept
+
+| `log.dirs`
+| HIGH
+| (empty)
+| [[log.dirs]] The directories in which the log data is kept. If not set, <<log.dir, log.dir>> is used.
+
+Use <<kafka-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> to access the current value.
+
 | [[key.deserializer]] `key.deserializer`
 |
 |

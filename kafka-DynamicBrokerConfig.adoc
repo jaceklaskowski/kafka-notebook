@@ -1,0 +1,14 @@
+== [[DynamicBrokerConfig]] DynamicBrokerConfig
+
+`DynamicBrokerConfig` is...FIXME
+
+=== [[addReconfigurables]] `addReconfigurables` Method
+
+[source, scala]
+----
+addReconfigurables(kafkaServer: KafkaServer): Unit
+----
+
+`addReconfigurables`...FIXME
+
+NOTE: `addReconfigurables` is used when...FIXME

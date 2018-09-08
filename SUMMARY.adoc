@@ -198,6 +198,7 @@
 
 . link:kafka-Scheduler.adoc[Scheduler]
 . link:kafka-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
+. link:kafka-DynamicBrokerConfig.adoc[DynamicBrokerConfig]
 
 === Appendix
 

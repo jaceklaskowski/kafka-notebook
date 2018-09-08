@@ -5,7 +5,36 @@
 .LogManager and KafkaServer
 image::images/LogManager.png[align="center"]
 
+`LogManager` manages the <<logDirs, log directories>> that are configured using <<kafka-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>).
+
 `LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a `DynamicLogConfig`, a `TopicConfigHandler`.
+
+[[internal-registries]]
+.LogManager's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| _liveLogDirs
+| [[_liveLogDirs]] Java's https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html[ConcurrentLinkedQueue] of log directories
+
+Used when...FIXME
+|===
+
+[[logging]]
+[TIP]
+====
+Enable `INFO` or `DEBUG` logging level for `kafka.log.LogManager` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.log.LogManager=DEBUG, stdout
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
 
 === [[startup]] Starting Up -- `startup` Method
 
@@ -80,14 +109,20 @@ loadLog(
 
 NOTE: `loadLog` is used exclusively when `LogManager` is requested to <<loadLogs, loadLogs>>.
 
-=== [[loadLogs]] `loadLogs` Internal Method
+=== [[loadLogs]] Loading Logs -- `loadLogs` Internal Method
 
 [source, scala]
 ----
 loadLogs(): Unit
 ----
 
-`loadLogs`...FIXME
+`loadLogs` prints out the following INFO message to the logs:
+
+```
+Loading logs.
+```
+
+For every <<liveLogDirs, live log directory>>, `loadLogs`...FIXME
 
 NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, created>>.
 
@@ -114,6 +149,8 @@ NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, c
 
 `LogManager` initializes the <<internal-registries, internal registries and counters>>.
 
+While being created, `LogManager` <<loadLogs, load logs>>.
+
 === [[apply]] Creating LogManager -- `apply` Factory Method
 
 [source, scala]
@@ -132,3 +169,14 @@ apply(
 `apply`...FIXME
 
 NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+
+=== [[liveLogDirs]] `liveLogDirs` Method
+
+[source, scala]
+----
+liveLogDirs: Seq[File]
+----
+
+`liveLogDirs`...FIXME
+
+NOTE: `liveLogDirs` is used when...FIXME
