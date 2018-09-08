@@ -1,6 +1,6 @@
 == [[ReplicaManager]] ReplicaManager
 
-`ReplicaManager` is <<creating-instance, created>> and <<startup, started>> when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
+`ReplicaManager` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
 
 .ReplicaManager and KafkaServer
 image::images/ReplicaManager.png[align="center"]
@@ -84,7 +84,7 @@ becomeLeaderOrFollower(
 
 `becomeLeaderOrFollower`...FIXME
 
-NOTE: `becomeLeaderOrFollower` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleLeaderAndIsrRequest, handle LeaderAndIsr request>>.
+NOTE: `becomeLeaderOrFollower` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleLeaderAndIsrRequest, handle a LeaderAndIsr request>>.
 
 === [[makeFollowers]] `makeFollowers` Internal Method
 
@@ -100,7 +100,7 @@ makeFollowers(
 
 `makeFollowers`...FIXME
 
-NOTE: `makeFollowers` is used exclusively when `ReplicaManager` <<becomeLeaderOrFollower, becomeLeaderOrFollower>>.
+NOTE: `makeFollowers` is used exclusively when `ReplicaManager` is requested to <<becomeLeaderOrFollower, becomeLeaderOrFollower>>.
 
 === [[recordIsrChange]] `recordIsrChange` Method
 
@@ -259,3 +259,14 @@ describeLogDirs(partitions: Set[TopicPartition]): Map[String, LogDirInfo]
 `describeLogDirs`...FIXME
 
 NOTE: `describeLogDirs` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleDescribeLogDirsRequest, handle a DescribeLogDirs request>>.
+
+=== [[getLog]] `getLog` Method
+
+[source, scala]
+----
+getLog(topicPartition: TopicPartition): Option[Log]
+----
+
+`getLog`...FIXME
+
+NOTE: `getLog` is used when...FIXME

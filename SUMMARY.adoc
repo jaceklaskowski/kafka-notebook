@@ -37,10 +37,12 @@
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
 . link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads]
 . link:kafka-KafkaScheduler.adoc[KafkaScheduler]
-. link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
-. link:kafka-LogManager.adoc[LogManager]
 
 . link:kafka-Log.adoc[Log]
+. link:kafka-LogCleaner.adoc[LogCleaner]
+. link:kafka-LogCleanerManager.adoc[LogCleanerManager]
+. link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
+. link:kafka-LogManager.adoc[LogManager]
 
 . link:kafka-Metadata.adoc[Metadata]
 .. link:kafka-Metadata-Listener.adoc[Metadata Update Listener]

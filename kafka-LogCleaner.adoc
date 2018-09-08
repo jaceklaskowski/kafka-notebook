@@ -1,0 +1,46 @@
+== [[LogCleaner]] LogCleaner
+
+`LogCleaner` is...FIXME
+
+=== [[createNewCleanedSegment]] `createNewCleanedSegment` Method
+
+[source, scala]
+----
+createNewCleanedSegment(log: Log, baseOffset: Long): LogSegment
+----
+
+`createNewCleanedSegment`...FIXME
+
+NOTE: `createNewCleanedSegment` is used when...FIXME
+
+=== [[cleanSegments]] `cleanSegments` Internal Method
+
+[source, scala]
+----
+cleanSegments(
+  log: Log,
+  segments: Seq[LogSegment],
+  map: OffsetMap,
+  deleteHorizonMs: Long,
+  stats: CleanerStats): Unit
+----
+
+`cleanSegments`...FIXME
+
+NOTE: `cleanSegments` is used when...FIXME
+
+=== [[buildOffsetMap]] `buildOffsetMap` Internal Method
+
+[source, scala]
+----
+buildOffsetMap(
+  log: Log,
+  start: Long,
+  end: Long,
+  map: OffsetMap,
+  stats: CleanerStats): Unit
+----
+
+`buildOffsetMap`...FIXME
+
+NOTE: `buildOffsetMap` is used when...FIXME

@@ -1,6 +1,11 @@
 == [[LogManager]] LogManager
 
-`LogManager` is...FIXME
+`LogManager` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+
+.LogManager and KafkaServer
+image::images/LogManager.png[align="center"]
+
+`LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a `DynamicLogConfig`, a `TopicConfigHandler`.
 
 === [[startup]] Starting Up -- `startup` Method
 
@@ -23,3 +28,107 @@ allLogs: Iterable[Log]
 `allLogs`...FIXME
 
 NOTE: `allLogs` is used when...FIXME
+
+=== [[addLogToBeDeleted]] `addLogToBeDeleted` Internal Method
+
+[source, scala]
+----
+addLogToBeDeleted(log: Log): Unit
+----
+
+`addLogToBeDeleted`...FIXME
+
+NOTE: `addLogToBeDeleted` is used when...FIXME
+
+=== [[asyncDelete]] `asyncDelete` Method
+
+[source, scala]
+----
+asyncDelete(topicPartition: TopicPartition, isFuture: Boolean = false): Log
+----
+
+`asyncDelete`...FIXME
+
+NOTE: `asyncDelete` is used when...FIXME
+
+=== [[getOrCreateLog]] `getOrCreateLog` Method
+
+[source, scala]
+----
+getOrCreateLog(
+  topicPartition: TopicPartition,
+  config: LogConfig,
+  isNew: Boolean = false,
+  isFuture: Boolean = false): Log
+----
+
+`getOrCreateLog`...FIXME
+
+NOTE: `getOrCreateLog` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#getOrCreateReplica, getOrCreateReplica>>.
+
+=== [[loadLog]] `loadLog` Internal Method
+
+[source, scala]
+----
+loadLog(
+  logDir: File,
+  recoveryPoints: Map[TopicPartition, Long],
+  logStartOffsets: Map[TopicPartition, Long]): Unit
+----
+
+`loadLog`...FIXME
+
+NOTE: `loadLog` is used exclusively when `LogManager` is requested to <<loadLogs, loadLogs>>.
+
+=== [[loadLogs]] `loadLogs` Internal Method
+
+[source, scala]
+----
+loadLogs(): Unit
+----
+
+`loadLogs`...FIXME
+
+NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, created>>.
+
+=== [[creating-instance]] Creating LogManager Instance
+
+`LogManager` takes the following when created:
+
+* [[logDirs]] Log directories
+* [[initialOfflineDirs]] Initial offline directories
+* [[topicConfigs]] Topic configurations (`Map[String, LogConfig]`)
+* [[initialDefaultConfig]] Initial default configuration (`LogConfig`)
+* [[cleanerConfig]] `CleanerConfig`
+* [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir`
+* [[flushCheckMs]] `flushCheckMs`
+* [[flushRecoveryOffsetCheckpointMs]] `flushRecoveryOffsetCheckpointMs`
+* [[flushStartOffsetCheckpointMs]] `flushStartOffsetCheckpointMs`
+* [[retentionCheckMs]] `retentionCheckMs`
+* [[maxPidExpirationMs]] `maxPidExpirationMs`
+* [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
+* [[brokerState]] `BrokerState`
+* [[brokerTopicStats]] <<kafka-BrokerTopicStats.adoc#, BrokerTopicStats>>
+* [[logDirFailureChannel]] `LogDirFailureChannel`
+* [[time]] `Time`
+
+`LogManager` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[apply]] Creating LogManager -- `apply` Factory Method
+
+[source, scala]
+----
+apply(
+  config: KafkaConfig,
+  initialOfflineDirs: Seq[String],
+  zkClient: KafkaZkClient,
+  brokerState: BrokerState,
+  kafkaScheduler: KafkaScheduler,
+  time: Time,
+  brokerTopicStats: BrokerTopicStats,
+  logDirFailureChannel: LogDirFailureChannel): LogManager
+----
+
+`apply`...FIXME
+
+NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.

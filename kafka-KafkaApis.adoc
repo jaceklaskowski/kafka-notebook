@@ -110,7 +110,7 @@ handleLeaderAndIsrRequest(request: RequestChannel.Request): Unit
 
 `handleLeaderAndIsrRequest`...FIXME
 
-NOTE: `handleLeaderAndIsrRequest` is used exclusively to when `KafkaApis` is requested to handle <<LeaderAndIsr, LeaderAndIsr>> requests.
+NOTE: `handleLeaderAndIsrRequest` is used exclusively to when `KafkaApis` is requested to handle a <<LeaderAndIsr, LeaderAndIsr>> request.
 
 === [[handleAlterReplicaLogDirsRequest]] Handling AlterReplicaLogDirs Request -- `handleAlterReplicaLogDirsRequest` Handler
 
@@ -311,3 +311,29 @@ sendResponseMaybeThrottle(
 `sendResponseMaybeThrottle`...FIXME
 
 NOTE: `sendResponseMaybeThrottle` is used when...FIXME
+
+=== [[fetchOffsetsBefore]] `fetchOffsetsBefore` Method
+
+[source, scala]
+----
+fetchOffsetsBefore(log: Log, timestamp: Long, maxNumOffsets: Int): Seq[Long]
+----
+
+`fetchOffsetsBefore`...FIXME
+
+NOTE: `fetchOffsetsBefore` is used exclusively when `KafkaApis` is requested to <<fetchOffsets, fetchOffsets>>.
+
+=== [[fetchOffsets]] `fetchOffsets` Method
+
+[source, scala]
+----
+fetchOffsets(
+  logManager: LogManager,
+  topicPartition: TopicPartition,
+  timestamp: Long,
+  maxNumOffsets: Int): Seq[Long]
+----
+
+`fetchOffsets`...FIXME
+
+NOTE: `fetchOffsets` is used exclusively when `KafkaApis` is requested to <<handleListOffsetRequestV0, handleListOffsetRequestV0>>.

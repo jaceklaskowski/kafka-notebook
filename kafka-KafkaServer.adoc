@@ -62,8 +62,8 @@ image::images/KafkaServer-startup.png[align="center"]
 | [[logDirFailureChannel]] `logDirFailureChannel`
 | `LogDirFailureChannel`
 
-| [[logManager]] `logManager`
-| link:kafka-LogManager.adoc[LogManager]
+| `logManager`
+| [[logManager]][[getLogManager]] <<kafka-LogManager.adoc#, LogManager>>
 
 | [[metadataCache]] `metadataCache`
 | link:kafka-MetadataCache.adoc[MetadataCache]
@@ -137,7 +137,7 @@ CAUTION: FIXME
 
 NOTE: `KafkaServer` is created when link:kafka-KafkaServerStartable.adoc#creating-instance[`KafkaServerStartable` is created].
 
-=== [[startup]] Starting Auxiliary Services -- `startup` Method
+=== [[startup]] Starting Up -- `startup` Method
 
 [source, scala]
 ----

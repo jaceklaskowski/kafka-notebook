@@ -100,7 +100,7 @@ makeFollower(
 
 `makeFollower`...FIXME
 
-NOTE: `makeFollower` is used...FIXME
+NOTE: `makeFollower` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#makeFollowers, makeFollowers>>.
 
 === [[leaderReplicaIfLocal]] `leaderReplicaIfLocal` Method
 
@@ -175,3 +175,45 @@ makeLeader(
 `makeLeader`...FIXME
 
 NOTE: `makeLeader` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#makeLeaders, makeLeaders>>.
+
+=== [[getOrCreateReplica]] `getOrCreateReplica` Method
+
+[source, scala]
+----
+getOrCreateReplica(
+  replicaId: Int = localBrokerId,
+  isNew: Boolean = false): Replica
+----
+
+`getOrCreateReplica`...FIXME
+
+[NOTE]
+====
+`getOrCreateReplica` is used when:
+
+* `Partition` is requested to <<maybeCreateFutureReplica, maybeCreateFutureReplica>>, <<makeLeader, makeLeader>> and <<makeFollower, makeFollower>>
+
+* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>> and <<kafka-server-ReplicaManager.adoc#makeFollowers, makeFollowers>>
+====
+
+=== [[maybeCreateFutureReplica]] `maybeCreateFutureReplica` Method
+
+[source, scala]
+----
+maybeCreateFutureReplica(logDir: String): Boolean
+----
+
+`maybeCreateFutureReplica`...FIXME
+
+NOTE: `maybeCreateFutureReplica` is used exclusively when `Partition` is requested to <<alterReplicaLogDirs, alterReplicaLogDirs>>.
+
+=== [[alterReplicaLogDirs]] `alterReplicaLogDirs` Method
+
+[source, scala]
+----
+alterReplicaLogDirs(partitionDirs: Map[TopicPartition, String]): Map[TopicPartition, Errors]
+----
+
+`alterReplicaLogDirs`...FIXME
+
+NOTE: `alterReplicaLogDirs` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleAlterReplicaLogDirsRequest, handle an AlterReplicaLogDirs request>>.

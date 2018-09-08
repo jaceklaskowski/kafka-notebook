@@ -1,0 +1,29 @@
+== [[LogCleanerManager]] LogCleanerManager
+
+`LogCleanerManager` is...FIXME
+
+=== [[isCompactAndDelete]] `isCompactAndDelete` Predicate
+
+[source, scala]
+----
+isCompactAndDelete(log: Log): Boolean
+----
+
+`isCompactAndDelete`...FIXME
+
+NOTE: `isCompactAndDelete` is used when...FIXME
+
+=== [[cleanableOffsets]] `cleanableOffsets` Method
+
+[source, scala]
+----
+cleanableOffsets(
+  log: Log,
+  topicPartition: TopicPartition,
+  lastClean: immutable.Map[TopicPartition, Long],
+  now: Long): (Long, Long)
+----
+
+`cleanableOffsets`...FIXME
+
+NOTE: `cleanableOffsets` is used when...FIXME

@@ -22,3 +22,24 @@
 * [[logDirFailureChannel]] `LogDirFailureChannel`
 
 `Log` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[apply]] Creating Log Instance -- `apply` Factory Method
+
+[source, scala]
+----
+apply(
+  dir: File,
+  config: LogConfig,
+  logStartOffset: Long,
+  recoveryPoint: Long,
+  scheduler: Scheduler,
+  brokerTopicStats: BrokerTopicStats,
+  time: Time = Time.SYSTEM,
+  maxProducerIdExpirationMs: Int,
+  producerIdExpirationCheckIntervalMs: Int,
+  logDirFailureChannel: LogDirFailureChannel): Log
+----
+
+`apply`...FIXME
+
+NOTE: `apply` is used when `LogManager` is requested to <<kafka-LogManager.adoc#loadLog, loadLog>> and <<kafka-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
