@@ -1,21 +1,18 @@
 == Kafka Properties
 
 .Properties
-[cols="1,1,1,2",options="header",width="100%"]
+[cols="1,1,2",options="header",width="100%"]
 |======================
 | Name
 | Default Value
-| Importance
 | Description
 
 | [[auto.commit.interval.ms]] `auto.commit.interval.ms`
-|
 |
 | How often (in milliseconds) consumer offsets should be auto-committed when <<enable.auto.commit, enable.auto.commit>> is enabled
 
 | [[auto.offset.reset]] `auto.offset.reset`
 | `latest`
-| No
 a| Reset policy -- what to do when there is no initial offset in Kafka or if the current offset does not exist any more on the server (e.g. because that data has been deleted):
 
 * *earliest* -- automatically reset the offset to the earliest offset
@@ -26,20 +23,16 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 | [[authorizer.class.name]] `authorizer.class.name`
 |
 |
-|
 
 | [[bootstrap.servers]] link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
 | (empty)
-| Yes
 | A comma-separated list of `host:port` pairs that are the addresses of one or more brokers in a link:kafka-brokers.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
 
 | [[broker.rack]] `broker.rack`
 |
 |
-|
 
 | [[check.crcs]] `check.crcs`
-|
 |
 | Automatically check the CRC32 of the records consumed. This ensures no on-the-wire or on-disk corruption to the messages occurred. This check adds some overhead, so it may be disabled in cases seeking extreme performance.
 
@@ -48,18 +41,15 @@ Use `ConsumerConfig.CHECK_CRCS_CONFIG`
 | [[client.id]] link:kafka-properties-client-id.adoc[client.id]
 | (random-generated)
 |
-|
 
 | [[delete.topic.enable]] `delete.topic.enable`
 | `true`
-| High
 a| Enables topic deletion
 
 NOTE: Deleting topic through the admin tool has no effect with the property disabled.
 
 | [[enable.auto.commit]] link:kafka-properties-enable-auto-commit.adoc[enable.auto.commit]
 | `true`
-| MEDIUM
 | When enabled (i.e. `true`) consumer offsets are committed automatically in the background (aka _consumer auto commit_) every <<auto.commit.interval.ms, auto.commit.interval.ms>>
 
 When disabled, offsets have to be committed manually (synchronously using link:kafka-consumer-KafkaConsumer.adoc#commitSync[KafkaConsumer.commitSync] or asynchronously link:kafka-consumer-KafkaConsumer.adoc#commitAsync[KafkaConsumer.commitAsync]). On restart restore the position of a consumer using link:kafka-consumer-KafkaConsumer.adoc#seek[KafkaConsumer.seek].
@@ -68,13 +58,11 @@ Used when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#creating-ins
 
 | [[fetch.min.bytes]] `fetch.min.bytes`
 |
-|
 | The minimum amount of data the server should return for a fetch request. If insufficient data is available the request will wait for that much data to accumulate before answering the request. The default setting of 1 byte means that fetch requests are answered as soon as a single byte of data is available or the fetch request times out waiting for data to arrive. Setting this to something greater than 1 will cause the server to wait for larger amounts of data to accumulate which can improve server throughput a bit at the cost of some additional latency.
 
 Use `ConsumerConfig.FETCH_MIN_BYTES_CONFIG`
 
 | [[fetch.max.bytes]] `fetch.max.bytes`
-|
 |
 | The maximum amount of data the server should return for a fetch request. Records are fetched in batches by the consumer, and if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that the consumer can make progress. As such, this is not a absolute maximum. The maximum record batch size accepted by the broker is defined via <<message.max.bytes, message.max.bytes>> (broker config) or <<max.message.bytes, max.message.bytes>> (topic config). Note that the consumer performs multiple fetches in parallel.
 
@@ -82,31 +70,28 @@ Use `ConsumerConfig.FETCH_MAX_BYTES_CONFIG`
 
 | [[fetch.max.wait.ms]] `fetch.max.wait.ms`
 |
-|
 | The maximum amount of time the server will block before answering the fetch request if there isn't sufficient data to immediately satisfy the requirement given by fetch.min.bytes.
 
 Use `ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG`
 
 | [[group.id]] link:kafka-properties-group-id.adoc[group.id]
 |
-|
 | The name of the consumer group the consumer is part of.
 
-| [[heartbeat_interval_ms]] `heartbeat.interval.ms` |  |  | The expected time between heartbeats to the group coordinator when using Kafka's group management facilities.
+| [[heartbeat_interval_ms]] `heartbeat.interval.ms`
+|
+| The expected time between heartbeats to the group coordinator when using Kafka's group management facilities.
 
 | [[host.name]] `host.name`
-|
 | (empty)
 | The hostname the link:kafka-SocketServer.adoc#endpoints[default endpoint] in `SocketServer` listens on.
 
 | [[inter.broker.protocol.version]] `inter.broker.protocol.version`
 |
 |
-|
 
 | [[interceptor.classes]] `interceptor.classes`
 | (empty)
-|
 a| Comma-separated list of link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor] class names.
 
 [source, scala]
@@ -115,17 +100,14 @@ props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, "pl.jaceklaskowski.kafka.Ka
 ----
 
 | [[listeners]] `listeners`
-|
 | (empty)
 | The addresses the socket server listens on.
 
 | `log.dir`
-| HIGH
 | `/tmp/kafka-logs`
 | [[log.dir]] The directory in which the log data is kept
 
 | `log.dirs`
-| HIGH
 | (empty)
 | [[log.dirs]] The directories in which the log data is kept. If not set, <<log.dir, log.dir>> is used.
 
@@ -133,16 +115,13 @@ Use <<kafka-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> to access the curren
 
 | [[key.deserializer]] `key.deserializer`
 |
-|
 | How to deserialize message keys.
 
 | [[max.block.ms]] `max.block.ms`
 |
 |
-|
 
 | [[max.partition.fetch.bytes]] `max.partition.fetch.bytes`
-|
 |
 a| The maximum amount of data per-partition the server will return. Records are fetched in batches by the consumer. If the first record batch in the first non-empty partition of the fetch is larger than this limit, the batch will still be returned to ensure that the consumer can make progress. The maximum record batch size accepted by the broker is defined via <<message.max.bytes, message.max.bytes>> (broker config) or <<max.message.bytes, max.message.bytes>> (topic config).
 
@@ -152,7 +131,6 @@ NOTE: Use <<fetch.max.bytes, fetch.max.bytes>> for limiting the consumer request
 
 | [[max.poll.records]] `max.poll.records`
 | `500`
-| MEDIUM
 a| (KafkaConsumer) The maximum number of records returned from a Kafka `Consumer` when link:kafka-consumer-Consumer.adoc#poll[polling topics for records].
 
 The default setting (`-1`) sets no upper bound on the number of records, i.e. `Consumer.poll()` will return as soon as either any data is available or the passed timeout expires.
@@ -172,20 +150,21 @@ Internally, `max.poll.records` is used exclusively when `KafkaConsumer` is link:
 | [[metadata.max.age.ms]] `metadata.max.age.ms`
 |
 |
+
+| [[metric_reporters]] `metric.reporters`
+| link:kafka-MetricsReporter.adoc#JmxReporter[JmxReporter]
+| The list of fully-qualified classes names of the link:kafka-MetricsReporter.adoc[metrics reporters].
+
+| [[metrics_num_samples]] `metrics.num.samples`
 |
+| Number of samples to compute metrics.
 
-| [[metric_reporters]] `metric.reporters` | link:kafka-MetricsReporter.adoc#JmxReporter[JmxReporter] |  |
-The list of fully-qualified classes names of the link:kafka-MetricsReporter.adoc[metrics reporters].
-
-| [[metrics_num_samples]] `metrics.num.samples` | | |
-Number of samples to compute metrics.
-
-| [[metrics_sample_window_ms]] `metrics.sample.window.ms` | | |
-Time window (in milliseconds) a metrics sample is computed over.
+| [[metrics_sample_window_ms]] `metrics.sample.window.ms`
+|
+| Time window (in milliseconds) a metrics sample is computed over.
 
 | `min.insync.replicas`
 | `1`
-| MEDIUM
 | [[min.insync.replicas]]
 When a producer sets acks to "all" (or "-1"), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful.
 
@@ -197,46 +176,39 @@ A typical scenario would be to create a topic with a replication factor of 3, se
 
 | [[num.io.threads]] `num.io.threads`
 | `8`
-|
 | The number of threads that link:kafka-KafkaServer.adoc[KafkaServer] uses for processing requests, which may include disk I/O
 
 | [[num.network.threads]] `num.network.threads`
 | `3`
-|
 | The number of threads that SocketServer uses for the link:kafka-SocketServer.adoc#numProcessorThreads[number of processors per endpoint].
 
 | [[port]] `port`
-|
 | (empty)
 | The port the link:kafka-SocketServer.adoc#endpoints[default endpoint] in `SocketServer` listens on.
 
-| [[rebalance_timeout_ms]] `rebalance.timeout.ms` |  |  |
-The maximum allowed time for each worker to join the group once a rebalance has begun.
+| [[rebalance_timeout_ms]] `rebalance.timeout.ms`
+|
+| The maximum allowed time for each worker to join the group once a rebalance has begun.
 
 | [[receive.buffer.bytes]] `receive.buffer.bytes`
-|
 |
 | The hint about the size of the TCP network receive buffer (SO_RCVBUF) to use (for a socket) when reading data. If the value is -1, the OS default will be used.
 
 | [[replica.lag.time.max.ms]] `replica.lag.time.max.ms`
 |
 |
-|
 
 | [[replica.socket.timeout.ms]] `replica.socket.timeout.ms`
 |
 |
-|
 
 | [[retry.backoff.ms]] link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
-|
 |
 | Time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
 
 Use `ConsumerConfig.RETRY_BACKOFF_MS_CONFIG`
 
 | [[request.timeout.ms]] `request.timeout.ms`
-|
 |
 | The configuration controls the maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
 
@@ -245,20 +217,19 @@ Use `ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG`
 | [[sasl.enabled.mechanisms]] `sasl.enabled.mechanisms`
 |
 |
-|
 
 | [[send.buffer.bytes]] `send.buffer.bytes`
 |
-|
 | The hint about the size of the TCP network send buffer (SO_SNDBUF) to use (for a socket) when sending data. If the value is -1, the OS default will be used.
 
-| [[session_timeout_ms]] `session.timeout.ms` | 10000 | High | The timeout used to detect worker failures.
+| [[session_timeout_ms]] `session.timeout.ms`
+| 10000
+| The timeout used to detect worker failures.
 
-| [[value_deserializer]] `value.deserializer` |  |  | How to deserialize message values.
-
+| [[value_deserializer]] `value.deserializer`
+|
+| How to deserialize message values
 |======================
-
-CAUTION: FIXME What's worker?
 
 [source, scala]
 ----
