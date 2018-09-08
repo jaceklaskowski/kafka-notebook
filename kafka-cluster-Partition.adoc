@@ -64,7 +64,7 @@ maybeShrinkIsr(replicaMaxLagTimeMs: Long): Unit
 
 `maybeShrinkIsr`...FIXME
 
-NOTE: `maybeShrinkIsr` is used exclusively when `ReplicaManager` link:kafka-ReplicaManager.adoc#maybeShrinkIsr[maybeShrinkIsr].
+NOTE: `maybeShrinkIsr` is used exclusively when `ReplicaManager` link:kafka-server-ReplicaManager.adoc#maybeShrinkIsr[maybeShrinkIsr].
 
 === [[updateReplicaLogReadResult]] `updateReplicaLogReadResult` Method
 
@@ -75,7 +75,7 @@ updateReplicaLogReadResult(replica: Replica, logReadResult: LogReadResult): Bool
 
 `updateReplicaLogReadResult`...FIXME
 
-NOTE: `updateReplicaLogReadResult` is used exclusively when `ReplicaManager` link:kafka-ReplicaManager.adoc#updateFollowerLogReadResults[updateFollowerLogReadResults].
+NOTE: `updateReplicaLogReadResult` is used exclusively when `ReplicaManager` link:kafka-server-ReplicaManager.adoc#updateFollowerLogReadResults[updateFollowerLogReadResults].
 
 === [[updateIsr]] `updateIsr` Internal Method
 
@@ -87,20 +87,6 @@ updateIsr(newIsr: Set[Replica]): Unit
 `updateIsr`...FIXME
 
 NOTE: `updateIsr` is used when `Partition` is requested to <<maybeExpandIsr, expand>> or <<maybeShrinkIsr, shrink>> the ISR.
-
-=== [[makeLeader]] `makeLeader` Method
-
-[source, scala]
-----
-makeLeader(
-  controllerId: Int,
-  partitionStateInfo: LeaderAndIsrRequest.PartitionState,
-  correlationId: Int): Boolean
-----
-
-`makeLeader`...FIXME
-
-NOTE: `makeLeader` is used...FIXME
 
 === [[makeFollower]] `makeFollower` Method
 
@@ -138,7 +124,7 @@ CAUTION: FIXME
 * [[topic]] Topic name
 * [[partitionId]] Partition ID
 * [[time]] `Time`
-* [[replicaManager]] <<kafka-ReplicaManager.adoc#, ReplicaManager>>
+* [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
 * [[isOffline]] `isOffline` flag (default: `false`)
 
 `Partition` initializes the <<internal-registries, internal registries and counters>>.
@@ -175,3 +161,17 @@ checkEnoughReplicasReachOffset(requiredOffset: Long): (Boolean, Errors)
 `checkEnoughReplicasReachOffset`...FIXME
 
 NOTE: `checkEnoughReplicasReachOffset` is used when...FIXME
+
+=== [[makeLeader]] `makeLeader` Method
+
+[source, scala]
+----
+makeLeader(
+  controllerId: Int,
+  partitionStateInfo: LeaderAndIsrRequest.PartitionState,
+  correlationId: Int): Boolean
+----
+
+`makeLeader`...FIXME
+
+NOTE: `makeLeader` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#makeLeaders, makeLeaders>>.

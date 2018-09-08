@@ -12,7 +12,7 @@
 * [[fetcherId]] Fetcher ID
 * [[sourceBroker]] Source `BrokerEndPoint`
 * [[brokerConfig]] link:kafka-KafkaConfig.adoc[KafkaConfig]
-* [[replicaMgr]] link:kafka-ReplicaManager.adoc[ReplicaManager]
+* [[replicaMgr]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
 * [[metrics]] `Metrics`
 * [[time]] `Time`
 * [[quota]] link:kafka-ReplicationQuotaManager.adoc[ReplicationQuotaManager]

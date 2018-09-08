@@ -15,7 +15,7 @@ addFetcherForPartitions(partitionAndOffsets: Map[TopicPartition, BrokerAndInitia
 ====
 `addFetcherForPartitions` is used when:
 
-* `ReplicaManager` link:kafka-ReplicaManager.adoc#alterReplicaLogDirs[alterReplicaLogDirs], link:kafka-ReplicaManager.adoc#becomeLeaderOrFollower[becomeLeaderOrFollower], link:link:kafka-ReplicaManager.adoc#makeFollowers[makeFollowers]
+* `ReplicaManager` link:kafka-server-ReplicaManager.adoc#alterReplicaLogDirs[alterReplicaLogDirs], link:kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower[becomeLeaderOrFollower], link:link:kafka-server-ReplicaManager.adoc#makeFollowers[makeFollowers]
 
 * `LeaderFinderThread` (of the currently-deprecated `ConsumerFetcherManager`) does `doWork`
 ====

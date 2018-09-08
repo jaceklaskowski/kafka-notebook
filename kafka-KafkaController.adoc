@@ -374,7 +374,14 @@ sendUpdateMetadataRequest(): Unit
 
 `sendUpdateMetadataRequest`...FIXME
 
-NOTE: `sendUpdateMetadataRequest` is used when...FIXME
+[NOTE]
+====
+`sendUpdateMetadataRequest` is used when:
+
+* `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>, <<onBrokerStartup, onBrokerStartup>>, <<onBrokerUpdate, onBrokerUpdate>>, <<onReplicasBecomeOffline, onReplicasBecomeOffline>>, <<onPartitionReassignment, onPartitionReassignment>>, <<processUpdateNotifications, processUpdateNotifications>>
+
+* `TopicDeletionManager` is requested to <<kafka-TopicDeletionManager.adoc#onTopicDeletion, onTopicDeletion>>
+====
 
 === [[updateLeaderEpochAndSendRequest]] `updateLeaderEpochAndSendRequest` Internal Method
 
@@ -596,3 +603,49 @@ deregisterTopicDeletionListener(): Unit
 `deregisterTopicDeletionListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#unsubscribeChildChanges[unsubscribeChildChanges] to `/admin/delete_topics` znode with <<topicDeletionListener, TopicDeletionListener>>.
 
 NOTE: `deregisterTopicDeletionListener` is used exclusively when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
+
+=== [[processUpdateNotifications]] `processUpdateNotifications` Internal Method
+
+[source, scala]
+----
+processUpdateNotifications(partitions: Seq[TopicPartition]): Unit
+----
+
+`processUpdateNotifications`...FIXME
+
+NOTE: `processUpdateNotifications` is used when...FIXME
+
+=== [[onReplicasBecomeOffline]] `onReplicasBecomeOffline` Internal Method
+
+[source, scala]
+----
+onReplicasBecomeOffline(newOfflineReplicas: Set[PartitionAndReplica]): Unit
+----
+
+`onReplicasBecomeOffline`...FIXME
+
+NOTE: `onReplicasBecomeOffline` is used when...FIXME
+
+=== [[onPartitionReassignment]] `onPartitionReassignment` Internal Method
+
+[source, scala]
+----
+onPartitionReassignment(
+  topicPartition: TopicPartition,
+  reassignedPartitionContext: ReassignedPartitionsContext): Unit
+----
+
+`onPartitionReassignment`...FIXME
+
+NOTE: `onPartitionReassignment` is used when...FIXME
+
+=== [[onBrokerUpdate]] `onBrokerUpdate` Internal Method
+
+[source, scala]
+----
+onBrokerUpdate(updatedBrokerId: Int): Unit
+----
+
+`onBrokerUpdate`...FIXME
+
+NOTE: `onBrokerUpdate` is used when...FIXME

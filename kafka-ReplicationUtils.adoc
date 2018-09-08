@@ -11,4 +11,4 @@ propagateIsrChanges(zkUtils: ZkUtils, isrChangeSet: Set[TopicPartition]): Unit
 
 `propagateIsrChanges`...FIXME
 
-NOTE: `propagateIsrChanges` is used exclusively when link:kafka-ReplicaManager.adoc#maybePropagateIsrChanges[maybePropagateIsrChanges].
+NOTE: `propagateIsrChanges` is used exclusively when link:kafka-server-ReplicaManager.adoc#maybePropagateIsrChanges[maybePropagateIsrChanges].

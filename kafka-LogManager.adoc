@@ -1,7 +1,25 @@
 == [[LogManager]] LogManager
 
-CAUTION: FIXME
+`LogManager` is...FIXME
 
-=== [[startup]] `startup` Method
+=== [[startup]] Starting Up -- `startup` Method
 
-CAUTION: FIXME
+[source, scala]
+----
+startup(): Unit
+----
+
+`startup`...FIXME
+
+NOTE: `startup` is used when...FIXME
+
+=== [[allLogs]] Getting All Partition Logs -- `allLogs` Method
+
+[source, scala]
+----
+allLogs: Iterable[Log]
+----
+
+`allLogs`...FIXME
+
+NOTE: `allLogs` is used when...FIXME

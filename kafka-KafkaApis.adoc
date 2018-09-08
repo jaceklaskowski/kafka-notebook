@@ -30,6 +30,9 @@ image::images/KafkaApis.png[align="center"]
 | [[DeleteTopics]] `DeleteTopics`
 | <<handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
 
+| [[DescribeLogDirs]] `DescribeLogDirs`
+| <<handleDescribeLogDirsRequest, handleDescribeLogDirsRequest>>
+
 | [[Fetch]] `Fetch`
 | <<handleFetchRequest, handleFetchRequest>>
 
@@ -42,6 +45,30 @@ image::images/KafkaApis.png[align="center"]
 | [[OffsetFetch]] `OffsetFetch`
 | <<handleOffsetFetchRequest, handleOffsetFetchRequest>>
 |===
+
+`KafkaApis` uses the <<replicaManager, ReplicaManager>> in the following <<handlers, handlers>>:
+
+* <<handleAlterReplicaLogDirsRequest, handleAlterReplicaLogDirsRequest>>
+
+* <<handleDeleteRecordsRequest, handleDeleteRecordsRequest>>
+
+* <<handleDescribeLogDirsRequest, handleDescribeLogDirsRequest>>
+
+* <<handleFetchRequest, handleFetchRequest>>
+
+* <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
+
+* <<handleListOffsetRequest, handleListOffsetRequest>>
+
+* <<handleOffsetForLeaderEpochRequest, handleOffsetForLeaderEpochRequest>>
+
+* <<handleProduceRequest, handleProduceRequest>>
+
+* <<handleStopReplicaRequest, handleStopReplicaRequest>>
+
+* <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
+
+* <<handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>>
 
 [[logging]]
 [TIP]
@@ -83,7 +110,7 @@ handleLeaderAndIsrRequest(request: RequestChannel.Request): Unit
 
 `handleLeaderAndIsrRequest`...FIXME
 
-NOTE: `handleLeaderAndIsrRequest` is used exclusively to handle <<LeaderAndIsr, LeaderAndIsr>> requests.
+NOTE: `handleLeaderAndIsrRequest` is used exclusively to when `KafkaApis` is requested to handle <<LeaderAndIsr, LeaderAndIsr>> requests.
 
 === [[handleAlterReplicaLogDirsRequest]] Handling AlterReplicaLogDirs Request -- `handleAlterReplicaLogDirsRequest` Handler
 
@@ -150,7 +177,14 @@ NOTE: `handleTopicMetadataRequest` is used exclusively to handle <<Metadata, Met
 
 === [[authorize]] `authorize` Internal Method
 
-CAUTION: FIXME
+[source, scala]
+----
+authorize(session: RequestChannel.Session, operation: Operation, resource: Resource): Boolean
+----
+
+`authorize`...FIXME
+
+NOTE: `authorize` is used when...FIXME
 
 === [[handleCreatePartitionsRequest]] Handling CreatePartitions Request -- `handleCreatePartitionsRequest` Handler
 
@@ -190,7 +224,7 @@ NOTE: `handleControlledShutdownRequest` is used when...FIXME
 `KafkaApis` takes the following when created:
 
 * [[requestChannel]] `RequestChannel`
-* [[replicaManager]] link:kafka-ReplicaManager.adoc[ReplicaManager]
+* [[replicaManager]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
 * [[adminManager]] link:kafka-AdminManager.adoc[AdminManager]
 * [[groupCoordinator]] link:kafka-GroupCoordinator.adoc[GroupCoordinator]
 * [[txnCoordinator]] `TransactionCoordinator`
@@ -205,3 +239,75 @@ NOTE: `handleControlledShutdownRequest` is used when...FIXME
 * [[brokerTopicStats]] `BrokerTopicStats`
 * [[clusterId]] Cluster ID
 * [[time]] `Time`
+
+=== [[fetchOffsetForTimestamp]] `fetchOffsetForTimestamp` Internal Method
+
+[source, scala]
+----
+fetchOffsetForTimestamp(topicPartition: TopicPartition, timestamp: Long): Option[TimestampOffset]
+----
+
+`fetchOffsetForTimestamp`...FIXME
+
+NOTE: `fetchOffsetForTimestamp` is used exclusively when `KafkaApis` is requested to <<handleListOffsetRequestV1AndAbove, handleListOffsetRequestV1AndAbove>>.
+
+=== [[handleListOffsetRequestV0]] `handleListOffsetRequestV0` Internal Method
+
+[source, scala]
+----
+handleListOffsetRequestV0(
+  request : RequestChannel.Request) : Map[TopicPartition, ListOffsetResponse.PartitionData]
+----
+
+`handleListOffsetRequestV0`...FIXME
+
+NOTE: `handleListOffsetRequestV0` is used exclusively when `KafkaApis` is requested to <<handleListOffsetRequest, handleListOffsetRequest>> (for the API version `0`).
+
+=== [[handleListOffsetRequestV1AndAbove]] `handleListOffsetRequestV1AndAbove` Internal Method
+
+[source, scala]
+----
+handleListOffsetRequestV1AndAbove(
+  request: RequestChannel.Request): Map[TopicPartition, ListOffsetResponse.PartitionData]
+----
+
+`handleListOffsetRequestV1AndAbove`...FIXME
+
+NOTE: `handleListOffsetRequestV1AndAbove` is used exclusively when `KafkaApis` is requested to <<handleListOffsetRequest, handleListOffsetRequest>> (for the API version `1` or above).
+
+=== [[handleDescribeLogDirsRequest]] Handling DescribeLogDirs Request -- `handleDescribeLogDirsRequest` Handler
+
+[source, scala]
+----
+handleDescribeLogDirsRequest(request: RequestChannel.Request): Unit
+----
+
+`handleDescribeLogDirsRequest` takes the `DescribeLogDirsRequest` (from the body of the input `RequestChannel.Request`).
+
+`handleDescribeLogDirsRequest` branches off per whether the `DescribeLogDirsRequest` was for <<kafka-DescribeLogDirsRequest.adoc#isAllTopicPartitions, isAllTopicPartitions>> or not.
+
+* For <<kafka-DescribeLogDirsRequest.adoc#isAllTopicPartitions, all TopicPartitions>>, `handleDescribeLogDirsRequest` requests the <<replicaManager, ReplicaManager>> for the <<kafka-server-ReplicaManager.adoc#logManager, LogManager>> that is requested for <<kafka-LogManager.adoc#allLogs, all the partition logs>> and their <<kafka-Log.adoc#topicPartition, TopicPartitions>>.
+
+* For specific `TopicPartitions`, `handleDescribeLogDirsRequest` requests them from the <<kafka-DescribeLogDirsRequest.adoc#topicPartitions, DescribeLogDirsRequest>>.
+
+NOTE: `handleDescribeLogDirsRequest` returns an empty list of log directories when the request is not <<authorize, authorized>>.
+
+`handleDescribeLogDirsRequest` then requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#describeLogDirs, describeLogDirs>> with the requested `TopicPartitions`.
+
+In the end, `handleDescribeLogDirsRequest` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with a `DescribeLogDirsResponse` and the `LogDirInfos`.
+
+NOTE: `handleDescribeLogDirsRequest` is used exclusively to when `KafkaApis` is requested to handle a <<DescribeLogDirs, DescribeLogDirs>> request.
+
+=== [[sendResponseMaybeThrottle]] `sendResponseMaybeThrottle` Internal Method
+
+[source, scala]
+----
+sendResponseMaybeThrottle(
+  request: RequestChannel.Request,
+  createResponse: Int => AbstractResponse,
+  onComplete: Option[Send => Unit] = None): Unit
+----
+
+`sendResponseMaybeThrottle`...FIXME
+
+NOTE: `sendResponseMaybeThrottle` is used when...FIXME

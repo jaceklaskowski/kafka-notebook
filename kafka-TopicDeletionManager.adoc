@@ -106,3 +106,14 @@ reset(): Unit
 NOTE: `reset` does nothing when link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable] Kafka property is `false`.
 
 NOTE: `reset` is used exclusively when `KafkaController` link:kafka-KafkaController.adoc#onControllerResignation[resigns as the active controller].
+
+=== [[onTopicDeletion]] `onTopicDeletion` Internal Method
+
+[source, scala]
+----
+onTopicDeletion(topics: Set[String]): Unit
+----
+
+`onTopicDeletion`...FIXME
+
+NOTE: `onTopicDeletion` is used when...FIXME

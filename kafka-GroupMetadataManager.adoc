@@ -44,7 +44,7 @@ NOTE: `enableMetadataExpiration` is used exclusively when `GroupCoordinator` is 
 * [[brokerId]] Broker ID
 * [[interBrokerProtocolVersion]] `ApiVersion`
 * [[config]] link:kafka-OffsetConfig.adoc[OffsetConfig]
-* [[replicaManager]] link:kafka-ReplicaManager.adoc[ReplicaManager]
+* [[replicaManager]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
 * [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
 * [[time]] `Time`
 

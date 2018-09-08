@@ -103,7 +103,7 @@ trait KafkaMetricsGroup {
 | Processor
 | [[Processor]]
 
-| <<kafka-ReplicaManager.adoc#, ReplicaManager>>
+| <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
 | [[ReplicaManager]]
 
 | RequestChannel

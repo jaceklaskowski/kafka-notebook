@@ -2,7 +2,7 @@
 
 `ReplicaFetcherManager` is a link:kafka-AbstractFetcherManager.adoc[AbstractFetcherManager] that...FIXME (describe properties)
 
-`ReplicaFetcherManager` is <<creating-instance, created>> exclusively when `ReplicaManager` is requested to link:kafka-ReplicaManager.adoc#createReplicaFetcherManager[create one] (which is when `ReplicaManager` is link:kafka-ReplicaManager.adoc#replicaFetcherManager[created]).
+`ReplicaFetcherManager` is <<creating-instance, created>> exclusively when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#createReplicaFetcherManager[create one] (which is when `ReplicaManager` is link:kafka-server-ReplicaManager.adoc#replicaFetcherManager[created]).
 
 === [[createFetcherThread]] `createFetcherThread` Method
 
@@ -20,7 +20,7 @@ NOTE: `createFetcherThread` is used exclusively when `AbstractFetcherManager` li
 `ReplicaFetcherManager` takes the following when created:
 
 * [[brokerConfig]] link:kafka-KafkaConfig.adoc[KafkaConfig]
-* [[replicaManager]] link:kafka-ReplicaManager.adoc[ReplicaManager]
+* [[replicaManager]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
 * [[metrics]] `Metrics`
 * [[time]] `Time`
 * [[threadNamePrefix]] Optional thread name prefix (undefined by default)

@@ -1,0 +1,27 @@
+== [[DescribeLogDirsRequest]] DescribeLogDirsRequest
+
+`DescribeLogDirsRequest` is...FIXME
+
+[[internal-registries]]
+.DescribeLogDirsRequest's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| topicPartitions
+| [[topicPartitions]] `TopicPartitions` that...FIXME
+
+Used when...FIXME
+|===
+
+=== [[isAllTopicPartitions]] `isAllTopicPartitions` Method
+
+[source, java]
+----
+boolean isAllTopicPartitions()
+----
+
+`isAllTopicPartitions` is `true` only if the <<topicPartitions, topicPartitions>> is not specified.
+
+NOTE: `isAllTopicPartitions` is used when...FIXME

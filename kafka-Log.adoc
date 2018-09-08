@@ -1,3 +1,24 @@
-== [[Log]] Log
+== [[Log]] Partition Log
 
-`Log` is...FIXME
+`Log` is a *partition log* that...FIXME
+
+`Log` is <<creating-instance, created>> when...FIXME
+
+=== [[creating-instance]] Creating Log Instance
+
+`Log` takes the following when created:
+
+* [[dir]] Directory
+* [[config]] `LogConfig`
+* [[logStartOffset]] `logStartOffset`
+* [[recoveryPoint]] `recoveryPoint`
+* [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
+* [[brokerTopicStats]] <<kafka-BrokerTopicStats.adoc#, BrokerTopicStats>>
+* [[time]] `Time`
+* [[maxProducerIdExpirationMs]] `maxProducerIdExpirationMs`
+* [[producerIdExpirationCheckIntervalMs]] `producerIdExpirationCheckIntervalMs`
+* [[topicPartition]] `TopicPartition`
+* [[producerStateManager]] `ProducerStateManager`
+* [[logDirFailureChannel]] `LogDirFailureChannel`
+
+`Log` initializes the <<internal-registries, internal registries and counters>>.

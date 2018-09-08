@@ -55,7 +55,7 @@
 
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 
-. link:kafka-ReplicaManager.adoc[ReplicaManager]
+. link:kafka-server-ReplicaManager.adoc[ReplicaManager]
 .. link:kafka-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
 ... link:kafka-AbstractFetcherManager.adoc[AbstractFetcherManager]
 .. link:kafka-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
@@ -75,6 +75,10 @@
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
 . link:kafka-ZkUtils.adoc[ZkUtils]
 . link:kafka-ZKRebalancerListener.adoc[ZKRebalancerListener]
+
+=== Kafka Controller
+
+. link:kafka-controller-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
 
 === Kafka Cluster
 
@@ -191,6 +195,7 @@
 === Varia / Misc
 
 . link:kafka-Scheduler.adoc[Scheduler]
+. link:kafka-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
 
 === Appendix
 

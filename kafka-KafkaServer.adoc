@@ -69,7 +69,7 @@ image::images/KafkaServer-startup.png[align="center"]
 | link:kafka-MetadataCache.adoc[MetadataCache]
 
 | [[replicaManager]] `replicaManager`
-a| link:kafka-ReplicaManager.adoc[ReplicaManager] exclusively to create:
+a| <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> used to create:
 
 * <<apis, KafkaApis>>
 * <<groupCoordinator, GroupCoordinator>>
@@ -77,9 +77,9 @@ a| link:kafka-ReplicaManager.adoc[ReplicaManager] exclusively to create:
 
 ---
 
-* link:kafka-ReplicaManager.adoc#creating-instance[Created] (and link:kafka-ReplicaManager.adoc#startup[started] immmediately) when `KafkaServer` <<startup, starts up>>
+* link:kafka-server-ReplicaManager.adoc#creating-instance[Created] (and link:kafka-server-ReplicaManager.adoc#startup[started] immmediately) when `KafkaServer` is requested to <<startup, start up>>
 
-* link:kafka-ReplicaManager.adoc#shutdown[Shut down] when `KafkaServer` <<shutdown, shuts down>>
+* link:kafka-server-ReplicaManager.adoc#shutdown[Shut down] when `KafkaServer` <<shutdown, shuts down>>
 
 | [[reporters]] `reporters`
 | Collection of link:kafka-MetricsReporter.adoc[MetricsReporter]
@@ -196,7 +196,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 `startup` creates the <<socketServer, SocketServer>> (for <<config, KafkaConfig>>, <<metrics, Metrics>> and <<credentialProvider, CredentialProvider>>) and requests it to link:kafka-SocketServer.adoc#startup[start up].
 
-`startup` creates the <<replicaManager, ReplicaManager>> and requests it to link:kafka-ReplicaManager.adoc#startup[start up].
+`startup` creates the <<replicaManager, ReplicaManager>> and requests it to link:kafka-server-ReplicaManager.adoc#startup[start up].
 
 `startup` link:kafka-KafkaController.adoc#creating-instance[creates] the <<kafkaController, KafkaController>> (for <<config, KafkaConfig>>, <<zkUtils, ZkUtils>>, <<metrics, Metrics>> and the optional <<threadNamePrefix, threadNamePrefix>>) and requests it to link:kafka-KafkaController.adoc#startup[start up].
 
@@ -256,6 +256,6 @@ NOTE: `notifyClusterListeners` is used exclusively when `KafkaServer` <<startup,
 createReplicaManager(isShuttingDown: AtomicBoolean): ReplicaManager
 ----
 
-`createReplicaManager` simply link:kafka-ReplicaManager.adoc#creating-instance[creates] a `ReplicaManager`.
+`createReplicaManager` simply link:kafka-server-ReplicaManager.adoc#creating-instance[creates] the <<replicaManager, ReplicaManager>> (passing in the references to the services, e.g. <<metrics, Metrics>>, <<kafkaScheduler, KafkaScheduler>>, <<logManager, LogManager>>, <<quotaManagers, QuotaManagers>>, <<metadataCache, MetadataCache>>, <<logDirFailureChannel, LogDirFailureChannel>>).
 
-NOTE: `createReplicaManager` is used exclusively when `KafkaServer` <<startup, starts up>>.
+NOTE: `createReplicaManager` is used exclusively when `KafkaServer` is requested to <<startup, start up>>.

@@ -78,13 +78,13 @@ NOTE: `alterReplicaLogDirs` is used exclusively when `KafkaApis` link:kafka-Kafk
 ----
 becomeLeaderOrFollower(
   correlationId: Int,
-  leaderAndISRRequest: LeaderAndIsrRequest,
-  onLeadershipChange: (Iterable[Partition], Iterable[Partition]) => Unit): BecomeLeaderOrFollowerResult
+  leaderAndIsrRequest: LeaderAndIsrRequest,
+  onLeadershipChange: (Iterable[Partition], Iterable[Partition]) => Unit): LeaderAndIsrResponse
 ----
 
 `becomeLeaderOrFollower`...FIXME
 
-NOTE: `becomeLeaderOrFollower` is used exclusively when `KafkaApis` link:kafka-KafkaApis.adoc#handleLeaderAndIsrRequest[handles LeaderAndIsr request].
+NOTE: `becomeLeaderOrFollower` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleLeaderAndIsrRequest, handle LeaderAndIsr request>>.
 
 === [[makeFollowers]] `makeFollowers` Internal Method
 
@@ -232,3 +232,30 @@ TRACE Evaluating ISR list of partitions to see which replicas can be removed fro
 `maybeShrinkIsr` requests the partitions (from <<allPartitions, allPartitions>> pool that are not <<OfflinePartition, offline partitions>>) to link:kafka-cluster-Partition.adoc#maybeShrinkIsr[maybeShrinkIsr] (with link:kafka-KafkaConfig.adoc#replicaLagTimeMaxMs[replicaLagTimeMaxMs] property).
 
 NOTE: `maybeShrinkIsr` is used exclusively to schedule `isr-expiration` recurring task when `ReplicaManager` <<startup, starts up>>.
+
+=== [[makeLeaders]] `makeLeaders` Internal Method
+
+[source, scala]
+----
+makeLeaders(
+  controllerId: Int,
+  epoch: Int,
+  partitionState: Map[Partition, LeaderAndIsrRequest.PartitionState],
+  correlationId: Int,
+  responseMap: mutable.Map[TopicPartition, Errors]): Set[Partition]
+----
+
+`makeLeaders`...FIXME
+
+NOTE: `makeLeaders` is used exclusively when `ReplicaManager` is requested to <<becomeLeaderOrFollower, becomeLeaderOrFollower>>
+
+=== [[describeLogDirs]] `describeLogDirs` Method
+
+[source, scala]
+----
+describeLogDirs(partitions: Set[TopicPartition]): Map[String, LogDirInfo]
+----
+
+`describeLogDirs`...FIXME
+
+NOTE: `describeLogDirs` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleDescribeLogDirsRequest, handle a DescribeLogDirs request>>.

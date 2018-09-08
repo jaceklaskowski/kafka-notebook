@@ -11,10 +11,13 @@ sendRequestsToBrokers(controllerEpoch: Int): Unit
 
 `sendRequestsToBrokers`...FIXME
 
-NOTE: `sendRequestsToBrokers` is used when:
+[NOTE]
+====
+`sendRequestsToBrokers` is used when:
 
-* `KafkaController` link:kafka-KafkaController.adoc#updateLeaderEpochAndSendRequest[updateLeaderEpochAndSendRequest], link:kafka-KafkaController.adoc#sendUpdateMetadataRequest[sendUpdateMetadataRequest] and `ControlledShutdown` link:kafka-KafkaController.adoc#ControlledShutdown[is processed].
+* `KafkaController` is requested to <<kafka-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<kafka-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>> and `ControlledShutdown` is <<kafka-KafkaController.adoc#ControlledShutdown, processed>>.
 
-* `PartitionStateMachine` link:kafka-PartitionStateMachine.adoc#handleStateChanges[handleStateChanges] and link:kafka-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange[triggerOnlinePartitionStateChange]
+* `PartitionStateMachine` is requested to <<kafka-PartitionStateMachine.adoc#handleStateChanges, handleStateChanges>> and <<kafka-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>>
 
-* `ReplicaStateMachine` link:kafka-ReplicaStateMachine.adoc#handleStateChanges[handleStateChanges]
+* `ReplicaStateMachine` is requested to <<kafka-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
+====
