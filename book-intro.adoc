@@ -1,8 +1,11 @@
-== Apache Kafka Notebook (1.2.0-SNAPSHOT)
+== Mastering Apache Kafka ({{ book.version }})
 
-Welcome to *Apache Kafka Notebook* gitbook! I'm very excited to have you here and hope you will enjoy exploring the internals of Kafka Streams as much as I have.
+Welcome to *Mastering Apache Kafka* gitbook! I'm very excited to have you here and hope you will enjoy exploring the internals of Spark SQL as much as I have.
 
-I'm https://pl.linkedin.com/in/jaceklaskowski[Jacek Laskowski], an independent consultant, software developer and technical instructor specializing in Apache Spark, *Apache Kafka* and Kafka Streams (with Scala, sbt, Kubernetes and a bit of Apache Mesos, DC/OS, Hadoop YARN).
+[quote, Flannery O'Connor]
+I write to discover what I know.
+
+I'm https://pl.linkedin.com/in/jaceklaskowski[Jacek Laskowski], an independent consultant, software developer and technical instructor specializing in *Apache Spark*, Apache Kafka and Kafka Streams (with Scala, sbt, Kubernetes, DC/OS, Apache Mesos, and Hadoop YARN).
 
 I offer software development and consultancy services with https://github.com/jaceklaskowski/spark-workshop/blob/gh-pages/slides/README.md#toc[very hands-on in-depth workshops] and mentoring. Reach out to me at jacek@japila.pl or https://twitter.com/jaceklaskowski[@jaceklaskowski] to discuss opportunities.
 
@@ -10,8 +13,6 @@ Consider joining me at http://www.meetup.com/WarsawScala/[Warsaw Scala Enthusias
 
 TIP: I'm also writing https://bit.ly/mastering-apache-spark[Mastering Apache Spark 2], https://bit.ly/mastering-spark-sql[Mastering Spark SQL], https://bit.ly/mastering-kafka-streams[Mastering Kafka Streams] and https://bit.ly/spark-structured-streaming[Spark Structured Streaming Notebook] gitbooks.
 
-This collections of notes (what some may rashly call a "book") serves as the ultimate place of mine to collect all the nuts and bolts of using https://kafka.apache.org[Apache Kafka] in your projects. The notes help me designing and developing better products with Kafka. They are also a viable proof of my understanding of Kafka (which I believe will help me reaching the highest level of mastery in Apache Kafka).
-
 Expect text and code snippets from a variety of public sources. Attribution follows.
 
-Now, let me introduce you to link:kafka-overview.adoc[Apache Kafka].
+Now, let me introduce you to <<kafka-overview.adoc#, Apache Kafka>>.
