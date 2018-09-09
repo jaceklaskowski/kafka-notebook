@@ -199,6 +199,11 @@
 . link:kafka-Scheduler.adoc[Scheduler]
 . link:kafka-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
 . link:kafka-DynamicBrokerConfig.adoc[DynamicBrokerConfig]
+. link:kafka-DynamicLogConfig.adoc[DynamicLogConfig]
+. link:kafka-Reconfigurable.adoc[Reconfigurable]
+. link:kafka-TopicConfigHandler.adoc[TopicConfigHandler]
+. link:kafka-ConfigHandler.adoc[ConfigHandler]
+. link:kafka-ZooKeeperClient.adoc[ZooKeeperClient]
 
 === Appendix
 

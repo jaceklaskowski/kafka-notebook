@@ -20,8 +20,8 @@ image::images/GroupMetadataManager-creating-instance.png[align="center"]
 | [[groupMetadataTopicPartitionCount]] `groupMetadataTopicPartitionCount`
 |
 
-| [[scheduler]] `scheduler`
-| link:kafka-KafkaScheduler.adoc[KafkaScheduler]
+| `scheduler`
+| [[scheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *group-metadata-manager-* prefix
 |===
 
 === [[enableMetadataExpiration]] `enableMetadataExpiration` Method
@@ -83,3 +83,14 @@ getGroupMetadataTopicPartitionCount: Int
 If not available, `getGroupMetadataTopicPartitionCount` requests <<config, OffsetConfig>> for link:kafka-OffsetConfig.adoc#offsetsTopicNumPartitions[offsetsTopicNumPartitions].
 
 NOTE: `getGroupMetadataTopicPartitionCount` is used exclusively when `GroupMetadataManager` is requested for <<groupMetadataTopicPartitionCount, groupMetadataTopicPartitionCount>>.
+
+=== [[shutdown]] `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown`...FIXME
+
+NOTE: `shutdown` is used when...FIXME

@@ -1,0 +1,14 @@
+== [[DynamicLogConfig]] DynamicLogConfig
+
+`DynamicLogConfig` is a <<kafka-Reconfigurable.adoc#, Reconfigurable>> that...FIXME
+
+`DynamicLogConfig` is <<creating-instance, created>> when...FIXME
+
+=== [[creating-instance]] Creating DynamicLogConfig Instance
+
+`DynamicLogConfig` takes the following when created:
+
+* [[logManager]] <<kafka-LogManager.adoc#, LogManager>>
+* [[server]] <<kafka-KafkaServer.adoc#, KafkaServer>>
+
+`DynamicLogConfig` initializes the <<internal-registries, internal registries and counters>>.

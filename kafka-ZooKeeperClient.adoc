@@ -1,0 +1,45 @@
+== [[ZooKeeperClient]] ZooKeeperClient
+
+`ZooKeeperClient` is...FIXME
+
+`ZooKeeperClient` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>>.
+
+`ZooKeeperClient` is <<creating-instance, created>> when...FIXME
+
+[[internal-registries]]
+.ZooKeeperClient's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| expiryScheduler
+| [[expiryScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *zk-session-expiry-handler* prefix
+
+Used when...FIXME
+|===
+
+=== [[creating-instance]] Creating ZooKeeperClient Instance
+
+`ZooKeeperClient` takes the following when created:
+
+* [[connectString]] Comma-separated host:port pairs of Zookeeper servers
+* [[sessionTimeoutMs]] `sessionTimeoutMs`
+* [[connectionTimeoutMs]] `connectionTimeoutMs`
+* [[maxInFlightRequests]] `maxInFlightRequests`
+* [[time]] `Time`
+* [[metricGroup]] Metric group
+* [[metricType]] Metric type
+
+`ZooKeeperClient` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[close]] `close` Method
+
+[source, scala]
+----
+close(): Unit
+----
+
+`close`...FIXME
+
+NOTE: `close` is used when...FIXME

@@ -121,7 +121,7 @@ trait KafkaMetricsGroup {
 | TransactionMarkerChannelManager
 | [[TransactionMarkerChannelManager]]
 
-| ZooKeeperClient
+| <<kafka-ZooKeeperClient.adoc#, ZooKeeperClient>>
 | [[ZooKeeperClient]]
 |===
 

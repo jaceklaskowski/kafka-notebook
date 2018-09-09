@@ -9,6 +9,9 @@
 | Value
 | Kafka Property
 
+| backgroundThreads
+| [[backgroundThreads]] <<kafka-properties.adoc#background.threads, background.threads>>
+
 | [[deleteTopicEnable]] deleteTopicEnable
 | link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable]
 

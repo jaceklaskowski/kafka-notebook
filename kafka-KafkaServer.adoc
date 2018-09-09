@@ -56,8 +56,8 @@ image::images/KafkaServer-startup.png[align="center"]
 | [[kafkaHealthcheck]] `kafkaHealthcheck`
 | link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
 
-| [[kafkaScheduler]] `kafkaScheduler`
-| link:kafka-KafkaScheduler.adoc[KafkaScheduler] with...FIXME
+| `kafkaScheduler`
+| [[kafkaScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with the number of daemon threads as configured using <<kafka-properties.adoc#backgroundThreads, background.threads>> configuration property (default: `10`)
 
 | [[logContext]] `logContext`
 | `LogContext`
@@ -290,3 +290,14 @@ createReplicaManager(isShuttingDown: AtomicBoolean): ReplicaManager
 `createReplicaManager` simply link:kafka-server-ReplicaManager.adoc#creating-instance[creates] the <<replicaManager, ReplicaManager>> (passing in the references to the services, e.g. <<metrics, Metrics>>, <<kafkaScheduler, KafkaScheduler>>, <<logManager, LogManager>>, <<quotaManagers, QuotaManagers>>, <<metadataCache, MetadataCache>>, <<logDirFailureChannel, LogDirFailureChannel>>).
 
 NOTE: `createReplicaManager` is used exclusively when `KafkaServer` is requested to <<startup, start up>>.
+
+=== [[shutdown]] `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown`...FIXME
+
+NOTE: `shutdown` is used when...FIXME

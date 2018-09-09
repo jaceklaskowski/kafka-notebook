@@ -1,6 +1,18 @@
 == [[KafkaScheduler]] KafkaScheduler
 
-`KafkaScheduler` is a <<contract, Scheduler>> to <<schedule, schedule tasks>> in Kafka.
+`KafkaScheduler` is a concrete <<kafka-Scheduler.adoc#, Scheduler>> to <<schedule, schedule tasks>> in Apache Kafka.
+
+`KafkaScheduler` is <<creating-instance, created>> when:
+
+* `KafkaController` is <<kafka-KafkaController.adoc#, created>> (and initializes <<kafka-KafkaController.adoc#kafkaScheduler, kafkaScheduler>> and <<kafka-KafkaController.adoc#tokenCleanScheduler, tokenCleanScheduler>>)
+
+* `GroupMetadataManager` is <<kafka-GroupMetadataManager.adoc#scheduler, created>>
+
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>
+
+* `ZooKeeperClient` is <<kafka-KafkaServer.adoc#expiryScheduler, created>>
+
+`KafkaScheduler` is used to create a <<kafka-LogManager.adoc#apply, LogManager>> and a <<kafka-TransactionCoordinator.adoc#apply, TransactionCoordinator>>.
 
 [[internal-registries]]
 .KafkaScheduler's Internal Properties (e.g. Registries and Counters)
@@ -54,26 +66,41 @@ If `KafkaScheduler` is already started, `startup` throws a `IllegalStateExceptio
 This scheduler has already been started!
 ```
 
-=== [[creating-instance]] Creating KafkaScheduler Instance
-
-CAUTION: FIXME
-
 === [[shutdown]] `shutdown` Method
 
-CAUTION: FIXME
+[source, scala]
+----
+shutdown(): Unit
+----
+
+NOTE: `shutdown` is part of the <<kafka-Scheduler.adoc#shutdown, Scheduler Contract>> to...FIXME.
+
+`shutdown`...FIXME
 
 === [[ensureRunning]] `ensureRunning` Internal Method
 
-CAUTION: FIXME
+[source, scala]
+----
+ensureRunning(): Unit
+----
+
+`ensureRunning`...FIXME
+
+NOTE: `ensureRunning` is used when...FIXME
 
 === [[schedule]] Scheduling Tasks -- `schedule` Method
 
 [source, scala]
 ----
-schedule(name: String, fun: () => Unit, delay: Long, period: Long, unit: TimeUnit): Unit
+def schedule(
+  name: String,
+  fun: () => Unit,
+  delay: Long = 0,
+  period: Long = -1,
+  unit: TimeUnit = TimeUnit.MILLISECONDS)
 ----
 
-NOTE: `schedule` is a part of <<contract, Scheduler contract>> to schedule tasks.
+NOTE: `schedule` is part of the <<kafka-Scheduler.adoc#schedule, Scheduler Contract>> to schedule a task.
 
 When `schedule` is executed, you should see the following DEBUG message in the logs:
 
@@ -109,25 +136,12 @@ In case of any exceptions, the execution thread catches them and you should see 
 Uncaught exception in scheduled task '[name]'
 ```
 
-=== [[contract]] Scheduler Contract
+=== [[creating-instance]] Creating KafkaScheduler Instance
 
-[source, scala]
-----
-trait Scheduler {
-  def startup(): Unit
-  def shutdown(): Unit
-  def isStarted: Boolean
-  def schedule(name: String, fun: () => Unit, delay: Long = 0, period: Long = -1, unit: TimeUnit = TimeUnit.MILLISECONDS)
-}
-----
+`KafkaScheduler` takes the following when created:
 
-.Scheduler Contract
-[frame="topbot",cols="1,2",options="header",width="100%"]
-|===
-| Method
-| Description
+* [[threads]] Number of threads
+* [[threadNamePrefix]] Thread name prefix (default: `kafka-scheduler-`)
+* [[daemon]] `daemon` flag (default: `true`)
 
-| `schedule`
-| Schedules a task
-
-|===
+`KafkaScheduler` initializes the <<internal-registries, internal registries and counters>>.

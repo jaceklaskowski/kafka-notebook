@@ -7,7 +7,10 @@ image::images/LogManager.png[align="center"]
 
 `LogManager` manages the <<logDirs, log directories>> that are configured using <<kafka-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>).
 
-`LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a `DynamicLogConfig`, a `TopicConfigHandler`.
+`LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a <<kafka-DynamicLogConfig.adoc#logManager, DynamicLogConfig>>, a <<kafka-TopicConfigHandler.adoc#logManager, TopicConfigHandler>>.
+
+[[InitialTaskDelayMs]]
+`LogManager` defaults to 30000ms for the *initial task delay*.
 
 [[internal-registries]]
 .LogManager's Internal Properties (e.g. Registries, Counters and Flags)
@@ -43,9 +46,36 @@ Refer to link:kafka-logging.adoc[Logging].
 startup(): Unit
 ----
 
-`startup`...FIXME
+`startup` starts the background threads to flush logs and do log cleanup.
+
+Internally, `startup` prints out the following INFO message to the logs:
+
+```
+Starting log cleanup with a period of [retentionCheckMs] ms.
+```
+
+`startup` requests the <<scheduler, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule a task>> with the name `kafka-log-retention` that <<cleanupLogs, cleanupLogs>> with the <<InitialTaskDelayMs, InitialTaskDelayMs>> delay, the <<retentionCheckMs, retentionCheckMs>> execution period.
+
+`startup` prints out the following INFO message to the logs:
+
+```
+Starting log flusher with a default period of [flushCheckMs] ms.
+```
+
+`startup` requests the <<scheduler, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule a task>> with...FIXME
 
 NOTE: `startup` is used when...FIXME
+
+=== [[cleanupLogs]] `cleanupLogs` Method
+
+[source, scala]
+----
+cleanupLogs(): Unit
+----
+
+`cleanupLogs`...FIXME
+
+NOTE: `cleanupLogs` is used when...FIXME
 
 === [[allLogs]] Getting All Partition Logs -- `allLogs` Method
 
@@ -180,3 +210,14 @@ liveLogDirs: Seq[File]
 `liveLogDirs`...FIXME
 
 NOTE: `liveLogDirs` is used when...FIXME
+
+=== [[deleteLogs]] `deleteLogs` Internal Method
+
+[source, scala]
+----
+deleteLogs(): Unit
+----
+
+`deleteLogs`...FIXME
+
+NOTE: `deleteLogs` is used when...FIXME

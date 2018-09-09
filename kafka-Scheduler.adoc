@@ -1,3 +1,69 @@
-== [[Scheduler]] Scheduler
+== [[Scheduler]] Scheduler Contract
 
-`Scheduler` is...FIXME
+`Scheduler` is the <<contract, contract>> of <<implementations, job schedulers>> that can <<schedule, schedule tasks>>.
+
+[[contract]]
+[source, scala]
+----
+package kafka.utils
+
+trait Scheduler {
+  def isStarted: Boolean
+  def shutdown()
+  def schedule(
+    name: String,
+    fun: () => Unit,
+    delay: Long = 0,
+    period: Long = -1,
+    unit: TimeUnit = TimeUnit.MILLISECONDS)
+  def startup()
+}
+----
+
+.Scheduler Contract
+[cols="1m,2",options="header",width="100%"]
+|===
+| Property
+| Description
+
+| isStarted
+a| [[isStarted]] Flag that indicates whether the scheduler has been started or not
+
+Used when:
+
+* `KafkaController` is requested to <<kafka-KafkaController.adoc#onControllerResignation, onControllerResignation>>
+
+* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#shutdown, shutdown>>
+
+* `LogManager` is requested to <<kafka-LogManager.adoc#deleteLogs, deleteLogs>>
+
+* `KafkaScheduler` is requested to <<kafka-KafkaScheduler.adoc#startup, startup>> and <<kafka-KafkaScheduler.adoc#ensureRunning, ensureRunning>>
+
+| shutdown
+a| [[shutdown]] Shuts down the scheduler. When this method is complete no more executions of background tasks will occur.
+
+Used when:
+
+* `KafkaController` is requested to <<kafka-KafkaController.adoc#onControllerResignation, onControllerResignation>>
+
+* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#shutdown, shutdown>>
+
+* `TransactionCoordinator` is requested to <<kafka-TransactionCoordinator.adoc#shutdown, shutdown>>
+
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#shutdown, shutdown>>
+
+* `ZooKeeperClient` is requested to <<kafka-ZooKeeperClient.adoc#close, close>>
+
+| schedule
+| [[schedule]] Schedules a task
+
+Used when...FIXME
+
+| startup
+| [[startup]] Initializes the scheduler so it is ready to schedule tasks
+
+Used when...FIXME
+|===
+
+[[implementations]]
+NOTE: <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> is the one and only known implementation of the <<contract, Scheduler Contract>> in Apache Kafka.

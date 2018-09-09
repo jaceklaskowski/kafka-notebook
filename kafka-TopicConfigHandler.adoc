@@ -1,0 +1,15 @@
+== [[TopicConfigHandler]] TopicConfigHandler
+
+`TopicConfigHandler` is a <<kafka-ConfigHandler.adoc#, ConfigHandler>> that...FIXME
+
+`TopicConfigHandler` is <<creating-instance, created>> when...FIXME
+
+=== [[creating-instance]] Creating TopicConfigHandler Instance
+
+`TopicConfigHandler` takes the following when created:
+
+* [[logManager]] <<kafka-LogManager.adoc#, LogManager>>
+* [[kafkaConfig]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[quotas]] `QuotaManagers`
+
+`TopicConfigHandler` initializes the <<internal-registries, internal registries and counters>>.

@@ -1,7 +1,7 @@
 == Kafka Properties
 
 .Properties
-[cols="1,1,2",options="header",width="100%"]
+[cols="1m,1,2",options="header",width="100%"]
 |======================
 | Name
 | Default Value
@@ -23,6 +23,12 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 | [[authorizer.class.name]] `authorizer.class.name`
 |
 |
+
+| background.threads
+| `10`
+| [[background.threads]] The number of threads to use for various background processing tasks
+
+As least 1 thread is required
 
 | [[bootstrap.servers]] link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
 | (empty)
