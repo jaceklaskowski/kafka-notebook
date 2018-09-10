@@ -1,8 +1,8 @@
 == [[Scheduler]] Scheduler Contract
 
-`Scheduler` is the <<contract, contract>> of <<implementations, job schedulers>> that accept requests to <<schedule, schedule tasks>>.
+`Scheduler` is the <<contract, contract>> of <<implementations, task schedulers>> that allow for <<schedule, scheduling tasks>>.
 
-NOTE: <<kafka-server-scheduled-tasks.adoc#, Kafka Server and Scheduled Recurring Tasks>> describes the scheduled tasks.
+NOTE: <<kafka-server-scheduled-tasks.adoc#, Kafka Server and Periodic Tasks>> describes the scheduled tasks.
 
 [[contract]]
 [source, scala]

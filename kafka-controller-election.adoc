@@ -13,7 +13,7 @@ INFO binding to port 0.0.0.0/0.0.0.0:2181 (org.apache.zookeeper.server.NIOServer
 Add the following line to `config/log4j.properties` to enable `DEBUG` logging level for `kafka.controller.KafkaController` logger.
 
 ```
-log4j.logger.kafka.controller.KafkaController=DEBUG, stdout
+log4j.logger.kafka.controller.KafkaController=DEBUG
 ```
 
 Start a Kafka broker.

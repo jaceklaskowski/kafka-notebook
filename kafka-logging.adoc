@@ -8,13 +8,13 @@ The main logger is *org.apache.kafka.streams*. Use <<log4j.properties, log4j.pro
 
 .log4j.properties
 ```
-log4j.rootLogger=INFO, stdout
+log4j.rootLogger=INFO
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
 log4j.appender.stdout.target=System.out
 log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
 log4j.appender.stdout.layout.ConversionPattern=[%d] %p %m (%c)%n
 
-log4j.logger.org.apache.kafka.streams=DEBUG, stdout
+log4j.logger.org.apache.kafka.streams=DEBUG
 log4j.additivity.org.apache.kafka.streams=false
 ```
 

@@ -1,6 +1,8 @@
 == [[KafkaScheduler]] KafkaScheduler
 
-`KafkaScheduler` is a concrete <<kafka-Scheduler.adoc#, Scheduler>> to <<schedule, schedule tasks>> in Apache Kafka.
+`KafkaScheduler` is a concrete <<kafka-Scheduler.adoc#, task scheduler>> that allows for <<schedule, scheduling tasks>> using Java's <<executor, ScheduledThreadPoolExecutor>>.
+
+`KafkaScheduler` uses the requested <<threads, number of threads>> that is usually `1` except for `KafkaServer` that uses <<kafka-properties.adoc#backgroundThreads, background.threads>> configuration property (default: `10`).
 
 `KafkaScheduler` is <<creating-instance, created>> when:
 
@@ -16,26 +18,29 @@
 
 [[internal-registries]]
 .KafkaScheduler's Internal Properties (e.g. Registries and Counters)
-[frame="topbot",cols="1,2",options="header",width="100%"]
+[cols="1m,2",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| [[executor]] `executor`
-| Java's link:https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html[ScheduledThreadPoolExecutor] used to <<schedule, schedule tasks>>.
+| executor
+| [[executor]] Java's link:https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html[ScheduledThreadPoolExecutor] that <<schedule, schedules tasks>>.
 
 Initialized when <<startup, `KafkaScheduler` starts up>> and shut down when <<shutdown, `KafkaScheduler` shuts down>>.
+
+| schedulerThreadId
+| [[schedulerThreadId]] Java's https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/AtomicInteger.html[AtomicInteger] with initial value 0.
 |===
 
 [[logging]]
 [TIP]
 ====
-Enable `INFO` or `DEBUG` logging levels for `kafka.utils.KafkaScheduler` logger to see what happens in `KafkaScheduler`.
+Enable `INFO`, `DEBUG` or `TRACE` logging level for `kafka.utils.KafkaScheduler` logger to see what happens in `KafkaScheduler`.
 
 Add the following line to `config/log4j.properties`:
 
 ```
-log4j.logger.kafka.utils.KafkaScheduler=DEBUG, stdout
+log4j.logger.kafka.utils.KafkaScheduler=TRACE
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
@@ -48,19 +53,21 @@ Refer to link:kafka-logging.adoc[Logging].
 startup(): Unit
 ----
 
-NOTE: `startup` is a part of <<contract, Scheduler contract>>.
+NOTE: `startup` is part of the <<kafka-Scheduler.adoc#startup, Scheduler Contract>> to initialize the scheduler so it is ready to schedule tasks.
 
-When `startup` is executed, you should see the following DEBUG message in the logs:
+When executed, `startup` prints out the following DEBUG message to the logs:
 
 ```
-DEBUG Initializing task scheduler. (kafka.utils.KafkaScheduler)
+Initializing task scheduler.
 ```
 
-`startup` initializes <<executor, executor>> with `threads` threads. The name of the threads is in format of `threadNamePrefix` followed by `schedulerThreadId`, e.g. `kafka-scheduler-0`
+`startup` creates a <<executor, ScheduledThreadPoolExecutor>> with the <<threads, requested number of threads>>.
 
-NOTE: `threads` and `threadNamePrefix` are defined when <<creating-instance, `KafkaScheduler` is created>>.
+`startup` requests the <<executor, ScheduledThreadPoolExecutor>> to disable executing existing ++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html#setContinueExistingPeriodicTasksAfterShutdownPolicy-boolean-++[periodic] and ++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html#setExecuteExistingDelayedTasksAfterShutdownPolicy-boolean-++[delayed] tasks after the executor has been shutdown.
 
-If `KafkaScheduler` is already started, `startup` throws a `IllegalStateException` with the message:
+`startup` requests the <<executor, ScheduledThreadPoolExecutor>> to ++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html#setThreadFactory-java.util.concurrent.ThreadFactory-++[use a custom thread factory] that creates a new `KafkaThread` with the <<threadNamePrefix, threadNamePrefix>> followed by the <<schedulerThreadId, schedulerThreadId>> whenever requested for a new thread (e.g. `kafka-scheduler-0`).
+
+`startup` throws an `IllegalStateException` when the `KafkaScheduler` <<isStarted, has already been started>>:
 
 ```
 This scheduler has already been started!
@@ -156,3 +163,14 @@ scheduleOnce(name: String, fun: () => Unit): Unit
 `scheduleOnce`...FIXME
 
 NOTE: `scheduleOnce` is used when...FIXME
+
+=== [[resizeThreadPool]] `resizeThreadPool` Method
+
+[source, scala]
+----
+resizeThreadPool(newSize: Int): Unit
+----
+
+`resizeThreadPool`...FIXME
+
+NOTE: `resizeThreadPool` is used exclusively when `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure>>.

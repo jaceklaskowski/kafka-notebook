@@ -1,0 +1,49 @@
+== [[DynamicBrokerConfig]] DynamicBrokerConfig
+
+`DynamicBrokerConfig` is...FIXME
+
+=== [[addReconfigurables]] `addReconfigurables` Method
+
+[source, scala]
+----
+addReconfigurables(kafkaServer: KafkaServer): Unit
+----
+
+`addReconfigurables`...FIXME
+
+NOTE: `addReconfigurables` is used when...FIXME
+
+=== [[addBrokerReconfigurable]] `addBrokerReconfigurable` Method
+
+[source, scala]
+----
+addBrokerReconfigurable(reconfigurable: BrokerReconfigurable): Unit
+----
+
+`addBrokerReconfigurable`...FIXME
+
+NOTE: `addBrokerReconfigurable` is used when...FIXME
+
+=== [[processReconfiguration]] `processReconfiguration` Internal Method
+
+[source, scala]
+----
+processReconfiguration(
+  newProps: Map[String, String],
+  validateOnly: Boolean): (KafkaConfig, List[BrokerReconfigurable])
+----
+
+`processReconfiguration`...FIXME
+
+NOTE: `processReconfiguration` is used when...FIXME
+
+=== [[updateCurrentConfig]] `updateCurrentConfig` Internal Method
+
+[source, scala]
+----
+updateCurrentConfig(): Unit
+----
+
+`updateCurrentConfig`...FIXME
+
+NOTE: `updateCurrentConfig` is used when...FIXME

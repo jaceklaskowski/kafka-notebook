@@ -1,0 +1,14 @@
+== [[DynamicListenerConfig]] DynamicListenerConfig
+
+`DynamicListenerConfig` is...FIXME
+
+=== [[reconfigure]] `reconfigure` Method
+
+[source, scala]
+----
+reconfigure(oldConfig: KafkaConfig, newConfig: KafkaConfig): Unit
+----
+
+NOTE: `reconfigure` is part of the <<kafka-server-BrokerReconfigurable.adoc#reconfigure, BrokerReconfigurable Contract>> to...FIXME.
+
+`reconfigure`...FIXME

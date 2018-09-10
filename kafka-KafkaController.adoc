@@ -155,7 +155,7 @@ Enable `WARN`, `INFO` or `DEBUG` logging levels for `kafka.controller.KafkaContr
 Add the following line to `config/log4j.properties`:
 
 ```
-log4j.logger.kafka.controller.KafkaController=DEBUG, stdout
+log4j.logger.kafka.controller.KafkaController=DEBUG
 ```
 
 Refer to link:kafka-logging.adoc[Logging].

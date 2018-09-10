@@ -1,0 +1,57 @@
+== [[BrokerReconfigurable]] BrokerReconfigurable Contract -- Reconfigurable Broker Services
+
+`BrokerReconfigurable` is the <<contract, contract>> of <<implementations, reconfigurable broker services>> that allow for <<reconfigure, reconfigure>> configuration.
+
+`BrokerReconfigurable` interface is used exclusively by <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>>.
+
+[[contract]]
+[source, scala]
+----
+package kafka.server
+
+trait BrokerReconfigurable {
+  def reconfigurableConfigs: Set[String]
+  def reconfigure(oldConfig: KafkaConfig, newConfig: KafkaConfig): Unit
+  def validateReconfiguration(newConfig: KafkaConfig): Unit
+}
+----
+
+.BrokerReconfigurable Contract
+[cols="1m,2",options="header",width="100%"]
+|===
+| Property
+| Description
+
+| reconfigurableConfigs
+| [[reconfigurableConfigs]]
+
+Used when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#addBrokerReconfigurable, addBrokerReconfigurable>> and <<kafka-server-DynamicBrokerConfig.adoc#processReconfiguration, processReconfiguration>>
+
+| reconfigure
+| [[reconfigure]]
+
+Used exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#updateCurrentConfig, updateCurrentConfig>>
+
+| validateReconfiguration
+| [[validateReconfiguration]]
+
+Used exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#processReconfiguration, processReconfiguration>>
+|===
+
+[[implementations]]
+.BrokerReconfigurables (Direct Implementations)
+[cols="1,2",options="header",width="100%"]
+|===
+| BrokerReconfigurable
+| Description
+
+| <<kafka-server-DynamicListenerConfig.adoc#, DynamicListenerConfig>>
+| [[DynamicListenerConfig]]
+
+| <<kafka-server-DynamicThreadPool.adoc#, DynamicThreadPool>>
+| [[DynamicThreadPool]]
+
+| <<kafka-log-LogCleaner.adoc#, LogCleaner>>
+| [[LogCleaner]]
+
+|===

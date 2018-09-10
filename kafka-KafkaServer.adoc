@@ -72,7 +72,7 @@ Used when:
 
 * <<checkpointBrokerId, checkpointBrokerId>> (when `KafkaServer` is requested to <<startup, start up>>)
 
-* `DynamicBrokerConfig` is requested to <<kafka-DynamicBrokerConfig.adoc#addReconfigurables, addReconfigurables>>
+* `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#addReconfigurables, addReconfigurables>>
 
 * `KafkaServer` is requested to <<startup, start up>> (and creates a `TopicConfigHandler` for topics for <<dynamicConfigHandlers, dynamicConfigHandlers>> and a <<createReplicaManager, ReplicaManager>>)
 

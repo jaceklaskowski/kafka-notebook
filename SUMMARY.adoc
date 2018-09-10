@@ -2,7 +2,7 @@
 
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
-.. link:kafka-server-scheduled-tasks.adoc[Kafka Server and Scheduled Recurring Tasks]
+. link:kafka-server-scheduled-tasks.adoc[Kafka Server and Periodic Tasks]
 
 === Kafka Broker Services
 
@@ -16,6 +16,11 @@
 
 . link:kafka-server-DelegationTokenManager.adoc[DelegationTokenManager]
 . link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
+
+. link:kafka-server-BrokerReconfigurable.adoc[BrokerReconfigurable Contract -- Reconfigurable Broker Services]
+.. link:kafka-server-DynamicThreadPool.adoc[DynamicThreadPool]
+.. link:kafka-server-DynamicListenerConfig.adoc[DynamicListenerConfig]
+.. link:kafka-log-LogCleaner.adoc[LogCleaner]
 
 . link:kafka-Fetcher.adoc[Fetcher]
 . link:kafka-GroupCoordinator.adoc[GroupCoordinator]
@@ -42,7 +47,6 @@
 . link:kafka-KafkaScheduler.adoc[KafkaScheduler]
 
 . link:kafka-Log.adoc[Log]
-. link:kafka-LogCleaner.adoc[LogCleaner]
 . link:kafka-LogCleanerManager.adoc[LogCleanerManager]
 . link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
 . link:kafka-LogManager.adoc[LogManager]
@@ -202,7 +206,7 @@
 
 . link:kafka-Scheduler.adoc[Scheduler]
 . link:kafka-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
-. link:kafka-DynamicBrokerConfig.adoc[DynamicBrokerConfig]
+. link:kafka-server-DynamicBrokerConfig.adoc[DynamicBrokerConfig]
 . link:kafka-DynamicLogConfig.adoc[DynamicLogConfig]
 . link:kafka-Reconfigurable.adoc[Reconfigurable]
 . link:kafka-TopicConfigHandler.adoc[TopicConfigHandler]

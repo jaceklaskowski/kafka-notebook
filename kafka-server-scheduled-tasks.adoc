@@ -1,6 +1,6 @@
-== Kafka Server and Scheduled Recurring Tasks
+== Kafka Server and Periodic Tasks
 
-Apache Kafka uses the <<kafka-Scheduler.adoc#, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule recurring tasks>>. Kafka internal services use the interface to schedule recurring tasks.
+Apache Kafka uses the <<kafka-Scheduler.adoc#, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule periodic tasks>>. Kafka internal services use the interface to schedule maintenance tasks.
 
 The page describes the <<tasks, tasks>> (that should further improve comprehension of the interaction of the internal services and how Kafka server works internally).
 

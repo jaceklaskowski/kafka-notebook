@@ -33,7 +33,7 @@ Enable `INFO` or `DEBUG` logging level for `kafka.log.LogManager` logger to see 
 Add the following line to `config/log4j.properties`:
 
 ```
-log4j.logger.kafka.log.LogManager=DEBUG, stdout
+log4j.logger.kafka.log.LogManager=DEBUG
 ```
 
 Refer to link:kafka-logging.adoc[Logging].

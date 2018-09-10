@@ -37,7 +37,7 @@ Enable `INFO` logging level for `kafka.controller.TopicDeletionManager` logger t
 Add the following line to `config/log4j.properties`:
 
 ```
-log4j.logger.kafka.controller.TopicDeletionManager=INFO, stdout
+log4j.logger.kafka.controller.TopicDeletionManager=INFO
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
