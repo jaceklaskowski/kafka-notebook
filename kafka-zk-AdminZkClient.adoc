@@ -1,0 +1,14 @@
+== [[AdminZkClient]] AdminZkClient
+
+`AdminZkClient` is...FIXME
+
+=== [[fetchEntityConfig]] `fetchEntityConfig` Method
+
+[source, scala]
+----
+fetchEntityConfig(rootEntityType: String, sanitizedEntityName: String): Properties
+----
+
+`fetchEntityConfig`...FIXME
+
+NOTE: `fetchEntityConfig` is used when...FIXME

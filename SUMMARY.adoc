@@ -217,6 +217,7 @@
 . link:kafka-Reconfigurable.adoc[Reconfigurable]
 . link:kafka-TopicConfigHandler.adoc[TopicConfigHandler]
 . link:kafka-ZooKeeperClient.adoc[ZooKeeperClient]
+. link:kafka-zk-AdminZkClient.adoc[AdminZkClient]
 
 === Appendix
 

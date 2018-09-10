@@ -18,6 +18,9 @@
 | backgroundThreads
 | [[backgroundThreads]] <<kafka-properties.adoc#background.threads, background.threads>>
 
+| brokerId
+| [[brokerId]] <<kafka-properties.adoc#broker.id, broker.id>>
+
 | [[deleteTopicEnable]] deleteTopicEnable
 | link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable]
 

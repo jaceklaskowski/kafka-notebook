@@ -24,6 +24,14 @@ a| Reset policy -- what to do when there is no initial offset in Kafka or if the
 |
 |
 
+| broker.id
+| `-1`
+| [[broker.id]] The broker id for this server.
+
+If unset, a unique broker id will be generated. To avoid conflicts between zookeeper generated broker id's and user configured broker id's, generated broker ids start from <<reserved.broker.max.id, reserved.broker.max.id>> + 1.
+
+Use <<kafka-KafkaConfig.adoc#brokerId, KafkaConfig.brokerId>> to access the current value.
+
 | background.threads
 | `10`
 | [[background.threads]] The number of threads to use for various background processing tasks
@@ -207,6 +215,10 @@ A typical scenario would be to create a topic with a replication factor of 3, se
 | [[replica.socket.timeout.ms]] `replica.socket.timeout.ms`
 |
 |
+
+| reserved.broker.max.id
+| `-1`
+| [[reserved.broker.max.id]]
 
 | [[retry.backoff.ms]] link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
 |

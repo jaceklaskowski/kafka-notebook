@@ -12,6 +12,21 @@ NOTE: `DynamicBrokerConfig` is <<creating-instance, created>> when <<kafka-Kafka
 [[creating-instance]]
 `DynamicBrokerConfig` takes a single <<kafka-KafkaConfig.adoc#, KafkaConfig>> when created.
 
+[[internal-registries]]
+.DynamicBrokerConfig's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| currentConfig
+| [[currentConfig]] Current <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+
+Initialized with the input <<kafkaConfig, KafkaConfig>>.
+
+Used when...FIXME
+|===
+
 [[logging]]
 [TIP]
 ====
@@ -72,17 +87,6 @@ updateCurrentConfig(): Unit
 
 NOTE: `updateCurrentConfig` is used when...FIXME
 
-=== [[initialize]] `initialize` Method
-
-[source, scala]
-----
-initialize(zkClient: KafkaZkClient): Unit
-----
-
-`initialize`...FIXME
-
-NOTE: `initialize` is used when...FIXME
-
 === [[currentDynamicDefaultConfigs]] `currentDynamicDefaultConfigs` Method
 
 [source, scala]
@@ -93,3 +97,55 @@ currentDynamicDefaultConfigs: Map[String, String]
 `currentDynamicDefaultConfigs`...FIXME
 
 NOTE: `currentDynamicDefaultConfigs` is used when...FIXME
+
+=== [[initialize]] Fetching Broker Configuration (From Zookeeper) -- `initialize` Method
+
+[source, scala]
+----
+initialize(zkClient: KafkaZkClient): Unit
+----
+
+`initialize` creates a new <<kafka-KafkaConfig.adoc#creating-instance, KafkaConfig>> (with the <<kafka-KafkaConfig.adoc#props, properties>> of the initial <<kafkaConfig, KafkaConfig>>) that becomes the <<currentConfig, currentConfig>>.
+
+`initialize` creates a `AdminZkClient` (with the input `KafkaZkClient`).
+
+`initialize` requests the `AdminZkClient` to <<kafka-zk-AdminZkClient.adoc#fetchEntityConfig, fetch the default configuration>> for *brokers* entities and <<updateDefaultConfig, updateDefaultConfig>>
+
+`initialize` requests the `AdminZkClient` to <<kafka-zk-AdminZkClient.adoc#fetchEntityConfig, fetch the configuration>> for the broker by the <<kafka-properties.adoc#broker.id, broker.id>>.
+
+`initialize` <<maybeReEncodePasswords, maybeReEncodePasswords>> in the broker configuration and <<updateBrokerConfig, updateBrokerConfig>> with the <<kafka-properties.adoc#broker.id, broker.id>>.
+
+NOTE: `initialize` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+
+=== [[updateDefaultConfig]] `updateDefaultConfig` Method
+
+[source, scala]
+----
+updateDefaultConfig(persistentProps: Properties): Unit
+----
+
+`updateDefaultConfig`...FIXME
+
+NOTE: `updateDefaultConfig` is used when...FIXME
+
+=== [[updateBrokerConfig]] `updateBrokerConfig` Method
+
+[source, scala]
+----
+updateBrokerConfig(brokerId: Int, persistentProps: Properties): Unit
+----
+
+`updateBrokerConfig`...FIXME
+
+NOTE: `updateBrokerConfig` is used when...FIXME
+
+=== [[maybeReEncodePasswords]] `maybeReEncodePasswords` Internal Method
+
+[source, scala]
+----
+maybeReEncodePasswords(persistentProps: Properties, adminZkClient: AdminZkClient): Properties
+----
+
+`maybeReEncodePasswords`...FIXME
+
+NOTE: `maybeReEncodePasswords` is used when...FIXME
