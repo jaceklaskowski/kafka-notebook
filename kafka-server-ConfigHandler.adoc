@@ -1,3 +1,45 @@
 == [[ConfigHandler]] ConfigHandler Contract
 
-`ConfigHandler` is...FIXME
+`ConfigHandler` is the <<contract, contract>> of <<implementations, config handlers>> that <<processConfigChanges, process config change notifications>> (from <<kafka-server-DynamicConfigManager.adoc#, DynamicConfigManager>>).
+
+[[contract]]
+[source, scala]
+----
+package kafka.server
+
+trait ConfigHandler {
+  def processConfigChanges(entityName: String, value: Properties)
+}
+----
+
+.ConfigHandler Contract
+[cols="1m,2",options="header",width="100%"]
+|===
+| Property
+| Description
+
+| processConfigChanges
+| [[processConfigChanges]]
+
+Used when `DynamicConfigManager` is requested to <<kafka-server-DynamicConfigManager.adoc#startup, start up>>,  <<kafka-server-DynamicConfigManager.adoc#processEntityConfigChangeVersion1, processEntityConfigChangeVersion1>>, <<kafka-server-DynamicConfigManager.adoc#processEntityConfigChangeVersion2, processEntityConfigChangeVersion2>>
+|===
+
+[[implementations]]
+.ConfigHandlers
+[cols="1,2",options="header",width="100%"]
+|===
+| ConfigHandler
+| Description
+
+| <<kafka-server-BrokerConfigHandler.adoc#, BrokerConfigHandler>>
+| [[BrokerConfigHandler]]
+
+| <<kafka-server-ClientIdConfigHandler.adoc#, ClientIdConfigHandler>>
+| [[ClientIdConfigHandler]]
+
+| <<kafka-server-TopicConfigHandler.adoc#, TopicConfigHandler>>
+| [[TopicConfigHandler]]
+
+| <<kafka-server-UserConfigHandler.adoc#, UserConfigHandler>>
+| [[UserConfigHandler]]
+|===

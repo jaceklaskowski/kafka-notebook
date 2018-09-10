@@ -1,0 +1,64 @@
+== [[DynamicConfigManager]] DynamicConfigManager
+
+`DynamicConfigManager` is...FIXME
+
+`DynamicConfigManager` uses the `ConfigChangedNotificationHandler` that...FIXME
+
+`DynamicConfigManager` is <<creating-instance, created>> exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+
+[[internal-registries]]
+.DynamicConfigManager's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| adminZkClient
+| [[adminZkClient]] <<kafka-zk-AdminZkClient.adoc#, AdminZkClient>> (for the <<zkClient, KafkaZkClient>>)
+
+Used when...FIXME
+|===
+
+=== [[startup]] `startup` Method
+
+[source, scala]
+----
+startup
+----
+
+`startup`...FIXME
+
+NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+
+=== [[creating-instance]] Creating DynamicConfigManager Instance
+
+`DynamicConfigManager` takes the following when created:
+
+* [[zkClient]] `KafkaZkClient`
+* [[configHandlers]] <<kafka-server-ConfigHandler.adoc#, ConfigHandlers>> by name
+* [[changeExpirationMs]] `changeExpirationMs` (default: `15 mins`)
+* [[time]] `Time`
+
+`DynamicConfigManager` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[processEntityConfigChangeVersion1]] `processEntityConfigChangeVersion1` Internal Method
+
+[source, scala]
+----
+processEntityConfigChangeVersion1(jsonBytes: Array[Byte], js: JsonObject): Unit
+----
+
+`processEntityConfigChangeVersion1`...FIXME
+
+NOTE: `processEntityConfigChangeVersion1` is used when...FIXME
+
+=== [[processEntityConfigChangeVersion2]] `processEntityConfigChangeVersion2` Internal Method
+
+[source, scala]
+----
+processEntityConfigChangeVersion2(jsonBytes: Array[Byte], js: JsonObject): Unit
+----
+
+`processEntityConfigChangeVersion2`...FIXME
+
+NOTE: `processEntityConfigChangeVersion2` is used when...FIXME

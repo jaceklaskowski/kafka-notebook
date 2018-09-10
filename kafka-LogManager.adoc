@@ -7,7 +7,7 @@ image::images/LogManager.png[align="center"]
 
 `LogManager` manages the <<logDirs, log directories>> that are configured using <<kafka-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>).
 
-`LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a <<kafka-DynamicLogConfig.adoc#logManager, DynamicLogConfig>>, a <<kafka-TopicConfigHandler.adoc#logManager, TopicConfigHandler>>.
+`LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a <<kafka-DynamicLogConfig.adoc#logManager, DynamicLogConfig>>, a <<kafka-server-TopicConfigHandler.adoc#logManager, TopicConfigHandler>>.
 
 [[InitialTaskDelayMs]]
 `LogManager` defaults to 30000ms for the *initial task delay*.

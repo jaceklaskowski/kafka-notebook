@@ -19,9 +19,12 @@
 
 . link:kafka-server-ConfigHandler.adoc[ConfigHandler Contract]
 .. link:kafka-server-BrokerConfigHandler.adoc[BrokerConfigHandler]
+.. link:kafka-server-ClientIdConfigHandler.adoc[ClientIdConfigHandler]
+.. link:kafka-server-TopicConfigHandler.adoc[TopicConfigHandler]
+.. link:kafka-server-UserConfigHandler.adoc[UserConfigHandler]
 
 . link:kafka-server-DelegationTokenManager.adoc[DelegationTokenManager]
-. link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
+. link:kafka-server-DynamicConfigManager.adoc[DynamicConfigManager]
 
 . link:kafka-server-BrokerReconfigurable.adoc[BrokerReconfigurable Contract -- Reconfigurable Broker Services]
 .. link:kafka-server-DynamicThreadPool.adoc[DynamicThreadPool]
@@ -215,7 +218,6 @@
 . link:kafka-server-DynamicBrokerConfig.adoc[DynamicBrokerConfig]
 . link:kafka-DynamicLogConfig.adoc[DynamicLogConfig]
 . link:kafka-Reconfigurable.adoc[Reconfigurable]
-. link:kafka-TopicConfigHandler.adoc[TopicConfigHandler]
 . link:kafka-ZooKeeperClient.adoc[ZooKeeperClient]
 . link:kafka-zk-AdminZkClient.adoc[AdminZkClient]
 

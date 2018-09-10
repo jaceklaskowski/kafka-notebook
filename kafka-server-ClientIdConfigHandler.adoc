@@ -1,0 +1,14 @@
+== [[ClientIdConfigHandler]] ClientIdConfigHandler
+
+`ClientIdConfigHandler` is...FIXME
+
+=== [[processConfigChanges]] `processConfigChanges` Method
+
+[source, scala]
+----
+processConfigChanges(brokerId: String, properties: Properties): Unit
+----
+
+NOTE: `processConfigChanges` is part of the <<kafka-server-ConfigHandler.adoc#processConfigChanges, ConfigHandler Contract>> to...FIXME.
+
+`processConfigChanges`...FIXME

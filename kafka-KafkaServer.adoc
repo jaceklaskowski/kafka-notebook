@@ -41,8 +41,8 @@ image::images/KafkaServer-startup.png[align="center"]
 | [[dynamicConfigHandlers]] `dynamicConfigHandlers`
 |
 
-| [[dynamicConfigManager]] `dynamicConfigManager`
-| link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
+| `dynamicConfigManager`
+| [[dynamicConfigManager]] <<kafka-server-DynamicConfigManager.adoc#, DynamicConfigManager>>
 
 | [[groupCoordinator]] `groupCoordinator`
 | link:kafka-GroupCoordinator.adoc[GroupCoordinator]
@@ -247,7 +247,7 @@ NOTE: At this point `KafkaServer` may start processing requests.
 
 `startup` starts the HTTP interface of mx4j (if configured).
 
-`startup` creates the <<dynamicConfigManager, DynamicConfigManager>> (for <<zkUtils, ZkUtils>> and <<dynamicConfigHandlers, dynamicConfigHandlers>>) and requests it to link:kafka-DynamicConfigManager.adoc#startup[start up].
+`startup` creates the <<kafka-server-DynamicConfigManager.adoc#, DynamicConfigManager>> (for <<zkUtils, ZkUtils>> and <<dynamicConfigHandlers, dynamicConfigHandlers>>) and requests it to <<kafka-server-DynamicConfigManager.adoc#startup, start up>>.
 
 `startup` configures the advertised listeners (if defined).
 
