@@ -41,17 +41,6 @@ log4j.logger.kafka.server.DynamicBrokerConfig=TRACE
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
-=== [[addReconfigurables]] `addReconfigurables` Method
-
-[source, scala]
-----
-addReconfigurables(kafkaServer: KafkaServer): Unit
-----
-
-`addReconfigurables`...FIXME
-
-NOTE: `addReconfigurables` is used when...FIXME
-
 === [[addBrokerReconfigurable]] `addBrokerReconfigurable` Method
 
 [source, scala]
@@ -149,3 +138,26 @@ maybeReEncodePasswords(persistentProps: Properties, adminZkClient: AdminZkClient
 `maybeReEncodePasswords`...FIXME
 
 NOTE: `maybeReEncodePasswords` is used when...FIXME
+
+=== [[addReconfigurables]] Registering (Adding) Reconfigurables For KafkaServer -- `addReconfigurables` Method
+
+[source, scala]
+----
+addReconfigurables(kafkaServer: KafkaServer): Unit
+----
+
+`addReconfigurables` registers (_adds_) <<addBrokerReconfigurable, broker>> and <<addReconfigurable, regular>> reconfigurables.
+
+Internally, `addReconfigurables` creates a <<kafka-server-DynamicThreadPool.adoc#, DynamicThreadPool>> with the input <<kafka-KafkaServer.adoc#, KafkaServer>> and <<addBrokerReconfigurable, addBrokerReconfigurable>>.
+
+`addReconfigurables` <<addBrokerReconfigurable, addBrokerReconfigurable>> with the <<kafka-log-LogCleaner.adoc#, LogCleaner>> (if configured).
+
+`addReconfigurables` creates a <<kafka-DynamicLogConfig.adoc#, DynamicThreadPool>> with the <<kafka-KafkaServer.adoc#logManager, LogManager>> and the input <<kafka-KafkaServer.adoc#, KafkaServer>>, and <<addReconfigurable, addReconfigurable>>.
+
+`addReconfigurables` creates a <<kafka-server-DynamicMetricsReporters.adoc#, DynamicMetricsReporters>> for the <<kafka-KafkaConfig.adoc#brokerId, broker>> and <<addReconfigurable, addReconfigurable>>.
+
+`addReconfigurables` creates a <<kafka-server-DynamicClientQuotaCallback.adoc#, DynamicClientQuotaCallback>> for the <<kafka-KafkaConfig.adoc#brokerId, broker>> and <<addReconfigurable, addReconfigurable>>.
+
+`addReconfigurables` creates a <<kafka-server-DynamicListenerConfig.adoc#, DynamicListenerConfig>> with the input <<kafka-KafkaServer.adoc#, KafkaServer>> and <<addBrokerReconfigurable, addBrokerReconfigurable>>.
+
+NOTE: `addReconfigurables` is used when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
