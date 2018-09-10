@@ -24,7 +24,7 @@
 | Description
 
 | executor
-| [[executor]] Java's link:https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html[ScheduledThreadPoolExecutor] that <<schedule, schedules tasks>>.
+| [[executor]] Java's https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html[ScheduledThreadPoolExecutor] that <<schedule, schedules tasks>>.
 
 Initialized when <<startup, `KafkaScheduler` starts up>> and shut down when <<shutdown, `KafkaScheduler` shuts down>>.
 
@@ -63,9 +63,9 @@ Initializing task scheduler.
 
 `startup` creates a <<executor, ScheduledThreadPoolExecutor>> with the <<threads, requested number of threads>>.
 
-`startup` requests the <<executor, ScheduledThreadPoolExecutor>> to disable executing existing ++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html#setContinueExistingPeriodicTasksAfterShutdownPolicy-boolean-++[periodic] and ++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html#setExecuteExistingDelayedTasksAfterShutdownPolicy-boolean-++[delayed] tasks after the executor has been shutdown.
+`startup` requests the <<executor, ScheduledThreadPoolExecutor>> to disable executing existing link:++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html#setContinueExistingPeriodicTasksAfterShutdownPolicy-boolean-++[periodic] and link:++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ScheduledThreadPoolExecutor.html#setExecuteExistingDelayedTasksAfterShutdownPolicy-boolean-++[delayed] tasks after the executor has been shutdown.
 
-`startup` requests the <<executor, ScheduledThreadPoolExecutor>> to ++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html#setThreadFactory-java.util.concurrent.ThreadFactory-++[use a custom thread factory] that creates a new `KafkaThread` with the <<threadNamePrefix, threadNamePrefix>> followed by the <<schedulerThreadId, schedulerThreadId>> whenever requested for a new thread (e.g. `kafka-scheduler-0`).
+`startup` requests the <<executor, ScheduledThreadPoolExecutor>> to link:++https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html#setThreadFactory-java.util.concurrent.ThreadFactory-++[use a custom thread factory] that creates a new `KafkaThread` with the <<threadNamePrefix, threadNamePrefix>> followed by the <<schedulerThreadId, schedulerThreadId>> whenever requested for a new thread (e.g. `kafka-scheduler-0`).
 
 `startup` throws an `IllegalStateException` when the `KafkaScheduler` <<isStarted, has already been started>>:
 

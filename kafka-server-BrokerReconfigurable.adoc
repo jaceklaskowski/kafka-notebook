@@ -1,6 +1,6 @@
 == [[BrokerReconfigurable]] BrokerReconfigurable Contract -- Reconfigurable Broker Services
 
-`BrokerReconfigurable` is the <<contract, contract>> of <<implementations, reconfigurable broker services>> that allow for <<reconfigure, reconfigure>> configuration.
+`BrokerReconfigurable` is the <<contract, contract>> of <<implementations, reconfigurable broker services>> that allow for <<reconfigure, reconfiguration>>.
 
 `BrokerReconfigurable` interface is used exclusively by <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>>.
 

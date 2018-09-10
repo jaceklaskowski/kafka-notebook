@@ -1,0 +1,16 @@
+== [[DynamicMetricsReporters]] DynamicMetricsReporters
+
+`DynamicMetricsReporters` is...FIXME
+
+[[internal-registries]]
+.DynamicMetricsReporters's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| dynamicConfig
+| [[dynamicConfig]] <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>>
+
+Used when...FIXME
+|===

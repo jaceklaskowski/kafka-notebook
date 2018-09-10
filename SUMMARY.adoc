@@ -14,6 +14,12 @@
 . link:kafka-ClusterConnectionStates.adoc[ClusterConnectionStates]
 . link:kafka-ClusterResourceListener.adoc[ClusterResourceListener (and ClusterResourceListeners Collection)]
 
+. link:kafka-server-DynamicMetricsReporters.adoc[DynamicMetricsReporters]
+. link:kafka-server-DynamicClientQuotaCallback.adoc[DynamicClientQuotaCallback]
+
+. link:kafka-server-ConfigHandler.adoc[ConfigHandler Contract]
+.. link:kafka-server-BrokerConfigHandler.adoc[BrokerConfigHandler]
+
 . link:kafka-server-DelegationTokenManager.adoc[DelegationTokenManager]
 . link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
 
@@ -210,7 +216,6 @@
 . link:kafka-DynamicLogConfig.adoc[DynamicLogConfig]
 . link:kafka-Reconfigurable.adoc[Reconfigurable]
 . link:kafka-TopicConfigHandler.adoc[TopicConfigHandler]
-. link:kafka-ConfigHandler.adoc[ConfigHandler]
 . link:kafka-ZooKeeperClient.adoc[ZooKeeperClient]
 
 === Appendix

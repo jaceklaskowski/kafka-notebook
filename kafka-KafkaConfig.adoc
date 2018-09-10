@@ -2,6 +2,12 @@
 
 `KafkaConfig` is the configuration of a Kafka server and the services.
 
+`KafkaConfig` is <<creating-instance, created>> when:
+
+* `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#initialize, initialize>> and <<kafka-server-DynamicBrokerConfig.adoc#processReconfiguration, processReconfiguration>>
+
+* `KafkaConfig` is requested to <<fromProps, fromProps>> and <<apply, apply>>
+
 [[configuration-values]]
 .KafkaConfig's Configuration Values
 [cols="1m,2",options="header",width="100%"]
@@ -48,13 +54,30 @@ Used when:
 |
 |===
 
-=== [[getAdvertisedListeners]] `getAdvertisedListeners` Internal Method
+[[internal-registries]]
+.KafkaConfig's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
 
-CAUTION: FIXME
+| dynamicConfig
+a| [[dynamicConfig]] <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>> (that could be <<dynamicConfigOverride, provided>> or is going to be <<kafka-server-DynamicBrokerConfig.adoc#creating-instance, created from scratch>>)
 
-=== [[getConfiguredInstances]] `getConfiguredInstances` Method
+Used when:
 
-CAUTION: FIXME
+* `AdminManager` is requested to <<kafka-AdminManager.adoc#describeConfigs, describeConfigs>> (for `BROKER` resources), <<kafka-AdminManager.adoc#alterConfigs, alterConfigs>> and <<kafka-AdminManager.adoc#configSynonyms, configSynonyms>>
+
+* `BrokerConfigHandler` is requested to <<kafka-server-BrokerConfigHandler.adoc#processConfigChanges, processConfigChanges>>
+
+* `DynamicMetricsReporters` is <<kafka-server-DynamicMetricsReporters.adoc#dynamicConfig, created>>
+
+* `DynamicClientQuotaCallback` is <<kafka-server-DynamicClientQuotaCallback.adoc#reconfigure, reconfigure>>
+
+* `KafkaConfig` is requested to <<addReconfigurable, addReconfigurable>>
+
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>
+|===
 
 === [[getListeners]] Creating Listeners -- `getListeners` Internal Method
 
@@ -77,3 +100,59 @@ getNumReplicaAlterLogDirsThreads: Int
 `getNumReplicaAlterLogDirsThreads`...FIXME
 
 NOTE: `getNumReplicaAlterLogDirsThreads` is used when...FIXME
+
+=== [[creating-instance]] Creating KafkaConfig Instance
+
+`KafkaConfig` takes the following when created:
+
+* [[props]] Key-value properties
+* [[doLog]] `doLog` flag
+* [[dynamicConfigOverride]] <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>>
+
+`KafkaConfig` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[fromProps]] Creating KafkaConfig From Java Properties -- `fromProps` Object Method
+
+[source, scala]
+----
+fromProps(props: Properties): KafkaConfig // <1>
+fromProps(props: Properties, doLog: Boolean): KafkaConfig
+fromProps(defaults: Properties, overrides: Properties): KafkaConfig // <2>
+fromProps(defaults: Properties, overrides: Properties, doLog: Boolean): KafkaConfig // <3>
+----
+<1> Seems to be used in tests only
+<2> Seems to be used in tests only
+<3> Seems to be used in tests only
+
+`fromProps`...FIXME
+
+[NOTE]
+====
+`fromProps` is used when:
+
+* `KafkaServerStartable` is requested to <<kafka-KafkaServerStartable.adoc#fromProps, create a KafkaServerStartable from Java Properties>>
+
+* `SimpleAclAuthorizer` is requested to `configure` itself
+====
+
+=== [[apply]] Creating KafkaConfig -- `apply` Factory Method
+
+[source, scala]
+----
+apply(props: java.util.Map[_, _]): KafkaConfig
+----
+
+`apply` simply creates a <<creating-instance, KafkaConfig>> with the `props` and the <<doLog, doLog>> flag on.
+
+NOTE: `apply` seems to be used in tests only.
+
+=== [[addReconfigurable]] `addReconfigurable` Method
+
+[source, scala]
+----
+addReconfigurable(reconfigurable: Reconfigurable): Unit
+----
+
+`addReconfigurable`...FIXME
+
+NOTE: `addReconfigurable` is used when...FIXME

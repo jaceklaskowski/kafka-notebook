@@ -2,6 +2,30 @@
 
 `DynamicBrokerConfig` is...FIXME
 
+`DynamicBrokerConfig` is <<creating-instance, created>> exclusively when `KafkaConfig` is <<kafka-KafkaConfig.adoc#dynamicConfig, created>>.
+
+DynamicBrokerConfig` is used to create a <<kafka-KafkaConfig.adoc#dynamicConfigOverride, KafkaConfig>>.
+
+NOTE: `DynamicBrokerConfig` is <<creating-instance, created>> when <<kafka-KafkaConfig.adoc#dynamicConfig, KafkaConfig>> is, but the reverse is also true (!) Isn't it a dependency cycle? Not really since `KafkaConfig` will create a <<kafka-KafkaConfig.adoc#dynamicConfig, DynamicBrokerConfig>> unless one is provided.
+
+[[kafkaConfig]]
+[[creating-instance]]
+`DynamicBrokerConfig` takes a single <<kafka-KafkaConfig.adoc#, KafkaConfig>> when created.
+
+[[logging]]
+[TIP]
+====
+Enable `INFO`, `DEBUG` or `TRACE` logging levels for `kafka.server.DynamicBrokerConfig` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.server.DynamicBrokerConfig=TRACE
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
 === [[addReconfigurables]] `addReconfigurables` Method
 
 [source, scala]
@@ -47,3 +71,25 @@ updateCurrentConfig(): Unit
 `updateCurrentConfig`...FIXME
 
 NOTE: `updateCurrentConfig` is used when...FIXME
+
+=== [[initialize]] `initialize` Method
+
+[source, scala]
+----
+initialize(zkClient: KafkaZkClient): Unit
+----
+
+`initialize`...FIXME
+
+NOTE: `initialize` is used when...FIXME
+
+=== [[currentDynamicDefaultConfigs]] `currentDynamicDefaultConfigs` Method
+
+[source, scala]
+----
+currentDynamicDefaultConfigs: Map[String, String]
+----
+
+`currentDynamicDefaultConfigs`...FIXME
+
+NOTE: `currentDynamicDefaultConfigs` is used when...FIXME

@@ -37,7 +37,7 @@ CAUTION: FIXME
 
 `KafkaServerStartable` initializes the <<internal-registries, internal registries and counters>>.
 
-=== [[fromProps]] Creating KafkaServerStartable From Properties -- `fromProps` Method
+=== [[fromProps]] Creating KafkaServerStartable From Java Properties -- `fromProps` Method
 
 [source, scala]
 ----
