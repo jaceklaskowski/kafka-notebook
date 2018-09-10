@@ -1,6 +1,8 @@
 == [[Scheduler]] Scheduler Contract
 
-`Scheduler` is the <<contract, contract>> of <<implementations, job schedulers>> that can <<schedule, schedule tasks>>.
+`Scheduler` is the <<contract, contract>> of <<implementations, job schedulers>> that accept requests to <<schedule, schedule tasks>>.
+
+NOTE: <<kafka-server-scheduled-tasks.adoc#, Kafka Server and Scheduled Recurring Tasks>> describes the scheduled tasks.
 
 [[contract]]
 [source, scala]
@@ -55,14 +57,40 @@ Used when:
 * `ZooKeeperClient` is requested to <<kafka-ZooKeeperClient.adoc#close, close>>
 
 | schedule
-| [[schedule]] Schedules a task
+a| [[schedule]] Schedules a task
 
-Used when...FIXME
+Used when:
+
+* `KafkaController` is requested to <<kafka-KafkaController.adoc#onControllerFailover, onControllerFailover>> and <<kafka-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, scheduleAutoLeaderRebalanceTask>>
+
+* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#startup, start up>>, <<kafka-GroupMetadataManager.adoc#scheduleLoadGroupAndOffsets, scheduleLoadGroupAndOffsets>>, <<kafka-GroupMetadataManager.adoc#removeGroupsForPartition, removeGroupsForPartition>> and <<kafka-GroupMetadataManager.adoc#scheduleHandleTxnCompletion, scheduleHandleTxnCompletion>>
+
+* `TransactionCoordinator` is requested to <<kafka-TransactionCoordinator.adoc#startup, start up>>
+
+* `TransactionStateManager` is requested to <<kafka-TransactionStateManager.adoc#enableTransactionalIdExpiration, enableTransactionalIdExpiration>>, <<kafka-TransactionStateManager.adoc#loadTransactionsForTxnTopicPartition, loadTransactionsForTxnTopicPartition>> and <<kafka-TransactionStateManager.adoc#removeTransactionsForTxnTopicPartition, removeTransactionsForTxnTopicPartition>>
+
+* `Log` is <<kafka-Log.adoc#creating-instance, created>> and requested to <<kafka-Log.adoc#roll, roll>> and <<kafka-Log.adoc#asyncDeleteSegment, asyncDeleteSegment>>
+
+* `LogManager` is requested to <<kafka-LogManager.adoc#startup, start up>> and <<kafka-LogManager.adoc#deleteLogs, deleteLogs>>
+
+* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#startHighWaterMarksCheckPointThread, startHighWaterMarksCheckPointThread>> and <<kafka-server-ReplicaManager.adoc#startup, startup>>
+
+* `KafkaScheduler` is requested to <<kafka-KafkaScheduler.adoc#scheduleOnce, scheduleOnce>>
 
 | startup
-| [[startup]] Initializes the scheduler so it is ready to schedule tasks
+a| [[startup]] Initializes the scheduler so it is ready to schedule tasks
 
-Used when...FIXME
+Used when:
+
+* `KafkaController` is requested to <<kafka-KafkaController.adoc#onControllerFailover, onControllerFailover>>
+
+* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#startup, start up>>
+
+* `TransactionCoordinator` is requested to <<kafka-TransactionCoordinator.adoc#startup, start up>>
+
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup>>
+
+* `ZooKeeperClient` is <<kafka-ZooKeeperClient.adoc#creating-instance, created>>
 |===
 
 [[implementations]]

@@ -94,3 +94,90 @@ shutdown(): Unit
 `shutdown`...FIXME
 
 NOTE: `shutdown` is used when...FIXME
+
+=== [[startup]] `startup` Method
+
+[source, scala]
+----
+startup(enableMetadataExpiration: Boolean): Unit
+----
+
+`startup`...FIXME
+
+NOTE: `startup` is used when...FIXME
+
+=== [[scheduleLoadGroupAndOffsets]] `scheduleLoadGroupAndOffsets` Method
+
+[source, scala]
+----
+scheduleLoadGroupAndOffsets(offsetsPartition: Int, onGroupLoaded: GroupMetadata => Unit): Unit
+----
+
+`scheduleLoadGroupAndOffsets`...FIXME
+
+NOTE: `scheduleLoadGroupAndOffsets` is used when...FIXME
+
+=== [[removeGroupsForPartition]] `removeGroupsForPartition` Method
+
+[source, scala]
+----
+removeGroupsForPartition(
+  offsetsPartition: Int,
+  onGroupUnloaded: GroupMetadata => Unit): Unit
+----
+
+`removeGroupsForPartition`...FIXME
+
+NOTE: `removeGroupsForPartition` is used when...FIXME
+
+=== [[scheduleHandleTxnCompletion]] `scheduleHandleTxnCompletion` Method
+
+[source, scala]
+----
+scheduleHandleTxnCompletion(
+  producerId: Long,
+  completedPartitions: Set[Int],
+  isCommit: Boolean): Unit
+----
+
+`scheduleHandleTxnCompletion`...FIXME
+
+NOTE: `scheduleHandleTxnCompletion` is used when...FIXME
+
+=== [[loadGroupsAndOffsets]] `loadGroupsAndOffsets` Method
+
+[source, scala]
+----
+loadGroupsAndOffsets(
+  topicPartition: TopicPartition,
+  onGroupLoaded: GroupMetadata => Unit): Unit
+----
+
+`loadGroupsAndOffsets`...FIXME
+
+NOTE: `loadGroupsAndOffsets` is used when...FIXME
+
+=== [[removeGroupsAndOffsets]] `removeGroupsAndOffsets` Internal Method
+
+[source, scala]
+----
+removeGroupsAndOffsets(): Unit
+----
+
+`removeGroupsAndOffsets`...FIXME
+
+NOTE: `removeGroupsAndOffsets` is used when...FIXME
+
+=== [[handleTxnCompletion]] `handleTxnCompletion` Method
+
+[source, scala]
+----
+handleTxnCompletion(
+  producerId: Long,
+  completedPartitions: Set[Int],
+  isCommit: Boolean): Unit
+----
+
+`handleTxnCompletion`...FIXME
+
+NOTE: `handleTxnCompletion` is used when...FIXME

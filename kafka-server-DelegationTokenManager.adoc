@@ -1,0 +1,14 @@
+== [[DelegationTokenManager]] DelegationTokenManager
+
+`DelegationTokenManager` is...FIXME
+
+=== [[expireTokens]] `expireTokens` Method
+
+[source, scala]
+----
+expireTokens(): Unit
+----
+
+`expireTokens`...FIXME
+
+NOTE: `expireTokens` is used when...FIXME

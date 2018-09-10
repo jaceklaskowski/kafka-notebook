@@ -270,3 +270,36 @@ getLog(topicPartition: TopicPartition): Option[Log]
 `getLog`...FIXME
 
 NOTE: `getLog` is used when...FIXME
+
+=== [[startHighWaterMarksCheckPointThread]] `startHighWaterMarksCheckPointThread` Method
+
+[source, scala]
+----
+startHighWaterMarksCheckPointThread(): Unit
+----
+
+`startHighWaterMarksCheckPointThread`...FIXME
+
+NOTE: `startHighWaterMarksCheckPointThread` is used when...FIXME
+
+=== [[checkpointHighWatermarks]] `checkpointHighWatermarks` Method
+
+[source, scala]
+----
+checkpointHighWatermarks(): Unit
+----
+
+`checkpointHighWatermarks`...FIXME
+
+NOTE: `checkpointHighWatermarks` is used when...FIXME
+
+=== [[shutdownIdleReplicaAlterLogDirsThread]] `shutdownIdleReplicaAlterLogDirsThread` Method
+
+[source, scala]
+----
+shutdownIdleReplicaAlterLogDirsThread(): Unit
+----
+
+`shutdownIdleReplicaAlterLogDirsThread`...FIXME
+
+NOTE: `shutdownIdleReplicaAlterLogDirsThread` is used when...FIXME

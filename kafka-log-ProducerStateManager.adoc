@@ -1,0 +1,14 @@
+== [[ProducerStateManager]] ProducerStateManager
+
+`ProducerStateManager` is...FIXME
+
+=== [[removeExpiredProducers]] `removeExpiredProducers` Method
+
+[source, scala]
+----
+removeExpiredProducers(currentTimeMs: Long): Unit
+----
+
+`removeExpiredProducers`...FIXME
+
+NOTE: `removeExpiredProducers` is used when...FIXME

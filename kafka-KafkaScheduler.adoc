@@ -145,3 +145,14 @@ Uncaught exception in scheduled task '[name]'
 * [[daemon]] `daemon` flag (default: `true`)
 
 `KafkaScheduler` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[scheduleOnce]] `scheduleOnce` Method
+
+[source, scala]
+----
+scheduleOnce(name: String, fun: () => Unit): Unit
+----
+
+`scheduleOnce`...FIXME
+
+NOTE: `scheduleOnce` is used when...FIXME

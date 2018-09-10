@@ -221,3 +221,36 @@ deleteLogs(): Unit
 `deleteLogs`...FIXME
 
 NOTE: `deleteLogs` is used when...FIXME
+
+=== [[flushDirtyLogs]] `flushDirtyLogs` Internal Method
+
+[source, scala]
+----
+flushDirtyLogs(): Unit
+----
+
+`flushDirtyLogs`...FIXME
+
+NOTE: `flushDirtyLogs` is used when...FIXME
+
+=== [[checkpointLogRecoveryOffsets]] `checkpointLogRecoveryOffsets` Method
+
+[source, scala]
+----
+checkpointLogRecoveryOffsets(): Unit
+----
+
+`checkpointLogRecoveryOffsets`...FIXME
+
+NOTE: `checkpointLogRecoveryOffsets` is used when...FIXME
+
+=== [[checkpointLogStartOffsets]] `checkpointLogStartOffsets` Method
+
+[source, scala]
+----
+checkpointLogStartOffsets(): Unit
+----
+
+`checkpointLogStartOffsets`...FIXME
+
+NOTE: `checkpointLogStartOffsets` is used when...FIXME

@@ -33,6 +33,8 @@ Used when...FIXME
 
 `ZooKeeperClient` initializes the <<internal-registries, internal registries and counters>>.
 
+While being created, `ZooKeeperClient`...FIXME
+
 === [[close]] `close` Method
 
 [source, scala]

@@ -2,6 +2,7 @@
 
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
+.. link:kafka-server-scheduled-tasks.adoc[Kafka Server and Scheduled Recurring Tasks]
 
 === Kafka Broker Services
 
@@ -13,7 +14,9 @@
 . link:kafka-ClusterConnectionStates.adoc[ClusterConnectionStates]
 . link:kafka-ClusterResourceListener.adoc[ClusterResourceListener (and ClusterResourceListeners Collection)]
 
+. link:kafka-server-DelegationTokenManager.adoc[DelegationTokenManager]
 . link:kafka-DynamicConfigManager.adoc[DynamicConfigManager]
+
 . link:kafka-Fetcher.adoc[Fetcher]
 . link:kafka-GroupCoordinator.adoc[GroupCoordinator]
 . link:kafka-GroupMetadataManager.adoc[GroupMetadataManager]
@@ -43,6 +46,7 @@
 . link:kafka-LogCleanerManager.adoc[LogCleanerManager]
 . link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
 . link:kafka-LogManager.adoc[LogManager]
+. link:kafka-log-ProducerStateManager.adoc[ProducerStateManager]
 
 . link:kafka-Metadata.adoc[Metadata]
 .. link:kafka-Metadata-Listener.adoc[Metadata Update Listener]

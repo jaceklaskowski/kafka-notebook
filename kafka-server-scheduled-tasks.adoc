@@ -1,0 +1,87 @@
+== Kafka Server and Scheduled Recurring Tasks
+
+Apache Kafka uses the <<kafka-Scheduler.adoc#, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule recurring tasks>>. Kafka internal services use the interface to schedule recurring tasks.
+
+The page describes the <<tasks, tasks>> (that should further improve comprehension of the interaction of the internal services and how Kafka server works internally).
+
+[[tasks]]
+.Tasks
+[cols="1,1,2",options="header",width="100%"]
+|===
+| Kafka Service
+| Task Name
+| Description
+
+.2+^.^| <<kafka-KafkaController.adoc#, KafkaController>>
+m| delete-expired-tokens
+| Executes <<kafka-server-DelegationTokenManager.adoc#expireTokens, expireTokens>>
+
+m| auto-leader-rebalance-task
+| Sends `AutoPreferredReplicaLeaderElection` controller event to <<kafka-ControllerEventManager.adoc#, ControllerEventManager>>
+
+.4+^.^| <<kafka-GroupMetadataManager.adoc#, GroupMetadataManager>>
+m| delete-expired-group-metadata
+| Executes <<kafka-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>>
+
+m| __consumer_offsets-[offsetsPartition]
+| Executes <<kafka-GroupMetadataManager.adoc#loadGroupsAndOffsets, loadGroupsAndOffsets>>
+
+m| __consumer_offsets-[offsetsPartition]
+| Executes <<kafka-GroupMetadataManager.adoc#removeGroupsAndOffsets, removeGroupsAndOffsets>>
+
+m| handleTxnCompletion-[producerId]
+| Executes <<kafka-GroupMetadataManager.adoc#handleTxnCompletion, handleTxnCompletion>>
+
+| <<kafka-TransactionCoordinator.adoc#, TransactionCoordinator>>
+m| transaction-abort
+| Executes <<kafka-TransactionCoordinator.adoc#abortTimedOutTransactions, abortTimedOutTransactions>>
+
+.3+^.^| <<kafka-TransactionStateManager.adoc#, TransactionStateManager>>
+m| transactionalId-expiration
+| Executes <<kafka-TransactionStateManager.adoc#enableTransactionalIdExpiration, enableTransactionalIdExpiration>>
+
+m| load-txns-for-partition-[topicPartition]
+| Executes <<kafka-TransactionStateManager.adoc#loadTransactions, loadTransactions>>
+
+m| remove-txns-for-partition-[topicPartition]
+| Executes <<kafka-TransactionStateManager.adoc#removeTransactions, removeTransactions>>
+
+.3+^.^| <<kafka-Log.adoc#, Log>>
+m| PeriodicProducerExpirationCheck
+| Executes <<kafka-log-ProducerStateManager.adoc#removeExpiredProducers, removeExpiredProducers>>
+
+m| flush-log
+| Executes <<kafka-Log.adoc#flush, flush>>
+
+m| delete-file
+| Executes <<kafka-Log.adoc#deleteSeg, deleteSeg>>
+
+.5+^.^| <<kafka-LogManager.adoc#, LogManager>>
+m| kafka-log-retention
+| Executes <<kafka-LogManager.adoc#cleanupLogs, cleanupLogs>>
+
+m| kafka-log-flusher
+| Executes <<kafka-LogManager.adoc#flushDirtyLogs, flushDirtyLogs>>
+
+m| kafka-recovery-point-checkpoint
+| Executes <<kafka-LogManager.adoc#checkpointLogRecoveryOffsets, checkpointLogRecoveryOffsets>>
+
+m| kafka-log-start-offset-checkpoint
+| Executes <<kafka-LogManager.adoc#checkpointLogStartOffsets, checkpointLogStartOffsets>>
+
+m| kafka-delete-logs
+| Executes <<kafka-LogManager.adoc#deleteLogs, deleteLogs>>
+
+.4+^.^| <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
+m| highwatermark-checkpoint
+| Executes <<kafka-server-ReplicaManager.adoc#checkpointHighWatermarks, checkpointHighWatermarks>>
+
+m| isr-expiration
+| Executes <<kafka-server-ReplicaManager.adoc#maybeShrinkIsr, maybeShrinkIsr>>
+
+m| isr-change-propagation
+| Executes <<kafka-server-ReplicaManager.adoc#maybePropagateIsrChanges, maybePropagateIsrChanges>>
+
+m| shutdown-idle-replica-alter-log-dirs-thread
+| Executes <<kafka-server-ReplicaManager.adoc#shutdownIdleReplicaAlterLogDirsThread, shutdownIdleReplicaAlterLogDirsThread>>
+|===

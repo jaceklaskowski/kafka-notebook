@@ -652,3 +652,14 @@ onBrokerUpdate(updatedBrokerId: Int): Unit
 `onBrokerUpdate`...FIXME
 
 NOTE: `onBrokerUpdate` is used when...FIXME
+
+=== [[scheduleAutoLeaderRebalanceTask]] `scheduleAutoLeaderRebalanceTask` Internal Method
+
+[source, scala]
+----
+scheduleAutoLeaderRebalanceTask(delay: Long, unit: TimeUnit): Unit
+----
+
+`scheduleAutoLeaderRebalanceTask`...FIXME
+
+NOTE: `scheduleAutoLeaderRebalanceTask` is used when...FIXME

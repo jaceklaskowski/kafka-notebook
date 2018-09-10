@@ -13,7 +13,7 @@ startup
 
 `startup`...FIXME
 
-NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
+NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
 
 === [[creating-instance]] Creating TransactionCoordinator Instance
 
@@ -58,3 +58,14 @@ shutdown(): Unit
 `shutdown`...FIXME
 
 NOTE: `shutdown` is used when...FIXME
+
+=== [[abortTimedOutTransactions]] `abortTimedOutTransactions` Internal Method
+
+[source, scala]
+----
+abortTimedOutTransactions(): Unit
+----
+
+`abortTimedOutTransactions`...FIXME
+
+NOTE: `abortTimedOutTransactions` is used when...FIXME

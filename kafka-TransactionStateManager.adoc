@@ -12,3 +12,61 @@ getTransactionTopicPartitionCount
 `getTransactionTopicPartitionCount`...FIXME
 
 NOTE: `getTransactionTopicPartitionCount` is used when...FIXME
+
+=== [[enableTransactionalIdExpiration]] `enableTransactionalIdExpiration` Method
+
+[source, scala]
+----
+enableTransactionalIdExpiration(): Unit
+----
+
+`enableTransactionalIdExpiration`...FIXME
+
+NOTE: `enableTransactionalIdExpiration` is used when...FIXME
+
+=== [[loadTransactionsForTxnTopicPartition]] `loadTransactionsForTxnTopicPartition` Method
+
+[source, scala]
+----
+loadTransactionsForTxnTopicPartition(
+  partitionId: Int,
+  coordinatorEpoch: Int,
+  sendTxnMarkers: SendTxnMarkersCallback): Unit
+----
+
+`loadTransactionsForTxnTopicPartition`...FIXME
+
+NOTE: `loadTransactionsForTxnTopicPartition` is used when...FIXME
+
+=== [[removeTransactionsForTxnTopicPartition]] `removeTransactionsForTxnTopicPartition` Method
+
+[source, scala]
+----
+removeTransactionsForTxnTopicPartition(partitionId: Int, coordinatorEpoch: Int): Unit
+----
+
+`removeTransactionsForTxnTopicPartition`...FIXME
+
+NOTE: `removeTransactionsForTxnTopicPartition` is used when...FIXME
+
+=== [[loadTransactions]] `loadTransactions` Method
+
+[source, scala]
+----
+loadTransactions(): Unit
+----
+
+`loadTransactions`...FIXME
+
+NOTE: `loadTransactions` is used when...FIXME
+
+=== [[removeTransactions]] `removeTransactions` Method
+
+[source, scala]
+----
+removeTransactions(): Unit
+----
+
+`removeTransactions`...FIXME
+
+NOTE: `removeTransactions` is used when...FIXME

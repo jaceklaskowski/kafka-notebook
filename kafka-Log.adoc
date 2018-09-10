@@ -23,6 +23,8 @@
 
 `Log` initializes the <<internal-registries, internal registries and counters>>.
 
+While being created, `Log`...FIXME
+
 === [[apply]] Creating Log Instance -- `apply` Factory Method
 
 [source, scala]
@@ -43,3 +45,47 @@ apply(
 `apply`...FIXME
 
 NOTE: `apply` is used when `LogManager` is requested to <<kafka-LogManager.adoc#loadLog, loadLog>> and <<kafka-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
+
+=== [[roll]] `roll` Method
+
+[source, scala]
+----
+roll(expectedNextOffset: Long = 0): LogSegment
+----
+
+`roll`...FIXME
+
+NOTE: `roll` is used when...FIXME
+
+=== [[asyncDeleteSegment]] `asyncDeleteSegment` Method
+
+[source, scala]
+----
+asyncDeleteSegment(segment: LogSegment): Unit
+----
+
+`asyncDeleteSegment`...FIXME
+
+NOTE: `asyncDeleteSegment` is used when...FIXME
+
+=== [[flush]] `flush` Method
+
+[source, scala]
+----
+flush(offset: Long): Unit
+----
+
+`flush`...FIXME
+
+NOTE: `flush` is used when...FIXME
+
+=== [[deleteSeg]] `deleteSeg` Internal Method
+
+[source, scala]
+----
+deleteSeg(): Unit
+----
+
+`deleteSeg`...FIXME
+
+NOTE: `deleteSeg` is used when...FIXME
