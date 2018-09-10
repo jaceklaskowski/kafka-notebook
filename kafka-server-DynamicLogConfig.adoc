@@ -1,6 +1,6 @@
 == [[DynamicLogConfig]] DynamicLogConfig
 
-`DynamicLogConfig` is a <<kafka-Reconfigurable.adoc#, Reconfigurable>> that...FIXME
+`DynamicLogConfig` is a <<kafka-clients-Reconfigurable.adoc#, Reconfigurable>> that...FIXME
 
 `DynamicLogConfig` is <<creating-instance, created>> when...FIXME
 

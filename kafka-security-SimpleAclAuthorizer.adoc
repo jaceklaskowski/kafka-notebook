@@ -1,0 +1,25 @@
+== [[SimpleAclAuthorizer]] SimpleAclAuthorizer
+
+`SimpleAclAuthorizer` is...FIXME
+
+=== [[startZkChangeListeners]] `startZkChangeListeners` Method
+
+[source, scala]
+----
+startZkChangeListeners(): Unit
+----
+
+`startZkChangeListeners`...FIXME
+
+NOTE: `startZkChangeListeners` is used exclusively when `SimpleAclAuthorizer` is requested to <<configure, configure>>.
+
+=== [[configure]] `configure` Method
+
+[source, scala]
+----
+configure(javaConfigs: util.Map[String, _]): Unit
+----
+
+NOTE: `configure` is part of the <<kafka-clients-Configurable.adoc#configure, Configurable Contract>> to...FIXME.
+
+`configure`...FIXME

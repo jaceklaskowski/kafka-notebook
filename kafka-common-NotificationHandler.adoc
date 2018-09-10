@@ -1,0 +1,42 @@
+== [[NotificationHandler]] NotificationHandler Contract
+
+`NotificationHandler` is the <<contract, contract>> of <<implementations, change notification handlers>> that can <<processNotification, process change notifications>>.
+
+[[contract]]
+[source, scala]
+----
+package kafka.common
+
+trait NotificationHandler {
+  def processNotification(notificationMessage: Array[Byte])
+}
+----
+
+.NotificationHandler Contract
+[cols="1m,2",options="header",width="100%"]
+|===
+| Property
+| Description
+
+| processNotification
+| [[processNotification]] Handles a change notification
+
+Used exclusively when `ZkNodeChangeNotificationListener` is requested to <<kafka-common-ZkNodeChangeNotificationListener.adoc#processNotification, processNotification>>
+|===
+
+[[implementations]]
+.NotificationHandlers
+[cols="1,2",options="header",width="100%"]
+|===
+| NotificationHandler
+| Description
+
+| <<kafka-zk-ZkAclChangeStore.adoc#rawHandler, rawHandler>>
+| [[rawHandler]]
+
+| <<kafka-server-DynamicConfigManager.adoc#ConfigChangedNotificationHandler, ConfigChangedNotificationHandler>>
+| [[ConfigChangedNotificationHandler]]
+
+| <<kafka-server-DelegationTokenManager.adoc#TokenChangedNotificationHandler, TokenChangedNotificationHandler>>
+| [[TokenChangedNotificationHandler]]
+|===

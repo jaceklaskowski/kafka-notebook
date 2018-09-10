@@ -1,0 +1,70 @@
+== [[ZkAclChangeStore]] ZkAclChangeStore Contract
+
+`ZkAclChangeStore` is the <<contract, contract>> of <<implementations, ZkAclChangeStores>> that <<FIXME, FIXME>>.
+
+[[contract]]
+[source, scala]
+----
+package kafka.zk
+
+sealed trait ZkAclChangeStore {
+  // only required properties (vals and methods) that have no implementation
+  // the others follow
+  val aclChangePath: String
+  def decode(bytes: Array[Byte]): Resource
+  protected def encode(resource: Resource): Array[Byte]
+}
+----
+
+NOTE: `ZkAclChangeStore` is a Scala sealed trait and so all the <<implementations, available implementations>> are in a single compilation unit (i.e. the file with the Scala source code).
+
+.(Subset of) ZkAclChangeStore Contract
+[cols="1m,2",options="header",width="100%"]
+|===
+| Property
+| Description
+
+| aclChangePath
+| [[aclChangePath]] Used when...FIXME
+
+| decode
+| [[decode]] Used when...FIXME
+
+| encode
+| [[encode]] Used when...FIXME
+|===
+
+[[implementations]]
+.ZkAclChangeStores
+[cols="1,2",options="header",width="100%"]
+|===
+| ZkAclChangeStore
+| Description
+
+| ExtendedAclChangeStore
+| [[ExtendedAclChangeStore]]
+
+| LiteralAclChangeStore
+| [[LiteralAclChangeStore]]
+|===
+
+=== [[createListener]] `createListener` Method
+
+[source, scala]
+----
+createListener(
+  handler: AclChangeNotificationHandler,
+  zkClient: KafkaZkClient): AclChangeSubscription
+----
+
+[[rawHandler]]
+`createListener` creates a <<kafka-common-NotificationHandler.adoc#, NotificationHandler>> that simply requests the input `AclChangeNotificationHandler` to `processNotification` after <<decode, decoding>> the input notification message.
+
+[[aclChangeListener]]
+`createListener` creates a <<kafka-common-ZkNodeChangeNotificationListener.adoc#, ZkNodeChangeNotificationListener>> (with the input <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>, the <<aclChangePath, aclChangePath>>, *acl_changes_* node prefix and the `NotificationHandler`).
+
+`createListener` requests the <<aclChangeListener, ZkNodeChangeNotificationListener>> to <<kafka-common-ZkNodeChangeNotificationListener.adoc#init, init>>.
+
+In the end, `createListener` returns a new `AclChangeSubscription` that requests the <<aclChangeListener, ZkNodeChangeNotificationListener>> to <<kafka-common-ZkNodeChangeNotificationListener.adoc#close, close>> when requested to close.
+
+NOTE: `createListener` is used exclusively when `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#startZkChangeListeners, startZkChangeListeners>>.

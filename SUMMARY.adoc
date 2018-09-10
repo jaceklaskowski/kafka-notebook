@@ -14,6 +14,8 @@
 . link:kafka-ClusterConnectionStates.adoc[ClusterConnectionStates]
 . link:kafka-ClusterResourceListener.adoc[ClusterResourceListener (and ClusterResourceListeners Collection)]
 
+. link:kafka-server-DynamicBrokerConfig.adoc[DynamicBrokerConfig]
+. link:kafka-server-DynamicLogConfig.adoc[DynamicLogConfig]
 . link:kafka-server-DynamicMetricsReporters.adoc[DynamicMetricsReporters]
 . link:kafka-server-DynamicClientQuotaCallback.adoc[DynamicClientQuotaCallback]
 
@@ -206,20 +208,33 @@
 . link:kafka-scala-repl.adoc[Kafka in Scala REPL for Interactive Exploration]
 . link:kafka-docker.adoc[Running Kafka Broker in Docker]
 
-=== Kafka Connect
+=== Kafka Clients
 
-. link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
-. link:kafka-ConnectDistributed.adoc[ConnectDistributed]
+. link:kafka-clients-Configurable.adoc[Configurable Contract]
+. link:kafka-clients-Reconfigurable.adoc[Reconfigurable]
+. link:kafka-clients-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
+
+=== Kafka Commons
+
+. link:kafka-common-NotificationHandler.adoc[NotificationHandler Contract]
+. link:kafka-common-ZkNodeChangeNotificationListener.adoc[ZkNodeChangeNotificationListener]
+
+=== Kafka Security
+
+. link:kafka-security-SimpleAclAuthorizer.adoc[SimpleAclAuthorizer]
 
 === Varia / Misc
 
 . link:kafka-Scheduler.adoc[Scheduler]
-. link:kafka-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
-. link:kafka-server-DynamicBrokerConfig.adoc[DynamicBrokerConfig]
-. link:kafka-DynamicLogConfig.adoc[DynamicLogConfig]
-. link:kafka-Reconfigurable.adoc[Reconfigurable]
 . link:kafka-ZooKeeperClient.adoc[ZooKeeperClient]
+. link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient]
 . link:kafka-zk-AdminZkClient.adoc[AdminZkClient]
+. link:kafka-zk-ZkAclChangeStore.adoc[ZkAclChangeStore]
+
+=== Kafka Connect
+
+. link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
+. link:kafka-ConnectDistributed.adoc[ConnectDistributed]
 
 === Appendix
 

@@ -2,6 +2,8 @@
 
 `DelegationTokenManager` is...FIXME
 
+`DynamicConfigManager` uses the <<TokenChangedNotificationHandler, TokenChangedNotificationHandler>> that...FIXME
+
 === [[expireTokens]] `expireTokens` Method
 
 [source, scala]
@@ -12,3 +14,18 @@ expireTokens(): Unit
 `expireTokens`...FIXME
 
 NOTE: `expireTokens` is used when...FIXME
+
+=== [[TokenChangedNotificationHandler]] TokenChangedNotificationHandler Object
+
+`TokenChangedNotificationHandler` is a <<kafka-common-NotificationHandler.adoc#, NotificationHandler>> that <<TokenChangedNotificationHandler-processNotification, processNotification>>.
+
+=== [[processNotification]][[TokenChangedNotificationHandler-processNotification]] `processNotification` Method
+
+[source, scala]
+----
+processNotification(tokenIdBytes: Array[Byte]): Unit
+----
+
+NOTE: `processNotification` is part of the <<kafka-common-NotificationHandler.adoc#processNotification, NotificationHandler Contract>> to...FIXME.
+
+`processNotification`...FIXME

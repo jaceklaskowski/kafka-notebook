@@ -183,7 +183,7 @@ NOTE: `maybePropagateIsrChanges` is used exclusively when <<isr-change-propagati
 * [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[time]] `Time`
-* [[zkClient]] `KafkaZkClient`
+* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
 * [[logManager]] <<kafka-LogManager.adoc#, LogManager>>
 * [[isShuttingDown]] `isShuttingDown` flag

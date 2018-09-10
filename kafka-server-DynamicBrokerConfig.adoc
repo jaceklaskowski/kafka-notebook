@@ -96,7 +96,7 @@ initialize(zkClient: KafkaZkClient): Unit
 
 `initialize` creates a new <<kafka-KafkaConfig.adoc#creating-instance, KafkaConfig>> (with the <<kafka-KafkaConfig.adoc#props, properties>> of the initial <<kafkaConfig, KafkaConfig>>) that becomes the <<currentConfig, currentConfig>>.
 
-`initialize` creates a `AdminZkClient` (with the input `KafkaZkClient`).
+`initialize` creates a `AdminZkClient` (with the input <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>).
 
 `initialize` requests the `AdminZkClient` to <<kafka-zk-AdminZkClient.adoc#fetchEntityConfig, fetch the default configuration>> for *brokers* entities and <<updateDefaultConfig, updateDefaultConfig>>
 
@@ -152,7 +152,7 @@ Internally, `addReconfigurables` creates a <<kafka-server-DynamicThreadPool.adoc
 
 `addReconfigurables` <<addBrokerReconfigurable, addBrokerReconfigurable>> with the <<kafka-log-LogCleaner.adoc#, LogCleaner>> (if configured).
 
-`addReconfigurables` creates a <<kafka-DynamicLogConfig.adoc#, DynamicThreadPool>> with the <<kafka-KafkaServer.adoc#logManager, LogManager>> and the input <<kafka-KafkaServer.adoc#, KafkaServer>>, and <<addReconfigurable, addReconfigurable>>.
+`addReconfigurables` creates a <<kafka-server-DynamicLogConfig.adoc#, DynamicThreadPool>> with the <<kafka-KafkaServer.adoc#logManager, LogManager>> and the input <<kafka-KafkaServer.adoc#, KafkaServer>>, and <<addReconfigurable, addReconfigurable>>.
 
 `addReconfigurables` creates a <<kafka-server-DynamicMetricsReporters.adoc#, DynamicMetricsReporters>> for the <<kafka-KafkaConfig.adoc#brokerId, broker>> and <<addReconfigurable, addReconfigurable>>.
 

@@ -9,6 +9,6 @@
 reconfigure(configs: util.Map[String, _]): Unit
 ----
 
-NOTE: `reconfigure` is part of the <<kafka-Reconfigurable.adoc#reconfigure, Reconfigurable Contract>> to...FIXME.
+NOTE: `reconfigure` is part of the <<kafka-clients-Reconfigurable.adoc#reconfigure, Reconfigurable Contract>> to...FIXME.
 
 `reconfigure`...FIXME
