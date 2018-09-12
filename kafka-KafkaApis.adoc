@@ -30,6 +30,9 @@ image::images/KafkaApis.png[align="center"]
 | [[DeleteTopics]] `DeleteTopics`
 | <<handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
 
+| [[DescribeGroups]] `DescribeGroups`
+| <<handleDescribeGroupRequest, handleDescribeGroupRequest>>
+
 | [[DescribeLogDirs]] `DescribeLogDirs`
 | <<handleDescribeLogDirsRequest, handleDescribeLogDirsRequest>>
 
@@ -42,8 +45,17 @@ image::images/KafkaApis.png[align="center"]
 | [[Metadata]] `Metadata`
 | <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
 
+| [[OffsetCommit]] `OffsetCommit`
+| <<handleOffsetCommitRequest, handleOffsetCommitRequest>>
+
 | [[OffsetFetch]] `OffsetFetch`
 | <<handleOffsetFetchRequest, handleOffsetFetchRequest>>
+
+| [[StopReplica]] `StopReplica`
+| <<handleStopReplicaRequest, handleStopReplicaRequest>>
+
+| [[UpdateMetadata]] `UpdateMetadata`
+| <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
 |===
 
 `KafkaApis` uses the <<replicaManager, ReplicaManager>> in the following <<handlers, handlers>>:
@@ -223,22 +235,26 @@ NOTE: `handleControlledShutdownRequest` is used when...FIXME
 
 `KafkaApis` takes the following when created:
 
-* [[requestChannel]] `RequestChannel`
-* [[replicaManager]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
-* [[adminManager]] link:kafka-AdminManager.adoc[AdminManager]
-* [[groupCoordinator]] link:kafka-GroupCoordinator.adoc[GroupCoordinator]
-* [[txnCoordinator]] `TransactionCoordinator`
-* [[controller]] link:kafka-KafkaController.adoc[KafkaController]
-* [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
+* [[requestChannel]] RequestChannel
+* [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
+* [[adminManager]] <<kafka-AdminManager.adoc#, AdminManager>>
+* [[groupCoordinator]] <<kafka-GroupCoordinator.adoc#, GroupCoordinator>>
+* [[txnCoordinator]] <<kafka-TransactionCoordinator.adoc#, TransactionCoordinator>>
+* [[controller]] <<kafka-KafkaController.adoc#, KafkaController>>
+* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[brokerId]] Broker ID
-* [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
-* [[metadataCache]] link:kafka-MetadataCache.adoc[MetadataCache]
-* [[metrics]] `Metrics`
-* [[authorizer]] Optional link:kafka-Authorizer.adoc[Authorizer]
+* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[metadataCache]] <<kafka-MetadataCache.adoc#, MetadataCache>>
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
+* [[authorizer]] <<kafka-Authorizer.adoc#, Authorizer>>
 * [[quotas]] `QuotaManagers`
-* [[brokerTopicStats]] `BrokerTopicStats`
+* [[fetchManager]] `FetchManager`
+* [[brokerTopicStats]] <<kafka-BrokerTopicStats.adoc#, BrokerTopicStats>>
 * [[clusterId]] Cluster ID
 * [[time]] `Time`
+* [[tokenManager]] <<kafka-server-DelegationTokenManager.adoc#, DelegationTokenManager>>
+
+`KafkaApis` initializes the <<internal-registries, internal registries and counters>>.
 
 === [[fetchOffsetForTimestamp]] `fetchOffsetForTimestamp` Internal Method
 
@@ -337,3 +353,90 @@ fetchOffsets(
 `fetchOffsets`...FIXME
 
 NOTE: `fetchOffsets` is used exclusively when `KafkaApis` is requested to <<handleListOffsetRequestV0, handleListOffsetRequestV0>>.
+
+=== [[handleStopReplicaRequest]] Handling StopReplica Request -- `handleStopReplicaRequest` Handler
+
+[source, scala]
+----
+handleStopReplicaRequest(request: RequestChannel.Request): Unit
+----
+
+`handleStopReplicaRequest`...FIXME
+
+NOTE: `handleStopReplicaRequest` is used exclusively to when `KafkaApis` is requested to handle a <<StopReplica, StopReplica>> request.
+
+=== [[handleUpdateMetadataRequest]] Handling UpdateMetadata Request -- `handleUpdateMetadataRequest` Handler
+
+[source, scala]
+----
+handleUpdateMetadataRequest(request: RequestChannel.Request): Unit
+----
+
+`handleUpdateMetadataRequest`...FIXME
+
+NOTE: `handleUpdateMetadataRequest` is used exclusively to when `KafkaApis` is requested to handle a <<UpdateMetadata, UpdateMetadata>> request.
+
+=== [[handleOffsetCommitRequest]] Handling OffsetCommit Request -- `handleOffsetCommitRequest` Handler
+
+[source, scala]
+----
+handleOffsetCommitRequest(request: RequestChannel.Request): Unit
+----
+
+`handleOffsetCommitRequest`...FIXME
+
+NOTE: `handleOffsetCommitRequest` is used exclusively to when `KafkaApis` is requested to handle a <<OffsetCommit, OffsetCommit>> request.
+
+=== [[createInternalTopic]] `createInternalTopic` Internal Method
+
+[source, scala]
+----
+createInternalTopic(topic: String): MetadataResponse.TopicMetadata
+----
+
+`createInternalTopic`...FIXME
+
+NOTE: `createInternalTopic` is used when `KafkaApis` is requested to <<getOrCreateInternalTopic, getOrCreateInternalTopic>> and <<getTopicMetadata, getTopicMetadata>>.
+
+=== [[getOrCreateInternalTopic]] `getOrCreateInternalTopic` Internal Method
+
+[source, scala]
+----
+getTopicMetadata(
+  allowAutoTopicCreation: Boolean,
+  topics: Set[String],
+  listenerName: ListenerName,
+  errorUnavailableEndpoints: Boolean,
+  errorUnavailableListeners: Boolean): Seq[MetadataResponse.TopicMetadata]
+----
+
+`getOrCreateInternalTopic`...FIXME
+
+NOTE: `getOrCreateInternalTopic` is used when...FIXME
+
+=== [[getTopicMetadata]] `getTopicMetadata` Internal Method
+
+[source, scala]
+----
+getTopicMetadata(
+  allowAutoTopicCreation: Boolean,
+  topics: Set[String],
+  listenerName: ListenerName,
+  errorUnavailableEndpoints: Boolean,
+  errorUnavailableListeners: Boolean): Seq[MetadataResponse.TopicMetadata]
+----
+
+`getTopicMetadata`...FIXME
+
+NOTE: `getTopicMetadata` is used when...FIXME
+
+=== [[handleDescribeGroupRequest]] Handling DescribeGroups Request -- `handleDescribeGroupRequest` Handler
+
+[source, scala]
+----
+handleDescribeGroupRequest(request: RequestChannel.Request): Unit
+----
+
+`handleDescribeGroupRequest`...FIXME
+
+NOTE: `handleDescribeGroupRequest` is used exclusively to when `KafkaApis` is requested to handle a <<DescribeGroups, DescribeGroups>> request.

@@ -4,11 +4,13 @@
 
 [[properties]]
 .OffsetConfig's Properties (in alphabetical order)
-[cols="1,2",options="header",width="100%"]
+[cols="1m,1,2",options="header",width="100%"]
 |===
 | Property
 | Default Value
+| Description
 
-| [[offsetsTopicNumPartitions]] `offsetsTopicNumPartitions`
+| offsetsTopicNumPartitions
 | `50`
+| [[offsetsTopicNumPartitions]] Number of partitions for the `__consumer_offsets` consumer group metadata topic
 |===

@@ -1,3 +1,14 @@
 == [[KafkaZkClient]] KafkaZkClient
 
 `KafkaZkClient` is...FIXME
+
+=== [[getTopicPartitionCount]] `getTopicPartitionCount` Method
+
+[source, scala]
+----
+getTopicPartitionCount(topic: String): Option[Int]
+----
+
+`getTopicPartitionCount`...FIXME
+
+NOTE: `getTopicPartitionCount` is used when...FIXME

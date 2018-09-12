@@ -2,7 +2,7 @@
 
 `GroupCoordinator` is...FIXME
 
-`GroupCoordinator` is created when...FIXME
+`GroupCoordinator` is <<creating-instance, created>> when...FIXME
 
 .GroupCoordinator's Startup
 image::images/GroupCoordinator-startup.png[align="center"]
@@ -15,7 +15,25 @@ image::images/GroupCoordinator-startup.png[align="center"]
 
 === [[apply]] Creating GroupCoordinator Instance -- `apply` Factory Method
 
-CAUTION: FIXME
+[source, scala]
+----
+apply(
+  config: KafkaConfig,
+  zkClient: KafkaZkClient,
+  replicaManager: ReplicaManager,
+  time: Time): GroupCoordinator
+apply(
+  config: KafkaConfig,
+  zkClient: KafkaZkClient,
+  replicaManager: ReplicaManager,
+  heartbeatPurgatory: DelayedOperationPurgatory[DelayedHeartbeat],
+  joinPurgatory: DelayedOperationPurgatory[DelayedJoin],
+  time: Time): GroupCoordinator
+----
+
+`apply`...FIXME
+
+NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
 
 === [[creating-instance]] Creating GroupCoordinator Instance
 
@@ -24,7 +42,7 @@ CAUTION: FIXME
 * [[brokerId]] Broker ID
 * [[groupConfig]] `GroupConfig`
 * [[offsetConfig]] link:kafka-OffsetConfig.adoc[OffsetConfig]
-* [[groupManager]] `GroupMetadataManager`
+* [[groupManager]] <<kafka-GroupMetadataManager.adoc#, GroupMetadataManager>>
 * [[heartbeatPurgatory]] `DelayedOperationPurgatory[DelayedHeartbeat]`
 * [[joinPurgatory]] `DelayedOperationPurgatory[DelayedJoin]`
 * [[time]] `Time`
@@ -55,3 +73,86 @@ INFO [GroupCoordinator [brokerId]]: Startup complete. (kafka.coordinator.group.G
 ```
 
 NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
+
+=== [[partitionFor]] `partitionFor` Method
+
+[source, scala]
+----
+partitionFor(group: String): Int
+----
+
+`partitionFor` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#partitionFor, partitionFor>> the input `group` ID.
+
+NOTE: `partitionFor` is used when...FIXME
+
+=== [[handleCommitOffsets]] `handleCommitOffsets` Method
+
+[source, scala]
+----
+handleCommitOffsets(
+  groupId: String,
+  memberId: String,
+  generationId: Int,
+  offsetMetadata: immutable.Map[TopicPartition, OffsetAndMetadata],
+  responseCallback: immutable.Map[TopicPartition, Errors] => Unit): Unit
+----
+
+`handleCommitOffsets`...FIXME
+
+NOTE: `handleCommitOffsets` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleOffsetCommitRequest, handleOffsetCommitRequest>>.
+
+=== [[doCommitOffsets]] `doCommitOffsets` Internal Method
+
+[source, scala]
+----
+doCommitOffsets(
+  group: GroupMetadata,
+  memberId: String,
+  generationId: Int,
+  producerId: Long,
+  producerEpoch: Short,
+  offsetMetadata: immutable.Map[TopicPartition, OffsetAndMetadata],
+  responseCallback: immutable.Map[TopicPartition, Errors] => Unit): Unit
+----
+
+`doCommitOffsets`...FIXME
+
+NOTE: `doCommitOffsets` is used when `GroupCoordinator` is requested to <<handleTxnCommitOffsets, handleTxnCommitOffsets>> and <<handleCommitOffsets, handleCommitOffsets>>.
+
+=== [[onCompleteJoin]] `onCompleteJoin` Method
+
+[source, scala]
+----
+onCompleteJoin(group: GroupMetadata): Unit
+----
+
+`onCompleteJoin`...FIXME
+
+NOTE: `onCompleteJoin` is used when...FIXME
+
+=== [[doSyncGroup]] `doSyncGroup` Internal Method
+
+[source, scala]
+----
+doSyncGroup(
+  group: GroupMetadata,
+  generationId: Int,
+  memberId: String,
+  groupAssignment: Map[String, Array[Byte]],
+  responseCallback: SyncCallback): Unit
+----
+
+`doSyncGroup`...FIXME
+
+NOTE: `doSyncGroup` is used when...FIXME
+
+=== [[handleDescribeGroup]] `handleDescribeGroup` Method
+
+[source, scala]
+----
+handleDescribeGroup(groupId: String): (Errors, GroupSummary)
+----
+
+`handleDescribeGroup`...FIXME
+
+NOTE: `handleDescribeGroup` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleDescribeGroupRequest, handleDescribeGroupRequest>>.

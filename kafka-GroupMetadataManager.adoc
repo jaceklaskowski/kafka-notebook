@@ -2,10 +2,39 @@
 
 `GroupMetadataManager` is...FIXME
 
-`GroupMetadataManager` is created exclusively when `GroupCoordinator` is link:kafka-GroupCoordinator.adoc#apply[created].
+`GroupMetadataManager` is <<creating-instance, created>> exclusively when `GroupCoordinator` is <<kafka-GroupCoordinator.adoc#apply, created>>.
 
 .Creating GroupMetadataManager
 image::images/GroupMetadataManager-creating-instance.png[align="center"]
+
+[[metrics]]
+.GroupMetadataManager's Metrics
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| NumOffsets
+| [[NumOffsets]]
+
+| NumGroups
+| [[NumGroups]]
+
+| NumGroupsPreparingRebalance
+| [[NumGroupsPreparingRebalance]]
+
+| NumGroupsCompletingRebalance
+| [[NumGroupsCompletingRebalance]]
+
+| NumGroupsStable
+| [[NumGroupsStable]]
+
+| NumGroupsDead
+| [[NumGroupsDead]]
+
+| NumGroupsEmpty
+| [[NumGroupsEmpty]]
+|===
 
 [[internal-registries]]
 .GroupMetadataManager's Internal Properties (e.g. Registries and Counters)
@@ -14,14 +43,31 @@ image::images/GroupMetadataManager-creating-instance.png[align="center"]
 | Name
 | Description
 
+| `compressionType`
+| [[compressionType]] `CompressionType` (default: `NoCompressionCodec`)
+
 | [[groupMetadataCache]] `groupMetadataCache`
 | Pool of `GroupMetadata` by group ID
 
-| [[groupMetadataTopicPartitionCount]] `groupMetadataTopicPartitionCount`
-|
+| `groupMetadataTopicPartitionCount`
+| [[groupMetadataTopicPartitionCount]] Number of partitions for the `__consumer_offsets` consumer group metadata topic (default: `50`)
 
 | `scheduler`
-| [[scheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *group-metadata-manager-* prefix
+a| [[scheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *group-metadata-manager-* prefix
+
+<<kafka-KafkaScheduler.adoc#startup, Started>> when `GroupMetadataManager` is requested to <<startup, start up>>.
+
+<<kafka-KafkaScheduler.adoc#shutdown, Shut down>> when `GroupMetadataManager` is requested to <<shutdown, shut down>>.
+
+Used when:
+
+* <<startup, startup>> (with `enableMetadataExpiration` flag on) that <<kafka-KafkaScheduler.adoc#schedule, schedules>> the *delete-expired-group-metadata* task that <<cleanupGroupMetadata, cleanupGroupMetadata>> every `600000L` millis
+
+* <<scheduleLoadGroupAndOffsets, scheduleLoadGroupAndOffsets>> that <<loadGroupsAndOffsets, loads offsets and group metadata from __consumer_offsets topic>>
+
+* <<removeGroupsForPartition, removeGroupsForPartition>> that <<removeGroupsAndOffsets, unloads offsets and group metadata from __consumer_offsets topic>>
+
+* <<scheduleHandleTxnCompletion, scheduleHandleTxnCompletion>> that schedules the *handleTxnCompletion-[producerId]* task that <<handleTxnCompletion, handleTxnCompletion>>
 |===
 
 === [[enableMetadataExpiration]] `enableMetadataExpiration` Method
@@ -43,9 +89,9 @@ NOTE: `enableMetadataExpiration` is used exclusively when `GroupCoordinator` is 
 
 * [[brokerId]] Broker ID
 * [[interBrokerProtocolVersion]] `ApiVersion`
-* [[config]] link:kafka-OffsetConfig.adoc[OffsetConfig]
-* [[replicaManager]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
-* [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
+* [[config]] <<kafka-OffsetConfig.adoc#, OffsetConfig>>
+* [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
+* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[time]] `Time`
 
 `GroupMetadataManager` initializes the <<internal-registries, internal registries and counters>>.
@@ -71,16 +117,16 @@ Removed [offsetsRemoved] expired offsets in [duration] milliseconds
 
 NOTE: `cleanupGroupMetadata` is used exclusively when `GroupMetadataManager` is requested to <<enableMetadataExpiration, enableMetadataExpiration>> (as *delete-expired-group-metadata* task).
 
-=== [[getGroupMetadataTopicPartitionCount]] Getting Number of Partitions for __consumer_offsets Topic -- `getGroupMetadataTopicPartitionCount` Internal Method
+=== [[getGroupMetadataTopicPartitionCount]] Getting Number of Partitions for __consumer_offsets Consumer Group Metadata Topic -- `getGroupMetadataTopicPartitionCount` Internal Method
 
 [source, scala]
 ----
 getGroupMetadataTopicPartitionCount: Int
 ----
 
-`getGroupMetadataTopicPartitionCount` requests <<zkUtils, ZkUtils>> for link:kafka-ZkUtils.adoc#getTopicPartitionCount[getTopicPartitionCount] of `__consumer_offsets` topic.
+`getGroupMetadataTopicPartitionCount` requests the <<zkClient, KafkaZkClient>> for <<kafka-zk-KafkaZkClient.adoc#getTopicPartitionCount, getTopicPartitionCount>> of `__consumer_offsets` consumer group metadata topic.
 
-If not available, `getGroupMetadataTopicPartitionCount` requests <<config, OffsetConfig>> for link:kafka-OffsetConfig.adoc#offsetsTopicNumPartitions[offsetsTopicNumPartitions].
+If not available, `getGroupMetadataTopicPartitionCount` uses the <<config, OffsetConfig>> for <<kafka-OffsetConfig.adoc#offsetsTopicNumPartitions, offsetsTopicNumPartitions>> (default: `50`).
 
 NOTE: `getGroupMetadataTopicPartitionCount` is used exclusively when `GroupMetadataManager` is requested for <<groupMetadataTopicPartitionCount, groupMetadataTopicPartitionCount>>.
 
@@ -181,3 +227,59 @@ handleTxnCompletion(
 `handleTxnCompletion`...FIXME
 
 NOTE: `handleTxnCompletion` is used when...FIXME
+
+=== [[partitionFor]] `partitionFor` Method
+
+[source, scala]
+----
+partitionFor(groupId: String): Int
+----
+
+`partitionFor`...FIXME
+
+NOTE: `partitionFor` is used when...FIXME
+
+=== [[storeOffsets]] `storeOffsets` Method
+
+[source, scala]
+----
+storeOffsets(
+  group: GroupMetadata,
+  consumerId: String,
+  offsetMetadata: immutable.Map[TopicPartition, OffsetAndMetadata],
+  responseCallback: immutable.Map[TopicPartition, Errors] => Unit,
+  producerId: Long = RecordBatch.NO_PRODUCER_ID,
+  producerEpoch: Short = RecordBatch.NO_PRODUCER_EPOCH): Unit
+----
+
+`storeOffsets`...FIXME
+
+NOTE: `storeOffsets` is used exclusively when `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#doCommitOffsets, doCommitOffsets>>.
+
+=== [[storeGroup]] `storeGroup` Method
+
+[source, scala]
+----
+storeGroup(
+  group: GroupMetadata,
+  groupAssignment: Map[String, Array[Byte]],
+  responseCallback: Errors => Unit): Unit
+----
+
+`storeGroup`...FIXME
+
+NOTE: `storeGroup` is used exclusively when `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#doSyncGroup, doSyncGroup>> and <<kafka-GroupCoordinator.adoc#onCompleteJoin, onCompleteJoin>>.
+
+=== [[appendForGroup]] `appendForGroup` Internal Method
+
+[source, scala]
+----
+appendForGroup(
+  group: GroupMetadata,
+  records: Map[TopicPartition, MemoryRecords],
+  callback: Map[TopicPartition, PartitionResponse] => Unit): Unit
+----
+
+`appendForGroup`...FIXME
+
+NOTE: `appendForGroup` is used exclusively when `GroupMetadataManager` is requested to <<storeGroup, storeGroup>> and <<storeOffsets, storeOffsets>>.

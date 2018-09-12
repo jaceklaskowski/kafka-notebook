@@ -44,8 +44,14 @@ image::images/KafkaServer-startup.png[align="center"]
 | `dynamicConfigManager`
 | [[dynamicConfigManager]] <<kafka-server-DynamicConfigManager.adoc#, DynamicConfigManager>>
 
-| [[groupCoordinator]] `groupCoordinator`
-| link:kafka-GroupCoordinator.adoc[GroupCoordinator]
+| `groupCoordinator`
+a| [[groupCoordinator]] <<kafka-GroupCoordinator.adoc#, GroupCoordinator>>
+
+<<kafka-GroupCoordinator.adoc#apply, Created>> and <<kafka-GroupCoordinator.adoc#startup, started up>> when `KafkaServer` is requested to <<startup, start up>>
+
+<<kafka-GroupCoordinator.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>
+
+Used exclusively when `KafkaServer` is requested to <<startup, start up>> (and creates a <<kafka-KafkaApis.adoc#, KafkaApis>>)
 
 | [[isStartingUp]] `isStartingUp`
 | Flag for...FIXME
