@@ -307,3 +307,26 @@ shutdown(): Unit
 `shutdown`...FIXME
 
 NOTE: `shutdown` is used when...FIXME
+
+=== [[initZkClient]] `initZkClient` Internal Method
+
+[source, scala]
+----
+initZkClient(time: Time): Unit
+----
+
+`initZkClient` prints out the following INFO message to the logs:
+
+```
+Connecting to zookeeper on [zkConnect]
+```
+
+(only if the chroot path is used) `initZkClient`...FIXME
+
+`initZkClient`...FIXME (secureAclsEnabled)
+
+`initZkClient` creates a <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>> (with the following configuration properties: <<kafka-KafkaConfig.adoc#zkConnect, KafkaConfig.zkConnect>>, <<kafka-KafkaConfig.adoc#secureAclsEnabled, KafkaConfig.secureAclsEnabled>>, <<kafka-KafkaConfig.adoc#zkSessionTimeoutMs, KafkaConfig.zkSessionTimeoutMs>>, <<kafka-KafkaConfig.adoc#zkConnectionTimeoutMs, KafkaConfig.zkConnectionTimeoutMs>>, <<kafka-KafkaConfig.adoc#zkMaxInFlightRequests, KafkaConfig.zkMaxInFlightRequests>>).
+
+In the end, `initZkClient` requests the <<_zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#createTopLevelPaths, createTopLevelPaths>>.
+
+NOTE: `initZkClient` is used exclusively when `KafkaServer` is requested to <<startup, start up>>.

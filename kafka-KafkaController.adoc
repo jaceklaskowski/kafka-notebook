@@ -75,39 +75,39 @@ a|
 
 [[internal-registries]]
 .KafkaController's Internal Properties (e.g. Registries and Counters)
-[cols="1,2",options="header",width="100%"]
+[cols="1m,2",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| [[activeControllerId]] `activeControllerId`
-a| The ID of the active `KafkaController`
+| activeControllerId
+a| [[activeControllerId]] The ID of the active `KafkaController`
 
 * Initialized to `-1`
 
-| [[controllerContext]] `controllerContext`
-|
+| controllerContext
+| [[controllerContext]]
 
-| [[eventManager]] `eventManager`
-| link:kafka-ControllerEventManager.adoc[ControllerEventManager] for `controllerContext.stats.rateAndTimeMetrics` and updateMetrics listener
+| eventManager
+| [[eventManager]] link:kafka-ControllerEventManager.adoc[ControllerEventManager] for `controllerContext.stats.rateAndTimeMetrics` and updateMetrics listener
 
-| `kafkaScheduler`
+| kafkaScheduler
 | [[kafkaScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *kafka-scheduler* prefix
 
-| [[partitionStateMachine]] `partitionStateMachine`
-| link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
+| partitionStateMachine
+| [[partitionStateMachine]] link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
 
-| [[replicaStateMachine]] `replicaStateMachine`
-| link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
+| replicaStateMachine
+| [[replicaStateMachine]] link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
 
-| [[stateChangeLogger]] `stateChangeLogger`
-| `StateChangeLogger` with the <<brokerId, broker ID>> and `inControllerContext` flag enabled
+| stateChangeLogger
+| [[stateChangeLogger]] `StateChangeLogger` with the <<brokerId, broker ID>> and `inControllerContext` flag enabled
 
-| `tokenCleanScheduler`
+| tokenCleanScheduler
 | [[tokenCleanScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *delegation-token-cleaner* prefix
 
-| [[topicDeletionManager]] `topicDeletionManager`
-| link:kafka-TopicDeletionManager.adoc[TopicDeletionManager]
+| topicDeletionManager
+| [[topicDeletionManager]] link:kafka-TopicDeletionManager.adoc[TopicDeletionManager]
 |===
 
 [[listeners]]
@@ -477,24 +477,32 @@ NOTE: `deregisterIsrChangeNotificationListener` is used when...FIXME
 
 `KafkaController` takes the following when created:
 
-* [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
-* [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
+* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[time]] `Time`
-* [[metrics]] `Metrics`
-* [[threadNamePrefix]] Optional thread name prefix
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
+* [[initialBrokerInfo]] `BrokerInfo`
+* [[tokenManager]] <<kafka-server-DelegationTokenManager.adoc#, DelegationTokenManager>>
+* [[threadNamePrefix]] Thread name prefix (default: undefined)
 
 `KafkaController` initializes the <<internal-registries, internal registries and counters>>.
 
-=== [[startup]] Starting ControllerEventManager (and Putting Startup Event in Event Queue) -- `startup` Method
+=== [[startup]] Starting Up -- `startup` Method
 
 [source, scala]
 ----
 startup(): Unit
 ----
 
-`startup` puts `Startup` event at the end of the event queue of <<eventManager, ControllerEventManager>> and requests it to link:kafka-ControllerEventManager.adoc#start[start].
+`startup` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#registerStateChangeHandler, register a StateChangeHandler>> (under the name *controller-state-change-handler*) that is does the following:
 
-NOTE: `startup` is used exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started up].
+* On `afterInitializingSession`, the `StateChangeHandler` simply puts `RegisterBrokerAndReelect` event on the event queue of the <<eventManager, ControllerEventManager>>
+
+* On `beforeInitializingSession`, the `StateChangeHandler` simply puts `Expire` event on the event queue of the <<eventManager, ControllerEventManager>>
+
+`startup` then puts `Startup` event at the end of the event queue of the <<eventManager, ControllerEventManager>> and immediately requests it to <<kafka-ControllerEventManager.adoc#start, start>>.
+
+NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start>>.
 
 === [[registerSessionExpirationListener]] Registering SessionExpirationListener To Control Session Recreation -- `registerSessionExpirationListener` Internal Method
 

@@ -2,6 +2,10 @@
 
 `KafkaZkClient` is...FIXME
 
+`KafkaZkClient` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> that...FIXME
+
+`KafkaZkClient` is <<creating-instance, created>> (using the <<apply, apply>> factory method) when...FIXME
+
 === [[getTopicPartitionCount]] `getTopicPartitionCount` Method
 
 [source, scala]
@@ -12,3 +16,61 @@ getTopicPartitionCount(topic: String): Option[Int]
 `getTopicPartitionCount`...FIXME
 
 NOTE: `getTopicPartitionCount` is used when...FIXME
+
+=== [[registerStateChangeHandler]] Registering StateChangeHandler -- `registerStateChangeHandler` Method
+
+[source, scala]
+----
+registerStateChangeHandler(stateChangeHandler: StateChangeHandler): Unit
+----
+
+`registerStateChangeHandler`...FIXME
+
+NOTE: `registerStateChangeHandler` is used when...FIXME
+
+=== [[creating-instance]] Creating KafkaZkClient Instance
+
+`KafkaZkClient` takes the following when created:
+
+* [[zooKeeperClient]] <<kafka-ZooKeeperClient.adoc#, ZooKeeperClient>>
+* [[isSecure]] `isSecure` flag
+* [[time]] `Time`
+
+`KafkaZkClient` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[apply]] Creating KafkaZkClient Instance -- `apply` Factory Method
+
+[source, scala]
+----
+apply(
+  connectString: String,
+  isSecure: Boolean,
+  sessionTimeoutMs: Int,
+  connectionTimeoutMs: Int,
+  maxInFlightRequests: Int,
+  time: Time,
+  metricGroup: String = "kafka.server",
+  metricType: String = "SessionExpireListener"): KafkaZkClient
+----
+
+`apply`...FIXME
+
+[NOTE]
+====
+`apply` is used when:
+
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#initZkClient, initZkClient>>
+
+* `AclCommand` (when `SimpleAclAuthorizer` is used and requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>), `ConfigCommand`, `PreferredReplicaLeaderElectionCommand`, `ReassignPartitionsCommand` and `TopicCommand` commands are executed (`main`)
+====
+
+=== [[createTopLevelPaths]] `createTopLevelPaths` Method
+
+[source, scala]
+----
+createTopLevelPaths(): Unit
+----
+
+`createTopLevelPaths`...FIXME
+
+NOTE: `createTopLevelPaths` is used when...FIXME
