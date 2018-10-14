@@ -1,11 +1,11 @@
 == [[KafkaController]] KafkaController
 
+`KafkaController` is a Kafka service that is part of every Kafka broker, but only one `KafkaController` is <<isActive, active>> among all Kafka brokers in a Kafka cluster.
+
 `KafkaController` is a Kafka service responsible for:
 
 * <<topicDeletionListener, topic deletion>>
 * ...FIXME
-
-`KafkaController` uses <<listeners, listeners>> as a notification system to monitor znodes in Zookeeper and react accordingly.
 
 Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Internals[Kafka Controller Internals]:
 
@@ -16,23 +16,77 @@ Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Inter
 .KafkaController
 image::images/KafkaController.png[align="center"]
 
-`KafkaController` is part of every Kafka broker, but only one `KafkaController` is <<isActive, active>> at all times.
+`KafkaController` uses the <<zkClient, KafkaZkClient>> for the following:
+
+* Creating the <<topicDeletionManager, TopicDeletionManager>>, the <<replicaStateMachine, ReplicaStateMachine>> and the <<partitionStateMachine, PartitionStateMachine>>
+
+* Registering a `StateChangeHandler` when requested to <<startup, startup>>
+
+* <<updateBrokerInfo, Updating BrokerInfo>>
+
+* <<onControllerFailover, onControllerFailover>>
+
+* <<onControllerResignation, onControllerResignation>>
+
+* <<registerBrokerModificationsHandler, registerBrokerModificationsHandler>>
+
+* <<unregisterBrokerModificationsHandler, unregisterBrokerModificationsHandler>>
+
+* <<maybeTriggerPartitionReassignment, maybeTriggerPartitionReassignment>>
+
+* <<incrementControllerEpoch, incrementControllerEpoch>>
+
+* <<initializeControllerContext, initializeControllerContext>>
+
+* <<fetchPendingPreferredReplicaElections, fetchPendingPreferredReplicaElections>>
+
+* <<initializePartitionReassignment, initializePartitionReassignment>>
+
+* <<fetchTopicDeletionsInProgress, fetchTopicDeletionsInProgress>>
+
+* <<updateLeaderAndIsrCache, updateLeaderAndIsrCache>>
+
+* <<areReplicasInIsr, areReplicasInIsr>>
+
+* <<updateAssignedReplicasForPartition, updateAssignedReplicasForPartition>>
+
+* <<registerPartitionModificationsHandlers, registerPartitionModificationsHandlers>>
+
+* <<unregisterPartitionModificationsHandlers, unregisterPartitionModificationsHandlers>>
+
+* <<unregisterPartitionReassignmentIsrChangeHandlers, unregisterPartitionReassignmentIsrChangeHandlers>>
+
+* <<readControllerEpochFromZooKeeper, readControllerEpochFromZooKeeper>>
+
+* <<removePartitionsFromReassignedPartitions, removePartitionsFromReassignedPartitions>>
+
+* <<removePartitionsFromPreferredReplicaElection, removePartitionsFromPreferredReplicaElection>>
+
+* <<updateLeaderEpoch, updateLeaderEpoch>>
+
+* Processing <<Startup, Startup>>, <<BrokerChange, BrokerChange>>, <<BrokerModifications, BrokerModifications>>, <<TopicChange, TopicChange>>, <<LogDirEventNotification, LogDirEventNotification>>, <<PartitionModifications, PartitionModifications>>, <<TopicDeletion, TopicDeletion>>, <<PartitionReassignment, PartitionReassignment>>, <<PartitionReassignmentIsrChange, PartitionReassignmentIsrChange>>, <<IsrChangeNotification, IsrChangeNotification>>, <<PreferredReplicaLeaderElection, PreferredReplicaLeaderElection>>, <<ControllerChange, ControllerChange>>, <<Reelect, Reelect>> and <<RegisterBrokerAndReelect, RegisterBrokerAndReelect>> controller events
+
+* <<triggerControllerMove, triggerControllerMove>>
+
+* <<elect, elect>>
+
+`KafkaController` uses <<listeners, listeners>> as a notification system to monitor znodes in Zookeeper and react accordingly.
 
 `KafkaController` emulates a state machine using <<controller-events, controller events>>.
 
 [[controller-events]]
 .KafkaController's Controller Events
-[cols="1,1,2",options="header",width="100%"]
+[cols="1m,1,2",options="header",width="100%"]
 |===
 | Event
 | ControllerState
 | process Handler
 
-| [[BrokerChange]] `BrokerChange`
+| [[BrokerChange]] BrokerChange
 | `BrokerChange`
 |
 
-a| [[ControllerChange]] `ControllerChange`
+a| [[ControllerChange]] ControllerChange
 
 * `newControllerId`: Int
 
@@ -44,7 +98,7 @@ a|
 
 NOTE:  Similar to <<Reelect, Reelect>> event with the only difference that it does *not* trigger <<elect, election>>
 
-a| [[ControlledShutdown]] `ControlledShutdown`
+a| [[ControlledShutdown]] ControlledShutdown
 
 * `ID`
 
@@ -53,7 +107,19 @@ a| [[ControlledShutdown]] `ControlledShutdown`
 | `ControlledShutdown`
 |
 
-| [[Reelect]] `Reelect`
+| [[IsrChangeNotification]] IsrChangeNotification
+|
+|
+
+| [[PartitionReassignment]] PartitionReassignment
+|
+|
+
+| [[PreferredReplicaLeaderElection]] PreferredReplicaLeaderElection
+|
+|
+
+| [[Reelect]] Reelect
 | `ControllerChange`
 a|
 
@@ -61,13 +127,17 @@ a|
 1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, Resigns as the active controller>>
 1. <<elect, elect>>
 
-| [[Startup]] `Startup`
+| [[Startup]] Startup
 | `ControllerChange`
 a|
 
 1. <<registerSessionExpirationListener, registerSessionExpirationListener>>
 1. <<registerControllerChangeListener, registerControllerChangeListener>>
 1. <<elect, elect>>
+
+| [[TopicChange]] TopicChange
+|
+|
 |===
 
 [[logIdent]]
@@ -107,7 +177,7 @@ a| [[activeControllerId]] The ID of the active `KafkaController`
 | [[tokenCleanScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *delegation-token-cleaner* prefix
 
 | topicDeletionManager
-| [[topicDeletionManager]] link:kafka-TopicDeletionManager.adoc[TopicDeletionManager]
+| [[topicDeletionManager]] <<kafka-TopicDeletionManager.adoc#, TopicDeletionManager>>
 |===
 
 [[listeners]]
@@ -276,11 +346,11 @@ Resigned
 ====
 `onControllerResignation` is used when:
 
-1.  `ControllerEventThread` link:kafka-ControllerEventThread.adoc#doWork[processes] <<ControllerChange, ControllerChange>> and <<Reelect, Reelect>> controller events
+* `ControllerEventThread` is requested to <<kafka-ControllerEventThread.adoc#doWork, process controller events>>, i.e. <<ControllerChange, ControllerChange>> and <<Reelect, Reelect>>
 
-1. <<triggerControllerMove, triggerControllerMove>>
+* <<triggerControllerMove, triggerControllerMove>>
 
-1. `KafkaController` <<shutdown, shuts down>>
+* `KafkaController` is requested to <<shutdown, shut down>>
 ====
 
 === [[deregisterIsrChangeNotificationListener]] Unsubscribing from Child Changes to /isr_change_notification ZNode -- `deregisterIsrChangeNotificationListener` Internal Method
@@ -395,7 +465,7 @@ updateLeaderEpochAndSendRequest(): Unit
 
 `updateLeaderEpochAndSendRequest`...FIXME
 
-NOTE: `updateLeaderEpochAndSendRequest` is used when...FIXME
+NOTE: `updateLeaderEpochAndSendRequest` is used when `KafkaController` is requested to <<onPartitionReassignment, onPartitionReassignment>> and <<moveReassignedPartitionLeaderIfRequired, moveReassignedPartitionLeaderIfRequired>>.
 
 === [[shutdown]] `shutdown` Method
 
@@ -433,12 +503,6 @@ elect(): Unit
 `elect`...FIXME
 
 NOTE: `elect` is used when `KafkaController` enters `Startup` and `Reelect` states.
-
-=== [[onControllerFailover]] `onControllerFailover` Method
-
-CAUTION: FIXME
-
-NOTE: `onControllerFailover` is used exclusively when `KafkaController` is requested to <<elect, elect>>.
 
 === [[isActive]] `isActive` Method
 
@@ -671,3 +735,282 @@ scheduleAutoLeaderRebalanceTask(delay: Long, unit: TimeUnit): Unit
 `scheduleAutoLeaderRebalanceTask`...FIXME
 
 NOTE: `scheduleAutoLeaderRebalanceTask` is used when...FIXME
+
+=== [[updateBrokerInfo]] `updateBrokerInfo` Internal Method
+
+[source, scala]
+----
+updateBrokerInfo(newBrokerInfo: BrokerInfo): Unit
+----
+
+`updateBrokerInfo`...FIXME
+
+NOTE: `updateBrokerInfo` is used exclusively when `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#reconfigure, reconfigure>>.
+
+=== [[onControllerFailover]] `onControllerFailover` Internal Method
+
+[source, scala]
+----
+onControllerFailover(): Unit
+----
+
+`onControllerFailover`...FIXME
+
+NOTE: `onControllerFailover` is used exclusively when `KafkaController` is requested to <<elect, elect>>.
+
+=== [[registerBrokerModificationsHandler]] `registerBrokerModificationsHandler` Internal Method
+
+[source, scala]
+----
+registerBrokerModificationsHandler(brokerIds: Iterable[Int]): Unit
+----
+
+`registerBrokerModificationsHandler`...FIXME
+
+NOTE: `registerBrokerModificationsHandler` is used when `KafkaController` is requested to <<onBrokerStartup, onBrokerStartup>> and <<onControllerFailover, onControllerFailover>> (indirectly through <<initializeControllerContext, initializeControllerContext>>).
+
+=== [[initializeControllerContext]] `initializeControllerContext` Internal Method
+
+[source, scala]
+----
+initializeControllerContext(): Unit
+----
+
+`initializeControllerContext`...FIXME
+
+NOTE: `initializeControllerContext` is used exclusively when `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>.
+
+=== [[unregisterBrokerModificationsHandler]] `unregisterBrokerModificationsHandler` Internal Method
+
+[source, scala]
+----
+unregisterBrokerModificationsHandler(brokerIds: Iterable[Int]): Unit
+----
+
+`unregisterBrokerModificationsHandler`...FIXME
+
+NOTE: `unregisterBrokerModificationsHandler` is used when `KafkaController` is requested to <<onControllerResignation, onControllerResignation>> and <<onBrokerFailure, onBrokerFailure>>.
+
+=== [[onBrokerFailure]] `onBrokerFailure` Internal Method
+
+[source, scala]
+----
+onBrokerFailure(deadBrokers: Seq[Int]): Unit
+----
+
+`onBrokerFailure`...FIXME
+
+NOTE: `onBrokerFailure` is used exclusively when `KafkaController` is requested to handle a <<BrokerChange, BrokerChange>> controller event.
+
+=== [[maybeTriggerPartitionReassignment]] `maybeTriggerPartitionReassignment` Internal Method
+
+[source, scala]
+----
+maybeTriggerPartitionReassignment(topicPartitions: Set[TopicPartition]): Unit
+----
+
+`maybeTriggerPartitionReassignment`...FIXME
+
+NOTE: `maybeTriggerPartitionReassignment` is used when `KafkaController` is requested to <<onControllerFailover, onControllerFailover>> and process the <<PartitionReassignment, PartitionReassignment>> controller event.
+
+=== [[incrementControllerEpoch]] `incrementControllerEpoch` Internal Method
+
+[source, scala]
+----
+incrementControllerEpoch(): Unit
+----
+
+`incrementControllerEpoch`...FIXME
+
+NOTE: `incrementControllerEpoch` is used exclusively when `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>.
+
+=== [[fetchPendingPreferredReplicaElections]] `fetchPendingPreferredReplicaElections` Internal Method
+
+[source, scala]
+----
+fetchPendingPreferredReplicaElections(): Set[TopicPartition]
+----
+
+`fetchPendingPreferredReplicaElections`...FIXME
+
+NOTE: `fetchPendingPreferredReplicaElections` is used exclusively when `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>.
+
+=== [[initializePartitionReassignment]] `initializePartitionReassignment` Internal Method
+
+[source, scala]
+----
+initializePartitionReassignment(): Unit
+----
+
+`initializePartitionReassignment`...FIXME
+
+NOTE: `initializePartitionReassignment` is used exclusively when `KafkaController` is requested to <<initializeControllerContext, initializeControllerContext>>.
+
+=== [[fetchTopicDeletionsInProgress]] `fetchTopicDeletionsInProgress` Internal Method
+
+[source, scala]
+----
+fetchTopicDeletionsInProgress(): (Set[String], Set[String])
+----
+
+`fetchTopicDeletionsInProgress`...FIXME
+
+NOTE: `fetchTopicDeletionsInProgress` is used exclusively when `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>.
+
+=== [[updateLeaderAndIsrCache]] `updateLeaderAndIsrCache` Internal Method
+
+[source, scala]
+----
+updateLeaderAndIsrCache(partitions: Seq[TopicPartition]
+----
+
+`updateLeaderAndIsrCache`...FIXME
+
+NOTE: `updateLeaderAndIsrCache` is used when `KafkaController` is requested to <<initializeControllerContext, initializeControllerContext>> and process a <<IsrChangeNotification, IsrChangeNotification>> controller event.
+
+=== [[areReplicasInIsr]] `areReplicasInIsr` Internal Method
+
+[source, scala]
+----
+areReplicasInIsr(partition: TopicPartition, replicas: Seq[Int]): Boolean
+----
+
+`areReplicasInIsr`...FIXME
+
+NOTE: `areReplicasInIsr` is used exclusively when `KafkaController` is requested to <<onPartitionReassignment, onPartitionReassignment>>.
+
+=== [[updateAssignedReplicasForPartition]] `updateAssignedReplicasForPartition` Internal Method
+
+[source, scala]
+----
+updateAssignedReplicasForPartition(
+  partition: TopicPartition,
+  replicas: Seq[Int]): Unit
+----
+
+`updateAssignedReplicasForPartition`...FIXME
+
+NOTE: `updateAssignedReplicasForPartition` is used exclusively when `KafkaController` is requested to <<onPartitionReassignment, onPartitionReassignment>>.
+
+=== [[registerPartitionModificationsHandlers]] `registerPartitionModificationsHandlers` Internal Method
+
+[source, scala]
+----
+registerPartitionModificationsHandlers(topics: Seq[String]): Unit
+----
+
+`registerPartitionModificationsHandlers`...FIXME
+
+NOTE: `registerPartitionModificationsHandlers` is used when `KafkaController` is requested to <<initializeControllerContext, initializeControllerContext>> and process a <<TopicChange, TopicChange>> controller event.
+
+=== [[unregisterPartitionModificationsHandlers]] `unregisterPartitionModificationsHandlers` Internal Method
+
+[source, scala]
+----
+unregisterPartitionModificationsHandlers(topics: Seq[String]): Unit
+----
+
+`unregisterPartitionModificationsHandlers`...FIXME
+
+[NOTE]
+====
+`unregisterPartitionModificationsHandlers` is used when:
+
+* `KafkaController` is requested to <<onControllerResignation, onControllerResignation>>
+
+* `TopicDeletionManager` is requested to <<kafka-TopicDeletionManager.adoc#completeDeleteTopic, completeDeleteTopic>>
+====
+
+=== [[registerPartitionModificationsHandlers]] `registerPartitionModificationsHandlers` Internal Method
+
+[source, scala]
+----
+registerPartitionModificationsHandlers(topics: Seq[String]): Unit
+----
+
+`registerPartitionModificationsHandlers`...FIXME
+
+NOTE: `registerPartitionModificationsHandlers` is used when `KafkaController` is requested to <<initializeControllerContext, initializeControllerContext>> and process a <<TopicChange, TopicChange>> controller event.
+
+=== [[unregisterPartitionReassignmentIsrChangeHandlers]] `unregisterPartitionReassignmentIsrChangeHandlers` Internal Method
+
+[source, scala]
+----
+unregisterPartitionReassignmentIsrChangeHandlers(): Unit
+----
+
+`unregisterPartitionReassignmentIsrChangeHandlers`...FIXME
+
+NOTE: `unregisterPartitionReassignmentIsrChangeHandlers` is used exclusively when `KafkaController` is requested to <<onControllerResignation, onControllerResignation>>.
+
+=== [[readControllerEpochFromZooKeeper]] `readControllerEpochFromZooKeeper` Internal Method
+
+[source, scala]
+----
+readControllerEpochFromZooKeeper(): Unit
+----
+
+`readControllerEpochFromZooKeeper`...FIXME
+
+NOTE: `readControllerEpochFromZooKeeper` is used exclusively when `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>.
+
+=== [[removePartitionsFromReassignedPartitions]] `removePartitionsFromReassignedPartitions` Internal Method
+
+[source, scala]
+----
+removePartitionsFromReassignedPartitions(partitionsToBeRemoved: Set[TopicPartition]): Unit
+----
+
+`removePartitionsFromReassignedPartitions`...FIXME
+
+NOTE: `removePartitionsFromReassignedPartitions` is used when `KafkaController` is requested to <<onPartitionReassignment, onPartitionReassignment>> and <<maybeTriggerPartitionReassignment, maybeTriggerPartitionReassignment>>.
+
+=== [[removePartitionsFromPreferredReplicaElection]] `removePartitionsFromPreferredReplicaElection` Internal Method
+
+[source, scala]
+----
+removePartitionsFromPreferredReplicaElection(
+  partitionsToBeRemoved: Set[TopicPartition],
+  isTriggeredByAutoRebalance : Boolean): Unit
+----
+
+`removePartitionsFromPreferredReplicaElection`...FIXME
+
+NOTE: `removePartitionsFromPreferredReplicaElection` is used exclusively when `KafkaController` is requested to <<onPreferredReplicaElection, onPreferredReplicaElection>>.
+
+=== [[onPreferredReplicaElection]] `onPreferredReplicaElection` Internal Method
+
+[source, scala]
+----
+onPreferredReplicaElection(
+  partitions: Set[TopicPartition],
+  isTriggeredByAutoRebalance: Boolean = false): Unit
+----
+
+`onPreferredReplicaElection`...FIXME
+
+NOTE: `onPreferredReplicaElection` is used when `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>, <<checkAndTriggerAutoLeaderRebalance, checkAndTriggerAutoLeaderRebalance>> and process a <<PreferredReplicaLeaderElection, PreferredReplicaLeaderElection>> controller event.
+
+=== [[updateLeaderEpoch]] `updateLeaderEpoch` Internal Method
+
+[source, scala]
+----
+updateLeaderEpoch(partition: TopicPartition): Option[LeaderIsrAndControllerEpoch]
+----
+
+`updateLeaderEpoch`...FIXME
+
+NOTE: `updateLeaderEpoch` is used exclusively  when `KafkaController` is requested to <<updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>.
+
+=== [[moveReassignedPartitionLeaderIfRequired]] `moveReassignedPartitionLeaderIfRequired` Internal Method
+
+[source, scala]
+----
+moveReassignedPartitionLeaderIfRequired(
+  topicPartition: TopicPartition,
+  reassignedPartitionContext: ReassignedPartitionsContext): Unit
+----
+
+`moveReassignedPartitionLeaderIfRequired`...FIXME
+
+NOTE: `moveReassignedPartitionLeaderIfRequired` is used exclusively  when `KafkaController` is requested to <<onPartitionReassignment, onPartitionReassignment>>.

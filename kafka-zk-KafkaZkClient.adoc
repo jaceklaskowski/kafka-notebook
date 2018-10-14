@@ -74,3 +74,212 @@ createTopLevelPaths(): Unit
 `createTopLevelPaths`...FIXME
 
 NOTE: `createTopLevelPaths` is used when...FIXME
+
+=== [[updateBrokerInfoInZk]] `updateBrokerInfoInZk` Method
+
+[source, scala]
+----
+updateBrokerInfoInZk(brokerInfo: BrokerInfo): Unit
+----
+
+`updateBrokerInfoInZk`...FIXME
+
+NOTE: `updateBrokerInfoInZk` is used when...FIXME
+
+=== [[registerZNodeChildChangeHandler]] `registerZNodeChildChangeHandler` Method
+
+[source, scala]
+----
+registerZNodeChildChangeHandler(zNodeChildChangeHandler: ZNodeChildChangeHandler): Unit
+----
+
+`registerZNodeChildChangeHandler`...FIXME
+
+NOTE: `registerZNodeChildChangeHandler` is used when...FIXME
+
+=== [[registerZNodeChangeHandlerAndCheckExistence]] `registerZNodeChangeHandlerAndCheckExistence` Method
+
+[source, scala]
+----
+registerZNodeChangeHandlerAndCheckExistence(zNodeChangeHandler: ZNodeChangeHandler): Boolean
+----
+
+`registerZNodeChangeHandlerAndCheckExistence`...FIXME
+
+NOTE: `registerZNodeChangeHandlerAndCheckExistence` is used when...FIXME
+
+=== [[deleteLogDirEventNotifications]] `deleteLogDirEventNotifications` Method
+
+[source, scala]
+----
+deleteLogDirEventNotifications(): Unit
+----
+
+`deleteLogDirEventNotifications`...FIXME
+
+NOTE: `deleteLogDirEventNotifications` is used when...FIXME
+
+=== [[deleteIsrChangeNotifications]] `deleteIsrChangeNotifications` Method
+
+[source, scala]
+----
+deleteIsrChangeNotifications(): Unit
+----
+
+`deleteIsrChangeNotifications`...FIXME
+
+NOTE: `deleteIsrChangeNotifications` is used when...FIXME
+
+=== [[unregisterZNodeChildChangeHandler]] `unregisterZNodeChildChangeHandler` Method
+
+[source, scala]
+----
+unregisterZNodeChildChangeHandler(path: String): Unit
+----
+
+`unregisterZNodeChildChangeHandler`...FIXME
+
+NOTE: `unregisterZNodeChildChangeHandler` is used when...FIXME
+
+=== [[unregisterZNodeChangeHandler]] `unregisterZNodeChangeHandler` Method
+
+[source, scala]
+----
+unregisterZNodeChangeHandler(path: String): Unit
+----
+
+`unregisterZNodeChangeHandler`...FIXME
+
+NOTE: `unregisterZNodeChangeHandler` is used when...FIXME
+
+=== [[setControllerEpochRaw]] `setControllerEpochRaw` Method
+
+[source, scala]
+----
+setControllerEpochRaw(epoch: Int, epochZkVersion: Int): SetDataResponse
+----
+
+`setControllerEpochRaw`...FIXME
+
+NOTE: `setControllerEpochRaw` is used when...FIXME
+
+=== [[createControllerEpochRaw]] `createControllerEpochRaw` Method
+
+[source, scala]
+----
+createControllerEpochRaw(epoch: Int): CreateResponse
+----
+
+`createControllerEpochRaw`...FIXME
+
+NOTE: `createControllerEpochRaw` is used when...FIXME
+
+=== [[getAllBrokersInCluster]] `getAllBrokersInCluster` Method
+
+[source, scala]
+----
+getAllBrokersInCluster: Seq[Broker]
+----
+
+`getAllBrokersInCluster`...FIXME
+
+NOTE: `getAllBrokersInCluster` is used when...FIXME
+
+=== [[getAllTopicsInCluster]] `getAllTopicsInCluster` Method
+
+[source, scala]
+----
+getAllTopicsInCluster: Seq[String]
+----
+
+`getAllTopicsInCluster`...FIXME
+
+NOTE: `getAllTopicsInCluster` is used when...FIXME
+
+=== [[getReplicaAssignmentForTopics]] `getReplicaAssignmentForTopics` Method
+
+[source, scala]
+----
+getReplicaAssignmentForTopics(topics: Set[String]): Map[TopicPartition, Seq[Int]]
+----
+
+`getReplicaAssignmentForTopics`...FIXME
+
+NOTE: `getReplicaAssignmentForTopics` is used when...FIXME
+
+=== [[getPartitionReassignment]] `getPartitionReassignment` Method
+
+[source, scala]
+----
+getPartitionReassignment: collection.Map[TopicPartition, Seq[Int]]
+----
+
+`getPartitionReassignment`...FIXME
+
+NOTE: `getPartitionReassignment` is used when...FIXME
+
+=== [[getTopicDeletions]] `getTopicDeletions` Method
+
+[source, scala]
+----
+getTopicDeletions: Seq[String]
+----
+
+`getTopicDeletions`...FIXME
+
+NOTE: `getTopicDeletions` is used when...FIXME
+
+=== [[getTopicPartitionStates]] `getTopicPartitionStates` Method
+
+[source, scala]
+----
+getTopicPartitionStates(partitions: Seq[TopicPartition]): Map[TopicPartition, LeaderIsrAndControllerEpoch]
+----
+
+`getTopicPartitionStates`...FIXME
+
+NOTE: `getTopicPartitionStates` is used when...FIXME
+
+=== [[registerZNodeChangeHandler]] `registerZNodeChangeHandler` Method
+
+[source, scala]
+----
+registerZNodeChangeHandler(zNodeChangeHandler: ZNodeChangeHandler): Unit
+----
+
+`registerZNodeChangeHandler`...FIXME
+
+NOTE: `registerZNodeChangeHandler` is used when...FIXME
+
+=== [[getControllerEpoch]] `getControllerEpoch` Method
+
+[source, scala]
+----
+getControllerEpoch: Option[(Int, Stat)]
+----
+
+`getControllerEpoch`...FIXME
+
+NOTE: `getControllerEpoch` is used when...FIXME
+
+=== [[deletePartitionReassignment]] `deletePartitionReassignment` Method
+
+[source, scala]
+----
+deletePartitionReassignment(): Unit
+----
+
+`deletePartitionReassignment`...FIXME
+
+NOTE: `deletePartitionReassignment` is used when...FIXME
+
+=== [[setOrCreatePartitionReassignment]] `setOrCreatePartitionReassignment` Method
+
+[source, scala]
+----
+setOrCreatePartitionReassignment(reassignment: collection.Map[TopicPartition, Seq[Int]]): Unit
+----
+
+`setOrCreatePartitionReassignment`...FIXME
+
+NOTE: `setOrCreatePartitionReassignment` is used when...FIXME

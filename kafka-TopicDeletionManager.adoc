@@ -117,3 +117,14 @@ onTopicDeletion(topics: Set[String]): Unit
 `onTopicDeletion`...FIXME
 
 NOTE: `onTopicDeletion` is used when...FIXME
+
+=== [[completeDeleteTopic]] `completeDeleteTopic` Internal Method
+
+[source, scala]
+----
+completeDeleteTopic(topic: String): Unit
+----
+
+`completeDeleteTopic`...FIXME
+
+NOTE: `completeDeleteTopic` is used when...FIXME
