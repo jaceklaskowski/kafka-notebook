@@ -1,42 +1,106 @@
 == [[ControllerEvent]] ControllerEvent
 
-`ControllerEvent` is the <<contract, contract>> of events in the lifecycle of link:kafka-KafkaController.adoc[KafkaController] state machine that, once link:kafka-ControllerEventManager.adoc#put[emitted], triggers <<state, state>> change and the corresponding <<process, process>> action.
+`ControllerEvent` is the <<contract, contract>> of the <<implementations, events>> in the lifecycle of <<kafka-KafkaController.adoc#, KafkaController>> (state machine) that trigger <<state, state>> change with the corresponding <<process, process>> action.
 
-[source, scala]
-----
-package kafka.controller
-
-sealed trait ControllerEvent {
-  def state: ControllerState
-  def process(): Unit
-}
-----
-
-NOTE: `ControllerEvent` is a Scala sealed trait and so all the available events are in a single compilation unit (i.e. a file).
+`ControllerEvent` events are managed by <<kafka-ControllerEventManager.adoc#, ControllerEventManager>>.
 
 [[contract]]
 .ControllerEvent Contract
-[cols="1,2",options="header",width="100%"]
+[cols="1m,2",options="header",width="100%"]
 |===
 | Method
 | Description
 
-| [[state]] `state`
-| `ControllerState` of the link:kafka-ControllerEventManager.adoc#_state[ControllerEventManager]
+| state
+a| [[state]]
 
-Used when `ControllerEventThread` link:kafka-ControllerEventThread.adoc#doWork[does the work]
+[source, scala]
+----
+state: ControllerState
+----
 
-| [[process]] `process`
-| Used when `ControllerEventThread` link:kafka-ControllerEventThread.adoc#doWork[does the work] to trigger an action associated with <<state, state>> change.
+The requested <<kafka-ControllerEventManager.adoc#_state, ControllerState>> of the <<kafka-ControllerEventManager.adoc, ControllerEventManager>> (that `ControllerEventThread` sets while <<kafka-ControllerEventThread.adoc#doWork, processing the controller event>>)
+
+| process
+a| [[process]]
+
+[source, scala]
+----
+process(): Unit
+----
+
+The action to execute when `ControllerEventThread` is requested to <<kafka-ControllerEventThread.adoc#doWork, process the controller event>>
 |===
 
-[[known-events]]
-.Known ControllerEvents
+[[implementations]]
+.ControllerEvents
 [cols="1,2",options="header",width="100%"]
 |===
 | ControllerEvent
-| ControllerState
+| Description
 
-| [[TopicDeletion]] link:kafka-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
-| `TopicDeletion`
+| AutoPreferredReplicaLeaderElection
+| [[AutoPreferredReplicaLeaderElection]]
+
+| BrokerChange
+| [[BrokerChange]]
+
+| BrokerModifications
+| [[BrokerModifications]]
+
+| ControlledShutdown
+| [[ControlledShutdown]]
+
+| ControllerChange
+| [[ControllerChange]]
+
+| Expire
+| [[Expire]]
+
+| IsrChangeNotification
+| [[IsrChangeNotification]]
+
+| LeaderAndIsrResponseReceived
+| [[LeaderAndIsrResponseReceived]]
+
+| LogDirEventNotification
+| [[LogDirEventNotification]]
+
+| PartitionModifications
+| [[PartitionModifications]]
+
+| PartitionReassignment
+| [[PartitionReassignment]]
+
+| PartitionReassignmentIsrChange
+| [[PartitionReassignmentIsrChange]]
+
+| PreferredReplicaLeaderElection
+| [[PreferredReplicaLeaderElection]]
+
+| Reelect
+| [[Reelect]]
+
+| RegisterBrokerAndReelect
+| [[RegisterBrokerAndReelect]]
+
+| ShutdownEventThread
+| [[ShutdownEventThread]]
+
+| Startup
+| [[Startup]]
+
+| TopicChange
+| [[TopicChange]]
+
+| TopicDeletion
+| [[TopicDeletion]]
+
+| TopicDeletionStopReplicaResponseReceived
+| [[TopicDeletionStopReplicaResponseReceived]]
+
+| UncleanLeaderElectionEnable
+| [[UncleanLeaderElectionEnable]]
 |===
+
+NOTE: `ControllerEvent` is a Scala sealed trait and so all the available events are in a single compilation unit (i.e. a file).

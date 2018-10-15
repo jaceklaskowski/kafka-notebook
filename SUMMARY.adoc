@@ -46,10 +46,10 @@
 . link:kafka-KafkaConfig.adoc[KafkaConfig]
 
 . link:kafka-KafkaController.adoc[KafkaController]
-.. link:kafka-ControllerEventManager.adoc[ControllerEventManager]
-.. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
 .. link:kafka-ControllerEvent.adoc[ControllerEvent]
 ... link:kafka-ControllerEvent-TopicDeletion.adoc[TopicDeletion Controller Event]
+.. link:kafka-ControllerEventManager.adoc[ControllerEventManager]
+.. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
 .. link:kafka-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
 
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]

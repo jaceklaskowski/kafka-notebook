@@ -11,7 +11,7 @@ Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Inter
 
 > In a Kafka cluster, one of the brokers serves as the controller, which is responsible for managing the states of partitions and replicas and for performing administrative tasks like reassigning partitions.
 
-`KafkaController` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
+`KafkaController` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
 
 .KafkaController
 image::images/KafkaController.png[align="center"]
@@ -476,7 +476,7 @@ shutdown(): Unit
 
 `shutdown`...FIXME
 
-NOTE: `shutdown` is used when...FIXME
+NOTE: `shutdown` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#shutdown, shutdown>>.
 
 === [[updateMetrics]] `updateMetrics` Internal Method
 

@@ -26,7 +26,14 @@ CAUTION: FIXME
 
 === [[shutdown]] `shutdown` Method
 
-CAUTION: FIXME
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown`...FIXME
+
+NOTE: `shutdown` is used exclusively when `Kafka` standalone application is requested to "shut down" (as part of the <<kafka-Kafka.adoc#main, kafka-shutdown-hook>> shutdown hook).
 
 === [[creating-instance]] Creating KafkaServerStartable Instance
 

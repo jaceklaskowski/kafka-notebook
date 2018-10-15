@@ -297,7 +297,7 @@ createReplicaManager(isShuttingDown: AtomicBoolean): ReplicaManager
 
 NOTE: `createReplicaManager` is used exclusively when `KafkaServer` is requested to <<startup, start up>>.
 
-=== [[shutdown]] `shutdown` Method
+=== [[shutdown]] Shutting Down -- `shutdown` Method
 
 [source, scala]
 ----
@@ -306,7 +306,14 @@ shutdown(): Unit
 
 `shutdown`...FIXME
 
-NOTE: `shutdown` is used when...FIXME
+[NOTE]
+====
+`shutdown` is used when:
+
+* `KafkaServer` is requested to <<startup, startup>> (and there was an exception)
+
+* `KafkaServerStartable` is requested to <<kafka-KafkaServerStartable.adoc#shutdown, shutdown>>
+====
 
 === [[initZkClient]] `initZkClient` Internal Method
 
