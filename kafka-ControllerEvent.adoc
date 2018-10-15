@@ -87,13 +87,13 @@ The action to execute when `ControllerEventThread` is requested to <<kafka-Contr
 | ShutdownEventThread
 | [[ShutdownEventThread]]
 
-| Startup
+| <<kafka-ControllerEvent-Startup.adoc#, Startup>>
 | [[Startup]]
 
 | TopicChange
 | [[TopicChange]]
 
-| TopicDeletion
+| <<kafka-ControllerEvent-TopicDeletion.adoc#, TopicDeletion>>
 | [[TopicDeletion]]
 
 | TopicDeletionStopReplicaResponseReceived

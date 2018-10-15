@@ -45,7 +45,7 @@ a| [[_state]] The current `ControllerState`
 
 `ControllerEventManager` initializes the <<internal-registries, internal registries and counters>>.
 
-=== [[put]] Enqueuing Controller Event -- `put` Method
+=== [[put]] Emitting (Enqueuing) Controller Event -- `put` Method
 
 [source, scala]
 ----

@@ -155,6 +155,15 @@ a| [[activeControllerId]] The ID of the active `KafkaController`
 
 * Initialized to `-1`
 
+| controllerChangeHandler
+a| [[controllerChangeHandler]] A `ZNodeChangeHandler` (for the `KafkaController` and the <<eventManager, ControllerEventManager>>) that listens to change events on `/controller` znode.
+
+`controllerChangeHandler` <<kafka-ControllerEventManager.adoc#put, emits controller events>> as follows:
+
+* `ControllerChange` when the znode is created or the znode data changed
+
+* `Reelect` when the znode is deleted
+
 | controllerContext
 | [[controllerContext]]
 
