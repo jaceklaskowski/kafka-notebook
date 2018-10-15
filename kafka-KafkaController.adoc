@@ -502,16 +502,24 @@ onBrokerStartup(newBrokers: Seq[Int]): Unit
 
 NOTE: `onBrokerStartup` is used exclusively when `KafkaController` processes `BrokerChange` controller event.
 
-=== [[elect]] `elect` Method
+=== [[elect]] Controller Election -- `elect` Method
 
 [source, scala]
 ----
 elect(): Unit
 ----
 
+`elect` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getControllerId, active controller ID>> (or defaults to `-1`).
+
 `elect`...FIXME
 
-NOTE: `elect` is used when `KafkaController` enters `Startup` and `Reelect` states.
+`elect` quits if there is an active controller ID available with the following DEBUG message to the logs:
+
+```
+Broker [activeControllerId] has been elected as the controller, so stopping the election process.
+```
+
+NOTE: `elect` is used when `ControllerEventThread` is requested to <<kafka-ControllerEventThread.adoc#doWork, process controller events>> (and processes <<kafka-ControllerEvent.adoc#Startup, Startup>> and <<kafka-ControllerEvent.adoc#Reelect, Reelect>> events).
 
 === [[isActive]] `isActive` Method
 

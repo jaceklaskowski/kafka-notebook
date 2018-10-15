@@ -337,3 +337,14 @@ Connecting to zookeeper on [zkConnect]
 In the end, `initZkClient` requests the <<_zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#createTopLevelPaths, createTopLevelPaths>>.
 
 NOTE: `initZkClient` is used exclusively when `KafkaServer` is requested to <<startup, start up>>.
+
+=== [[controlledShutdown]] `controlledShutdown` Internal Method
+
+[source, scala]
+----
+controlledShutdown(): Unit
+----
+
+`controlledShutdown`...FIXME
+
+NOTE: `controlledShutdown` is used when...FIXME

@@ -283,3 +283,29 @@ setOrCreatePartitionReassignment(reassignment: collection.Map[TopicPartition, Se
 `setOrCreatePartitionReassignment`...FIXME
 
 NOTE: `setOrCreatePartitionReassignment` is used when...FIXME
+
+=== [[getControllerId]] Getting Active Controller ID -- `getControllerId` Method
+
+[source, scala]
+----
+getControllerId: Option[Int]
+----
+
+`getControllerId` sends a request to Zookeeper for the data of the `/controller` znode and returns the following:
+
+* The `brokerid` field of the JSON data when the response is `OK`
+
+* `None` for a `NONODE` response
+
+* Throws a `KeeperException` with the response code and the `/controller` path
+
+[NOTE]
+====
+`getControllerId` is used when:
+
+* `KafkaController` is requested to <<kafka-KafkaController.adoc#elect, elect>>
+
+* `ControllerEventThread` is requested to <<kafka-ControllerEventThread.adoc#doWork, process controller events>> (and processes <<kafka-ControllerEvent.adoc#ControllerChange, ControllerChange>> and <<kafka-ControllerEvent.adoc#Reelect, Reelect>> events)
+
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#controlledShutdown, perform a controlled shutdown>>
+====
