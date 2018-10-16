@@ -1,6 +1,13 @@
 == [[DynamicListenerConfig]] DynamicListenerConfig
 
-`DynamicListenerConfig` is...FIXME
+`DynamicListenerConfig` is a <<kafka-server-BrokerReconfigurable.adoc#, BrokerReconfigurable>> for...FIXME
+
+[[reconfigurableConfigs]]
+When requested for the <<kafka-server-BrokerReconfigurable.adoc#reconfigurableConfigs, reconfigurableConfigs>>, `DynamicListenerConfig` gives the following:
+
+* <<kafka-properties.adoc#advertised.listeners, advertised.listeners>>
+
+* FIXME
 
 === [[reconfigure]] `reconfigure` Method
 

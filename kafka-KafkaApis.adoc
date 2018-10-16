@@ -15,6 +15,9 @@ image::images/KafkaApis.png[align="center"]
 | Key
 | Handler
 
+| [[AlterConfigs]] `AlterConfigs`
+| <<handleAlterConfigsRequest, handleAlterConfigsRequest>>
+
 | [[AlterReplicaLogDirs]] `AlterReplicaLogDirs`
 | <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
 
@@ -122,7 +125,7 @@ handleLeaderAndIsrRequest(request: RequestChannel.Request): Unit
 
 `handleLeaderAndIsrRequest`...FIXME
 
-NOTE: `handleLeaderAndIsrRequest` is used exclusively to when `KafkaApis` is requested to handle a <<LeaderAndIsr, LeaderAndIsr>> request.
+NOTE: `handleLeaderAndIsrRequest` is used exclusively when `KafkaApis` is requested to handle a <<LeaderAndIsr, LeaderAndIsr>> request.
 
 === [[handleAlterReplicaLogDirsRequest]] Handling AlterReplicaLogDirs Request -- `handleAlterReplicaLogDirsRequest` Handler
 
@@ -133,7 +136,7 @@ handleAlterReplicaLogDirsRequest(request: RequestChannel.Request): Unit
 
 `handleAlterReplicaLogDirsRequest`...FIXME
 
-NOTE: `handleAlterReplicaLogDirsRequest` is used exclusively to handle <<AlterReplicaLogDirs, AlterReplicaLogDirs>> requests.
+NOTE: `handleAlterReplicaLogDirsRequest` is used exclusively when `KafkaApis` is requested to handle a <<AlterReplicaLogDirs, AlterReplicaLogDirs>> request.
 
 === [[handleCreateTopicsRequest]] Handling CreateTopics Request -- `handleCreateTopicsRequest` Handler
 
@@ -150,7 +153,7 @@ handleCreateTopicsRequest(request: RequestChannel.Request): Unit
 
 In the end, `handleCreateTopicsRequest` requests <<adminManager, AdminManager>> to link:kafka-AdminManager.adoc#createTopics[create the topics].
 
-NOTE: `handleCreateTopicsRequest` is used exclusively to handle <<CreateTopics, CreateTopics>> requests.
+NOTE: `handleCreateTopicsRequest` is used exclusively when `KafkaApis` is requested to handle a <<CreateTopics, CreateTopics>> request.
 
 === [[handleOffsetFetchRequest]] Handling OffsetFetch Request -- `handleOffsetFetchRequest` Handler
 
@@ -161,7 +164,7 @@ handleOffsetFetchRequest(request: RequestChannel.Request): Unit
 
 `handleOffsetFetchRequest`...FIXME
 
-NOTE: `handleOffsetFetchRequest` is used exclusively to handle <<OffsetFetch, OffsetFetch>> requests.
+NOTE: `handleOffsetFetchRequest` is used exclusively when `KafkaApis` is requested to handle a <<OffsetFetch, OffsetFetch>> request.
 
 === [[handleFetchRequest]] Handling Fetch Request -- `handleFetchRequest` Handler
 
@@ -172,7 +175,7 @@ handleFetchRequest(request: RequestChannel.Request): Unit
 
 `handleFetchRequest`...FIXME
 
-NOTE: `handleFetchRequest` is used exclusively to handle <<Fetch, Fetch>> requests.
+NOTE: `handleFetchRequest` is used exclusively when `KafkaApis` is requested to handle a <<Fetch, Fetch>> request.
 
 === [[handleTopicMetadataRequest]] Handling Metadata Request -- `handleTopicMetadataRequest` Method
 
@@ -185,7 +188,7 @@ handleTopicMetadataRequest(request: RequestChannel.Request): Unit
 
 CAUTION: FIXME
 
-NOTE: `handleTopicMetadataRequest` is used exclusively to handle <<Metadata, Metadata>> requests.
+NOTE: `handleTopicMetadataRequest` is used exclusively when `KafkaApis` is requested to handle a <<Metadata, Metadata>> request.
 
 === [[authorize]] `authorize` Internal Method
 
@@ -312,7 +315,7 @@ NOTE: `handleDescribeLogDirsRequest` returns an empty list of log directories wh
 
 In the end, `handleDescribeLogDirsRequest` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with a `DescribeLogDirsResponse` and the `LogDirInfos`.
 
-NOTE: `handleDescribeLogDirsRequest` is used exclusively to when `KafkaApis` is requested to handle a <<DescribeLogDirs, DescribeLogDirs>> request.
+NOTE: `handleDescribeLogDirsRequest` is used exclusively when `KafkaApis` is requested to handle a <<DescribeLogDirs, DescribeLogDirs>> request.
 
 === [[sendResponseMaybeThrottle]] `sendResponseMaybeThrottle` Internal Method
 
@@ -363,7 +366,7 @@ handleStopReplicaRequest(request: RequestChannel.Request): Unit
 
 `handleStopReplicaRequest`...FIXME
 
-NOTE: `handleStopReplicaRequest` is used exclusively to when `KafkaApis` is requested to handle a <<StopReplica, StopReplica>> request.
+NOTE: `handleStopReplicaRequest` is used exclusively when `KafkaApis` is requested to handle a <<StopReplica, StopReplica>> request.
 
 === [[handleUpdateMetadataRequest]] Handling UpdateMetadata Request -- `handleUpdateMetadataRequest` Handler
 
@@ -374,7 +377,7 @@ handleUpdateMetadataRequest(request: RequestChannel.Request): Unit
 
 `handleUpdateMetadataRequest`...FIXME
 
-NOTE: `handleUpdateMetadataRequest` is used exclusively to when `KafkaApis` is requested to handle a <<UpdateMetadata, UpdateMetadata>> request.
+NOTE: `handleUpdateMetadataRequest` is used exclusively when `KafkaApis` is requested to handle a <<UpdateMetadata, UpdateMetadata>> request.
 
 === [[handleOffsetCommitRequest]] Handling OffsetCommit Request -- `handleOffsetCommitRequest` Handler
 
@@ -385,7 +388,7 @@ handleOffsetCommitRequest(request: RequestChannel.Request): Unit
 
 `handleOffsetCommitRequest`...FIXME
 
-NOTE: `handleOffsetCommitRequest` is used exclusively to when `KafkaApis` is requested to handle a <<OffsetCommit, OffsetCommit>> request.
+NOTE: `handleOffsetCommitRequest` is used exclusively when `KafkaApis` is requested to handle a <<OffsetCommit, OffsetCommit>> request.
 
 === [[createInternalTopic]] `createInternalTopic` Internal Method
 
@@ -439,4 +442,15 @@ handleDescribeGroupRequest(request: RequestChannel.Request): Unit
 
 `handleDescribeGroupRequest`...FIXME
 
-NOTE: `handleDescribeGroupRequest` is used exclusively to when `KafkaApis` is requested to handle a <<DescribeGroups, DescribeGroups>> request.
+NOTE: `handleDescribeGroupRequest` is used exclusively when `KafkaApis` is requested to handle a <<DescribeGroups, DescribeGroups>> request.
+
+=== [[handleAlterConfigsRequest]] Handling DescribeGroups Request -- `handleAlterConfigsRequest` Handler
+
+[source, scala]
+----
+handleAlterConfigsRequest(request: RequestChannel.Request): Unit
+----
+
+`handleAlterConfigsRequest`...FIXME
+
+NOTE: `handleAlterConfigsRequest` is used exclusively when `KafkaApis` is requested to handle a <<AlterConfigs, AlterConfigs>> request.

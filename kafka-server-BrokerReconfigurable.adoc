@@ -1,21 +1,10 @@
 == [[BrokerReconfigurable]] BrokerReconfigurable Contract -- Reconfigurable Broker Services
 
-`BrokerReconfigurable` is the <<contract, contract>> of <<implementations, reconfigurable broker services>> that allow for <<reconfigure, reconfiguration>>.
+`BrokerReconfigurable` is the <<contract, contract>> of <<implementations, reconfigurable broker services>> that allow for <<reconfigure, self-reconfiguration>>.
 
 `BrokerReconfigurable` interface is used exclusively by <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>>.
 
 [[contract]]
-[source, scala]
-----
-package kafka.server
-
-trait BrokerReconfigurable {
-  def reconfigurableConfigs: Set[String]
-  def reconfigure(oldConfig: KafkaConfig, newConfig: KafkaConfig): Unit
-  def validateReconfiguration(newConfig: KafkaConfig): Unit
-}
-----
-
 .BrokerReconfigurable Contract
 [cols="1m,2",options="header",width="100%"]
 |===
@@ -23,17 +12,32 @@ trait BrokerReconfigurable {
 | Description
 
 | reconfigurableConfigs
-| [[reconfigurableConfigs]]
+a| [[reconfigurableConfigs]]
+
+[source, scala]
+----
+reconfigurableConfigs: Set[String]
+----
 
 Used when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#addBrokerReconfigurable, addBrokerReconfigurable>> and <<kafka-server-DynamicBrokerConfig.adoc#processReconfiguration, processReconfiguration>>
 
 | reconfigure
-| [[reconfigure]]
+a| [[reconfigure]]
+
+[source, scala]
+----
+reconfigure(oldConfig: KafkaConfig, newConfig: KafkaConfig): Unit
+----
 
 Used exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#updateCurrentConfig, updateCurrentConfig>>
 
 | validateReconfiguration
-| [[validateReconfiguration]]
+a| [[validateReconfiguration]]
+
+[source, scala]
+----
+validateReconfiguration(newConfig: KafkaConfig): Unit
+----
 
 Used exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#processReconfiguration, processReconfiguration>>
 |===

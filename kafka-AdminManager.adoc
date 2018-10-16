@@ -91,7 +91,7 @@ alterConfigs(
 
 `alterConfigs`...FIXME
 
-NOTE: `alterConfigs` is used when...FIXME
+NOTE: `alterConfigs` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleAlterConfigsRequest, handleAlterConfigsRequest>>.
 
 === [[configSynonyms]] `configSynonyms` Internal Method
 

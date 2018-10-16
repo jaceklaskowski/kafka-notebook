@@ -4,9 +4,18 @@
 
 ```
 ./bin/kafka-configs.sh \
-  --zookeeper localhost:2181 \
   --alter \
+  --zookeeper localhost:2181 \
   --entity-type topics \
   --entity-name test \
   --add-config retention.ms=5000
+```
+
+```
+./bin/kafka-configs.sh \
+  --alter \
+  --bootstrap-server localhost:9092 \
+  --entity-type brokers \
+  --entity-name 0 \
+  --add-config advertised.listeners=PLAINTEXT://localhost:9092
 ```
