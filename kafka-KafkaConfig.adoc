@@ -26,6 +26,11 @@ Used exclusively when `KafkaController` is requested to <<kafka-KafkaController.
 | brokerId
 | [[brokerId]] <<kafka-properties.adoc#broker.id, broker.id>>
 
+| brokerIdGenerationEnable
+a| [[brokerIdGenerationEnable]] <<kafka-properties.adoc#broker.id.generation.enable, broker.id.generation.enable>>
+
+Used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#getBrokerIdAndOfflineDirs, getBrokerIdAndOfflineDirs>>
+
 | deleteTopicEnable
 | [[deleteTopicEnable]] link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable]
 
@@ -56,6 +61,11 @@ Used when:
 * `KafkaServer` is <<kafka-KafkaServer.adoc#brokerMetadataCheckpoints, created>> and is requested to <<kafka-KafkaServer.adoc#getBrokerIdAndOfflineDirs, getBrokerIdAndOfflineDirs>> and <<kafka-KafkaServer.adoc#checkpointBrokerId, checkpointBrokerId>>
 
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#describeLogDirs, describeLogDirs>>
+
+| maxReservedBrokerId
+a| [[maxReservedBrokerId]] <<kafka-properties.adoc#reserved.broker.max.id, reserved.broker.max.id>>
+
+Used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#generateBrokerId, generateBrokerId>>
 
 | numNetworkThreads
 | [[numNetworkThreads]] link:kafka-properties.adoc#num.network.threads[num.network.threads]

@@ -40,6 +40,14 @@ If unset, a unique broker id will be generated. To avoid conflicts between zooke
 
 Use <<kafka-KafkaConfig.adoc#brokerId, KafkaConfig.brokerId>> to access the current value.
 
+| broker.id.generation.enable
+| `true`
+a| [[broker.id.generation.enable]] Enables *automatic broker id generation* on the server. When enabled (`true`) the value configured for <<reserved.broker.max.id, reserved.broker.max.id>> should be checked.
+
+* Use `KafkaConfig.BrokerIdGenerationEnableProp` to reference the property
+
+* Use <<kafka-KafkaConfig.adoc#brokerIdGenerationEnable, KafkaConfig.brokerIdGenerationEnable>> to access the current value
+
 | background.threads
 | `10`
 | [[background.threads]] The number of threads to use for various background processing tasks
@@ -233,8 +241,12 @@ A typical scenario would be to create a topic with a replication factor of 3, se
 | [[replica.socket.timeout.ms]]
 
 | reserved.broker.max.id
-| `-1`
-| [[reserved.broker.max.id]]
+| `1000`
+| [[reserved.broker.max.id]] Maximum number that can be used for <<broker.id, broker.id>>. Has to be at least `0`.
+
+* Use `KafkaConfig.MaxReservedBrokerIdProp` to reference the property
+
+* Use <<kafka-KafkaConfig.adoc#maxReservedBrokerId, KafkaConfig.maxReservedBrokerId>> to access the current value
 
 | link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
 |

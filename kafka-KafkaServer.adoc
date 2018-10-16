@@ -131,17 +131,6 @@ Used when...FIXME
 | link:kafka-ZkUtils.adoc[ZkUtils]
 |===
 
-=== [[getBrokerIdAndOfflineDirs]] Getting Broker ID and Initial Offline Directories -- `getBrokerIdAndOfflineDirs` Internal Method
-
-[source, scala]
-----
-getBrokerIdAndOfflineDirs: (Int, Seq[String])
-----
-
-`getBrokerIdAndOfflineDirs`...FIXME
-
-NOTE: `getBrokerIdAndOfflineDirs` is used when...FIXME
-
 === [[getOrGenerateClusterId]] `getOrGenerateClusterId` Internal Method
 
 CAUTION: FIXME
@@ -350,3 +339,25 @@ For every directory in <<kafka-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> t
 Unless the `meta.properties` file was already available, `checkpointBrokerId` requests the `BrokerMetadataCheckpoints` (of the log directories with no meta files) to `write` the broker metadata.
 
 NOTE: `checkpointBrokerId` is used exclusively when `KafkaServer` is requested to <<startup, start up>>.
+
+=== [[getBrokerIdAndOfflineDirs]] Getting Broker ID and Initial Offline Directories -- `getBrokerIdAndOfflineDirs` Internal Method
+
+[source, scala]
+----
+getBrokerIdAndOfflineDirs: (Int, Seq[String])
+----
+
+`getBrokerIdAndOfflineDirs`...FIXME
+
+NOTE: `getBrokerIdAndOfflineDirs` is used exclusively when `KafkaServer` is requested to <<startup, start up>>.
+
+=== [[generateBrokerId]] `generateBrokerId` Internal Method
+
+[source, scala]
+----
+generateBrokerId: Int
+----
+
+`generateBrokerId`...FIXME
+
+NOTE: `generateBrokerId` is used exclusively when `KafkaServer` is requested to <<getBrokerIdAndOfflineDirs, getBrokerIdAndOfflineDirs>>.
