@@ -309,3 +309,14 @@ getControllerId: Option[Int]
 
 * `KafkaServer` is requested to <<kafka-KafkaServer.adoc#controlledShutdown, perform a controlled shutdown>>
 ====
+
+=== [[checkedEphemeralCreate]] Creating Ephemeral Znode (And Throwing Exception When Unsuccessful)-- `checkedEphemeralCreate` Method
+
+[source, scala]
+----
+checkedEphemeralCreate(path: String, data: Array[Byte]): Unit
+----
+
+`checkedEphemeralCreate`...FIXME
+
+NOTE: `checkedEphemeralCreate` is used when...FIXME

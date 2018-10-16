@@ -1,6 +1,8 @@
 == [[KafkaController]] KafkaController
 
-`KafkaController` is a Kafka service that is part of every Kafka broker, but only one `KafkaController` is <<isActive, active>> among all Kafka brokers in a Kafka cluster.
+`KafkaController` is a Kafka service that is part of every Kafka broker, but only one `KafkaController` is <<isActive, active>> (_elected_) among all Kafka brokers in a Kafka cluster.
+
+The process of choosing the KafkaController among brokers is <<elect, Controller Election>>.
 
 `KafkaController` is a Kafka service responsible for:
 
@@ -509,17 +511,57 @@ NOTE: `onBrokerStartup` is used exclusively when `KafkaController` processes `Br
 elect(): Unit
 ----
 
-`elect` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getControllerId, active controller ID>> (or defaults to `-1`).
+`elect` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getControllerId, active controller ID>>.
 
-`elect`...FIXME
-
-`elect` quits if there is an active controller ID available with the following DEBUG message to the logs:
+`elect` stops the controller election if there is an active controller ID available and prints out the following DEBUG message to the logs:
 
 ```
 Broker [activeControllerId] has been elected as the controller, so stopping the election process.
 ```
 
-NOTE: `elect` is used when `ControllerEventThread` is requested to <<kafka-ControllerEventThread.adoc#doWork, process controller events>> (and processes <<kafka-ControllerEvent.adoc#Startup, Startup>> and <<kafka-ControllerEvent.adoc#Reelect, Reelect>> events).
+Otherwise, `elect` requests the <<zkClient, KafkaZkClient>> to <<checkedEphemeralCreate, create an ephemeral znode>> at `/controller` path with the znode data in JSON:
+
+```
+{"version":1,"brokerid":[brokerId],"timestamp":[timestamp]}
+```
+
+NOTE: `elect` always uses `1` for the version.
+
+==== Controller Elected
+
+If successful, `elect` prints out the following INFO message to the logs and records the current broker ID as the <<activeControllerId, activeControllerId>>.
+
+```
+[brokerId] successfully elected as the controller
+```
+
+In the end, `elect` does <<onControllerFailover, onControllerFailover>>.
+
+==== Controller Has Already Been Elected (NodeExistsException)
+
+If unsuccessful (and a `NodeExistsException` was reported), `elect` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getControllerId, active controller ID>>.
+
+`elect` then prints out the following DEBUG message to the logs:
+
+```
+Broker [activeControllerId] was elected as controller instead of broker [brokerId]
+```
+
+If however the active controller ID is still unavailable, `elect` prints out the following WARN message to the logs:
+
+```
+A controller has been elected but just resigned, this will result in another round of election
+```
+
+==== Other Errors (Throwable)
+
+If unsuccessful (and a `Throwable` was reported), `elect` prints out the following ERROR message to the logs and does <<triggerControllerMove, triggerControllerMove>>:
+
+```
+Error while electing or becoming controller on broker [brokerId]
+```
+
+NOTE: `elect` is used when `ControllerEventThread` is requested to process <<kafka-ControllerEvent.adoc#Startup, Startup>> and <<kafka-ControllerEvent.adoc#Reelect, Reelect>> events (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>).
 
 === [[isActive]] `isActive` Method
 
