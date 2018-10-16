@@ -795,17 +795,6 @@ onBrokerUpdate(updatedBrokerId: Int): Unit
 
 NOTE: `onBrokerUpdate` is used when...FIXME
 
-=== [[scheduleAutoLeaderRebalanceTask]] `scheduleAutoLeaderRebalanceTask` Internal Method
-
-[source, scala]
-----
-scheduleAutoLeaderRebalanceTask(delay: Long, unit: TimeUnit): Unit
-----
-
-`scheduleAutoLeaderRebalanceTask`...FIXME
-
-NOTE: `scheduleAutoLeaderRebalanceTask` is used when...FIXME
-
 === [[updateBrokerInfo]] `updateBrokerInfo` Internal Method
 
 [source, scala]
@@ -816,17 +805,6 @@ updateBrokerInfo(newBrokerInfo: BrokerInfo): Unit
 `updateBrokerInfo`...FIXME
 
 NOTE: `updateBrokerInfo` is used exclusively when `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#reconfigure, reconfigure>>.
-
-=== [[onControllerFailover]] `onControllerFailover` Internal Method
-
-[source, scala]
-----
-onControllerFailover(): Unit
-----
-
-`onControllerFailover`...FIXME
-
-NOTE: `onControllerFailover` is used exclusively when `KafkaController` is requested to <<elect, elect>>.
 
 === [[registerBrokerModificationsHandler]] `registerBrokerModificationsHandler` Internal Method
 
@@ -1084,3 +1062,49 @@ moveReassignedPartitionLeaderIfRequired(
 `moveReassignedPartitionLeaderIfRequired`...FIXME
 
 NOTE: `moveReassignedPartitionLeaderIfRequired` is used exclusively  when `KafkaController` is requested to <<onPartitionReassignment, onPartitionReassignment>>.
+
+=== [[onControllerFailover]] `onControllerFailover` Internal Method
+
+[source, scala]
+----
+onControllerFailover(): Unit
+----
+
+`onControllerFailover`...FIXME
+
+With <<kafka-properties.adoc#auto.leader.rebalance.enable, auto.leader.rebalance.enable>> on, `onControllerFailover` <<scheduleAutoLeaderRebalanceTask, scheduleAutoLeaderRebalanceTask>> with the delay of 5 seconds.
+
+`onControllerFailover`...FIXME
+
+NOTE: `onControllerFailover` is used exclusively when `KafkaController` is requested to <<elect, elect>>.
+
+=== [[scheduleAutoLeaderRebalanceTask]] `scheduleAutoLeaderRebalanceTask` Internal Method
+
+[source, scala]
+----
+scheduleAutoLeaderRebalanceTask(delay: Long, unit: TimeUnit): Unit
+----
+
+`scheduleAutoLeaderRebalanceTask` simply requests the <<kafkaScheduler, KafkaScheduler>> to <<kafka-KafkaScheduler.adoc#schedule, schedule a one-off task>> called *auto-leader-rebalance-task* with initial delay of 5 seconds.
+
+The `auto-leader-rebalance-task` simply requests the <<eventManager, ControllerEventManager>> to <<kafka-ControllerEventManager.adoc#put, enqueue a AutoPreferredReplicaLeaderElection event>>.
+
+[NOTE]
+====
+`scheduleAutoLeaderRebalanceTask` is used when:
+
+* `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>
+
+* `ControllerEventThread` is requested to process a <<kafka-ControllerEvent.adoc#AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>> event (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>).
+====
+
+=== [[checkAndTriggerAutoLeaderRebalance]] `checkAndTriggerAutoLeaderRebalance` Internal Method
+
+[source, scala]
+----
+checkAndTriggerAutoLeaderRebalance(): Unit
+----
+
+`checkAndTriggerAutoLeaderRebalance`...FIXME
+
+NOTE: `checkAndTriggerAutoLeaderRebalance` is used exclusively when `ControllerEventThread` is requested to process a <<kafka-ControllerEvent.adoc#AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>> event (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>).

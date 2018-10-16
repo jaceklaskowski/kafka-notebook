@@ -39,7 +39,7 @@ The action to execute when `ControllerEventThread` is requested to <<kafka-Contr
 | ControllerEvent
 | Description
 
-| AutoPreferredReplicaLeaderElection
+| <<kafka-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc#, AutoPreferredReplicaLeaderElection>>
 | [[AutoPreferredReplicaLeaderElection]]
 
 | BrokerChange

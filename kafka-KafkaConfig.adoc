@@ -15,6 +15,11 @@
 | Value
 | Kafka Property
 
+| autoLeaderRebalanceEnable
+a| [[autoLeaderRebalanceEnable]] <<kafka-properties.adoc#auto.leader.rebalance.enable, auto.leader.rebalance.enable>>
+
+Used exclusively when `KafkaController` is requested to <<kafka-KafkaController.adoc#onControllerFailover, onControllerFailover>>
+
 | backgroundThreads
 | [[backgroundThreads]] <<kafka-properties.adoc#background.threads, background.threads>>
 
@@ -26,6 +31,11 @@
 
 | hostName
 | [[hostName]] link:kafka-properties.adoc#host.name[host.name]
+
+| leaderImbalanceCheckIntervalSeconds
+a| [[leaderImbalanceCheckIntervalSeconds]] <<kafka-properties.adoc#leader.imbalance.check.interval.seconds, leader.imbalance.check.interval.seconds>>
+
+Used exclusively when `ControllerEventThread` is requested to process a <<kafka-ControllerEvent.adoc#AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>> event (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>)
 
 | listeners
 | [[listeners]] link:kafka-properties.adoc#listeners[listeners] (see <<getListeners, getListeners>>)

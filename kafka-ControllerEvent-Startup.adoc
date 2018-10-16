@@ -3,4 +3,5 @@
 [[state]]
 `Startup` is a <<kafka-ControllerEvent.adoc#, controller event>> that <<kafka-ControllerEvent.adoc#state, transition>> the <<kafka-KafkaController.adoc#, KafkaController>> to `ControllerChange` state.
 
+[[process]]
 When <<kafka-ControllerEvent.adoc#process, processed>>, `Startup` event requests the <<kafka-KafkaController.adoc#zkClient, KafkaZkClient>> (of the parent <<kafka-KafkaController.adoc#, KafkaController>>) to <<kafka-zk-KafkaZkClient.adoc#registerZNodeChangeHandlerAndCheckExistence, registerZNodeChangeHandlerAndCheckExistence>> with the <<kafka-KafkaController.adoc#controllerChangeHandler, ControllerChangeHandler>> followed by requesting the parent `KafkaController` to <<kafka-KafkaController.adoc#elect, elect>>.

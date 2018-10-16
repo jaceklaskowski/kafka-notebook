@@ -47,8 +47,9 @@
 
 . link:kafka-KafkaController.adoc[KafkaController]
 .. link:kafka-ControllerEvent.adoc[ControllerEvent]
-... link:kafka-ControllerEvent-Startup.adoc[Startup Controller Event]
-... link:kafka-ControllerEvent-TopicDeletion.adoc[TopicDeletion Controller Event]
+... link:kafka-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
+... link:kafka-ControllerEvent-Startup.adoc[Startup]
+... link:kafka-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
 .. link:kafka-ControllerEventManager.adoc[ControllerEventManager]
 .. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
 .. link:kafka-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]

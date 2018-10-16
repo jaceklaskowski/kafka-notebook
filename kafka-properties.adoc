@@ -11,6 +11,14 @@
 |
 | [[auto.commit.interval.ms]] How often (in milliseconds) consumer offsets should be auto-committed when <<enable.auto.commit, enable.auto.commit>> is enabled
 
+| auto.leader.rebalance.enable
+| `true`
+| [[auto.leader.rebalance.enable]] Enables auto leader balancing. A <<kafka-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, background thread>> checks and triggers leader balance if required.
+
+* Use `KafkaConfig.AutoLeaderRebalanceEnableProp` to reference the property
+
+* Use <<kafka-KafkaConfig.adoc#autoLeaderRebalanceEnable, KafkaConfig.autoLeaderRebalanceEnable>> to access the current value
+
 | auto.offset.reset
 | `latest`
 a| [[auto.offset.reset]] Reset policy -- what to do when there is no initial offset in Kafka or if the current offset does not exist any more on the server (e.g. because that data has been deleted):
@@ -112,6 +120,14 @@ a| [[interceptor.classes]] Comma-separated list of link:kafka-consumer-ConsumerI
 ----
 props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, "pl.jaceklaskowski.kafka.KafkaInterceptor")
 ----
+
+| leader.imbalance.check.interval.seconds
+| `300`
+| [[leader.imbalance.check.interval.seconds]] How often the active <<kafka-KafkaController.adoc#, KafkaController>> schedules the <<kafka-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, partition rebalance check>> (aka _AutoLeaderRebalance_ or _AutoPreferredReplicaLeaderElection_ or _auto leader balancing_)
+
+* Use `KafkaConfig.LeaderImbalanceCheckIntervalSecondsProp` to reference the property
+
+* Use <<kafka-KafkaConfig.adoc#leaderImbalanceCheckIntervalSeconds, KafkaConfig.leaderImbalanceCheckIntervalSeconds>> to access the current value
 
 | listeners
 | (empty)
