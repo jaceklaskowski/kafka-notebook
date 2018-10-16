@@ -563,16 +563,27 @@ Error while electing or becoming controller on broker [brokerId]
 
 NOTE: `elect` is used when `ControllerEventThread` is requested to process <<kafka-ControllerEvent.adoc#Startup, Startup>> and <<kafka-ControllerEvent.adoc#Reelect, Reelect>> events (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>).
 
-=== [[isActive]] `isActive` Method
+=== [[isActive]] Is KafkaController The Active Controller? -- `isActive` Method
 
 [source, scala]
 ----
 isActive: Boolean
 ----
 
-`isActive` says whether the <<activeControllerId, activeControllerId>> equals the broker ID (from <<config, KafkaConfig>>).
+`isActive` flag says whether the current broker (by the ID) is the active controller (given the <<activeControllerId, activeControllerId>>).
 
-CAUTION: FIXME When could they be different?
+NOTE: `isActive` is on (`true`) after the `KafkaController` of a Kafka broker has been <<elect, elected>>.
+
+[NOTE]
+====
+`isActive` is used (as a valve to stop processing early) when:
+
+* `ControllerEventThread` is requested to <<kafka-ControllerEventThread.adoc#doWork, process controller events>> (that should only be processed on the active controller, e.g. `AutoPreferredReplicaLeaderElection`, `UncleanLeaderElectionEnable`, `ControlledShutdown`, `LeaderAndIsrResponseReceived`, `TopicDeletionStopReplicaResponseReceived`, `BrokerChange`, `BrokerModifications`, `TopicChange`)
+
+* `KafkaController` is requested to <<updateMetrics, updateMetrics>>
+
+* `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleCreateTopicsRequest, handleCreateTopicsRequest>>, <<kafka-KafkaApis.adoc#handleCreatePartitionsRequest, handleCreatePartitionsRequest>> and <<kafka-KafkaApis.adoc#handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
+====
 
 === [[registerIsrChangeNotificationListener]] `registerIsrChangeNotificationListener` Internal Method
 

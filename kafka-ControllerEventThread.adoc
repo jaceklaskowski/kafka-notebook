@@ -21,7 +21,7 @@ When created, `ControllerEventThread` takes the name of the thread (which `Contr
 	at kafka.utils.ShutdownableThread.run(ShutdownableThread.scala:64)
 ```
 
-=== [[doWork]] Processing ControllerEvents -- `doWork` Method
+=== [[doWork]] Processing Controller Events -- `doWork` Method
 
 [source, scala]
 ----
