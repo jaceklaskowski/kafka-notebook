@@ -361,3 +361,21 @@ generateBrokerId: Int
 `generateBrokerId`...FIXME
 
 NOTE: `generateBrokerId` is used exclusively when `KafkaServer` is requested to <<getBrokerIdAndOfflineDirs, getBrokerIdAndOfflineDirs>>.
+
+=== [[createBrokerInfo]] `createBrokerInfo` Internal Method
+
+[source, scala]
+----
+createBrokerInfo: BrokerInfo
+----
+
+`createBrokerInfo`...FIXME
+
+[NOTE]
+====
+`createBrokerInfo` is used when:
+
+* `KafkaServer` is requested to <<startup, start up>>
+
+* `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#reconfigure, reconfigure>>
+====

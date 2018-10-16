@@ -15,6 +15,17 @@
 | Value
 | Kafka Property
 
+| advertisedListeners
+a| [[advertisedListeners]] <<kafka-properties.adoc#advertised.listeners, advertised.listeners>>
+
+Used when:
+
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#createBrokerInfo, createBrokerInfo>> (when <<kafka-KafkaServer.adoc#startup, started>>)
+
+* `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#validateReconfiguration, validateReconfiguration>>
+
+* `KafkaConfig` is requested to <<validateValues, validateValues>>
+
 | autoLeaderRebalanceEnable
 a| [[autoLeaderRebalanceEnable]] <<kafka-properties.adoc#auto.leader.rebalance.enable, auto.leader.rebalance.enable>>
 
@@ -224,3 +235,14 @@ addReconfigurable(reconfigurable: Reconfigurable): Unit
 `addReconfigurable`...FIXME
 
 NOTE: `addReconfigurable` is used when...FIXME
+
+=== [[validateValues]] `validateValues` Internal Method
+
+[source, scala]
+----
+validateValues(): Unit
+----
+
+`validateValues`...FIXME
+
+NOTE: `validateValues` is used when...FIXME

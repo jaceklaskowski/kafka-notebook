@@ -12,3 +12,14 @@ reconfigure(oldConfig: KafkaConfig, newConfig: KafkaConfig): Unit
 NOTE: `reconfigure` is part of the <<kafka-server-BrokerReconfigurable.adoc#reconfigure, BrokerReconfigurable Contract>> to...FIXME.
 
 `reconfigure`...FIXME
+
+=== [[validateReconfiguration]] `validateReconfiguration` Method
+
+[source, scala]
+----
+validateReconfiguration(newConfig: KafkaConfig): Unit
+----
+
+`validateReconfiguration`...FIXME
+
+NOTE: `validateReconfiguration` is used when...FIXME

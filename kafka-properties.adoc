@@ -7,6 +7,16 @@
 | Default Value
 | Description
 
+| advertised.listeners
+| (empty)
+| [[advertised.listeners]] Listeners to publish to Zookeeper for clients to use, if different than the <<listeners, listeners>> config property.
+
+In IaaS environments (e.g. Docker or Kubernetes), this may need to be different from the interface to which the broker binds. Unlike <<listeners, listeners>> it is invalid to advertise the `0.0.0.0` meta-address.
+
+* Use `KafkaConfig.AdvertisedListenersProp` to reference the property
+
+* Use <<kafka-KafkaConfig.adoc#advertisedListeners, KafkaConfig.advertisedListeners>> to access the current value
+
 | auto.commit.interval.ms
 |
 | [[auto.commit.interval.ms]] How often (in milliseconds) consumer offsets should be auto-committed when <<enable.auto.commit, enable.auto.commit>> is enabled
