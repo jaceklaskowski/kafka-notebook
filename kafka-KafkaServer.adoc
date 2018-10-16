@@ -150,17 +150,6 @@ CAUTION: FIXME
 
 CAUTION: FIXME
 
-=== [[checkpointBrokerId]] `checkpointBrokerId` Internal Method
-
-[source, scala]
-----
-checkpointBrokerId(brokerId: Int): Unit
-----
-
-`checkpointBrokerId`...FIXME
-
-NOTE: `checkpointBrokerId` is used exclusively when `KafkaServer` is requested to <<startup, start up>>.
-
 === [[creating-instance]] Creating KafkaServer Instance
 
 `KafkaServer` takes the following when created:
@@ -348,3 +337,16 @@ controlledShutdown(): Unit
 `controlledShutdown`...FIXME
 
 NOTE: `controlledShutdown` is used when...FIXME
+
+=== [[checkpointBrokerId]] Checkpointing Broker -- `checkpointBrokerId` Internal Method
+
+[source, scala]
+----
+checkpointBrokerId(brokerId: Int): Unit
+----
+
+For every directory in <<kafka-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> that is <<kafka-LogManager.adoc#isLogDirOnline, isLogDirOnline>> (according to the <<logManager, LogManager>>), `checkpointBrokerId` finds the corresponding `BrokerMetadataCheckpoint` (with the path to the *meta.properties* file) in the <<brokerMetadataCheckpoints, brokerMetadataCheckpoints>> registry and requests it to `read` it.
+
+Unless the `meta.properties` file was already available, `checkpointBrokerId` requests the `BrokerMetadataCheckpoints` (of the log directories with no meta files) to `write` the broker metadata.
+
+NOTE: `checkpointBrokerId` is used exclusively when `KafkaServer` is requested to <<startup, start up>>.
