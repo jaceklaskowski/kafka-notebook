@@ -131,3 +131,25 @@ In case `response` has errors, `handleCompletedMetadataResponse` prints out the 
 ```
 Error while fetching metadata with correlation id [correlationId] : [errors]"
 ```
+
+=== [[maybeUpdate]] `maybeUpdate` Method
+
+[source, java]
+----
+long maybeUpdate(long now)
+----
+
+NOTE: `maybeUpdate` is part of the <<kafka-MetadataUpdater.adoc#maybeUpdate, MetadataUpdater Contract>> to...FIXME.
+
+`maybeUpdate`...FIXME
+
+==== [[maybeUpdate-internal]] `maybeUpdate` Internal Method
+
+[source, java]
+----
+long maybeUpdate(long now, Node node)
+----
+
+`maybeUpdate`...FIXME
+
+NOTE: `maybeUpdate` is used exclusively when `DefaultMetadataUpdater` is requested to <<kafka-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>.

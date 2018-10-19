@@ -72,10 +72,6 @@
 . link:kafka-MetadataUpdater.adoc[MetadataUpdater]
 .. link:kafka-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
 
-. link:kafka-NetworkClient.adoc[NetworkClient -- Non-Blocking KafkaClient]
-.. link:kafka-KafkaClient.adoc[KafkaClient]
-.. link:kafka-NetworkClientUtils.adoc[NetworkClientUtils]
-
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 
 . link:kafka-server-ReplicaManager.adoc[ReplicaManager]
@@ -126,6 +122,8 @@
 . link:kafka-KafkaProducer.adoc[KafkaProducer -- Main Class For Kafka Producers]
 .. link:kafka-Producer.adoc[Producer]
 
+. link:kafka-ProducerConfig.adoc[ProducerConfig]
+
 . link:kafka-DefaultPartitioner.adoc[DefaultPartitioner]
 .. link:kafka-Partitioner.adoc[Partitioner]
 
@@ -162,6 +160,7 @@
 
 . link:kafka-RequestCompletionHandler.adoc[RequestCompletionHandler]
 . link:kafka-ClientResponse.adoc[ClientResponse]
+. link:kafka-clients-ClientRequest.adoc[ClientRequest]
 
 . link:kafka-clusters.adoc[Clusters]
 
@@ -211,6 +210,10 @@
 . link:kafka-docker.adoc[Running Kafka Broker in Docker]
 
 === Kafka Clients
+
+. link:kafka-KafkaClient.adoc[KafkaClient]
+.. link:kafka-NetworkClient.adoc[NetworkClient -- Non-Blocking KafkaClient]
+.. link:kafka-NetworkClientUtils.adoc[NetworkClientUtils]
 
 . link:kafka-clients-Configurable.adoc[Configurable Contract]
 . link:kafka-clients-Reconfigurable.adoc[Reconfigurable]

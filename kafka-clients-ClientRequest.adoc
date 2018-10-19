@@ -1,0 +1,42 @@
+== [[ClientRequest]] ClientRequest
+
+`ClientRequest` is...FIXME
+
+`ClientRequest` is <<creating-instance, created>> exclusively when `NetworkClient` is requested to <<kafka-NetworkClient.adoc#newClientRequest, create one>>.
+
+`ClientRequest` uses the <<clientId, client ID>> when requested to <<makeHeader, makeHeader>>.
+
+=== [[creating-instance]] Creating ClientRequest Instance
+
+`ClientRequest` takes the following when created:
+
+* [[destination]] Destination
+* [[requestBuilder]] `AbstractRequest.Builder`
+* [[correlationId]] Correlation ID
+* [[clientId]] Client ID
+* [[createdTimeMs]] `createdTimeMs`
+* [[expectResponse]] `expectResponse` flag
+* [[requestTimeoutMs]] `requestTimeoutMs`
+* [[callback]] <<kafka-RequestCompletionHandler.adoc#, RequestCompletionHandler>>
+
+`ClientRequest` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[makeHeader]] Creating RequestHeader -- `makeHeader` Method
+
+[source, java]
+----
+RequestHeader makeHeader(short version)
+----
+
+`makeHeader` creates a `RequestHeader` (with the <<clientId, client>> and the <<correlationId, correlation>> IDs)
+
+[NOTE]
+====
+`makeHeader` is used when:
+
+* `InterBrokerSendThread` is requested to <<kafka-InterBrokerSendThread.adoc#completeWithDisconnect, completeWithDisconnect>>
+
+* `NetworkClient` is requested to <<kafka-NetworkClient.adoc#doSend, doSend>>
+
+* `ConsumerNetworkClient` is requested to <<kafka-consumer-ConsumerNetworkClient.adoc#checkDisconnects, checkDisconnects>>
+====

@@ -1,0 +1,45 @@
+== [[ProducerConfig]] ProducerConfig
+
+`ProducerConfig` is the configuration of a <<kafka-KafkaProducer.adoc#, Kafka Producer>>.
+
+`ProducerConfig` is <<creating-instance, created>> when:
+
+* ...
+
+[[configuration-values]]
+.ProducerConfig's Configuration Properties
+[cols="1m,1,1m,2",options="header",width="100%"]
+|===
+| Name
+| Default Value
+| Kafka Property
+| Description
+
+| CLIENT_ID_CONFIG
+| (empty)
+| client.id
+a| [[CLIENT_ID_CONFIG]]
+
+An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.
+
+Used when:
+
+* FIXME
+
+| INTERCEPTOR_CLASSES_CONFIG
+|
+|
+a| [[INTERCEPTOR_CLASSES_CONFIG]]
+
+| MAX_REQUEST_SIZE_CONFIG
+|
+| max.request.size
+a| [[MAX_REQUEST_SIZE_CONFIG]] The maximum size of a request in bytes. This setting will limit the number of record batches the producer will send in a single request to avoid sending huge requests. This is also effectively a cap on the maximum record batch size.
+
+Note that the server has its own cap on record batch size which may be different.
+
+| RETRY_BACKOFF_MS_CONFIG
+|
+| retry.backoff.ms
+a| [[RETRY_BACKOFF_MS_CONFIG]] The amount of time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
+|===

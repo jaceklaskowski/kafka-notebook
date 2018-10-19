@@ -53,21 +53,6 @@ log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
-=== [[newClientRequest]] Creating ClientRequest -- `newClientRequest` Method
-
-[source, scala]
-----
-ClientRequest newClientRequest(
-  String nodeId
-  AbstractRequest.Builder<?> requestBuilder
-  long createdTimeMs,
-  boolean expectResponse)
-----
-
-`newClientRequest`...FIXME
-
-NOTE: `newClientRequest` is used when...FIXME
-
 === [[initiateConnect]] Establishing Connection to Broker Node -- `initiateConnect` Internal Method
 
 [source, java]
@@ -132,14 +117,14 @@ NOTE: `wakeup` is a part of link:kafka-KafkaClient.adoc#wakeup[KafkaClient Contr
 
 NOTE: `wakeup` is used when...FIXME
 
-=== [[poll]] Reading and Writing to Sockets -- `poll` Method
+=== [[poll]] Reading and Writing to Socket -- `poll` Method
 
 [source, java]
 ----
 List<ClientResponse> poll(long timeout, long now)
 ----
 
-NOTE: `poll` is a part of link:kafka-KafkaClient.adoc#poll[KafkaClient Contract].
+NOTE: `poll` is a part of <<kafka-KafkaClient.adoc#poll, KafkaClient Contract>>.
 
 `poll` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-MetadataUpdater.adoc#maybeUpdate[cluster metadata update (if needed and possible)].
 
@@ -164,65 +149,31 @@ NOTE: `handleCompletedReceives` is used exclusively when `NetworkClient` <<poll,
 
 `NetworkClient` takes the following when created:
 
-[cols="1,2",options="header",width="100%"]
-|===
-| Arguments
-| Description
-
-| [[metadataUpdater]] link:kafka-MetadataUpdater.adoc[MetadataUpdater]
-|
-
-| [[metadata]] link:kafka-Metadata.adoc[Metadata]
-|
-
-| [[selector]] link:kafka-Selectable.adoc[Selectable]
-|
-
-| [[clientId]] Client ID
-|
-
-| [[maxInFlightRequestsPerConnection]] `maxInFlightRequestsPerConnection`
-|
-
-| [[reconnectBackoffMs]] `reconnectBackoffMs`
-|
-
-| [[reconnectBackoffMax]] `reconnectBackoffMax`
-|
-
-| [[socketSendBuffer]] `socketSendBuffer`
-a| Size of the TCP send buffer (SO_SNDBUF) for socket connection (in bytes)
-
-NOTE: Use link:kafka-properties.adoc#send.buffer.bytes[send.buffer.bytes] property to configure it.
-
+* [[metadataUpdater]] <<kafka-MetadataUpdater.adoc#, MetadataUpdater>>
+* [[metadata]] <<kafka-Metadata.adoc#, Metadata>>
+* [[selector]] <<kafka-Selectable.adoc#, Selectable>>
+* [[clientId]] Client ID that is used to identify the client in requests to a Kafka server (when `NetworkClient` is requested to <<newClientRequest, create a new ClientRequest>>)
+* [[maxInFlightRequestsPerConnection]] `maxInFlightRequestsPerConnection`
+* [[reconnectBackoffMs]] `reconnectBackoffMs`
+* [[reconnectBackoffMax]] `reconnectBackoffMax`
+* [[socketSendBuffer]] Size of the TCP send buffer (SO_SNDBUF) for socket connection (in bytes)
++
+Use link:kafka-properties.adoc#send.buffer.bytes[send.buffer.bytes] property to configure it.
++
 Used when `NetworkClient` <<initiateConnect, establishes connection to a broker node>>.
 
-| [[socketReceiveBuffer]] `socketReceiveBuffer`
-a| Size of the TCP receive buffer (SO_RCVBUF) for socket connection (in bytes)
-
-NOTE: Use link:kafka-properties.adoc#receive.buffer.bytes[receive.buffer.bytes] property to configure it.
-
+* [[socketReceiveBuffer]] Size of the TCP receive buffer (SO_RCVBUF) for socket connection (in bytes)
++
+Use link:kafka-properties.adoc#receive.buffer.bytes[receive.buffer.bytes] property to configure it.
++
 Used when `NetworkClient` <<initiateConnect, establishes connection to a broker node>>
 
-| [[requestTimeoutMs]] `requestTimeoutMs`
-|
-
-| [[time]] `Time`
-|
-
-| [[discoverBrokerVersions]] `discoverBrokerVersions`
-| Flag...
-
-| [[apiVersions]] `ApiVersions`
-|
-
-| [[throttleTimeSensor]] link:kafka-Sensor.adoc[Sensor]
-|
-
-| [[logContext]] `LogContext`
-|
-
-|===
+* [[defaultRequestTimeoutMs]] `defaultRequestTimeoutMs`
+* [[time]] `Time`
+* [[discoverBrokerVersions]] `discoverBrokerVersions` flag
+* [[apiVersions]] `ApiVersions`
+* [[throttleTimeSensor]] `throttleTimeSensor` <<kafka-Sensor.adoc#, Sensor>>
+* [[logContext]] `LogContext`
 
 `NetworkClient` initializes the <<internal-registries, internal registries and counters>>.
 
@@ -242,3 +193,64 @@ Uncaught error in request completion: [exception]
 ```
 
 NOTE: `completeResponses` is used when `NetworkClient` <<poll, poll>> (for both <<abortedSends, abortedSends>> and completed actions).
+
+=== [[newClientRequest]] Creating ClientRequest -- `newClientRequest` Method
+
+[source, java]
+----
+ClientRequest newClientRequest(
+  String nodeId,
+  AbstractRequest.Builder<?> requestBuilder,
+  long createdTimeMs,
+  boolean expectResponse,
+  int requestTimeoutMs,
+  RequestCompletionHandler callback)
+----
+
+NOTE: `newClientRequest` is part of the <<kafka-KafkaClient.adoc#newClientRequest, KafkaClient Contract>> to...FIXME.
+
+`newClientRequest` simply creates a new `ClientRequest` (with the input parameters and the <<correlation, correlation>> incremented, the <<clientId, clientId>> and the <<defaultRequestTimeoutMs, defaultRequestTimeoutMs>>).
+
+=== [[sendInternalMetadataRequest]] `sendInternalMetadataRequest` Internal Method
+
+[source, java]
+----
+void sendInternalMetadataRequest(
+  MetadataRequest.Builder builder,
+  String nodeConnectionId,
+  long now)
+----
+
+`sendInternalMetadataRequest`...FIXME
+
+NOTE: `sendInternalMetadataRequest` is used exclusively when `DefaultMetadataUpdater` is requested to <<kafka-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>.
+
+=== [[doSend]] `doSend` Internal Method
+
+[source, java]
+----
+void doSend(
+  ClientRequest clientRequest,
+  boolean isInternalRequest,
+  long now)
+void doSend(
+  ClientRequest clientRequest,
+  boolean isInternalRequest,
+  long now,
+  AbstractRequest request)
+----
+
+`doSend`...FIXME
+
+NOTE: `doSend` is used when `NetworkClient` is requested to <<send, send>>, <<sendInternalMetadataRequest, sendInternalMetadataRequest>> and <<handleInitiateApiVersionRequests, handleInitiateApiVersionRequests>>.
+
+=== [[send]] `send` Method
+
+[source, java]
+----
+void send(ClientRequest request, long now)
+----
+
+NOTE: `send` is part of the <<kafka-KafkaClient.adoc#send, KafkaClient Contract>> to...FIXME.
+
+`send`...FIXME

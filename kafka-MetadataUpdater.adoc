@@ -1,41 +1,96 @@
-== [[MetadataUpdater]] MetadataUpdater
+== [[MetadataUpdater]] MetadataUpdater Contract
 
-=== [[contract]] MetadataUpdater Contract
+`MetadataUpdater` is the <<contract, abstraction>> of <<implementations, FIXME>> that <<FIXME, FIXME>>.
 
-[source, java]
-----
-package org.apache.kafka.clients;
-
-interface MetadataUpdater {
-  List<Node> fetchNodes();
-  void handleDisconnection(String destination);
-  void handleAuthenticationFailure(AuthenticationException exception);
-  void handleCompletedMetadataResponse(RequestHeader requestHeader, long now, MetadataResponse metadataResponse);
-  boolean isUpdateDue(long now);
-  long maybeUpdate(long now);
-  void requestUpdate();
-}
-----
-
-.MetadataUpdater Contract (in alphabetical order)
-[cols="1,2",options="header",width="100%"]
+[[contract]]
+.MetadataUpdater Contract
+[cols="1m,2",options="header",width="100%"]
 |===
 | Method
 | Description
 
-| [[maybeUpdate]] `maybeUpdate`
-| Starts a cluster metadata update if needed and possible.
+| close
+a| [[close]]
 
-Used exclusively when `NetworkClient` is requested to link:kafka-NetworkClient.adoc#poll[read and write to sockets].
+[source, java]
+----
+void close()
+----
 
-| [[requestUpdate]] `requestUpdate`
-|
+Used when...FIXME
 
-| [[handleAuthenticationFailure]] `handleAuthenticationFailure`
-|
+| fetchNodes
+a| [[fetchNodes]]
 
-| [[handleCompletedMetadataResponse]] `handleCompletedMetadataResponse`
-|
+[source, java]
+----
+List<Node> fetchNodes()
+----
 
-Used exclusively when `NetworkClient` link:kafka-NetworkClient.adoc#handleCompletedReceives[handles completed receives]
+Used when...FIXME
+
+| handleAuthenticationFailure
+a| [[handleAuthenticationFailure]]
+
+[source, java]
+----
+void handleAuthenticationFailure(AuthenticationException exception)
+----
+
+Used when...FIXME
+
+| handleCompletedMetadataResponse
+a| [[handleCompletedMetadataResponse]]
+
+[source, java]
+----
+void handleCompletedMetadataResponse(
+  RequestHeader requestHeader,
+  long now,
+  MetadataResponse metadataResponse)
+----
+
+Used when...FIXME
+
+| handleDisconnection
+a| [[handleDisconnection]]
+
+[source, java]
+----
+void handleDisconnection(String destination)
+----
+
+Used when...FIXME
+
+| isUpdateDue
+a| [[isUpdateDue]]
+
+[source, java]
+----
+boolean isUpdateDue(long now)
+----
+
+Used when...FIXME
+
+| maybeUpdate
+a| [[maybeUpdate]]
+
+[source, java]
+----
+long maybeUpdate(long now)
+----
+
+Starts a cluster metadata update if needed and possible.
+
+Used exclusively when `NetworkClient` is requested to <<kafka-NetworkClient.adoc#poll, read and write to sockets>>.
+
+| requestUpdate
+a| [[requestUpdate]]
+
+[source, java]
+----
+void requestUpdate()
+----
+
+Used when...FIXME
 |===

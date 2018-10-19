@@ -240,6 +240,22 @@ log4j.logger.kafka.controller.KafkaController=DEBUG
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
+
+---
+Please note that Kafka comes with a preconfigured `kafka.controller` logger in `config/log4j.properties`:
+
+```
+log4j.appender.controllerAppender=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.controllerAppender.DatePattern='.'yyyy-MM-dd-HH
+log4j.appender.controllerAppender.File=${kafka.logs.dir}/controller.log
+log4j.appender.controllerAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.controllerAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
+
+log4j.logger.kafka.controller=TRACE, controllerAppender
+log4j.additivity.kafka.controller=false
+```
+
+That means that the logs of `KafkaController` go to `logs/controller.log` file at `TRACE` logging level and are not added to the main logs (per `log4j.additivity` being off).
 ====
 
 === [[initiateReassignReplicasForTopicPartition]] `initiateReassignReplicasForTopicPartition` Method
@@ -1105,6 +1121,10 @@ The `auto-leader-rebalance-task` simply requests the <<eventManager, ControllerE
 checkAndTriggerAutoLeaderRebalance(): Unit
 ----
 
-`checkAndTriggerAutoLeaderRebalance`...FIXME
+`checkAndTriggerAutoLeaderRebalance` prints out the following TRACE message to the logs:
+
+```
+Checking need to trigger auto leader balancing
+```
 
 NOTE: `checkAndTriggerAutoLeaderRebalance` is used exclusively when `ControllerEventThread` is requested to process a <<kafka-ControllerEvent.adoc#AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>> event (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>).

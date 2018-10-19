@@ -1,6 +1,6 @@
 == [[Sender]] Sender
 
-`Sender` is <<run, thread of execution>> that handles the sending of produce requests to a Kafka cluster.
+`Sender` is a *Kafka producer I/O thread* (of execution) that <<run, sends produce requests to a Kafka cluster>>.
 
 .Sender and KafkaProducer
 image::images/Sender.png[align="center"]
@@ -22,18 +22,18 @@ image::images/Sender.png[align="center"]
 
 === [[sendProduceRequests]] `sendProduceRequests` Internal Method
 
-[source, scala]
+[source, java]
 ----
 void sendProduceRequests(Map<Integer, List<ProducerBatch>> collated, long now)
 ----
 
 `sendProduceRequests`...FIXME
 
-NOTE: `sendProduceRequests` is used exclusively when `Sender` <<sendProducerData, sendProducerData>>.
+NOTE: `sendProduceRequests` is used exclusively when `Sender` is requested to <<sendProducerData, sendProducerData>>.
 
 === [[sendProduceRequest]] `sendProduceRequest` Internal Method
 
-[source, scala]
+[source, java]
 ----
 void sendProduceRequest(
   long now,
@@ -45,7 +45,7 @@ void sendProduceRequest(
 
 `sendProduceRequest`...FIXME
 
-NOTE: `sendProduceRequest` is used exclusively when `Sender` <<sendProduceRequests, sendProduceRequests>>.
+NOTE: `sendProduceRequest` is used exclusively when `Sender` is requested to <<sendProduceRequests, sendProduceRequests>>.
 
 === [[sendProducerData]] `sendProducerData` Internal Method
 
@@ -56,7 +56,7 @@ long sendProducerData(long now)
 
 `sendProducerData`...FIXME
 
-NOTE: `sendProducerData` is used exclusively when `Sender` <<run-millis, runs a single iteration of sending>>.
+NOTE: `sendProducerData` is used exclusively when `Sender` is requested to <<run-millis, runs a single iteration of sending>>.
 
 === [[run-millis]] Running Single Iteration of Sending -- `run` Method
 
@@ -65,9 +65,11 @@ NOTE: `sendProducerData` is used exclusively when `Sender` <<run-millis, runs a 
 void run(long now)
 ----
 
-`run`...FIXME
+`run` does...FIXME...when the <<transactionManager, transactionManager>> is available.
 
-NOTE: `run` is used exclusively when `Sender` is <<run, started>> (as a thread of execution).
+`run` <<sendProducerData, sendProducerData>> and then requests the <<client, KafkaClient>> to <<kafka-KafkaClient.adoc#poll, poll>>.
+
+NOTE: `run` is used exclusively when `Sender` is requested to <<run, start>> (as a thread of execution).
 
 === [[run]] Starting Thread of Execution -- `run` Method (of Java's `Runnable`)
 
@@ -84,7 +86,7 @@ NOTE: `run` is a part of http://download.java.net/java/jdk9/docs/api/java/lang/R
 Starting Kafka producer I/O thread.
 ```
 
-`run` keeps <<run-millis, running>> (with the current time in milliseconds) until <<running, running>> flag is turned off.
+`run` keeps <<run-millis, running>> until the <<running, running>> flag is off.
 
 `run`...FIXME
 

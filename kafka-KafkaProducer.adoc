@@ -1,6 +1,6 @@
 == [[KafkaProducer]] KafkaProducer -- Main Class For Kafka Producers
 
-`KafkaProducer` is the main public class that you and other Kafka developers use to write link:kafka-producers.adoc[Kafka producers] that publish records to a Kafka cluster.
+`KafkaProducer` is the main public class that a Kafka developer use to write <<kafka-producers.adoc#, Kafka producers>> that publish records to a Kafka cluster.
 
 .KafkaProducer
 image::images/KafkaProducer.png[align="center"]
@@ -9,20 +9,22 @@ image::images/KafkaProducer.png[align="center"]
 
 `KafkaProducer` follows the link:kafka-Producer.adoc[Producer contract].
 
+When <<creating-instance, created>>, `KafkaProducer` starts the <<sender, Kafka producer I/O thread>> that is responsible for sending produce requests to a Kafka cluster (on <<ioThread, kafka-producer-network-thread>> daemon thread of execution).
+
 [[internal-registries]]
 .KafkaProducer's Internal Properties (e.g. Registries and Counters)
-[cols="1,2",options="header",width="100%"]
+[cols="1m,2",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| [[maxBlockTimeMs]] `maxBlockTimeMs`
-a| Time `KafkaProducer` uses to block when requesting <<partitionsFor, partitions for a topic>>.
+| maxBlockTimeMs
+a| [[maxBlockTimeMs]] Time `KafkaProducer` uses to block when requesting <<partitionsFor, partitions for a topic>>.
 
 NOTE: Use link:kafka-properties.adoc#max.block.ms[max.block.ms] Kafka property to set the value.
 
-| [[metadata]] `metadata`
-a| link:kafka-Metadata.adoc[Metadata]
+| metadata
+a| [[metadata]] link:kafka-Metadata.adoc[Metadata]
 
 * Created when `KafkaProducer` is <<creating-instance, created>> with the following properties:
 ** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for link:kafka-Metadata.adoc#refreshBackoffMs[refreshBackoffMs]
@@ -34,13 +36,20 @@ a| link:kafka-Metadata.adoc[Metadata]
 
 * Used in <<waitOnMetadata, waitOnMetadata>>
 
-| [[sender]] `sender`
-a| link:kafka-Sender.adoc[Sender] with the following:
+| sender
+a| [[sender]] <<kafka-Sender.adoc#, Kafka producer I/O thread>> (aka `Sender`) that is <<kafka-Sender.adoc#run, started>> at the time `KafkaProducer` is <<creating-instance, created>>.
 
-* ...FIXME
+| ioThread
+a| [[ioThread]] *kafka-producer-network-thread* daemon thread of execution for the <<sender, sender>>
 
-| [[ioThread]] `ioThread`
-a| Thread of execution...FIXME
+| clientId
+a| [[clientId]] Client ID per <<kafka-ProducerConfig.adoc#CLIENT_ID_CONFIG, CLIENT_ID_CONFIG>> (if defined) or `producer-[number]`
+
+Used when:
+
+* `KafkaProducer` is requested for <<logging, logging>>
+
+* <<kafka-NetworkClient.adoc#, NetworkClient>> is created
 |===
 
 [[logging]]
@@ -59,7 +68,7 @@ Refer to link:kafka-logging.adoc[Logging].
 
 === [[send]] Asynchronously Sending Record to Topic and Notifying Producer Interceptors -- `send` Method
 
-[source, scala]
+[source, java]
 ----
 Future<RecordMetadata> send(ProducerRecord<K, V> record, Callback callback)
 ----
@@ -70,7 +79,7 @@ NOTE: `send` is a part of link:kafka-Producer.adoc#send[Producer Contract].
 
 === [[doSend]] Asynchronously Sending Record to Topic -- `doSend` Internal Method
 
-[source, scala]
+[source, java]
 ----
 Future<RecordMetadata> doSend(ProducerRecord<K, V> record, Callback callback)
 ----
@@ -83,7 +92,11 @@ NOTE: `doSend` is used exclusively when `KafkaProducer` <<send, asynchronously s
 
 `KafkaProducer` takes the following when created:
 
-* FIXME
+* [[config]] `ProducerConfig`
+* [[keySerializer]] <<kafka-Serializer.adoc#, Serializer>> for keys
+* [[valueSerializer]] <<kafka-Serializer.adoc#, Serializer>> for values
+* [[metadata]] <<kafka-Metadata.adoc#, Metadata>>
+* [[kafkaClient]] <<kafka-KafkaClient.adoc#, KafkaClient>>
 
 `KafkaProducer` initializes the <<internal-registries, internal registries and counters>>.
 
