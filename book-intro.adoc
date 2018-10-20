@@ -1,4 +1,4 @@
-== Mastering Apache Kafka ({{ book.version }})
+== Mastering Apache Kafka {{ book.version }}
 
 Welcome to *Mastering Apache Kafka* gitbook! I'm very excited to have you here and hope you will enjoy exploring the internals of Spark SQL as much as I have.
 
