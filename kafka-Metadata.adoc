@@ -2,7 +2,7 @@
 
 `Metadata` describes a Kafka <<cluster, cluster>>...FIXME
 
-`Metadata` is <<creating-instance, created>> right when link:kafka-consumer-KafkaConsumer.adoc#creating-instance[KafkaConsumer], link:kafka-KafkaProducer.adoc#creating-instance[KafkaProducer], link:kafka-KafkaAdminClient.adoc#creating-instance[KafkaAdminClient] and link:kafka-AdminClient.adoc#create[AdminClient] are created.
+`Metadata` is <<creating-instance, created>> right when link:kafka-consumer-KafkaConsumer.adoc#creating-instance[KafkaConsumer], link:kafka-producer-KafkaProducer.adoc#creating-instance[KafkaProducer], link:kafka-KafkaAdminClient.adoc#creating-instance[KafkaAdminClient] and link:kafka-AdminClient.adoc#create[AdminClient] are created.
 
 .Metadata's Properties When Created by Clients
 [cols="m,^1,^1,^1,^1",options="header",width="100%"]
@@ -238,7 +238,7 @@ synchronized void update(Cluster cluster, Set<String> unavailableTopics, long no
 
 `update` sets <<lastRefreshMs, lastRefreshMs>> and <<lastSuccessfulRefreshMs, lastSuccessfulRefreshMs>> internal registries to the input `now`.
 
-(only when <<topicExpiryEnabled, topicExpiryEnabled>> is enabled, e.g. link:kafka-KafkaProducer.adoc#creating-instance[KafkaProducer]) `update`...FIXME
+(only when <<topicExpiryEnabled, topicExpiryEnabled>> is enabled, e.g. link:kafka-producer-KafkaProducer.adoc#creating-instance[KafkaProducer]) `update`...FIXME
 
 `update` notifies <<listeners, listeners>> that the link:kafka-Metadata-Listener.adoc#onMetadataUpdate[metadata has been updated].
 
@@ -259,7 +259,7 @@ Cluster ID: [clusterId]
 * `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
 
 * `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap servers)
-* `KafkaProducer` is link:kafka-KafkaProducer.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap servers)
+* `KafkaProducer` is link:kafka-producer-KafkaProducer.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap servers)
 * `KafkaAdminClient` is link:kafka-KafkaAdminClient.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap brokers)
 * `AdminClient` is link:kafka-AdminClient.adoc#create[created] (and updates the cluster with a "bootstrap" cluster with bootstrap brokers)
 ====

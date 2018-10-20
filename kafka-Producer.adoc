@@ -3,7 +3,7 @@
 `Producer` is the <<contract, contract>> of <<implementations, Kafka producers>>.
 
 [[implementations]]
-NOTE: <<kafka-KafkaProducer.adoc#, KafkaProducer>> is the one and only known implementation of the <<contract, Producer Contract>> in Apache Kafka.
+NOTE: <<kafka-producer-KafkaProducer.adoc#, KafkaProducer>> is the one and only known implementation of the <<contract, Producer Contract>> in Apache Kafka.
 
 [[contract]]
 .Producer Contract
@@ -28,16 +28,6 @@ a| [[beginTransaction]]
 [source, java]
 ----
 void beginTransaction() throws ProducerFencedException
-----
-
-Used when...FIXME
-
-| close
-a| [[close]]
-
-[source, java]
-----
-void close()
 ----
 
 Used when...FIXME

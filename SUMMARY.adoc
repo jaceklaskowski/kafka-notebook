@@ -7,18 +7,18 @@
 === Kafka Producer API
 
 . link:kafka-Producer.adoc[Producer]
+. link:kafka-producer-KafkaProducer.adoc[KafkaProducer]
+.. link:kafka-Sender.adoc[Sender]
+
 . link:kafka-ProducerRecord.adoc[ProducerRecord]
 . link:kafka-producer-Callback.adoc[Callback]
 
 . link:kafka-ProducerConfig.adoc[ProducerConfig]
 
-. link:kafka-DefaultPartitioner.adoc[DefaultPartitioner]
-.. link:kafka-Partitioner.adoc[Partitioner]
+. link:kafka-producer-Partitioner.adoc[Partitioner]
+.. link:kafka-DefaultPartitioner.adoc[DefaultPartitioner]
 
 . link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
-
-. link:kafka-KafkaProducer.adoc[KafkaProducer]
-.. link:kafka-Sender.adoc[Sender]
 
 . link:kafka-Serializer.adoc[Serializer]
 

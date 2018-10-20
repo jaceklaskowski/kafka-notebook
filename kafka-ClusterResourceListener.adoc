@@ -17,8 +17,8 @@ public interface ClusterResourceListener {
 You can register a `ClusterResourceListener` for the following Kafka services:
 
 * `KafkaServer` and get notified when the server link:notifyClusterListeners#notifyClusterListeners[starts up]
-* `KafkaProducer` and get notified when it is link:kafka-KafkaProducer.adoc#creating-instance[created] and...FIXME
-* `KafkaConsumer` and get notified when it is link:kafka-KafkaProducer.adoc#creating-instance[created] and...FIXME
+* `KafkaProducer` and get notified when it is link:kafka-producer-KafkaProducer.adoc#creating-instance[created] and...FIXME
+* `KafkaConsumer` and get notified when it is link:kafka-producer-KafkaProducer.adoc#creating-instance[created] and...FIXME
 
 === [[ClusterResourceListeners]] ClusterResourceListeners Collection
 

@@ -5,9 +5,9 @@
 .Sender and KafkaProducer
 image::images/Sender.png[align="center"]
 
-`Sender` is <<creating-instance, created>> exclusively when `KafkaProducer` is link:kafka-KafkaProducer.adoc#sender[created].
+`Sender` is <<creating-instance, created>> exclusively when `KafkaProducer` is link:kafka-producer-KafkaProducer.adoc#sender[created].
 
-`Sender` is started under the name *kafka-producer-network-thread | [clientId]* when `KafkaProducer` is link:kafka-KafkaProducer.adoc#ioThread[created].
+`Sender` is started under the name *kafka-producer-network-thread | [clientId]* when `KafkaProducer` is link:kafka-producer-KafkaProducer.adoc#ioThread[created].
 
 [[internal-registries]]
 .Sender's Internal Properties (e.g. Registries and Counters)
