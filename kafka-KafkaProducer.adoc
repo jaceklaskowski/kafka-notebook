@@ -1,15 +1,36 @@
 == [[KafkaProducer]] KafkaProducer -- Main Class For Kafka Producers
 
-`KafkaProducer` is the main public class that a Kafka developer use to write <<kafka-producers.adoc#, Kafka producers>> that publish records to a Kafka cluster.
+`KafkaProducer` is the one and only known implementation of the <<kafka-Producer.adoc#, Producer Contract>> in Apache Kafka.
+
+`KafkaProducer` is the class that a Kafka developer use to <<send, send messages>> to a Kafka cluster.
+
+[source, scala]
+----
+// Necessary imports
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerConfig
+import org.apache.kafka.common.serialization.StringSerializer
+
+// Creating a KafkaProducer
+import java.util.Properties
+val props = new Properties()
+props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer].getName)
+props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer].getName)
+props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
+val producer = new KafkaProducer[String, String](props)
+
+// Creating a record to be sent
+import org.apache.kafka.clients.producer.ProducerRecord
+val r = new ProducerRecord[String, String]("0", "this is a message")
+
+// Sending the record
+producer.send(r)
+----
+
+Internally, `KafkaProducer` uses the <<sender, Kafka producer I/O thread>> that is responsible for sending produce requests to a Kafka cluster (on <<ioThread, kafka-producer-network-thread>> daemon thread of execution). The thread is started right when `KafkaProducer` is <<creating-instance, created>>.
 
 .KafkaProducer
 image::images/KafkaProducer.png[align="center"]
-
-`KafkaProducer` is a part of the public API and is <<creating-instance, created>> with properties and (key and value) serializers as configuration.
-
-`KafkaProducer` follows the link:kafka-Producer.adoc[Producer contract].
-
-`KafkaProducer` uses the <<sender, Kafka producer I/O thread>> that is responsible for sending produce requests to a Kafka cluster (on <<ioThread, kafka-producer-network-thread>> daemon thread of execution). The thread is started right when `KafkaProducer` is <<creating-instance, created>>.
 
 [[metrics]]
 `KafkaProducer` exposes performance metrics.
@@ -29,9 +50,13 @@ image::images/KafkaProducer.png[align="center"]
 |
 | [[errors]] Recorded when `KafkaProducer` is requested to <<doSend, doSend>> and there were exceptions reported (e.g. `ApiException`, `InterruptedException`, `BufferExhaustedException` and `KafkaException`)
 
-| produce-throttle-time
+| produce-throttle-time-avg
 |
-| [[produce-throttle-time]] Recorded when `NetworkClient` is requested to <<kafka-NetworkClient.adoc#parseStructMaybeUpdateThrottleTimeMetrics, parseStructMaybeUpdateThrottleTimeMetrics>> (and a request was throttled due to quota violation)
+| [[produce-throttle-time-avg]] Recorded when `NetworkClient` is requested to <<kafka-NetworkClient.adoc#parseStructMaybeUpdateThrottleTimeMetrics, parseStructMaybeUpdateThrottleTimeMetrics>> (and a request was throttled due to quota violation)
+
+| produce-throttle-time-max
+|
+| [[produce-throttle-time-max]] Recorded when `NetworkClient` is requested to <<kafka-NetworkClient.adoc#parseStructMaybeUpdateThrottleTimeMetrics, parseStructMaybeUpdateThrottleTimeMetrics>> (and a request was throttled due to quota violation)
 |===
 
 [[internal-registries]]
