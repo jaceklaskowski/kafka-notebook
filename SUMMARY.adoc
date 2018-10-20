@@ -4,6 +4,24 @@
 . link:kafka-overview.adoc[Overview of Kafka]
 . link:kafka-server-scheduled-tasks.adoc[Kafka Server and Periodic Tasks]
 
+=== Kafka Producer API
+
+. link:kafka-Producer.adoc[Producer]
+. link:kafka-ProducerRecord.adoc[ProducerRecord]
+. link:kafka-producer-Callback.adoc[Callback]
+
+. link:kafka-ProducerConfig.adoc[ProducerConfig]
+
+. link:kafka-DefaultPartitioner.adoc[DefaultPartitioner]
+.. link:kafka-Partitioner.adoc[Partitioner]
+
+. link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
+
+. link:kafka-KafkaProducer.adoc[KafkaProducer]
+.. link:kafka-Sender.adoc[Sender]
+
+. link:kafka-Serializer.adoc[Serializer]
+
 === Kafka Broker Services
 
 . link:kafka-AdminManager.adoc[AdminManager]
@@ -116,20 +134,6 @@
 . link:kafka-topic-replication.adoc[Topic Replication]
 . link:kafka-topic-deletion.adoc[Topic Deletion]
 . link:kafka-controller-election.adoc[Kafka Controller Election]
-
-=== Kafka Producer API
-
-. link:kafka-KafkaProducer.adoc[KafkaProducer -- Main Class For Kafka Producers]
-.. link:kafka-Producer.adoc[Producer]
-
-. link:kafka-ProducerConfig.adoc[ProducerConfig]
-
-. link:kafka-DefaultPartitioner.adoc[DefaultPartitioner]
-.. link:kafka-Partitioner.adoc[Partitioner]
-
-. link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
-. link:kafka-Sender.adoc[Sender]
-. link:kafka-Serializer.adoc[Serializer]
 
 === Kafka Consumer API
 

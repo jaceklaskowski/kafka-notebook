@@ -1,3 +1,130 @@
-== [[Producer]] Producer
+== [[Producer]] Producer Contract
 
-`Producer` is...FIXME
+`Producer` is the <<contract, contract>> of <<implementations, Kafka producers>>.
+
+[[implementations]]
+NOTE: <<kafka-KafkaProducer.adoc#, KafkaProducer>> is the one and only known implementation of the <<contract, Producer Contract>> in Apache Kafka.
+
+[[contract]]
+.Producer Contract
+[cols="1m,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| abortTransaction
+a| [[abortTransaction]]
+
+[source, java]
+----
+void abortTransaction() throws ProducerFencedException
+----
+
+Used when...FIXME
+
+| beginTransaction
+a| [[beginTransaction]]
+
+[source, java]
+----
+void beginTransaction() throws ProducerFencedException
+----
+
+Used when...FIXME
+
+| close
+a| [[close]]
+
+[source, java]
+----
+void close()
+----
+
+Used when...FIXME
+
+| close
+a| [[close]]
+
+[source, java]
+----
+void close()
+void close(long timeout, TimeUnit unit)
+----
+
+Used when...FIXME
+
+| commitTransaction
+a| [[commitTransaction]]
+
+[source, java]
+----
+void commitTransaction() throws ProducerFencedException
+----
+
+Used when...FIXME
+
+| flush
+a| [[flush]]
+
+[source, java]
+----
+void flush()
+----
+
+Used when...FIXME
+
+| initTransactions
+a| [[initTransactions]]
+
+[source, java]
+----
+void initTransactions()
+----
+
+Initializes transactions (when the `transactional.id` is configured)
+
+| metrics
+a| [[metrics]]
+
+[source, java]
+----
+Map<MetricName, ? extends Metric> metrics()
+----
+
+The performance metrics
+
+| partitionsFor
+a| [[partitionsFor]]
+
+[source, java]
+----
+List<PartitionInfo> partitionsFor(String topic)
+----
+
+The partition metadata for the given topic. This can be used for custom partitioning.
+
+Used when...FIXME
+
+| send
+a| [[send]]
+
+[source, java]
+----
+Future<RecordMetadata> send(ProducerRecord<K, V> record)
+Future<RecordMetadata> send(ProducerRecord<K, V> record, Callback callback)
+----
+
+Used when...FIXME
+
+| sendOffsetsToTransaction
+a| [[sendOffsetsToTransaction]]
+
+[source, java]
+----
+void sendOffsetsToTransaction(
+  Map<TopicPartition, OffsetAndMetadata> offsets,
+  String consumerGroupId) throws ProducerFencedException
+----
+
+Used when...FIXME
+|===

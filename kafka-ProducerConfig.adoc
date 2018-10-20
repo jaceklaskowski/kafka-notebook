@@ -22,10 +22,6 @@ a| [[CLIENT_ID_CONFIG]]
 
 An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.
 
-Used when:
-
-* FIXME
-
 | INTERCEPTOR_CLASSES_CONFIG
 |
 |
@@ -37,6 +33,28 @@ a| [[INTERCEPTOR_CLASSES_CONFIG]]
 a| [[MAX_REQUEST_SIZE_CONFIG]] The maximum size of a request in bytes. This setting will limit the number of record batches the producer will send in a single request to avoid sending huge requests. This is also effectively a cap on the maximum record batch size.
 
 Note that the server has its own cap on record batch size which may be different.
+
+| METRICS_NUM_SAMPLES_CONFIG
+|
+| metrics.num.samples
+a| [[METRICS_NUM_SAMPLES_CONFIG]] The number of samples maintained to compute metrics (for <<kafka-KafkaProducer.adoc#, Kafka producers>>). Must be at least `1`.
+
+| METRICS_RECORDING_LEVEL_CONFIG
+|
+| metrics.recording.level
+a| [[METRICS_RECORDING_LEVEL_CONFIG]] The name of highest recording level for metrics. Must be one of the following: `INFO` or `DEBUG`.
+
+| METRIC_REPORTER_CLASSES_CONFIG
+|
+| metric.reporters
+a| [[METRIC_REPORTER_CLASSES_CONFIG]] The class names of the <<kafka-MetricsReporter.adoc#, MetricsReporters>> that will be notified of new metric creation.
+
+The <<kafka-MetricsReporter.adoc#JmxReporter, JmxReporter>> is always included to register JMX statistics.
+
+| METRICS_SAMPLE_WINDOW_MS_CONFIG
+|
+| metrics.sample.window.ms
+a| [[METRICS_SAMPLE_WINDOW_MS_CONFIG]] The window of time a metrics sample is computed over (for <<kafka-KafkaProducer.adoc#, Kafka producers>>).
 
 | RETRY_BACKOFF_MS_CONFIG
 |

@@ -9,7 +9,30 @@ image::images/KafkaProducer.png[align="center"]
 
 `KafkaProducer` follows the link:kafka-Producer.adoc[Producer contract].
 
-When <<creating-instance, created>>, `KafkaProducer` starts the <<sender, Kafka producer I/O thread>> that is responsible for sending produce requests to a Kafka cluster (on <<ioThread, kafka-producer-network-thread>> daemon thread of execution).
+`KafkaProducer` uses the <<sender, Kafka producer I/O thread>> that is responsible for sending produce requests to a Kafka cluster (on <<ioThread, kafka-producer-network-thread>> daemon thread of execution). The thread is started right when `KafkaProducer` is <<creating-instance, created>>.
+
+[[metrics]]
+`KafkaProducer` exposes performance metrics.
+
+.KafkaProducer's Metrics
+[cols="1m,1m,2",options="header",width="100%"]
+|===
+| Metric Name
+| Recording Level
+| Description
+
+| buffer-exhausted-records
+| INFO
+| [[buffer-exhausted-records]] Recorded when `KafkaProducer` is requested to <<doSend, doSend>> and `BufferExhaustedException` is reported.
+
+| errors
+|
+| [[errors]] Recorded when `KafkaProducer` is requested to <<doSend, doSend>> and there were exceptions reported (e.g. `ApiException`, `InterruptedException`, `BufferExhaustedException` and `KafkaException`)
+
+| produce-throttle-time
+|
+| [[produce-throttle-time]] Recorded when `NetworkClient` is requested to <<kafka-NetworkClient.adoc#parseStructMaybeUpdateThrottleTimeMetrics, parseStructMaybeUpdateThrottleTimeMetrics>> (and a request was throttled due to quota violation)
+|===
 
 [[internal-registries]]
 .KafkaProducer's Internal Properties (e.g. Registries and Counters)
