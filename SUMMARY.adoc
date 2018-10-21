@@ -16,7 +16,7 @@
 . link:kafka-ProducerConfig.adoc[ProducerConfig]
 
 . link:kafka-producer-Partitioner.adoc[Partitioner]
-.. link:kafka-DefaultPartitioner.adoc[DefaultPartitioner]
+.. link:kafka-producer-DefaultPartitioner.adoc[DefaultPartitioner]
 
 . link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
 

@@ -1,3 +1,42 @@
-== [[Partitioner]] Partitioner
+== [[Partitioner]] Partitioner Contract
 
-`Partitioner` is...FIXME
+`Partitioner` is the <<contract, contract>> of <<implementations, partitioners>> that can <<partition, compute the partition for a producer record>>.
+
+[[implementations]]
+NOTE: <<kafka-producer-DefaultPartitioner.adoc#, DefaultPartitioner>> is the one and only known implementation of the <<contract, Partitioner Contract>> in Apache Kafka.
+
+[[contract]]
+.Partitioner Contract
+[cols="1m,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| close
+a| [[close]]
+
+[source, java]
+----
+void close()
+----
+
+Closes the partitioner
+
+| partition
+a| [[partition]]
+
+[source, java]
+----
+int partition(
+  String topic,
+  Object key,
+  byte[] keyBytes,
+  Object value,
+  byte[] valueBytes,
+  Cluster cluster)
+----
+
+Computes the partition for a record
+
+Used exclusively when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#partition, compute the partition for a ProducerRecord>>
+|===

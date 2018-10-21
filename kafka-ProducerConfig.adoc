@@ -141,9 +141,9 @@ The <<kafka-MetricsReporter.adoc#JmxReporter, JmxReporter>> is always included t
 a| [[METRICS_SAMPLE_WINDOW_MS_CONFIG]] The window of time a metrics sample is computed over (for <<kafka-producer-KafkaProducer.adoc#, Kafka producers>>).
 
 | PARTITIONER_CLASS_CONFIG
-|
+| <<kafka-producer-DefaultPartitioner.adoc#, DefaultPartitioner>>
 | partitioner.class
-a| [[PARTITIONER_CLASS_CONFIG]] Partitioner class that implements the <<kafka-producer-Partitioner.adoc#, org.apache.kafka.clients.producer.Partitioner>> interface.
+a| [[PARTITIONER_CLASS_CONFIG]] The <<kafka-producer-Partitioner.adoc#, Partitioner>> to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>> when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#send, send a record to topic>>.
 
 | RECONNECT_BACKOFF_MAX_MS_CONFIG
 |

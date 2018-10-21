@@ -27,6 +27,10 @@ val r = new ProducerRecord[String, String]("0", "this is a message")
 producer.send(r)
 ----
 
+`KafkaProducer` uses the <<kafka-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>> configuration property to define <<interceptors, ProducerInterceptors>> that are notified (about successes and failures) every time `KafkaProducer` is requested to <<send, send a record to a topic>>.
+
+`KafkaProducer` uses the <<kafka-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property to define the <<partitioner, Partitioner>> that is used (to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>>) when `KafkaProducer` is requested to <<partition, partition>> (when requested to <<doSend, send a record to topic asynchronously>>).
+
 Internally, `KafkaProducer` uses the <<sender, Kafka producer I/O thread>> that is responsible for sending produce requests to a Kafka cluster (on <<ioThread, kafka-producer-network-thread>> daemon thread of execution). The thread is started right when `KafkaProducer` is <<creating-instance, created>>.
 
 .KafkaProducer
@@ -76,7 +80,9 @@ Used when:
 * <<kafka-NetworkClient.adoc#, NetworkClient>> is created
 
 | interceptors
-a| [[interceptors]] <<kafka-ProducerInterceptor.adoc#, ProducerInterceptors>>
+a| [[interceptors]] <<kafka-ProducerInterceptor.adoc#, ProducerInterceptors>> that are notified (about successes and failures) when `KafkaProducer` is requested to <<send, send a record to a topic>>
+
+The `ProducerInterceptors` are initialized when the `KafkaProducer` is <<creating-instance, created>> using <<kafka-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>> configuration property.
 
 | ioThread
 a| [[ioThread]] *kafka-producer-network-thread* daemon thread of execution for the <<sender, sender>>
@@ -100,7 +106,9 @@ a| [[metadata]] <<kafka-Metadata.adoc#, Metadata>>
 * Used in <<waitOnMetadata, waitOnMetadata>>
 
 | partitioner
-a| [[partitioner]] <<kafka-producer-Partitioner.adoc#, Partitioner>>
+a| [[partitioner]] <<kafka-producer-Partitioner.adoc#, Partitioner>> that is used (to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>>) when `KafkaProducer` is requested to <<partition, partition>> (when requested to <<doSend, send a record to topic asynchronously>>)
+
+The `Partitioner` is initialized when the `KafkaProducer` is <<creating-instance, created>> using <<kafka-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property.
 
 | producerConfig
 a| [[producerConfig]] <<kafka-ProducerConfig.adoc#, ProducerConfig>>
@@ -126,7 +134,7 @@ log4j.logger.org.apache.kafka.clients.producer.KafkaProducer=TRACE
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
-=== [[send]] Asynchronously Sending Record to Topic and Notifying Producer Interceptors -- `send` Method
+=== [[send]] (Asynchronously) Sending Record to Topic and Notifying Producer Interceptors -- `send` Method
 
 [source, java]
 ----
@@ -146,7 +154,7 @@ Future<RecordMetadata> doSend(ProducerRecord<K, V> record, Callback callback)
 
 `doSend`...FIXME
 
-NOTE: `doSend` is used exclusively when `KafkaProducer` <<send, asynchronously sends a record to a topic and notifies producer interceptors>>.
+NOTE: `doSend` is used exclusively when `KafkaProducer` is requested to <<send, asynchronously send a record to a topic and notifies producer interceptors>>.
 
 === [[configureClusterResourceListeners]] Configuring ClusterResourceListeners -- `configureClusterResourceListeners` Internal Method
 
@@ -359,3 +367,18 @@ In case of any errors, `KafkaProducer` <<close, closes>> itself with `0` millis 
 ```
 Failed to construct kafka producer
 ```
+
+=== [[partition]] Computing Partition For ProducerRecord -- `partition` Internal Method
+
+[source, java]
+----
+int partition(
+  ProducerRecord<K, V> record,
+  byte[] serializedKey,
+  byte[] serializedValue,
+  Cluster cluster)
+----
+
+`partition`...FIXME
+
+NOTE: `partition` is used exclusively when `KafkaProducer` is requested to <<doSend, send a record to topic asynchronously>>.
