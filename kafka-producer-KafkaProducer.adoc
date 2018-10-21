@@ -188,7 +188,7 @@ List<PartitionInfo> partitionsFor(String topic)
 
 NOTE: `partitionsFor` is a part of link:kafka-Producer.adoc#partitionsFor[Producer Contract].
 
-`partitionsFor` <<waitOnMetadata, waits on cluster metadata>> for the input `topic` and <<maxBlockTimeMs, max.block.ms>> time. Once retrieved, `partitionsFor` requests `Cluster` for the link:kafka-Cluster.adoc#partitionsForTopic[partitions].
+`partitionsFor` <<waitOnMetadata, waits on cluster metadata>> for the input `topic` and <<maxBlockTimeMs, max.block.ms>> time. Once retrieved, `partitionsFor` requests `Cluster` for the link:kafka-common-Cluster.adoc#partitionsForTopic[partitions].
 
 === [[waitOnMetadata]] Waiting for Cluster Metadata (with Partitions for Topic) -- `waitOnMetadata` Internal Recursive Method
 
@@ -204,7 +204,7 @@ ClusterAndWaitTime waitOnMetadata(
 
 `waitOnMetadata` first checks if the available cluster metadata could be current enough.
 
-`waitOnMetadata` requests <<metadata, Metadata>> for the link:kafka-Metadata.adoc#fetch[current cluster information] and then requests the cluster for the link:kafka-Cluster.adoc#partitionCountForTopic[number of partitions] of the input `topic`.
+`waitOnMetadata` requests <<metadata, Metadata>> for the link:kafka-Metadata.adoc#fetch[current cluster information] and then requests the cluster for the link:kafka-common-Cluster.adoc#partitionCountForTopic[number of partitions] of the input `topic`.
 
 If the cluster metadata is not current enough (i.e. the number of partitions is unavailable or the `partition` is above the current count), `waitOnMetadata` prints out the following TRACE message to the logs:
 
@@ -216,7 +216,7 @@ Requesting metadata update for topic [topic].
 
 `waitOnMetadata` then requests <<metadata, Metadata>> to link:kafka-Metadata.adoc#awaitUpdate[wait for a metadata update] and then <<metadata, Metadata>> for the link:kafka-Metadata.adoc#fetch[current cluster information].
 
-`waitOnMetadata` keeps doing it until the link:kafka-Cluster.adoc#partitionCountForTopic[number of partitions] of the input `topic` is available.
+`waitOnMetadata` keeps doing it until the link:kafka-common-Cluster.adoc#partitionCountForTopic[number of partitions] of the input `topic` is available.
 
 `waitOnMetadata` reports a `TimeoutException` when `maxWaitMs` has elapsed.
 

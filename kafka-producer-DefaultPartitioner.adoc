@@ -1,3 +1,41 @@
-== [[DefaultPartitioner]] DefaultPartitioner
+== [[DefaultPartitioner]] DefaultPartitioner -- Default Partitioning Strategy
 
-`DefaultPartitioner` is...FIXME
+`DefaultPartitioner` is a <<kafka-producer-Partitioner.adoc#, Partitioner>> that uses a 32-bit murmur2 hash to compute the <<partition, partition>> for a record (with the key defined) or chooses a partition in a round-robin fashion (per the available partitions of the topic).
+
+`DefaultPartitioner` is the default partitioning strategy (per <<kafka-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property).
+
+`DefaultPartitioner` is a <<kafka-clients-Configurable.adoc#, Configurable>> that needs no <<kafka-clients-Configurable.adoc#configure, configuration>> while being created.
+
+`DefaultPartitioner` does nothing when requested to <<kafka-producer-Partitioner.adoc#close, close>>.
+
+=== [[partition]] Computing Partition For Record -- `partition` Method
+
+[source, java]
+----
+int partition(
+  String topic,
+  Object key,
+  byte[] keyBytes,
+  Object value,
+  byte[] valueBytes,
+  Cluster cluster)
+----
+
+NOTE: `partition` is part of the <<kafka-producer-Partitioner.adoc#partition, Partitioner Contract>> to compute the partition for a record.
+
+`partition` requests the input `Cluster` for the <<kafka-common-Cluster.adoc#partitionsForTopic, partitions for the given topic>>.
+
+If there is the `keyBytes` serialized key present (i.e. non-``null``), `partition` simply generates a 32-bit murmur2 hash (from the byte array) and applies the modulo operation by the number of partitions.
+
+If there is no `keyBytes` serialized key defined (i.e. `null`), `partition` requests the input `Cluster` for the <<kafka-common-Cluster.adoc#availablePartitionsForTopic, availablePartitionsForTopic>> and chooses a partition in a round-robin fashion.
+
+=== [[nextValue]] `nextValue` Internal Method
+
+[source, java]
+----
+int nextValue(String topic)
+----
+
+`nextValue`...FIXME
+
+NOTE: `nextValue` is used exclusively when `DefaultPartitioner` is requested for the <<partition, partition for a record>>.

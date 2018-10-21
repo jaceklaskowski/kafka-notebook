@@ -27,11 +27,6 @@
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-Authorizer.adoc[Authorizer]
 
-. link:kafka-Cluster.adoc[Cluster]
-.. link:kafka-Cluster-deprecated.adoc[Cluster (deprecated)]
-. link:kafka-ClusterConnectionStates.adoc[ClusterConnectionStates]
-. link:kafka-ClusterResourceListener.adoc[ClusterResourceListener (and ClusterResourceListeners Collection)]
-
 . link:kafka-server-DynamicBrokerConfig.adoc[DynamicBrokerConfig]
 . link:kafka-server-DynamicLogConfig.adoc[DynamicLogConfig]
 . link:kafka-server-DynamicMetricsReporters.adoc[DynamicMetricsReporters]
@@ -224,6 +219,11 @@
 . link:kafka-clients-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
 
 === Kafka Commons
+
+. link:kafka-common-Cluster.adoc[Cluster]
+.. link:kafka-Cluster-deprecated.adoc[Cluster (deprecated)]
+. link:kafka-ClusterConnectionStates.adoc[ClusterConnectionStates]
+. link:kafka-ClusterResourceListener.adoc[ClusterResourceListener (and ClusterResourceListeners Collection)]
 
 . link:kafka-common-NotificationHandler.adoc[NotificationHandler Contract]
 . link:kafka-common-ZkNodeChangeNotificationListener.adoc[ZkNodeChangeNotificationListener]

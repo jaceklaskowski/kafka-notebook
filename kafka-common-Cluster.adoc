@@ -65,3 +65,14 @@ List<PartitionInfo> partitionsForTopic(String topic)
 * `KafkaProducer` link:kafka-producer-KafkaProducer.adoc#partitionsFor[requests partitions for a topic]
 * `DefaultPartitioner` link:kafka-producer-DefaultPartitioner.adoc#partition[assigns the partition for a record]
 ====
+
+=== [[availablePartitionsForTopic]] `availablePartitionsForTopic` Method
+
+[source, java]
+----
+List<PartitionInfo> availablePartitionsForTopic(String topic)
+----
+
+`availablePartitionsForTopic`...FIXME
+
+NOTE: `availablePartitionsForTopic` is used when...FIXME

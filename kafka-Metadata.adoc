@@ -52,7 +52,7 @@ A (_seemingly_) common usage pattern is as follows:
 | Description
 
 | [[cluster]] `cluster`
-a| link:kafka-Cluster.adoc[Cluster] with a subset of the nodes and topic partitions in a Kafka cluster.
+a| link:kafka-common-Cluster.adoc[Cluster] with a subset of the nodes and topic partitions in a Kafka cluster.
 
 * Empty (with no nodes and no topic partitions) when `Metadata` is <<creating-instance, created>>
 
@@ -246,7 +246,7 @@ synchronized void update(Cluster cluster, Set<String> unavailableTopics, long no
 
 `update` sets the <<cluster, cluster>> to the input `cluster`.
 
-`update` prints out the cluster ID and notifies <<clusterResourceListeners, clusterResourceListeners>> that link:kafka-ClusterResourceListener.adoc#onUpdate[cluster has changed] (only for a link:kafka-Cluster.adoc#isBootstrapConfigured[non-bootstrap cluster]).
+`update` prints out the cluster ID and notifies <<clusterResourceListeners, clusterResourceListeners>> that link:kafka-ClusterResourceListener.adoc#onUpdate[cluster has changed] (only for a link:kafka-common-Cluster.adoc#isBootstrapConfigured[non-bootstrap cluster]).
 
 ```
 Cluster ID: [clusterId]
