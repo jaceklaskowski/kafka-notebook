@@ -63,7 +63,7 @@ processReconfiguration(
 
 `processReconfiguration`...FIXME
 
-NOTE: `processReconfiguration` is used when...FIXME
+NOTE: `processReconfiguration` is used when `DynamicBrokerConfig` is requested to <<validate, validate>> and <<updateCurrentConfig, updateCurrentConfig>>.
 
 === [[updateCurrentConfig]] `updateCurrentConfig` Internal Method
 
@@ -161,3 +161,14 @@ Internally, `addReconfigurables` creates a <<kafka-server-DynamicThreadPool.adoc
 `addReconfigurables` creates a <<kafka-server-DynamicListenerConfig.adoc#, DynamicListenerConfig>> with the input <<kafka-KafkaServer.adoc#, KafkaServer>> and <<addBrokerReconfigurable, addBrokerReconfigurable>>.
 
 NOTE: `addReconfigurables` is used when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+
+=== [[validate]] `validate` Method
+
+[source, scala]
+----
+validate(props: Properties, perBrokerConfig: Boolean): Unit
+----
+
+`validate`...FIXME
+
+NOTE: `validate` is used exclusively when `AdminManager` is requested to <<kafka-AdminManager.adoc#alterConfigs, alterConfigs>> (when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleAlterConfigsRequest, handleAlterConfigsRequest>>).

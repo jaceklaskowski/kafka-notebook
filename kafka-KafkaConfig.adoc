@@ -20,11 +20,11 @@ a| [[advertisedListeners]] <<kafka-properties.adoc#advertised.listeners, adverti
 
 Used when:
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#createBrokerInfo, createBrokerInfo>> (when <<kafka-KafkaServer.adoc#startup, started>>)
-
 * `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#validateReconfiguration, validateReconfiguration>>
 
 * `KafkaConfig` is requested to <<validateValues, validateValues>>
+
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#createBrokerInfo, createBrokerInfo>> (when <<kafka-KafkaServer.adoc#startup, started>>)
 
 | autoLeaderRebalanceEnable
 a| [[autoLeaderRebalanceEnable]] <<kafka-properties.adoc#auto.leader.rebalance.enable, auto.leader.rebalance.enable>>

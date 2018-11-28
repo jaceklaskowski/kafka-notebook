@@ -1,176 +1,185 @@
 == Kafka Properties
 
+[[properties]]
 .Properties
-[cols="1m,1,2",options="header",width="100%"]
-|======================
+[cols="1m,2",options="header",width="100%"]
+|===
 | Name
-| Default Value
 | Description
 
 | advertised.listeners
-| (empty)
-| [[advertised.listeners]] Listeners to publish to Zookeeper for clients to use, if different than the <<listeners, listeners>> config property.
+a| [[advertised.listeners]] Comma-separated list of URIs and listener names for other Kafka brokers and Kafka clients to use
 
-In IaaS environments (e.g. Docker or Kubernetes), this may need to be different from the interface to which the broker binds. Unlike <<listeners, listeners>> it is invalid to advertise the `0.0.0.0` meta-address.
+Default: <<listeners, listeners>>
+
+In IaaS environments (e.g. Docker or Kubernetes), `advertised.listeners` may likely need to be different from the interface to which a Kafka broker binds. That ensures that the Kafka broker advertises an address that is accessible from both local and external hosts.
+
+Unlike <<listeners, listeners>> it is invalid to advertise the `0.0.0.0` non-routable meta-address.
 
 * Use `KafkaConfig.AdvertisedListenersProp` to reference the property
 
 * Use <<kafka-KafkaConfig.adoc#advertisedListeners, KafkaConfig.advertisedListeners>> to access the current value
 
 | auto.commit.interval.ms
-|
-| [[auto.commit.interval.ms]] How often (in milliseconds) consumer offsets should be auto-committed when <<enable.auto.commit, enable.auto.commit>> is enabled
+a| [[auto.commit.interval.ms]] How often (in milliseconds) consumer offsets should be auto-committed when <<enable.auto.commit, enable.auto.commit>> is enabled
 
 | auto.leader.rebalance.enable
-| `true`
-| [[auto.leader.rebalance.enable]] Enables auto leader balancing. A <<kafka-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, background thread>> checks and triggers leader balance if required.
+a| [[auto.leader.rebalance.enable]] Enables auto leader balancing. A <<kafka-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, background thread>> checks and triggers leader balance if required.
+
+Default: `true`
 
 * Use `KafkaConfig.AutoLeaderRebalanceEnableProp` to reference the property
 
 * Use <<kafka-KafkaConfig.adoc#autoLeaderRebalanceEnable, KafkaConfig.autoLeaderRebalanceEnable>> to access the current value
 
 | auto.offset.reset
-| `latest`
 a| [[auto.offset.reset]] Reset policy -- what to do when there is no initial offset in Kafka or if the current offset does not exist any more on the server (e.g. because that data has been deleted):
 
 * *earliest* -- automatically reset the offset to the earliest offset
 * *latest* -- automatically reset the offset to the latest offset
 * *none* -- throw an exception to the consumer if no previous offset is found for the consumer's group
-* anything else: throw an exception to the consumer
+* anything else: throw an exception to a consumer
+
+Default: `latest`
 
 | authorizer.class.name
-|
 | [[authorizer.class.name]]
 
 | broker.id
-| `-1`
-| [[broker.id]] The broker id for this server.
+| [[broker.id]] The broker id of a Kafka broker for identification purposes
 
-If unset, a unique broker id will be generated. To avoid conflicts between zookeeper generated broker id's and user configured broker id's, generated broker ids start from <<reserved.broker.max.id, reserved.broker.max.id>> + 1.
+If unset, a unique broker id will be generated. To avoid conflicts between zookeeper generated broker id's and user configured broker id's, generated broker IDs start from <<reserved.broker.max.id, reserved.broker.max.id>> + 1.
 
 Use <<kafka-KafkaConfig.adoc#brokerId, KafkaConfig.brokerId>> to access the current value.
 
 | broker.id.generation.enable
-| `true`
-a| [[broker.id.generation.enable]] Enables *automatic broker id generation* on the server. When enabled (`true`) the value configured for <<reserved.broker.max.id, reserved.broker.max.id>> should be checked.
+a| [[broker.id.generation.enable]] Enables *automatic broker id generation* of a Kafka broker
+
+Default: `true`
+
+When enabled (`true`) the value configured for <<reserved.broker.max.id, reserved.broker.max.id>> should be checked.
 
 * Use `KafkaConfig.BrokerIdGenerationEnableProp` to reference the property
 
 * Use <<kafka-KafkaConfig.adoc#brokerIdGenerationEnable, KafkaConfig.brokerIdGenerationEnable>> to access the current value
 
 | background.threads
-| `10`
 | [[background.threads]] The number of threads to use for various background processing tasks
 
 As least 1 thread is required
 
+Default: `10`
+
 | link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
-| (empty)
-| [[bootstrap.servers]] A comma-separated list of `host:port` pairs that are the addresses of one or more brokers in a link:kafka-brokers.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
+a| [[bootstrap.servers]] A comma-separated list of `host:port` pairs that are the addresses of one or more brokers in a link:kafka-brokers.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
+
+Default: `(empty)`
 
 | broker.rack
-|
 | [[broker.rack]]
 
 | check.crcs
-|
 | [[check.crcs]] Automatically check the CRC32 of the records consumed. This ensures no on-the-wire or on-disk corruption to the messages occurred. This check adds some overhead, so it may be disabled in cases seeking extreme performance.
 
 Use `ConsumerConfig.CHECK_CRCS_CONFIG`
 
 | link:kafka-properties-client-id.adoc[client.id]
-| (random-generated)
-| [[client.id]]
+a| [[client.id]]
+
+Default: `(randomly-generated)`
+
+| default.replication.factor
+a| [[default.replication.factor]] The default replication factor that is used for auto-created topics
+
+Default: `1`
+
+Increase the default value to at least `2`
 
 | delete.topic.enable
-| `true`
 a| [[delete.topic.enable]] Enables topic deletion
 
 NOTE: Deleting topic through the admin tool has no effect with the property disabled.
 
+Default: `true`
+
 | link:kafka-properties-enable-auto-commit.adoc[enable.auto.commit]
-| `true`
-| [[enable.auto.commit]] When enabled (i.e. `true`) consumer offsets are committed automatically in the background (aka _consumer auto commit_) every <<auto.commit.interval.ms, auto.commit.interval.ms>>
+a| [[enable.auto.commit]] When enabled (i.e. `true`) consumer offsets are committed automatically in the background (aka _consumer auto commit_) every <<auto.commit.interval.ms, auto.commit.interval.ms>>
+
+Default: `true`
 
 When disabled, offsets have to be committed manually (synchronously using link:kafka-consumer-KafkaConsumer.adoc#commitSync[KafkaConsumer.commitSync] or asynchronously link:kafka-consumer-KafkaConsumer.adoc#commitAsync[KafkaConsumer.commitAsync]). On restart restore the position of a consumer using link:kafka-consumer-KafkaConsumer.adoc#seek[KafkaConsumer.seek].
 
 Used when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#creating-instance[created] and creates a link:kafka-consumer-ConsumerCoordinator.adoc#autoCommitEnabled[ConsumerCoordinator].
 
 | fetch.min.bytes
-|
 | [[fetch.min.bytes]] The minimum amount of data the server should return for a fetch request. If insufficient data is available the request will wait for that much data to accumulate before answering the request. The default setting of 1 byte means that fetch requests are answered as soon as a single byte of data is available or the fetch request times out waiting for data to arrive. Setting this to something greater than 1 will cause the server to wait for larger amounts of data to accumulate which can improve server throughput a bit at the cost of some additional latency.
 
 Use `ConsumerConfig.FETCH_MIN_BYTES_CONFIG`
 
 | fetch.max.bytes
-|
 | [[fetch.max.bytes]] The maximum amount of data the server should return for a fetch request. Records are fetched in batches by the consumer, and if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that the consumer can make progress. As such, this is not a absolute maximum. The maximum record batch size accepted by the broker is defined via <<message.max.bytes, message.max.bytes>> (broker config) or <<max.message.bytes, max.message.bytes>> (topic config). Note that the consumer performs multiple fetches in parallel.
 
 Use `ConsumerConfig.FETCH_MAX_BYTES_CONFIG`
 
 | fetch.max.wait.ms
-|
 | [[fetch.max.wait.ms]] The maximum amount of time the server will block before answering the fetch request if there isn't sufficient data to immediately satisfy the requirement given by fetch.min.bytes.
 
 Use `ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG`
 
 | link:kafka-properties-group-id.adoc[group.id]
-|
 | [[group.id]] The name of the consumer group the consumer is part of.
 
 | heartbeat.interval.ms
-|
 | [[heartbeat.interval.ms]][[heartbeat_interval_ms]] The expected time between heartbeats to the group coordinator when using Kafka's group management facilities.
 
 | host.name
-| (empty)
-| [[host.name]] The hostname the link:kafka-SocketServer.adoc#endpoints[default endpoint] in `SocketServer` listens on.
+a| [[host.name]] The hostname a Kafka broker listens on
+
+Default: `(empty)`
 
 | inter.broker.protocol.version
-|
 | [[inter.broker.protocol.version]]
 
 | interceptor.classes
-| (empty)
 a| [[interceptor.classes]] Comma-separated list of link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor] class names.
 
-[source, scala]
-----
-props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, "pl.jaceklaskowski.kafka.KafkaInterceptor")
-----
+Default: `(empty)`
 
 | leader.imbalance.check.interval.seconds
-| `300`
-| [[leader.imbalance.check.interval.seconds]] How often the active <<kafka-KafkaController.adoc#, KafkaController>> schedules the <<kafka-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, partition rebalance check>> (aka _AutoLeaderRebalance_ or _AutoPreferredReplicaLeaderElection_ or _auto leader balancing_)
+a| [[leader.imbalance.check.interval.seconds]] How often the active <<kafka-KafkaController.adoc#, KafkaController>> schedules the <<kafka-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, partition rebalance check>> (aka _AutoLeaderRebalance_ or _AutoPreferredReplicaLeaderElection_ or _auto leader balancing_)
+
+Default: `300`
 
 * Use `KafkaConfig.LeaderImbalanceCheckIntervalSecondsProp` to reference the property
 
 * Use <<kafka-KafkaConfig.adoc#leaderImbalanceCheckIntervalSeconds, KafkaConfig.leaderImbalanceCheckIntervalSeconds>> to access the current value
 
 | listeners
-| (empty)
-| [[listeners]] The addresses the socket server listens on.
+a| [[listeners]] Comma-separated list of URIs and listener names that a Kafka broker will listen on
+
+Default: `PLAINTEXT://<<host.name, host.name>>:<<port, port>>`
+
+Use `0.0.0.0` to bind to all the network interfaces on a machine or leave it empty to bind to the default interface.
 
 | log.dir
-| `/tmp/kafka-logs`
-| [[log.dir]] The directory in which the log data is kept
+a| [[log.dir]] The directory in which the log data is kept
+
+Default: `/tmp/kafka-logs`
 
 | log.dirs
-| (empty)
-| [[log.dirs]] The directories in which the log data is kept. If not set, <<log.dir, log.dir>> is used.
+a| [[log.dirs]] The directories in which the log data is kept
+
+Default: <<log.dir, log.dir>>
 
 Use <<kafka-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> to access the current value.
 
 | key.deserializer
-|
 | [[key.deserializer]] How to deserialize message keys.
 
 | max.block.ms
-|
 | [[max.block.ms]]
 
 | max.partition.fetch.bytes
-|
 a| [[max.partition.fetch.bytes]] The maximum amount of data per-partition the server will return. Records are fetched in batches by the consumer. If the first record batch in the first non-empty partition of the fetch is larger than this limit, the batch will still be returned to ensure that the consumer can make progress. The maximum record batch size accepted by the broker is defined via <<message.max.bytes, message.max.bytes>> (broker config) or <<max.message.bytes, max.message.bytes>> (topic config).
 
 Use `ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG`
@@ -178,7 +187,6 @@ Use `ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG`
 NOTE: Use <<fetch.max.bytes, fetch.max.bytes>> for limiting the consumer request size.
 
 | max.poll.records
-| `500`
 a| [[max.poll.records]] (KafkaConsumer) The maximum number of records returned from a Kafka `Consumer` when link:kafka-consumer-Consumer.adoc#poll[polling topics for records].
 
 The default setting (`-1`) sets no upper bound on the number of records, i.e. `Consumer.poll()` will return as soon as either any data is available or the passed timeout expires.
@@ -196,25 +204,25 @@ Use `ConsumerConfig.MAX_POLL_RECORDS_CONFIG`.
 Internally, `max.poll.records` is used exclusively when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#creating-instance[created] (to create a link:kafka-consumer-KafkaConsumer.adoc#fetcher[Fetcher]).
 
 | metadata.max.age.ms
-|
 | [[metadata.max.age.ms]]
 
 | metric.reporters
-| link:kafka-MetricsReporter.adoc#JmxReporter[JmxReporter]
 | [[metric.reporters]][[metric_reporters]] The list of fully-qualified classes names of the link:kafka-MetricsReporter.adoc[metrics reporters].
 
+Default: <<kafka-MetricsReporter.adoc#JmxReporter, JmxReporter>>
+
 | metrics.num.samples
-|
 | [[metrics.num.samples]][[metrics_num_samples]] Number of samples to compute metrics.
 
 | metrics.sample.window.ms
-|
 | [[metrics.sample.window.ms]][[metrics_sample_window_ms]] Time window (in milliseconds) a metrics sample is computed over.
 
 | min.insync.replicas
-| `1`
-| [[min.insync.replicas]]
-When a producer sets acks to "all" (or "-1"), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful.
+a| [[min.insync.replicas]] The minimum number of replicas in ISR that is needed to commit a produce request with `required.acks=-1` (or `all`)
+
+Default: `1`
+
+When a Kafka producer sets acks to `all` (or `-1`), this configuration specifies the minimum number of replicas that must acknowledge a write for the write to be considered successful.
 
 If this minimum cannot be met, then the producer will raise an exception (either `NotEnoughReplicas` or `NotEnoughReplicasAfterAppend`).
 
@@ -223,118 +231,125 @@ When used together, `min.insync.replicas` and acks allow you to enforce greater 
 A typical scenario would be to create a topic with a replication factor of 3, set `min.insync.replicas` to 2, and produce with acks of "all". This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 
 | num.io.threads
-| `8`
 | [[num.io.threads]] The number of threads that link:kafka-KafkaServer.adoc[KafkaServer] uses for processing requests, which may include disk I/O
 
+Default: `8`
+
 | num.network.threads
-| `3`
 | [[num.network.threads]] The number of threads that SocketServer uses for the link:kafka-SocketServer.adoc#numProcessorThreads[number of processors per endpoint].
 
+Default: `3`
+
+| num.partitions
+| [[num.partitions]] The number of log partitions for auto-created topics
+
+Default: `1`
+
+Increase the default value (`1`) since it is better to over-partition a topic that leads to a better data balancing and aids consumer parallelism.
+
 | port
-| (empty)
-| [[port]] The port the link:kafka-SocketServer.adoc#endpoints[default endpoint] in `SocketServer` listens on.
+| [[port]] The port a Kafka broker listens on
+
+Default: `9092`
 
 | rebalance.timeout.ms
-|
 | [[rebalance.timeout.ms]][[rebalance_timeout_ms]] The maximum allowed time for each worker to join the group once a rebalance has begun.
 
 | receive.buffer.bytes
-|
 | [[receive.buffer.bytes]] The hint about the size of the TCP network receive buffer (SO_RCVBUF) to use (for a socket) when reading data. If the value is -1, the OS default will be used.
 
 | replica.lag.time.max.ms
-|
 | [[replica.lag.time.max.ms]]
 
 | replica.socket.timeout.ms
-|
 | [[replica.socket.timeout.ms]]
 
 | reserved.broker.max.id
-| `1000`
 | [[reserved.broker.max.id]] Maximum number that can be used for <<broker.id, broker.id>>. Has to be at least `0`.
+
+Default: `1000`
 
 * Use `KafkaConfig.MaxReservedBrokerIdProp` to reference the property
 
 * Use <<kafka-KafkaConfig.adoc#maxReservedBrokerId, KafkaConfig.maxReservedBrokerId>> to access the current value
 
 | link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
-|
 | [[retry.backoff.ms]] Time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
 
 Use `ConsumerConfig.RETRY_BACKOFF_MS_CONFIG`
 
 | request.timeout.ms
-|
 | [[request.timeout.ms]] The configuration controls the maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
 
 Use `ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG`
 
 | sasl.enabled.mechanisms
-|
 | [[sasl.enabled.mechanisms]]
 
 | send.buffer.bytes
-|
 | [[send.buffer.bytes]] The hint about the size of the TCP network send buffer (SO_SNDBUF) to use (for a socket) when sending data. If the value is -1, the OS default will be used.
 
 | session.timeout.ms
-| `10000`
 | [[session.timeout.ms]][[session_timeout_ms]] The timeout used to detect worker failures.
 
+Default: `10000`
+
+| unclean.leader.election.enable
+a| [[unclean.leader.election.enable]] Controls whether to enable replicas not in the ISR set to be elected as leader as the last resort, even though doing so may result in data loss.
+
+Default: `1`
+
 | value.deserializer
-|
 | [[value.deserializer]][[value_deserializer]] How to deserialize message values
 
 | zookeeper.connect
-| (empty)
-a| [[zookeeper.connect]] Comma-separated `host:port` pairs of Zookeeper URIs (with an optional chroot path suffix at the end), e.g. `localhost:2181`, `127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002`, `127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002/app/a`
+a| [[zookeeper.connect]] Comma-separated list of Zookeeper hosts (as `host:port` pairs) that brokers register to, e.g. `localhost:2181`, `127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002`
+
+Default: `(empty)`
+
+Zookeeper URIs can have an optional chroot path suffix at the end, e.g. `127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002/app/a`
 
 If the optional chroot path suffix is used, all paths are relative to this path.
+
+It is recommended to include all the hosts in a Zookeeper ensemble (cluster)
 
 * Available as `KafkaConfig.ZkConnectProp`
 
 * Use <<kafka-KafkaConfig.adoc#zkConnect, KafkaConfig.zkConnect>> to access the current value
 
-| zookeeper.session.timeout.ms
-| `6000`
-a| [[zookeeper.session.timeout.ms]] Zookeeper session timeout
-
-* Available as `KafkaConfig.ZkSessionTimeoutMsProp`
-
-* Use <<kafka-KafkaConfig.adoc#zkSessionTimeoutMs, KafkaConfig.zkSessionTimeoutMs>> to access the current value
-
 | zookeeper.connection.timeout.ms
-| <<zookeeper.session.timeout.ms, zookeeper.session.timeout.ms>>
 a| [[zookeeper.connection.timeout.ms]] The max time that the client waits to establish a connection to zookeeper
+
+Default: <<zookeeper.session.timeout.ms, zookeeper.session.timeout.ms>>
 
 * Available as `KafkaConfig.ZkConnectionTimeoutMsProp`
 
 * Use <<kafka-KafkaConfig.adoc#zkConnectionTimeoutMs, KafkaConfig.zkConnectionTimeoutMs>> to access the current value
 
 | zookeeper.max.in.flight.requests
-| `10`
 a| [[zookeeper.max.in.flight.requests]] The maximum number of unacknowledged requests the client will send to Zookeeper before blocking. Has to be at least 1
+
+Default: `10`
 
 * Available as `KafkaConfig.ZkMaxInFlightRequestsProp`
 
 * Use <<kafka-KafkaConfig.adoc#zkMaxInFlightRequests, KafkaConfig.zkMaxInFlightRequests>> to access the current value
 
+| zookeeper.session.timeout.ms
+a| [[zookeeper.session.timeout.ms]] Zookeeper session timeout
+
+Default: `6000`
+
+* Available as `KafkaConfig.ZkSessionTimeoutMsProp`
+
+* Use <<kafka-KafkaConfig.adoc#zkSessionTimeoutMs, KafkaConfig.zkSessionTimeoutMs>> to access the current value
+
 | zookeeper.set.acl
-| `false`
 a| [[zookeeper.set.acl]] Enables secure ACLs
+
+Default: `false`
 
 * Available as `KafkaConfig.ZkEnableSecureAclsProp`
 
 * Use <<kafka-KafkaConfig.adoc#zkEnableSecureAcls, KafkaConfig.zkEnableSecureAcls>> to access the current value
-|======================
-
-[source, scala]
-----
-// requires org.apache.kafka:connect-runtime:0.10.0.1 dependency
-
-import org.apache.kafka.connect.runtime.distributed.DistributedConfig
-DistributedConfig.SESSION_TIMEOUT_MS_CONFIG
-----
-
-CAUTION: FIXME How to know the current value of a setting on a producer's and a consumer's side?
+|===
