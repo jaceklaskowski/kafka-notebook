@@ -8,7 +8,9 @@
 
 [source, java]
 ----
-DescribeTopicsResult describeTopics(final Collection<String> topicNames, DescribeTopicsOptions options)
+DescribeTopicsResult describeTopics(
+  final Collection<String> topicNames,
+  DescribeTopicsOptions options)
 ----
 
 `describeTopics`...FIXME
@@ -43,3 +45,22 @@ NOTE: `alterReplicaLogDirs` is used when...FIXME
 * [[logContext]] `LogContext`
 
 `KafkaAdminClient` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[alterConfigs]] `alterConfigs` Method
+
+[source, java]
+----
+AlterConfigsResult alterConfigs(
+  Map<ConfigResource, Config> configs,
+  final AlterConfigsOptions options)
+// Private API
+Map<ConfigResource, KafkaFutureImpl<Void>> alterConfigs(
+  Map<ConfigResource, Config> configs,
+  final AlterConfigsOptions options,
+  Collection<ConfigResource> resources,
+  NodeProvider nodeProvider)
+----
+
+NOTE: `alterConfigs` is part of the <<kafka-AdminClient.adoc#alterConfigs, AdminClient Contract>> to...FIXME.
+
+`alterConfigs`...FIXME

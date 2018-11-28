@@ -176,6 +176,8 @@
 . link:kafka-ReassignPartitionsCommand.adoc[ReassignPartitionsCommand]
 . link:kafka-TopicCommand.adoc[TopicCommand]
 
+. link:kafka-admin-ConfigCommand.adoc[ConfigCommand]
+
 === Kafka Monitoring (Metrics)
 
 . link:kafka-Metrics.adoc[Metrics]

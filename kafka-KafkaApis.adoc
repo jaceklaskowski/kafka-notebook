@@ -10,54 +10,54 @@ image::images/KafkaApis.png[align="center"]
 [[keys]]
 [[handlers]]
 .KafkaApis's API Keys and Handlers (in alphabetical order)
-[cols="1,1",options="header",width="100%"]
+[cols="1m,1",options="header",width="100%"]
 |===
 | Key
 | Handler
 
-| [[AlterConfigs]] `AlterConfigs`
+| [[AlterConfigs]] AlterConfigs
 | <<handleAlterConfigsRequest, handleAlterConfigsRequest>>
 
-| [[AlterReplicaLogDirs]] `AlterReplicaLogDirs`
+| [[AlterReplicaLogDirs]] AlterReplicaLogDirs
 | <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
 
-| [[ControlledShutdown]] `ControlledShutdown`
+| [[ControlledShutdown]] ControlledShutdown
 | <<handleControlledShutdownRequest, handleControlledShutdownRequest>>
 
-| [[CreatePartitions]] `CreatePartitions`
+| [[CreatePartitions]] CreatePartitions
 | <<handleCreatePartitionsRequest, handleCreatePartitionsRequest>>
 
-| [[CreateTopics]] `CreateTopics`
+| [[CreateTopics]] CreateTopics
 | <<handleCreateTopicsRequest, handleCreateTopicsRequest>>
 
-| [[DeleteTopics]] `DeleteTopics`
+| [[DeleteTopics]] DeleteTopics
 | <<handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
 
-| [[DescribeGroups]] `DescribeGroups`
+| [[DescribeGroups]] DescribeGroups
 | <<handleDescribeGroupRequest, handleDescribeGroupRequest>>
 
-| [[DescribeLogDirs]] `DescribeLogDirs`
+| [[DescribeLogDirs]] DescribeLogDirs
 | <<handleDescribeLogDirsRequest, handleDescribeLogDirsRequest>>
 
-| [[Fetch]] `Fetch`
+| [[Fetch]] Fetch
 | <<handleFetchRequest, handleFetchRequest>>
 
-| [[LeaderAndIsr]] `LeaderAndIsr`
+| [[LeaderAndIsr]] LeaderAndIsr
 | <<handleAlterReplicaLogDirsRequest, handleAlterReplicaLogDirsRequest>>
 
-| [[Metadata]] `Metadata`
+| [[Metadata]] Metadata
 | <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
 
-| [[OffsetCommit]] `OffsetCommit`
+| [[OffsetCommit]] OffsetCommit
 | <<handleOffsetCommitRequest, handleOffsetCommitRequest>>
 
-| [[OffsetFetch]] `OffsetFetch`
+| [[OffsetFetch]] OffsetFetch
 | <<handleOffsetFetchRequest, handleOffsetFetchRequest>>
 
-| [[StopReplica]] `StopReplica`
+| [[StopReplica]] StopReplica
 | <<handleStopReplicaRequest, handleStopReplicaRequest>>
 
-| [[UpdateMetadata]] `UpdateMetadata`
+| [[UpdateMetadata]] UpdateMetadata
 | <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
 |===
 
@@ -444,7 +444,7 @@ handleDescribeGroupRequest(request: RequestChannel.Request): Unit
 
 NOTE: `handleDescribeGroupRequest` is used exclusively when `KafkaApis` is requested to handle a <<DescribeGroups, DescribeGroups>> request.
 
-=== [[handleAlterConfigsRequest]] Handling DescribeGroups Request -- `handleAlterConfigsRequest` Handler
+=== [[handleAlterConfigsRequest]] Handling AlterConfigs Request -- `handleAlterConfigsRequest` Handler
 
 [source, scala]
 ----
