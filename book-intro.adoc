@@ -1,17 +1,17 @@
-== Mastering Apache Kafka {{ book.version }}
+== The Internals of Apache Kafka {{ book.version }}
 
-Welcome to *Mastering Apache Kafka* gitbook! I'm very excited to have you here and hope you will enjoy exploring the internals of Spark SQL as much as I have.
+Welcome to *The Internals of Apache Kafka* gitbook! I'm very excited to have you here and hope you will enjoy exploring the internals of Apache Kafka as much as I have.
 
 [quote, Flannery O'Connor]
 I write to discover what I know.
 
-I'm https://pl.linkedin.com/in/jaceklaskowski[Jacek Laskowski], an independent consultant, software developer and technical instructor specializing in *Apache Spark*, Apache Kafka and Kafka Streams (with Scala, sbt, Kubernetes, DC/OS, Apache Mesos, and Hadoop YARN).
+I'm https://pl.linkedin.com/in/jaceklaskowski[Jacek Laskowski], an independent consultant, software developer and technical instructor specializing in Apache Spark, *Apache Kafka* and Kafka Streams (with Scala, sbt, Kubernetes, DC/OS, Apache Mesos, and Hadoop YARN).
 
 I offer software development and consultancy services with https://github.com/jaceklaskowski/spark-workshop/blob/gh-pages/slides/README.md#toc[very hands-on in-depth workshops] and mentoring. Reach out to me at jacek@japila.pl or https://twitter.com/jaceklaskowski[@jaceklaskowski] to discuss opportunities.
 
 Consider joining me at http://www.meetup.com/WarsawScala/[Warsaw Scala Enthusiasts] and http://www.meetup.com/Warsaw-Spark[Warsaw Spark] meetups in Warsaw, Poland.
 
-TIP: I'm also writing https://bit.ly/mastering-apache-spark[Mastering Apache Spark 2], https://bit.ly/mastering-spark-sql[Mastering Spark SQL], https://bit.ly/mastering-kafka-streams[Mastering Kafka Streams] and https://bit.ly/spark-structured-streaming[Spark Structured Streaming Notebook] gitbooks.
+TIP: I'm also writing https://bit.ly/mastering-apache-spark[Mastering Apache Spark], https://bit.ly/mastering-spark-sql[Mastering Spark SQL], https://bit.ly/mastering-kafka-streams[Mastering Kafka Streams] and https://bit.ly/spark-structured-streaming[The Internals of Spark Structured Streaming] gitbooks.
 
 Expect text and code snippets from a variety of public sources. Attribution follows.
 
