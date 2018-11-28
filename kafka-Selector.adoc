@@ -13,7 +13,7 @@ image::images/Selector.png[align="center"]
 * `KafkaConsumer` is created
 * `KafkaProducer` is created
 * `AdminClient` is created
-* `ControllerChannelManager` does `addNewBroker`
+* `ControllerChannelManager` is requested to <<kafka-controller-ControllerChannelManager.adoc#addNewBroker, addNewBroker>>
 * `TransactionMarkerChannelManager` is created
 * `Processor` is created
 * `KafkaServer` does `doControlledShutdown`

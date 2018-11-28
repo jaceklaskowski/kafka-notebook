@@ -24,9 +24,11 @@ Unlike <<listeners, listeners>> it is invalid to advertise the `0.0.0.0` non-rou
 a| [[auto.commit.interval.ms]] How often (in milliseconds) consumer offsets should be auto-committed when <<enable.auto.commit, enable.auto.commit>> is enabled
 
 | auto.leader.rebalance.enable
-a| [[auto.leader.rebalance.enable]] Enables auto leader balancing. A <<kafka-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, background thread>> checks and triggers leader balance if required.
+a| [[auto.leader.rebalance.enable]] Enables auto leader balancing
 
 Default: `true`
+
+A <<kafka-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, background thread>> checks and triggers leader balance if required.
 
 * Use `KafkaConfig.AutoLeaderRebalanceEnableProp` to reference the property
 
@@ -136,6 +138,13 @@ Use `ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG`
 a| [[host.name]] The hostname a Kafka broker listens on
 
 Default: `(empty)`
+
+| inter.broker.listener.name
+a| [[inter.broker.listener.name]] Name of the listener that is used for inter-broker communication
+
+Default: <<security.inter.broker.protocol, security.inter.broker.protocol>>
+
+It is not allowed to set `inter.broker.listener.name` and <<security.inter.broker.protocol, security.inter.broker.protocol>> properties at the same time.
 
 | inter.broker.protocol.version
 | [[inter.broker.protocol.version]]

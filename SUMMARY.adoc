@@ -66,6 +66,7 @@
 .. link:kafka-ControllerEventManager.adoc[ControllerEventManager]
 .. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
 .. link:kafka-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
+.. link:kafka-controller-ControllerChannelManager.adoc[ControllerChannelManager]
 
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]

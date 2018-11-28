@@ -48,6 +48,12 @@ Used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#get
 | hostName
 | [[hostName]] link:kafka-properties.adoc#host.name[host.name]
 
+| interBrokerListenerName
+a| [[interBrokerListenerName]]
+
+| interBrokerSecurityProtocol
+a| [[interBrokerSecurityProtocol]]
+
 | leaderImbalanceCheckIntervalSeconds
 a| [[leaderImbalanceCheckIntervalSeconds]] <<kafka-properties.adoc#leader.imbalance.check.interval.seconds, leader.imbalance.check.interval.seconds>>
 
@@ -246,3 +252,14 @@ validateValues(): Unit
 `validateValues`...FIXME
 
 NOTE: `validateValues` is used when...FIXME
+
+=== [[getInterBrokerListenerNameAndSecurityProtocol]] `getInterBrokerListenerNameAndSecurityProtocol` Internal Method
+
+[source, scala]
+----
+getInterBrokerListenerNameAndSecurityProtocol: (ListenerName, SecurityProtocol)
+----
+
+`getInterBrokerListenerNameAndSecurityProtocol`...FIXME
+
+NOTE: `getInterBrokerListenerNameAndSecurityProtocol` is used when `KafkaConfig` is requested for <<interBrokerListenerName, interBrokerListenerName>> and <<interBrokerSecurityProtocol, interBrokerSecurityProtocol>>.

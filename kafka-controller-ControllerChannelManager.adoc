@@ -1,0 +1,75 @@
+== [[ControllerChannelManager]] ControllerChannelManager
+
+`ControllerChannelManager` is...FIXME
+
+`ControllerChannelManager` is <<creating-instance, created>> exclusively when `KafkaController` is requested to <<kafka-KafkaController.adoc#startChannelManager, startChannelManager>>.
+
+[[logIdent]]
+`logIdent` is *[Channel manager on controller [brokerId]]*.
+
+[[metrics]]
+.ControllerChannelManager's Metrics
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| TotalQueueSize
+| [[TotalQueueSize]]
+
+|===
+
+[[internal-registries]]
+.ControllerChannelManager's Internal Properties
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| brokerStateInfo
+| [[brokerStateInfo]]
+
+Used when...FIXME
+
+| brokerLock
+| [[brokerLock]]
+
+Used when...FIXME
+|===
+
+=== [[addNewBroker]] `addNewBroker` Internal Method
+
+[source, scala]
+----
+addNewBroker(broker: Broker): Unit
+----
+
+`addNewBroker`...FIXME
+
+NOTE: `addNewBroker` is used when `ControllerChannelManager` is <<creating-instance, created>> (to connect to live brokers) and is requested to <<addBroker, addBroker>>.
+
+=== [[addBroker]] `addBroker` Method
+
+[source, scala]
+----
+addBroker(broker: Broker): Unit
+----
+
+`addBroker`...FIXME
+
+NOTE: `addBroker` is used exclusively when <<kafka-KafkaController.adoc#BrokerChange, BrokerChange>> controller event is processed.
+
+=== [[creating-instance]] Creating ControllerChannelManager Instance
+
+`ControllerChannelManager` takes the following when created:
+
+* [[controllerContext]] `ControllerContext`
+* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[time]] `Time`
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
+* [[stateChangeLogger]] `StateChangeLogger`
+* [[threadNamePrefix]] Optional thread name prefix (default: `None`)
+
+`ControllerChannelManager` initializes the <<internal-registries, internal registries and counters>>.
+
+In the end, `ControllerChannelManager` requests the <<controllerContext, ControllerContext>> for the `liveBrokers` that it <<addNewBroker, addNewBroker>> each.

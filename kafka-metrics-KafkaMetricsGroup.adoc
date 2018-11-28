@@ -34,7 +34,7 @@ trait KafkaMetricsGroup {
 | <<kafka-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>>
 | [[BrokerTopicMetrics]]
 
-| ControllerChannelManager
+| <<kafka-controller-ControllerChannelManager.adoc#, ControllerChannelManager>>
 | [[ControllerChannelManager]]
 
 | <<kafka-ControllerEventManager.adoc#, ControllerEventManager>>

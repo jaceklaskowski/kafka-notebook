@@ -15,7 +15,7 @@ image::images/NetworkClient.png[align="center"]
 * `KafkaProducer` is created (with `Sender`)
 * `KafkaAdminClient` is created (using `createInternal`)
 * `AdminClient` is created (with `ConsumerNetworkClient`)
-* `ControllerChannelManager` does `addNewBroker` (and creates a `RequestSendThread` daemon thread and a `ControllerBrokerStateInfo`)
+* `ControllerChannelManager` is requested to <<kafka-controller-ControllerChannelManager.adoc#addNewBroker, addNewBroker>> (and creates a `RequestSendThread` daemon thread and a `ControllerBrokerStateInfo`)
 * `TransactionMarkerChannelManager` is created
 * `KafkaServer` does `doControlledShutdown`
 * `ReplicaFetcherBlockingSend` is created

@@ -543,6 +543,8 @@ Otherwise, `elect` requests the <<zkClient, KafkaZkClient>> to <<checkedEphemera
 
 NOTE: `elect` always uses `1` for the version.
 
+NOTE: `elect` is used when `ControllerEventThread` is requested to process <<kafka-ControllerEvent.adoc#Startup, Startup>> and <<kafka-ControllerEvent.adoc#Reelect, Reelect>> events (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>).
+
 ==== Controller Elected
 
 If successful, `elect` prints out the following INFO message to the logs and records the current broker ID as the <<activeControllerId, activeControllerId>>.
@@ -576,8 +578,6 @@ If unsuccessful (and a `Throwable` was reported), `elect` prints out the followi
 ```
 Error while electing or becoming controller on broker [brokerId]
 ```
-
-NOTE: `elect` is used when `ControllerEventThread` is requested to process <<kafka-ControllerEvent.adoc#Startup, Startup>> and <<kafka-ControllerEvent.adoc#Reelect, Reelect>> events (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>).
 
 === [[isActive]] Is KafkaController The Active Controller? -- `isActive` Method
 
@@ -1128,3 +1128,14 @@ Checking need to trigger auto leader balancing
 ```
 
 NOTE: `checkAndTriggerAutoLeaderRebalance` is used exclusively when `ControllerEventThread` is requested to process a <<kafka-ControllerEvent.adoc#AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>> event (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>).
+
+=== [[startChannelManager]] `startChannelManager` Internal Method
+
+[source, scala]
+----
+startChannelManager(): Unit
+----
+
+`startChannelManager`...FIXME
+
+NOTE: `startChannelManager` is used exclusively when `KafkaController` is requested to <<initializeControllerContext, initializeControllerContext>>.
