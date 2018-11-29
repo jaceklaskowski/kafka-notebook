@@ -29,7 +29,7 @@ When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expi
 | Time when <<isrChangeSet, isrChangeSet>> has a new `TopicPartition` <<recordIsrChange, added>>.
 
 | [[logDirFailureHandler]] `logDirFailureHandler`
-| link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
+| link:kafka-server-ReplicaManager-LogDirFailureHandler.adoc[LogDirFailureHandler]
 
 | [[OfflinePartition]] `OfflinePartition`
 |
@@ -210,7 +210,7 @@ startup(): Unit
 1. <<isr-expiration, isr-expiration>>
 2. <<isr-change-propagation, isr-change-propagation>>
 
-`startup` then creates a <<logDirFailureHandler, LogDirFailureHandler>> and requests it to link:kafka-LogDirFailureHandler.adoc#start[start].
+`startup` then creates a <<logDirFailureHandler, LogDirFailureHandler>> and requests it to link:kafka-server-ReplicaManager-LogDirFailureHandler.adoc#start[start].
 
 NOTE: `startup` uses `Scheduler` that was specified when `ReplicaManager` <<creating-instance, was created>>.
 
@@ -303,3 +303,14 @@ shutdownIdleReplicaAlterLogDirsThread(): Unit
 `shutdownIdleReplicaAlterLogDirsThread`...FIXME
 
 NOTE: `shutdownIdleReplicaAlterLogDirsThread` is used when...FIXME
+
+=== [[handleLogDirFailure]] `handleLogDirFailure` Method
+
+[source, scala]
+----
+handleLogDirFailure(dir: String, sendZkNotification: Boolean = true): Unit
+----
+
+`handleLogDirFailure`...FIXME
+
+NOTE: `handleLogDirFailure` is used exclusively when `LogDirFailureHandler` is requested to <<kafka-server-ReplicaManager-LogDirFailureHandler.adoc#doWork, doWork>>.

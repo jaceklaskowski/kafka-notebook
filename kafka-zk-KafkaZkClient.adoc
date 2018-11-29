@@ -1,10 +1,43 @@
-== [[KafkaZkClient]] KafkaZkClient
+== [[KafkaZkClient]] KafkaZkClient -- Higher-Level Kafka-Specific ZooKeeper Client
 
-`KafkaZkClient` is...FIXME
+`KafkaZkClient` is a higher-level Kafka-specific ZooKeeper client.
 
-`KafkaZkClient` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> that...FIXME
+`KafkaZkClient` is <<creating-instance, created>> (using the <<apply, apply>> factory method) when:
 
-`KafkaZkClient` is <<creating-instance, created>> (using the <<apply, apply>> factory method) when...FIXME
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#initZkClient, initZkClient>> (right after `kafka.Kafka` command-line application is <<kafka-Kafka.adoc#main, executed>>)
+
+* `AclCommand`, `ConfigCommand`, `PreferredReplicaLeaderElectionCommand`, `ReassignPartitionsCommand`, `TopicCommand` commands are executed
+
+`KafkaZkClient` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers the <<metrics, metrics>> in `kafka.server:type=ZooKeeperClientMetrics` metric namespace.
+
+[[metrics]]
+.KafkaZkClient's Metrics
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| ZooKeeperRequestLatencyMs
+| [[ZooKeeperRequestLatencyMs]][[latencyMetric]] Histogram that is updated when `KafkaZkClient` is requested to <<retryRequestsUntilConnected, retryRequestsUntilConnected>>
+
+|===
+
+.KafkaZkClient Metrics in JConsole JMX Tool
+image::images/KafkaZkClient-metrics-JConsole.png[align="center"]
+
+[[logging]]
+[TIP]
+====
+Enable `DEBUG` logging level for `kafka.zk.KafkaZkClient` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.zk.KafkaZkClient=DEBUG
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
 
 === [[getTopicPartitionCount]] `getTopicPartitionCount` Method
 
@@ -53,15 +86,20 @@ apply(
   metricType: String = "SessionExpireListener"): KafkaZkClient
 ----
 
-`apply`...FIXME
+`apply` creates a <<kafka-ZooKeeperClient.adoc#, ZooKeeperClient>> that is then used to create a <<creating-instance, KafkaZkClient>>.
 
 [NOTE]
 ====
 `apply` is used when:
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#initZkClient, initZkClient>>
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#initZkClient, initZkClient>> (right after `kafka.Kafka` command-line application is <<kafka-Kafka.adoc#main, executed>>)
 
-* `AclCommand` (when `SimpleAclAuthorizer` is used and requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>), `ConfigCommand`, `PreferredReplicaLeaderElectionCommand`, `ReassignPartitionsCommand` and `TopicCommand` commands are executed (`main`)
+* The following commands are executed (`main`):
+** `AclCommand` (when `SimpleAclAuthorizer` is used and requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>)
+** `ConfigCommand`
+** `PreferredReplicaLeaderElectionCommand`
+** `ReassignPartitionsCommand`
+** `TopicCommand`
 ====
 
 === [[createTopLevelPaths]] `createTopLevelPaths` Method
@@ -330,4 +368,46 @@ registerControllerAndIncrementControllerEpoch(controllerId: Int): (Int, Int)
 
 `registerControllerAndIncrementControllerEpoch`...FIXME
 
-NOTE: `registerControllerAndIncrementControllerEpoch` is used when...FIXME
+NOTE: `registerControllerAndIncrementControllerEpoch` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#elect, elect>>.
+
+=== [[retryRequestsUntilConnected]] `retryRequestsUntilConnected` Internal Method
+
+[source, scala]
+----
+retryRequestsUntilConnected[Req <: AsyncRequest](requests: Seq[Req]): Seq[Req#Response]
+----
+
+`retryRequestsUntilConnected`...FIXME
+
+=== [[createSequentialPersistentPath]] `createSequentialPersistentPath` Method
+
+[source, scala]
+----
+createSequentialPersistentPath(path: String, data: Array[Byte]): String
+----
+
+`createSequentialPersistentPath`...FIXME
+
+NOTE: `createSequentialPersistentPath` is used when `KafkaZkClient` is requested to <<propagateLogDirEvent, propagateLogDirEvent>> and <<propagateIsrChanges, propagateIsrChanges>>.
+
+=== [[propagateLogDirEvent]] `propagateLogDirEvent` Method
+
+[source, scala]
+----
+propagateLogDirEvent(brokerId: Int): Unit
+----
+
+`propagateLogDirEvent`...FIXME
+
+NOTE: `propagateLogDirEvent` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#handleLogDirFailure, handleLogDirFailure>>.
+
+=== [[propagateIsrChanges]] `propagateIsrChanges` Method
+
+[source, scala]
+----
+propagateIsrChanges(isrChangeSet: collection.Set[TopicPartition]): Unit
+----
+
+`propagateIsrChanges`...FIXME
+
+NOTE: `propagateIsrChanges` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#maybePropagateIsrChanges, maybePropagateIsrChanges>>.

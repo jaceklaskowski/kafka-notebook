@@ -7,7 +7,7 @@
 [[logIdent]]
 `logIdent` is *[Channel manager on controller [brokerId]]*.
 
-[[metrics]]
+[[kafka-metrics]]
 .ControllerChannelManager's Metrics
 [cols="1m,2",options="header",width="100%"]
 |===

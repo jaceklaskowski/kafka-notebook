@@ -251,7 +251,7 @@ INFO [Kafka Server [brokerId]], started (kafka.server.KafkaServer)
 
 NOTE: The INFO message above uses so-called *log ident* with the value of `broker.id` property and is always in the format ``[Kafka Server [brokerId]], `` after a Kafka server has fully started.
 
-NOTE: `startup` is used exclusively when `KafkaServerStartable` link:kafka-KafkaServerStartable.adoc#startup[starts up].
+NOTE: `startup` is used exclusively when `KafkaServerStartable` is requested to <<kafka-KafkaServerStartable.adoc#startup, starts up>>.
 
 === [[notifyClusterListeners]] Sending Updated Cluster Metadata to ClusterResourceListeners -- `notifyClusterListeners` Internal Method
 

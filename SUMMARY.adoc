@@ -74,7 +74,6 @@
 
 . link:kafka-Log.adoc[Log]
 . link:kafka-LogCleanerManager.adoc[LogCleanerManager]
-. link:kafka-LogDirFailureHandler.adoc[LogDirFailureHandler]
 . link:kafka-LogManager.adoc[LogManager]
 . link:kafka-log-ProducerStateManager.adoc[ProducerStateManager]
 
@@ -96,6 +95,7 @@
 .. link:kafka-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 .. link:kafka-ReplicationUtils.adoc[ReplicationUtils]
 .. link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
+.. link:kafka-server-ReplicaManager-LogDirFailureHandler.adoc[LogDirFailureHandler]
 
 . link:kafka-Selector.adoc[Selector -- Selectable on Socket Channels (from Java's New IO API)]
 .. link:kafka-Selectable.adoc[Selectable]
@@ -242,7 +242,7 @@
 
 . link:kafka-Scheduler.adoc[Scheduler]
 . link:kafka-ZooKeeperClient.adoc[ZooKeeperClient]
-. link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient]
+. link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient -- Higher-Level Kafka-Specific ZooKeeper Client]
 . link:kafka-zk-AdminZkClient.adoc[AdminZkClient]
 . link:kafka-zk-ZkAclChangeStore.adoc[ZkAclChangeStore]
 

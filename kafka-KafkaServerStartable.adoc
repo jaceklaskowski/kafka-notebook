@@ -74,4 +74,4 @@ FATAL Exiting Kafka.
 
 NOTE: `startup` uses Java's link:++https://docs.oracle.com/javase/8/docs/api/java/lang/System.html#exit-int-++[System.exit] to terminate a JVM.
 
-NOTE: `startup` is used when a link:kafka-Kafka.adoc#main[Kafka Broker starts (on command line)].
+NOTE: `startup` is used when `kafka.Kafka` command-line application (`kafka-server-start`) is <<kafka-Kafka.adoc#main, executed>>.

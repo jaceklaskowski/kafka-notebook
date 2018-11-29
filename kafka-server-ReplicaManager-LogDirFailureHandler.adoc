@@ -1,0 +1,18 @@
+== [[LogDirFailureHandler]] LogDirFailureHandler
+
+`LogDirFailureHandler` is...FIXME
+
+=== [[start]] `start` Method
+
+CAUTION: FIXME
+
+=== [[doWork]] `doWork` Method
+
+[source, scala]
+----
+def doWork(): Unit
+----
+
+NOTE: `doWork` is a part of <<kafka-ShutdownableThread.adoc#doWork, ShutdownableThread Contract>>.
+
+`doWork`...FIXME
