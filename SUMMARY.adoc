@@ -70,7 +70,6 @@
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
 . link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads]
-. link:kafka-KafkaScheduler.adoc[KafkaScheduler]
 
 . link:kafka-Log.adoc[Log]
 . link:kafka-LogCleanerManager.adoc[LogCleanerManager]
@@ -94,7 +93,6 @@
 ... link:kafka-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend]
 .. link:kafka-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 .. link:kafka-ReplicationUtils.adoc[ReplicationUtils]
-.. link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
 .. link:kafka-server-ReplicaManager-LogDirFailureHandler.adoc[LogDirFailureHandler]
 
 . link:kafka-Selector.adoc[Selector -- Selectable on Socket Channels (from Java's New IO API)]
@@ -102,7 +100,6 @@
 
 . link:kafka-ShutdownableThread.adoc[ShutdownableThread]
 . link:kafka-SocketServer.adoc[SocketServer]
-. link:kafka-TopicDeletionManager.adoc[TopicDeletionManager]
 . link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
 . link:kafka-ZkUtils.adoc[ZkUtils]
@@ -111,6 +108,7 @@
 === Kafka Controller
 
 . link:kafka-controller-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
+. link:kafka-controller-ControllerContext.adoc[ControllerContext]
 
 . link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
 .. link:kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
@@ -122,11 +120,14 @@
 . link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
 . link:kafka-controller-ControllerChannelManager.adoc[ControllerChannelManager]
 
+. link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
+. link:kafka-controller-ReplicaStateMachine.adoc[ReplicaStateMachine]
+. link:kafka-controller-PartitionStateMachine.adoc[PartitionStateMachine]
+
 === Kafka Cluster
 
 . link:kafka-cluster-Partition.adoc[Partition]
 . link:kafka-cluster-Replica.adoc[Replica]
-. link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
 
 === Kafka Metrics
 
@@ -240,6 +241,7 @@
 
 === Varia / Misc
 
+. link:kafka-KafkaScheduler.adoc[KafkaScheduler]
 . link:kafka-Scheduler.adoc[Scheduler]
 . link:kafka-ZooKeeperClient.adoc[ZooKeeperClient]
 . link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient -- Higher-Level Kafka-Specific ZooKeeper Client]

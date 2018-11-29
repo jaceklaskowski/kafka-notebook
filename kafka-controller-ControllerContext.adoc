@@ -1,0 +1,21 @@
+== [[ControllerContext]] ControllerContext
+
+`ControllerContext` is...FIXME
+
+[[attributes]]
+.ControllerContext's Attributes
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| epochZkVersion
+| [[epochZkVersion]]
+
+| liveOrShuttingDownBrokerIds
+| [[liveOrShuttingDownBrokerIds]]
+
+| partitionsBeingReassigned
+| [[partitionsBeingReassigned]]
+
+|===

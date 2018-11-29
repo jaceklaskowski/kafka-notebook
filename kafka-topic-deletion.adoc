@@ -2,7 +2,7 @@
 
 *Topic Deletion* is a feature of Kafka that allows for deleting topics.
 
-link:kafka-TopicDeletionManager.adoc[TopicDeletionManager] is responsible for topic deletion.
+link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager] is responsible for topic deletion.
 
 Topic deletion is controlled by link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable] Kafka property that turns it on when `true`.
 

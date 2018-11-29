@@ -32,9 +32,20 @@ NOTE: `handleStateChanges` is used when...FIXME
 
 [source, scala]
 ----
-FIXME
+shutdown(): Unit
 ----
 
 `shutdown`...FIXME
 
 NOTE: `shutdown` is used when...FIXME
+
+=== [[startup]] `startup` Method
+
+[source, scala]
+----
+startup(): Unit
+----
+
+`startup`...FIXME
+
+NOTE: `startup` is used when...FIXME

@@ -17,7 +17,7 @@ sendRequestsToBrokers(controllerEpoch: Int): Unit
 
 * `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>> and `ControlledShutdown` is <<kafka-controller-KafkaController.adoc#ControlledShutdown, processed>>
 
-* `PartitionStateMachine` is requested to <<kafka-PartitionStateMachine.adoc#handleStateChanges, handleStateChanges>> and <<kafka-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>>
+* `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#handleStateChanges, handleStateChanges>> and <<kafka-controller-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>>
 
-* `ReplicaStateMachine` is requested to <<kafka-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
+* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
 ====

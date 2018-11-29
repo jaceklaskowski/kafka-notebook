@@ -97,6 +97,9 @@ Default: `1`
 
 Increase the default value to at least `2`
 
+| delegation.token.master.key
+a| [[delegation.token.master.key]]
+
 | delete.topic.enable
 a| [[delete.topic.enable]] Enables topic deletion
 

@@ -128,3 +128,27 @@ completeDeleteTopic(topic: String): Unit
 `completeDeleteTopic`...FIXME
 
 NOTE: `completeDeleteTopic` is used when...FIXME
+
+=== [[init]] Initializing -- `init` Method
+
+[source, scala]
+----
+init(
+  initialTopicsToBeDeleted: Set[String],
+  initialTopicsIneligibleForDeletion: Set[String]): Unit
+----
+
+`init`...FIXME
+
+NOTE: `init` is used when...FIXME
+
+=== [[tryTopicDeletion]] `tryTopicDeletion` Method
+
+[source, scala]
+----
+tryTopicDeletion(): Unit
+----
+
+`tryTopicDeletion`...FIXME
+
+NOTE: `tryTopicDeletion` is used when...FIXME

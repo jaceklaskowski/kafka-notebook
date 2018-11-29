@@ -1,13 +1,13 @@
 == [[KafkaController]] KafkaController
 
-`KafkaController` is a Kafka service that runs on every Kafka broker. Only one `KafkaController` can be <<isActive, active>> (_elected_) among all the Kafka brokers in a Kafka cluster.
+`KafkaController` is a Kafka service that runs on every Kafka broker.
+
+Only one `KafkaController` can be <<isActive, active>> (_elected_) among all the Kafka brokers in a Kafka cluster. The process of promoting a `KafkaController` to be active among brokers is <<kafka-controller-election.adoc#, Kafka Controller Election>>.
 
 `KafkaController` is a Kafka service responsible for:
 
 * <<topicDeletionListener, topic deletion>>
 * ...FIXME
-
-The process of promoting a `KafkaController` to be active among brokers is <<kafka-controller-election.adoc#, Kafka Controller Election>>.
 
 Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Internals[Kafka Controller Internals]:
 
@@ -84,62 +84,115 @@ image::images/KafkaController.png[align="center"]
 | ControllerState
 | process Handler
 
-| [[BrokerChange]] BrokerChange
+| BrokerChange
 | `BrokerChange`
-|
+| [[BrokerChange]]
 
-a| [[ControllerChange]] ControllerChange
+a| ControllerChange
 
 * `newControllerId`: Int
 
 | `ControllerChange`
-a|
+a| [[ControllerChange]]
 
 1. Assigns the <<getControllerID, current controller ID>> as the input `newControllerId`
 1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, Resigns as the active controller>>
 
 NOTE:  Similar to <<Reelect, Reelect>> event with the only difference that it does *not* trigger <<elect, election>>
 
-a| [[ControlledShutdown]] ControlledShutdown
+a| ControlledShutdown
 
 * `ID`
 
 * `controlledShutdownCallback`: Try[Set[TopicAndPartition]] => Unit
 
 | `ControlledShutdown`
-|
+| [[ControlledShutdown]]
 
-| [[IsrChangeNotification]] IsrChangeNotification
+| IsrChangeNotification
 |
-|
+| [[IsrChangeNotification]]
 
-| [[PartitionReassignment]] PartitionReassignment
+| LogDirEventNotification
 |
-|
+| [[LogDirEventNotification]]
 
-| [[PreferredReplicaLeaderElection]] PreferredReplicaLeaderElection
+| PartitionReassignment
 |
-|
+| [[PartitionReassignment]]
 
-| [[Reelect]] Reelect
+| PreferredReplicaLeaderElection
+|
+| [[PreferredReplicaLeaderElection]]
+
+| Reelect
 | `ControllerChange`
-a|
+a| [[Reelect]]
 
 1. Assigns the <<getControllerID, current controller ID>> as <<activeControllerId, activeControllerId>>
 1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, Resigns as the active controller>>
 1. <<elect, elect>>
 
-| [[Startup]] Startup
+| Startup
 | `ControllerChange`
-a|
+a| [[Startup]]
 
 1. <<registerSessionExpirationListener, registerSessionExpirationListener>>
 1. <<registerControllerChangeListener, registerControllerChangeListener>>
 1. <<elect, elect>>
 
-| [[TopicChange]] TopicChange
+| TopicChange
 |
+| [[TopicChange]]
+
+| TopicDeletion
 |
+| [[TopicDeletion]]
+
+|===
+
+[[znode-change-handlers]]
+.KafkaController's ZNodeChangeHandler and ZNodeChildChangeHandlers
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| brokerChangeHandler
+| [[brokerChangeHandler]] `ZNodeChildChangeHandler` of `/brokers/ids` path
+
+On `handleChildChange`, `brokerChangeHandler` simply sends <<BrokerChange, BrokerChange>> event to the <<eventManager, ControllerEventManager>>.
+
+| isrChangeNotificationHandler
+| [[isrChangeNotificationHandler]] `ZNodeChildChangeHandler` of `/isr_change_notification` path
+
+On `handleChildChange`, `isrChangeNotificationHandler` simply sends <<IsrChangeNotification, IsrChangeNotification>> event to the <<eventManager, ControllerEventManager>>.
+
+| logDirEventNotificationHandler
+| [[logDirEventNotificationHandler]] `ZNodeChildChangeHandler` of `/log_dir_event_notification` path
+
+On `handleChildChange`, `logDirEventNotificationHandler` simply sends <<LogDirEventNotification, LogDirEventNotification>> event to the <<eventManager, ControllerEventManager>>.
+
+| partitionReassignmentHandler
+| [[partitionReassignmentHandler]] `ZNodeChangeHandler` of `/admin/reassign_partitions` path
+
+On `handleCreation`, `partitionReassignmentHandler` simply sends <<PartitionReassignment, PartitionReassignment>> event to the <<eventManager, ControllerEventManager>>.
+
+| preferredReplicaElectionHandler
+| [[preferredReplicaElectionHandler]] `ZNodeChangeHandler` of `/admin/preferred_replica_election` path
+
+On `handleCreation`, `preferredReplicaElectionHandler` simply sends <<PreferredReplicaLeaderElection, PreferredReplicaLeaderElection>> event to the <<eventManager, ControllerEventManager>>.
+
+| topicChangeHandler
+| [[topicChangeHandler]] `ZNodeChildChangeHandler` of `/brokers/topics` path
+
+On `handleChildChange`, `topicChangeHandler` simply sends <<TopicChange, TopicChange>> event to the <<eventManager, ControllerEventManager>>.
+
+| topicDeletionHandler
+| [[topicDeletionHandler]] `ZNodeChildChangeHandler` of `/admin/delete_topics` path
+
+On `handleChildChange`, `topicDeletionHandler` simply sends <<TopicDeletion, TopicDeletion>> event to the <<eventManager, ControllerEventManager>>.
+
 |===
 
 [[logIdent]]
@@ -176,10 +229,10 @@ a| [[controllerChangeHandler]] A `ZNodeChangeHandler` (for the `KafkaController`
 | [[kafkaScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *kafka-scheduler* prefix
 
 | partitionStateMachine
-| [[partitionStateMachine]] link:kafka-PartitionStateMachine.adoc[PartitionStateMachine]
+| [[partitionStateMachine]] link:kafka-controller-PartitionStateMachine.adoc[PartitionStateMachine]
 
 | replicaStateMachine
-| [[replicaStateMachine]] link:kafka-ReplicaStateMachine.adoc[ReplicaStateMachine]
+| [[replicaStateMachine]] link:kafka-controller-ReplicaStateMachine.adoc[ReplicaStateMachine]
 
 | stateChangeLogger
 | [[stateChangeLogger]] `StateChangeLogger` with the <<brokerId, broker ID>> and `inControllerContext` flag enabled
@@ -188,7 +241,7 @@ a| [[controllerChangeHandler]] A `ZNodeChangeHandler` (for the `KafkaController`
 | [[tokenCleanScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *delegation-token-cleaner* prefix
 
 | topicDeletionManager
-| [[topicDeletionManager]] <<kafka-TopicDeletionManager.adoc#, TopicDeletionManager>>
+| [[topicDeletionManager]] <<kafka-controller-TopicDeletionManager.adoc#, TopicDeletionManager>>
 |===
 
 [[listeners]]
@@ -336,7 +389,7 @@ Resigning
 
 1. <<deregisterLogDirEventNotificationListener, Child changes to /log_dir_event_notification znode>>
 
-`onControllerResignation` requests <<topicDeletionManager, TopicDeletionManager>> to link:kafka-TopicDeletionManager.adoc#reset[reset].
+`onControllerResignation` requests <<topicDeletionManager, TopicDeletionManager>> to link:kafka-controller-TopicDeletionManager.adoc#reset[reset].
 
 `onControllerResignation` requests <<kafkaScheduler, KafkaScheduler>> to link:kafka-KafkaScheduler.adoc#shutdown[shutdown].
 
@@ -349,7 +402,7 @@ Resigning
 
 `onControllerResignation` <<deregisterPartitionReassignmentIsrChangeListeners, deregisterPartitionReassignmentIsrChangeListeners>>.
 
-`onControllerResignation` requests <<partitionStateMachine, PartitionStateMachine>> to link:kafka-PartitionStateMachine.adoc#shutdown[shutdown].
+`onControllerResignation` requests <<partitionStateMachine, PartitionStateMachine>> to link:kafka-controller-PartitionStateMachine.adoc#shutdown[shutdown].
 
 `onControllerResignation` <<deregisterTopicChangeListener, deregisterTopicChangeListener>>.
 
@@ -357,7 +410,7 @@ Resigning
 
 `onControllerResignation` <<deregisterTopicDeletionListener, deregisterTopicDeletionListener>>.
 
-`onControllerResignation` requests <<replicaStateMachine, ReplicaStateMachine>> to link:kafka-ReplicaStateMachine.adoc#shutdown[shutdown].
+`onControllerResignation` requests <<replicaStateMachine, ReplicaStateMachine>> to link:kafka-controller-ReplicaStateMachine.adoc#shutdown[shutdown].
 
 `onControllerResignation` <<deregisterBrokerChangeListener, deregisterBrokerChangeListener>>.
 
@@ -480,7 +533,7 @@ sendUpdateMetadataRequest(): Unit
 
 * `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>, <<onBrokerStartup, onBrokerStartup>>, <<onBrokerUpdate, onBrokerUpdate>>, <<onReplicasBecomeOffline, onReplicasBecomeOffline>>, <<onPartitionReassignment, onPartitionReassignment>>, <<processUpdateNotifications, processUpdateNotifications>>
 
-* `TopicDeletionManager` is requested to <<kafka-TopicDeletionManager.adoc#onTopicDeletion, onTopicDeletion>>
+* `TopicDeletionManager` is requested to <<kafka-controller-TopicDeletionManager.adoc#onTopicDeletion, onTopicDeletion>>
 ====
 
 === [[updateLeaderEpochAndSendRequest]] `updateLeaderEpochAndSendRequest` Internal Method
@@ -713,22 +766,19 @@ If available, `getControllerID` parses the data (being the current controller in
 
 [source, shell]
 ----
-$ ./bin/zookeeper-shell.sh 0.0.0.0:2181
-Connecting to 0.0.0.0:2181
-Welcome to ZooKeeper!
-...
-get /controller
-{"version":1,"brokerid":100,"timestamp":"1506197069724"}
-cZxid = 0xf9
-ctime = Sat Sep 23 22:04:29 CEST 2017
-mZxid = 0xf9
-mtime = Sat Sep 23 22:04:29 CEST 2017
-pZxid = 0xf9
+$ ./bin/zookeeper-shell.sh :2181 get /controller
+
+{"version":1,"brokerid":0,"timestamp":"1543499076007"}
+cZxid = 0x60
+ctime = Thu Nov 29 14:44:36 CET 2018
+mZxid = 0x60
+mtime = Thu Nov 29 14:44:36 CET 2018
+pZxid = 0x60
 cversion = 0
 dataVersion = 0
 aclVersion = 0
-ephemeralOwner = 0x15eaa3a4fdd000d
-dataLength = 56
+ephemeralOwner = 0x100073f07ba0003
+dataLength = 54
 numChildren = 0
 ----
 
@@ -982,7 +1032,7 @@ unregisterPartitionModificationsHandlers(topics: Seq[String]): Unit
 
 * `KafkaController` is requested to <<onControllerResignation, onControllerResignation>>
 
-* `TopicDeletionManager` is requested to <<kafka-TopicDeletionManager.adoc#completeDeleteTopic, completeDeleteTopic>>
+* `TopicDeletionManager` is requested to <<kafka-controller-TopicDeletionManager.adoc#completeDeleteTopic, completeDeleteTopic>>
 ====
 
 === [[registerPartitionModificationsHandlers]] `registerPartitionModificationsHandlers` Internal Method
@@ -1086,11 +1136,106 @@ NOTE: `moveReassignedPartitionLeaderIfRequired` is used exclusively  when `Kafka
 onControllerFailover(): Unit
 ----
 
-`onControllerFailover`...FIXME
+`onControllerFailover` prints out the following INFO message to the logs:
 
-With <<kafka-properties.adoc#auto.leader.rebalance.enable, auto.leader.rebalance.enable>> on, `onControllerFailover` <<scheduleAutoLeaderRebalanceTask, scheduleAutoLeaderRebalanceTask>> with the delay of 5 seconds.
+```
+Registering handlers
+```
 
-`onControllerFailover`...FIXME
+`onControllerFailover` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#registerZNodeChildChangeHandler, registerZNodeChildChangeHandlers>>:
+
+* <<brokerChangeHandler, brokerChangeHandler>>
+* <<topicChangeHandler, topicChangeHandler>>
+* <<topicDeletionHandler, topicDeletionHandler>>
+* <<logDirEventNotificationHandler, logDirEventNotificationHandler>>
+* <<isrChangeNotificationHandler, isrChangeNotificationHandler>>
+
+`onControllerFailover` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#registerZNodeChangeHandlerAndCheckExistence, registerZNodeChangeHandlerAndCheckExistence>>:
+
+* <<preferredReplicaElectionHandler, preferredReplicaElectionHandler>>
+* <<partitionReassignmentHandler, partitionReassignmentHandler>>
+
+`onControllerFailover` prints out the following INFO message to the logs:
+
+```
+Deleting log dir event notifications
+```
+
+`onControllerFailover` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#deleteLogDirEventNotifications, deleteLogDirEventNotifications>> (with the <<kafka-controller-ControllerContext.adoc#epochZkVersion, epochZkVersion>> of the <<controllerContext, ControllerContext>>).
+
+`onControllerFailover` prints out the following INFO message to the logs:
+
+```
+Deleting isr change notifications
+```
+
+`onControllerFailover` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#deleteIsrChangeNotifications, deleteIsrChangeNotifications>> (with the <<kafka-controller-ControllerContext.adoc#epochZkVersion, epochZkVersion>> of the <<controllerContext, ControllerContext>>).
+
+`onControllerFailover` prints out the following INFO message to the logs:
+
+```
+Initializing controller context
+```
+
+`onControllerFailover` <<initializeControllerContext, initializeControllerContext>>.
+
+`onControllerFailover` prints out the following INFO message to the logs:
+
+```
+Fetching topic deletions in progress
+```
+
+`onControllerFailover` <<fetchTopicDeletionsInProgress, fetchTopicDeletionsInProgress>>.
+
+`onControllerFailover` prints out the following INFO message to the logs:
+
+```
+Initializing topic deletion manager
+```
+
+`onControllerFailover` requests the <<topicDeletionManager, TopicDeletionManager>> to <<kafka-controller-TopicDeletionManager.adoc#init, initialize>> (with the topics to be deleted and ineligible for deletion).
+
+`onControllerFailover` prints out the following INFO message to the logs:
+
+```
+Sending update metadata request
+```
+
+`onControllerFailover` <<sendUpdateMetadataRequest, sendUpdateMetadataRequest>> (with the <<kafka-controller-ControllerContext.adoc#liveOrShuttingDownBrokerIds, liveOrShuttingDownBrokerIds>> of the <<controllerContext, ControllerContext>>).
+
+`onControllerFailover` requests the <<replicaStateMachine, ReplicaStateMachine>> to <<kafka-controller-ReplicaStateMachine.adoc#startup, start up>>.
+
+`onControllerFailover` requests the <<partitionStateMachine, PartitionStateMachine>> to <<kafka-controller-PartitionStateMachine.adoc#startup, start up>>.
+
+`onControllerFailover` prints out the following INFO message to the logs:
+
+```
+Ready to serve as the new controller with epoch [epoch]
+```
+
+`onControllerFailover` <<maybeTriggerPartitionReassignment, maybeTriggerPartitionReassignment>> (with the <<kafka-controller-ControllerContext.adoc#partitionsBeingReassigned, partitionsBeingReassigned>> of the <<controllerContext, ControllerContext>>).
+
+`onControllerFailover` requests the <<topicDeletionManager, TopicDeletionManager>> to <<kafka-controller-TopicDeletionManager.adoc#tryTopicDeletion, tryTopicDeletion>>.
+
+`onControllerFailover` <<onPreferredReplicaElection, onPreferredReplicaElection>> with the <<fetchPendingPreferredReplicaElections, fetchPendingPreferredReplicaElections>>.
+
+`onControllerFailover` prints out the following INFO message to the logs:
+
+```
+Starting the controller scheduler
+```
+
+`onControllerFailover` requests the <<kafkaScheduler, kafkaScheduler KafkaScheduler>> to <<kafka-KafkaScheduler.adoc#startup, startup>>.
+
+With <<kafka-properties.adoc#auto.leader.rebalance.enable, auto.leader.rebalance.enable>> enabled, `onControllerFailover` <<scheduleAutoLeaderRebalanceTask, scheduleAutoLeaderRebalanceTask>> with the delay of 5 seconds.
+
+With <<kafka-properties.adoc#delegation.token.master.key, delegation.token.master.key>> password set, `onControllerFailover` prints out the following INFO message to the logs:
+
+```
+starting the token expiry check scheduler
+```
+
+`onControllerFailover` requests the <<tokenCleanScheduler, tokenCleanScheduler KafkaScheduler>> to <<kafka-KafkaScheduler.adoc#startup, startup>> and requests it to <<kafka-KafkaScheduler.adoc#schedule, schedule>> the *delete-expired-tokens* task (FIXME).
 
 NOTE: `onControllerFailover` is used exclusively when `KafkaController` is requested to <<elect, elect>>.
 

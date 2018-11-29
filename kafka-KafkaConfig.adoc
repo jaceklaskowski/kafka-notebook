@@ -91,7 +91,10 @@ Used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#gen
 | [[port]] link:kafka-properties.adoc#port[port]
 
 | replicaLagTimeMaxMs
-| [[replicaLagTimeMaxMs]]
+a| [[replicaLagTimeMaxMs]]
+
+| tokenAuthEnabled
+a| [[tokenAuthEnabled]] <<kafka-properties.adoc#delegation.token.master.key, delegation.token.master.key>>
 
 | zkConnect
 a| [[zkConnect]] <<kafka-properties.adoc#zookeeper.connect, zookeeper.connect>>
