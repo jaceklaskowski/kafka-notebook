@@ -305,7 +305,7 @@ getControllerId: Option[Int]
 
 * `KafkaController` is requested to <<kafka-KafkaController.adoc#elect, elect>>
 
-* `ControllerEventThread` is requested to <<kafka-ControllerEventThread.adoc#doWork, process controller events>> (and processes <<kafka-ControllerEvent.adoc#ControllerChange, ControllerChange>> and <<kafka-ControllerEvent.adoc#Reelect, Reelect>> events)
+* `ControllerEventThread` is requested to <<kafka-controller-ControllerEventThread.adoc#doWork, process controller events>> (and processes <<kafka-controller-ControllerEvent.adoc#ControllerChange, ControllerChange>> and <<kafka-controller-ControllerEvent.adoc#Reelect, Reelect>> events)
 
 * `KafkaServer` is requested to <<kafka-KafkaServer.adoc#controlledShutdown, perform a controlled shutdown>>
 ====

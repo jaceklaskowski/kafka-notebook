@@ -160,7 +160,7 @@ a| [[activeControllerId]] The ID of the active `KafkaController`
 | controllerChangeHandler
 a| [[controllerChangeHandler]] A `ZNodeChangeHandler` (for the `KafkaController` and the <<eventManager, ControllerEventManager>>) that listens to change events on `/controller` znode.
 
-`controllerChangeHandler` <<kafka-ControllerEventManager.adoc#put, emits controller events>> as follows:
+`controllerChangeHandler` <<kafka-controller-ControllerEventManager.adoc#put, emits controller events>> as follows:
 
 * `ControllerChange` when the znode is created or the znode data changed
 
@@ -170,7 +170,7 @@ a| [[controllerChangeHandler]] A `ZNodeChangeHandler` (for the `KafkaController`
 | [[controllerContext]]
 
 | eventManager
-| [[eventManager]] link:kafka-ControllerEventManager.adoc[ControllerEventManager] for `controllerContext.stats.rateAndTimeMetrics` and updateMetrics listener
+| [[eventManager]] link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager] for `controllerContext.stats.rateAndTimeMetrics` and updateMetrics listener
 
 | kafkaScheduler
 | [[kafkaScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *kafka-scheduler* prefix
@@ -373,7 +373,7 @@ Resigned
 ====
 `onControllerResignation` is used when:
 
-* `ControllerEventThread` is requested to <<kafka-ControllerEventThread.adoc#doWork, process controller events>>, i.e. <<ControllerChange, ControllerChange>> and <<Reelect, Reelect>>
+* `ControllerEventThread` is requested to <<kafka-controller-ControllerEventThread.adoc#doWork, process controller events>>, i.e. <<ControllerChange, ControllerChange>> and <<Reelect, Reelect>>
 
 * <<triggerControllerMove, triggerControllerMove>>
 
@@ -543,7 +543,7 @@ Otherwise, `elect` requests the <<zkClient, KafkaZkClient>> to <<checkedEphemera
 
 NOTE: `elect` always uses `1` for the version.
 
-NOTE: `elect` is used when `ControllerEventThread` is requested to process <<kafka-ControllerEvent.adoc#Startup, Startup>> and <<kafka-ControllerEvent.adoc#Reelect, Reelect>> events (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>).
+NOTE: `elect` is used when `ControllerEventThread` is requested to process <<kafka-controller-ControllerEvent.adoc#Startup, Startup>> and <<kafka-controller-ControllerEvent.adoc#Reelect, Reelect>> events (while <<kafka-controller-ControllerEventThread.adoc#doWork, processing controller events>>).
 
 ==== Controller Elected
 
@@ -594,7 +594,7 @@ NOTE: `isActive` is on (`true`) after the `KafkaController` of a Kafka broker ha
 ====
 `isActive` is used (as a valve to stop processing early) when:
 
-* `ControllerEventThread` is requested to <<kafka-ControllerEventThread.adoc#doWork, process controller events>> (that should only be processed on the active controller, e.g. `AutoPreferredReplicaLeaderElection`, `UncleanLeaderElectionEnable`, `ControlledShutdown`, `LeaderAndIsrResponseReceived`, `TopicDeletionStopReplicaResponseReceived`, `BrokerChange`, `BrokerModifications`, `TopicChange`)
+* `ControllerEventThread` is requested to <<kafka-controller-ControllerEventThread.adoc#doWork, process controller events>> (that should only be processed on the active controller, e.g. `AutoPreferredReplicaLeaderElection`, `UncleanLeaderElectionEnable`, `ControlledShutdown`, `LeaderAndIsrResponseReceived`, `TopicDeletionStopReplicaResponseReceived`, `BrokerChange`, `BrokerModifications`, `TopicChange`)
 
 * `KafkaController` is requested to <<updateMetrics, updateMetrics>>
 
@@ -650,7 +650,7 @@ startup(): Unit
 
 * On `beforeInitializingSession`, the `StateChangeHandler` simply puts `Expire` event on the event queue of the <<eventManager, ControllerEventManager>>
 
-`startup` then puts `Startup` event at the end of the event queue of the <<eventManager, ControllerEventManager>> and immediately requests it to <<kafka-ControllerEventManager.adoc#start, start>>.
+`startup` then puts `Startup` event at the end of the event queue of the <<eventManager, ControllerEventManager>> and immediately requests it to <<kafka-controller-ControllerEventManager.adoc#start, start>>.
 
 NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start>>.
 
@@ -663,9 +663,9 @@ registerSessionExpirationListener(): Unit
 
 `registerSessionExpirationListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#subscribeStateChanges[subscribe to state changes] with a `SessionExpirationListener` (with the `KafkaController` and <<eventManager, ControllerEventManager>>).
 
-NOTE: `SessionExpirationListener` puts <<Reelect, Reelect>> event on the link:kafka-ControllerEventManager.adoc#queue[event queue] of `ControllerEventManager` every time the Zookeeper session has expired and a new session has been created.
+NOTE: `SessionExpirationListener` puts <<Reelect, Reelect>> event on the link:kafka-controller-ControllerEventManager.adoc#queue[event queue] of `ControllerEventManager` every time the Zookeeper session has expired and a new session has been created.
 
-NOTE: `registerSessionExpirationListener` is used exclusively when <<Startup, Startup>> event is processed (after `ControllerEventThread` is link:kafka-ControllerEventThread.adoc#doWork[started]).
+NOTE: `registerSessionExpirationListener` is used exclusively when <<Startup, Startup>> event is processed (after `ControllerEventThread` is link:kafka-controller-ControllerEventThread.adoc#doWork[started]).
 
 === [[registerControllerChangeListener]] Registering ControllerChangeListener for /controller ZNode Changes -- `registerControllerChangeListener` Internal Method
 
@@ -680,12 +680,12 @@ registerControllerChangeListener(): Unit
 ====
 `ControllerChangeListener` emits:
 
-1. <<ControllerChange, ControllerChange>> event with the current controller ID (on the link:kafka-ControllerEventManager.adoc#queue[event queue] of `ControllerEventManager`) every time the data of a znode changes
+1. <<ControllerChange, ControllerChange>> event with the current controller ID (on the link:kafka-controller-ControllerEventManager.adoc#queue[event queue] of `ControllerEventManager`) every time the data of a znode changes
 
 1. <<Reelect, Reelect>> event when the data associated with a znode has been deleted
 ====
 
-NOTE: `registerControllerChangeListener` is used exclusively when <<Startup, Startup>> event is processed (after `ControllerEventThread` is link:kafka-ControllerEventThread.adoc#doWork[started]).
+NOTE: `registerControllerChangeListener` is used exclusively when <<Startup, Startup>> event is processed (after `ControllerEventThread` is link:kafka-controller-ControllerEventThread.adoc#doWork[started]).
 
 === [[registerBrokerChangeListener]] `registerBrokerChangeListener` Internal Method
 
@@ -1103,7 +1103,7 @@ scheduleAutoLeaderRebalanceTask(delay: Long, unit: TimeUnit): Unit
 
 `scheduleAutoLeaderRebalanceTask` simply requests the <<kafkaScheduler, KafkaScheduler>> to <<kafka-KafkaScheduler.adoc#schedule, schedule a one-off task>> called *auto-leader-rebalance-task* with initial delay of 5 seconds.
 
-The `auto-leader-rebalance-task` simply requests the <<eventManager, ControllerEventManager>> to <<kafka-ControllerEventManager.adoc#put, enqueue a AutoPreferredReplicaLeaderElection event>>.
+The `auto-leader-rebalance-task` simply requests the <<eventManager, ControllerEventManager>> to <<kafka-controller-ControllerEventManager.adoc#put, enqueue a AutoPreferredReplicaLeaderElection event>>.
 
 [NOTE]
 ====
@@ -1111,7 +1111,7 @@ The `auto-leader-rebalance-task` simply requests the <<eventManager, ControllerE
 
 * `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>
 
-* `ControllerEventThread` is requested to process a <<kafka-ControllerEvent.adoc#AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>> event (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>).
+* `ControllerEventThread` is requested to process a <<kafka-controller-ControllerEvent.adoc#AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>> event (while <<kafka-controller-ControllerEventThread.adoc#doWork, processing controller events>>).
 ====
 
 === [[checkAndTriggerAutoLeaderRebalance]] `checkAndTriggerAutoLeaderRebalance` Internal Method
@@ -1127,7 +1127,7 @@ checkAndTriggerAutoLeaderRebalance(): Unit
 Checking need to trigger auto leader balancing
 ```
 
-NOTE: `checkAndTriggerAutoLeaderRebalance` is used exclusively when `ControllerEventThread` is requested to process a <<kafka-ControllerEvent.adoc#AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>> event (while <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>).
+NOTE: `checkAndTriggerAutoLeaderRebalance` is used exclusively when `ControllerEventThread` is requested to process a <<kafka-controller-ControllerEvent.adoc#AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>> event (while <<kafka-controller-ControllerEventThread.adoc#doWork, processing controller events>>).
 
 === [[startChannelManager]] `startChannelManager` Internal Method
 

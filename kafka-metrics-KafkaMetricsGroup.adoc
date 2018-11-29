@@ -37,7 +37,7 @@ trait KafkaMetricsGroup {
 | <<kafka-controller-ControllerChannelManager.adoc#, ControllerChannelManager>>
 | [[ControllerChannelManager]]
 
-| <<kafka-ControllerEventManager.adoc#, ControllerEventManager>>
+| <<kafka-controller-ControllerEventManager.adoc#, ControllerEventManager>>
 | [[ControllerEventManager]]
 
 | ControllerStats

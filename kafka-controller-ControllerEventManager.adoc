@@ -1,12 +1,12 @@
 == [[ControllerEventManager]] ControllerEventManager
 
-`ControllerEventManager` manages <<kafka-ControllerEvent.adoc#, ControllerEvents>> (in a <<queue, controller event queue>>).
+`ControllerEventManager` manages <<kafka-controller-ControllerEvent.adoc#, ControllerEvents>> (in a <<queue, controller event queue>>).
 
 `ControllerEventManager` allows for <<put, emitting ControllerEvents>> (possibly <<clearAndPut, clearing the internal controller event queue first>>).
 
 `ControllerEventManager` is <<creating-instance, created>> exclusively for the <<kafka-KafkaController.adoc#eventManager, KafkaController>> (when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>).
 
-When <<start, started>>, `ControllerEventManager` simply requests the <<thread, ControllerEventThread>> to <<kafka-ControllerEventThread.adoc#doWork, start processing ControllerEvents>>.
+When <<start, started>>, `ControllerEventManager` simply requests the <<thread, ControllerEventThread>> to <<kafka-controller-ControllerEventThread.adoc#doWork, start processing ControllerEvents>>.
 
 `ControllerEventManager` is <<start, started>> when `KafkaController` is link:kafka-KafkaController.adoc#startup[started up].
 
@@ -23,17 +23,17 @@ image::images/ControllerEventManager.png[align="center"]
 | queue
 | [[queue]] Controller event queue
 
-`queue` is a Java http://docs.oracle.com/javase/9/docs/api/java/util/concurrent/LinkedBlockingQueue.html[java.util.concurrent.LinkedBlockingQueue] (i.e. an optionally-bounded blocking queue based on linked nodes that orders elements in first-in-first-out fashion) of link:kafka-ControllerEvent.adoc[ControllerEvents].
+`queue` is a Java http://docs.oracle.com/javase/9/docs/api/java/util/concurrent/LinkedBlockingQueue.html[java.util.concurrent.LinkedBlockingQueue] (i.e. an optionally-bounded blocking queue based on linked nodes that orders elements in first-in-first-out fashion) of link:kafka-controller-ControllerEvent.adoc[ControllerEvents].
 
 | _state
 a| [[_state]] The current `ControllerState`
 
-* `Idle` state when `ControllerEventManager` is <<creating-instance, created>> and right after `ControllerEventThread` finished <<kafka-ControllerEventThread.adoc#doWork, processing a controller event>>
+* `Idle` state when `ControllerEventManager` is <<creating-instance, created>> and right after `ControllerEventThread` finished <<kafka-controller-ControllerEventThread.adoc#doWork, processing a controller event>>
 
-* Transitions to the <<kafka-ControllerEvent.adoc#state, requested state>> of the `ControllerEvent` that is currently being processed (while `ControllerEventThread` is <<kafka-ControllerEventThread.adoc#doWork, processing controller events>>)
+* Transitions to the <<kafka-controller-ControllerEvent.adoc#state, requested state>> of the `ControllerEvent` that is currently being processed (while `ControllerEventThread` is <<kafka-controller-ControllerEventThread.adoc#doWork, processing controller events>>)
 
 | thread
-| [[thread]] <<kafka-ControllerEventThread.adoc#, ControllerEventThread>> with *controller-event-thread* thread name
+| [[thread]] <<kafka-controller-ControllerEventThread.adoc#, ControllerEventThread>> with *controller-event-thread* thread name
 |===
 
 === [[creating-instance]] Creating ControllerEventManager Instance
@@ -52,7 +52,7 @@ a| [[_state]] The current `ControllerState`
 put(event: ControllerEvent): Unit
 ----
 
-`put` simply inserts the <<kafka-ControllerEvent.adoc#, ControllerEvent>> at the end of the <<queue, controller event queue>>.
+`put` simply inserts the <<kafka-controller-ControllerEvent.adoc#, ControllerEvent>> at the end of the <<queue, controller event queue>>.
 
 [NOTE]
 ====
@@ -70,7 +70,7 @@ put(event: ControllerEvent): Unit
 start(): Unit
 ----
 
-`start` simply requests the <<thread, ControllerEventThread>> to <<kafka-ControllerEventThread.adoc#doWork, start processing ControllerEvents>>.
+`start` simply requests the <<thread, ControllerEventThread>> to <<kafka-controller-ControllerEventThread.adoc#doWork, start processing ControllerEvents>>.
 
 NOTE: `ControllerEventThread` is a `ShutdownableThread` that triggers `doWork()` method when started.
 

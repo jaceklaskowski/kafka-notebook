@@ -1,6 +1,6 @@
 == [[TopicDeletion]] TopicDeletion Controller Event
 
-`TopicDeletion` is a link:kafka-ControllerEvent.adoc[ControllerEvent] that is <<process, executed>> on the active `KafkaController` (and does nothing otherwise).
+`TopicDeletion` is a link:kafka-controller-ControllerEvent.adoc[ControllerEvent] that is <<process, executed>> on the active `KafkaController` (and does nothing otherwise).
 
 NOTE: `TopicDeletion` uses <<deleteTopicEnable, delete.topic.enable>> Kafka property.
 
@@ -16,7 +16,7 @@ NOTE: Topics to be deleted are created in `/admin/delete_topics` path in Zookeep
 process(): Unit
 ----
 
-NOTE: `process` is a part of link:kafka-ControllerEvent.adoc#process[ControllerEvent Contract].
+NOTE: `process` is a part of link:kafka-controller-ControllerEvent.adoc#process[ControllerEvent Contract].
 
 NOTE: `process` is executed on the link:kafka-KafkaController.adoc#isActive[active] controller only (and does nothing otherwise).
 

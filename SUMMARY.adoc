@@ -4,6 +4,12 @@
 . link:kafka-overview.adoc[Overview of Kafka]
 . link:kafka-server-scheduled-tasks.adoc[Kafka Server and Periodic Tasks]
 
+=== Kafka Features
+
+. link:kafka-controller-election.adoc[Kafka Controller Election]
+. link:kafka-topic-replication.adoc[Topic Replication]
+. link:kafka-topic-deletion.adoc[Topic Deletion]
+
 === Kafka Producer API
 
 . link:kafka-Producer.adoc[Producer]
@@ -59,14 +65,6 @@
 . link:kafka-KafkaConfig.adoc[KafkaConfig]
 
 . link:kafka-KafkaController.adoc[KafkaController]
-.. link:kafka-ControllerEvent.adoc[ControllerEvent]
-... link:kafka-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
-... link:kafka-ControllerEvent-Startup.adoc[Startup]
-... link:kafka-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
-.. link:kafka-ControllerEventManager.adoc[ControllerEventManager]
-.. link:kafka-ControllerEventThread.adoc[ControllerEventThread]
-.. link:kafka-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
-.. link:kafka-controller-ControllerChannelManager.adoc[ControllerChannelManager]
 
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
@@ -113,6 +111,15 @@
 
 . link:kafka-controller-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
 
+. link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
+.. link:kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
+.. link:kafka-controller-ControllerEvent-Startup.adoc[Startup]
+.. link:kafka-controller-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
+
+. link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
+. link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
+. link:kafka-controller-ControllerChannelManager.adoc[ControllerChannelManager]
+
 === Kafka Cluster
 
 . link:kafka-cluster-Partition.adoc[Partition]
@@ -124,12 +131,6 @@
 . link:kafka-BrokerTopicStats.adoc[BrokerTopicStats]
 . link:kafka-BrokerTopicMetrics.adoc[BrokerTopicMetrics]
 . link:kafka-metrics-KafkaMetricsGroup.adoc[KafkaMetricsGroup]
-
-=== Kafka Features
-
-. link:kafka-topic-replication.adoc[Topic Replication]
-. link:kafka-topic-deletion.adoc[Topic Deletion]
-. link:kafka-controller-election.adoc[Kafka Controller Election]
 
 === Kafka Consumer API
 

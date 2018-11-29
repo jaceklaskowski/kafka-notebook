@@ -15,9 +15,9 @@ sendRequestsToBrokers(controllerEpoch: Int): Unit
 ====
 `sendRequestsToBrokers` is used when:
 
-* `KafkaController` is requested to <<kafka-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<kafka-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>> and in `ControlledShutdown`
+* `KafkaController` is requested to <<kafka-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<kafka-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>> and `ControlledShutdown` is <<kafka-KafkaController.adoc#ControlledShutdown, processed>>
 
-* `PartitionStateMachine` is requested to <<kafka-PartitionStateMachine.adoc#handleStateChanges, handleStateChanges>>
+* `PartitionStateMachine` is requested to <<kafka-PartitionStateMachine.adoc#handleStateChanges, handleStateChanges>> and <<kafka-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>>
 
 * `ReplicaStateMachine` is requested to <<kafka-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
 ====

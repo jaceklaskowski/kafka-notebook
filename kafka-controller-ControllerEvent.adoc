@@ -2,7 +2,7 @@
 
 `ControllerEvent` is the <<contract, contract>> of the <<implementations, events>> in the lifecycle of <<kafka-KafkaController.adoc#, KafkaController>> (state machine) that trigger <<state, state>> change with the corresponding <<process, process>> action.
 
-`ControllerEvent` events are managed by <<kafka-ControllerEventManager.adoc#, ControllerEventManager>>.
+`ControllerEvent` events are managed by <<kafka-controller-ControllerEventManager.adoc#, ControllerEventManager>>.
 
 [[contract]]
 .ControllerEvent Contract
@@ -19,7 +19,7 @@ a| [[state]]
 state: ControllerState
 ----
 
-The requested <<kafka-ControllerEventManager.adoc#_state, ControllerState>> of the <<kafka-ControllerEventManager.adoc, ControllerEventManager>> (that `ControllerEventThread` sets while <<kafka-ControllerEventThread.adoc#doWork, processing the controller event>>)
+The requested <<kafka-controller-ControllerEventManager.adoc#_state, ControllerState>> of the <<kafka-controller-ControllerEventManager.adoc, ControllerEventManager>> (that `ControllerEventThread` sets while <<kafka-controller-ControllerEventThread.adoc#doWork, processing the controller event>>)
 
 | process
 a| [[process]]
@@ -29,7 +29,7 @@ a| [[process]]
 process(): Unit
 ----
 
-The action to execute when `ControllerEventThread` is requested to <<kafka-ControllerEventThread.adoc#doWork, process the controller event>>
+The action to execute when `ControllerEventThread` is requested to <<kafka-controller-ControllerEventThread.adoc#doWork, process the controller event>>
 |===
 
 [[implementations]]
@@ -39,7 +39,7 @@ The action to execute when `ControllerEventThread` is requested to <<kafka-Contr
 | ControllerEvent
 | Description
 
-| <<kafka-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc#, AutoPreferredReplicaLeaderElection>>
+| <<kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc#, AutoPreferredReplicaLeaderElection>>
 | [[AutoPreferredReplicaLeaderElection]]
 
 | BrokerChange
@@ -87,13 +87,13 @@ The action to execute when `ControllerEventThread` is requested to <<kafka-Contr
 | ShutdownEventThread
 | [[ShutdownEventThread]]
 
-| <<kafka-ControllerEvent-Startup.adoc#, Startup>>
+| <<kafka-controller-ControllerEvent-Startup.adoc#, Startup>>
 | [[Startup]]
 
 | TopicChange
 | [[TopicChange]]
 
-| <<kafka-ControllerEvent-TopicDeletion.adoc#, TopicDeletion>>
+| <<kafka-controller-ControllerEvent-TopicDeletion.adoc#, TopicDeletion>>
 | [[TopicDeletion]]
 
 | TopicDeletionStopReplicaResponseReceived

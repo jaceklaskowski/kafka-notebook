@@ -1,9 +1,0 @@
-== [[AutoPreferredReplicaLeaderElection]] AutoPreferredReplicaLeaderElection Controller Event
-
-[[state]]
-`AutoPreferredReplicaLeaderElection` is a <<kafka-ControllerEvent.adoc#, controller event>> that <<kafka-ControllerEvent.adoc#state, transition>> the <<kafka-KafkaController.adoc#, KafkaController>> to `AutoLeaderBalance` state.
-
-[[process]]
-`AutoPreferredReplicaLeaderElection` event is ignored (skipped) when processed on an <<kafka-KafkaController.adoc#isActive, inactive controller>>.
-
-When <<kafka-ControllerEvent.adoc#process, processed>> on an <<kafka-KafkaController.adoc#isActive, active controller>>, `AutoPreferredReplicaLeaderElection` event <<kafka-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, checkAndTriggerAutoLeaderRebalance>> and in the end <<kafka-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, scheduleAutoLeaderRebalanceTask>> with the delay as configured using the <<kafka-properties.adoc#leader.imbalance.check.interval.seconds, leader.imbalance.check.interval.seconds>> property.

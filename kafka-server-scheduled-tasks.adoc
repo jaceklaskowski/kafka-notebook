@@ -17,7 +17,7 @@ m| delete-expired-tokens
 | Executes <<kafka-server-DelegationTokenManager.adoc#expireTokens, expireTokens>>
 
 m| auto-leader-rebalance-task
-| Sends `AutoPreferredReplicaLeaderElection` controller event to <<kafka-ControllerEventManager.adoc#, ControllerEventManager>>
+| Sends `AutoPreferredReplicaLeaderElection` controller event to <<kafka-controller-ControllerEventManager.adoc#, ControllerEventManager>>
 
 .4+^.^| <<kafka-GroupMetadataManager.adoc#, GroupMetadataManager>>
 m| delete-expired-group-metadata
