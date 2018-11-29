@@ -107,7 +107,6 @@
 
 === Kafka Controller
 
-. link:kafka-controller-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
 . link:kafka-controller-ControllerContext.adoc[ControllerContext]
 
 . link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
@@ -119,6 +118,8 @@
 . link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
 . link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
 . link:kafka-controller-ControllerChannelManager.adoc[ControllerChannelManager]
+
+. link:kafka-controller-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
 
 . link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
 . link:kafka-controller-ReplicaStateMachine.adoc[ReplicaStateMachine]

@@ -220,7 +220,7 @@ a| [[controllerChangeHandler]] A `ZNodeChangeHandler` (for the `KafkaController`
 * `Reelect` when the znode is deleted
 
 | controllerContext
-| [[controllerContext]]
+a| [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
 
 | eventManager
 | [[eventManager]] link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager] for `controllerContext.stats.rateAndTimeMetrics` and updateMetrics listener

@@ -1,21 +1,66 @@
 == [[ControllerContext]] ControllerContext
 
-`ControllerContext` is...FIXME
+`ControllerContext` is the context of a <<kafka-controller-KafkaController.adoc#controllerContext, KafkaController>> (and is <<creating-instance, created>> exclusively when `KafkaController` is <<kafka-controller-KafkaController.adoc#controllerContext, created>>).
 
-[[attributes]]
-.ControllerContext's Attributes
+[[creating-instance]]
+`ControllerContext` takes no input arguments when created.
+
+[[registries]]
+.ControllerContext's Registries
 [cols="1m,2",options="header",width="100%"]
 |===
 | Name
 | Description
 
+| allPartitions
+a| [[allPartitions]]
+
+| allTopics
+a| [[allTopics]]
+
+| controllerChannelManager
+a| [[controllerChannelManager]] <<kafka-controller-ControllerChannelManager.adoc#, ControllerChannelManager>>
+
+| epoch
+a| [[epoch]]
+
 | epochZkVersion
-| [[epochZkVersion]]
+a| [[epochZkVersion]]
+
+| liveBrokers
+a| [[liveBrokers]]
+
+| liveBrokerIds
+a| [[liveBrokerIds]]
+
+| liveBrokersUnderlying
+a| [[liveBrokersUnderlying]]
+
+| liveBrokerIdsUnderlying
+a| [[liveBrokerIdsUnderlying]]
 
 | liveOrShuttingDownBrokerIds
-| [[liveOrShuttingDownBrokerIds]]
+a| [[liveOrShuttingDownBrokerIds]]
+
+| liveOrShuttingDownBrokers
+a| [[liveOrShuttingDownBrokers]]
 
 | partitionsBeingReassigned
-| [[partitionsBeingReassigned]]
+a| [[partitionsBeingReassigned]]
+
+| partitionLeadershipInfo
+a| [[partitionLeadershipInfo]]
+
+| partitionReplicaAssignmentUnderlying
+a| [[partitionReplicaAssignmentUnderlying]]
+
+| replicasOnOfflineDirs
+a| [[replicasOnOfflineDirs]]
+
+| shuttingDownBrokerIds
+a| [[shuttingDownBrokerIds]]
+
+| stats
+a| [[stats]] `ControllerStats`
 
 |===
