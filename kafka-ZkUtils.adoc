@@ -95,7 +95,7 @@ subscribeStateChanges(listener: IZkStateListener): Unit
 ====
 `subscribeStateChanges` is used when:
 
-1. `KafkaController` is requested to link:kafka-KafkaController.adoc#registerSessionExpirationListener[register a SessionExpirationListener]
+1. `KafkaController` is requested to link:kafka-controller-KafkaController.adoc#registerSessionExpirationListener[register a SessionExpirationListener]
 
 1. FIXME
 ====
@@ -189,7 +189,7 @@ scala> ZkUtils.controllerZkData(1, System.currentTimeMillis())
 res0: String = {"version":1,"brokerid":1,"timestamp":"1506161225262"}
 ----
 
-NOTE: `controllerZkData` is used exclusively when `KafkaController` is requested for link:kafka-KafkaController.adoc#elect[elect].
+NOTE: `controllerZkData` is used exclusively when `KafkaController` is requested for link:kafka-controller-KafkaController.adoc#elect[elect].
 
 === [[creating-instance]] Creating ZkUtils Instance
 

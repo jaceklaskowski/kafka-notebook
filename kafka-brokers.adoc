@@ -18,7 +18,7 @@ A Kafka broker allows consumers to fetch messages by topic, partition and offset
 
 Kafka brokers can create a Kafka cluster by sharing information between each other directly or indirectly using Zookeeper.
 
-A Kafka cluster has exactly one broker that acts as the link:kafka-KafkaController.adoc[Controller].
+A Kafka cluster has exactly one broker that acts as the link:kafka-controller-KafkaController.adoc[Controller].
 
 You can <<starting-broker, start a single Kafka broker>> using `kafka-server-start.sh` script.
 

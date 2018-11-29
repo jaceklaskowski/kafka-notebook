@@ -28,7 +28,7 @@ a| [[auto.leader.rebalance.enable]] Enables auto leader balancing
 
 Default: `true`
 
-A <<kafka-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, background thread>> checks and triggers leader balance if required.
+A <<kafka-controller-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, background thread>> checks and triggers leader balance if required.
 
 * Use `KafkaConfig.AutoLeaderRebalanceEnableProp` to reference the property
 
@@ -155,7 +155,7 @@ a| [[interceptor.classes]] Comma-separated list of link:kafka-consumer-ConsumerI
 Default: `(empty)`
 
 | leader.imbalance.check.interval.seconds
-a| [[leader.imbalance.check.interval.seconds]] How often the active <<kafka-KafkaController.adoc#, KafkaController>> schedules the <<kafka-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, partition rebalance check>> (aka _AutoLeaderRebalance_ or _AutoPreferredReplicaLeaderElection_ or _auto leader balancing_)
+a| [[leader.imbalance.check.interval.seconds]] How often the active <<kafka-controller-KafkaController.adoc#, KafkaController>> schedules the <<kafka-controller-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, partition rebalance check>> (aka _AutoLeaderRebalance_ or _AutoPreferredReplicaLeaderElection_ or _auto leader balancing_)
 
 Default: `300`
 

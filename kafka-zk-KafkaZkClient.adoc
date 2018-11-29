@@ -303,7 +303,7 @@ getControllerId: Option[Int]
 ====
 `getControllerId` is used when:
 
-* `KafkaController` is requested to <<kafka-KafkaController.adoc#elect, elect>>
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#elect, elect>>
 
 * `ControllerEventThread` is requested to <<kafka-controller-ControllerEventThread.adoc#doWork, process controller events>> (and processes <<kafka-controller-ControllerEvent.adoc#ControllerChange, ControllerChange>> and <<kafka-controller-ControllerEvent.adoc#Reelect, Reelect>> events)
 
@@ -320,3 +320,14 @@ checkedEphemeralCreate(path: String, data: Array[Byte]): Unit
 `checkedEphemeralCreate`...FIXME
 
 NOTE: `checkedEphemeralCreate` is used when...FIXME
+
+=== [[registerControllerAndIncrementControllerEpoch]] `registerControllerAndIncrementControllerEpoch` Method
+
+[source, scala]
+----
+registerControllerAndIncrementControllerEpoch(controllerId: Int): (Int, Int)
+----
+
+`registerControllerAndIncrementControllerEpoch`...FIXME
+
+NOTE: `registerControllerAndIncrementControllerEpoch` is used when...FIXME

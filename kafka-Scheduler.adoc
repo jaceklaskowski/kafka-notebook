@@ -33,7 +33,7 @@ a| [[isStarted]] Flag that indicates whether the scheduler has been started or n
 
 Used when:
 
-* `KafkaController` is requested to <<kafka-KafkaController.adoc#onControllerResignation, onControllerResignation>>
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, onControllerResignation>>
 
 * `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#shutdown, shutdown>>
 
@@ -46,7 +46,7 @@ a| [[shutdown]] Shuts down the scheduler. When this method is complete no more e
 
 Used when:
 
-* `KafkaController` is requested to <<kafka-KafkaController.adoc#onControllerResignation, onControllerResignation>>
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, onControllerResignation>>
 
 * `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#shutdown, shutdown>>
 
@@ -61,7 +61,7 @@ a| [[schedule]] Schedules a task
 
 Used when:
 
-* `KafkaController` is requested to <<kafka-KafkaController.adoc#onControllerFailover, onControllerFailover>> and <<kafka-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, scheduleAutoLeaderRebalanceTask>>
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> and <<kafka-controller-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, scheduleAutoLeaderRebalanceTask>>
 
 * `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#startup, start up>>, <<kafka-GroupMetadataManager.adoc#scheduleLoadGroupAndOffsets, scheduleLoadGroupAndOffsets>>, <<kafka-GroupMetadataManager.adoc#removeGroupsForPartition, removeGroupsForPartition>> and <<kafka-GroupMetadataManager.adoc#scheduleHandleTxnCompletion, scheduleHandleTxnCompletion>>
 
@@ -82,7 +82,7 @@ a| [[startup]] Initializes the scheduler so it is ready to schedule tasks
 
 Used when:
 
-* `KafkaController` is requested to <<kafka-KafkaController.adoc#onControllerFailover, onControllerFailover>>
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>>
 
 * `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#startup, start up>>
 

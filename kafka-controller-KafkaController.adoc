@@ -1,13 +1,13 @@
 == [[KafkaController]] KafkaController
 
-`KafkaController` is a Kafka service that is part of every Kafka broker, but only one `KafkaController` is <<isActive, active>> (_elected_) among all Kafka brokers in a Kafka cluster.
-
-The process of choosing the KafkaController among brokers is <<elect, Controller Election>>.
+`KafkaController` is a Kafka service that runs on every Kafka broker. Only one `KafkaController` can be <<isActive, active>> (_elected_) among all the Kafka brokers in a Kafka cluster.
 
 `KafkaController` is a Kafka service responsible for:
 
 * <<topicDeletionListener, topic deletion>>
 * ...FIXME
+
+The process of promoting a `KafkaController` to be active among brokers is <<kafka-controller-election.adoc#, Kafka Controller Election>>.
 
 Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Internals[Kafka Controller Internals]:
 
@@ -543,7 +543,7 @@ Otherwise, `elect` requests the <<zkClient, KafkaZkClient>> to <<checkedEphemera
 
 NOTE: `elect` always uses `1` for the version.
 
-NOTE: `elect` is used when `ControllerEventThread` is requested to process <<kafka-controller-ControllerEvent.adoc#Startup, Startup>> and <<kafka-controller-ControllerEvent.adoc#Reelect, Reelect>> events (while <<kafka-controller-ControllerEventThread.adoc#doWork, processing controller events>>).
+NOTE: `elect` is used when `ControllerEventThread` is requested to process <<kafka-controller-ControllerEvent.adoc#Startup, Startup>> and <<kafka-controller-ControllerEvent.adoc#Reelect, Reelect>> controller events (while <<kafka-controller-ControllerEventThread.adoc#doWork, processing controller events>>).
 
 ==== Controller Elected
 

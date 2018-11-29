@@ -6,7 +6,7 @@
 
 `KafkaScheduler` is <<creating-instance, created>> when:
 
-* `KafkaController` is <<kafka-KafkaController.adoc#, created>> (and initializes <<kafka-KafkaController.adoc#kafkaScheduler, kafkaScheduler>> and <<kafka-KafkaController.adoc#tokenCleanScheduler, tokenCleanScheduler>>)
+* `KafkaController` is <<kafka-controller-KafkaController.adoc#, created>> (and initializes <<kafka-controller-KafkaController.adoc#kafkaScheduler, kafkaScheduler>> and <<kafka-controller-KafkaController.adoc#tokenCleanScheduler, tokenCleanScheduler>>)
 
 * `GroupMetadataManager` is <<kafka-GroupMetadataManager.adoc#scheduler, created>>
 

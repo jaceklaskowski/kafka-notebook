@@ -70,7 +70,7 @@ trait KafkaMetricsGroup {
 | <<kafka-GroupMetadataManager.adoc#, GroupMetadataManager>>
 | [[GroupMetadataManager]]
 
-| <<kafka-KafkaController.adoc#, KafkaController>>
+| <<kafka-controller-KafkaController.adoc#, KafkaController>>
 | [[KafkaController]]
 
 | <<kafka-KafkaRequestHandlerPool.adoc#, KafkaRequestHandlerPool>>

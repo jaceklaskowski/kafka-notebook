@@ -2,7 +2,6 @@
 
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
-. link:kafka-server-scheduled-tasks.adoc[Kafka Server and Periodic Tasks]
 
 === Kafka Features
 
@@ -29,6 +28,8 @@
 . link:kafka-Serializer.adoc[Serializer]
 
 === Kafka Broker Services
+
+. link:kafka-server-scheduled-tasks.adoc[Kafka Server and Periodic Tasks]
 
 . link:kafka-AdminManager.adoc[AdminManager]
 . link:kafka-Authorizer.adoc[Authorizer]
@@ -59,12 +60,12 @@
 . link:kafka-Kafka.adoc[Kafka]
 . link:kafka-KafkaApis.adoc[KafkaApis -- API Request Handler]
 
+. link:kafka-controller-KafkaController.adoc[KafkaController]
+
 . link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
 . link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer over KafkaServer]
 . link:kafka-KafkaServer.adoc[KafkaServer]
 . link:kafka-KafkaConfig.adoc[KafkaConfig]
-
-. link:kafka-KafkaController.adoc[KafkaController]
 
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
@@ -114,6 +115,7 @@
 . link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
 .. link:kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
 .. link:kafka-controller-ControllerEvent-Startup.adoc[Startup]
+.. link:kafka-controller-ControllerEvent-Reelect.adoc[Reelect]
 .. link:kafka-controller-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
 
 . link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
@@ -248,6 +250,10 @@
 
 . link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
 . link:kafka-ConnectDistributed.adoc[ConnectDistributed]
+
+=== Kafka Demos
+
+. link:kafka-demo-controller-election.adoc[Demo: Kafka Controller Election]
 
 === Appendix
 

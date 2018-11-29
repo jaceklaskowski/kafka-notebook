@@ -29,7 +29,7 @@ Used when:
 | autoLeaderRebalanceEnable
 a| [[autoLeaderRebalanceEnable]] <<kafka-properties.adoc#auto.leader.rebalance.enable, auto.leader.rebalance.enable>>
 
-Used exclusively when `KafkaController` is requested to <<kafka-KafkaController.adoc#onControllerFailover, onControllerFailover>>
+Used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>>
 
 | backgroundThreads
 | [[backgroundThreads]] <<kafka-properties.adoc#background.threads, background.threads>>

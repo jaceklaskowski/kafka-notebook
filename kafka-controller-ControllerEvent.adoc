@@ -1,6 +1,6 @@
 == [[ControllerEvent]] ControllerEvent
 
-`ControllerEvent` is the <<contract, contract>> of the <<implementations, events>> in the lifecycle of <<kafka-KafkaController.adoc#, KafkaController>> (state machine) that trigger <<state, state>> change with the corresponding <<process, process>> action.
+`ControllerEvent` is the <<contract, contract>> of the <<implementations, events>> in the lifecycle of <<kafka-controller-KafkaController.adoc#, KafkaController>> (state machine) that trigger <<state, state>> change with the corresponding <<process, process>> action.
 
 `ControllerEvent` events are managed by <<kafka-controller-ControllerEventManager.adoc#, ControllerEventManager>>.
 
@@ -78,7 +78,7 @@ The action to execute when `ControllerEventThread` is requested to <<kafka-contr
 | PreferredReplicaLeaderElection
 | [[PreferredReplicaLeaderElection]]
 
-| Reelect
+| <<kafka-controller-ControllerEvent-Reelect.adoc#, Reelect>>
 | [[Reelect]]
 
 | RegisterBrokerAndReelect

@@ -91,7 +91,7 @@ $ ./bin/kafka-server-start.sh config/server.properties \
   --override port=9192
 ```
 
-With link:kafka-KafkaController.adoc#logging[kafka.controller.KafkaController] logger at `DEBUG` level, you should see the following messages in the logs:
+With link:kafka-controller-KafkaController.adoc#logging[kafka.controller.KafkaController] logger at `DEBUG` level, you should see the following messages in the logs:
 
 ```
 DEBUG [Controller id=100] Delete topics listener fired for topics remove-me to be deleted (kafka.controller.KafkaController)

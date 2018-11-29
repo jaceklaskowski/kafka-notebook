@@ -147,7 +147,7 @@ handleCreateTopicsRequest(request: RequestChannel.Request): Unit
 
 `handleCreateTopicsRequest`...FIXME
 
-`handleCreateTopicsRequest` checks whether <<controller, KafkaController>> is link:kafka-KafkaController.adoc#isActive[active]...FIXME
+`handleCreateTopicsRequest` checks whether <<controller, KafkaController>> is link:kafka-controller-KafkaController.adoc#isActive[active]...FIXME
 
 `handleCreateTopicsRequest` <<authorize, authorizes>> the `Create` operation for `ClusterResource`...FIXME
 
@@ -243,7 +243,7 @@ NOTE: `handleControlledShutdownRequest` is used when...FIXME
 * [[adminManager]] <<kafka-AdminManager.adoc#, AdminManager>>
 * [[groupCoordinator]] <<kafka-GroupCoordinator.adoc#, GroupCoordinator>>
 * [[txnCoordinator]] <<kafka-TransactionCoordinator.adoc#, TransactionCoordinator>>
-* [[controller]] <<kafka-KafkaController.adoc#, KafkaController>>
+* [[controller]] <<kafka-controller-KafkaController.adoc#, KafkaController>>
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[brokerId]] Broker ID
 * [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>

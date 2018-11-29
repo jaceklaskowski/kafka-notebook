@@ -12,7 +12,7 @@ The page describes the <<tasks, tasks>> (that should further improve comprehensi
 | Task Name
 | Description
 
-.2+^.^| <<kafka-KafkaController.adoc#, KafkaController>>
+.2+^.^| <<kafka-controller-KafkaController.adoc#, KafkaController>>
 m| delete-expired-tokens
 | Executes <<kafka-server-DelegationTokenManager.adoc#expireTokens, expireTokens>>
 

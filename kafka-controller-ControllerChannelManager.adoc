@@ -2,7 +2,7 @@
 
 `ControllerChannelManager` is...FIXME
 
-`ControllerChannelManager` is <<creating-instance, created>> exclusively when `KafkaController` is requested to <<kafka-KafkaController.adoc#startChannelManager, startChannelManager>>.
+`ControllerChannelManager` is <<creating-instance, created>> exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#startChannelManager, startChannelManager>>.
 
 [[logIdent]]
 `logIdent` is *[Channel manager on controller [brokerId]]*.
@@ -57,7 +57,7 @@ addBroker(broker: Broker): Unit
 
 `addBroker`...FIXME
 
-NOTE: `addBroker` is used exclusively when <<kafka-KafkaController.adoc#BrokerChange, BrokerChange>> controller event is processed.
+NOTE: `addBroker` is used exclusively when <<kafka-controller-KafkaController.adoc#BrokerChange, BrokerChange>> controller event is processed.
 
 === [[creating-instance]] Creating ControllerChannelManager Instance
 

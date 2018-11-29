@@ -30,7 +30,7 @@ doWork(): Unit
 
 `doWork` takes and removes the head of link:kafka-controller-ControllerEventManager.adoc#queue[event queue] (waiting if necessary until an element becomes available).
 
-NOTE: The very first event in the event queue is `Startup` that `KafkaController` puts when it is link:kafka-KafkaController.adoc#startup[started].
+NOTE: The very first event in the event queue is `Startup` that `KafkaController` puts when it is link:kafka-controller-KafkaController.adoc#startup[started].
 
 `doWork` sets link:kafka-controller-ControllerEventManager.adoc#_state[_state] (of `ControllerEventManager`) as the state of the event.
 

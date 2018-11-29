@@ -57,7 +57,7 @@ Used exclusively when `KafkaServer` is requested to <<startup, start up>> (and c
 | Flag for...FIXME
 
 | [[kafkaController]] `kafkaController`
-| link:kafka-KafkaController.adoc[KafkaController]
+| link:kafka-controller-KafkaController.adoc[KafkaController]
 
 | [[kafkaHealthcheck]] `kafkaHealthcheck`
 | link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
@@ -213,7 +213,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 `startup` creates the <<replicaManager, ReplicaManager>> and requests it to link:kafka-server-ReplicaManager.adoc#startup[start up].
 
-`startup` link:kafka-KafkaController.adoc#creating-instance[creates] the <<kafkaController, KafkaController>> (for <<config, KafkaConfig>>, <<zkUtils, ZkUtils>>, <<metrics, Metrics>> and the optional <<threadNamePrefix, threadNamePrefix>>) and requests it to link:kafka-KafkaController.adoc#startup[start up].
+`startup` link:kafka-controller-KafkaController.adoc#creating-instance[creates] the <<kafkaController, KafkaController>> (for <<config, KafkaConfig>>, <<zkUtils, ZkUtils>>, <<metrics, Metrics>> and the optional <<threadNamePrefix, threadNamePrefix>>) and requests it to link:kafka-controller-KafkaController.adoc#startup[start up].
 
 `startup` link:kafka-AdminManager.adoc#creating-instance[creates] the <<adminManager, AdminManager>> (for <<config, KafkaConfig>>, <<metrics, Metrics>>, <<metadataCache, MetadataCache>> and <<zkUtils, ZkUtils>>).
 

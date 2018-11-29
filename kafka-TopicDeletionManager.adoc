@@ -2,7 +2,7 @@
 
 `TopicDeletionManager` is...FIXME
 
-`TopicDeletionManager` is <<creating-instance, created>> exclusively when `KafkaController` is link:kafka-KafkaController.adoc#topicDeletionManager[created].
+`TopicDeletionManager` is <<creating-instance, created>> exclusively when `KafkaController` is link:kafka-controller-KafkaController.adoc#topicDeletionManager[created].
 
 .TopicDeletionManager is Created Alongside KafkaController
 image::images/TopicDeletionManager.png[align="center"]
@@ -59,7 +59,7 @@ CAUTION: FIXME
 
 `TopicDeletionManager` takes the following when created:
 
-* [[controller]] link:kafka-KafkaController.adoc[KafkaController]
+* [[controller]] link:kafka-controller-KafkaController.adoc[KafkaController]
 * [[eventManager]] link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
 
 `TopicDeletionManager` initializes the <<internal-registries, internal registries and counters>>.
@@ -83,7 +83,7 @@ Halted deletion of topics [newTopicsToHaltDeletion]
 ====
 `markTopicIneligibleForDeletion` is used when:
 
-* `KafkaController` link:kafka-KafkaController.adoc#initiateReassignReplicasForTopicPartition[initiateReassignReplicasForTopicPartition]
+* `KafkaController` link:kafka-controller-KafkaController.adoc#initiateReassignReplicasForTopicPartition[initiateReassignReplicasForTopicPartition]
 
 * `TopicDeletion` controller event is link:kafka-controller-ControllerEvent-TopicDeletion.adoc#partitionReassignmentInProgress[processed] (for topics to be deleted with partitions in `controllerContext.partitionsBeingReassigned` list)
 
@@ -105,7 +105,7 @@ reset(): Unit
 
 NOTE: `reset` does nothing when link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable] Kafka property is `false`.
 
-NOTE: `reset` is used exclusively when `KafkaController` link:kafka-KafkaController.adoc#onControllerResignation[resigns as the active controller].
+NOTE: `reset` is used exclusively when `KafkaController` link:kafka-controller-KafkaController.adoc#onControllerResignation[resigns as the active controller].
 
 === [[onTopicDeletion]] `onTopicDeletion` Internal Method
 
