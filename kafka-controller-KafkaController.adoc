@@ -81,7 +81,7 @@ image::images/KafkaController.png[align="center"]
 
 [[controller-events]]
 .KafkaController's Controller Events
-[cols="1m,1,2",options="header",width="100%"]
+[cols="1,1,2",options="header",width="100%"]
 |===
 | Event
 | ControllerState
@@ -112,7 +112,7 @@ a| ControlledShutdown
 | <<kafka-controller-ControllerState.adoc#ControlledShutdown, ControlledShutdown>>
 | [[ControlledShutdown]]
 
-| IsrChangeNotification
+| <<kafka-controller-ControllerEvent.adoc#IsrChangeNotification, IsrChangeNotification>>
 |
 | [[IsrChangeNotification]]
 

@@ -83,7 +83,7 @@ ControllerEvents: BrokerChange, BrokerModifications
 `Idle` <<hasRateAndTimeMetric, has no rateAndTime metric>>.
 
 | IsrChange
-| [[IsrChange]] ControllerEvents: IsrChangeNotification
+| [[IsrChange]] ControllerEvents: <<kafka-controller-ControllerEvent.adoc#IsrChangeNotification, IsrChangeNotification>>
 
 | LeaderAndIsrResponseReceived
 | [[LeaderAndIsrResponseReceived]]
@@ -110,3 +110,5 @@ ControllerEvents: BrokerChange, BrokerModifications
 | [[UncleanLeaderElectionEnable]]
 
 |===
+
+NOTE: `ControllerState` is a Scala sealed abstract class and so all the possible <<implementations, controller states>> are in a single compilation unit (i.e. a file).

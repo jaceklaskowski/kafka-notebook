@@ -5,7 +5,7 @@
 .ReplicaManager and KafkaServer
 image::images/ReplicaManager.png[align="center"]
 
-When <<startup, started>>, `ReplicaManager` schedules <<isr-expiration, isr-expiration>> and <<isr-change-propagation, isr-change-propagation>> recurring tasks (every half of link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms] property and 2500 ms, respectively).
+When <<startup, started>>, `ReplicaManager` schedules <<kafka-server-scheduled-tasks.adoc#isr-expiration, isr-expiration>> and <<kafka-server-scheduled-tasks.adoc#isr-change-propagation, isr-change-propagation>> recurring tasks (every half of link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms] property and 2500 ms, respectively).
 
 `ReplicaManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>>.
 
@@ -157,14 +157,6 @@ getLeaderPartitions: List[Partition]
 
 NOTE: `getLeaderPartitions` is used when...FIXME
 
-=== [[isr-expiration]] `isr-expiration` Task
-
-CAUTION: FIXME
-
-=== [[isr-change-propagation]] `isr-change-propagation` Task
-
-CAUTION: FIXME
-
 === [[maybePropagateIsrChanges]] `maybePropagateIsrChanges` Method
 
 [source, scala]
@@ -174,7 +166,7 @@ maybePropagateIsrChanges(): Unit
 
 `maybePropagateIsrChanges`...FIXME
 
-NOTE: `maybePropagateIsrChanges` is used exclusively when <<isr-change-propagation, isr-change-propagation>> task is executed (every 2500 milliseconds).
+NOTE: `maybePropagateIsrChanges` is used exclusively when <<kafka-server-scheduled-tasks.adoc#isr-change-propagation, isr-change-propagation>> task is executed (every 2500 milliseconds).
 
 === [[creating-instance]] Creating ReplicaManager Instance
 
@@ -207,8 +199,8 @@ startup(): Unit
 
 `startup` requests <<scheduler, Scheduler>> to link:kafka-KafkaScheduler.adoc#schedule[schedule the ISR-related tasks]:
 
-1. <<isr-expiration, isr-expiration>>
-2. <<isr-change-propagation, isr-change-propagation>>
+. <<kafka-server-scheduled-tasks.adoc#isr-expiration, isr-expiration>>
+. <<kafka-server-scheduled-tasks.adoc#isr-change-propagation, isr-change-propagation>>
 
 `startup` then creates a <<logDirFailureHandler, LogDirFailureHandler>> and requests it to link:kafka-server-ReplicaManager-LogDirFailureHandler.adoc#start[start].
 
@@ -231,7 +223,7 @@ TRACE Evaluating ISR list of partitions to see which replicas can be removed fro
 
 `maybeShrinkIsr` requests the partitions (from <<allPartitions, allPartitions>> pool that are not <<OfflinePartition, offline partitions>>) to link:kafka-cluster-Partition.adoc#maybeShrinkIsr[maybeShrinkIsr] (with link:kafka-KafkaConfig.adoc#replicaLagTimeMaxMs[replicaLagTimeMaxMs] property).
 
-NOTE: `maybeShrinkIsr` is used exclusively to schedule `isr-expiration` recurring task when `ReplicaManager` <<startup, starts up>>.
+NOTE: `maybeShrinkIsr` is used exclusively to schedule <<kafka-server-scheduled-tasks.adoc#isr-expiration, isr-expiration>> recurring task when `ReplicaManager` <<startup, starts up>>.
 
 === [[makeLeaders]] `makeLeaders` Internal Method
 

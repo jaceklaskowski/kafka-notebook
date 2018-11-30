@@ -34,73 +34,100 @@ The action to execute when `ControllerEventThread` is requested to <<kafka-contr
 
 [[implementations]]
 .ControllerEvents
-[cols="1,2",options="header",width="100%"]
+[cols="1,1,2",options="header",width="100%"]
 |===
 | ControllerEvent
+| ControllerState
 | Description
 
 | <<kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc#, AutoPreferredReplicaLeaderElection>>
+| <<kafka-controller-ControllerState.adoc#AutoLeaderBalance, AutoLeaderBalance>>
 | [[AutoPreferredReplicaLeaderElection]]
 
 | BrokerChange
+| <<kafka-controller-ControllerState.adoc#BrokerChange, BrokerChange>>
 | [[BrokerChange]]
 
 | BrokerModifications
+| <<kafka-controller-ControllerState.adoc#BrokerChange, BrokerChange>>
 | [[BrokerModifications]]
 
 | ControlledShutdown
+| <<kafka-controller-ControllerState.adoc#ControlledShutdown, ControlledShutdown>>
 | [[ControlledShutdown]]
 
 | ControllerChange
+| <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
 | [[ControllerChange]]
 
 | Expire
+| <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
 | [[Expire]]
 
 | IsrChangeNotification
-| [[IsrChangeNotification]]
+| <<kafka-controller-ControllerState.adoc#IsrChange, IsrChange>>
+a| [[IsrChangeNotification]] Emitted when the <<kafka-controller-KafkaController.adoc#isrChangeNotificationHandler, ZNodeChildChangeHandler>> has been notified about the znode child change
 
 | LeaderAndIsrResponseReceived
+| <<kafka-controller-ControllerState.adoc#LeaderAndIsrResponseReceived, LeaderAndIsrResponseReceived>>
 | [[LeaderAndIsrResponseReceived]]
 
 | LogDirEventNotification
+| <<kafka-controller-ControllerState.adoc#LogDirChange, LogDirChange>>
 | [[LogDirEventNotification]]
 
 | PartitionModifications
+| <<kafka-controller-ControllerState.adoc#TopicChange, TopicChange>>
 | [[PartitionModifications]]
 
 | PartitionReassignment
+| <<kafka-controller-ControllerState.adoc#PartitionReassignment, PartitionReassignment>>
 | [[PartitionReassignment]]
 
 | PartitionReassignmentIsrChange
+| <<kafka-controller-ControllerState.adoc#PartitionReassignment, PartitionReassignment>>
 | [[PartitionReassignmentIsrChange]]
 
 | PreferredReplicaLeaderElection
+| <<kafka-controller-ControllerState.adoc#ManualLeaderBalance, ManualLeaderBalance>>
 | [[PreferredReplicaLeaderElection]]
 
 | <<kafka-controller-ControllerEvent-Reelect.adoc#, Reelect>>
+| <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
 | [[Reelect]]
 
 | RegisterBrokerAndReelect
+| <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
 | [[RegisterBrokerAndReelect]]
 
 | ShutdownEventThread
+| <<kafka-controller-ControllerState.adoc#ControllerShutdown, ControllerShutdown>>
 | [[ShutdownEventThread]]
 
 | <<kafka-controller-ControllerEvent-Startup.adoc#, Startup>>
+| <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
 | [[Startup]]
 
 | TopicChange
+| <<kafka-controller-ControllerState.adoc#TopicChange, TopicChange>>
 | [[TopicChange]]
 
 | <<kafka-controller-ControllerEvent-TopicDeletion.adoc#, TopicDeletion>>
+| <<kafka-controller-ControllerState.adoc#TopicDeletion, TopicDeletion>>
 | [[TopicDeletion]]
 
 | TopicDeletionStopReplicaResponseReceived
+| <<kafka-controller-ControllerState.adoc#TopicDeletion, TopicDeletion>>
 | [[TopicDeletionStopReplicaResponseReceived]]
 
+| TopicUncleanLeaderElectionEnable
+| <<kafka-controller-ControllerState.adoc#TopicUncleanLeaderElectionEnable, TopicUncleanLeaderElectionEnable>>
+| [[TopicUncleanLeaderElectionEnable]]
+
 | UncleanLeaderElectionEnable
+| <<kafka-controller-ControllerState.adoc#UncleanLeaderElectionEnable, UncleanLeaderElectionEnable>>
 | [[UncleanLeaderElectionEnable]]
+
 |===
 
-NOTE: `ControllerEvent` is a Scala sealed trait and so all the available events are in a single compilation unit (i.e. a file).
+NOTE: `ControllerEvent` is a Scala sealed trait and so all the possible <<implementations, controller events>> are in a single compilation unit (i.e. a file).
