@@ -267,16 +267,18 @@ getTopicDeletions: Seq[String]
 
 NOTE: `getTopicDeletions` is used when...FIXME
 
-=== [[getTopicPartitionStates]] `getTopicPartitionStates` Method
+=== [[getTopicPartitionStates]] Retrieving Partition State -- `getTopicPartitionStates` Method
 
 [source, scala]
 ----
 getTopicPartitionStates(partitions: Seq[TopicPartition]): Map[TopicPartition, LeaderIsrAndControllerEpoch]
 ----
 
-`getTopicPartitionStates`...FIXME
+`getTopicPartitionStates` <<getTopicPartitionStatesRaw, getTopicPartitionStatesRaw>> for the given `TopicPartitions`.
 
-NOTE: `getTopicPartitionStates` is used when...FIXME
+For every response, `getTopicPartitionStates` decodes the JSON-encoded partition state data (for the partitions that were found in ZooKeeper).
+
+NOTE: `getTopicPartitionStates` is used when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderAndIsrCache, updateLeaderAndIsrCache>>, <<kafka-controller-KafkaController.adoc#areReplicasInIsr, areReplicasInIsr>>, <<kafka-controller-KafkaController.adoc#updateLeaderEpoch, updateLeaderEpoch>> and process a <<kafka-controller-ControllerEvent.adoc#PartitionReassignmentIsrChange, PartitionReassignmentIsrChange>> controller event.
 
 === [[registerZNodeChangeHandler]] `registerZNodeChangeHandler` Method
 
@@ -411,3 +413,36 @@ propagateIsrChanges(isrChangeSet: collection.Set[TopicPartition]): Unit
 `propagateIsrChanges`...FIXME
 
 NOTE: `propagateIsrChanges` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#maybePropagateIsrChanges, maybePropagateIsrChanges>>.
+
+=== [[getTopicPartitionStatesRaw]] `getTopicPartitionStatesRaw` Method
+
+[source, scala]
+----
+getTopicPartitionStatesRaw(partitions: Seq[TopicPartition]): Seq[GetDataResponse]
+----
+
+`getTopicPartitionStatesRaw` creates a ZooKeeper `GetDataRequest` for the path `/brokers/topics/[topic]/partitions/[partition]/state` for every partition in the given partitions.
+
+In the end, `getTopicPartitionStatesRaw` <<retryRequestsUntilConnected, retryRequestsUntilConnected>> the `GetDataRequests`.
+
+[NOTE]
+====
+`getTopicPartitionStatesRaw` is used when:
+
+* `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#doElectLeaderForPartitions, doElectLeaderForPartitions>>
+
+* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#getTopicPartitionStatesFromZk, getTopicPartitionStatesFromZk>>
+
+* `KafkaZkClient` is requested to <<getTopicPartitionStates, getTopicPartitionStates>> and <<getTopicPartitionState, getTopicPartitionState>>
+====
+
+=== [[getTopicPartitionState]] `getTopicPartitionState` Method
+
+[source, scala]
+----
+getTopicPartitionState(partition: TopicPartition): Option[LeaderIsrAndControllerEpoch]
+----
+
+`getTopicPartitionState`...FIXME
+
+NOTE: `getTopicPartitionState` is used when...FIXME

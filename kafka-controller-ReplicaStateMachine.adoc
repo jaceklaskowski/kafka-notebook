@@ -37,3 +37,15 @@ startup(): Unit
 `startup`...FIXME
 
 NOTE: `startup` is used when...FIXME
+
+=== [[getTopicPartitionStatesFromZk]] `getTopicPartitionStatesFromZk` Internal Method
+
+[source, scala]
+----
+getTopicPartitionStatesFromZk(partitions: Seq[TopicPartition])
+: (Map[TopicPartition, LeaderAndIsr], Seq[TopicPartition], Map[TopicPartition, Exception])
+----
+
+`getTopicPartitionStatesFromZk`...FIXME
+
+NOTE: `getTopicPartitionStatesFromZk` is used when...FIXME

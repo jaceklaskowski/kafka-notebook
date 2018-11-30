@@ -49,3 +49,17 @@ startup(): Unit
 `startup`...FIXME
 
 NOTE: `startup` is used when...FIXME
+
+=== [[doElectLeaderForPartitions]] `doElectLeaderForPartitions` Internal Method
+
+[source, scala]
+----
+doElectLeaderForPartitions(
+  partitions: Seq[TopicPartition],
+  partitionLeaderElectionStrategy: PartitionLeaderElectionStrategy)
+: (Seq[TopicPartition], Seq[TopicPartition], Map[TopicPartition, Exception])
+----
+
+`doElectLeaderForPartitions`...FIXME
+
+NOTE: `doElectLeaderForPartitions` is used when...FIXME
