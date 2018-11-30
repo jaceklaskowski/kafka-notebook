@@ -109,14 +109,17 @@
 
 . link:kafka-controller-ControllerContext.adoc[ControllerContext]
 
+. link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
+.. link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
+
 . link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
 .. link:kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
 .. link:kafka-controller-ControllerEvent-Startup.adoc[Startup]
 .. link:kafka-controller-ControllerEvent-Reelect.adoc[Reelect]
 .. link:kafka-controller-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
 
-. link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
-. link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
+. link:kafka-controller-ControllerState.adoc[ControllerState]
+
 . link:kafka-controller-ControllerChannelManager.adoc[ControllerChannelManager]
 
 . link:kafka-controller-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]

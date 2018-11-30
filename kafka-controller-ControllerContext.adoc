@@ -2,12 +2,9 @@
 
 `ControllerContext` is the context of a <<kafka-controller-KafkaController.adoc#controllerContext, KafkaController>> (and is <<creating-instance, created>> exclusively when `KafkaController` is <<kafka-controller-KafkaController.adoc#controllerContext, created>>).
 
-[[creating-instance]]
-`ControllerContext` takes no input arguments when created.
-
 [[registries]]
 .ControllerContext's Registries
-[cols="1m,2",options="header",width="100%"]
+[cols="1m,3",options="header",width="100%"]
 |===
 | Name
 | Description
@@ -61,6 +58,15 @@ a| [[replicasOnOfflineDirs]]
 a| [[shuttingDownBrokerIds]]
 
 | stats
-a| [[stats]] `ControllerStats`
+a| [[stats]][[rateAndTimeMetrics]][[ControllerStats]] `ControllerStats` with `UncleanLeaderElectionsPerSec` meter metric and `KafkaTimers` for every <<kafka-controller-ControllerState.adoc#, ControllerState>> (except <<kafka-controller-ControllerState.adoc#Idle, Idle>> state)
+
+`stats` is used exclusively to create the <<kafka-controller-KafkaController.adoc#eventManager, ControllerEventManager>> (of <<kafka-controller-KafkaController.adoc#, KafkaController>>) that is then used to collect the times (metrics) of <<kafka-controller-ControllerEventThread.adoc#doWork, processing every ControllerEvent>> (except <<kafka-controller-ControllerEvent.adoc#ShutdownEventThread, ShutdownEventThread>>)
+
+* Every `ControllerState` has the <<kafka-controller-ControllerState.adoc#rateAndTimeMetricName, RateAndTimeMs>> metric defined (except <<kafka-controller-ControllerState.adoc#Idle, Idle>> state)
+
+The timer metric name pattern is *kafka.controller:type=ControllerStats,name=*.
 
 |===
+
+[[creating-instance]]
+`ControllerContext` takes no input arguments when created.

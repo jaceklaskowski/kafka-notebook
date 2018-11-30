@@ -36,9 +36,9 @@ Internally, `KafkaProducer` uses the <<sender, Kafka producer I/O thread>> that 
 .KafkaProducer
 image::images/KafkaProducer.png[align="center"]
 
-[[metrics]]
-`KafkaProducer` exposes performance metrics.
+`KafkaProducer` exposes <<metrics, performance metrics>>.
 
+[[metrics]]
 .KafkaProducer's Metrics
 [cols="1m,1m,2",options="header",width="100%"]
 |===

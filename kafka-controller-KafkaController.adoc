@@ -18,6 +18,9 @@ Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Inter
 .KafkaController
 image::images/KafkaController.png[align="center"]
 
+[[state]]
+`KafkaController` is in one of the <<kafka-controller-ControllerState.adoc#, ControllerStates>> (that is the <<kafka-controller-ControllerEventManager.adoc#state, state>> of the <<eventManager, ControllerEventManager>>).
+
 `KafkaController` uses the <<zkClient, KafkaZkClient>> for the following:
 
 * Creating the <<topicDeletionManager, TopicDeletionManager>>, the <<replicaStateMachine, ReplicaStateMachine>> and the <<partitionStateMachine, PartitionStateMachine>>
@@ -85,14 +88,14 @@ image::images/KafkaController.png[align="center"]
 | process Handler
 
 | BrokerChange
-| `BrokerChange`
+| <<kafka-controller-ControllerState.adoc#BrokerChange, BrokerChange>>
 | [[BrokerChange]]
 
 a| ControllerChange
 
 * `newControllerId`: Int
 
-| `ControllerChange`
+| <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
 a| [[ControllerChange]]
 
 1. Assigns the <<getControllerID, current controller ID>> as the input `newControllerId`
@@ -106,7 +109,7 @@ a| ControlledShutdown
 
 * `controlledShutdownCallback`: Try[Set[TopicAndPartition]] => Unit
 
-| `ControlledShutdown`
+| <<kafka-controller-ControllerState.adoc#ControlledShutdown, ControlledShutdown>>
 | [[ControlledShutdown]]
 
 | IsrChangeNotification
@@ -126,7 +129,7 @@ a| ControlledShutdown
 | [[PreferredReplicaLeaderElection]]
 
 | Reelect
-| `ControllerChange`
+| <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
 a| [[Reelect]]
 
 1. Assigns the <<getControllerID, current controller ID>> as <<activeControllerId, activeControllerId>>
@@ -134,7 +137,7 @@ a| [[Reelect]]
 1. <<elect, elect>>
 
 | Startup
-| `ControllerChange`
+| <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
 a| [[Startup]]
 
 1. <<registerSessionExpirationListener, registerSessionExpirationListener>>
@@ -223,7 +226,27 @@ a| [[controllerChangeHandler]] A `ZNodeChangeHandler` (for the `KafkaController`
 a| [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
 
 | eventManager
-| [[eventManager]] link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager] for `controllerContext.stats.rateAndTimeMetrics` and updateMetrics listener
+a| [[eventManager]] <<kafka-controller-ControllerEventManager.adoc#, ControllerEventManager>> (with <<kafka-controller-ControllerContext.adoc#rateAndTimeMetrics, rateAndTimeMetrics>> of the <<controllerContext, ControllerContext>>, the <<updateMetrics, updateMetrics>> as the <<kafka-controller-ControllerEventManager.adoc#eventProcessedListener, eventProcessedListener>>` and the <<maybeResign, maybeResign>> as the <<kafka-controller-ControllerEventManager.adoc#controllerMovedListener, controllerMovedListener>>)
+
+`eventManager` is used to create other internal components to allow them for emitting controller events at state changes:
+
+* <<topicDeletionManager, TopicDeletionManager>>
+* <<controllerChangeHandler, ControllerChangeHandler>>
+* <<brokerChangeHandler, BrokerChangeHandler>>
+* <<topicChangeHandler, TopicChangeHandler>>
+* <<topicDeletionHandler, TopicDeletionHandler>>
+* <<partitionReassignmentHandler, PartitionReassignmentHandler>>
+* <<preferredReplicaElectionHandler, PreferredReplicaElectionHandler>>
+* <<isrChangeNotificationHandler, IsrChangeNotificationHandler>>
+* <<logDirEventNotificationHandler, LogDirEventNotificationHandler>>
+* <<registerBrokerModificationsHandler, BrokerModificationsHandlers>>
+* <<initializePartitionReassignment, PartitionReassignmentIsrChangeHandlers>>
+* <<registerPartitionModificationsHandlers, PartitionModificationsHandlers>>
+* <<PartitionReassignment, PartitionReassignmentIsrChangeHandlers>>
+
+`eventManager` is <<kafka-controller-ControllerEventManager.adoc#start, started>> when `KafkaController` is requested to <<startup, start>>.
+
+`eventManager` is <<kafka-controller-ControllerEventManager.adoc#close, closed>> when `KafkaController` is requested to <<shutdown, shutdown>>.
 
 | kafkaScheduler
 | [[kafkaScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *kafka-scheduler* prefix
@@ -547,14 +570,14 @@ updateLeaderEpochAndSendRequest(): Unit
 
 NOTE: `updateLeaderEpochAndSendRequest` is used when `KafkaController` is requested to <<onPartitionReassignment, onPartitionReassignment>> and <<moveReassignedPartitionLeaderIfRequired, moveReassignedPartitionLeaderIfRequired>>.
 
-=== [[shutdown]] `shutdown` Method
+=== [[shutdown]] Shutting Down -- `shutdown` Method
 
 [source, scala]
 ----
 shutdown(): Unit
 ----
 
-`shutdown`...FIXME
+`shutdown` requests the <<eventManager, ControllerEventManager>> to <<kafka-controller-ControllerEventManager.adoc#close, close>> followed by <<onControllerResignation, onControllerResignation>>.
 
 NOTE: `shutdown` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#shutdown, shutdown>>.
 
@@ -1034,17 +1057,6 @@ unregisterPartitionModificationsHandlers(topics: Seq[String]): Unit
 
 * `TopicDeletionManager` is requested to <<kafka-controller-TopicDeletionManager.adoc#completeDeleteTopic, completeDeleteTopic>>
 ====
-
-=== [[registerPartitionModificationsHandlers]] `registerPartitionModificationsHandlers` Internal Method
-
-[source, scala]
-----
-registerPartitionModificationsHandlers(topics: Seq[String]): Unit
-----
-
-`registerPartitionModificationsHandlers`...FIXME
-
-NOTE: `registerPartitionModificationsHandlers` is used when `KafkaController` is requested to <<initializeControllerContext, initializeControllerContext>> and process a <<TopicChange, TopicChange>> controller event.
 
 === [[unregisterPartitionReassignmentIsrChangeHandlers]] `unregisterPartitionReassignmentIsrChangeHandlers` Internal Method
 
