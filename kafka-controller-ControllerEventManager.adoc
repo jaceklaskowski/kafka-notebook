@@ -1,8 +1,8 @@
 == [[ControllerEventManager]] ControllerEventManager
 
-`ControllerEventManager` is responsible for processing <<kafka-controller-ControllerEvent.adoc#, ControllerEvents>> (in a <<queue, controller event queue>>).
+`ControllerEventManager` is responsible for processing <<kafka-controller-ControllerEvent.adoc#, ControllerEvents>> (off the <<queue, controller event queue>>).
 
-`ControllerEventManager` allows for <<put, emitting ControllerEvents>> (possibly <<clearAndPut, clearing the internal controller event queue first>>).
+`ControllerEventManager` allows for <<put, emitting ControllerEvents>> (with optional <<clearAndPut, clearing the event queue first>>).
 
 `ControllerEventManager` is <<creating-instance, created>> exclusively for the <<kafka-controller-KafkaController.adoc#eventManager, KafkaController>> (when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>).
 
