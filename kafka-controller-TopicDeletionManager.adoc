@@ -152,3 +152,14 @@ tryTopicDeletion(): Unit
 `tryTopicDeletion`...FIXME
 
 NOTE: `tryTopicDeletion` is used when...FIXME
+
+=== [[isTopicQueuedUpForDeletion]] `isTopicQueuedUpForDeletion` Method
+
+[source, scala]
+----
+isTopicQueuedUpForDeletion(topic: String): Boolean
+----
+
+`isTopicQueuedUpForDeletion`...FIXME
+
+NOTE: `isTopicQueuedUpForDeletion` is used when...FIXME

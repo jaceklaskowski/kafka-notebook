@@ -34,9 +34,22 @@ triggerOnlinePartitionStateChange(partitionState: Map[TopicPartition, PartitionS
 <1> Uses the <<partitionState, partitionState>> for the input `partitionState`
 <2> Takes `TopicPartitions` from the <<partitionState, partitionState>> that match the input `topic` for the input `partitionState`
 
-`triggerOnlinePartitionStateChange`...FIXME
+`triggerOnlinePartitionStateChange` collects the `TopicPartitions` (from the given `PartitionState` per `TopicPartition` collection) that meet the following requirements:
 
-NOTE: `triggerOnlinePartitionStateChange` is used when...FIXME
+. <<topicDeletionManager, TopicDeletionManager>> is not going to <<kafka-controller-TopicDeletionManager.adoc#isTopicQueuedUpForDeletion, delete their topics>>
+
+. `PartitionState` is neither `OfflinePartition` nor `NewPartition`
+
+`triggerOnlinePartitionStateChange` <<handleStateChanges, handleStateChanges>> for the partitions with `OnlinePartition` target state and the `OfflinePartitionLeaderElectionStrategy`.
+
+[NOTE]
+====
+`triggerOnlinePartitionStateChange` is used when:
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onBrokerStartup, onBrokerStartup>>, <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, and at <<kafka-controller-ControllerEvent.adoc#UncleanLeaderElectionEnable, UncleanLeaderElectionEnable>> and <<kafka-controller-ControllerEvent.adoc#TopicUncleanLeaderElectionEnable, TopicUncleanLeaderElectionEnable>> controller events
+
+* `PartitionStateMachine` is requested to <<startup, startup>>
+====
 
 === [[handleStateChanges]] `handleStateChanges` Method
 
