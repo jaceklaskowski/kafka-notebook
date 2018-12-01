@@ -1,13 +1,38 @@
 == [[PartitionStateMachine]] PartitionStateMachine
 
-`PartitionStateMachine` is...FIXME
+`PartitionStateMachine` is <<creating-instance, created>> exclusively for <<kafka-controller-KafkaController.adoc#partitionStateMachine, KafkaController>>.
+
+`PartitionStateMachine` is <<startup, started>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when `KafkaController` is requested to start <<elect, controller election>>).
+
+`PartitionStateMachine` is <<shutdown, shut down>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, resign as the active controller>>.
+
+[[internal-registries]]
+.PartitionStateMachine's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| controllerId
+| [[controllerId]]
+
+| topicDeletionManager
+| [[topicDeletionManager]][[setTopicDeletionManager]] <<kafka-controller-TopicDeletionManager.adoc#, TopicDeletionManager>>
+
+| offlinePartitionCount
+| [[offlinePartitionCount]]
+|===
 
 === [[triggerOnlinePartitionStateChange]] `triggerOnlinePartitionStateChange` Method
 
 [source, scala]
 ----
-triggerOnlinePartitionStateChange(): Unit
+triggerOnlinePartitionStateChange(): Unit // <1>
+triggerOnlinePartitionStateChange(topic: String): Unit  // <2>
+triggerOnlinePartitionStateChange(partitionState: Map[TopicPartition, PartitionState]): Unit
 ----
+<1> Uses the <<partitionState, partitionState>> for the input `partitionState`
+<2> Takes `TopicPartitions` from the <<partitionState, partitionState>> that match the input `topic` for the input `partitionState`
 
 `triggerOnlinePartitionStateChange`...FIXME
 
@@ -63,3 +88,16 @@ doElectLeaderForPartitions(
 `doElectLeaderForPartitions`...FIXME
 
 NOTE: `doElectLeaderForPartitions` is used when...FIXME
+
+=== [[creating-instance]] Creating PartitionStateMachine Instance
+
+`PartitionStateMachine` takes the following when created:
+
+* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[stateChangeLogger]] `StateChangeLogger`
+* [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
+* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
+* [[partitionState]] `TopicPartitions` and their `PartitionState` (`mutable.Map[TopicPartition, PartitionState]`)
+* [[controllerBrokerRequestBatch]] <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>>
+
+`PartitionStateMachine` initializes the <<internal-registries, internal registries and counters>>.

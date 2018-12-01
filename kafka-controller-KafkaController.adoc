@@ -252,7 +252,7 @@ a| [[eventManager]] <<kafka-controller-ControllerEventManager.adoc#, ControllerE
 | [[kafkaScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *kafka-scheduler* prefix
 
 | partitionStateMachine
-| [[partitionStateMachine]] link:kafka-controller-PartitionStateMachine.adoc[PartitionStateMachine]
+a| [[partitionStateMachine]] <<kafka-controller-PartitionStateMachine.adoc#, PartitionStateMachine>>
 
 | replicaStateMachine
 | [[replicaStateMachine]] link:kafka-controller-ReplicaStateMachine.adoc[ReplicaStateMachine]
