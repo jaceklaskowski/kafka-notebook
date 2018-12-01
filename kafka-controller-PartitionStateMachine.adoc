@@ -211,6 +211,28 @@ NOTE: `doHandleStateChanges` is used when...FIXME
 initializePartitionState(): Unit
 ----
 
-`initializePartitionState`...FIXME
+`initializePartitionState` requests the <<controllerContext, ControllerContext>> for <<kafka-controller-ControllerContext.adoc#allPartitions, all partitions>> (in the Kafka cluster).
 
-NOTE: `initializePartitionState` is used when...FIXME
+For every `TopicPartition`, `initializePartitionState` requests the <<controllerContext, ControllerContext>> for the `LeaderIsrAndControllerEpoch` (using the <<kafka-controller-ControllerContext.adoc#partitionLeadershipInfo, partitionLeadershipInfo>> registry).
+
+`initializePartitionState` <<changeStateTo, changeStateTo>> of the `TopicPartition` as follows:
+
+* `OnlinePartition`...FIXME
+* `OfflinePartition`...FIXME
+* `NewPartition`...FIXME
+
+NOTE: `initializePartitionState` is used exclusively when `PartitionStateMachine` is requested to <<startup, start up on the active Controller>>.
+
+=== [[changeStateTo]] `changeStateTo` Internal Method
+
+[source, scala]
+----
+changeStateTo(
+  partition: TopicPartition,
+  currentState: PartitionState,
+  targetState: PartitionState): Unit
+----
+
+`changeStateTo`...FIXME
+
+NOTE: `changeStateTo` is used when...FIXME

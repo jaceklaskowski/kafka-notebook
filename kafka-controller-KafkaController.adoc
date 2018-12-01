@@ -1002,7 +1002,7 @@ NOTE: `fetchTopicDeletionsInProgress` is used exclusively when `KafkaController`
 updateLeaderAndIsrCache(partitions: Seq[TopicPartition]
 ----
 
-Unless specified explicitly, `updateLeaderAndIsrCache` defaults to <<kafka-controller-ControllerContext.adoc#allPartitions, allPartitions>> of the <<controllerContext, ControllerContext>> for the partitions.
+Unless given, `updateLeaderAndIsrCache` defaults to <<kafka-controller-ControllerContext.adoc#allPartitions, allPartitions>> of the <<controllerContext, ControllerContext>> for the partitions.
 
 `updateLeaderAndIsrCache` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#getTopicPartitionStates, getTopicPartitionStates>> for the partitions.
 

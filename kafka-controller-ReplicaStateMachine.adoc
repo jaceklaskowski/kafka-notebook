@@ -49,3 +49,29 @@ getTopicPartitionStatesFromZk(partitions: Seq[TopicPartition])
 `getTopicPartitionStatesFromZk`...FIXME
 
 NOTE: `getTopicPartitionStatesFromZk` is used when...FIXME
+
+=== [[initializeReplicaState]] `initializeReplicaState` Internal Method
+
+[source, scala]
+----
+initializeReplicaState(): Unit
+----
+
+`initializeReplicaState`...FIXME
+
+NOTE: `initializeReplicaState` is used when...FIXME
+
+=== [[doHandleStateChanges]] `doHandleStateChanges` Internal Method
+
+[source, scala]
+----
+doHandleStateChanges(
+  replicaId: Int,
+  partitions: Seq[TopicPartition],
+  targetState: ReplicaState,
+  callbacks: Callbacks): Unit
+----
+
+`doHandleStateChanges`...FIXME
+
+NOTE: `doHandleStateChanges` is used when...FIXME

@@ -9,9 +9,6 @@
 | Name
 | Description
 
-| allPartitions
-a| [[allPartitions]]
-
 | allTopics
 a| [[allTopics]]
 
@@ -48,8 +45,21 @@ a| [[partitionsBeingReassigned]]
 | partitionLeadershipInfo
 a| [[partitionLeadershipInfo]]
 
+[source, scala]
+----
+partitionLeadershipInfo: mutable.Map[TopicPartition, LeaderIsrAndControllerEpoch]
+----
+
 | partitionReplicaAssignmentUnderlying
 a| [[partitionReplicaAssignmentUnderlying]]
+
+[source, scala]
+----
+// topic -> (partition -> replica broker IDs)
+partitionReplicaAssignmentUnderlying: mutable.Map[String, mutable.Map[Int, Seq[Int]]]
+----
+
+`partitionReplicaAssignmentUnderlying` is updated exclusively when `ControllerContext` is requested to <<updatePartitionReplicaAssignment, updatePartitionReplicaAssignment>>
 
 | replicasOnOfflineDirs
 a| [[replicasOnOfflineDirs]]
@@ -70,3 +80,96 @@ The timer metric name pattern is *kafka.controller:type=ControllerStats,name=*.
 
 [[creating-instance]]
 `ControllerContext` takes no input arguments when created.
+
+=== [[allPartitions]] `allPartitions` Method
+
+[source, scala]
+----
+allPartitions: Set[TopicPartition]
+----
+
+`allPartitions` converts the <<partitionReplicaAssignmentUnderlying, partitionReplicaAssignmentUnderlying>> into `TopicPartitions`, i.e. `allPartitions` takes the partitions for the topics and simply creates new `TopicPartitions`.
+
+[NOTE]
+====
+`allPartitions` is used when:
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderAndIsrCache, updateLeaderAndIsrCache>>, <<kafka-controller-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, checkAndTriggerAutoLeaderRebalance>>, and <<kafka-controller-KafkaController.adoc#updateMetrics, updateMetrics>>
+
+* `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#initializePartitionState, initializePartitionState>>
+
+* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#initializeReplicaState, initializeReplicaState>>
+====
+
+=== [[updatePartitionReplicaAssignment]] `updatePartitionReplicaAssignment` Method
+
+[source, scala]
+----
+updatePartitionReplicaAssignment(topicPartition: TopicPartition, newReplicas: Seq[Int]): Unit
+----
+
+`updatePartitionReplicaAssignment` simply updates the <<partitionReplicaAssignmentUnderlying, partitionReplicaAssignmentUnderlying>> registry with `newReplicas` for the topic and the partition (of a given `TopicPartition`).
+
+[NOTE]
+====
+`updatePartitionReplicaAssignment` is used when:
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#initializeControllerContext, initializeControllerContext>>, <<kafka-controller-KafkaController.adoc#moveReassignedPartitionLeaderIfRequired, moveReassignedPartitionLeaderIfRequired>>, <<kafka-controller-KafkaController.adoc#updateAssignedReplicasForPartition, updateAssignedReplicasForPartition>>, and at <<kafka-controller-ControllerEvent.adoc#TopicChange, TopicChange>> and <<kafka-controller-ControllerEvent.adoc#PartitionModifications, PartitionModifications>> controller events
+
+* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#doHandleStateChanges, doHandleStateChanges>>
+====
+
+=== [[partitionsOnBroker]] `partitionsOnBroker` Method
+
+[source, scala]
+----
+partitionsOnBroker(brokerId: Int): Set[TopicPartition]
+----
+
+`partitionsOnBroker`...FIXME
+
+NOTE: `partitionsOnBroker` is used when...FIXME
+
+=== [[replicasOnBrokers]] `replicasOnBrokers` Method
+
+[source, scala]
+----
+replicasOnBrokers(brokerIds: Set[Int]): Set[PartitionAndReplica]
+----
+
+`replicasOnBrokers`...FIXME
+
+NOTE: `replicasOnBrokers` is used when...FIXME
+
+=== [[replicasForTopic]] `replicasForTopic` Method
+
+[source, scala]
+----
+replicasForTopic(topic: String): Set[PartitionAndReplica]
+----
+
+`replicasForTopic`...FIXME
+
+NOTE: `replicasForTopic` is used when...FIXME
+
+=== [[partitionsForTopic]] `partitionsForTopic` Method
+
+[source, scala]
+----
+partitionsForTopic(topic: String): collection.Set[TopicPartition]
+----
+
+`partitionsForTopic`...FIXME
+
+NOTE: `partitionsForTopic` is used when...FIXME
+
+=== [[removeTopic]] `removeTopic` Method
+
+[source, scala]
+----
+removeTopic(topic: String): Unit
+----
+
+`removeTopic`...FIXME
+
+NOTE: `removeTopic` is used when...FIXME
