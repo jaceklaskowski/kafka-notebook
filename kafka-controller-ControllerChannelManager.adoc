@@ -4,9 +4,6 @@
 
 `ControllerChannelManager` is <<creating-instance, created>> exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#startChannelManager, startChannelManager>>.
 
-[[logIdent]]
-`logIdent` is *[Channel manager on controller [brokerId]]*.
-
 [[kafka-metrics]]
 .ControllerChannelManager's Metrics
 [cols="1m,2",options="header",width="100%"]
@@ -36,6 +33,9 @@ Used when...FIXME
 
 Used when...FIXME
 |===
+
+[[logIdent]]
+`ControllerChannelManager` uses *[Channel manager on controller [brokerId]]* as the logging prefix (aka `logIdent`).
 
 === [[addNewBroker]] `addNewBroker` Internal Method
 

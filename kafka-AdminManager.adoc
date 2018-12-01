@@ -7,9 +7,6 @@
 .AdminManager
 image::images/AdminManager.png[align="center"]
 
-[[logIdent]]
-`logIdent` is *[Admin Manager on Broker [brokerId]]*.
-
 [[internal-registries]]
 .AdminManager's Internal Properties (e.g. Registries and Counters)
 [frame="topbot",cols="1,2",options="header",width="100%"]
@@ -26,6 +23,9 @@ image::images/AdminManager.png[align="center"]
 | [[topicPurgatory]] `topicPurgatory`
 |
 |===
+
+[[logIdent]]
+`AdminManager` uses *[Admin Manager on Broker [brokerId]]* as the logging prefix (aka `logIdent`).
 
 [[logging]]
 [TIP]

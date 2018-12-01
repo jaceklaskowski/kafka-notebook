@@ -8,7 +8,7 @@
 image::images/KafkaRequestHandler-start.png[align="center"]
 
 [[logIdent]]
-`logIdent` is *[Kafka Request Handler [id] on Broker [brokerId]]*.
+`KafkaRequestHandler` uses *[Kafka Request Handler [id] on Broker [brokerId]]* as the logging prefix (aka `logIdent`).
 
 [[logging]]
 [TIP]

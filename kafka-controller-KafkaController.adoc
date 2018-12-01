@@ -198,9 +198,6 @@ On `handleChildChange`, `topicDeletionHandler` simply sends <<TopicDeletion, Top
 
 |===
 
-[[logIdent]]
-`logIdent` is *[Controller id=[brokerId]]*.
-
 [[internal-registries]]
 .KafkaController's Internal Properties (e.g. Registries and Counters)
 [cols="1m,2",options="header",width="100%"]
@@ -303,6 +300,9 @@ Registered in <<registerTopicDeletionListener, registerTopicDeletionListener>> w
 
 De-registered in <<deregisterTopicDeletionListener, deregisterTopicDeletionListener>> when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
 |===
+
+[[logIdent]]
+`KafkaController` uses *[Controller id=[brokerId]]* as the logging prefix (aka `logIdent`).
 
 [[logging]]
 [TIP]

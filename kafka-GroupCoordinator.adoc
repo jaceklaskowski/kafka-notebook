@@ -7,11 +7,11 @@
 .GroupCoordinator's Startup
 image::images/GroupCoordinator-startup.png[align="center"]
 
-[[logIdent]]
-`logIdent` is *[GroupCoordinator [brokerId]]*.
-
 [[isActive]]
 `GroupCoordinator` uses `isActive` flag to...FIXME
+
+[[logIdent]]
+`GroupCoordinator` uses *[GroupCoordinator [brokerId]]* as the logging prefix (aka `logIdent`).
 
 === [[apply]] Creating GroupCoordinator Instance -- `apply` Factory Method
 

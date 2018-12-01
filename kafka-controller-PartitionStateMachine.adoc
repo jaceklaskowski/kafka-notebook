@@ -31,6 +31,9 @@
 | [[offlinePartitionCount]]
 |===
 
+[[logIdent]]
+`PartitionStateMachine` uses *[PartitionStateMachine controllerId=[controllerId]]* as the logging prefix (aka `logIdent`).
+
 [[logging]]
 [TIP]
 ====

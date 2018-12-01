@@ -9,9 +9,6 @@ NOTE: The number of *kafka-request-handler* threads is controlled by link:kafka-
 
 `KafkaRequestHandlerPool` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started].
 
-[[logIdent]]
-`logIdent` is *[Kafka Request Handler on Broker [brokerId]]*.
-
 [[internal-registries]]
 .KafkaRequestHandlerPool's Internal Properties (e.g. Registries and Counters)
 [frame="topbot",cols="1,2",options="header",width="100%"]
@@ -25,6 +22,9 @@ NOTE: The number of *kafka-request-handler* threads is controlled by link:kafka-
 | [[runnables]] `runnables`
 | Collection of link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
 |===
+
+[[logIdent]]
+`KafkaRequestHandlerPool` uses *[Kafka Request Handler on Broker [brokerId]]* as the logging prefix (aka `logIdent`).
 
 === [[shutdown]] `shutdown` Method
 

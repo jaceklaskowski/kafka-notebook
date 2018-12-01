@@ -9,9 +9,6 @@ image::images/TopicDeletionManager.png[align="center"]
 
 `TopicDeletionManager` is controlled by link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable] Kafka property and does nothing when it is turned off (i.e. `false`).
 
-[[logIdent]]
-`logIdent` is *[Topic Deletion Manager [brokerId]]*.
-
 [[internal-registries]]
 .TopicDeletionManager's Internal Properties (e.g. Registries and Counters)
 [cols="1,2",options="header",width="100%"]
@@ -28,6 +25,9 @@ image::images/TopicDeletionManager.png[align="center"]
 | [[topicsIneligibleForDeletion]] `topicsIneligibleForDeletion`
 | The names of the topics that must not be deleted (i.e. are ineligible for deletion)
 |===
+
+[[logIdent]]
+`TopicDeletionManager` uses *[Topic Deletion Manager [brokerId]]* as the logging prefix (aka `logIdent`).
 
 [[logging]]
 [TIP]
