@@ -318,6 +318,7 @@ log4j.logger.kafka.controller.KafkaController=DEBUG
 Refer to link:kafka-logging.adoc[Logging].
 
 ---
+
 Please note that Kafka comes with a preconfigured `kafka.controller` logger in `config/log4j.properties`:
 
 ```
@@ -1253,7 +1254,7 @@ starting the token expiry check scheduler
 
 `onControllerFailover` requests the <<tokenCleanScheduler, tokenCleanScheduler KafkaScheduler>> to <<kafka-KafkaScheduler.adoc#startup, startup>> and requests it to <<kafka-KafkaScheduler.adoc#schedule, schedule>> the *delete-expired-tokens* task (FIXME).
 
-NOTE: `onControllerFailover` is used exclusively when `KafkaController` is requested to <<elect, elect>>.
+NOTE: `onControllerFailover` is used exclusively when `KafkaController` is requested to <<elect, elect>> (and a broker is successfully elected as the controller).
 
 === [[scheduleAutoLeaderRebalanceTask]] `scheduleAutoLeaderRebalanceTask` Internal Method
 
