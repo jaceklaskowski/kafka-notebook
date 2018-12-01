@@ -6,6 +6,14 @@
 
 `PartitionStateMachine` is <<shutdown, shut down>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, resign as the active controller>>.
 
+[[PartitionLeaderElectionStrategy]]
+`PartitionStateMachine` uses a `PartitionLeaderElectionStrategy` when <<handleStateChanges, handleStateChanges>> (with <<doHandleStateChanges, doHandleStateChanges>>) and <<electLeaderForPartitions, electLeaderForPartitions>> (with <<doElectLeaderForPartitions, doElectLeaderForPartitions>>):
+
+* [[ControlledShutdownPartitionLeaderElectionStrategy]] `ControlledShutdownPartitionLeaderElectionStrategy`
+* [[OfflinePartitionLeaderElectionStrategy]] `OfflinePartitionLeaderElectionStrategy`
+* [[PreferredReplicaPartitionLeaderElectionStrategy]] `PreferredReplicaPartitionLeaderElectionStrategy`
+* [[ReassignPartitionLeaderElectionStrategy]] `ReassignPartitionLeaderElectionStrategy`
+
 [[internal-registries]]
 .PartitionStateMachine's Internal Properties (e.g. Registries, Counters and Flags)
 [cols="1m,2",options="header",width="100%"]
@@ -114,3 +122,30 @@ NOTE: `doElectLeaderForPartitions` is used when...FIXME
 * [[controllerBrokerRequestBatch]] <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>>
 
 `PartitionStateMachine` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[electLeaderForPartitions]] `electLeaderForPartitions` Internal Method
+
+[source, scala]
+----
+electLeaderForPartitions(
+  partitions: Seq[TopicPartition],
+  partitionLeaderElectionStrategy: PartitionLeaderElectionStrategy): Seq[TopicPartition]
+----
+
+`electLeaderForPartitions`...FIXME
+
+NOTE: `electLeaderForPartitions` is used when...FIXME
+
+=== [[doHandleStateChanges]] `doHandleStateChanges` Internal Method
+
+[source, scala]
+----
+doHandleStateChanges(
+  partitions: Seq[TopicPartition],
+  targetState: PartitionState,
+  partitionLeaderElectionStrategyOpt: Option[PartitionLeaderElectionStrategy]): Unit
+----
+
+`doHandleStateChanges`...FIXME
+
+NOTE: `doHandleStateChanges` is used when...FIXME
