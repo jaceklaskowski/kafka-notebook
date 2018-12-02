@@ -78,7 +78,7 @@ a| [[IsrChangeNotification]] Emitted when the <<kafka-controller-KafkaController
 
 | PartitionModifications
 | <<kafka-controller-ControllerState.adoc#TopicChange, TopicChange>>
-| [[PartitionModifications]]
+| [[PartitionModifications]] Emitted when one of the <<kafka-controller-KafkaController.adoc#partitionModificationsHandlers, ZNodeChangeHandler>> has been notified about the znode change
 
 | PartitionReassignment
 | <<kafka-controller-ControllerState.adoc#PartitionReassignment, PartitionReassignment>>

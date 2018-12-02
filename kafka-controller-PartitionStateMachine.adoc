@@ -106,7 +106,16 @@ handleStateChanges(
 
 `handleStateChanges`...FIXME
 
-NOTE: `handleStateChanges` is used when...FIXME
+[NOTE]
+====
+`handleStateChanges` is used when:
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, <<kafka-controller-KafkaController.adoc#onNewPartitionCreation, onNewPartitionCreation>>, <<kafka-controller-KafkaController.adoc#onPreferredReplicaElection, onPreferredReplicaElection>>, <<kafka-controller-KafkaController.adoc#moveReassignedPartitionLeaderIfRequired, moveReassignedPartitionLeaderIfRequired>> and at <<kafka-controller-ControllerEvent.adoc#ControlledShutdown, ControlledShutdown>> controller event
+
+* `PartitionStateMachine` is requested to <<triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>>
+
+* `TopicDeletionManager` is requested to <<kafka-controller-TopicDeletionManager.adoc#onTopicDeletion, onTopicDeletion>>
+====
 
 === [[shutdown]] `shutdown` Method
 
@@ -188,7 +197,7 @@ electLeaderForPartitions(
 
 `electLeaderForPartitions`...FIXME
 
-NOTE: `electLeaderForPartitions` is used when...FIXME
+NOTE: `electLeaderForPartitions` is used exclusively when `PartitionStateMachine` is requested to <<doHandleStateChanges, doHandleStateChanges>>.
 
 === [[doHandleStateChanges]] `doHandleStateChanges` Internal Method
 
@@ -202,7 +211,7 @@ doHandleStateChanges(
 
 `doHandleStateChanges`...FIXME
 
-NOTE: `doHandleStateChanges` is used when...FIXME
+NOTE: `doHandleStateChanges` is used exclusively when `PartitionStateMachine` is requested to <<handleStateChanges, handleStateChanges>>.
 
 === [[initializePartitionState]] `initializePartitionState` Internal Method
 

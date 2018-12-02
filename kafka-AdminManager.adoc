@@ -54,7 +54,7 @@ createTopics(
 
 `createTopics`...FIXME
 
-NOTE: `createTopics` is used exclusively when `KafkaApis` link:kafka-KafkaApis.adoc#handleCreateTopicsRequest[handles a CREATE_TOPICS request].
+NOTE: `createTopics` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleCreateTopicsRequest, handle a CREATE_TOPICS request>>.
 
 === [[creating-instance]] Creating AdminManager Instance
 

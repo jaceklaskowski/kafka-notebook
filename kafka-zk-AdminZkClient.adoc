@@ -12,3 +12,74 @@ fetchEntityConfig(rootEntityType: String, sanitizedEntityName: String): Properti
 `fetchEntityConfig`...FIXME
 
 NOTE: `fetchEntityConfig` is used when...FIXME
+
+=== [[writeTopicPartitionAssignment]] `writeTopicPartitionAssignment` Internal Method
+
+[source, scala]
+----
+writeTopicPartitionAssignment(
+  topic: String,
+  replicaAssignment: Map[Int, Seq[Int]],
+  update: Boolean): Unit
+----
+
+`writeTopicPartitionAssignment`...FIXME
+
+NOTE: `writeTopicPartitionAssignment` is used exclusively when `AdminZkClient` is requested to <<createOrUpdateTopicPartitionAssignmentPathInZK, createOrUpdateTopicPartitionAssignmentPathInZK>>.
+
+=== [[createOrUpdateTopicPartitionAssignmentPathInZK]] `createOrUpdateTopicPartitionAssignmentPathInZK` Internal Method
+
+[source, scala]
+----
+createOrUpdateTopicPartitionAssignmentPathInZK(
+  topic: String,
+  partitionReplicaAssignment: Map[Int, Seq[Int]],
+  config: Properties = new Properties,
+  update: Boolean = false): Unit
+----
+
+`createOrUpdateTopicPartitionAssignmentPathInZK`...FIXME
+
+[NOTE]
+====
+`createOrUpdateTopicPartitionAssignmentPathInZK` is used when:
+
+* `TopicCommand` is <<kafka-TopicCommand.adoc#createTopic, executed>> (with `create` and `replica-assignment` options)
+
+* `AdminManager` is requested to <<kafka-AdminManager.adoc#createTopics, create topics>>
+
+* `AdminZkClient` is requested to <<createTopic, createTopic>> and <<addPartitions, addPartitions>>
+====
+
+=== [[createTopic]] `createTopic` Method
+
+[source, scala]
+----
+createTopic(
+  topic: String,
+  partitions: Int,
+  replicationFactor: Int,
+  topicConfig: Properties = new Properties,
+  rackAwareMode: RackAwareMode = RackAwareMode.Enforced): Unit
+----
+
+`createTopic`...FIXME
+
+NOTE: `createTopic` is used when...FIXME
+
+=== [[addPartitions]] `addPartitions` Method
+
+[source, scala]
+----
+addPartitions(
+  topic: String,
+  existingAssignment: Map[Int, Seq[Int]],
+  allBrokers: Seq[BrokerMetadata],
+  numPartitions: Int = 1,
+  replicaAssignment: Option[Map[Int, Seq[Int]]] = None,
+  validateOnly: Boolean = false): Map[Int, Seq[Int]]
+----
+
+`addPartitions`...FIXME
+
+NOTE: `addPartitions` is used when...FIXME

@@ -176,6 +176,11 @@ On `handleChildChange`, `isrChangeNotificationHandler` simply sends <<IsrChangeN
 
 On `handleChildChange`, `logDirEventNotificationHandler` simply sends <<LogDirEventNotification, LogDirEventNotification>> event to the <<eventManager, ControllerEventManager>>.
 
+| partitionModificationsHandlers
+a| [[partitionModificationsHandlers]] `ZNodeChangeHandlers` per topic of `/brokers/topics/[topic]` path
+
+On `handleDataChange`, `partitionModificationsHandlers` simply send <<PartitionModifications, PartitionModifications>> event to the <<eventManager, ControllerEventManager>>.
+
 | partitionReassignmentHandler
 | [[partitionReassignmentHandler]] `ZNodeChangeHandler` of `/admin/reassign_partitions` path
 
@@ -1043,7 +1048,7 @@ registerPartitionModificationsHandlers(topics: Seq[String]): Unit
 
 `registerPartitionModificationsHandlers`...FIXME
 
-NOTE: `registerPartitionModificationsHandlers` is used when `KafkaController` is requested to <<initializeControllerContext, initializeControllerContext>> and process a <<TopicChange, TopicChange>> controller event.
+NOTE: `registerPartitionModificationsHandlers` is used when `KafkaController` is requested to <<initializeControllerContext, initializeControllerContext>> and a <<kafka-controller-ControllerEvent.adoc#TopicChange, TopicChange>> controller event is processed.
 
 === [[unregisterPartitionModificationsHandlers]] `unregisterPartitionModificationsHandlers` Internal Method
 
@@ -1301,3 +1306,14 @@ startChannelManager(): Unit
 `startChannelManager`...FIXME
 
 NOTE: `startChannelManager` is used exclusively when `KafkaController` is requested to <<initializeControllerContext, initializeControllerContext>>.
+
+=== [[onNewPartitionCreation]] `onNewPartitionCreation` Internal Method
+
+[source, scala]
+----
+onNewPartitionCreation(newPartitions: Set[TopicPartition]): Unit
+----
+
+`onNewPartitionCreation`...FIXME
+
+NOTE: `onNewPartitionCreation` is used when <<kafka-controller-ControllerEvent.adoc#TopicChange, TopicChange>> and <<kafka-controller-ControllerEvent.adoc#PartitionModifications, PartitionModifications>> controller events are processed.
