@@ -44,14 +44,14 @@ createOrUpdateTopicPartitionAssignmentPathInZK(
 ====
 `createOrUpdateTopicPartitionAssignmentPathInZK` is used when:
 
-* `TopicCommand` is <<kafka-TopicCommand.adoc#createTopic, executed>> (with `create` and `replica-assignment` options)
+* `TopicCommand` is <<kafka-admin-TopicCommand.adoc#createTopic, executed>> (with `create` and `replica-assignment` options)
 
 * `AdminManager` is requested to <<kafka-AdminManager.adoc#createTopics, create topics>>
 
 * `AdminZkClient` is requested to <<createTopic, createTopic>> and <<addPartitions, addPartitions>>
 ====
 
-=== [[createTopic]] `createTopic` Method
+=== [[createTopic]] Creating Topic -- `createTopic` Method
 
 [source, scala]
 ----
@@ -65,7 +65,14 @@ createTopic(
 
 `createTopic`...FIXME
 
-NOTE: `createTopic` is used when...FIXME
+[NOTE]
+====
+`createTopic` is used when:
+
+* `TopicCommand` is requested to <<kafka-admin-TopicCommand.adoc#createTopic, create a topic>>
+
+* `KafkaApis` is requested to <<kafka-KafkaApis.adoc#createTopic, createTopic>>
+====
 
 === [[addPartitions]] `addPartitions` Method
 

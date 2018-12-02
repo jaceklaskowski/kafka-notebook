@@ -1,8 +1,8 @@
 == [[ConfigCommand]] ConfigCommand Standalone Application
 
-`ConfigCommand` is a <<main, standalone application>> that...FIXME
+`kafka.admin.ConfigCommand` is a <<main, standalone application>> that...FIXME
 
-`ConfigCommand` can be executed using `bin/kafka-configs.sh` (or `bin\windows\kafka-configs.bat` on MS Windows).
+`ConfigCommand` can be executed using `kafka-configs` shell script (i.e. `bin/kafka-configs.sh` or `bin\windows\kafka-configs.bat`).
 
 ```
 // Triggers alterBrokerConfig

@@ -1,0 +1,193 @@
+== [[TopicCommand]] TopicCommand -- Topic Management on Command Line
+
+`kafka.admin.TopicCommand` is a <<main, command-line application>> that can <<alter, alter>>, <<create, create>>, <<delete, delete>>, <<describe, describe>> and <<list, list>> topics in a Kafka cluster.
+
+[[actions]]
+.TopicCommand's Actions
+[cols="1,2",options="header",width="100%"]
+|===
+| Action
+| Description
+
+| <<alterTopic, --alter>>
+a| [[alter]] Alters the number of partitions, replica assignment, and/or configuration of a topic or topics
+
+| <<createTopic, --create>>
+a| [[create]] Creates a new topic
+
+| <<deleteTopic, --delete>>
+a| [[delete]] Deletes a topic or topics
+
+| <<describeTopic, --describe>>
+a| [[describe]] Describes a topic or topics
+
+| <<listTopics, --list>>
+a| [[list]] Lists available topics
+|===
+
+`TopicCommand` can be executed using `kafka-topics` shell script (i.e. `bin/kafka-topics.sh` or `bin\windows\kafka-topics.bat`).
+
+```
+$ ./bin/kafka-topics.sh
+Create, delete, describe, or change a topic.
+```
+
+[[options]]
+.TopicCommand's Options
+[cols="1m,2",options="header",width="100%"]
+|===
+| Option
+| Description
+
+| config
+a| [[config]] A topic configuration override for the topic being worked on (as `name=value`)
+
+| disable-rack-aware
+a| [[disable-rack-aware]] Disable rack aware replica assignment
+
+| if-not-exists
+a| [[if-not-exists]] When creating a topic(s), the action will only execute if the topic does not already exist
+
+| partitions
+a| [[partitions]] The number of partitions of the topic being created or altered
+
+WARNING: If partitions are increased for a topic that has a key, the partition logic or ordering of the messages will be affected.
+
+| replica-assignment
+a| [[replica-assignment]] A list of manual partition-to-broker assignments for the topic being created or altered
+
+| replication-factor
+a| [[replication-factor]] The replication factor for each partition of the topic being created
+
+| topic
+a| [[topic]] A topic or topics to be <<alterTopic, altered>>, <<createTopic, created>>, <<deleteTopic, deleted>>, or <<listTopics, listed>> and <<describeTopic, described>> (through <<getTopics, getTopics>>)
+|===
+
+```
+./bin/kafka-topics.sh \
+  --create \
+  --zookeeper localhost:2181 \
+  --replication-factor 1 \
+  --partitions 1 \
+  --topic my-topic
+
+./bin/kafka-topics.sh \
+  --zookeeper localhost:2181 \
+  --describe \
+  --topic my-topic
+```
+
+=== [[alterTopic]] `alterTopic` Method
+
+[source, scala]
+----
+alterTopic(zkClient: KafkaZkClient, opts: TopicCommandOptions): Unit
+----
+
+`alterTopic`...FIXME
+
+NOTE: `alterTopic` is used when...FIXME
+
+=== [[createTopic]] Creating Topic -- `createTopic` Method
+
+[source, scala]
+----
+createTopic(zkClient: KafkaZkClient, opts: TopicCommandOptions): Unit
+----
+
+`createTopic` takes the values of <<topic, topic>>, <<config, config>> and <<if-not-exists, if-not-exists>> options.
+
+`createTopic` creates a new <<kafka-zk-AdminZkClient.adoc#, AdminZkClient>> (with the input <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>).
+
+`createTopic` branches off per <<replica-assignment, replica-assignment>> option's existence:
+
+* With <<replica-assignment, replica-assignment>>, `createTopic` requests the `AdminZkClient` to <<kafka-zk-AdminZkClient.adoc#createOrUpdateTopicPartitionAssignmentPathInZK, createOrUpdateTopicPartitionAssignmentPathInZK>> (with the `update` flag off)
+
+* With no <<replica-assignment, replica-assignment>>, `createTopic` checks the required arguments, i.e. <<partitions, partitions>> and <<replication-factor, replication-factor>>, and together with <<disable-rack-aware, disable-rack-aware>> flag requests the `AdminZkClient` to <<kafka-zk-AdminZkClient.adoc#createTopic, create the topic>>
+
+In the end, `createTopic` prints out the following:
+
+```
+Created topic "[topic]"
+```
+
+NOTE: `createTopic` is used exclusively when `TopicCommand` is executed with <<create, --create>> action.
+
+=== [[deleteTopic]] `deleteTopic` Method
+
+[source, scala]
+----
+deleteTopic(zkClient: KafkaZkClient, opts: TopicCommandOptions): Unit
+----
+
+`deleteTopic`...FIXME
+
+NOTE: `deleteTopic` is used when...FIXME
+
+=== [[describeTopic]] `describeTopic` Method
+
+[source, scala]
+----
+describeTopic(zkClient: KafkaZkClient, opts: TopicCommandOptions): Unit
+----
+
+`describeTopic`...FIXME
+
+NOTE: `describeTopic` is used when...FIXME
+
+=== [[listTopics]] `listTopics` Method
+
+[source, scala]
+----
+listTopics(zkClient: KafkaZkClient, opts: TopicCommandOptions): Unit
+----
+
+`listTopics`...FIXME
+
+NOTE: `listTopics` is used when...FIXME
+
+=== [[main]] Executing Standalone Application -- `main` Method
+
+[source, scala]
+----
+main(args: Array[String]): Unit
+----
+
+`main` is the entry point of the <<TopicCommand, TopicCommand>> standalone application when launched on command line (e.g. from `bin/kafka-topics.sh`).
+
+`main` creates a <<TopicCommandOptions, TopicCommandOptions>>.
+
+`main` prints out the following message and exits when no command-line arguments were given:
+
+```
+Create, delete, describe, or change a topic.
+```
+
+`main` prints out the following message and exits when no <<actions, action>> was specified:
+
+```
+Command must include exactly one action: --list, --describe, --create, --alter or --delete
+```
+
+`main` makes sure the action and the options were all valid.
+
+`main` creates a new <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>> (with the `zookeeper` option).
+
+`main` branches off per the <<actions, action>>.
+
+In case of any exception, `main` prints out the following and exits with `1` exit code:
+
+```
+Error while executing topic command : [message]
+```
+
+=== [[getTopics]] `getTopics` Internal Method
+
+[source, scala]
+----
+getTopics(zkClient: KafkaZkClient, opts: TopicCommandOptions): Seq[String]
+----
+
+`getTopics`...FIXME
+
+NOTE: `getTopics` is used when `TopicCommand` is requested to <<alterTopic, alterTopic>>, <<listTopics, listTopics>>, <<deleteTopic, deleteTopic>>, <<describeTopic, describeTopic>>.

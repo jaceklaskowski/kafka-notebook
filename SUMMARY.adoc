@@ -3,29 +3,25 @@
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
 
+=== Kafka Operations and Administration
+
+. link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
+.. link:kafka-ConsumerGroupCommand.adoc[ConsumerGroupCommand]
+.. link:kafka-KafkaConsumerGroupService.adoc[KafkaConsumerGroupService]
+... link:kafka-ConsumerGroupService.adoc[ConsumerGroupService]
+
+. link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
+.. link:kafka-AdminClient.adoc[AdminClient]
+
+. link:kafka-ReassignPartitionsCommand.adoc[ReassignPartitionsCommand]
+. link:kafka-admin-TopicCommand.adoc[TopicCommand -- Topic Management on Command Line]
+. link:kafka-admin-ConfigCommand.adoc[ConfigCommand]
+
 === Kafka Features
 
 . link:kafka-controller-election.adoc[Kafka Controller Election]
 . link:kafka-topic-replication.adoc[Topic Replication]
 . link:kafka-topic-deletion.adoc[Topic Deletion]
-
-=== Kafka Producer API
-
-. link:kafka-Producer.adoc[Producer]
-. link:kafka-producer-KafkaProducer.adoc[KafkaProducer]
-.. link:kafka-Sender.adoc[Sender]
-
-. link:kafka-ProducerRecord.adoc[ProducerRecord]
-. link:kafka-producer-Callback.adoc[Callback]
-
-. link:kafka-ProducerConfig.adoc[ProducerConfig]
-
-. link:kafka-producer-Partitioner.adoc[Partitioner]
-.. link:kafka-producer-DefaultPartitioner.adoc[DefaultPartitioner]
-
-. link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
-
-. link:kafka-Serializer.adoc[Serializer]
 
 === Kafka Broker Services
 
@@ -139,6 +135,24 @@
 . link:kafka-BrokerTopicMetrics.adoc[BrokerTopicMetrics]
 . link:kafka-metrics-KafkaMetricsGroup.adoc[KafkaMetricsGroup]
 
+=== Kafka Producer API
+
+. link:kafka-Producer.adoc[Producer]
+. link:kafka-producer-KafkaProducer.adoc[KafkaProducer]
+.. link:kafka-Sender.adoc[Sender]
+
+. link:kafka-ProducerRecord.adoc[ProducerRecord]
+. link:kafka-producer-Callback.adoc[Callback]
+
+. link:kafka-ProducerConfig.adoc[ProducerConfig]
+
+. link:kafka-producer-Partitioner.adoc[Partitioner]
+.. link:kafka-producer-DefaultPartitioner.adoc[DefaultPartitioner]
+
+. link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
+
+. link:kafka-Serializer.adoc[Serializer]
+
 === Kafka Consumer API
 
 . link:kafka-consumer-KafkaConsumer.adoc[KafkaConsumer -- Main Class For Kafka Consumers]
@@ -171,21 +185,6 @@
 . link:kafka-clients-ClientRequest.adoc[ClientRequest]
 
 . link:kafka-clusters.adoc[Clusters]
-
-=== Kafka Operations and Administration
-
-. link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
-.. link:kafka-ConsumerGroupCommand.adoc[ConsumerGroupCommand]
-.. link:kafka-KafkaConsumerGroupService.adoc[KafkaConsumerGroupService]
-... link:kafka-ConsumerGroupService.adoc[ConsumerGroupService]
-
-. link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
-.. link:kafka-AdminClient.adoc[AdminClient]
-
-. link:kafka-ReassignPartitionsCommand.adoc[ReassignPartitionsCommand]
-. link:kafka-TopicCommand.adoc[TopicCommand]
-
-. link:kafka-admin-ConfigCommand.adoc[ConfigCommand]
 
 === Kafka Monitoring (Metrics)
 

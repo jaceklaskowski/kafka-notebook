@@ -454,3 +454,18 @@ handleAlterConfigsRequest(request: RequestChannel.Request): Unit
 `handleAlterConfigsRequest`...FIXME
 
 NOTE: `handleAlterConfigsRequest` is used exclusively when `KafkaApis` is requested to handle a <<AlterConfigs, AlterConfigs>> request.
+
+=== [[createTopic]] `createTopic` Internal Method
+
+[source, scala]
+----
+createTopic(
+  topic: String,
+  numPartitions: Int,
+  replicationFactor: Int,
+  properties: Properties = new Properties()): MetadataResponse.TopicMetadata
+----
+
+`createTopic`...FIXME
+
+NOTE: `createTopic` is used when `KafkaApis` is requested to <<createInternalTopic, createInternalTopic>> and <<getTopicMetadata, getTopicMetadata>>.

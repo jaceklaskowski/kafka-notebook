@@ -8,6 +8,10 @@ link:kafka-producers.adoc[Producers] write messages to the tail of these logs th
 
 Kafka scales topic consumption by distributing partitions among a link:kafka-consumers.adoc#consumer-group[consumer group], which is a set of consumers sharing a common group identifier.
 
+NOTE: Due to limitations in metric names, topics with a period (`.`) or underscore (`_`) could collide. To avoid issues it is best to use either, but not both.
+
+Use <<kafka-admin-TopicCommand.adoc#, kafka-topics>> shell script to manage topics.
+
 === [[partitions]] Partitions
 
 *Partitions* with messages -- topics can be partitioned to improve read/write performance and resiliency. You can lay out a topic (as partitions) across a cluster of machines to allow data streams larger than the capability of a single machine. Partitions are log files on disk with sequential write only. Kafka guarantees message ordering in a partition.
