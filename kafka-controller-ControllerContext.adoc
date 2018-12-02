@@ -173,3 +173,17 @@ removeTopic(topic: String): Unit
 `removeTopic`...FIXME
 
 NOTE: `removeTopic` is used when...FIXME
+
+=== [[isReplicaOnline]] `isReplicaOnline` Method
+
+[source, scala]
+----
+isReplicaOnline(
+  brokerId: Int,
+  topicPartition: TopicPartition,
+  includeShuttingDownBrokers: Boolean = false): Boolean
+----
+
+`isReplicaOnline`...FIXME
+
+NOTE: `isReplicaOnline` is used when...FIXME

@@ -211,15 +211,17 @@ NOTE: `doHandleStateChanges` is used when...FIXME
 initializePartitionState(): Unit
 ----
 
-`initializePartitionState` requests the <<controllerContext, ControllerContext>> for <<kafka-controller-ControllerContext.adoc#allPartitions, all partitions>> (in the Kafka cluster).
+`initializePartitionState` requests the <<controllerContext, ControllerContext>> for <<kafka-controller-ControllerContext.adoc#allPartitions, all partitions>> (across all the brokers in the Kafka cluster).
 
-For every `TopicPartition`, `initializePartitionState` requests the <<controllerContext, ControllerContext>> for the `LeaderIsrAndControllerEpoch` (using the <<kafka-controller-ControllerContext.adoc#partitionLeadershipInfo, partitionLeadershipInfo>> registry).
+For every `TopicPartition`, `initializePartitionState` requests the <<controllerContext, ControllerContext>> for the `LeaderIsrAndControllerEpoch` metadata (using the <<kafka-controller-ControllerContext.adoc#partitionLeadershipInfo, partitionLeadershipInfo>> internal registry).
 
-`initializePartitionState` <<changeStateTo, changeStateTo>> of the `TopicPartition` as follows:
+`initializePartitionState` <<changeStateTo, changeStateTo>> of a `TopicPartition` as follows:
 
-* `OnlinePartition`...FIXME
-* `OfflinePartition`...FIXME
-* `NewPartition`...FIXME
+* `OnlinePartition` when the <<controllerContext, ControllerContext>> says that the <<kafka-controller-ControllerContext.adoc#isReplicaOnline, replica is online>> (for the leader ISR and the `TopicPartition`)
+
+* `OfflinePartition` when the <<controllerContext, ControllerContext>> says that the <<kafka-controller-ControllerContext.adoc#isReplicaOnline, replica is not online>> (for the leader ISR and the `TopicPartition`)
+
+* `NewPartition` when the <<controllerContext, ControllerContext>> has no metadata about the `TopicPartition`
 
 NOTE: `initializePartitionState` is used exclusively when `PartitionStateMachine` is requested to <<startup, start up on the active Controller>>.
 
