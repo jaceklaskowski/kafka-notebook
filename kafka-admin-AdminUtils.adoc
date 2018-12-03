@@ -1,0 +1,24 @@
+== [[AdminUtils]] AdminUtils Helper Object
+
+`AdminUtils` is a Scala object with <<methods, methods>> for...FIXME
+
+[[methods]]
+.AdminUtils API
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| assignReplicasToBrokers
+a| [[assignReplicasToBrokers]]
+
+[source, scala]
+----
+assignReplicasToBrokers(
+  brokerMetadatas: Seq[BrokerMetadata],
+  nPartitions: Int,
+  replicationFactor: Int,
+  fixedStartIndex: Int = -1,
+  startPartitionId: Int = -1): Map[Int, Seq[Int]]
+----
+|===

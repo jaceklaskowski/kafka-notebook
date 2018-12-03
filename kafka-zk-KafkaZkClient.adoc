@@ -212,16 +212,31 @@ createControllerEpochRaw(epoch: Int): CreateResponse
 
 NOTE: `createControllerEpochRaw` is used when...FIXME
 
-=== [[getAllBrokersInCluster]] `getAllBrokersInCluster` Method
+=== [[getAllBrokersInCluster]] Fetching Metadata of Brokers in Cluster -- `getAllBrokersInCluster` Method
 
 [source, scala]
 ----
 getAllBrokersInCluster: Seq[Broker]
 ----
 
-`getAllBrokersInCluster`...FIXME
+`getAllBrokersInCluster` <<getSortedBrokerList, fetches broker IDs>> followed by fetching the metadata of every broker (which is the data associated with a `/brokers/ids/[brokerId]` znode).
 
-NOTE: `getAllBrokersInCluster` is used when...FIXME
+[NOTE]
+====
+`getAllBrokersInCluster` is used when:
+
+* `ConfigCommand` is requested to <<kafka-admin-ConfigCommand.adoc#alterConfig, alterConfig>>
+
+* `ReassignPartitionsCommand` is requested to <<kafka-ReassignPartitionsCommand.adoc#removeThrottle, removeThrottle>>
+
+* `TopicCommand` is requested to <<kafka-admin-TopicCommand.adoc#describeTopic, describeTopic>>
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#initializeControllerContext, initializeControllerContext>> and at <<kafka-controller-ControllerEvent.adoc#BrokerChange, BrokerChange>> controller event
+
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#createBrokerInfo, createBrokerInfo>>
+
+* `AdminZkClient` is requested to <<kafka-zk-AdminZkClient.adoc#getBrokerMetadatas, getBrokerMetadatas>>
+====
 
 === [[getAllTopicsInCluster]] `getAllTopicsInCluster` Method
 
@@ -446,3 +461,32 @@ getTopicPartitionState(partition: TopicPartition): Option[LeaderIsrAndController
 `getTopicPartitionState`...FIXME
 
 NOTE: `getTopicPartitionState` is used when...FIXME
+
+=== [[getSortedBrokerList]] Fetching Broker IDs -- `getSortedBrokerList` Method
+
+[source, scala]
+----
+getSortedBrokerList(): Seq[Int]
+----
+
+`getSortedBrokerList` <<getChildren, gets the child znodes>> at `/brokers/ids` path and sorts it by broker ID (according to the natural ordering).
+
+[NOTE]
+====
+`getSortedBrokerList` is used when:
+
+* `ReassignPartitionsCommand` is requested to <<kafka-ReassignPartitionsCommand.adoc#parseAndValidate, parseAndValidate>>
+
+* `KafkaZkClient` is requested to <<getAllBrokersInCluster, getAllBrokersInCluster>>
+====
+
+=== [[getChildren]] Fetching Child ZNodes -- `getChildren` Method
+
+[source, scala]
+----
+getChildren(path : String): Seq[String]
+----
+
+`getChildren`...FIXME
+
+NOTE: `getChildren` is used when...FIXME

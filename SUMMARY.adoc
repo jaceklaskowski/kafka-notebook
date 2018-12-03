@@ -17,6 +17,8 @@
 . link:kafka-admin-TopicCommand.adoc[TopicCommand -- Topic Management on Command Line]
 . link:kafka-admin-ConfigCommand.adoc[ConfigCommand]
 
+. link:kafka-admin-AdminUtils.adoc[AdminUtils]
+
 === Kafka Features
 
 . link:kafka-controller-election.adoc[Kafka Controller Election]

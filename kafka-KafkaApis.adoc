@@ -7,6 +7,9 @@
 .KafkaApis is Created for KafkaRequestHandlerPool when KafkaServer Starts Up
 image::images/KafkaApis.png[align="center"]
 
+[[adminZkClient]]
+`KafkaApis` uses a <<kafka-zk-AdminZkClient.adoc#, AdminZkClient>> for...FIXME
+
 [[keys]]
 [[handlers]]
 .KafkaApis's API Keys and Handlers (in alphabetical order)

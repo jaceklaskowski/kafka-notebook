@@ -14,6 +14,9 @@ image::images/AdminManager.png[align="center"]
 | Name
 | Description
 
+| adminZkClient
+a| [[adminZkClient]]
+
 | [[alterConfigPolicy]] `alterConfigPolicy`
 |
 
@@ -106,3 +109,19 @@ configSynonyms(
 `configSynonyms`...FIXME
 
 NOTE: `configSynonyms` is used when...FIXME
+
+=== [[createPartitions]] `createPartitions` Method
+
+[source, scala]
+----
+createPartitions(
+  timeout: Int,
+  newPartitions: Map[String, PartitionDetails],
+  validateOnly: Boolean,
+  listenerName: ListenerName,
+  callback: Map[String, ApiError] => Unit): Unit
+----
+
+`createPartitions`...FIXME
+
+NOTE: `createPartitions` is used when...FIXME

@@ -14,7 +14,7 @@
 | Description
 
 | adminZkClient
-| [[adminZkClient]] <<kafka-zk-AdminZkClient.adoc#, AdminZkClient>> (for the <<zkClient, KafkaZkClient>>)
+a| [[adminZkClient]] <<kafka-zk-AdminZkClient.adoc#, AdminZkClient>> (for the <<zkClient, KafkaZkClient>>)
 
 Used when...FIXME
 |===

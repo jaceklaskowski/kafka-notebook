@@ -58,3 +58,28 @@ main(args: Array[String]): Unit
 `main` is the entry point of the <<ConfigCommand, ConfigCommand>> standalone application when launched on command line (e.g. from `bin/kafka-configs.sh`).
 
 `main`...FIXME
+
+=== [[processCommandWithZk]] `processCommandWithZk` Internal Method
+
+[source, scala]
+----
+processCommandWithZk(zkConnectString: String, opts: ConfigCommandOptions): Unit
+----
+
+`processCommandWithZk`...FIXME
+
+NOTE: `processCommandWithZk` is used when...FIXME
+
+=== [[alterConfig]] `alterConfig` Internal Method
+
+[source, scala]
+----
+alterConfig(
+  zkClient: KafkaZkClient,
+  opts: ConfigCommandOptions,
+  adminZkClient: AdminZkClient): Unit
+----
+
+`alterConfig`...FIXME
+
+NOTE: `alterConfig` is used when...FIXME

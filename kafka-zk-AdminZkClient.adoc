@@ -1,6 +1,22 @@
 == [[AdminZkClient]] AdminZkClient
 
-`AdminZkClient` is...FIXME
+`AdminZkClient` is <<creating-instance, created>> when:
+
+* `ConfigCommand` is requested to <<kafka-admin-ConfigCommand.adoc#processCommandWithZk, processCommandWithZk>>
+
+* `ReassignPartitionsCommand` is requested to <<kafka-ReassignPartitionsCommand.adoc#verifyAssignment, verifyAssignment>>, <<kafka-ReassignPartitionsCommand.adoc#generateAssignment, generateAssignment>>, <<kafka-ReassignPartitionsCommand.adoc#executeAssignment, executeAssignment>>
+
+* `TopicCommand` is requested to <<kafka-admin-TopicCommand.adoc#createTopic, createTopic>>, <<kafka-admin-TopicCommand.adoc#alterTopic, alterTopic>>, <<kafka-admin-TopicCommand.adoc#describeTopic, describeTopic>>
+
+* `Partition` is requested to <<kafka-cluster-Partition.adoc#getOrCreateReplica, getOrCreateReplica>>
+
+* `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#initialize, initialize>>
+
+* <<kafka-AdminManager.adoc#adminZkClient, AdminManager>>, <<kafka-server-DynamicConfigManager.adoc#adminZkClient, DynamicConfigManager>> and <<kafka-KafkaApis.adoc#adminZkClient, KafkaApis>> are created
+
+[[creating-instance]]
+[[zkClient]]
+`AdminZkClient` takes a single <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>> when created.
 
 === [[fetchEntityConfig]] `fetchEntityConfig` Method
 
@@ -44,11 +60,11 @@ createOrUpdateTopicPartitionAssignmentPathInZK(
 ====
 `createOrUpdateTopicPartitionAssignmentPathInZK` is used when:
 
-* `TopicCommand` is <<kafka-admin-TopicCommand.adoc#createTopic, executed>> (with `create` and `replica-assignment` options)
+* `TopicCommand` is requested to <<kafka-admin-TopicCommand.adoc#createTopic, create a topic>>
 
 * `AdminManager` is requested to <<kafka-AdminManager.adoc#createTopics, create topics>>
 
-* `AdminZkClient` is requested to <<createTopic, createTopic>> and <<addPartitions, addPartitions>>
+* `AdminZkClient` is requested to <<createTopic, create a topic>> and <<addPartitions, addPartitions>>
 ====
 
 === [[createTopic]] Creating Topic -- `createTopic` Method
@@ -63,7 +79,11 @@ createTopic(
   rackAwareMode: RackAwareMode = RackAwareMode.Enforced): Unit
 ----
 
-`createTopic`...FIXME
+`createTopic` <<getBrokerMetadatas, fetches the metadata of the brokers in the cluster>> (given the `RackAwareMode`).
+
+`createTopic` requests `AdminUtils` helper object to <<kafka-admin-AdminUtils.adoc#assignReplicasToBrokers, assignReplicasToBrokers>> (given the broker metadata, partitions and replicationFactor).
+
+In the end, `createTopic` <<createOrUpdateTopicPartitionAssignmentPathInZK, createOrUpdateTopicPartitionAssignmentPathInZK>>.
 
 [NOTE]
 ====
@@ -71,7 +91,7 @@ createTopic(
 
 * `TopicCommand` is requested to <<kafka-admin-TopicCommand.adoc#createTopic, create a topic>>
 
-* `KafkaApis` is requested to <<kafka-KafkaApis.adoc#createTopic, createTopic>>
+* `KafkaApis` is requested to <<kafka-KafkaApis.adoc#createTopic, create a topic>>
 ====
 
 === [[addPartitions]] `addPartitions` Method
@@ -90,3 +110,46 @@ addPartitions(
 `addPartitions`...FIXME
 
 NOTE: `addPartitions` is used when...FIXME
+
+=== [[getBrokerMetadatas]] Fetching Metadata of Brokers in Cluster (Broker ID and Rack Information) -- `getBrokerMetadatas` Method
+
+[source, scala]
+----
+getBrokerMetadatas(
+  rackAwareMode: RackAwareMode = RackAwareMode.Enforced,
+  brokerList: Option[Seq[Int]] = None): Seq[BrokerMetadata]
+----
+
+`getBrokerMetadatas` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getAllBrokersInCluster, metadata of the brokers in the cluster>>.
+
+NOTE: The broker metadata includes a broker ID, endpoints, and an optional rack information.
+
+`getBrokerMetadatas` takes the input broker IDs (`brokerList`) if defined and leaves only those that are available (i.e. among the brokers in the cluster) or falls back to all brokers in the cluster.
+
+`getBrokerMetadatas` branches off per `RackAwareMode` as follows:
+
+* For `RackAwareMode.Disabled` or `RackAwareMode.Safe`, `getBrokerMetadatas` returns `BrokerMetadata` with broker IDs and no rack information
+
+* For `RackAwareMode.Enforced`, `getBrokerMetadatas` returns `BrokerMetadata` with broker IDs and rack information
+
+In the end, `getBrokerMetadatas` sorts the brokers by broker ID.
+
+`getBrokerMetadatas` throws an `AdminOperationException` for `RackAwareMode.Enforced` mode with some brokers without rack information:
+
+[options="wrap"]
+----
+Not all brokers have rack information. Add --disable-rack-aware in command line to make replica assignment without rack information.
+----
+
+[NOTE]
+====
+`getBrokerMetadatas` is used when:
+
+* `AdminManager` is requested to <<kafka-AdminManager.adoc#createPartitions, createPartitions>>
+
+* `AdminZkClient` is requested to <<createTopic, create a topic>>
+
+* `ReassignPartitionsCommand` is requested to <<kafka-ReassignPartitionsCommand.adoc#generateAssignment, generateAssignment>>
+
+* `TopicCommand` is requested to <<kafka-admin-TopicCommand.adoc#alterTopic, alterTopic>>
+====

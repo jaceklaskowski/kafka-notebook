@@ -2,6 +2,16 @@
 
 `Broker` represents a Kafka broker that has an id, a host, a port, communication endpoints (and few other properties).
 
+```
+// List the brokers in a cluster
+$ ./bin/zookeeper-shell.sh :2181 ls /brokers/ids
+[0]
+
+$ ./bin/zookeeper-shell.sh :2181 get /brokers/ids/0
+Connecting to :2181
+{"listener_security_protocol_map":{"PLAINTEXT":"PLAINTEXT"},"endpoints":["PLAINTEXT://192.168.0.187:9092"],"jmx_port":-1,"host":"192.168.0.187","timestamp":"1543830073084","port":9092,"version":4}
+```
+
 === [[createBroker]] `createBroker` Method
 
 [source, scala]

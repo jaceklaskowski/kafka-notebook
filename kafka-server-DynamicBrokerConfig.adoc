@@ -87,7 +87,7 @@ currentDynamicDefaultConfigs: Map[String, String]
 
 NOTE: `currentDynamicDefaultConfigs` is used when...FIXME
 
-=== [[initialize]] Fetching Broker Configuration (From Zookeeper) -- `initialize` Method
+=== [[initialize]] Initializing (Fetching Broker Configuration From Zookeeper) -- `initialize` Method
 
 [source, scala]
 ----
