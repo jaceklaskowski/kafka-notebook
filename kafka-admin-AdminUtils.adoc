@@ -9,7 +9,7 @@
 | Name
 | Description
 
-| assignReplicasToBrokers
+| <<assignReplicasToBrokers-internals, assignReplicasToBrokers>>
 a| [[assignReplicasToBrokers]]
 
 [source, scala]
@@ -22,3 +22,110 @@ assignReplicasToBrokers(
   startPartitionId: Int = -1): Map[Int, Seq[Int]]
 ----
 |===
+
+=== [[assignReplicasToBrokers-internals]] `assignReplicasToBrokers` Method
+
+[source, scala]
+----
+assignReplicasToBrokers(
+  brokerMetadatas: Seq[BrokerMetadata],
+  nPartitions: Int,
+  replicationFactor: Int,
+  fixedStartIndex: Int = -1,
+  startPartitionId: Int = -1): Map[Int, Seq[Int]]
+----
+
+`assignReplicasToBrokers` branches off per whether all the brokers have rack information or not:
+
+* `assignReplicasToBrokers` <<assignReplicasToBrokersRackUnaware, assignReplicasToBrokersRackUnaware>> when all the brokers (in `brokerMetadatas`) have no rack information available.
+
+* `assignReplicasToBrokers` <<assignReplicasToBrokersRackAware, assignReplicasToBrokersRackAware>> when all the brokers (in `brokerMetadatas`) have rack information available.
+
+`assignReplicasToBrokers` throws a `InvalidPartitionsException` if the given `nPartitions` is `0` or less.
+
+```
+Number of partitions must be larger than 0.
+```
+
+`assignReplicasToBrokers` throws a `InvalidReplicationFactorException` if the given `replicationFactor` is `0` or less.
+
+```
+Replication factor must be larger than 0.
+```
+
+`assignReplicasToBrokers` throws a `InvalidReplicationFactorException` if the given `replicationFactor` is greater than the number of all brokers in the cluster.
+
+```
+Replication factor: [replicationFactor] larger than available brokers: [brokerMetadatas.size].
+```
+
+`assignReplicasToBrokers` throws an `AdminOperationException` if there is at least one broker (in `brokerMetadatas`) with no rack information (when it is assumed either all brokers have it or none).
+
+```
+Not all brokers have rack information for replica rack aware assignment.
+```
+
+[NOTE]
+====
+`assignReplicasToBrokers` is used when:
+
+* `ReassignPartitionsCommand` is requested to <<kafka-ReassignPartitionsCommand.adoc#generateAssignment, generateAssignment>>
+
+* `AdminManager` is requested to <<kafka-AdminManager.adoc#createTopics, createTopics>>
+
+* `AdminZkClient` is requested to <<kafka-zk-AdminZkClient.adoc#createTopic, create a topic>> and <<kafka-zk-AdminZkClient.adoc#addPartitions, addPartitions>>
+====
+
+=== [[assignReplicasToBrokersRackUnaware]] `assignReplicasToBrokersRackUnaware` Internal Method
+
+[source, scala]
+----
+assignReplicasToBrokersRackUnaware(
+  nPartitions: Int,
+  replicationFactor: Int,
+  brokerList: Seq[Int],
+  fixedStartIndex: Int,
+  startPartitionId: Int): Map[Int, Seq[Int]]
+----
+
+`assignReplicasToBrokersRackUnaware` performs the replicas to brokers assignment in a fairly random manner (i.e. includes two random numbers). No additional information is used to make the decision (except the input parameters).
+
+[source, scala]
+----
+import kafka.admin.{AdminUtils, BrokerMetadata}
+// assignReplicasToBrokersRackUnaware is a private method
+// Using assignReplicasToBrokers instead as the entry point
+val brokerMetadatas = Seq(
+  BrokerMetadata(0, None),
+  BrokerMetadata(1, None),
+  BrokerMetadata(2, None))
+val assignment = AdminUtils.assignReplicasToBrokers(
+  brokerMetadatas,
+  nPartitions = 3,
+  replicationFactor = 2)
+val output = assignment.toSeq.sortBy(_._1).map { case (brokerId, replicas) => s"$brokerId => $replicas" }
+scala> output.foreach(println)
+0 => ArrayBuffer(2, 1)
+1 => ArrayBuffer(0, 2)
+2 => ArrayBuffer(1, 0)
+----
+
+`assignReplicasToBrokersRackUnaware`...FIXME
+
+NOTE: `assignReplicasToBrokersRackUnaware` is used exclusively when `AdminUtils` is requested to <<assignReplicasToBrokers, assignReplicasToBrokers>> (when all the brokers in a cluster have no rack information assigned).
+
+=== [[assignReplicasToBrokersRackAware]] `assignReplicasToBrokersRackAware` Internal Method
+
+[source, scala]
+----
+assignReplicasToBrokersRackAware(
+  nPartitions: Int,
+  replicationFactor: Int,
+  brokerMetadatas: Seq[BrokerMetadata],
+  fixedStartIndex: Int,
+  startPartitionId: Int): Map[Int, Seq[Int]]
+----
+
+`assignReplicasToBrokersRackAware`...FIXME
+
+NOTE: `assignReplicasToBrokersRackAware` is used exclusively when `AdminUtils` is requested to <<assignReplicasToBrokers, assignReplicasToBrokers>> (when all the brokers in a cluster have rack information assigned).
