@@ -5,6 +5,10 @@
 
 === Kafka Operations and Administration
 
+. link:kafka-admin-ConfigCommand.adoc[ConfigCommand]
+. link:kafka-admin-ReassignPartitionsCommand.adoc[ReassignPartitionsCommand -- Partition Reassignment on Command Line]
+. link:kafka-admin-TopicCommand.adoc[TopicCommand -- Topic Management on Command Line]
+
 . link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
 .. link:kafka-ConsumerGroupCommand.adoc[ConsumerGroupCommand]
 .. link:kafka-KafkaConsumerGroupService.adoc[KafkaConsumerGroupService]
@@ -12,10 +16,6 @@
 
 . link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
 .. link:kafka-AdminClient.adoc[AdminClient]
-
-. link:kafka-ReassignPartitionsCommand.adoc[ReassignPartitionsCommand]
-. link:kafka-admin-TopicCommand.adoc[TopicCommand -- Topic Management on Command Line]
-. link:kafka-admin-ConfigCommand.adoc[ConfigCommand]
 
 . link:kafka-admin-AdminUtils.adoc[AdminUtils]
 

@@ -76,10 +76,10 @@ m| kafka-delete-logs
 m| highwatermark-checkpoint
 | <<kafka-server-ReplicaManager.adoc#checkpointHighWatermarks, checkpointHighWatermarks>>
 
-| [[isr-expiration]] isr-expiration
+| [[isr-expiration]] `isr-expiration`
 | <<kafka-server-ReplicaManager.adoc#maybeShrinkIsr, maybeShrinkIsr>>
 
-| [[isr-change-propagation]] isr-change-propagation
+| [[isr-change-propagation]] `isr-change-propagation`
 | <<kafka-server-ReplicaManager.adoc#maybePropagateIsrChanges, maybePropagateIsrChanges>>
 
 m| shutdown-idle-replica-alter-log-dirs-thread

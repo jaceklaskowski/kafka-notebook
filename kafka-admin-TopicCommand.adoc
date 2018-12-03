@@ -64,17 +64,22 @@ a| [[topic]] A topic or topics to be <<alterTopic, altered>>, <<createTopic, cre
 |===
 
 ```
-./bin/kafka-topics.sh \
+$ ./bin/kafka-topics.sh \
   --create \
-  --zookeeper localhost:2181 \
+  --zookeeper :2181 \
   --replication-factor 1 \
   --partitions 1 \
   --topic my-topic
 
-./bin/kafka-topics.sh \
-  --zookeeper localhost:2181 \
+$ ./bin/kafka-topics.sh --list --zookeeper :2181
+my-topic
+
+$ ./bin/kafka-topics.sh \
+  --zookeeper :2181 \
   --describe \
   --topic my-topic
+Topic:my-topic  PartitionCount:1  ReplicationFactor:1  Configs:
+  Topic: my-topic  Partition: 0  Leader: 0  Replicas: 0  Isr: 0
 ```
 
 === [[alterTopic]] `alterTopic` Method

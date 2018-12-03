@@ -69,7 +69,7 @@ Not all brokers have rack information for replica rack aware assignment.
 ====
 `assignReplicasToBrokers` is used when:
 
-* `ReassignPartitionsCommand` is requested to <<kafka-ReassignPartitionsCommand.adoc#generateAssignment, generateAssignment>>
+* `ReassignPartitionsCommand` is requested to <<kafka-admin-ReassignPartitionsCommand.adoc#generateAssignment, generateAssignment>>
 
 * `AdminManager` is requested to <<kafka-AdminManager.adoc#createTopics, createTopics>>
 

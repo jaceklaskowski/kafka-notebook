@@ -4,7 +4,7 @@
 
 * `ConfigCommand` is requested to <<kafka-admin-ConfigCommand.adoc#processCommandWithZk, processCommandWithZk>>
 
-* `ReassignPartitionsCommand` is requested to <<kafka-ReassignPartitionsCommand.adoc#verifyAssignment, verifyAssignment>>, <<kafka-ReassignPartitionsCommand.adoc#generateAssignment, generateAssignment>>, <<kafka-ReassignPartitionsCommand.adoc#executeAssignment, executeAssignment>>
+* `ReassignPartitionsCommand` is requested to <<kafka-admin-ReassignPartitionsCommand.adoc#verifyAssignment, verifyAssignment>>, <<kafka-admin-ReassignPartitionsCommand.adoc#generateAssignment, generateAssignment>>, <<kafka-admin-ReassignPartitionsCommand.adoc#executeAssignment, executeAssignment>>
 
 * `TopicCommand` is requested to <<kafka-admin-TopicCommand.adoc#createTopic, createTopic>>, <<kafka-admin-TopicCommand.adoc#alterTopic, alterTopic>>, <<kafka-admin-TopicCommand.adoc#describeTopic, describeTopic>>
 
@@ -149,7 +149,7 @@ Not all brokers have rack information. Add --disable-rack-aware in command line 
 
 * `AdminZkClient` is requested to <<createTopic, create a topic>>
 
-* `ReassignPartitionsCommand` is requested to <<kafka-ReassignPartitionsCommand.adoc#generateAssignment, generateAssignment>>
+* `ReassignPartitionsCommand` is requested to <<kafka-admin-ReassignPartitionsCommand.adoc#generateAssignment, generateAssignment>>
 
 * `TopicCommand` is requested to <<kafka-admin-TopicCommand.adoc#alterTopic, alterTopic>>
 ====

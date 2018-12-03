@@ -227,7 +227,7 @@ getAllBrokersInCluster: Seq[Broker]
 
 * `ConfigCommand` is requested to <<kafka-admin-ConfigCommand.adoc#alterConfig, alterConfig>>
 
-* `ReassignPartitionsCommand` is requested to <<kafka-ReassignPartitionsCommand.adoc#removeThrottle, removeThrottle>>
+* `ReassignPartitionsCommand` is requested to <<kafka-admin-ReassignPartitionsCommand.adoc#removeThrottle, removeThrottle>>
 
 * `TopicCommand` is requested to <<kafka-admin-TopicCommand.adoc#describeTopic, describeTopic>>
 
@@ -475,7 +475,7 @@ getSortedBrokerList(): Seq[Int]
 ====
 `getSortedBrokerList` is used when:
 
-* `ReassignPartitionsCommand` is requested to <<kafka-ReassignPartitionsCommand.adoc#parseAndValidate, parseAndValidate>>
+* `ReassignPartitionsCommand` is requested to <<kafka-admin-ReassignPartitionsCommand.adoc#parseAndValidate, parseAndValidate>>
 
 * `KafkaZkClient` is requested to <<getAllBrokersInCluster, getAllBrokersInCluster>>
 ====
