@@ -181,7 +181,7 @@ NOTE: `maybePropagateIsrChanges` is used exclusively when <<kafka-server-schedul
 * [[isShuttingDown]] `isShuttingDown` flag
 * [[quotaManagers]] `QuotaManagers`
 * [[brokerTopicStats]] <<kafka-BrokerTopicStats.adoc#, BrokerTopicStats>>
-* [[metadataCache]] <<kafka-MetadataCache.adoc#, MetadataCache>>
+* [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
 * [[logDirFailureChannel]] `LogDirFailureChannel`
 * [[delayedProducePurgatory]] `DelayedOperationPurgatory[DelayedProduce]`
 * [[delayedFetchPurgatory]] `DelayedOperationPurgatory[DelayedFetch]`

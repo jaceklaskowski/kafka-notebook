@@ -89,7 +89,7 @@ Used when:
 <<kafka-LogManager.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>.
 
 | [[metadataCache]] `metadataCache`
-| link:kafka-MetadataCache.adoc[MetadataCache]
+| link:kafka-server-MetadataCache.adoc[MetadataCache]
 
 | [[replicaManager]] `replicaManager`
 a| <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> used to create:

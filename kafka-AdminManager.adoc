@@ -65,7 +65,7 @@ NOTE: `createTopics` is used exclusively when `KafkaApis` is requested to <<kafk
 
 * [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
 * [[metrics]] `Metrics`
-* [[metadataCache]] link:kafka-MetadataCache.adoc[MetadataCache]
+* [[metadataCache]] link:kafka-server-MetadataCache.adoc[MetadataCache]
 * [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
 
 `AdminManager` initializes the <<internal-registries, internal registries and counters>>.

@@ -76,7 +76,7 @@
 
 . link:kafka-Metadata.adoc[Metadata]
 .. link:kafka-Metadata-Listener.adoc[Metadata Update Listener]
-. link:kafka-MetadataCache.adoc[MetadataCache]
+. link:kafka-server-MetadataCache.adoc[MetadataCache]
 . link:kafka-MetadataUpdater.adoc[MetadataUpdater]
 .. link:kafka-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
 

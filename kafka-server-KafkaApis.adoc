@@ -192,7 +192,7 @@ handleTopicMetadataRequest(request: RequestChannel.Request): Unit
 
 `handleTopicMetadataRequest` takes the <<kafka-common-MetadataRequest.adoc#, MetadataRequest>> from the body (from the input `request`).
 
-`handleTopicMetadataRequest` requests the <<metadataCache, MetadataCache>> for <<kafka-MetadataCache.adoc#getAllTopics, getAllTopics>> or its subset (per <<kafka-common-MetadataRequest.adoc#topics, topics>> attribute of the `MetadataRequest`).
+`handleTopicMetadataRequest` requests the <<metadataCache, MetadataCache>> for <<kafka-server-MetadataCache.adoc#getAllTopics, getAllTopics>> or its subset (per <<kafka-common-MetadataRequest.adoc#topics, topics>> attribute of the `MetadataRequest`).
 
 `handleTopicMetadataRequest` filters out the topics for which the current principal (user) is not authorized to execute `Describe` operation.
 
@@ -269,7 +269,7 @@ NOTE: `handleControlledShutdownRequest` is used when...FIXME
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[brokerId]] Broker ID
 * [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
-* [[metadataCache]] <<kafka-MetadataCache.adoc#, MetadataCache>>
+* [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[authorizer]] <<kafka-Authorizer.adoc#, Authorizer>>
 * [[quotas]] `QuotaManagers`
@@ -432,7 +432,7 @@ getOrCreateInternalTopic(
   listenerName: ListenerName): MetadataResponse.TopicMetadata
 ----
 
-`getOrCreateInternalTopic` requests the <<metadataCache, MetadataCache>> for <<kafka-MetadataCache.adoc#getTopicMetadata, getTopicMetadata>> for the input `topic` (and the `ListenerName`).
+`getOrCreateInternalTopic` requests the <<metadataCache, MetadataCache>> for <<kafka-server-MetadataCache.adoc#getTopicMetadata, getTopicMetadata>> for the input `topic` (and the `ListenerName`).
 
 In the end, `getOrCreateInternalTopic` returns the `TopicMetadata` if available or <<createInternalTopic, createInternalTopic>>.
 
