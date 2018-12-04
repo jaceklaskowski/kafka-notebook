@@ -88,8 +88,13 @@ Used when:
 
 <<kafka-LogManager.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>.
 
-| [[metadataCache]] `metadataCache`
-| link:kafka-server-MetadataCache.adoc[MetadataCache]
+| `metadataCache`
+a| [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>> that is created for the sake of creating the following services (at <<startup, startup>>):
+
+* <<adminManager, AdminManager>>
+* <<apis, KafkaApis>>
+* <<replicaManager, ReplicaManager>>
+* <<transactionCoordinator, TransactionCoordinator>>
 
 | [[replicaManager]] `replicaManager`
 a| <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> used to create:

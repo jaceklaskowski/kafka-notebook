@@ -2,6 +2,46 @@
 
 `MetadataCache` is...FIXME
 
+`MetadataCache` is <<creating-instance, created>> exclusively for <<kafka-KafkaServer.adoc#metadataCache, KafkaServer>> (when <<kafka-KafkaServer.adoc#startup, started>>).
+
+[[brokerId]]
+[[creating-instance]]
+`MetadataCache` takes a single broker ID when created.
+
+[[internal-registries]]
+.MetadataCache's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,2",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| metadataSnapshot
+a| [[metadataSnapshot]]
+
+| partitionMetadataLock
+| [[partitionMetadataLock]] Java's https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html[ReentrantReadWriteLock]
+
+| stateChangeLogger
+a| [[stateChangeLogger]] `StateChangeLogger`
+|===
+
+[[logIdent]]
+`MetadataCache` uses *[MetadataCache brokerId=[brokerId]]* as the logging prefix (aka `logIdent`).
+
+[[logging]]
+[TIP]
+====
+Enable `DEBUG` or `ERROR` logging level for `kafka.server.MetadataCache` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.server.MetadataCache=DEBUG
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
 === [[getAllTopics]] `getAllTopics` Method
 
 [source, scala]
