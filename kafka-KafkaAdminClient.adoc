@@ -64,3 +64,49 @@ Map<ConfigResource, KafkaFutureImpl<Void>> alterConfigs(
 NOTE: `alterConfigs` is part of the <<kafka-AdminClient.adoc#alterConfigs, AdminClient Contract>> to...FIXME.
 
 `alterConfigs`...FIXME
+
+=== [[describeCluster]] `describeCluster` Method
+
+[source, java]
+----
+DescribeClusterResult describeCluster(DescribeClusterOptions options)
+----
+
+NOTE: `describeCluster` is part of the <<kafka-AdminClient.adoc#describeCluster, AdminClient Contract>> to...FIXME.
+
+`describeCluster`...FIXME
+
+=== [[deleteRecords]] `deleteRecords` Method
+
+[source, java]
+----
+DeleteRecordsResult deleteRecords(
+  final Map<TopicPartition, RecordsToDelete> recordsToDelete,
+  final DeleteRecordsOptions options)
+----
+
+NOTE: `deleteRecords` is part of the <<kafka-AdminClient.adoc#deleteRecords, AdminClient Contract>> to...FIXME.
+
+`deleteRecords`...FIXME
+
+=== [[listConsumerGroups]] `listConsumerGroups` Method
+
+[source, java]
+----
+ListConsumerGroupsResult listConsumerGroups(ListConsumerGroupsOptions options)
+----
+
+NOTE: `listConsumerGroups` is part of the <<kafka-AdminClient.adoc#listConsumerGroups, AdminClient Contract>> to...FIXME.
+
+`listConsumerGroups`...FIXME
+
+=== [[listTopics]] `listTopics` Method
+
+[source, java]
+----
+ListTopicsResult listTopics(final ListTopicsOptions options)
+----
+
+NOTE: `listTopics` is part of the <<kafka-AdminClient.adoc#listTopics, AdminClient Contract>> to...FIXME.
+
+`listTopics`...FIXME

@@ -1,0 +1,52 @@
+== [[MetadataRequest]] MetadataRequest
+
+[[apiKey]]
+`MetadataRequest` is a `AbstractRequest` with `METADATA` API key that is used (and <<creating-instance, created>>) when:
+
+* `AdminClientRunnable` is requested to `makeMetadataCall`
+
+* `DefaultMetadataUpdater` is requested to <<kafka-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>
+
+* `KafkaAdminClient` is requested to <<kafka-KafkaAdminClient.adoc#describeCluster, describeCluster>>, <<kafka-KafkaAdminClient.adoc#describeTopics, describeTopics>>, <<kafka-KafkaAdminClient.adoc#deleteRecords, deleteRecords>>, <<kafka-KafkaAdminClient.adoc#listConsumerGroups, listConsumerGroups>>, <<kafka-KafkaAdminClient.adoc#listTopics, listTopics>>
+
+* `Fetcher` is requested to <<kafka-Fetcher.adoc#getAllTopicMetadata, getAllTopicMetadata>>
+
+* `KafkaConsumer` is requested to <<kafka-consumer-KafkaConsumer.adoc#partitionsFor, partitionsFor>>
+
+[[creating-instance]]
+[[Builder]]
+`MetadataRequest` takes the following when created:
+
+* [[topics]] List of topics to request metadata for (can be empty)
+* [[allowAutoTopicCreation]] `allowAutoTopicCreation` flag (that controls whether to auto-create a topic if unavailable at the time of a request or not)
+
+`MetadataRequest` can be <<creating-instance, created>> using the following factory methods:
+
+* <<allTopics, MetadataRequest.Builder.allTopics>>
+* <<Builder, MetadataRequest.Builder>>
+
+[source, scala]
+----
+import org.apache.kafka.common.requests.MetadataRequest
+
+val r = MetadataRequest.Builder.allTopics
+scala> println(r)
+(type=MetadataRequest, topics=<ALL>)
+
+import collection.JavaConverters._
+val topics = Seq("t1", "t2").asJava
+val allowAutoTopicCreation = false
+val r = new MetadataRequest.Builder(topics, allowAutoTopicCreation)
+scala> println(r)
+(type=MetadataRequest, topics=t1,t2)
+----
+
+=== [[allTopics]] `allTopics` Factory Method
+
+[source, java]
+----
+// MetadataRequest.Builder.allTopics
+Builder allTopics()
+----
+
+`allTopics` creates a new `MetadataRequest` for all <<topics, topics>> and <<allowAutoTopicCreation, allowAutoTopicCreation>> flag on.

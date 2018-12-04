@@ -1,3 +1,14 @@
 == [[MetadataCache]] MetadataCache
 
 `MetadataCache` is...FIXME
+
+=== [[getAllTopics]] `getAllTopics` Method
+
+[source, scala]
+----
+getAllTopics(): Set[String]
+----
+
+`getAllTopics`...FIXME
+
+NOTE: `getAllTopics` is used when...FIXME

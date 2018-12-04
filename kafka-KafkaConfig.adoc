@@ -26,6 +26,11 @@ Used when:
 
 * `KafkaServer` is requested to <<kafka-KafkaServer.adoc#createBrokerInfo, createBrokerInfo>> (when <<kafka-KafkaServer.adoc#startup, started>>)
 
+| autoCreateTopicsEnable
+a| [[autoCreateTopicsEnable]] <<kafka-properties.adoc#auto.create.topics.enable, auto.create.topics.enable>>
+
+Used when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#getTopicMetadata, getTopicMetadata>> and <<kafka-KafkaApis.adoc#handleTopicMetadataRequest, handleTopicMetadataRequest>>
+
 | autoLeaderRebalanceEnable
 a| [[autoLeaderRebalanceEnable]] <<kafka-properties.adoc#auto.leader.rebalance.enable, auto.leader.rebalance.enable>>
 

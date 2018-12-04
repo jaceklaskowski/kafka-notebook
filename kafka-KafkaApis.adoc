@@ -187,9 +187,25 @@ NOTE: `handleFetchRequest` is used exclusively when `KafkaApis` is requested to 
 handleTopicMetadataRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleTopicMetadataRequest` takes the body (from the input `request`) as `MetadataRequest`.
+`handleTopicMetadataRequest` takes the <<kafka-common-MetadataRequest.adoc#, MetadataRequest>> from the body (from the input `request`).
 
-CAUTION: FIXME
+`handleTopicMetadataRequest` requests the <<metadataCache, MetadataCache>> for <<kafka-MetadataCache.adoc#getAllTopics, getAllTopics>> or its subset (per <<kafka-common-MetadataRequest.adoc#topics, topics>> attribute of the `MetadataRequest`).
+
+`handleTopicMetadataRequest` filters out the topics for which the current principal (user) is not authorized to execute `Describe` operation.
+
+For every authorized topic, `handleTopicMetadataRequest`...FIXME
+
+`handleTopicMetadataRequest` creates a `MetadataResponse.TopicMetadata` with `TOPIC_AUTHORIZATION_FAILED` for every `unauthorizedForCreateTopics` and `unauthorizedForDescribeTopics`.
+
+`handleTopicMetadataRequest` <<getTopicMetadata, getTopicMetadata>> if there are `authorizedTopics`.
+
+`handleTopicMetadataRequest` prints out the following TRACE message to the logs:
+
+```
+Sending topic metadata [completeTopicMetadata] and brokers [brokers] for correlation id [correlationId] to client [clientId]
+```
+
+In the end, `handleTopicMetadataRequest` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with a new <<kafka-common-MetadataResponse.adoc#, MetadataResponse>>.
 
 NOTE: `handleTopicMetadataRequest` is used exclusively when `KafkaApis` is requested to handle a <<Metadata, Metadata>> request.
 
@@ -434,7 +450,7 @@ getTopicMetadata(
 
 `getTopicMetadata`...FIXME
 
-NOTE: `getTopicMetadata` is used when...FIXME
+NOTE: `getTopicMetadata` is used exclusively when `KafkaApis` is requested to <<handleTopicMetadataRequest, handle Metadata request>>.
 
 === [[handleDescribeGroupRequest]] Handling DescribeGroups Request -- `handleDescribeGroupRequest` Handler
 

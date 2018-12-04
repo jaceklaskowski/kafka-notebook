@@ -77,7 +77,6 @@
 . link:kafka-Metadata.adoc[Metadata]
 .. link:kafka-Metadata-Listener.adoc[Metadata Update Listener]
 . link:kafka-MetadataCache.adoc[MetadataCache]
-. link:kafka-MetadataResponse.adoc[MetadataResponse]
 . link:kafka-MetadataUpdater.adoc[MetadataUpdater]
 .. link:kafka-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
 
@@ -239,6 +238,9 @@
 
 . link:kafka-common-NotificationHandler.adoc[NotificationHandler Contract]
 . link:kafka-common-ZkNodeChangeNotificationListener.adoc[ZkNodeChangeNotificationListener]
+
+. link:kafka-common-MetadataRequest.adoc[MetadataRequest]
+. link:kafka-common-MetadataResponse.adoc[MetadataResponse]
 
 === Kafka Security
 

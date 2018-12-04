@@ -23,6 +23,15 @@ Unlike <<listeners, listeners>> it is invalid to advertise the `0.0.0.0` non-rou
 | auto.commit.interval.ms
 a| [[auto.commit.interval.ms]] How often (in milliseconds) consumer offsets should be auto-committed when <<enable.auto.commit, enable.auto.commit>> is enabled
 
+| auto.create.topics.enable
+a| [[auto.create.topics.enable]] Enables auto creation of a topic
+
+Default: `true`
+
+* Use `KafkaConfig.AutoCreateTopicsEnableProp` to reference the property
+
+* Use <<kafka-KafkaConfig.adoc#autoCreateTopicsEnable, KafkaConfig.autoCreateTopicsEnable>> to access the current value
+
 | auto.leader.rebalance.enable
 a| [[auto.leader.rebalance.enable]] Enables auto leader balancing
 

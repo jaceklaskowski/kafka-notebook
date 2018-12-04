@@ -74,7 +74,7 @@ findAllBrokers(): List[Node]
 
 `findAllBrokers` creates a `Metadata` API request and <<sendAnyNode, sends it to one of the bootstrap brokers>>.
 
-`findAllBrokers` returns the nodes from the link:kafka-MetadataResponse.adoc#cluster[cluster metadata] of the `MetadataResponse`.
+`findAllBrokers` returns the nodes from the link:kafka-common-MetadataResponse.adoc#cluster[cluster metadata] of the `MetadataResponse`.
 
 NOTE: `findAllBrokers` is used when `AdminClient` does <<awaitBrokers, awaitBrokers>>, <<listAllGroups, lists all groups per broker>> and <<listAllBrokerVersionInfo, listAllBrokerVersionInfo>>.
 

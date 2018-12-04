@@ -89,7 +89,7 @@ Map<String, List<PartitionInfo>> getTopicMetadata(MetadataRequest.Builder reques
 
 Internally, `getTopicMetadata` <<sendMetadataRequest, sends the metadata request>> and requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-ConsumerNetworkClient.adoc#poll[poll] until it finishes successfully or `timeout` expires.
 
-After `poll` finishes, `getTopicMetadata` link:kafka-MetadataResponse.adoc#cluster[takes the cluster information] from `MetadataResponse`.
+After `poll` finishes, `getTopicMetadata` link:kafka-common-MetadataResponse.adoc#cluster[takes the cluster information] from `MetadataResponse`.
 
 When `MetadataResponse` is successful, `getTopicMetadata` link:kafka-Cluster-deprecated.adoc#topics[takes topics] (from `Cluster`) and requests `Cluster` for link:kafka-Cluster-deprecated.adoc#availablePartitionsForTopic[available partitions for every topic].
 
