@@ -56,7 +56,7 @@
 . link:kafka-GroupMetadataManager.adoc[GroupMetadataManager]
 . link:kafka-InterBrokerSendThread.adoc[InterBrokerSendThread]
 . link:kafka-Kafka.adoc[Kafka]
-. link:kafka-KafkaApis.adoc[KafkaApis -- API Request Handler]
+. link:kafka-server-KafkaApis.adoc[KafkaApis -- API Request Handler]
 
 . link:kafka-controller-KafkaController.adoc[KafkaController]
 

@@ -99,7 +99,7 @@ handleCommitOffsets(
 
 `handleCommitOffsets`...FIXME
 
-NOTE: `handleCommitOffsets` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleOffsetCommitRequest, handleOffsetCommitRequest>>.
+NOTE: `handleCommitOffsets` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleOffsetCommitRequest, handleOffsetCommitRequest>>.
 
 === [[doCommitOffsets]] `doCommitOffsets` Internal Method
 
@@ -155,4 +155,4 @@ handleDescribeGroup(groupId: String): (Errors, GroupSummary)
 
 `handleDescribeGroup`...FIXME
 
-NOTE: `handleDescribeGroup` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleDescribeGroupRequest, handleDescribeGroupRequest>>.
+NOTE: `handleDescribeGroup` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleDescribeGroupRequest, handleDescribeGroupRequest>>.

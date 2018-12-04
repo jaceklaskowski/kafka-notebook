@@ -44,7 +44,7 @@ NOTE: `run` is used when `KafkaRequestHandlerPool` is link:kafka-KafkaRequestHan
 * [[aggregateIdleMeter]] Aggregate Idle `Meter`
 * [[totalHandlerThreads]] Total number of handler threads
 * [[requestChannel]] `RequestChannel`
-* [[apis]] link:kafka-KafkaApis.adoc[KafkaApis]
+* [[apis]] link:kafka-server-KafkaApis.adoc[KafkaApis]
 * [[time]] `Time`
 
 `KafkaRequestHandler` initializes the <<internal-registries, internal registries and counters>>.

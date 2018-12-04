@@ -12,7 +12,7 @@
 
 * `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#initialize, initialize>>
 
-* <<kafka-AdminManager.adoc#adminZkClient, AdminManager>>, <<kafka-server-DynamicConfigManager.adoc#adminZkClient, DynamicConfigManager>> and <<kafka-KafkaApis.adoc#adminZkClient, KafkaApis>> are created
+* <<kafka-AdminManager.adoc#adminZkClient, AdminManager>>, <<kafka-server-DynamicConfigManager.adoc#adminZkClient, DynamicConfigManager>> and <<kafka-server-KafkaApis.adoc#adminZkClient, KafkaApis>> are created
 
 [[creating-instance]]
 [[zkClient]]
@@ -91,7 +91,7 @@ In the end, `createTopic` <<createOrUpdateTopicPartitionAssignmentPathInZK, crea
 
 * `TopicCommand` is requested to <<kafka-admin-TopicCommand.adoc#createTopic, create a topic>>
 
-* `KafkaApis` is requested to <<kafka-KafkaApis.adoc#createTopic, create a topic>>
+* `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#createTopic, create a topic>>
 ====
 
 === [[addPartitions]] `addPartitions` Method

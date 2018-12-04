@@ -29,7 +29,7 @@ Used when:
 | autoCreateTopicsEnable
 a| [[autoCreateTopicsEnable]] <<kafka-properties.adoc#auto.create.topics.enable, auto.create.topics.enable>>
 
-Used when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#getTopicMetadata, getTopicMetadata>> and <<kafka-KafkaApis.adoc#handleTopicMetadataRequest, handleTopicMetadataRequest>>
+Used when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#getTopicMetadata, getTopicMetadata>> and <<kafka-server-KafkaApis.adoc#handleTopicMetadataRequest, handleTopicMetadataRequest>>
 
 | autoLeaderRebalanceEnable
 a| [[autoLeaderRebalanceEnable]] <<kafka-properties.adoc#auto.leader.rebalance.enable, auto.leader.rebalance.enable>>

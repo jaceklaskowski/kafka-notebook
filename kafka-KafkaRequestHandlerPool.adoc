@@ -36,7 +36,7 @@ CAUTION: FIXME
 
 * [[brokerId]] Broker ID
 * [[requestChannel]] `RequestChannel`
-* [[apis]] link:kafka-KafkaApis.adoc[KafkaApis]
+* [[apis]] link:kafka-server-KafkaApis.adoc[KafkaApis]
 * [[time]] `Time`
 * [[numThreads]] Number of threads (i.e. instances of <<runnables, KafkaRequestHandlers>> as defined by link:kafka-KafkaConfig.adoc#numNetworkThreads[numNetworkThreads] property)
 

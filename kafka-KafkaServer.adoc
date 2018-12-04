@@ -18,7 +18,7 @@ image::images/KafkaServer-startup.png[align="center"]
 | link:kafka-AdminManager.adoc[AdminManager]
 
 | [[apis]] `apis`
-| link:kafka-KafkaApis.adoc[KafkaApis]
+| link:kafka-server-KafkaApis.adoc[KafkaApis]
 
 | [[authorizer]] `authorizer`
 | Optional link:kafka-Authorizer.adoc[Authorizer]
@@ -51,7 +51,7 @@ a| [[groupCoordinator]] <<kafka-GroupCoordinator.adoc#, GroupCoordinator>>
 
 <<kafka-GroupCoordinator.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>
 
-Used exclusively when `KafkaServer` is requested to <<startup, start up>> (and creates a <<kafka-KafkaApis.adoc#, KafkaApis>>)
+Used exclusively when `KafkaServer` is requested to <<startup, start up>> (and creates a <<kafka-server-KafkaApis.adoc#, KafkaApis>>)
 
 | [[isStartingUp]] `isStartingUp`
 | Flag for...FIXME
@@ -223,7 +223,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 `startup` creates a <<authorizer, Authorizer>> (if defined using link:kafka-properties.adoc#authorizer.class.name[authorizer.class.name] property) and link:kafka-Authorizer.adoc#configure[configures] it.
 
-`startup` link:kafka-KafkaApis.adoc#creating-instance[creates] the <<apis, KafkaApis>> (for <<socketServer, SocketServer>>, <<replicaManager, ReplicaManager>>, <<adminManager, AdminManager>>, <<groupCoordinator, GroupCoordinator>>, <<transactionCoordinator, TransactionCoordinator>>, <<kafkaController, KafkaController>>, <<zkUtils, ZkUtils>>, <<brokerId, broker ID>>, <<config, KafkaConfig>>, <<metadataCache, MetadataCache>>, <<metrics, Metrics>>, <<authorizer, Authorizer>>, <<quotaManagers, QuotaManagers>>, <<_brokerTopicStats, BrokerTopicStats>>, <<clusterId, cluster ID>>).
+`startup` link:kafka-server-KafkaApis.adoc#creating-instance[creates] the <<apis, KafkaApis>> (for <<socketServer, SocketServer>>, <<replicaManager, ReplicaManager>>, <<adminManager, AdminManager>>, <<groupCoordinator, GroupCoordinator>>, <<transactionCoordinator, TransactionCoordinator>>, <<kafkaController, KafkaController>>, <<zkUtils, ZkUtils>>, <<brokerId, broker ID>>, <<config, KafkaConfig>>, <<metadataCache, MetadataCache>>, <<metrics, Metrics>>, <<authorizer, Authorizer>>, <<quotaManagers, QuotaManagers>>, <<_brokerTopicStats, BrokerTopicStats>>, <<clusterId, cluster ID>>).
 
 NOTE: At this point `KafkaServer` may start processing requests.
 

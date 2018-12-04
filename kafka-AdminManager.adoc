@@ -57,7 +57,7 @@ createTopics(
 
 `createTopics`...FIXME
 
-NOTE: `createTopics` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleCreateTopicsRequest, handle a CREATE_TOPICS request>>.
+NOTE: `createTopics` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleCreateTopicsRequest, handle a CREATE_TOPICS request>>.
 
 === [[creating-instance]] Creating AdminManager Instance
 
@@ -94,7 +94,7 @@ alterConfigs(
 
 `alterConfigs`...FIXME
 
-NOTE: `alterConfigs` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleAlterConfigsRequest, handleAlterConfigsRequest>>.
+NOTE: `alterConfigs` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleAlterConfigsRequest, handleAlterConfigsRequest>>.
 
 === [[configSynonyms]] `configSynonyms` Internal Method
 

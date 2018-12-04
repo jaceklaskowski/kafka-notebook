@@ -5,7 +5,7 @@
 .MetadataResponse
 image::images/MetadataResponse.png[align="center"]
 
-`MetadataResponse` is <<creating-instance, created>> mainly when `KafkaApis` link:kafka-KafkaApis.adoc#handleTopicMetadataRequest[handles a Metadata request].
+`MetadataResponse` is <<creating-instance, created>> mainly when `KafkaApis` link:kafka-server-KafkaApis.adoc#handleTopicMetadataRequest[handles a Metadata request].
 
 === [[cluster]] `cluster` Method
 

@@ -216,4 +216,4 @@ alterReplicaLogDirs(partitionDirs: Map[TopicPartition, String]): Map[TopicPartit
 
 `alterReplicaLogDirs`...FIXME
 
-NOTE: `alterReplicaLogDirs` is used exclusively when `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleAlterReplicaLogDirsRequest, handle an AlterReplicaLogDirs request>>.
+NOTE: `alterReplicaLogDirs` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleAlterReplicaLogDirsRequest, handle an AlterReplicaLogDirs request>>.

@@ -680,7 +680,7 @@ NOTE: `isActive` is on (`true`) after the `KafkaController` of a Kafka broker ha
 
 * `KafkaController` is requested to <<updateMetrics, updateMetrics>>
 
-* `KafkaApis` is requested to <<kafka-KafkaApis.adoc#handleCreateTopicsRequest, handleCreateTopicsRequest>>, <<kafka-KafkaApis.adoc#handleCreatePartitionsRequest, handleCreatePartitionsRequest>> and <<kafka-KafkaApis.adoc#handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
+* `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleCreateTopicsRequest, handleCreateTopicsRequest>>, <<kafka-server-KafkaApis.adoc#handleCreatePartitionsRequest, handleCreatePartitionsRequest>> and <<kafka-server-KafkaApis.adoc#handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
 ====
 
 === [[registerIsrChangeNotificationListener]] `registerIsrChangeNotificationListener` Internal Method
