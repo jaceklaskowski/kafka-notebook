@@ -25,7 +25,7 @@ trait KafkaMetricsGroup {
 | Acceptor
 | [[Acceptor]]
 
-| <<kafka-AdminManager.adoc#, AdminManager>>
+| <<kafka-server-AdminManager.adoc#, AdminManager>>
 | [[AdminManager]]
 
 | AppInfo

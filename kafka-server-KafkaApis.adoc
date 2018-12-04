@@ -157,7 +157,7 @@ handleCreateTopicsRequest(request: RequestChannel.Request): Unit
 
 `handleCreateTopicsRequest` <<authorize, authorizes>> the `Create` operation for `ClusterResource`...FIXME
 
-In the end, `handleCreateTopicsRequest` requests <<adminManager, AdminManager>> to link:kafka-AdminManager.adoc#createTopics[create the topics].
+In the end, `handleCreateTopicsRequest` requests <<adminManager, AdminManager>> to link:kafka-server-AdminManager.adoc#createTopics[create the topics].
 
 NOTE: `handleCreateTopicsRequest` is used exclusively when `KafkaApis` is requested to handle a <<CreateTopics, CreateTopics>> request.
 
@@ -262,7 +262,7 @@ NOTE: `handleControlledShutdownRequest` is used when...FIXME
 
 * [[requestChannel]] RequestChannel
 * [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
-* [[adminManager]] <<kafka-AdminManager.adoc#, AdminManager>>
+* [[adminManager]] <<kafka-server-AdminManager.adoc#, AdminManager>>
 * [[groupCoordinator]] <<kafka-GroupCoordinator.adoc#, GroupCoordinator>>
 * [[txnCoordinator]] <<kafka-TransactionCoordinator.adoc#, TransactionCoordinator>>
 * [[controller]] <<kafka-controller-KafkaController.adoc#, KafkaController>>

@@ -71,7 +71,7 @@ Not all brokers have rack information for replica rack aware assignment.
 
 * `ReassignPartitionsCommand` is requested to <<kafka-admin-ReassignPartitionsCommand.adoc#generateAssignment, generateAssignment>>
 
-* `AdminManager` is requested to <<kafka-AdminManager.adoc#createTopics, createTopics>>
+* `AdminManager` is requested to <<kafka-server-AdminManager.adoc#createTopics, createTopics>>
 
 * `AdminZkClient` is requested to <<kafka-zk-AdminZkClient.adoc#createTopic, create a topic>> and <<kafka-zk-AdminZkClient.adoc#addPartitions, addPartitions>>
 ====

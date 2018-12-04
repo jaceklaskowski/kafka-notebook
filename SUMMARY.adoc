@@ -29,7 +29,7 @@
 
 . link:kafka-server-scheduled-tasks.adoc[Kafka Server and Periodic Tasks]
 
-. link:kafka-AdminManager.adoc[AdminManager]
+. link:kafka-server-AdminManager.adoc[AdminManager]
 . link:kafka-Authorizer.adoc[Authorizer]
 
 . link:kafka-server-DynamicBrokerConfig.adoc[DynamicBrokerConfig]

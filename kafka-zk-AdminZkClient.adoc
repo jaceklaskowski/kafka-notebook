@@ -12,7 +12,7 @@
 
 * `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#initialize, initialize>>
 
-* <<kafka-AdminManager.adoc#adminZkClient, AdminManager>>, <<kafka-server-DynamicConfigManager.adoc#adminZkClient, DynamicConfigManager>> and <<kafka-server-KafkaApis.adoc#adminZkClient, KafkaApis>> are created
+* <<kafka-server-AdminManager.adoc#adminZkClient, AdminManager>>, <<kafka-server-DynamicConfigManager.adoc#adminZkClient, DynamicConfigManager>> and <<kafka-server-KafkaApis.adoc#adminZkClient, KafkaApis>> are created
 
 [[creating-instance]]
 [[zkClient]]
@@ -62,7 +62,7 @@ createOrUpdateTopicPartitionAssignmentPathInZK(
 
 * `TopicCommand` is requested to <<kafka-admin-TopicCommand.adoc#createTopic, create a topic>>
 
-* `AdminManager` is requested to <<kafka-AdminManager.adoc#createTopics, create topics>>
+* `AdminManager` is requested to <<kafka-server-AdminManager.adoc#createTopics, create topics>>
 
 * `AdminZkClient` is requested to <<createTopic, create a topic>> and <<addPartitions, addPartitions>>
 ====
@@ -145,7 +145,7 @@ Not all brokers have rack information. Add --disable-rack-aware in command line 
 ====
 `getBrokerMetadatas` is used when:
 
-* `AdminManager` is requested to <<kafka-AdminManager.adoc#createPartitions, createPartitions>>
+* `AdminManager` is requested to <<kafka-server-AdminManager.adoc#createPartitions, createPartitions>>
 
 * `AdminZkClient` is requested to <<createTopic, create a topic>>
 

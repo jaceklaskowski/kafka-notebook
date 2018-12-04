@@ -171,4 +171,4 @@ validate(props: Properties, perBrokerConfig: Boolean): Unit
 
 `validate`...FIXME
 
-NOTE: `validate` is used exclusively when `AdminManager` is requested to <<kafka-AdminManager.adoc#alterConfigs, alterConfigs>> (when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleAlterConfigsRequest, handleAlterConfigsRequest>>).
+NOTE: `validate` is used exclusively when `AdminManager` is requested to <<kafka-server-AdminManager.adoc#alterConfigs, alterConfigs>> (when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleAlterConfigsRequest, handleAlterConfigsRequest>>).

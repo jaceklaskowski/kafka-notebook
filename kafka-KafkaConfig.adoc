@@ -159,7 +159,7 @@ a| [[dynamicConfig]] <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConf
 
 Used when:
 
-* `AdminManager` is requested to <<kafka-AdminManager.adoc#describeConfigs, describeConfigs>> (for `BROKER` resources), <<kafka-AdminManager.adoc#alterConfigs, alterConfigs>> and <<kafka-AdminManager.adoc#configSynonyms, configSynonyms>>
+* `AdminManager` is requested to <<kafka-server-AdminManager.adoc#describeConfigs, describeConfigs>> (for `BROKER` resources), <<kafka-server-AdminManager.adoc#alterConfigs, alterConfigs>> and <<kafka-server-AdminManager.adoc#configSynonyms, configSynonyms>>
 
 * `BrokerConfigHandler` is requested to <<kafka-server-BrokerConfigHandler.adoc#processConfigChanges, processConfigChanges>>
 

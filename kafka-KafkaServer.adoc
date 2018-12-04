@@ -15,7 +15,7 @@ image::images/KafkaServer-startup.png[align="center"]
 | Description
 
 | [[adminManager]] `adminManager`
-| link:kafka-AdminManager.adoc[AdminManager]
+| link:kafka-server-AdminManager.adoc[AdminManager]
 
 | [[apis]] `apis`
 | link:kafka-server-KafkaApis.adoc[KafkaApis]
@@ -220,7 +220,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 `startup` link:kafka-controller-KafkaController.adoc#creating-instance[creates] the <<kafkaController, KafkaController>> (for <<config, KafkaConfig>>, <<zkUtils, ZkUtils>>, <<metrics, Metrics>> and the optional <<threadNamePrefix, threadNamePrefix>>) and requests it to link:kafka-controller-KafkaController.adoc#startup[start up].
 
-`startup` link:kafka-AdminManager.adoc#creating-instance[creates] the <<adminManager, AdminManager>> (for <<config, KafkaConfig>>, <<metrics, Metrics>>, <<metadataCache, MetadataCache>> and <<zkUtils, ZkUtils>>).
+`startup` link:kafka-server-AdminManager.adoc#creating-instance[creates] the <<adminManager, AdminManager>> (for <<config, KafkaConfig>>, <<metrics, Metrics>>, <<metadataCache, MetadataCache>> and <<zkUtils, ZkUtils>>).
 
 `startup` link:kafka-GroupCoordinator.adoc#creating-instance[creates] the <<groupCoordinator, GroupCoordinator>> (for <<config, KafkaConfig>>, <<zkUtils, ZkUtils>> and <<replicaManager, ReplicaManager>>) and requests it to link:kafka-GroupCoordinator.adoc#startup[start up].
 
