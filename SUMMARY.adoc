@@ -242,6 +242,9 @@
 . link:kafka-common-MetadataRequest.adoc[MetadataRequest]
 . link:kafka-common-MetadataResponse.adoc[MetadataResponse]
 
+. link:kafka-common-FindCoordinatorRequest.adoc[FindCoordinatorRequest]
+. link:kafka-common-FindCoordinatorResponse.adoc[FindCoordinatorResponse]
+
 === Kafka Security
 
 . link:kafka-security-SimpleAclAuthorizer.adoc[SimpleAclAuthorizer]

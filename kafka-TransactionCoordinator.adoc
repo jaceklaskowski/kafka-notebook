@@ -69,3 +69,14 @@ abortTimedOutTransactions(): Unit
 `abortTimedOutTransactions`...FIXME
 
 NOTE: `abortTimedOutTransactions` is used when...FIXME
+
+=== [[partitionFor]] `partitionFor` Method
+
+[source, scala]
+----
+partitionFor(transactionalId: String): Int
+----
+
+`partitionFor`...FIXME
+
+NOTE: `partitionFor` is used when...FIXME

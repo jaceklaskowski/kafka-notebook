@@ -12,3 +12,18 @@ getAllTopics(): Set[String]
 `getAllTopics`...FIXME
 
 NOTE: `getAllTopics` is used when...FIXME
+
+=== [[getTopicMetadata]] `getTopicMetadata` Method
+
+[source, scala]
+----
+getTopicMetadata(
+  topics: Set[String],
+  listenerName: ListenerName,
+  errorUnavailableEndpoints: Boolean = false,
+  errorUnavailableListeners: Boolean = false): Seq[MetadataResponse.TopicMetadata]
+----
+
+`getTopicMetadata`...FIXME
+
+NOTE: `getTopicMetadata` is used when...FIXME

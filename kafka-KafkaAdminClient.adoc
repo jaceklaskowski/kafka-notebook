@@ -110,3 +110,42 @@ ListTopicsResult listTopics(final ListTopicsOptions options)
 NOTE: `listTopics` is part of the <<kafka-AdminClient.adoc#listTopics, AdminClient Contract>> to...FIXME.
 
 `listTopics`...FIXME
+
+=== [[describeConsumerGroups]] `describeConsumerGroups` Method
+
+[source, java]
+----
+DescribeConsumerGroupsResult describeConsumerGroups(
+  final Collection<String> groupIds,
+  final DescribeConsumerGroupsOptions options)
+----
+
+NOTE: `describeConsumerGroups` is part of the <<kafka-AdminClient.adoc#describeConsumerGroups, AdminClient Contract>> to...FIXME.
+
+`describeConsumerGroups`...FIXME
+
+=== [[listConsumerGroupOffsets]] `listConsumerGroupOffsets` Method
+
+[source, java]
+----
+ListConsumerGroupOffsetsResult listConsumerGroupOffsets(
+  final String groupId,
+  final ListConsumerGroupOffsetsOptions options)
+----
+
+NOTE: `listConsumerGroupOffsets` is part of the <<kafka-AdminClient.adoc#listConsumerGroupOffsets, AdminClient Contract>> to...FIXME.
+
+`listConsumerGroupOffsets`...FIXME
+
+=== [[deleteConsumerGroups]] `deleteConsumerGroups` Method
+
+[source, java]
+----
+DeleteConsumerGroupsResult deleteConsumerGroups(
+  Collection<String> groupIds,
+  DeleteConsumerGroupsOptions options)
+----
+
+NOTE: `deleteConsumerGroups` is part of the <<kafka-AdminClient.adoc#deleteConsumerGroups, AdminClient Contract>> to...FIXME.
+
+`deleteConsumerGroups`...FIXME

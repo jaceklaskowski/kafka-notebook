@@ -15,53 +15,56 @@ image::images/KafkaApis.png[align="center"]
 .KafkaApis's API Keys and Handlers (in alphabetical order)
 [cols="1m,1",options="header",width="100%"]
 |===
-| Key
+| API Key
 | Handler
 
-| [[AlterConfigs]] AlterConfigs
-| <<handleAlterConfigsRequest, handleAlterConfigsRequest>>
+| AlterConfigs
+| [[AlterConfigs]] <<handleAlterConfigsRequest, handleAlterConfigsRequest>>
 
-| [[AlterReplicaLogDirs]] AlterReplicaLogDirs
-| <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
+| AlterReplicaLogDirs
+| [[AlterReplicaLogDirs]] <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
 
-| [[ControlledShutdown]] ControlledShutdown
-| <<handleControlledShutdownRequest, handleControlledShutdownRequest>>
+| ControlledShutdown
+| [[ControlledShutdown]] <<handleControlledShutdownRequest, handleControlledShutdownRequest>>
 
-| [[CreatePartitions]] CreatePartitions
-| <<handleCreatePartitionsRequest, handleCreatePartitionsRequest>>
+| CreatePartitions
+| [[CreatePartitions]] <<handleCreatePartitionsRequest, handleCreatePartitionsRequest>>
 
-| [[CreateTopics]] CreateTopics
-| <<handleCreateTopicsRequest, handleCreateTopicsRequest>>
+| CreateTopics
+| [[CreateTopics]] <<handleCreateTopicsRequest, handleCreateTopicsRequest>>
 
-| [[DeleteTopics]] DeleteTopics
-| <<handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
+| DeleteTopics
+| [[DeleteTopics]] <<handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
 
-| [[DescribeGroups]] DescribeGroups
-| <<handleDescribeGroupRequest, handleDescribeGroupRequest>>
+| DescribeGroups
+| [[DescribeGroups]] <<handleDescribeGroupRequest, handleDescribeGroupRequest>>
 
-| [[DescribeLogDirs]] DescribeLogDirs
-| <<handleDescribeLogDirsRequest, handleDescribeLogDirsRequest>>
+| DescribeLogDirs
+| [[DescribeLogDirs]] <<handleDescribeLogDirsRequest, handleDescribeLogDirsRequest>>
 
-| [[Fetch]] Fetch
-| <<handleFetchRequest, handleFetchRequest>>
+| Fetch
+| [[Fetch]] <<handleFetchRequest, handleFetchRequest>>
 
-| [[LeaderAndIsr]] LeaderAndIsr
-| <<handleAlterReplicaLogDirsRequest, handleAlterReplicaLogDirsRequest>>
+| FindCoordinator
+| [[FindCoordinator]] <<handleFindCoordinatorRequest, handleFindCoordinatorRequest>>
 
-| [[Metadata]] Metadata
-| <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
+| LeaderAndIsr
+| [[LeaderAndIsr]] <<handleAlterReplicaLogDirsRequest, handleAlterReplicaLogDirsRequest>>
 
-| [[OffsetCommit]] OffsetCommit
-| <<handleOffsetCommitRequest, handleOffsetCommitRequest>>
+| Metadata
+| [[Metadata]] <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
 
-| [[OffsetFetch]] OffsetFetch
-| <<handleOffsetFetchRequest, handleOffsetFetchRequest>>
+| OffsetCommit
+| [[OffsetCommit]] <<handleOffsetCommitRequest, handleOffsetCommitRequest>>
 
-| [[StopReplica]] StopReplica
-| <<handleStopReplicaRequest, handleStopReplicaRequest>>
+| OffsetFetch
+| [[OffsetFetch]] <<handleOffsetFetchRequest, handleOffsetFetchRequest>>
 
-| [[UpdateMetadata]] UpdateMetadata
-| <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
+| StopReplica
+| [[StopReplica]] <<handleStopReplicaRequest, handleStopReplicaRequest>>
+
+| UpdateMetadata
+| [[UpdateMetadata]] <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
 |===
 
 `KafkaApis` uses the <<replicaManager, ReplicaManager>> in the following <<handlers, handlers>>:
@@ -180,7 +183,7 @@ handleFetchRequest(request: RequestChannel.Request): Unit
 
 NOTE: `handleFetchRequest` is used exclusively when `KafkaApis` is requested to handle a <<Fetch, Fetch>> request.
 
-=== [[handleTopicMetadataRequest]] Handling Metadata Request -- `handleTopicMetadataRequest` Method
+=== [[handleTopicMetadataRequest]] Handling Metadata Request -- `handleTopicMetadataRequest` Handler
 
 [source, scala]
 ----
@@ -424,17 +427,16 @@ NOTE: `createInternalTopic` is used when `KafkaApis` is requested to <<getOrCrea
 
 [source, scala]
 ----
-getTopicMetadata(
-  allowAutoTopicCreation: Boolean,
-  topics: Set[String],
-  listenerName: ListenerName,
-  errorUnavailableEndpoints: Boolean,
-  errorUnavailableListeners: Boolean): Seq[MetadataResponse.TopicMetadata]
+getOrCreateInternalTopic(
+  topic: String,
+  listenerName: ListenerName): MetadataResponse.TopicMetadata
 ----
 
-`getOrCreateInternalTopic`...FIXME
+`getOrCreateInternalTopic` requests the <<metadataCache, MetadataCache>> for <<kafka-MetadataCache.adoc#getTopicMetadata, getTopicMetadata>> for the input `topic` (and the `ListenerName`).
 
-NOTE: `getOrCreateInternalTopic` is used when...FIXME
+In the end, `getOrCreateInternalTopic` returns the `TopicMetadata` if available or <<createInternalTopic, createInternalTopic>>.
+
+NOTE: `getOrCreateInternalTopic` is used exclusively when `KafkaApis` is requested to <<handleFindCoordinatorRequest, handle a FindCoordinator request>>.
 
 === [[getTopicMetadata]] `getTopicMetadata` Internal Method
 
@@ -488,3 +490,38 @@ createTopic(
 `createTopic`...FIXME
 
 NOTE: `createTopic` is used when `KafkaApis` is requested to <<createInternalTopic, createInternalTopic>> and <<getTopicMetadata, getTopicMetadata>>.
+
+=== [[handleFindCoordinatorRequest]] Handling FindCoordinator Request -- `handleFindCoordinatorRequest` Handler
+
+[source, scala]
+----
+handleFindCoordinatorRequest(request: RequestChannel.Request): Unit
+----
+
+`handleFindCoordinatorRequest` takes the <<kafka-common-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>> from the body (from the input `request`).
+
+`handleFindCoordinatorRequest` checks permissions...FIXME
+
+For an authorized request, `handleFindCoordinatorRequest` branches off per `CoordinatorType`, i.e. `GROUP` or `TRANSACTION`.
+
+For `GROUP` coordinator type, `handleFindCoordinatorRequest` does the following:
+
+. Requests the <<groupCoordinator, GroupCoordinator>> for <<kafka-GroupCoordinator.adoc#partitionFor, partitionFor>> (for the `coordinatorKey` of the `FindCoordinatorRequest`)
+
+. <<getOrCreateInternalTopic, getOrCreateInternalTopic>> for <<GROUP_METADATA_TOPIC_NAME, __consumer_offsets>> topic
+
+For `TRANSACTION` coordinator type, `handleFindCoordinatorRequest` does the following:
+
+. Requests the <<txnCoordinator, TransactionCoordinator>> for <<kafka-TransactionCoordinator.adoc#partitionFor, partitionFor>> (for the `coordinatorKey` of the `FindCoordinatorRequest`)
+
+. <<getOrCreateInternalTopic, getOrCreateInternalTopic>> for <<TRANSACTION_STATE_TOPIC_NAME, __transaction_state>> topic
+
+In the end, `handleFindCoordinatorRequest` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with a new <<kafka-common-FindCoordinatorResponse.adoc#, FindCoordinatorResponse>>.
+
+You should see the following TRACE message in the logs:
+
+```
+Sending FindCoordinator response [body] for correlation id [correlationId] to client [clientId].
+```
+
+NOTE: `handleFindCoordinatorRequest` is used exclusively when `KafkaApis` is requested to handle a <<FindCoordinator, FindCoordinator>> request.
