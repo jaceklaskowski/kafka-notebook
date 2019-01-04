@@ -1,5 +1,42 @@
-== [[ConsumerConfig]] ConsumerConfig
+== [[ConsumerConfig]] ConsumerConfig -- Configuration Properties for Kafka Consumers
 
-CAUTION: FIXME
+`ConsumerConfig` is a Apache Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/config/AbstractConfig.html[AbstractConfig] for the <<properties, configuration properties>> of a <<kafka-consumer-KafkaConsumer.adoc#, KafkaConsumer>>.
 
-CAUTION: FIXME Describe `static` block when `ConsumerConfig` is created.
+[source, scala]
+----
+import org.apache.kafka.clients.consumer.ConsumerConfig
+
+val conf = new java.util.Properties()
+conf.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, ":9092,localhost:9192")
+import org.apache.kafka.common.serialization.Serdes
+conf.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, Serdes.String.deserializer.getClass)
+conf.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, Serdes.String.deserializer.getClass)
+
+import org.apache.kafka.clients.consumer.KafkaConsumer
+val consumer = new KafkaConsumer[String, String](conf)
+----
+
+[[properties]]
+.ConsumerConfig's Configuration Properties
+[cols="1m,1,1m,2",options="header",width="100%"]
+|===
+| Name
+| Default Value
+| Kafka Property
+| Description
+
+| PARTITION_ASSIGNMENT_STRATEGY_CONFIG
+| <<kafka-consumer-RangeAssignor.adoc#, RangeAssignor>>
+| partition.assignment.strategy
+a| [[PARTITION_ASSIGNMENT_STRATEGY_CONFIG]] The class name of the partition assignment strategy that the client will use to distribute partition ownership amongst consumer instances when group management is used
+
+TIP: Read up https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Client-side+Assignment+Proposal[Kafka Client-side Assignment Proposal] on the group management in Apache Kafka's Consumer API.
+
+Used when:
+
+* `KafkaConsumer` is <<kafka-consumer-KafkaConsumer.adoc#assignors, created>>
+
+* Kafka Streams' `StreamsConfig` is requested to `getMainConsumerConfigs`
+
+NOTE: Required for `KafkaConsumer` to <<kafka-consumer-KafkaConsumer.adoc#subscribe, subscribe to topics>>
+|===

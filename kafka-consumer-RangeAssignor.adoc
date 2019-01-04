@@ -1,0 +1,3 @@
+== [[RangeAssignor]] RangeAssignor
+
+`RangeAssignor` is...FIXME

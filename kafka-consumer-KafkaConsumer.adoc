@@ -432,3 +432,14 @@ ClusterResourceListeners configureClusterResourceListeners(
 
 * link:kafka-MetricsReporter.adoc[MetricsReporters] from link:kafka-properties.adoc#metric_reporters[metric.reporters] Kafka property
 ====
+
+=== [[throwIfNoAssignorsConfigured]] `throwIfNoAssignorsConfigured` Internal Method
+
+[source, java]
+----
+void throwIfNoAssignorsConfigured()
+----
+
+`throwIfNoAssignorsConfigured`...FIXME
+
+NOTE: `throwIfNoAssignorsConfigured` is used exclusively when `KafkaConsumer` is requested to <<subscribe, subscribe to topics>>.
