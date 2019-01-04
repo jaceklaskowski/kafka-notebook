@@ -96,7 +96,7 @@ Starting Kafka producer I/O thread.
 
 * [[logContext]] `LogContext`
 * [[client]] link:kafka-KafkaClient.adoc[KafkaClient]
-* [[metadata]] link:kafka-Metadata.adoc[Metadata]
+* [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
 * [[accumulator]] `RecordAccumulator`
 * [[guaranteeMessageOrder]] `guaranteeMessageOrder` flag
 * [[maxRequestSize]] `maxRequestSize`

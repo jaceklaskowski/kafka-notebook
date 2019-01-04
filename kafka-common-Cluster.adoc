@@ -59,7 +59,7 @@ List<PartitionInfo> partitionsForTopic(String topic)
 ====
 `partitionsForTopic` is used when:
 
-* `Metadata` link:kafka-Metadata.adoc#getClusterForCurrentTopics[getClusterForCurrentTopics]
+* `Metadata` link:kafka-clients-Metadata.adoc#getClusterForCurrentTopics[getClusterForCurrentTopics]
 * `KafkaAdminClient` link:kafka-KafkaAdminClient.adoc#describeTopics[describeTopics]
 * `KafkaConsumer` link:kafka-consumer-KafkaConsumer.adoc#partitionsFor[partitionsFor]
 * `KafkaProducer` link:kafka-producer-KafkaProducer.adoc#partitionsFor[requests partitions for a topic]

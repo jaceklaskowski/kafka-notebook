@@ -12,7 +12,7 @@
 | Description
 
 | [[metadata]] `metadata`
-| link:kafka-Metadata.adoc[Metadata]
+| link:kafka-clients-Metadata.adoc[Metadata]
 
 | [[metadataFetchInProgress]] `metadataFetchInProgress`
 a| Flag to control whether a cluster metadata update is in progress, i.e. FIXME
@@ -65,7 +65,7 @@ maybeUpdate(long now)
 
 NOTE: `maybeUpdate` is a part of link:kafka-MetadataUpdater.adoc#maybeUpdate[MetadataUpdater Contract].
 
-`maybeUpdate` requests <<metadata, Metadata>> for link:kafka-Metadata.adoc#timeToNextUpdate[timeToNextUpdate] (with the input `now`).
+`maybeUpdate` requests <<metadata, Metadata>> for link:kafka-clients-Metadata.adoc#timeToNextUpdate[timeToNextUpdate] (with the input `now`).
 
 `maybeUpdate` takes link:kafka-NetworkClient.adoc#requestTimeoutMs[requestTimeoutMs] for the time to wait till metadata fetch in progress finishes if <<metadataFetchInProgress, metadataFetchInProgress>> flag is turned on or `0` otherwise.
 
@@ -103,7 +103,7 @@ NOTE: `handleAuthenticationFailure` is a part of link:kafka-MetadataUpdater.adoc
 
 `handleCompletedMetadataResponse` turns link:kafka-NetworkClient.adoc#metadataFetchInProgress[metadataFetchInProgress] flag off.
 
-`handleCompletedMetadataResponse` asks <<metadata, Metadata>> whether link:kafka-Metadata.adoc#updateRequested[metadata update was requested] and if so requests it to link:kafka-Metadata.adoc#failedUpdate[record a failure] (passing on the `exception`).
+`handleCompletedMetadataResponse` asks <<metadata, Metadata>> whether link:kafka-clients-Metadata.adoc#updateRequested[metadata update was requested] and if so requests it to link:kafka-clients-Metadata.adoc#failedUpdate[record a failure] (passing on the `exception`).
 
 === [[handleCompletedMetadataResponse]] `handleCompletedMetadataResponse` Callback Method
 
@@ -118,9 +118,9 @@ NOTE: `handleCompletedMetadataResponse` is a part of link:kafka-MetadataUpdater.
 
 `handleCompletedMetadataResponse` takes the link:kafka-common-MetadataResponse.adoc#cluster[cluster] from the `response`.
 
-`handleCompletedMetadataResponse` requests <<metadata, Metadata>> to link:kafka-Metadata.adoc#update[update] (with the cluster and unavailable topics) when there is at least one node in the cluster.
+`handleCompletedMetadataResponse` requests <<metadata, Metadata>> to link:kafka-clients-Metadata.adoc#update[update] (with the cluster and unavailable topics) when there is at least one node in the cluster.
 
-When there are no nodes in the cluster, `handleCompletedMetadataResponse` prints out the following TRACE message to the logs and requests <<metadata, Metadata>> to link:kafka-Metadata.adoc#failedUpdate[record a failure] (with no exception).
+When there are no nodes in the cluster, `handleCompletedMetadataResponse` prints out the following TRACE message to the logs and requests <<metadata, Metadata>> to link:kafka-clients-Metadata.adoc#failedUpdate[record a failure] (with no exception).
 
 ```
 Ignoring empty metadata response with correlation id [correlationId].

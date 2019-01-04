@@ -26,6 +26,6 @@ You can register a `ClusterResourceListener` for the following Kafka services:
 
 `ClusterResourceListeners` is used when:
 
-* `Metadata` notifies link:kafka-Metadata.adoc#clusterResourceListeners[ClusterResourceListeners] about every link:kafka-Metadata.adoc#update[cluster metadata change]
+* `Metadata` notifies link:kafka-clients-Metadata.adoc#clusterResourceListeners[ClusterResourceListeners] about every link:kafka-clients-Metadata.adoc#update[cluster metadata change]
 
 * `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up]

@@ -1,4 +1,4 @@
-== [[Consumer]] Consumer
+== [[Consumer]] Consumer Contract
 
 `Consumer` is the <<contract, contract>> for link:kafka-consumers.adoc[Kafka consumers].
 

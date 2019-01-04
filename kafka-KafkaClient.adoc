@@ -151,7 +151,7 @@ Used when:
 
 * `AdminClientRunnable` is requested to run
 
-* `ConsumerNetworkClient` is requested to <<kafka-consumer-ConsumerNetworkClient.adoc#poll, poll>>
+* `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#poll, poll>>
 
 * `Sender` is requested to <<kafka-Sender.adoc#run, start>> (as a thread of execution)
 
@@ -193,7 +193,7 @@ Used when:
 
 * `AdminClientRunnable` is requested to `sendEligibleCalls`
 
-* `ConsumerNetworkClient` is requested to <<kafka-consumer-ConsumerNetworkClient.adoc#trySend, trySend>>
+* `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#trySend, trySend>>
 
 * `Sender` is requested to <<kafka-Sender.adoc#maybeSendTransactionalRequest, maybeSendTransactionalRequest>> and <<kafka-Sender.adoc#sendProduceRequest, sendProduceRequest>>
 

@@ -74,8 +74,6 @@
 . link:kafka-LogManager.adoc[LogManager]
 . link:kafka-log-ProducerStateManager.adoc[ProducerStateManager]
 
-. link:kafka-Metadata.adoc[Metadata]
-.. link:kafka-Metadata-Listener.adoc[Metadata Update Listener]
 . link:kafka-server-MetadataCache.adoc[MetadataCache]
 . link:kafka-MetadataUpdater.adoc[MetadataUpdater]
 .. link:kafka-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
@@ -157,23 +155,23 @@
 === Kafka Consumer API
 
 . link:kafka-consumer-KafkaConsumer.adoc[KafkaConsumer -- Main Class For Kafka Consumers]
-.. link:kafka-consumer-Consumer.adoc[Consumer]
+.. link:kafka-consumer-Consumer.adoc[Consumer Contract]
 
 . link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig -- Configuration Properties for Kafka Consumers]
 
 . link:kafka-Deserializer.adoc[Deserializer]
 
 . link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor]
-. link:kafka-consumer-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 
 . link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener]
-. link:kafka-consumer-SubscriptionState.adoc[SubscriptionState]
 
 . link:kafka-consumer-PartitionAssignor.adoc[PartitionAssignor]
 .. link:kafka-consumer-RangeAssignor.adoc[RangeAssignor]
 
 . link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
-.. link:kafka-consumer-AbstractCoordinator.adoc[AbstractCoordinator]
+.. link:kafka-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator]
+. link:kafka-consumer-internals-SubscriptionState.adoc[SubscriptionState]
+. link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 
 === Kafka Architecture
 
@@ -234,6 +232,9 @@
 . link:kafka-clients-Configurable.adoc[Configurable Contract]
 . link:kafka-clients-Reconfigurable.adoc[Reconfigurable]
 . link:kafka-clients-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
+
+. link:kafka-clients-Metadata.adoc[Metadata]
+.. link:kafka-clients-Metadata-Listener.adoc[Metadata Update Listener]
 
 === Kafka Commons
 

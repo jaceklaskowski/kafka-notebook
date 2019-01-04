@@ -134,7 +134,7 @@ synchronized boolean updateRequested()
 
 * `ConsumerCoordinator` link:kafka-consumer-internals-ConsumerCoordinator.adoc#poll[polls for coordinator events]
 
-* `ConsumerNetworkClient` link:kafka-consumer-ConsumerNetworkClient.adoc#ensureFreshMetadata[makes sure that the metadata is fresh]
+* `ConsumerNetworkClient` link:kafka-consumer-internals-ConsumerNetworkClient.adoc#ensureFreshMetadata[makes sure that the metadata is fresh]
 ====
 
 === [[failedUpdate]] Recording Update Request Failure -- `failedUpdate` Method
@@ -172,7 +172,7 @@ synchronized long timeToNextUpdate(long nowMs)
 ====
 `timeToNextUpdate` is used when:
 
-* `ConsumerNetworkClient` link:kafka-consumer-ConsumerNetworkClient.adoc#ensureFreshMetadata[ensureFreshMetadata]
+* `ConsumerNetworkClient` link:kafka-consumer-internals-ConsumerNetworkClient.adoc#ensureFreshMetadata[ensureFreshMetadata]
 
 * `DefaultMetadataUpdater` (of `NetworkClient`) link:kafka-DefaultMetadataUpdater.adoc#isUpdateDue[isUpdateDue] and link:kafka-DefaultMetadataUpdater.adoc#maybeUpdate[maybeUpdate]
 ====
@@ -212,7 +212,7 @@ synchronized void awaitUpdate(
 
 NOTE: `awaitUpdate` is used when...FIXME
 
-=== [[fetch]] Getting Current Cluster Information -- `fetch` Method
+=== [[fetch]] Getting Current Cluster Metadata -- `fetch` Method
 
 [source, scala]
 ----
@@ -240,7 +240,7 @@ synchronized void update(Cluster cluster, Set<String> unavailableTopics, long no
 
 (only when <<topicExpiryEnabled, topicExpiryEnabled>> is enabled, e.g. link:kafka-producer-KafkaProducer.adoc#creating-instance[KafkaProducer]) `update`...FIXME
 
-`update` notifies <<listeners, listeners>> that the link:kafka-Metadata-Listener.adoc#onMetadataUpdate[metadata has been updated].
+`update` notifies <<listeners, listeners>> that the link:kafka-clients-Metadata-Listener.adoc#onMetadataUpdate[metadata has been updated].
 
 `update` does <<getClusterForCurrentTopics, getClusterForCurrentTopics>> for the `cluster` when <<needMetadataForAllTopics, needMetadataForAllTopics>> flag is on and turns <<needUpdate, needUpdate>> flag off (that may have been turned on...FIXME).
 

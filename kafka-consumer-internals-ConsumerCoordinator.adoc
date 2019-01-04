@@ -1,13 +1,13 @@
 == [[ConsumerCoordinator]] ConsumerCoordinator
 
-`ConsumerCoordinator` is a concrete link:kafka-consumer-AbstractCoordinator.adoc[AbstractCoordinator] that...FIXME
+`ConsumerCoordinator` is a concrete <<kafka-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>> that...FIXME
 
 `ConsumerCoordinator` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#coordinator[created].
 
 .ConsumerCoordinator and KafkaConsumer
 image::images/ConsumerCoordinator.png[align="center"]
 
-`KafkaConsumer` uses the <<consumer-configuration-properties, Consumer configuration properties>> to create a `ConsumerCoordinator`.
+`KafkaConsumer` uses the following <<consumer-configuration-properties, Consumer configuration properties>> to create a `ConsumerCoordinator`.
 
 [[consumer-configuration-properties]]
 .ConsumerCoordinator's Consumer Configuration Properties
@@ -43,16 +43,53 @@ image::images/ConsumerCoordinator.png[align="center"]
 
 With <<autoCommitEnabled, autoCommitEnabled>> enabled (i.e. link:kafka-properties.adoc#enable.auto.commit[enable.auto.commit] is `true`), `ConsumerCoordinator` does:
 
-1. <<maybeAutoCommitOffsetsAsync, Sending asynchronous auto-commit of offsets>>
+. <<maybeAutoCommitOffsetsAsync, Sending asynchronous auto-commit of offsets>>
 
-1. <<maybeAutoCommitOffsetsSync, Sending synchronous auto-commit of offsets>>
+. <<maybeAutoCommitOffsetsSync, Sending synchronous auto-commit of offsets>>
+
+`ConsumerCoordinator` uses zero or more <<assignors, PartitionAssignors>> for the following:
+
+* <<metadata, metadata>>
+
+* [[lookupAssignor]] Looking up the <<kafka-consumer-PartitionAssignor.adoc#, PartitionAssignor>> by name (when <<onJoinComplete, onJoinComplete>> and <<performAssignment, performAssignment>>)
 
 [[internal-registries]]
 .ConsumerCoordinator's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1,2",options="header",width="100%"]
+[cols="1m,3",options="header",width="100%"]
 |===
 | Name
 | Description
+
+| assignmentSnapshot
+a| [[assignmentSnapshot]] `MetadataSnapshot`
+
+Used in <<rejoinNeededOrPending, rejoinNeededOrPending>>
+
+* Set to the <<metadataSnapshot, metadataSnapshot>> in <<performAssignment, performAssignment>>
+
+* Reset (to `null`) in <<onJoinComplete, onJoinComplete>> (when <<isLeader, isLeader>> flag is off)
+
+| isLeader
+| [[isLeader]] Flag of whether the `ConsumerCoordinator` is a leader (`true`) or not (`false`). Defaults to `false`
+
+Turned on in <<performAssignment, performAssignment>> and off in <<onJoinPrepare, onJoinPrepare>>
+
+Used exclusively for <<onJoinComplete, onJoinComplete>> (to reset the <<assignmentSnapshot, assignmentSnapshot>> when off)
+
+| metadataSnapshot
+a| [[metadataSnapshot]]
+
+[source, java]
+----
+MetadataSnapshot metadataSnapshot
+----
+
+`MetadataSnapshot` (for the <<subscriptions, SubscriptionState>> and the <<kafka-clients-Metadata.adoc#fetch, cluster metadata>> from the <<metadata, Metadata>>)
+
+* Updated in the `Metadata.Listener` from <<addMetadataListener, addMetadataListener>>
+
+Used in <<rejoinNeededOrPending, rejoinNeededOrPending>> and <<performAssignment, performAssignment>>
+
 |===
 
 === [[maybeAutoCommitOffsetsAsync]] Sending Asynchronous Auto-Commit of Offsets -- `maybeAutoCommitOffsetsAsync` Method
@@ -145,7 +182,7 @@ void refreshCommittedOffsetsIfNeeded()
 
 NOTE: `refreshCommittedOffsetsIfNeeded` is used when...FIXME
 
-=== [[onJoinComplete]] `onJoinComplete` Method
+=== [[onJoinComplete]] `onJoinComplete` Callback
 
 [source, java]
 ----
@@ -156,7 +193,7 @@ void onJoinComplete(
   ByteBuffer assignmentBuffer)
 ----
 
-NOTE: `onJoinComplete` is part of link:kafka-consumer-AbstractCoordinator.adoc#onJoinComplete[AbstractCoordinator Contract] to...FIXME.
+NOTE: `onJoinComplete` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#onJoinComplete[AbstractCoordinator Contract] to...FIXME.
 
 `onJoinComplete`...FIXME
 
@@ -167,7 +204,7 @@ NOTE: `onJoinComplete` is part of link:kafka-consumer-AbstractCoordinator.adoc#o
 void onJoinPrepare(int generation, String memberId)
 ----
 
-NOTE: `onJoinPrepare` is part of link:kafka-consumer-AbstractCoordinator.adoc#onJoinPrepare[AbstractCoordinator Contract] to...FIXME.
+NOTE: `onJoinPrepare` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#onJoinPrepare[AbstractCoordinator Contract] to...FIXME.
 
 `onJoinPrepare`...FIXME
 
@@ -181,7 +218,7 @@ Map<String, ByteBuffer> performAssignment(
   Map<String, ByteBuffer> allSubscriptions)
 ----
 
-NOTE: `performAssignment` is part of link:kafka-consumer-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to...FIXME.
+NOTE: `performAssignment` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to...FIXME.
 
 `performAssignment`...FIXME
 
@@ -189,7 +226,7 @@ NOTE: `performAssignment` is part of link:kafka-consumer-AbstractCoordinator.ado
 
 [source, java]
 ----
-synchronized void maybeLeaveGroup()
+void maybeLeaveGroup()
 ----
 
 `maybeLeaveGroup`...FIXME
@@ -214,7 +251,7 @@ NOTE: `updatePatternSubscription` is used when...FIXME
 boolean needRejoin()
 ----
 
-NOTE: `needRejoin` is part of link:kafka-consumer-AbstractCoordinator.adoc#needRejoin[AbstractCoordinator Contract] to...FIXME.
+NOTE: `needRejoin` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#needRejoin[AbstractCoordinator Contract] to...FIXME.
 
 `needRejoin`...FIXME
 
@@ -247,9 +284,11 @@ NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka
 void addMetadataListener()
 ----
 
-`addMetadataListener`...FIXME
+`addMetadataListener` registers a <<kafka-clients-Metadata-Listener.adoc#, Metadata Update Listener>> (with the <<metadata, Metadata>>) that does the following:
 
-NOTE: `addMetadataListener` is used when...FIXME
+* FIXME
+
+NOTE: `addMetadataListener` is used exclusively when `ConsumerCoordinator` is <<creating-instance, created>>.
 
 === [[fetchCommittedOffsets]] `fetchCommittedOffsets` Method
 
@@ -267,24 +306,35 @@ NOTE: `fetchCommittedOffsets` is used when...FIXME
 `ConsumerCoordinator` takes the following when created:
 
 * [[logContext]] `LogContext`
-* [[client]] link:kafka-consumer-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+* [[client]] <<kafka-consumer-internals-ConsumerNetworkClient.adoc#, ConsumerNetworkClient>>
 * [[groupId]] Group ID
 * [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
 * [[sessionTimeoutMs]] `sessionTimeoutMs`
 * [[heartbeatIntervalMs]] `heartbeatIntervalMs`
-* [[assignors]] Collection of `PartitionAssignors`
-* [[metadata]] link:kafka-Metadata.adoc[Metadata]
-* [[subscriptions]] `SubscriptionState`
-* [[metrics]] `Metrics`
+* [[assignors]] Collection of <<kafka-consumer-PartitionAssignor.adoc#, PartitionAssignors>>
+* [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
+* [[subscriptions]] <<kafka-consumer-internals-SubscriptionState.adoc#, SubscriptionState>>
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[metricGrpPrefix]] Prefix of the metric group
 * [[time]] `Time`
 * [[retryBackoffMs]] `retryBackoffMs`
 * [[autoCommitEnabled]] `autoCommitEnabled` flag
 * [[autoCommitIntervalMs]] `autoCommitIntervalMs`
-* [[interceptors]] `ConsumerInterceptors`
+* [[interceptors]] <<kafka-consumer-ConsumerInterceptor.adoc#, ConsumerInterceptors>>
 * [[excludeInternalTopics]] `excludeInternalTopics` flag
 * [[leaveGroupOnClose]] `leaveGroupOnClose` flag
 
 `ConsumerCoordinator` initializes the <<internal-registries, internal registries and counters>>.
 
-In the end, `ConsumerCoordinator` requests <<metadata, Metadata>> to link:kafka-Metadata.adoc#requestUpdate[update] and <<addMetadataListener, addMetadataListener>>.
+In the end, `ConsumerCoordinator` requests the <<metadata, Metadata>> to <<kafka-clients-Metadata.adoc#requestUpdate, update>> and <<addMetadataListener, addMetadataListener>>.
+
+=== [[rejoinNeededOrPending]] `rejoinNeededOrPending` Method
+
+[source, java]
+----
+boolean rejoinNeededOrPending()
+----
+
+NOTE: `rejoinNeededOrPending` is part of the <<kafka-consumer-internals-AbstractCoordinator.adoc#rejoinNeededOrPending, AbstractCoordinator Contract>> to...FIXME.
+
+`rejoinNeededOrPending`...FIXME

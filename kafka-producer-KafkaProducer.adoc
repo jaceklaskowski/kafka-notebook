@@ -93,15 +93,15 @@ a| [[maxBlockTimeMs]] Time `KafkaProducer` uses to block when requesting <<parti
 NOTE: Use link:kafka-properties.adoc#max.block.ms[max.block.ms] Kafka property to set the value.
 
 | metadata
-a| [[metadata]] <<kafka-Metadata.adoc#, Metadata>>
+a| [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
 
 * Created when `KafkaProducer` is <<creating-instance, created>> with the following properties:
-** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for link:kafka-Metadata.adoc#refreshBackoffMs[refreshBackoffMs]
-** link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms] for link:kafka-Metadata.adoc#metadataExpireMs[metadataExpireMs]
-** link:kafka-Metadata.adoc#allowAutoTopicCreation[allowAutoTopicCreation] flag enabled
-** link:kafka-Metadata.adoc#topicExpiryEnabled[topicExpiryEnabled] flag enabled
+** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for link:kafka-clients-Metadata.adoc#refreshBackoffMs[refreshBackoffMs]
+** link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms] for link:kafka-clients-Metadata.adoc#metadataExpireMs[metadataExpireMs]
+** link:kafka-clients-Metadata.adoc#allowAutoTopicCreation[allowAutoTopicCreation] flag enabled
+** link:kafka-clients-Metadata.adoc#topicExpiryEnabled[topicExpiryEnabled] flag enabled
 
-* link:kafka-Metadata.adoc#update[Updated] with a bootstrap cluster when `KafkaProducer` is <<creating-instance, created>>
+* link:kafka-clients-Metadata.adoc#update[Updated] with a bootstrap cluster when `KafkaProducer` is <<creating-instance, created>>
 
 * Used in <<waitOnMetadata, waitOnMetadata>>
 
@@ -200,11 +200,11 @@ ClusterAndWaitTime waitOnMetadata(
   long maxWaitMs) throws InterruptedException
 ----
 
-`waitOnMetadata` link:kafka-Metadata.adoc#add[adds] the input `topic` to <<metadata, Metadata>>.
+`waitOnMetadata` link:kafka-clients-Metadata.adoc#add[adds] the input `topic` to <<metadata, Metadata>>.
 
 `waitOnMetadata` first checks if the available cluster metadata could be current enough.
 
-`waitOnMetadata` requests <<metadata, Metadata>> for the link:kafka-Metadata.adoc#fetch[current cluster information] and then requests the cluster for the link:kafka-common-Cluster.adoc#partitionCountForTopic[number of partitions] of the input `topic`.
+`waitOnMetadata` requests <<metadata, Metadata>> for the link:kafka-clients-Metadata.adoc#fetch[current cluster information] and then requests the cluster for the link:kafka-common-Cluster.adoc#partitionCountForTopic[number of partitions] of the input `topic`.
 
 If the cluster metadata is not current enough (i.e. the number of partitions is unavailable or the `partition` is above the current count), `waitOnMetadata` prints out the following TRACE message to the logs:
 
@@ -212,9 +212,9 @@ If the cluster metadata is not current enough (i.e. the number of partitions is 
 Requesting metadata update for topic [topic].
 ```
 
-`waitOnMetadata` requests <<metadata, Metadata>> for link:kafka-Metadata.adoc#requestUpdate[update] and requests <<sender, Sender>> to link:kafka-Sender.adoc#wakeup[wake up].
+`waitOnMetadata` requests <<metadata, Metadata>> for link:kafka-clients-Metadata.adoc#requestUpdate[update] and requests <<sender, Sender>> to link:kafka-Sender.adoc#wakeup[wake up].
 
-`waitOnMetadata` then requests <<metadata, Metadata>> to link:kafka-Metadata.adoc#awaitUpdate[wait for a metadata update] and then <<metadata, Metadata>> for the link:kafka-Metadata.adoc#fetch[current cluster information].
+`waitOnMetadata` then requests <<metadata, Metadata>> to link:kafka-clients-Metadata.adoc#awaitUpdate[wait for a metadata update] and then <<metadata, Metadata>> for the link:kafka-clients-Metadata.adoc#fetch[current cluster information].
 
 `waitOnMetadata` keeps doing it until the link:kafka-common-Cluster.adoc#partitionCountForTopic[number of partitions] of the input `topic` is available.
 
@@ -241,7 +241,7 @@ NOTE: `waitOnMetadata` is used when `KafkaProducer` <<partitionsFor, requests pa
 * [[config]] <<kafka-ProducerConfig.adoc#, ProducerConfig>>
 * [[keySerializer]] <<kafka-Serializer.adoc#, Serializer>> for keys
 * [[valueSerializer]] <<kafka-Serializer.adoc#, Serializer>> for values
-* <<kafka-Metadata.adoc#, Metadata>>
+* <<kafka-clients-Metadata.adoc#, Metadata>>
 * [[kafkaClient]] <<kafka-KafkaClient.adoc#, KafkaClient>>
 
 `KafkaProducer` initializes the <<internal-registries, internal registries and counters>>.
@@ -314,7 +314,7 @@ Starting the Kafka producer
 
 `KafkaProducer` sets the <<metadata, metadata>> as follows:
 
-* Creates a new <<kafka-Metadata.adoc#, Metadata>> (with <<kafka-ProducerConfig.adoc#RETRY_BACKOFF_MS_CONFIG, ProducerConfig.RETRY_BACKOFF_MS_CONFIG>>, <<kafka-ProducerConfig.adoc#METADATA_MAX_AGE_CONFIG, ProducerConfig.METADATA_MAX_AGE_CONFIG>> and <<configureClusterResourceListeners, configureClusterResourceListeners>>) and immediately requests the <<metadata, Metadata>> to <<kafka-Metadata.adoc#update, update>> (with <<kafka-ProducerConfig.adoc#BOOTSTRAP_SERVERS_CONFIG, ProducerConfig.BOOTSTRAP_SERVERS_CONFIG>>)
+* Creates a new <<kafka-clients-Metadata.adoc#, Metadata>> (with <<kafka-ProducerConfig.adoc#RETRY_BACKOFF_MS_CONFIG, ProducerConfig.RETRY_BACKOFF_MS_CONFIG>>, <<kafka-ProducerConfig.adoc#METADATA_MAX_AGE_CONFIG, ProducerConfig.METADATA_MAX_AGE_CONFIG>> and <<configureClusterResourceListeners, configureClusterResourceListeners>>) and immediately requests the <<metadata, Metadata>> to <<kafka-clients-Metadata.adoc#update, update>> (with <<kafka-ProducerConfig.adoc#BOOTSTRAP_SERVERS_CONFIG, ProducerConfig.BOOTSTRAP_SERVERS_CONFIG>>)
 
 * The input `metadata` if given
 

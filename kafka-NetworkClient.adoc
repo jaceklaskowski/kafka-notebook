@@ -150,7 +150,7 @@ NOTE: `handleCompletedReceives` is used exclusively when `NetworkClient` <<poll,
 `NetworkClient` takes the following when created:
 
 * [[metadataUpdater]] <<kafka-MetadataUpdater.adoc#, MetadataUpdater>>
-* [[metadata]] <<kafka-Metadata.adoc#, Metadata>>
+* [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
 * [[selector]] <<kafka-Selectable.adoc#, Selectable>>
 * [[clientId]] Client ID that is used to identify the client in requests to a Kafka server (when `NetworkClient` is requested to <<newClientRequest, create a new ClientRequest>>)
 * [[maxInFlightRequestsPerConnection]] `maxInFlightRequestsPerConnection`

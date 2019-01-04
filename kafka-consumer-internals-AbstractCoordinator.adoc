@@ -62,7 +62,7 @@ abstract class AbstractCoordinator {
 `AbstractCoordinator` takes the following when created:
 
 * [[logContext]] `LogContext`
-* [[client]] link:kafka-consumer-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+* [[client]] link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 * [[groupId]] Group ID
 * [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
 * [[sessionTimeoutMs]] `sessionTimeoutMs`

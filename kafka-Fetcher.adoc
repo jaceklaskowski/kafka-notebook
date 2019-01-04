@@ -24,14 +24,14 @@ image::images/Fetcher-KafkaConsumer.png[align="center"]
 | Description
 
 | [[client]] `client`
-| link:kafka-consumer-ConsumerNetworkClient.adoc[ConsumerNetworkClient] that is given when `Fetcher` is <<creating-instance, created>>.
+| link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient] that is given when `Fetcher` is <<creating-instance, created>>.
 |===
 
 === [[creating-instance]] Creating Fetcher Instance
 
 `Fetcher` takes the following when created:
 
-* [[client]] link:kafka-consumer-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+* [[client]] link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 * [[minBytes]] Minimum number of bytes
 * [[maxBytes]] Maximum number of bytes
 * [[maxWaitMs]] Maximum wait time
@@ -40,7 +40,7 @@ image::images/Fetcher-KafkaConsumer.png[align="center"]
 * [[checkCrcs]] Flag to check CRC or not
 * [[keyDeserializer]] link:kafka-Deserializer.adoc[Deserializer] for keys
 * [[valueDeserializer]] link:kafka-Deserializer.adoc[Deserializer] for values
-* [[metadata]] link:kafka-Metadata.adoc[Metadata]
+* [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
 * [[subscriptions]] `SubscriptionState`
 * [[metrics]] `Metrics`
 * [[metricsRegistry]] `FetcherMetricsRegistry`
@@ -64,9 +64,9 @@ CAUTION: FIXME
 RequestFuture<ClientResponse> sendMetadataRequest(MetadataRequest.Builder request)
 ----
 
-Internally, `sendMetadataRequest` requests <<client, ConsumerNetworkClient>> for the link:kafka-consumer-ConsumerNetworkClient.adoc#leastLoadedNode[least loaded node].
+Internally, `sendMetadataRequest` requests <<client, ConsumerNetworkClient>> for the link:kafka-consumer-internals-ConsumerNetworkClient.adoc#leastLoadedNode[least loaded node].
 
-With the node, `sendMetadataRequest` requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-ConsumerNetworkClient.adoc#send[send the request to the node].
+With the node, `sendMetadataRequest` requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#send[send the request to the node].
 
 When no node was found, `sendMetadataRequest` returns a `RequestFuture` with `NoAvailableBrokersException`.
 
@@ -87,7 +87,7 @@ CAUTION: FIXME
 Map<String, List<PartitionInfo>> getTopicMetadata(MetadataRequest.Builder request, long timeout)
 ----
 
-Internally, `getTopicMetadata` <<sendMetadataRequest, sends the metadata request>> and requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-ConsumerNetworkClient.adoc#poll[poll] until it finishes successfully or `timeout` expires.
+Internally, `getTopicMetadata` <<sendMetadataRequest, sends the metadata request>> and requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#poll[poll] until it finishes successfully or `timeout` expires.
 
 After `poll` finishes, `getTopicMetadata` link:kafka-common-MetadataResponse.adoc#cluster[takes the cluster information] from `MetadataResponse`.
 

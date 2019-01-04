@@ -62,7 +62,7 @@ Configured using <<kafka-consumer-ConsumerConfig.adoc#PARTITION_ASSIGNMENT_STRAT
 Used exclusively to create the <<coordinator, ConsumerCoordinator>>
 
 | client
-| [[client]] link:kafka-consumer-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+| [[client]] link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 
 Used mainly _(?)_ to create the <<fetcher, Fetcher>> and <<coordinator, ConsumerCoordinator>>
 
@@ -72,11 +72,9 @@ Used also in <<poll, poll>>, <<pollOnce, pollOnce>> and <<wakeup, wakeup>> (but 
 | [[clientId]]
 
 | coordinator
-a| [[coordinator]] link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
+a| [[coordinator]] <<kafka-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>>
 
-* Initialized when `KafkaConsumer` is <<creating-instance, created>>
-
-* Used for...FIXME
+Used in <<subscribe, subscribe>>, <<unsubscribe, unsubscribe>>, <<assign, assign>>, <<updateAssignmentMetadataIfNeeded, updateAssignmentMetadataIfNeeded>>, <<pollForFetches, pollForFetches>>, <<commitSync, commitSync>>, <<commitAsync, commitAsync>>, <<committed, committed>>, <<close, close>>, and <<updateFetchPositions, updateFetchPositions>>
 
 | fetcher
 | [[fetcher]] link:kafka-Fetcher.adoc[Fetcher]
@@ -91,7 +89,7 @@ Used when...FIXME
 Used when...FIXME
 
 | metadata
-| [[metadata]] link:kafka-Metadata.adoc[Metadata]
+| [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
 
 Created right when `KafkaConsumer` is <<creating-instance, created>>.
 
@@ -182,7 +180,7 @@ DEBUG Subscribed to topic(s): [comma-separated topics]
 
 `subscribe` then requests <<subscriptions, SubscriptionState>> to `subscribe` for the `topics` and `listener`.
 
-In the end, `subscribe` requests <<subscriptions, SubscriptionState>> for `groupSubscription` that it then passes along to <<metadata, Metadata>> to link:kafka-Metadata.adoc#setTopics[set the topics to track].
+In the end, `subscribe` requests <<subscriptions, SubscriptionState>> for `groupSubscription` that it then passes along to <<metadata, Metadata>> to link:kafka-clients-Metadata.adoc#setTopics[set the topics to track].
 
 .KafkaConsumer subscribes to topics
 image::images/KafkaConsumer-subscribe.png[align="center"]
@@ -212,7 +210,7 @@ while (true) {
 
 Internally, `poll` starts by <<pollOnce, polling once>> (for `timeout` milliseconds).
 
-If there are records available, `poll` checks <<fetcher, Fetcher>> for link:kafka-Fetcher.adoc#sendFetches[sendFetches] and <<client, ConsumerNetworkClient>> for link:kafka-consumer-ConsumerNetworkClient.adoc#pendingRequestCount[pendingRequestCount] flag. If either is positive, `poll` requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-ConsumerNetworkClient.adoc#pollNoWakeup[pollNoWakeup].
+If there are records available, `poll` checks <<fetcher, Fetcher>> for link:kafka-Fetcher.adoc#sendFetches[sendFetches] and <<client, ConsumerNetworkClient>> for link:kafka-consumer-internals-ConsumerNetworkClient.adoc#pendingRequestCount[pendingRequestCount] flag. If either is positive, `poll` requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#pollNoWakeup[pollNoWakeup].
 
 CAUTION: FIXME Make the above more user-friendly
 
@@ -362,7 +360,7 @@ CAUTION: FIXME Finish me!
 1. `topicExpiryEnabled` disabled
 1. link:kafka-ClusterResourceListener.adoc[ClusterResourceListeners] with user-defined list of link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptors] in link:kafka-properties.adoc#interceptor.classes[interceptor.classes] property
 
-`KafkaConsumer` link:kafka-Metadata.adoc#update[updates] `metadata` with link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers].
+`KafkaConsumer` link:kafka-clients-Metadata.adoc#update[updates] `metadata` with link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers].
 
 CAUTION: FIXME Finish me!
 
@@ -400,7 +398,7 @@ void wakeup()
 
 NOTE: `wakeup` is a part of link:kafka-consumer-Consumer.adoc#wakeup[Consumer Contract].
 
-`wakeup` simply requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-ConsumerNetworkClient.adoc#wakeup[wakeup].
+`wakeup` simply requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#wakeup[wakeup].
 
 .KafkaConsumer's wakeup Method
 image::images/KafkaConsumer-wakeup.png[align="center"]
@@ -449,3 +447,77 @@ void throwIfNoAssignorsConfigured()
 `throwIfNoAssignorsConfigured`...FIXME
 
 NOTE: `throwIfNoAssignorsConfigured` is used exclusively when `KafkaConsumer` is requested to <<subscribe, subscribe to topics>>.
+
+=== [[updateAssignmentMetadataIfNeeded]] `updateAssignmentMetadataIfNeeded` Internal Method
+
+[source, java]
+----
+boolean updateAssignmentMetadataIfNeeded(final Timer timer)
+----
+
+`updateAssignmentMetadataIfNeeded`...FIXME
+
+NOTE: `updateAssignmentMetadataIfNeeded` is used when...FIXME
+
+=== [[pollForFetches]] `pollForFetches` Internal Method
+
+[source, java]
+----
+Map<TopicPartition, List<ConsumerRecord<K, V>>> pollForFetches(Timer timer)
+----
+
+`pollForFetches`...FIXME
+
+NOTE: `pollForFetches` is used when...FIXME
+
+=== [[commitAsync]] `commitAsync` Method
+
+[source, java]
+----
+void commitAsync()
+void commitAsync(
+  OffsetCommitCallback callback)
+void commitAsync(
+  final Map<TopicPartition, OffsetAndMetadata> offsets,
+  OffsetCommitCallback callback)
+----
+
+NOTE: `commitAsync` is part of the <<kafka-consumer-Consumer.adoc#commitAsync, Consumer Contract>> to...FIXME.
+
+`commitAsync`...FIXME
+
+=== [[committed]] `committed` Method
+
+[source, java]
+----
+OffsetAndMetadata committed(
+  TopicPartition partition)
+OffsetAndMetadata committed(
+  TopicPartition partition,
+  final Duration timeout)
+----
+
+NOTE: `committed` is part of the <<kafka-consumer-Consumer.adoc#committed, Consumer Contract>> to...FIXME.
+
+`committed`...FIXME
+
+=== [[close]] `close` Method
+
+[source, java]
+----
+void close()
+void close(Duration timeout)
+----
+
+NOTE: `close` is part of the <<kafka-consumer-Consumer.adoc#close, Consumer Contract>> to...FIXME.
+
+`close`...FIXME
+
+==== [[close-private]] `close` Internal Method
+
+[source, java]
+----
+void close(long timeoutMs, boolean swallowException)
+----
+
+`close`...FIXME

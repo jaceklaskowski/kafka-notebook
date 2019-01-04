@@ -82,7 +82,7 @@ NOTE: `wakeup` is used when...FIXME
 void ensureFreshMetadata()
 ----
 
-`ensureFreshMetadata` <<awaitMetadataUpdate, waits for metadata update>> when <<metadata, Metadata>> was requested for link:kafka-Metadata.adoc#updateRequested[update] or link:kafka-Metadata.adoc#timeToNextUpdate[time to the next update] is now.
+`ensureFreshMetadata` <<awaitMetadataUpdate, waits for metadata update>> when <<metadata, Metadata>> was requested for link:kafka-clients-Metadata.adoc#updateRequested[update] or link:kafka-clients-Metadata.adoc#timeToNextUpdate[time to the next update] is now.
 
 NOTE: `ensureFreshMetadata` is used when `ConsumerCoordinator` does link:kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete], link:kafka-consumer-internals-ConsumerCoordinator.adoc#performAssignment[performAssignment] and link:kafka-consumer-internals-ConsumerCoordinator.adoc#poll[poll].
 
@@ -158,7 +158,7 @@ void pollNoWakeup()
 
 * [[logContext]] `LogContext`
 * [[client]] link:kafka-KafkaClient.adoc[KafkaClient]
-* [[metadata]] link:kafka-Metadata.adoc[Metadata]
+* [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
 * [[time]] `Time`
 * [[retryBackoffMs]] `retryBackoffMs`
 * [[requestTimeoutMs]] `requestTimeoutMs`
