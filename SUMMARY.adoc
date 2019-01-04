@@ -239,6 +239,8 @@
 . link:kafka-common-NotificationHandler.adoc[NotificationHandler Contract]
 . link:kafka-common-ZkNodeChangeNotificationListener.adoc[ZkNodeChangeNotificationListener]
 
+. link:kafka-common-UpdateMetadataRequest.adoc[UpdateMetadataRequest]
+
 . link:kafka-common-MetadataRequest.adoc[MetadataRequest]
 . link:kafka-common-MetadataResponse.adoc[MetadataResponse]
 

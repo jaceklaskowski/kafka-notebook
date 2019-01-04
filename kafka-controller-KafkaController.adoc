@@ -215,6 +215,9 @@ a| [[activeControllerId]] The ID of the active `KafkaController`
 
 * Initialized to `-1`
 
+| brokerRequestBatch
+a| [[brokerRequestBatch]] <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>> (with the <<stateChangeLogger, StateChangeLogger>>)
+
 | controllerChangeHandler
 a| [[controllerChangeHandler]] A `ZNodeChangeHandler` (for the `KafkaController` and the <<eventManager, ControllerEventManager>>) that listens to change events on `/controller` znode.
 

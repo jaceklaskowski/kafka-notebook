@@ -1,7 +1,7 @@
 == [[MetadataRequest]] MetadataRequest
 
 [[apiKey]]
-`MetadataRequest` is a `AbstractRequest` with `METADATA` API key that is used (and <<creating-instance, created>>) when:
+`MetadataRequest` is an `AbstractRequest` with `METADATA` API key that is used (and <<creating-instance, created>>) when:
 
 * `AdminClientRunnable` is requested to `makeMetadataCall`
 

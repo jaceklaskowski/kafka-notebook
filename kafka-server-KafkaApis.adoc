@@ -10,6 +10,12 @@ image::images/KafkaApis.png[align="center"]
 [[adminZkClient]]
 `KafkaApis` uses a <<kafka-zk-AdminZkClient.adoc#, AdminZkClient>> for...FIXME
 
+`KafkaApis` uses the <<metadataCache, MetadataCache>> for the following:
+
+* <<handleTopicMetadataRequest, handleTopicMetadataRequest>> (to get <<kafka-server-MetadataCache.adoc#getControllerId, controller ID>>)
+
+* ...FIXME
+
 [[keys]]
 [[handlers]]
 .KafkaApis's API Keys and Handlers (in alphabetical order)

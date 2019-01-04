@@ -1,0 +1,6 @@
+== [[UpdateMetadataRequest]] UpdateMetadataRequest
+
+[[apiKey]]
+`UpdateMetadataRequest` is an `AbstractRequest` with `UpdateMetadata` API key that is used (and <<creating-instance, created>>) when:
+
+* `AdminClientRunnable` is requested to `makeMetadataCall`

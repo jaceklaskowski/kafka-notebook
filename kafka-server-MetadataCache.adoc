@@ -8,6 +8,12 @@
 [[creating-instance]]
 `MetadataCache` takes a single broker ID when created.
 
+[[contains]]
+`MetadataCache` maintains the <<metadataSnapshot, metadataSnapshot>> and is used to...FIXME
+
+[[getControllerId]]
+`MetadataCache` tracks the `controllerId`...FIXME
+
 [[internal-registries]]
 .MetadataCache's Internal Properties (e.g. Registries, Counters and Flags)
 [cols="1m,2",options="header",width="100%"]
@@ -16,7 +22,9 @@
 | Description
 
 | metadataSnapshot
-a| [[metadataSnapshot]]
+a| [[metadataSnapshot]] `MetadataSnapshot`
+
+`metadataSnapshot` is updated when `MetadataCache` is requested to <<updateMetadata, updateMetadata>>
 
 | partitionMetadataLock
 | [[partitionMetadataLock]] Java's https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html[ReentrantReadWriteLock]
@@ -67,3 +75,27 @@ getTopicMetadata(
 `getTopicMetadata`...FIXME
 
 NOTE: `getTopicMetadata` is used when...FIXME
+
+=== [[getAliveBrokers]] `getAliveBrokers` Method
+
+[source, scala]
+----
+getAliveBrokers: Seq[Broker]
+----
+
+`getAliveBrokers`...FIXME
+
+NOTE: `getAliveBrokers` is used when...FIXME
+
+=== [[updateMetadata]] Updating Metadata (and Returning Deleted Partitions) -- `updateMetadata` Method
+
+[source, scala]
+----
+updateMetadata(
+  correlationId: Int,
+  updateMetadataRequest: UpdateMetadataRequest): Seq[TopicPartition]
+----
+
+`updateMetadata`...FIXME
+
+NOTE: `updateMetadata` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#maybeUpdateMetadataCache, maybeUpdateMetadataCache>>.

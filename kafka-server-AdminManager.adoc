@@ -2,14 +2,20 @@
 
 `AdminManager` is...FIXME
 
-`AdminManager` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started].
+`AdminManager` is <<creating-instance, created>> exclusively when `KafkaServer` is <<kafka-KafkaServer.adoc#startup, started>>.
 
 .AdminManager
 image::images/AdminManager.png[align="center"]
 
+`AdminManager` uses the <<metadataCache, MetadataCache>> for the following:
+
+* <<createTopics, createTopics>> (to get the <<kafka-server-MetadataCache.adoc#getAliveBrokers, getAliveBrokers>>)
+
+* <<describeConfigs, describeConfigs>> for `TOPIC` resource type (to <<kafka-server-MetadataCache.adoc#contains, check whether a topic is available or not>>)
+
 [[internal-registries]]
 .AdminManager's Internal Properties (e.g. Registries and Counters)
-[frame="topbot",cols="1,2",options="header",width="100%"]
+[cols="1m,2",options="header",width="100%"]
 |===
 | Name
 | Description
@@ -17,14 +23,14 @@ image::images/AdminManager.png[align="center"]
 | adminZkClient
 a| [[adminZkClient]]
 
-| [[alterConfigPolicy]] `alterConfigPolicy`
-|
+| alterConfigPolicy
+| [[alterConfigPolicy]]
 
-| [[createTopicPolicy]] `createTopicPolicy`
-|
+| createTopicPolicy
+| [[createTopicPolicy]]
 
-| [[topicPurgatory]] `topicPurgatory`
-|
+| topicPurgatory
+| [[topicPurgatory]]
 |===
 
 [[logIdent]]
@@ -63,10 +69,10 @@ NOTE: `createTopics` is used exclusively when `KafkaApis` is requested to <<kafk
 
 `AdminManager` takes the following when created:
 
-* [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
-* [[metrics]] `Metrics`
-* [[metadataCache]] link:kafka-server-MetadataCache.adoc[MetadataCache]
-* [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
+* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
+* [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
+* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 
 `AdminManager` initializes the <<internal-registries, internal registries and counters>>.
 

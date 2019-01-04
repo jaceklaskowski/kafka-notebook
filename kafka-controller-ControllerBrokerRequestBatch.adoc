@@ -2,6 +2,8 @@
 
 `ControllerBrokerRequestBatch` is...FIXME
 
+`ControllerBrokerRequestBatch` is <<creating-instance, created>> exclusively for a <<kafka-controller-KafkaController.adoc#brokerRequestBatch, KafkaController>>.
+
 === [[sendRequestsToBrokers]] `sendRequestsToBrokers` Method
 
 [source, scala]
@@ -15,9 +17,18 @@ sendRequestsToBrokers(controllerEpoch: Int): Unit
 ====
 `sendRequestsToBrokers` is used when:
 
-* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>> and `ControlledShutdown` is <<kafka-controller-KafkaController.adoc#ControlledShutdown, processed>>
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>> and at <<kafka-controller-KafkaController.adoc#ControlledShutdown, ControlledShutdown>> controller event
 
 * `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#handleStateChanges, handleStateChanges>> and <<kafka-controller-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>>
 
 * `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
 ====
+
+=== [[creating-instance]] Creating ControllerBrokerRequestBatch Instance
+
+`ControllerBrokerRequestBatch` takes the following when created:
+
+* [[controller]] <<kafka-controller-KafkaController.adoc#, KafkaController>>
+* [[stateChangeLogger]] `StateChangeLogger`
+
+`ControllerBrokerRequestBatch` initializes the <<internal-registries, internal registries and counters>>.
