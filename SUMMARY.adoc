@@ -165,13 +165,16 @@
 
 . link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener]
 
-. link:kafka-consumer-PartitionAssignor.adoc[PartitionAssignor]
-.. link:kafka-consumer-RangeAssignor.adoc[RangeAssignor]
-
 . link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
 .. link:kafka-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator]
 . link:kafka-consumer-internals-SubscriptionState.adoc[SubscriptionState]
 . link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+
+. link:kafka-consumer-PartitionAssignor.adoc[PartitionAssignor Contract]
+.. link:kafka-consumer-RangeAssignor.adoc[RangeAssignor]
+.. link:kafka-consumer-RoundRobinAssignor.adoc[RoundRobinAssignor]
+.. link:kafka-consumer-StickyAssignor.adoc[StickyAssignor]
+.. link:kafka-consumer-AbstractPartitionAssignor.adoc[AbstractPartitionAssignor]
 
 === Kafka Architecture
 

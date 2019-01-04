@@ -1,3 +1,69 @@
-== [[PartitionAssignor]] PartitionAssignor
+== [[PartitionAssignor]] PartitionAssignor Contract
 
-`PartitionAssignor` is...FIXME
+`PartitionAssignor` is the <<contract, abstraction>> of <<implementations, partition assignors>> that are identified by <<name, name>> and can <<assign, perform partition assignment>>.
+
+[[contract]]
+.PartitionAssignor Contract
+[cols="1m,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| assign
+a| [[assign]]
+
+[source, java]
+----
+Map<String, Assignment> assign(
+  Cluster metadata,
+  Map<String, Subscription> subscriptions)
+----
+
+Used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#performAssignment, performAssignment>>
+
+| name
+a| [[name]]
+
+[source, java]
+----
+String name()
+----
+
+Used when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#metadata, metadata>>, <<kafka-consumer-internals-ConsumerCoordinator.adoc#lookupAssignor, lookupAssignor>>, and <<kafka-consumer-internals-ConsumerCoordinator.adoc#performAssignment, performAssignment>> (only for logging purposes)
+
+| onAssignment
+a| [[onAssignment]]
+
+[source, java]
+----
+void onAssignment(Assignment assignment)
+----
+
+Used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete, onJoinComplete>>
+
+| subscription
+a| [[subscription]]
+
+[source, java]
+----
+Subscription subscription(Set<String> topics)
+----
+
+Used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#metadata, metadata>>
+
+|===
+
+[[implementations]]
+.PartitionAssignors (Direct Implementations)
+[cols="1,2",options="header",width="100%"]
+|===
+| PartitionAssignor
+| Description
+
+| <<kafka-consumer-AbstractPartitionAssignor.adoc#, AbstractPartitionAssignor>>
+| [[AbstractPartitionAssignor]] Extension for collecting partition counts
+
+| StreamsPartitionAssignor
+| [[StreamsPartitionAssignor]] Default `PartitionAssignor` in Kafka Streams
+
+|===
