@@ -18,17 +18,18 @@ val consumer = new KafkaConsumer[String, String](conf)
 
 [[properties]]
 .ConsumerConfig's Configuration Properties
-[cols="1m,1,1m,2",options="header",width="100%"]
+[cols="1,3",options="header",width="100%"]
 |===
-| Name
-| Default Value
-| Kafka Property
+| Name, Property, Default Value
 | Description
 
-| PARTITION_ASSIGNMENT_STRATEGY_CONFIG
-| <<kafka-consumer-RangeAssignor.adoc#, RangeAssignor>>
-| partition.assignment.strategy
-a| [[PARTITION_ASSIGNMENT_STRATEGY_CONFIG]] The class name of the partition assignment strategy that the client will use to distribute partition ownership amongst consumer instances when group management is used
+| `PARTITION_ASSIGNMENT_STRATEGY_CONFIG`
+
+`partition.assignment.strategy`
+
+Default: <<kafka-consumer-RangeAssignor.adoc#, RangeAssignor>>
+
+a| [[PARTITION_ASSIGNMENT_STRATEGY_CONFIG]][[partition.assignment.strategy]] The class name of the partition assignment strategy that the client will use to distribute partition ownership amongst consumer instances when group management is used
 
 TIP: Read up https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Client-side+Assignment+Proposal[Kafka Client-side Assignment Proposal] on the group management in Apache Kafka's Consumer API.
 

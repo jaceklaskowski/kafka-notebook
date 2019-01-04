@@ -132,7 +132,7 @@ synchronized boolean updateRequested()
 
 * `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleAuthenticationFailure[handles an authentication failure]
 
-* `ConsumerCoordinator` link:kafka-consumer-ConsumerCoordinator.adoc#poll[polls for coordinator events]
+* `ConsumerCoordinator` link:kafka-consumer-internals-ConsumerCoordinator.adoc#poll[polls for coordinator events]
 
 * `ConsumerNetworkClient` link:kafka-consumer-ConsumerNetworkClient.adoc#ensureFreshMetadata[makes sure that the metadata is fresh]
 ====

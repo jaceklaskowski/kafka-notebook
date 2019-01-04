@@ -14,8 +14,8 @@ a| link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener]
 
 Used exclusively when `ConsumerCoordinator` is notified about:
 
-* link:kafka-consumer-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete] (that triggers link:kafka-consumer-ConsumerRebalanceListener.adoc#onPartitionsAssigned[ConsumerRebalanceListener.onPartitionsAssigned])
-* link:kafka-consumer-ConsumerCoordinator.adoc#onJoinPrepare[onJoinPrepare] (that triggers link:kafka-consumer-ConsumerRebalanceListener.adoc#onPartitionsRevoked[ConsumerRebalanceListener.onPartitionsRevoked])
+* link:kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete] (that triggers link:kafka-consumer-ConsumerRebalanceListener.adoc#onPartitionsAssigned[ConsumerRebalanceListener.onPartitionsAssigned])
+* link:kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinPrepare[onJoinPrepare] (that triggers link:kafka-consumer-ConsumerRebalanceListener.adoc#onPartitionsRevoked[ConsumerRebalanceListener.onPartitionsRevoked])
 |===
 
 === [[subscribe]] `subscribe` Method

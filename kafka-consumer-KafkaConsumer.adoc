@@ -14,13 +14,11 @@ NOTE: link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers] and link:k
 [source, scala]
 ----
 // sandbox/kafka-sandbox
-val bootstrapServers = "localhost:9092"
-val groupId = "kafka-sandbox"
+val bootstrapServers = ":9092,localhost:9092"
 import org.apache.kafka.clients.consumer.ConsumerConfig
-val configs: Map[String, Object] = Map(
-  // required properties
+// required properties
+val configs = Map[String, Object](
   ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers,
-  ConsumerConfig.GROUP_ID_CONFIG -> groupId
 )
 import org.apache.kafka.common.serialization.StringDeserializer
 val keyDeserializer = new StringDeserializer
@@ -51,62 +49,70 @@ KafkaConsumer is not safe for multi-threaded access
 
 [[internal-registries]]
 .KafkaConsumer's Internal Properties (e.g. Registries and Counters)
-[cols="1,2",options="header",width="100%"]
+[cols="1m,3",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| [[client]] `client`
-| link:kafka-consumer-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+| assignors
+a| [[assignors]] Zero or more <<kafka-consumer-PartitionAssignor.adoc#, PartitionAssignors>>
+
+Configured using <<kafka-consumer-ConsumerConfig.adoc#PARTITION_ASSIGNMENT_STRATEGY_CONFIG, ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG>> (aka `partition.assignment.strategy`) configuration property
+
+Used exclusively to create the <<coordinator, ConsumerCoordinator>>
+
+| client
+| [[client]] link:kafka-consumer-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 
 Used mainly _(?)_ to create the <<fetcher, Fetcher>> and <<coordinator, ConsumerCoordinator>>
 
 Used also in <<poll, poll>>, <<pollOnce, pollOnce>> and <<wakeup, wakeup>> (but _I_ think the usage should be limited to create <<fetcher, Fetcher>> and <<coordinator, ConsumerCoordinator>>)
 
-| [[clientId]] `clientId`
-|
+| clientId
+| [[clientId]]
 
-| [[coordinator]] `coordinator`
-a| link:kafka-consumer-ConsumerCoordinator.adoc[ConsumerCoordinator]
+| coordinator
+a| [[coordinator]] link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
 
 * Initialized when `KafkaConsumer` is <<creating-instance, created>>
 
 * Used for...FIXME
 
-| [[fetcher]] `fetcher`
-| link:kafka-Fetcher.adoc[Fetcher]
+| fetcher
+| [[fetcher]] link:kafka-Fetcher.adoc[Fetcher]
 
 Created right when `KafkaConsumer` is <<creating-instance, created>>.
 
 Used when...FIXME
 
-| [[interceptors]] `interceptors`
-| `ConsumerInterceptors` that holds link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor] instances (defined using link:kafka-properties.adoc#interceptor.classes[interceptor.classes] setting).
+| interceptors
+| [[interceptors]] `ConsumerInterceptors` that holds link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor] instances (defined using link:kafka-properties.adoc#interceptor.classes[interceptor.classes] setting).
 
 Used when...FIXME
 
-| [[metadata]] `metadata`
-| link:kafka-Metadata.adoc[Metadata]
+| metadata
+| [[metadata]] link:kafka-Metadata.adoc[Metadata]
 
 Created right when `KafkaConsumer` is <<creating-instance, created>>.
 
 Used when...FIXME
 
-| [[metrics]] `metrics`
-| `Metrics`
+| metrics
+| [[metrics]] `Metrics`
 
-| [[retryBackoffMs]] `retryBackoffMs`
-| link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] property or a user-defined value
+| retryBackoffMs
+| [[retryBackoffMs]] link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] property or a user-defined value
 
-| [[requestTimeoutMs]] `requestTimeoutMs`
-a| Corresponds to link:kafka-properties.adoc#request.timeout.ms[request.timeout.ms] property
+| requestTimeoutMs
+a| [[requestTimeoutMs]] Corresponds to link:kafka-properties.adoc#request.timeout.ms[request.timeout.ms] property
 
 `KafkaConsumer` reports `ConfigException` when smaller or equal than link:kafka-properties.adoc#session_timeout_ms[session.timeout.ms] and link:kafka-properties.adoc#fetch_max_wait_ms[fetch.max.wait.ms] properties.
 
-| [[subscriptions]] `subscriptions`
-| `SubscriptionState` for link:kafka-properties.adoc#auto.offset.reset[auto.offset.reset] setting.
+| subscriptions
+| [[subscriptions]] `SubscriptionState` for link:kafka-properties.adoc#auto.offset.reset[auto.offset.reset] setting.
 
-Created when `KafkaConsumer` <<creating-instance, is created>>.
+Created when `KafkaConsumer` is <<creating-instance, created>>
+
 |===
 
 [[logging]]
@@ -114,7 +120,7 @@ Created when `KafkaConsumer` <<creating-instance, is created>>.
 ====
 Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.consumer.KafkaConsumer` logger to see what happens inside.
 
-Add the following line to `config/tools-log4j.properties`:
+Add the following line to `log4j.properties`:
 
 ```
 log4j.logger.org.apache.kafka.clients.consumer.KafkaConsumer=TRACE

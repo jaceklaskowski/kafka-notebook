@@ -162,15 +162,18 @@
 . link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig -- Configuration Properties for Kafka Consumers]
 
 . link:kafka-Deserializer.adoc[Deserializer]
-. link:kafka-consumer-ConsumerCoordinator.adoc[ConsumerCoordinator]
-.. link:kafka-consumer-AbstractCoordinator.adoc[AbstractCoordinator]
+
 . link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor]
 . link:kafka-consumer-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 
 . link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener]
 . link:kafka-consumer-SubscriptionState.adoc[SubscriptionState]
 
-. link:kafka-consumer-RangeAssignor.adoc[RangeAssignor]
+. link:kafka-consumer-PartitionAssignor.adoc[PartitionAssignor]
+.. link:kafka-consumer-RangeAssignor.adoc[RangeAssignor]
+
+. link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
+.. link:kafka-consumer-AbstractCoordinator.adoc[AbstractCoordinator]
 
 === Kafka Architecture
 
