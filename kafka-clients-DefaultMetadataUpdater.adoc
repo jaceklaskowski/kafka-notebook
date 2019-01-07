@@ -1,6 +1,6 @@
 == [[DefaultMetadataUpdater]] DefaultMetadataUpdater
 
-`DefaultMetadataUpdater` is a link:kafka-MetadataUpdater.adoc[MetadataUpdater] that `NetworkClient` uses to...FIXME
+`DefaultMetadataUpdater` is a link:kafka-clients-MetadataUpdater.adoc[MetadataUpdater] that `NetworkClient` uses to...FIXME
 
 `DefaultMetadataUpdater` is <<creating-instance, created>> when...FIXME
 
@@ -63,7 +63,7 @@ CAUTION: FIXME
 maybeUpdate(long now)
 ----
 
-NOTE: `maybeUpdate` is a part of link:kafka-MetadataUpdater.adoc#maybeUpdate[MetadataUpdater Contract].
+NOTE: `maybeUpdate` is a part of link:kafka-clients-MetadataUpdater.adoc#maybeUpdate[MetadataUpdater Contract].
 
 `maybeUpdate` requests <<metadata, Metadata>> for link:kafka-clients-Metadata.adoc#timeToNextUpdate[timeToNextUpdate] (with the input `now`).
 
@@ -99,7 +99,7 @@ NOTE: `maybeUpdate` is used exclusively when `DefaultMetadataUpdater` is request
 void handleAuthenticationFailure(AuthenticationException exception)
 ----
 
-NOTE: `handleAuthenticationFailure` is a part of link:kafka-MetadataUpdater.adoc#handleAuthenticationFailure[MetadataUpdater Contract].
+NOTE: `handleAuthenticationFailure` is a part of link:kafka-clients-MetadataUpdater.adoc#handleAuthenticationFailure[MetadataUpdater Contract].
 
 `handleCompletedMetadataResponse` turns link:kafka-clients-NetworkClient.adoc#metadataFetchInProgress[metadataFetchInProgress] flag off.
 
@@ -112,7 +112,7 @@ NOTE: `handleAuthenticationFailure` is a part of link:kafka-MetadataUpdater.adoc
 void handleCompletedMetadataResponse(RequestHeader requestHeader, long now, MetadataResponse response)
 ----
 
-NOTE: `handleCompletedMetadataResponse` is a part of link:kafka-MetadataUpdater.adoc#handleCompletedMetadataResponse[MetadataUpdater Contract].
+NOTE: `handleCompletedMetadataResponse` is a part of link:kafka-clients-MetadataUpdater.adoc#handleCompletedMetadataResponse[MetadataUpdater Contract].
 
 `handleCompletedMetadataResponse` turns <<metadataFetchInProgress, metadataFetchInProgress>> flag off.
 
@@ -139,7 +139,7 @@ Error while fetching metadata with correlation id [correlationId] : [errors]"
 long maybeUpdate(long now)
 ----
 
-NOTE: `maybeUpdate` is part of the <<kafka-MetadataUpdater.adoc#maybeUpdate, MetadataUpdater Contract>> to...FIXME.
+NOTE: `maybeUpdate` is part of the <<kafka-clients-MetadataUpdater.adoc#maybeUpdate, MetadataUpdater Contract>> to...FIXME.
 
 `maybeUpdate`...FIXME
 

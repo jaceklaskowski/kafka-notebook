@@ -17,7 +17,7 @@
 * [[createdTimeMs]] `createdTimeMs`
 * [[expectResponse]] `expectResponse` flag
 * [[requestTimeoutMs]] `requestTimeoutMs`
-* [[callback]] <<kafka-RequestCompletionHandler.adoc#, RequestCompletionHandler>>
+* [[callback]] <<kafka-clients-RequestCompletionHandler.adoc#, RequestCompletionHandler>>
 
 `ClientRequest` initializes the <<internal-registries, internal registries and counters>>.
 

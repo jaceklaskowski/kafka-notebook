@@ -9,6 +9,6 @@
 void onComplete()
 ----
 
-`onComplete` triggers link:kafka-RequestCompletionHandler.adoc#onComplete[RequestCompletionHandler] if defined.
+`onComplete` triggers link:kafka-clients-RequestCompletionHandler.adoc#onComplete[RequestCompletionHandler] if defined.
 
 NOTE: `onComplete` is used exclusively when `NetworkClient` link:kafka-clients-NetworkClient.adoc#completeResponses[completeResponses]

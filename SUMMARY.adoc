@@ -76,7 +76,6 @@
 . link:kafka-log-ProducerStateManager.adoc[ProducerStateManager]
 
 . link:kafka-server-MetadataCache.adoc[MetadataCache]
-. link:kafka-MetadataUpdater.adoc[MetadataUpdater]
 
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 
@@ -195,10 +194,6 @@
 .. link:kafka-producers.adoc[Producers]
 .. link:kafka-consumers.adoc[Consumers]
 
-. link:kafka-RequestCompletionHandler.adoc[RequestCompletionHandler]
-. link:kafka-ClientResponse.adoc[ClientResponse]
-. link:kafka-clients-ClientRequest.adoc[ClientRequest]
-
 . link:kafka-clusters.adoc[Clusters]
 
 === Kafka Monitoring (Metrics)
@@ -237,17 +232,21 @@
 
 . link:kafka-clients-KafkaClient.adoc[KafkaClient]
 .. link:kafka-clients-NetworkClient.adoc[NetworkClient -- Non-Blocking KafkaClient]
-... link:kafka-clients-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
-.. link:kafka-NetworkClientUtils.adoc[NetworkClientUtils]
+.. link:kafka-clients-NetworkClientUtils.adoc[NetworkClientUtils]
 
-. link:kafka-clients-Configurable.adoc[Configurable Contract]
-. link:kafka-clients-Reconfigurable.adoc[Reconfigurable]
-. link:kafka-clients-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
+. link:kafka-clients-MetadataUpdater.adoc[MetadataUpdater]
+.. link:kafka-clients-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
 
 . link:kafka-clients-Metadata.adoc[Metadata]
 .. link:kafka-clients-Metadata-Listener.adoc[Listener Contract -- Intercepting Metadata Updates]
 
-=== Kafka Commons
+. link:kafka-clients-ClientRequest.adoc[ClientRequest]
+. link:kafka-clients-ClientResponse.adoc[ClientResponse]
+
+. link:kafka-clients-RequestCompletionHandler.adoc[RequestCompletionHandler]
+. link:kafka-clients-StaleMetadataException.adoc[StaleMetadataException]
+
+=== Kafka Common
 
 . link:kafka-common-Cluster.adoc[Cluster]
 .. link:kafka-Cluster-deprecated.adoc[Cluster (deprecated)]
@@ -257,6 +256,8 @@
 . link:kafka-common-NotificationHandler.adoc[NotificationHandler Contract]
 . link:kafka-common-ZkNodeChangeNotificationListener.adoc[ZkNodeChangeNotificationListener]
 
+. link:kafka-common-requests-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
+
 . link:kafka-common-UpdateMetadataRequest.adoc[UpdateMetadataRequest]
 
 . link:kafka-common-MetadataRequest.adoc[MetadataRequest]
@@ -264,6 +265,9 @@
 
 . link:kafka-common-FindCoordinatorRequest.adoc[FindCoordinatorRequest]
 . link:kafka-common-FindCoordinatorResponse.adoc[FindCoordinatorResponse]
+
+. link:kafka-common-Configurable.adoc[Configurable Contract]
+. link:kafka-common-Reconfigurable.adoc[Reconfigurable]
 
 === Kafka Common / Serialization
 

@@ -51,7 +51,7 @@ Used when...FIXME
 sendRequest(requestBuilder: Builder[_ <: AbstractRequest]): ClientResponse
 ----
 
-`sendRequest` requests `NetworkClientUtils` to link:kafka-NetworkClientUtils.adoc#[wait until the connection is ready] to the <<sourceNode, source broker node>> (in <<socketTimeout, replica.socket.timeout.ms>>).
+`sendRequest` requests `NetworkClientUtils` to link:kafka-clients-NetworkClientUtils.adoc#[wait until the connection is ready] to the <<sourceNode, source broker node>> (in <<socketTimeout, replica.socket.timeout.ms>>).
 
 `sendRequest` requests <<networkClient, NetworkClient>> to link:kafka-clients-NetworkClient.adoc#newClientRequest[create a new client request] to the <<sourceBroker, source broker>>.
 

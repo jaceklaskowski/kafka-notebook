@@ -1,0 +1,3 @@
+== [[StaleMetadataException]] StaleMetadataException
+
+`StaleMetadataException` is...FIXME

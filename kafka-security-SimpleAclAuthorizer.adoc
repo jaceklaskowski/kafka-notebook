@@ -20,6 +20,6 @@ NOTE: `startZkChangeListeners` is used exclusively when `SimpleAclAuthorizer` is
 configure(javaConfigs: util.Map[String, _]): Unit
 ----
 
-NOTE: `configure` is part of the <<kafka-clients-Configurable.adoc#configure, Configurable Contract>> to...FIXME.
+NOTE: `configure` is part of the <<kafka-common-Configurable.adoc#configure, Configurable Contract>> to...FIXME.
 
 `configure`...FIXME

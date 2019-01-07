@@ -331,11 +331,11 @@ handleDescribeLogDirsRequest(request: RequestChannel.Request): Unit
 
 `handleDescribeLogDirsRequest` takes the `DescribeLogDirsRequest` (from the body of the input `RequestChannel.Request`).
 
-`handleDescribeLogDirsRequest` branches off per whether the `DescribeLogDirsRequest` was for <<kafka-clients-DescribeLogDirsRequest.adoc#isAllTopicPartitions, isAllTopicPartitions>> or not.
+`handleDescribeLogDirsRequest` branches off per whether the `DescribeLogDirsRequest` was for <<kafka-common-requests-DescribeLogDirsRequest.adoc#isAllTopicPartitions, isAllTopicPartitions>> or not.
 
-* For <<kafka-clients-DescribeLogDirsRequest.adoc#isAllTopicPartitions, all TopicPartitions>>, `handleDescribeLogDirsRequest` requests the <<replicaManager, ReplicaManager>> for the <<kafka-server-ReplicaManager.adoc#logManager, LogManager>> that is requested for <<kafka-LogManager.adoc#allLogs, all the partition logs>> and their <<kafka-Log.adoc#topicPartition, TopicPartitions>>.
+* For <<kafka-common-requests-DescribeLogDirsRequest.adoc#isAllTopicPartitions, all TopicPartitions>>, `handleDescribeLogDirsRequest` requests the <<replicaManager, ReplicaManager>> for the <<kafka-server-ReplicaManager.adoc#logManager, LogManager>> that is requested for <<kafka-LogManager.adoc#allLogs, all the partition logs>> and their <<kafka-Log.adoc#topicPartition, TopicPartitions>>.
 
-* For specific `TopicPartitions`, `handleDescribeLogDirsRequest` requests them from the <<kafka-clients-DescribeLogDirsRequest.adoc#topicPartitions, DescribeLogDirsRequest>>.
+* For specific `TopicPartitions`, `handleDescribeLogDirsRequest` requests them from the <<kafka-common-requests-DescribeLogDirsRequest.adoc#topicPartitions, DescribeLogDirsRequest>>.
 
 NOTE: `handleDescribeLogDirsRequest` returns an empty list of log directories when the request is not <<authorize, authorized>>.
 

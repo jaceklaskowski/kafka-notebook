@@ -74,7 +74,7 @@ NOTE: `initiateConnect` passes the sizes of <<socketSendBuffer, send>> and <<soc
 
 In case of an IO failure, `initiateConnect` requests <<connectionStates, ClusterConnectionStates>> to link:kafka-ClusterConnectionStates.adoc#disconnected[enter the disconnected state for the connection] to the broker `node`.
 
-`initiateConnect` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-MetadataUpdater.adoc#requestUpdate[update].
+`initiateConnect` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-clients-MetadataUpdater.adoc#requestUpdate[update].
 
 You should see the following DEBUG message in the logs:
 
@@ -126,7 +126,7 @@ List<ClientResponse> poll(long timeout, long now)
 
 NOTE: `poll` is a part of <<kafka-clients-KafkaClient.adoc#poll, KafkaClient Contract>>.
 
-`poll` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-MetadataUpdater.adoc#maybeUpdate[cluster metadata update (if needed and possible)].
+`poll` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-clients-MetadataUpdater.adoc#maybeUpdate[cluster metadata update (if needed and possible)].
 
 `poll` then requests <<selector, Selectable>> to link:kafka-Selectable.adoc#poll[poll].
 
@@ -149,7 +149,7 @@ NOTE: `handleCompletedReceives` is used exclusively when `NetworkClient` <<poll,
 
 `NetworkClient` takes the following when created:
 
-* [[metadataUpdater]] <<kafka-MetadataUpdater.adoc#, MetadataUpdater>>
+* [[metadataUpdater]] <<kafka-clients-MetadataUpdater.adoc#, MetadataUpdater>>
 * [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
 * [[selector]] <<kafka-Selectable.adoc#, Selectable>>
 * [[clientId]] Client ID that is used to identify the client in requests to a Kafka server (when `NetworkClient` is requested to <<newClientRequest, create a new ClientRequest>>)
@@ -184,7 +184,7 @@ Used when `NetworkClient` <<initiateConnect, establishes connection to a broker 
 void completeResponses(List<ClientResponse> responses)
 ----
 
-`completeResponses` informs every `ClientResponse` (in the input `responses`) that a link:kafka-ClientResponse.adoc#onComplete[response has been completed].
+`completeResponses` informs every `ClientResponse` (in the input `responses`) that a link:kafka-clients-ClientResponse.adoc#onComplete[response has been completed].
 
 In case of any exception, `completeResponses` prints out the following ERROR message to the logs:
 

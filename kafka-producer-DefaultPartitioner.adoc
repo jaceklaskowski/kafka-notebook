@@ -4,7 +4,7 @@
 
 `DefaultPartitioner` is the default partitioning strategy (per <<kafka-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property).
 
-`DefaultPartitioner` is a <<kafka-clients-Configurable.adoc#, Configurable>> that needs no <<kafka-clients-Configurable.adoc#configure, configuration>> while being created.
+`DefaultPartitioner` is a <<kafka-common-Configurable.adoc#, Configurable>> that needs no <<kafka-common-Configurable.adoc#configure, configuration>> while being created.
 
 `DefaultPartitioner` does nothing when requested to <<kafka-producer-Partitioner.adoc#close, close>>.
 
