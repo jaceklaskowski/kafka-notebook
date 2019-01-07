@@ -23,6 +23,14 @@ val consumer = new KafkaConsumer[String, String](conf)
 | Name, Property, Default Value
 | Description
 
+| `METADATA_MAX_AGE_CONFIG`
+
+`metadata.max.age.ms`
+
+Default: 5 mins
+
+a| [[METADATA_MAX_AGE_CONFIG]][[metadata.max.age.ms]] The period of time (in milliseconds) after which we force a refresh of metadata even if we haven't seen any partition leadership changes. That is to proactively discover any new brokers or partitions.
+
 | `PARTITION_ASSIGNMENT_STRATEGY_CONFIG`
 
 `partition.assignment.strategy`

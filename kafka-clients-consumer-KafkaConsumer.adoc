@@ -1,6 +1,6 @@
 == [[KafkaConsumer]] KafkaConsumer -- Main Class For Kafka Consumers
 
-`KafkaConsumer` is the main public class that you and other Kafka developers use to write link:kafka-consumers.adoc[Kafka consumers] that consume records from a Kafka cluster.
+`KafkaConsumer` is the main public class that a Kafka developer use to write link:kafka-consumers.adoc[Kafka consumers] that consume records from a Kafka cluster.
 
 .KafkaConsumer
 image::images/KafkaConsumer.png[align="center"]
@@ -9,7 +9,7 @@ image::images/KafkaConsumer.png[align="center"]
 
 NOTE: link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers] and link:kafka-properties.adoc#group.id[group.id] properties are mandatory. They usually appear in the code as `ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG` and  `ConsumerConfig.GROUP_ID_CONFIG` values, respectively.
 
-`KafkaConsumer` follows the link:kafka-clients-consumer-Consumer.adoc[Consumer contract].
+`KafkaConsumer` is a concrete <<kafka-clients-consumer-Consumer.adoc#, Consumer>>.
 
 [source, scala]
 ----
@@ -34,11 +34,9 @@ val consumer = new KafkaConsumer[String, String](
 
 `KafkaConsumer` registers itself in JMX with *kafka.consumer* prefix.
 
-CAUTION: FIXME How does the JMX registration happen?
-
 [IMPORTANT]
 ====
-`KafkaConsumer` does not support multi-threaded access. You should use only one thread per `KafkaConsumer` instance.
+`KafkaConsumer` is not thread-safe, i.e. you should not use the same single instance of `KafkaConsumer` from multiple threads. You should use only one thread per `KafkaConsumer` instance.
 
 `KafkaConsumer` uses light locks protecting itself from multi-threaded access and reports `ConcurrentModificationException` when it happens.
 
@@ -89,17 +87,29 @@ Used when...FIXME
 Used when...FIXME
 
 | metadata
-| [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
+a| [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
 
-Created right when `KafkaConsumer` is <<creating-instance, created>>.
+Created for a <<creating-instance, KafkaConsumer>> with the following:
 
-Used when...FIXME
+* <<retryBackoffMs, retryBackoffMs>> configuration property
+
+* <<kafka-clients-consumer-ConsumerConfig.adoc#METADATA_MAX_AGE_CONFIG, ConsumerConfig.METADATA_MAX_AGE_CONFIG>> configuration property
+
+* `allowAutoTopicCreation` flag on
+
+* `topicExpiryEnabled` flag off
+
+`metadata` is requested to <<kafka-clients-Metadata.adoc#update, update itself>> immediately
+
+Used to create a <<kafka-NetworkClient.adoc#metadata, NetworkClient>> (for the <<client, ConsumerNetworkClient>>), the <<client, ConsumerNetworkClient>> itself, the <<coordinator, ConsumerCoordinator>> and <<fetcher, Fetcher>>
+
+Used in...FIXME
 
 | metrics
 | [[metrics]] `Metrics`
 
 | retryBackoffMs
-| [[retryBackoffMs]] link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] property or a user-defined value
+| [[retryBackoffMs]] <<kafka-properties-retry-backoff-ms.adoc#, retry.backoff.ms>> property or a user-defined value
 
 | requestTimeoutMs
 a| [[requestTimeoutMs]] Corresponds to link:kafka-properties.adoc#request.timeout.ms[request.timeout.ms] property
