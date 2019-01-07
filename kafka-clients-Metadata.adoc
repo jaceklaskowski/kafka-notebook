@@ -2,7 +2,7 @@
 
 `Metadata` describes a Kafka <<cluster, cluster>>...FIXME
 
-`Metadata` is <<creating-instance, created>> right when link:kafka-consumer-KafkaConsumer.adoc#creating-instance[KafkaConsumer], link:kafka-producer-KafkaProducer.adoc#creating-instance[KafkaProducer], link:kafka-KafkaAdminClient.adoc#creating-instance[KafkaAdminClient] and link:kafka-AdminClient.adoc#create[AdminClient] are created.
+`Metadata` is <<creating-instance, created>> right when link:kafka-clients-consumer-KafkaConsumer.adoc#creating-instance[KafkaConsumer], link:kafka-producer-KafkaProducer.adoc#creating-instance[KafkaProducer], link:kafka-KafkaAdminClient.adoc#creating-instance[KafkaAdminClient] and link:kafka-AdminClient.adoc#create[AdminClient] are created.
 
 .Metadata's Properties When Created by Clients
 [cols="m,^1,^1,^1,^1",options="header",width="100%"]
@@ -258,7 +258,7 @@ Cluster ID: [clusterId]
 
 * `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
 
-* `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap servers)
+* `KafkaConsumer` is link:kafka-clients-consumer-KafkaConsumer.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap servers)
 * `KafkaProducer` is link:kafka-producer-KafkaProducer.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap servers)
 * `KafkaAdminClient` is link:kafka-KafkaAdminClient.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap brokers)
 * `AdminClient` is link:kafka-AdminClient.adoc#create[created] (and updates the cluster with a "bootstrap" cluster with bootstrap brokers)
@@ -291,9 +291,9 @@ synchronized void needMetadataForAllTopics(boolean needMetadataForAllTopics)
 ====
 `needMetadataForAllTopics` is used when `KafkaConsumer`:
 
-* link:kafka-consumer-KafkaConsumer.adoc#subscribe-pattern[Subscribes to topics matching specified pattern] (and `needMetadataForAllTopics` flag is then enabled)
+* link:kafka-clients-consumer-KafkaConsumer.adoc#subscribe-pattern[Subscribes to topics matching specified pattern] (and `needMetadataForAllTopics` flag is then enabled)
 
-* link:kafka-consumer-KafkaConsumer.adoc#unsubscribe[Unsubscribes from topics] (and `needMetadataForAllTopics` flag is then disabled)
+* link:kafka-clients-consumer-KafkaConsumer.adoc#unsubscribe[Unsubscribes from topics] (and `needMetadataForAllTopics` flag is then disabled)
 ====
 
 === [[requestUpdateForNewTopics]] `requestUpdateForNewTopics` Internal Method

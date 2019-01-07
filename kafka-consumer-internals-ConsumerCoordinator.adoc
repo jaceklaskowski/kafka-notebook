@@ -2,7 +2,7 @@
 
 `ConsumerCoordinator` is a concrete <<kafka-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>> that...FIXME
 
-`ConsumerCoordinator` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#coordinator[created].
+`ConsumerCoordinator` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-clients-consumer-KafkaConsumer.adoc#coordinator[created].
 
 .ConsumerCoordinator and KafkaConsumer
 image::images/ConsumerCoordinator.png[align="center"]
@@ -51,7 +51,7 @@ With <<autoCommitEnabled, autoCommitEnabled>> enabled (i.e. link:kafka-propertie
 
 * <<metadata, metadata>>
 
-* [[lookupAssignor]] Looking up the <<kafka-consumer-PartitionAssignor.adoc#, PartitionAssignor>> by name (when <<onJoinComplete, onJoinComplete>> and <<performAssignment, performAssignment>>)
+* [[lookupAssignor]] Looking up the <<kafka-clients-consumer-internals-PartitionAssignor.adoc#, PartitionAssignor>> by name (when <<onJoinComplete, onJoinComplete>> and <<performAssignment, performAssignment>>)
 
 [[internal-registries]]
 .ConsumerCoordinator's Internal Properties (e.g. Registries, Counters and Flags)
@@ -105,7 +105,7 @@ void maybeAutoCommitOffsetsAsync(long now)
 ====
 `maybeAutoCommitOffsetsAsync` is used when:
 
-* `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#assign[manually assign partitions]
+* `KafkaConsumer` is requested to link:kafka-clients-consumer-KafkaConsumer.adoc#assign[manually assign partitions]
 
 * `ConsumerCoordinator` is requested to <<poll, poll>>
 ====
@@ -275,7 +275,7 @@ void poll(long now, long remainingMs)
 
 `poll`...FIXME
 
-NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#pollOnce[pollOnce].
+NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka-clients-consumer-KafkaConsumer.adoc#pollOnce[pollOnce].
 
 === [[addMetadataListener]] `addMetadataListener` Internal Method
 
@@ -317,7 +317,7 @@ NOTE: `fetchCommittedOffsets` is used when...FIXME
 * [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
 * [[sessionTimeoutMs]] `sessionTimeoutMs`
 * [[heartbeatIntervalMs]] `heartbeatIntervalMs`
-* [[assignors]] Collection of <<kafka-consumer-PartitionAssignor.adoc#, PartitionAssignors>>
+* [[assignors]] Collection of <<kafka-clients-consumer-internals-PartitionAssignor.adoc#, PartitionAssignors>>
 * [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
 * [[subscriptions]] <<kafka-consumer-internals-SubscriptionState.adoc#, SubscriptionState>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
@@ -326,7 +326,7 @@ NOTE: `fetchCommittedOffsets` is used when...FIXME
 * [[retryBackoffMs]] `retryBackoffMs`
 * [[autoCommitEnabled]] `autoCommitEnabled` flag
 * [[autoCommitIntervalMs]] `autoCommitIntervalMs`
-* [[interceptors]] <<kafka-consumer-ConsumerInterceptor.adoc#, ConsumerInterceptors>>
+* [[interceptors]] <<kafka-clients-consumer-ConsumerInterceptor.adoc#, ConsumerInterceptors>>
 * [[excludeInternalTopics]] `excludeInternalTopics` flag
 * [[leaveGroupOnClose]] `leaveGroupOnClose` flag
 

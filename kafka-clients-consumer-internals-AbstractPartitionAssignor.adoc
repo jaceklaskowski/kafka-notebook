@@ -1,6 +1,6 @@
 == [[AbstractPartitionAssignor]] AbstractPartitionAssignor
 
-`AbstractPartitionAssignor` is the <<contract, extension>> of the <<kafka-consumer-PartitionAssignor.adoc#, PartitionAssignor contract>> for <<implementations, partition assignors>> that can <<assign, perform group assignment given partition counts and member subscriptions>>.
+`AbstractPartitionAssignor` is the <<contract, extension>> of the <<kafka-clients-consumer-internals-PartitionAssignor.adoc#, PartitionAssignor contract>> for <<implementations, partition assignors>> that can <<assign, perform group assignment given partition counts and member subscriptions>>.
 
 NOTE: `AbstractPartitionAssignor` is a Java abstract class and cannot be created directly. It is created indirectly for the <<implementations, concrete PartitionAssignors>>.
 
@@ -33,13 +33,13 @@ Used exclusively when requested to <<assign, assign>> (given cluster metadata an
 | AbstractPartitionAssignor
 | Description
 
-| <<kafka-consumer-RangeAssignor.adoc#, RangeAssignor>>
+| <<kafka-clients-consumer-RangeAssignor.adoc#, RangeAssignor>>
 | [[RangeAssignor]]
 
-| <<kafka-consumer-RoundRobinAssignor.adoc#, RoundRobinAssignor>>
+| <<kafka-clients-consumer-RoundRobinAssignor.adoc#, RoundRobinAssignor>>
 | [[RoundRobinAssignor]]
 
-| <<kafka-consumer-StickyAssignor.adoc#, StickyAssignor>>
+| <<kafka-clients-consumer-StickyAssignor.adoc#, StickyAssignor>>
 | [[StickyAssignor]]
 
 |===
@@ -53,6 +53,6 @@ Map<String, Assignment> assign(
   Map<String, Subscription> subscriptions)
 ----
 
-NOTE: `assign` is part of the <<kafka-consumer-PartitionAssignor.adoc#assign, PartitionAssignor Contract>> to perform group assignment given cluster metadata and member subscriptions.
+NOTE: `assign` is part of the <<kafka-clients-consumer-internals-PartitionAssignor.adoc#assign, PartitionAssignor Contract>> to perform group assignment given cluster metadata and member subscriptions.
 
 `assign`...FIXME

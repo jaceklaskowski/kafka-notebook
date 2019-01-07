@@ -1,11 +1,11 @@
 == [[Fetcher]] Fetcher
 
-`Fetcher` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#creating-instance[created].
+`Fetcher` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-clients-consumer-KafkaConsumer.adoc#creating-instance[created].
 
 .Fetcher and KafkaConsumer
 image::images/Fetcher-KafkaConsumer.png[align="center"]
 
-`KafkaConsumer` uses the following configuration properties to create a link:kafka-consumer-KafkaConsumer.adoc#fetcher[Fetcher]:
+`KafkaConsumer` uses the following configuration properties to create a link:kafka-clients-consumer-KafkaConsumer.adoc#fetcher[Fetcher]:
 
 * link:kafka-properties.adoc#fetch.min.bytes[fetch.min.bytes] for <<minBytes, minimum number of bytes>>
 * link:kafka-properties.adoc#fetch.max.bytes[fetch.max.bytes] for <<maxBytes, maximum number of bytes>>
@@ -102,7 +102,7 @@ CAUTION: FIXME Describe the failure path
 `getTopicMetadata` is used when:
 
 * `Fetcher` is requested to <<getAllTopicMetadata, find metadata for all topics>>
-* `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#partitionsFor[find partitions for a topic].
+* `KafkaConsumer` is requested to link:kafka-clients-consumer-KafkaConsumer.adoc#partitionsFor[find partitions for a topic].
 ====
 
 === [[getAllTopicMetadata]] Finding Metadata for All Topics -- `getAllTopicMetadata` Method
@@ -114,4 +114,4 @@ Map<String, List<PartitionInfo>> getAllTopicMetadata(long timeout)
 
 `getAllTopicMetadata` <<getTopicMetadata, gets topic metadata>> specifying no topics (which means all topics available).
 
-NOTE: `getAllTopicMetadata` is used exclusively when `KafkaConsumer` link:kafka-consumer-KafkaConsumer.adoc#listTopics[requests metadata for all topics].
+NOTE: `getAllTopicMetadata` is used exclusively when `KafkaConsumer` link:kafka-clients-consumer-KafkaConsumer.adoc#listTopics[requests metadata for all topics].

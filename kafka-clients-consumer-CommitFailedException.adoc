@@ -1,0 +1,3 @@
+== [[CommitFailedException]] CommitFailedException
+
+`CommitFailedException` is...FIXME

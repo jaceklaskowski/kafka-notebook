@@ -1,0 +1,3 @@
+== [[MockConsumer]] MockConsumer
+
+`MockConsumer` is...FIXME

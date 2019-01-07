@@ -1,0 +1,3 @@
+== [[OffsetCommitCallback]] OffsetCommitCallback
+
+`OffsetCommitCallback` is...FIXME

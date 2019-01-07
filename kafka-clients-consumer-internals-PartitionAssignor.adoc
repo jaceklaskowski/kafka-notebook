@@ -60,7 +60,7 @@ Used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-int
 | PartitionAssignor
 | Description
 
-| <<kafka-consumer-AbstractPartitionAssignor.adoc#, AbstractPartitionAssignor>>
+| <<kafka-clients-consumer-internals-AbstractPartitionAssignor.adoc#, AbstractPartitionAssignor>>
 | [[AbstractPartitionAssignor]] Extension for collecting partition counts
 
 | StreamsPartitionAssignor

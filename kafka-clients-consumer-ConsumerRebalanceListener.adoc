@@ -19,7 +19,7 @@ interface ConsumerRebalanceListener {
 }
 ----
 
-`ConsumerRebalanceListener` is used when a Kafka `Consumer` is requested to link:kafka-consumer-Consumer.adoc#subscribe[subscribe to topics].
+`ConsumerRebalanceListener` is used when a Kafka `Consumer` is requested to link:kafka-clients-consumer-Consumer.adoc#subscribe[subscribe to topics].
 
 [source, java]
 ----

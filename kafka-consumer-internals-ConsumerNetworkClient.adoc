@@ -2,7 +2,7 @@
 
 `ConsumerNetworkClient` is a high-level Kafka consumer that...FIXME
 
-`ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-consumer-KafkaConsumer.adoc#client[KafkaConsumer] and link:kafka-AdminClient.adoc[AdminClient].
+`ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-clients-consumer-KafkaConsumer.adoc#client[KafkaConsumer] and link:kafka-AdminClient.adoc[AdminClient].
 
 [[internal-registries]]
 .ConsumerNetworkClient's Internal Properties (e.g. Registries and Counters)
@@ -111,7 +111,7 @@ boolean poll(RequestFuture<?> future, long timeout)
 ====
 `poll` is used when:
 
-* `KafkaConsumer` link:kafka-consumer-KafkaConsumer.adoc#pollOnce[polls once]
+* `KafkaConsumer` link:kafka-clients-consumer-KafkaConsumer.adoc#pollOnce[polls once]
 * `ConsumerNetworkClient` does <<pollNoWakeup, pollNoWakeup>>, <<awaitMetadataUpdate, awaitMetadataUpdate>>, <<awaitPendingRequests, awaitPendingRequests>>
 * `AbstractCoordinator` does `ensureCoordinatorReady` and `joinGroupIfNeeded`
 * `ConsumerCoordinator` link:kafka-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsSync[commitOffsetsSync] and link:kafka-consumer-internals-ConsumerCoordinator.adoc#fetchCommittedOffsets[fetchCommittedOffsets]
@@ -146,7 +146,7 @@ void pollNoWakeup()
 ====
 `pollNoWakeup` is used when:
 
-* `KafkaConsumer` link:kafka-consumer-KafkaConsumer.adoc#poll[polls]
+* `KafkaConsumer` link:kafka-clients-consumer-KafkaConsumer.adoc#poll[polls]
 * `AbstractCoordinator` does `maybeLeaveGroup`
 * `HeartbeatThread` runs
 * `ConsumerCoordinator` does `commitOffsetsAsync`

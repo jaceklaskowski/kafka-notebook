@@ -11,7 +11,7 @@
 
 * `Fetcher` is requested to <<kafka-Fetcher.adoc#getAllTopicMetadata, getAllTopicMetadata>>
 
-* `KafkaConsumer` is requested to <<kafka-consumer-KafkaConsumer.adoc#partitionsFor, partitionsFor>>
+* `KafkaConsumer` is requested to <<kafka-clients-consumer-KafkaConsumer.adoc#partitionsFor, partitionsFor>>
 
 [[creating-instance]]
 [[Builder]]
