@@ -50,7 +50,7 @@ send(
   request: AbstractRequest.Builder[_ <: AbstractRequest]): AbstractResponse
 ----
 
-`send` requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#send[send] the input `request` to the `target`.
+`send` requests <<client, ConsumerNetworkClient>> to link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#send[send] the input `request` to the `target`.
 
 .AdminClient Sends Requests Using ConsumerNetworkClient
 image::images/AdminClient-send.png[align="center"]

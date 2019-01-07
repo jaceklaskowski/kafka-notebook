@@ -2,9 +2,9 @@
 
 `ConsumerRebalanceListener` is a <<contract, callback interface>> to be notified when the set of partitions assigned to the consumer (aka _assignment_) changes.
 
-`ConsumerRebalanceListener` is notified about the newly-assigned partitions through <<onPartitionsAssigned, onPartitionsAssigned>> callback that happens when `ConsumerCoordinator` is requested to link:kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete].
+`ConsumerRebalanceListener` is notified about the newly-assigned partitions through <<onPartitionsAssigned, onPartitionsAssigned>> callback that happens when `ConsumerCoordinator` is requested to link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete].
 
-`ConsumerRebalanceListener` is notified about the partitions revoked through <<onPartitionsRevoked, onPartitionsRevoked>> callback that happens when `ConsumerCoordinator` is requested to link:kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinPrepare[onJoinPrepare].
+`ConsumerRebalanceListener` is notified about the partitions revoked through <<onPartitionsRevoked, onPartitionsRevoked>> callback that happens when `ConsumerCoordinator` is requested to link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#onJoinPrepare[onJoinPrepare].
 
 CAUTION: FIXME Picture when the notifications are triggered
 
@@ -34,8 +34,8 @@ void subscribe(Pattern pattern, ConsumerRebalanceListener callback);
 | Description
 
 | [[onPartitionsAssigned]] `onPartitionsAssigned`
-| Used exclusively when `ConsumerCoordinator` is requested to link:kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete]
+| Used exclusively when `ConsumerCoordinator` is requested to link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete]
 
 | [[onPartitionsRevoked]] `onPartitionsRevoked`
-| Used exclusively when `ConsumerCoordinator` is requested to link:kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinPrepare[onJoinPrepare]
+| Used exclusively when `ConsumerCoordinator` is requested to link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#onJoinPrepare[onJoinPrepare]
 |===

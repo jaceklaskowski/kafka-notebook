@@ -52,7 +52,6 @@
 .. link:kafka-server-DynamicListenerConfig.adoc[DynamicListenerConfig]
 .. link:kafka-log-LogCleaner.adoc[LogCleaner]
 
-. link:kafka-Fetcher.adoc[Fetcher]
 . link:kafka-GroupCoordinator.adoc[GroupCoordinator]
 . link:kafka-GroupMetadataManager.adoc[GroupMetadataManager]
 . link:kafka-InterBrokerSendThread.adoc[InterBrokerSendThread]
@@ -177,10 +176,13 @@
 .. link:kafka-clients-consumer-StickyAssignor.adoc[StickyAssignor]
 .. link:kafka-clients-consumer-internals-AbstractPartitionAssignor.adoc[AbstractPartitionAssignor]
 
-. link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
-.. link:kafka-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator]
-. link:kafka-consumer-internals-SubscriptionState.adoc[SubscriptionState]
-. link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+. link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
+.. link:kafka-clients-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator]
+. link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+. link:kafka-clients-consumer-internals-ConsumerMetrics.adoc[ConsumerMetrics]
+. link:kafka-clients-consumer-internals-Fetcher.adoc[Fetcher]
+. link:kafka-clients-consumer-internals-RequestFutureListener.adoc[RequestFutureListener]
+. link:kafka-clients-consumer-internals-SubscriptionState.adoc[SubscriptionState]
 
 === Kafka Architecture
 

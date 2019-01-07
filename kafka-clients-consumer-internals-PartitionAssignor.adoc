@@ -19,7 +19,7 @@ Map<String, Assignment> assign(
   Map<String, Subscription> subscriptions)
 ----
 
-Used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#performAssignment, performAssignment>>
+Used exclusively when `ConsumerCoordinator` is requested to <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#performAssignment, performAssignment>>
 
 | name
 a| [[name]]
@@ -29,7 +29,7 @@ a| [[name]]
 String name()
 ----
 
-Used when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#metadata, metadata>>, <<kafka-consumer-internals-ConsumerCoordinator.adoc#lookupAssignor, lookupAssignor>>, and <<kafka-consumer-internals-ConsumerCoordinator.adoc#performAssignment, performAssignment>> (only for logging purposes)
+Used when `ConsumerCoordinator` is requested to <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#metadata, metadata>>, <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#lookupAssignor, lookupAssignor>>, and <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#performAssignment, performAssignment>> (only for logging purposes)
 
 | onAssignment
 a| [[onAssignment]]
@@ -39,7 +39,7 @@ a| [[onAssignment]]
 void onAssignment(Assignment assignment)
 ----
 
-Used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete, onJoinComplete>>
+Used exclusively when `ConsumerCoordinator` is requested to <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete, onJoinComplete>>
 
 | subscription
 a| [[subscription]]
@@ -49,7 +49,7 @@ a| [[subscription]]
 Subscription subscription(Set<String> topics)
 ----
 
-Used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#metadata, metadata>>
+Used exclusively when `ConsumerCoordinator` is requested to <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#metadata, metadata>>
 
 |===
 

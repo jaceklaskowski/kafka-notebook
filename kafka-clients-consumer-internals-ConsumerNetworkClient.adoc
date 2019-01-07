@@ -84,7 +84,7 @@ void ensureFreshMetadata()
 
 `ensureFreshMetadata` <<awaitMetadataUpdate, waits for metadata update>> when <<metadata, Metadata>> was requested for link:kafka-clients-Metadata.adoc#updateRequested[update] or link:kafka-clients-Metadata.adoc#timeToNextUpdate[time to the next update] is now.
 
-NOTE: `ensureFreshMetadata` is used when `ConsumerCoordinator` does link:kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete], link:kafka-consumer-internals-ConsumerCoordinator.adoc#performAssignment[performAssignment] and link:kafka-consumer-internals-ConsumerCoordinator.adoc#poll[poll].
+NOTE: `ensureFreshMetadata` is used when `ConsumerCoordinator` does link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete], link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#performAssignment[performAssignment] and link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#poll[poll].
 
 === [[pendingRequestCount]] `pendingRequestCount` Method
 
@@ -114,8 +114,8 @@ boolean poll(RequestFuture<?> future, long timeout)
 * `KafkaConsumer` link:kafka-clients-consumer-KafkaConsumer.adoc#pollOnce[polls once]
 * `ConsumerNetworkClient` does <<pollNoWakeup, pollNoWakeup>>, <<awaitMetadataUpdate, awaitMetadataUpdate>>, <<awaitPendingRequests, awaitPendingRequests>>
 * `AbstractCoordinator` does `ensureCoordinatorReady` and `joinGroupIfNeeded`
-* `ConsumerCoordinator` link:kafka-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsSync[commitOffsetsSync] and link:kafka-consumer-internals-ConsumerCoordinator.adoc#fetchCommittedOffsets[fetchCommittedOffsets]
-* `Fetcher` is requested for link:kafka-Fetcher.adoc#getTopicMetadata[topic metadata] or link:kafka-Fetcher.adoc#retrieveOffsetsByTimes[retrieveOffsetsByTimes]
+* `ConsumerCoordinator` link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsSync[commitOffsetsSync] and link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#fetchCommittedOffsets[fetchCommittedOffsets]
+* `Fetcher` is requested for link:kafka-clients-consumer-internals-Fetcher.adoc#getTopicMetadata[topic metadata] or link:kafka-clients-consumer-internals-Fetcher.adoc#retrieveOffsetsByTimes[retrieveOffsetsByTimes]
 ====
 
 === [[awaitMetadataUpdate]] Waiting for Metadata Update -- `awaitMetadataUpdate` Method

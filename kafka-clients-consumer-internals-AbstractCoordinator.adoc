@@ -2,7 +2,7 @@
 
 `AbstractCoordinator` is a <<contract, contract>> for...FIXME
 
-NOTE: link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator] is the default `AbstractCoordinator` in Apache Kafka's Consumer API.
+NOTE: link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator] is the default `AbstractCoordinator` in Apache Kafka's Consumer API.
 
 [[contract]]
 [source, java]
@@ -62,7 +62,7 @@ abstract class AbstractCoordinator {
 `AbstractCoordinator` takes the following when created:
 
 * [[logContext]] `LogContext`
-* [[client]] link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+* [[client]] link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 * [[groupId]] Group ID
 * [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
 * [[sessionTimeoutMs]] `sessionTimeoutMs`
@@ -104,4 +104,4 @@ void ensureActiveGroup()
 
 `ensureActiveGroup`...FIXME
 
-NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to link:kafka-consumer-internals-ConsumerCoordinator.adoc#poll[poll for coordinator events]
+NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#poll[poll for coordinator events]

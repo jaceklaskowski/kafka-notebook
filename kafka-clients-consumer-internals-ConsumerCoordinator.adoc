@@ -1,6 +1,6 @@
 == [[ConsumerCoordinator]] ConsumerCoordinator
 
-`ConsumerCoordinator` is a concrete <<kafka-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>> that...FIXME
+`ConsumerCoordinator` is a concrete <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>> that...FIXME
 
 `ConsumerCoordinator` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-clients-consumer-KafkaConsumer.adoc#coordinator[created].
 
@@ -193,7 +193,7 @@ void onJoinComplete(
   ByteBuffer assignmentBuffer)
 ----
 
-NOTE: `onJoinComplete` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#onJoinComplete[AbstractCoordinator Contract] to...FIXME.
+NOTE: `onJoinComplete` is part of link:kafka-clients-consumer-internals-AbstractCoordinator.adoc#onJoinComplete[AbstractCoordinator Contract] to...FIXME.
 
 `onJoinComplete`...FIXME
 
@@ -204,7 +204,7 @@ NOTE: `onJoinComplete` is part of link:kafka-consumer-internals-AbstractCoordina
 void onJoinPrepare(int generation, String memberId)
 ----
 
-NOTE: `onJoinPrepare` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#onJoinPrepare[AbstractCoordinator Contract] to...FIXME.
+NOTE: `onJoinPrepare` is part of link:kafka-clients-consumer-internals-AbstractCoordinator.adoc#onJoinPrepare[AbstractCoordinator Contract] to...FIXME.
 
 `onJoinPrepare`...FIXME
 
@@ -218,7 +218,7 @@ Map<String, ByteBuffer> performAssignment(
   Map<String, ByteBuffer> allSubscriptions)
 ----
 
-NOTE: `performAssignment` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to...FIXME.
+NOTE: `performAssignment` is part of link:kafka-clients-consumer-internals-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to...FIXME.
 
 `performAssignment`...FIXME
 
@@ -251,7 +251,7 @@ NOTE: `updatePatternSubscription` is used when...FIXME
 boolean needRejoin()
 ----
 
-NOTE: `needRejoin` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#needRejoin[AbstractCoordinator Contract] to...FIXME.
+NOTE: `needRejoin` is part of link:kafka-clients-consumer-internals-AbstractCoordinator.adoc#needRejoin[AbstractCoordinator Contract] to...FIXME.
 
 `needRejoin`...FIXME
 
@@ -277,7 +277,7 @@ void poll(long now, long remainingMs)
 
 NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka-clients-consumer-KafkaConsumer.adoc#pollOnce[pollOnce].
 
-=== [[addMetadataListener]] `addMetadataListener` Internal Method
+=== [[addMetadataListener]] Registering Metadata.Listener -- `addMetadataListener` Internal Method
 
 [source, java]
 ----
@@ -312,14 +312,14 @@ NOTE: `fetchCommittedOffsets` is used when...FIXME
 `ConsumerCoordinator` takes the following when created:
 
 * [[logContext]] `LogContext`
-* [[client]] <<kafka-consumer-internals-ConsumerNetworkClient.adoc#, ConsumerNetworkClient>>
+* [[client]] <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#, ConsumerNetworkClient>>
 * [[groupId]] Group ID
 * [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
 * [[sessionTimeoutMs]] `sessionTimeoutMs`
 * [[heartbeatIntervalMs]] `heartbeatIntervalMs`
 * [[assignors]] Collection of <<kafka-clients-consumer-internals-PartitionAssignor.adoc#, PartitionAssignors>>
 * [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
-* [[subscriptions]] <<kafka-consumer-internals-SubscriptionState.adoc#, SubscriptionState>>
+* [[subscriptions]] <<kafka-clients-consumer-internals-SubscriptionState.adoc#, SubscriptionState>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[metricGrpPrefix]] Prefix of the metric group
 * [[time]] `Time`
@@ -341,6 +341,6 @@ In the end, `ConsumerCoordinator` requests the <<metadata, Metadata>> to <<kafka
 boolean rejoinNeededOrPending()
 ----
 
-NOTE: `rejoinNeededOrPending` is part of the <<kafka-consumer-internals-AbstractCoordinator.adoc#rejoinNeededOrPending, AbstractCoordinator Contract>> to...FIXME.
+NOTE: `rejoinNeededOrPending` is part of the <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#rejoinNeededOrPending, AbstractCoordinator Contract>> to...FIXME.
 
 `rejoinNeededOrPending`...FIXME

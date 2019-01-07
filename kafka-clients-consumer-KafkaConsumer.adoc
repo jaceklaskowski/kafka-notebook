@@ -60,7 +60,7 @@ Configured using <<kafka-clients-consumer-ConsumerConfig.adoc#PARTITION_ASSIGNME
 Used exclusively to create the <<coordinator, ConsumerCoordinator>>
 
 | client
-| [[client]] link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+| [[client]] link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 
 Used mainly _(?)_ to create the <<fetcher, Fetcher>> and <<coordinator, ConsumerCoordinator>>
 
@@ -70,12 +70,12 @@ Used also in <<poll, poll>>, <<pollOnce, pollOnce>> and <<wakeup, wakeup>> (but 
 | [[clientId]]
 
 | coordinator
-a| [[coordinator]] <<kafka-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>>
+a| [[coordinator]] <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>>
 
 Used in <<subscribe, subscribe>>, <<unsubscribe, unsubscribe>>, <<assign, assign>>, <<updateAssignmentMetadataIfNeeded, updateAssignmentMetadataIfNeeded>>, <<pollForFetches, pollForFetches>>, <<commitSync, commitSync>>, <<commitAsync, commitAsync>>, <<committed, committed>>, <<close, close>>, and <<updateFetchPositions, updateFetchPositions>>
 
 | fetcher
-| [[fetcher]] link:kafka-Fetcher.adoc[Fetcher]
+| [[fetcher]] link:kafka-clients-consumer-internals-Fetcher.adoc[Fetcher]
 
 Created right when `KafkaConsumer` is <<creating-instance, created>>.
 
@@ -220,7 +220,7 @@ while (true) {
 
 Internally, `poll` starts by <<pollOnce, polling once>> (for `timeout` milliseconds).
 
-If there are records available, `poll` checks <<fetcher, Fetcher>> for link:kafka-Fetcher.adoc#sendFetches[sendFetches] and <<client, ConsumerNetworkClient>> for link:kafka-consumer-internals-ConsumerNetworkClient.adoc#pendingRequestCount[pendingRequestCount] flag. If either is positive, `poll` requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#pollNoWakeup[pollNoWakeup].
+If there are records available, `poll` checks <<fetcher, Fetcher>> for link:kafka-clients-consumer-internals-Fetcher.adoc#sendFetches[sendFetches] and <<client, ConsumerNetworkClient>> for link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#pendingRequestCount[pendingRequestCount] flag. If either is positive, `poll` requests <<client, ConsumerNetworkClient>> to link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#pollNoWakeup[pollNoWakeup].
 
 CAUTION: FIXME Make the above more user-friendly
 
@@ -289,7 +289,7 @@ NOTE: `pollOnce` is used exclusively when `KafkaConsumer` is requested to <<poll
 Map<String, List<PartitionInfo>> listTopics()
 ----
 
-Internally, `listTopics` simply requests <<fetcher, Fetcher>> for link:kafka-Fetcher.adoc#getAllTopicMetadata[metadata for all topics] and returns it.
+Internally, `listTopics` simply requests <<fetcher, Fetcher>> for link:kafka-clients-consumer-internals-Fetcher.adoc#getAllTopicMetadata[metadata for all topics] and returns it.
 
 [source, scala]
 ----
@@ -307,7 +307,7 @@ NOTE: `listTopics` uses <<requestTimeoutMs, requestTimeoutMs>> that corresponds 
 Map<TopicPartition, Long> beginningOffsets(Collection<TopicPartition> partitions)
 ----
 
-`beginningOffsets` requests <<fetcher, Fetcher>> for link:kafka-Fetcher.adoc#beginningOffsets[beginningOffsets] and returns it.
+`beginningOffsets` requests <<fetcher, Fetcher>> for link:kafka-clients-consumer-internals-Fetcher.adoc#beginningOffsets[beginningOffsets] and returns it.
 
 === [[creating-instance]] Creating KafkaConsumer Instance
 
@@ -408,7 +408,7 @@ void wakeup()
 
 NOTE: `wakeup` is a part of link:kafka-clients-consumer-Consumer.adoc#wakeup[Consumer Contract].
 
-`wakeup` simply requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#wakeup[wakeup].
+`wakeup` simply requests <<client, ConsumerNetworkClient>> to link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#wakeup[wakeup].
 
 .KafkaConsumer's wakeup Method
 image::images/KafkaConsumer-wakeup.png[align="center"]

@@ -9,7 +9,7 @@
 
 * `KafkaAdminClient` is requested to <<kafka-KafkaAdminClient.adoc#describeCluster, describeCluster>>, <<kafka-KafkaAdminClient.adoc#describeTopics, describeTopics>>, <<kafka-KafkaAdminClient.adoc#deleteRecords, deleteRecords>>, <<kafka-KafkaAdminClient.adoc#listConsumerGroups, listConsumerGroups>>, <<kafka-KafkaAdminClient.adoc#listTopics, listTopics>>
 
-* `Fetcher` is requested to <<kafka-Fetcher.adoc#getAllTopicMetadata, getAllTopicMetadata>>
+* `Fetcher` is requested to <<kafka-clients-consumer-internals-Fetcher.adoc#getAllTopicMetadata, getAllTopicMetadata>>
 
 * `KafkaConsumer` is requested to <<kafka-clients-consumer-KafkaConsumer.adoc#partitionsFor, partitionsFor>>
 
