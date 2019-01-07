@@ -149,3 +149,42 @@ DeleteConsumerGroupsResult deleteConsumerGroups(
 NOTE: `deleteConsumerGroups` is part of the <<kafka-AdminClient.adoc#deleteConsumerGroups, AdminClient Contract>> to...FIXME.
 
 `deleteConsumerGroups`...FIXME
+
+=== [[createTopics]] `createTopics` Method
+
+[source, java]
+----
+CreateTopicsResult createTopics(
+  final Collection<NewTopic> newTopics,
+  final CreateTopicsOptions options)
+----
+
+NOTE: `createTopics` is part of the <<kafka-AdminClient.adoc#createTopics, AdminClient Contract>> to...FIXME.
+
+`createTopics`...FIXME
+
+=== [[deleteTopics]] `deleteTopics` Method
+
+[source, java]
+----
+DeleteTopicsResult deleteTopics(
+  Collection<String> topicNames,
+  DeleteTopicsOptions options)
+----
+
+NOTE: `deleteTopics` is part of the <<kafka-AdminClient.adoc#deleteTopics, AdminClient Contract>> to...FIXME.
+
+`deleteTopics`...FIXME
+
+=== [[createPartitions]] `createPartitions` Method
+
+[source, java]
+----
+CreatePartitionsResult createPartitions(
+  Map<String, NewPartitions> newPartitions,
+  final CreatePartitionsOptions options)
+----
+
+NOTE: `createPartitions` is part of the <<kafka-AdminClient.adoc#createPartitions, AdminClient Contract>> to...FIXME.
+
+`createPartitions`...FIXME

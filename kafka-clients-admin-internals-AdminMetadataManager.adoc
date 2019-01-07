@@ -1,0 +1,14 @@
+== [[AdminMetadataManager]] AdminMetadataManager
+
+`AdminMetadataManager` is...FIXME
+
+=== [[clearController]] `clearController` Method
+
+[source, java]
+----
+void clearController()
+----
+
+`clearController`...FIXME
+
+NOTE: `clearController` is used when `KafkaAdminClient` is requested to <<kafka-KafkaAdminClient.adoc#createTopics, createTopics>>, <<kafka-KafkaAdminClient.adoc#deleteTopics, deleteTopics>>, and <<kafka-KafkaAdminClient.adoc#createPartitions, createPartitions>> (and `Errors.NOT_CONTROLLER` error is received).

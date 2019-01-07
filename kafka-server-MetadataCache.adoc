@@ -99,3 +99,14 @@ updateMetadata(
 `updateMetadata`...FIXME
 
 NOTE: `updateMetadata` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#maybeUpdateMetadataCache, maybeUpdateMetadataCache>>.
+
+=== [[getClusterMetadata]] `getClusterMetadata` Method
+
+[source, scala]
+----
+getClusterMetadata(clusterId: String, listenerName: ListenerName): Cluster
+----
+
+`getClusterMetadata`...FIXME
+
+NOTE: `getClusterMetadata` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleUpdateMetadataRequest, handle an UpdateMetadata request>>.

@@ -16,6 +16,7 @@
 
 . link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
 .. link:kafka-AdminClient.adoc[AdminClient]
+.. link:kafka-clients-admin-internals-AdminMetadataManager.adoc[AdminMetadataManager]
 
 . link:kafka-admin-AdminUtils.adoc[AdminUtils]
 
@@ -237,7 +238,7 @@
 . link:kafka-clients-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
 
 . link:kafka-clients-Metadata.adoc[Metadata]
-.. link:kafka-clients-Metadata-Listener.adoc[Metadata Update Listener]
+.. link:kafka-clients-Metadata-Listener.adoc[Listener Contract -- Intercepting Metadata Updates]
 
 === Kafka Commons
 

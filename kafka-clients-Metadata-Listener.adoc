@@ -1,4 +1,4 @@
-== [[Listener]] Metadata Update Listener
+== [[Listener]] Listener Contract -- Intercepting Metadata Updates
 
 `Listener` is the <<contract, contract>> of...FIXME
 

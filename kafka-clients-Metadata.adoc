@@ -157,7 +157,7 @@ Cluster getClusterForCurrentTopics(Cluster cluster)
 
 `getClusterForCurrentTopics`...FIXME
 
-NOTE: `getClusterForCurrentTopics` is used when...FIXME
+NOTE: `getClusterForCurrentTopics` is used exclusively when `Metadata` is requested to <<update, update>>.
 
 === [[timeToNextUpdate]] `timeToNextUpdate` Method
 

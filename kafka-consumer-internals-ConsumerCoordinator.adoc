@@ -284,9 +284,15 @@ NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka
 void addMetadataListener()
 ----
 
-`addMetadataListener` registers a <<kafka-clients-Metadata-Listener.adoc#, Metadata Update Listener>> (with the <<metadata, Metadata>>) that does the following:
+`addMetadataListener` requests the <<metadata, Metadata>> to add a new <<kafka-clients-Metadata-Listener.adoc#, Metadata Update Listener>> that <<kafka-clients-Metadata-Listener.adoc#onMetadataUpdate, intercepts onMetadataUpdate events>> and does the following:
 
 * FIXME
+
+`addMetadataListener` throws a `TopicAuthorizationException` for any unauthorized topics (i.e. when the given `Cluster` has at least one topic in <<kafka-common-Cluster.adoc#unauthorizedTopics, unauthorizedTopics>>).
+
+```
+FIXME
+```
 
 NOTE: `addMetadataListener` is used exclusively when `ConsumerCoordinator` is <<creating-instance, created>>.
 

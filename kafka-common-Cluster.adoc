@@ -8,6 +8,18 @@ A special variant of a cluster is *boostrap cluster* that is made up of the <<bo
 
 NOTE: A bootstrap cluster does not hold all information about the cluster.
 
+`Cluster` is <<creating-instance, created>> when:
+
+* `AdminMetadataManager` is requested to <<kafka-clients-admin-internals-AdminMetadataManager.adoc#clearController, clearController>>
+
+* `Cluster` is requested to create an <<empty, empty Cluster metadata>> and <<withPartitions, Cluster metadata with given partitions>>, and <<bootstrap, bootstrap>>
+
+* `MetadataCache` is requested to <<kafka-server-MetadataCache.adoc#getClusterMetadata, getClusterMetadata>>
+
+* `Metadata` is requested to <<kafka-clients-Metadata.adoc#getClusterForCurrentTopics, getClusterForCurrentTopics>>
+
+* `MetadataResponse` is requested to <<kafka-common-MetadataResponse.adoc#cluster, cluster>>
+
 [[internal-registries]]
 .Cluster's Internal Properties (e.g. Registries, Counters and Flags)
 [cols="1,2",options="header",width="100%"]
@@ -24,7 +36,7 @@ Used when...FIXME
 |
 |===
 
-=== [[bootstrap]] `bootstrap` Method
+=== [[bootstrap]] `bootstrap` Factory Method
 
 [source, java]
 ----
@@ -33,7 +45,7 @@ static Cluster bootstrap(List<InetSocketAddress> addresses)
 
 `bootstrap`...FIXME
 
-NOTE: `bootstrap` is used when link:kafka-KafkaAdminClient.adoc#creating-instance[KafkaAdminClient], link:kafka-AdminClient.adoc#create[AdminClient], link:kafka-consumer-KafkaConsumer.adoc#creating-instance[KafkaConsumer] and link:kafka-producer-KafkaProducer.adoc#creating-instance[KafkaProducer] are created.
+NOTE: `bootstrap` is used when <<kafka-KafkaAdminClient.adoc#, KafkaAdminClient>>, <<kafka-consumer-KafkaConsumer.adoc#, KafkaConsumer>> and <<kafka-producer-KafkaProducer.adoc#, KafkaProducer>> are created (and update their internal metadata).
 
 === [[isBootstrapConfigured]] `isBootstrapConfigured` Method
 
@@ -76,3 +88,47 @@ List<PartitionInfo> availablePartitionsForTopic(String topic)
 `availablePartitionsForTopic`...FIXME
 
 NOTE: `availablePartitionsForTopic` is used when...FIXME
+
+=== [[creating-instance]] Creating Cluster Instance
+
+`Cluster` takes the following when created:
+
+* [[clusterId]] *Cluster ID*
+* [[isBootstrapConfigured]] `isBootstrapConfigured` flag
+* [[nodes]] Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/Node.html[Nodes] (`Collection<Node>`)
+* [[partitions]] Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/PartitionInfo.html[PartitionInfos] (`Collection<PartitionInfo>`)
+* [[unauthorizedTopics]] Names of the *unauthorized topics*
+* [[invalidTopics]] Names of the *invalid topics*
+* [[internalTopics]] Names of the *internal topics*
+* [[controller]] *Controller* (as a Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/Node.html[Node])
+
+`Cluster` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[empty]] Creating Empty Cluster Metadata -- `empty` Factory Method
+
+[source, java]
+----
+static Cluster empty()
+----
+
+`empty`...FIXME
+
+[NOTE]
+====
+`empty` is used when:
+
+* `Metadata` is <<kafka-clients-Metadata.adoc#cluster, created>>
+
+* `AdminMetadataManager` is <<kafka-clients-admin-internals-AdminMetadataManager.adoc#cluster, created>>
+====
+
+=== [[withPartitions]] Creating Cluster Metadata With Given Partitions -- `withPartitions` Method
+
+[source, java]
+----
+Cluster withPartitions(Map<TopicPartition, PartitionInfo> partitions)
+----
+
+`withPartitions`...FIXME
+
+`withPartitions` is used exclusively when Kafka Streams' `StreamsPartitionAssignor` is requested to `assign` and `onAssignment`.
