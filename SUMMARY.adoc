@@ -151,16 +151,12 @@
 
 . link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
 
-. link:kafka-Serializer.adoc[Serializer]
-
 === Kafka Consumer API
 
 . link:kafka-consumer-KafkaConsumer.adoc[KafkaConsumer -- Main Class For Kafka Consumers]
 .. link:kafka-consumer-Consumer.adoc[Consumer Contract]
 
 . link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig -- Configuration Properties for Kafka Consumers]
-
-. link:kafka-Deserializer.adoc[Deserializer]
 
 . link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor]
 
@@ -257,6 +253,14 @@
 
 . link:kafka-common-FindCoordinatorRequest.adoc[FindCoordinatorRequest]
 . link:kafka-common-FindCoordinatorResponse.adoc[FindCoordinatorResponse]
+
+=== Kafka Common / Serialization
+
+. link:kafka-common-serialization-Serializer.adoc[Serializer Contract]
+. link:kafka-common-serialization-Deserializer.adoc[Deserializer Contract]
+. link:kafka-common-serialization-Serde.adoc[Serde Contract]
+
+. link:kafka-common-serialization-Serdes.adoc[Serdes Factory Object]
 
 === Kafka Security
 

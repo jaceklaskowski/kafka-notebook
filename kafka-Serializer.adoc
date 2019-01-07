@@ -1,3 +1,0 @@
-== [[Serializer]] Serializer
-
-`Serializer` is...FIXME

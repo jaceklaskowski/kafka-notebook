@@ -38,8 +38,8 @@ image::images/Fetcher-KafkaConsumer.png[align="center"]
 * [[fetchSize]] Fetch size
 * [[maxPollRecords]] How many records to poll
 * [[checkCrcs]] Flag to check CRC or not
-* [[keyDeserializer]] link:kafka-Deserializer.adoc[Deserializer] for keys
-* [[valueDeserializer]] link:kafka-Deserializer.adoc[Deserializer] for values
+* [[keyDeserializer]] link:kafka-common-serialization-Deserializer.adoc[Deserializer] for keys
+* [[valueDeserializer]] link:kafka-common-serialization-Deserializer.adoc[Deserializer] for values
 * [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
 * [[subscriptions]] `SubscriptionState`
 * [[metrics]] `Metrics`

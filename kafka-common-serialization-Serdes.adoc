@@ -1,0 +1,3 @@
+== [[Serdes]] Serdes Factory Object
+
+`Serdes` is...FIXME

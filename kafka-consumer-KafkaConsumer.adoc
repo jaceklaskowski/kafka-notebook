@@ -304,8 +304,8 @@ Map<TopicPartition, Long> beginningOffsets(Collection<TopicPartition> partitions
 `KafkaConsumer` takes the following when created:
 
 * [[configs]] Consumer configuration (that is converted internally to link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig])
-* [[keyDeserializer]] link:kafka-Deserializer.adoc[Deserializer] for keys
-* [[valueDeserializer]] link:kafka-Deserializer.adoc[Deserializer] for values
+* [[keyDeserializer]] link:kafka-common-serialization-Deserializer.adoc[Deserializer] for keys
+* [[valueDeserializer]] link:kafka-common-serialization-Deserializer.adoc[Deserializer] for values
 
 `KafkaConsumer` initializes the <<internal-registries, internal registries and counters>>.
 

@@ -239,8 +239,8 @@ NOTE: `waitOnMetadata` is used when `KafkaProducer` <<partitionsFor, requests pa
 `KafkaProducer` takes the following when created:
 
 * [[config]] <<kafka-ProducerConfig.adoc#, ProducerConfig>>
-* [[keySerializer]] <<kafka-Serializer.adoc#, Serializer>> for keys
-* [[valueSerializer]] <<kafka-Serializer.adoc#, Serializer>> for values
+* [[keySerializer]] <<kafka-common-serialization-Serializer.adoc#, Serializer>> for keys
+* [[valueSerializer]] <<kafka-common-serialization-Serializer.adoc#, Serializer>> for values
 * <<kafka-clients-Metadata.adoc#, Metadata>>
 * [[kafkaClient]] <<kafka-KafkaClient.adoc#, KafkaClient>>
 
@@ -274,13 +274,13 @@ Starting the Kafka producer
 
 `KafkaProducer` sets the <<keySerializer, keySerializer>> as follows:
 
-* <<kafka-ProducerConfig.adoc#KEY_SERIALIZER_CLASS_CONFIG, ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG>> when the input `keySerializer` was not defined and immediately requests the `Serializer` to <<kafka-Serializer.adoc#configure, configure>> itself
+* <<kafka-ProducerConfig.adoc#KEY_SERIALIZER_CLASS_CONFIG, ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG>> when the input `keySerializer` was not defined and immediately requests the `Serializer` to <<kafka-common-serialization-Serializer.adoc#configure, configure>> itself
 
 * The input `keySerializer`
 
 `KafkaProducer` sets the <<valueSerializer, valueSerializer>> as follows:
 
-* <<kafka-ProducerConfig.adoc#VALUE_SERIALIZER_CLASS_CONFIG, ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG>> when the input `keySerializer` was not defined and immediately requests the `Serializer` to <<kafka-Serializer.adoc#configure, configure>> itself
+* <<kafka-ProducerConfig.adoc#VALUE_SERIALIZER_CLASS_CONFIG, ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG>> when the input `keySerializer` was not defined and immediately requests the `Serializer` to <<kafka-common-serialization-Serializer.adoc#configure, configure>> itself
 
 * The input `valueSerializer`
 

@@ -77,7 +77,7 @@ a| [[INTERCEPTOR_CLASSES_CONFIG]] <<kafka-ProducerInterceptor.adoc#, ProducerInt
 | KEY_SERIALIZER_CLASS_CONFIG
 |
 | key.serializer
-a| [[KEY_SERIALIZER_CLASS_CONFIG]] Serializer class for keys that implements the <<kafka-Serializer.adoc#, org.apache.kafka.common.serialization.Serializer>> interface.
+a| [[KEY_SERIALIZER_CLASS_CONFIG]] Serializer class for keys that implements the <<kafka-common-serialization-Serializer.adoc#, org.apache.kafka.common.serialization.Serializer>> interface.
 
 | LINGER_MS_CONFIG
 | `0`
@@ -91,7 +91,7 @@ Must be at least `0`
 | VALUE_SERIALIZER_CLASS_CONFIG
 |
 | value.serializer
-a| [[VALUE_SERIALIZER_CLASS_CONFIG]] Serializer class for values that implements the <<kafka-Serializer.adoc#, org.apache.kafka.common.serialization.Serializer>> interface.
+a| [[VALUE_SERIALIZER_CLASS_CONFIG]] Serializer class for values that implements the <<kafka-common-serialization-Serializer.adoc#, org.apache.kafka.common.serialization.Serializer>> interface.
 
 | MAX_BLOCK_MS_CONFIG
 | `60 * 1000`

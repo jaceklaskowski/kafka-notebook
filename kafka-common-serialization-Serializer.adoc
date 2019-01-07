@@ -1,0 +1,3 @@
+== [[Serializer]] Serializer Contract
+
+`Serializer` is...FIXME
