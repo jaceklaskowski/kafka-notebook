@@ -20,7 +20,7 @@ image::images/ReplicaFetcherBlockingSend-sendRequest.png[align="center"]
 | Description
 
 | [[networkClient]] `networkClient`
-| link:kafka-NetworkClient.adoc[NetworkClient]
+| link:kafka-clients-NetworkClient.adoc[NetworkClient]
 
 Used when...FIXME
 
@@ -53,7 +53,7 @@ sendRequest(requestBuilder: Builder[_ <: AbstractRequest]): ClientResponse
 
 `sendRequest` requests `NetworkClientUtils` to link:kafka-NetworkClientUtils.adoc#[wait until the connection is ready] to the <<sourceNode, source broker node>> (in <<socketTimeout, replica.socket.timeout.ms>>).
 
-`sendRequest` requests <<networkClient, NetworkClient>> to link:kafka-NetworkClient.adoc#newClientRequest[create a new client request] to the <<sourceBroker, source broker>>.
+`sendRequest` requests <<networkClient, NetworkClient>> to link:kafka-clients-NetworkClient.adoc#newClientRequest[create a new client request] to the <<sourceBroker, source broker>>.
 
 `sendRequest` requests `NetworkClientUtils` to link:#sendAndReceive[send the client request and wait for a response].
 

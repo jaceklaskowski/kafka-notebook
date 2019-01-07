@@ -67,7 +67,7 @@ NOTE: `maybeUpdate` is a part of link:kafka-MetadataUpdater.adoc#maybeUpdate[Met
 
 `maybeUpdate` requests <<metadata, Metadata>> for link:kafka-clients-Metadata.adoc#timeToNextUpdate[timeToNextUpdate] (with the input `now`).
 
-`maybeUpdate` takes link:kafka-NetworkClient.adoc#requestTimeoutMs[requestTimeoutMs] for the time to wait till metadata fetch in progress finishes if <<metadataFetchInProgress, metadataFetchInProgress>> flag is turned on or `0` otherwise.
+`maybeUpdate` takes link:kafka-clients-NetworkClient.adoc#requestTimeoutMs[requestTimeoutMs] for the time to wait till metadata fetch in progress finishes if <<metadataFetchInProgress, metadataFetchInProgress>> flag is turned on or `0` otherwise.
 
 `maybeUpdate` takes the maximum of the two values above to check if the current cluster metadata has expired.
 
@@ -75,7 +75,7 @@ If not, `maybeUpdate` gives the maximum value (that says how long to wait till t
 
 Otherwise, `maybeUpdate` <<leastLoadedNode, selects the node>> to request a cluster metadata from and <<maybeUpdate-long-node, maybeUpdate>> (with the input `now` timestamp and the node).
 
-If no node was found, `maybeUpdate` prints out the following DEBUG message to the logs and gives link:kafka-NetworkClient.adoc#reconnectBackoffMs[reconnectBackoffMs].
+If no node was found, `maybeUpdate` prints out the following DEBUG message to the logs and gives link:kafka-clients-NetworkClient.adoc#reconnectBackoffMs[reconnectBackoffMs].
 
 ```
 Give up sending metadata request since no node is available
@@ -101,7 +101,7 @@ void handleAuthenticationFailure(AuthenticationException exception)
 
 NOTE: `handleAuthenticationFailure` is a part of link:kafka-MetadataUpdater.adoc#handleAuthenticationFailure[MetadataUpdater Contract].
 
-`handleCompletedMetadataResponse` turns link:kafka-NetworkClient.adoc#metadataFetchInProgress[metadataFetchInProgress] flag off.
+`handleCompletedMetadataResponse` turns link:kafka-clients-NetworkClient.adoc#metadataFetchInProgress[metadataFetchInProgress] flag off.
 
 `handleCompletedMetadataResponse` asks <<metadata, Metadata>> whether link:kafka-clients-Metadata.adoc#updateRequested[metadata update was requested] and if so requests it to link:kafka-clients-Metadata.adoc#failedUpdate[record a failure] (passing on the `exception`).
 
@@ -152,4 +152,4 @@ long maybeUpdate(long now, Node node)
 
 `maybeUpdate`...FIXME
 
-NOTE: `maybeUpdate` is used exclusively when `DefaultMetadataUpdater` is requested to <<kafka-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>.
+NOTE: `maybeUpdate` is used exclusively when `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>.

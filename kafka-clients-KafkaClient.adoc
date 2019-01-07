@@ -3,7 +3,7 @@
 `KafkaClient` is the <<contract, abstraction>> of <<implementations, Kafka clients>>.
 
 [[implementations]]
-NOTE: <<kafka-NetworkClient.adoc#, NetworkClient>> is the one and only known implementation of the <<contract, KafkaClient Contract>> in Apache Kafka.
+NOTE: <<kafka-clients-NetworkClient.adoc#, NetworkClient>> is the one and only known implementation of the <<contract, KafkaClient Contract>> in Apache Kafka.
 
 [[contract]]
 .KafkaClient Contract

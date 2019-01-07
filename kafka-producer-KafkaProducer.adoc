@@ -56,11 +56,11 @@ image::images/KafkaProducer.png[align="center"]
 
 | produce-throttle-time-avg
 |
-| [[produce-throttle-time-avg]] Recorded when `NetworkClient` is requested to <<kafka-NetworkClient.adoc#parseStructMaybeUpdateThrottleTimeMetrics, parseStructMaybeUpdateThrottleTimeMetrics>> (and a request was throttled due to quota violation)
+| [[produce-throttle-time-avg]] Recorded when `NetworkClient` is requested to <<kafka-clients-NetworkClient.adoc#parseStructMaybeUpdateThrottleTimeMetrics, parseStructMaybeUpdateThrottleTimeMetrics>> (and a request was throttled due to quota violation)
 
 | produce-throttle-time-max
 |
-| [[produce-throttle-time-max]] Recorded when `NetworkClient` is requested to <<kafka-NetworkClient.adoc#parseStructMaybeUpdateThrottleTimeMetrics, parseStructMaybeUpdateThrottleTimeMetrics>> (and a request was throttled due to quota violation)
+| [[produce-throttle-time-max]] Recorded when `NetworkClient` is requested to <<kafka-clients-NetworkClient.adoc#parseStructMaybeUpdateThrottleTimeMetrics, parseStructMaybeUpdateThrottleTimeMetrics>> (and a request was throttled due to quota violation)
 |===
 
 [[internal-registries]]
@@ -77,7 +77,7 @@ Used when:
 
 * `KafkaProducer` is requested for <<logging, logging>>
 
-* <<kafka-NetworkClient.adoc#, NetworkClient>> is created
+* <<kafka-clients-NetworkClient.adoc#, NetworkClient>> is created
 
 | interceptors
 a| [[interceptors]] <<kafka-ProducerInterceptor.adoc#, ProducerInterceptors>> that are notified (about successes and failures) when `KafkaProducer` is requested to <<send, send a record to a topic>>
@@ -242,7 +242,7 @@ NOTE: `waitOnMetadata` is used when `KafkaProducer` <<partitionsFor, requests pa
 * [[keySerializer]] <<kafka-common-serialization-Serializer.adoc#, Serializer>> for keys
 * [[valueSerializer]] <<kafka-common-serialization-Serializer.adoc#, Serializer>> for values
 * <<kafka-clients-Metadata.adoc#, Metadata>>
-* [[kafkaClient]] <<kafka-KafkaClient.adoc#, KafkaClient>>
+* [[kafkaClient]] <<kafka-clients-KafkaClient.adoc#, KafkaClient>>
 
 `KafkaProducer` initializes the <<internal-registries, internal registries and counters>>.
 
@@ -318,7 +318,7 @@ Starting the Kafka producer
 
 * The input `metadata` if given
 
-`KafkaProducer` creates a new <<kafka-NetworkClient.adoc#, NetworkClient>> (unless the input <<kafka-KafkaClient.adoc#, KafkaClient>> was given) with the following configuration properties:
+`KafkaProducer` creates a new <<kafka-clients-NetworkClient.adoc#, NetworkClient>> (unless the input <<kafka-clients-KafkaClient.adoc#, KafkaClient>> was given) with the following configuration properties:
 
 * <<kafka-ProducerConfig.adoc#CONNECTIONS_MAX_IDLE_MS_CONFIG, ProducerConfig.CONNECTIONS_MAX_IDLE_MS_CONFIG>>
 

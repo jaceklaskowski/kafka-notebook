@@ -101,7 +101,7 @@ Created for a <<creating-instance, KafkaConsumer>> with the following:
 
 `metadata` is requested to <<kafka-clients-Metadata.adoc#update, update itself>> immediately
 
-Used to create a <<kafka-NetworkClient.adoc#metadata, NetworkClient>> (for the <<client, ConsumerNetworkClient>>), the <<client, ConsumerNetworkClient>> itself, the <<coordinator, ConsumerCoordinator>> and <<fetcher, Fetcher>>
+Used to create a <<kafka-clients-NetworkClient.adoc#metadata, NetworkClient>> (for the <<client, ConsumerNetworkClient>>), the <<client, ConsumerNetworkClient>> itself, the <<coordinator, ConsumerCoordinator>> and <<fetcher, Fetcher>>
 
 Used in...FIXME
 
@@ -374,7 +374,7 @@ CAUTION: FIXME Finish me!
 
 CAUTION: FIXME Finish me!
 
-`KafkaConsumer` creates a link:kafka-NetworkClient.adoc[NetworkClient] with...FIXME
+`KafkaConsumer` creates a link:kafka-clients-NetworkClient.adoc[NetworkClient] with...FIXME
 
 CAUTION: FIXME Finish me!
 

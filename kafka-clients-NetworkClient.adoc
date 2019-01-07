@@ -1,6 +1,6 @@
 == [[NetworkClient]] NetworkClient -- Non-Blocking KafkaClient
 
-`NetworkClient` is a non-blocking link:kafka-KafkaClient.adoc[KafkaClient] that uses <<selector, Selectable>> for network communication (i.e. sending and receiving messages).
+`NetworkClient` is a non-blocking link:kafka-clients-KafkaClient.adoc[KafkaClient] that uses <<selector, Selectable>> for network communication (i.e. sending and receiving messages).
 
 NOTE: link:kafka-Selector.adoc[Selector] is the one and only link:kafka-Selectable.adoc[Selectable] that uses Java's selectable channels for stream-oriented connecting sockets (i.e. Java's http://download.java.net/java/jdk9/docs/api/java/nio/channels/SocketChannel.html[java.nio.channels.SocketChannel]).
 
@@ -88,7 +88,7 @@ Error connecting to node [node]
 
 * `NetworkClient` <<ready, attempts to connect to a broker node>>
 
-* `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#maybeUpdate[maybeUpdate]
+* `DefaultMetadataUpdater` link:kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate[maybeUpdate]
 ====
 
 === [[ready]] `ready` Method
@@ -98,7 +98,7 @@ Error connecting to node [node]
 boolean ready(Node node, long now)
 ----
 
-NOTE: `ready` is a part of link:kafka-KafkaClient.adoc#ready[KafkaClient Contract].
+NOTE: `ready` is a part of link:kafka-clients-KafkaClient.adoc#ready[KafkaClient Contract].
 
 `ready`...FIXME
 
@@ -111,9 +111,9 @@ NOTE: `ready` is used when...FIXME
 void wakeup()
 ----
 
-NOTE: `wakeup` is a part of link:kafka-KafkaClient.adoc#wakeup[KafkaClient Contract].
+NOTE: `wakeup` is a part of link:kafka-clients-KafkaClient.adoc#wakeup[KafkaClient Contract].
 
-`wakeup` simply requests the internal <<selector, Selectable>> to link:kafka-KafkaClient.adoc#wakeup[wakeup]
+`wakeup` simply requests the internal <<selector, Selectable>> to link:kafka-clients-KafkaClient.adoc#wakeup[wakeup]
 
 NOTE: `wakeup` is used when...FIXME
 
@@ -124,7 +124,7 @@ NOTE: `wakeup` is used when...FIXME
 List<ClientResponse> poll(long timeout, long now)
 ----
 
-NOTE: `poll` is a part of <<kafka-KafkaClient.adoc#poll, KafkaClient Contract>>.
+NOTE: `poll` is a part of <<kafka-clients-KafkaClient.adoc#poll, KafkaClient Contract>>.
 
 `poll` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-MetadataUpdater.adoc#maybeUpdate[cluster metadata update (if needed and possible)].
 
@@ -207,7 +207,7 @@ ClientRequest newClientRequest(
   RequestCompletionHandler callback)
 ----
 
-NOTE: `newClientRequest` is part of the <<kafka-KafkaClient.adoc#newClientRequest, KafkaClient Contract>> to...FIXME.
+NOTE: `newClientRequest` is part of the <<kafka-clients-KafkaClient.adoc#newClientRequest, KafkaClient Contract>> to...FIXME.
 
 `newClientRequest` simply creates a new `ClientRequest` (with the input parameters and the <<correlation, correlation>> incremented, the <<clientId, clientId>> and the <<defaultRequestTimeoutMs, defaultRequestTimeoutMs>>).
 
@@ -223,7 +223,7 @@ void sendInternalMetadataRequest(
 
 `sendInternalMetadataRequest`...FIXME
 
-NOTE: `sendInternalMetadataRequest` is used exclusively when `DefaultMetadataUpdater` is requested to <<kafka-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>.
+NOTE: `sendInternalMetadataRequest` is used exclusively when `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>.
 
 === [[doSend]] `doSend` Internal Method
 
@@ -251,6 +251,6 @@ NOTE: `doSend` is used when `NetworkClient` is requested to <<send, send>>, <<se
 void send(ClientRequest request, long now)
 ----
 
-NOTE: `send` is part of the <<kafka-KafkaClient.adoc#send, KafkaClient Contract>> to...FIXME.
+NOTE: `send` is part of the <<kafka-clients-KafkaClient.adoc#send, KafkaClient Contract>> to...FIXME.
 
 `send`...FIXME

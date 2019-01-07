@@ -5,7 +5,7 @@
 
 * `AdminClientRunnable` is requested to `makeMetadataCall`
 
-* `DefaultMetadataUpdater` is requested to <<kafka-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>
+* `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>
 
 * `KafkaAdminClient` is requested to <<kafka-KafkaAdminClient.adoc#describeCluster, describeCluster>>, <<kafka-KafkaAdminClient.adoc#describeTopics, describeTopics>>, <<kafka-KafkaAdminClient.adoc#deleteRecords, deleteRecords>>, <<kafka-KafkaAdminClient.adoc#listConsumerGroups, listConsumerGroups>>, <<kafka-KafkaAdminClient.adoc#listTopics, listTopics>>
 

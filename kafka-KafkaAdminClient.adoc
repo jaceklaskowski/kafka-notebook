@@ -40,7 +40,7 @@ NOTE: `alterReplicaLogDirs` is used when...FIXME
 * [[time]] `Time`
 * [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
 * [[metrics]] `Metrics`
-* [[client]] link:kafka-KafkaClient.adoc[KafkaClient]
+* [[client]] link:kafka-clients-KafkaClient.adoc[KafkaClient]
 * [[timeoutProcessorFactory]] `TimeoutProcessorFactory`
 * [[logContext]] `LogContext`
 

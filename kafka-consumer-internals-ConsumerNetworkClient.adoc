@@ -50,11 +50,11 @@ NOTE: `checkDisconnects` is used exclusively when `ConsumerNetworkClient` is req
 RequestFuture<ClientResponse> send(Node node, AbstractRequest.Builder<?> requestBuilder)
 ----
 
-`send` creates a `RequestFutureCompletionHandler` and requests the <<client, KafkaClient>> for a link:kafka-KafkaClient.adoc#newClientRequest[new ClientRequest] (with the `RequestFutureCompletionHandler` and expecting a response).
+`send` creates a `RequestFutureCompletionHandler` and requests the <<client, KafkaClient>> for a link:kafka-clients-KafkaClient.adoc#newClientRequest[new ClientRequest] (with the `RequestFutureCompletionHandler` and expecting a response).
 
 `send` records the new `ClientRequest` with the `node` in <<unsent, unsent>> internal registry.
 
-`send` requests the <<client, KafkaClient>> to link:kafka-KafkaClient.adoc#wakeup[wake up].
+`send` requests the <<client, KafkaClient>> to link:kafka-clients-KafkaClient.adoc#wakeup[wake up].
 
 NOTE: `send` is used...FIXME
 
@@ -71,7 +71,7 @@ void wakeup()
 Received user wakeup
 ```
 
-`wakeup` turns the internal <<wakeup, wakeup>> flag on and requests <<client, KafkaClient>> to link:kafka-KafkaClient.adoc#wakeup[wakeup]
+`wakeup` turns the internal <<wakeup, wakeup>> flag on and requests <<client, KafkaClient>> to link:kafka-clients-KafkaClient.adoc#wakeup[wakeup]
 
 NOTE: `wakeup` is used when...FIXME
 
@@ -157,7 +157,7 @@ void pollNoWakeup()
 `ConsumerNetworkClient` takes the following when created:
 
 * [[logContext]] `LogContext`
-* [[client]] link:kafka-KafkaClient.adoc[KafkaClient]
+* [[client]] link:kafka-clients-KafkaClient.adoc[KafkaClient]
 * [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
 * [[time]] `Time`
 * [[retryBackoffMs]] `retryBackoffMs`

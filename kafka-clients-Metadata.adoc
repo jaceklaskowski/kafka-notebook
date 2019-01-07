@@ -41,7 +41,7 @@
 A (_seemingly_) common usage pattern is as follows:
 
 1. Request `Metadata` for a <<requestUpdate, update>> (that simply turns the `needUpdate` flag on)
-1. Request (indirectly) `KafkaClient` to link:kafka-KafkaClient.adoc#wakeup[wake up] if blocked on I/O
+1. Request (indirectly) `KafkaClient` to link:kafka-clients-KafkaClient.adoc#wakeup[wake up] if blocked on I/O
 1. Request `Metadata` to <<awaitUpdate, wait for metadata change>> (i.e. until the <<version, metadata version>> has changed)
 
 [[internal-registries]]
@@ -57,7 +57,7 @@ a| link:kafka-common-Cluster.adoc[Cluster] with a subset of the nodes and topic 
 * Empty (with no nodes and no topic partitions) when `Metadata` is <<creating-instance, created>>
 
 * <<update, Updated>> when:
-** `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
+** `DefaultMetadataUpdater` link:kafka-clients-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
 ** `KafkaConsumer`, `KafkaProducer`, `KafkaAdminClient` and `AdminClient` are created and update the cluster with a "bootstrap" cluster with bootstrap brokers
 
 * Can be accessed using <<fetch, fetch>>
@@ -106,9 +106,9 @@ a| Metadata version
 [[logging]]
 [TIP]
 ====
-Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.Metadata` logger to see what happens inside.
+Enable `INFO`, `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.Metadata` logger to see what happens inside.
 
-Add the following line to `config/tools-log4j.properties`:
+Add the following line to `log4j.properties`:
 
 ```
 log4j.logger.org.apache.kafka.clients.Metadata=TRACE
@@ -130,7 +130,7 @@ synchronized boolean updateRequested()
 ====
 `updateRequested` is used when:
 
-* `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleAuthenticationFailure[handles an authentication failure]
+* `DefaultMetadataUpdater` link:kafka-clients-DefaultMetadataUpdater.adoc#handleAuthenticationFailure[handles an authentication failure]
 
 * `ConsumerCoordinator` link:kafka-consumer-internals-ConsumerCoordinator.adoc#poll[polls for coordinator events]
 
@@ -174,7 +174,7 @@ synchronized long timeToNextUpdate(long nowMs)
 
 * `ConsumerNetworkClient` link:kafka-consumer-internals-ConsumerNetworkClient.adoc#ensureFreshMetadata[ensureFreshMetadata]
 
-* `DefaultMetadataUpdater` (of `NetworkClient`) link:kafka-DefaultMetadataUpdater.adoc#isUpdateDue[isUpdateDue] and link:kafka-DefaultMetadataUpdater.adoc#maybeUpdate[maybeUpdate]
+* `DefaultMetadataUpdater` (of `NetworkClient`) link:kafka-clients-DefaultMetadataUpdater.adoc#isUpdateDue[isUpdateDue] and link:kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate[maybeUpdate]
 ====
 
 === [[add]] `add` Method
@@ -231,37 +231,43 @@ CAUTION: FIXME
 
 [source, java]
 ----
-synchronized void update(Cluster cluster, Set<String> unavailableTopics, long now)
+void update(
+  Cluster newCluster,
+  Set<String> unavailableTopics,
+  long now)
 ----
 
-`update` turns <<needUpdate, needUpdate>> flag off and increments <<version, version>>.
+`update` turns the <<needUpdate, needUpdate>> flag off and increments <<version, version>>.
 
-`update` sets <<lastRefreshMs, lastRefreshMs>> and <<lastSuccessfulRefreshMs, lastSuccessfulRefreshMs>> internal registries to the input `now`.
+`update` sets <<lastRefreshMs, lastRefreshMs>> and <<lastSuccessfulRefreshMs, lastSuccessfulRefreshMs>> internal registries to the given `now`.
 
 (only when <<topicExpiryEnabled, topicExpiryEnabled>> is enabled, e.g. link:kafka-producer-KafkaProducer.adoc#creating-instance[KafkaProducer]) `update`...FIXME
 
-`update` notifies <<listeners, listeners>> that the link:kafka-clients-Metadata-Listener.adoc#onMetadataUpdate[metadata has been updated].
+`update` notifies the <<listeners, Metadata.Listeners>> that the <<kafka-clients-Metadata-Listener.adoc#onMetadataUpdate, metadata has been updated>>.
 
 `update` does <<getClusterForCurrentTopics, getClusterForCurrentTopics>> for the `cluster` when <<needMetadataForAllTopics, needMetadataForAllTopics>> flag is on and turns <<needUpdate, needUpdate>> flag off (that may have been turned on...FIXME).
 
-`update` sets the <<cluster, cluster>> to the input `cluster`.
+`update` sets the <<cluster, cluster>> to the given `Cluster` when the <<needMetadataForAllTopics, needMetadataForAllTopics>> flag is off.
 
-`update` prints out the cluster ID and notifies <<clusterResourceListeners, clusterResourceListeners>> that link:kafka-ClusterResourceListener.adoc#onUpdate[cluster has changed] (only for a link:kafka-common-Cluster.adoc#isBootstrapConfigured[non-bootstrap cluster]).
+`update` prints out the following INFO message to the logs with the cluster ID and notifies <<clusterResourceListeners, clusterResourceListeners>> that link:kafka-ClusterResourceListener.adoc#onUpdate[cluster has changed] (only for a link:kafka-common-Cluster.adoc#isBootstrapConfigured[non-bootstrap cluster]).
 
 ```
 Cluster ID: [clusterId]
+```
+
+In the end, `update` prints out the following DEBUG message to the logs:
+
+```
+Updated cluster metadata version [version] to [cluster]
 ```
 
 [NOTE]
 ====
 `update` is used when:
 
-* `DefaultMetadataUpdater` link:kafka-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
+* `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse, handle a MetadataResponse>>
 
-* `KafkaConsumer` is link:kafka-clients-consumer-KafkaConsumer.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap servers)
-* `KafkaProducer` is link:kafka-producer-KafkaProducer.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap servers)
-* `KafkaAdminClient` is link:kafka-KafkaAdminClient.adoc#creating-instance[created] (and updates the cluster with a "bootstrap" cluster with bootstrap brokers)
-* `AdminClient` is link:kafka-AdminClient.adoc#create[created] (and updates the cluster with a "bootstrap" cluster with bootstrap brokers)
+* <<kafka-clients-consumer-KafkaConsumer.adoc#, KafkaConsumer>> and <<kafka-producer-KafkaProducer.adoc#, KafkaProducer>> are created  (and request updating the cluster metadata with a "bootstrap" cluster, i.e. with the bootstrap servers only)
 ====
 
 === [[creating-instance]] Creating Metadata Instance

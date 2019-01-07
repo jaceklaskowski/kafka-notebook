@@ -67,7 +67,7 @@ void run(long now)
 
 `run` does...FIXME...when the <<transactionManager, transactionManager>> is available.
 
-`run` <<sendProducerData, sendProducerData>> and then requests the <<client, KafkaClient>> to <<kafka-KafkaClient.adoc#poll, poll>>.
+`run` <<sendProducerData, sendProducerData>> and then requests the <<client, KafkaClient>> to <<kafka-clients-KafkaClient.adoc#poll, poll>>.
 
 NOTE: `run` is used exclusively when `Sender` is requested to <<run, start>> (as a thread of execution).
 
@@ -95,7 +95,7 @@ Starting Kafka producer I/O thread.
 `Sender` takes the following when created:
 
 * [[logContext]] `LogContext`
-* [[client]] link:kafka-KafkaClient.adoc[KafkaClient]
+* [[client]] link:kafka-clients-KafkaClient.adoc[KafkaClient]
 * [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
 * [[accumulator]] `RecordAccumulator`
 * [[guaranteeMessageOrder]] `guaranteeMessageOrder` flag

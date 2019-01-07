@@ -82,7 +82,7 @@ long maybeUpdate(long now)
 
 Starts a cluster metadata update if needed and possible.
 
-Used exclusively when `NetworkClient` is requested to <<kafka-NetworkClient.adoc#poll, read and write to sockets>>.
+Used exclusively when `NetworkClient` is requested to <<kafka-clients-NetworkClient.adoc#poll, read and write to sockets>>.
 
 | requestUpdate
 a| [[requestUpdate]]
