@@ -1,4 +1,4 @@
-== [[Sender]] Sender
+== [[Sender]] Sender -- Kafka Producer I/O Thread
 
 `Sender` is a *Kafka producer I/O thread* (of execution) that <<run, sends produce requests to a Kafka cluster>>.
 
@@ -11,16 +11,17 @@ image::images/Sender.png[align="center"]
 
 [[internal-registries]]
 .Sender's Internal Properties (e.g. Registries and Counters)
-[cols="1,2",options="header",width="100%"]
+[cols="1m,2",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| [[running]] `running`
-| Flag that controls whether <<run, run>> should finish or not
+| running
+| [[running]] Flag that controls whether <<run, run>> should finish or not
+
 |===
 
-=== [[sendProduceRequests]] `sendProduceRequests` Internal Method
+=== [[sendProduceRequests]] Sending ProduceRequests -- `sendProduceRequests` Internal Method
 
 [source, java]
 ----
@@ -31,7 +32,7 @@ void sendProduceRequests(Map<Integer, List<ProducerBatch>> collated, long now)
 
 NOTE: `sendProduceRequests` is used exclusively when `Sender` is requested to <<sendProducerData, sendProducerData>>.
 
-=== [[sendProduceRequest]] `sendProduceRequest` Internal Method
+=== [[sendProduceRequest]] Sending ProduceRequest -- `sendProduceRequest` Internal Method
 
 [source, java]
 ----
@@ -56,7 +57,7 @@ long sendProducerData(long now)
 
 `sendProducerData`...FIXME
 
-NOTE: `sendProducerData` is used exclusively when `Sender` is requested to <<run-millis, runs a single iteration of sending>>.
+NOTE: `sendProducerData` is used exclusively when `Sender` is requested to <<run-millis, run a single iteration of sending>>.
 
 === [[run-millis]] Running Single Iteration of Sending -- `run` Method
 
@@ -110,3 +111,55 @@ Starting Kafka producer I/O thread.
 * [[apiVersions]] `ApiVersions`
 
 `Sender` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[maybeSendTransactionalRequest]] `maybeSendTransactionalRequest` Internal Method
+
+[source, java]
+----
+boolean maybeSendTransactionalRequest(long now)
+----
+
+`maybeSendTransactionalRequest`...FIXME
+
+NOTE: `maybeSendTransactionalRequest` is used exclusively when `Sender` is <<run, running>>.
+
+=== [[maybeWaitForProducerId]] `maybeWaitForProducerId` Internal Method
+
+[source, java]
+----
+void maybeWaitForProducerId()
+----
+
+`maybeWaitForProducerId`...FIXME
+
+NOTE: `maybeWaitForProducerId` is used exclusively when `Sender` is <<run, running>>.
+
+=== [[completeBatch]] `completeBatch` Internal Method
+
+[source, java]
+----
+void completeBatch(
+  ProducerBatch batch,
+  ProduceResponse.PartitionResponse response,
+  long correlationId,
+  long now,
+  long throttleUntilTimeMs)
+----
+
+`completeBatch`...FIXME
+
+NOTE: `completeBatch` is used exclusively when `Sender` is requested to <<handleProduceResponse, handle a ProduceResponse>>.
+
+=== [[handleProduceResponse]] Handling ProduceResponse -- `handleProduceResponse` Internal Method
+
+[source, java]
+----
+void handleProduceResponse(
+  ClientResponse response,
+  Map<TopicPartition, ProducerBatch> batches,
+  long now)
+----
+
+`handleProduceResponse`...FIXME
+
+NOTE: `handleProduceResponse` is used exclusively when `Sender` is requested to <<sendProduceRequest, sendProduceRequest>>.

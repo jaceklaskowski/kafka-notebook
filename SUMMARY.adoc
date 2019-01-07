@@ -136,7 +136,7 @@
 
 . link:kafka-Producer.adoc[Producer]
 . link:kafka-producer-KafkaProducer.adoc[KafkaProducer]
-.. link:kafka-Sender.adoc[Sender]
+.. link:kafka-Sender.adoc[Sender -- Kafka Producer I/O Thread]
 
 . link:kafka-ProducerRecord.adoc[ProducerRecord]
 . link:kafka-producer-Callback.adoc[Callback]

@@ -178,16 +178,35 @@ synchronized void add(String topic)
 
 NOTE: `add` is used when...FIXME
 
-=== [[requestUpdate]] `requestUpdate` Method
+=== [[requestUpdate]] Requesting Metadata Update -- `requestUpdate` Method
 
 [source, java]
 ----
-synchronized int requestUpdate()
+int requestUpdate()
 ----
 
-`requestUpdate`...FIXME
+`requestUpdate` simply turns the <<needUpdate, needUpdate>> flag on and returns the <<version, current version>>.
 
-NOTE: `requestUpdate` is used when...FIXME
+[NOTE]
+====
+`requestUpdate` is used when:
+
+* `Metadata` is requested to <<requestUpdateForNewTopics, requestUpdateForNewTopics>>
+
+* `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#requestUpdate, requestUpdate>>
+
+* `KafkaConsumer` is requested to <<kafka-clients-consumer-KafkaConsumer.adoc#subscribe, subscribe>>
+
+* `ConsumerCoordinator` is <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#, created>>, <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#addMetadataListener, addMetadataListener>>, <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#poll, poll>>
+
+* `ConsumerNetworkClient` is requested to <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#awaitMetadataUpdate, awaitMetadataUpdate>>
+
+* `Fetcher` is requested to <<kafka-clients-consumer-internals-Fetcher.adoc#resetOffsetsAsync, resetOffsetsAsync>>, <<kafka-clients-consumer-internals-Fetcher.adoc#groupListOffsetRequests, groupListOffsetRequests>>, <<kafka-clients-consumer-internals-Fetcher.adoc#prepareFetchRequests, prepareFetchRequests>>, <<kafka-clients-consumer-internals-Fetcher.adoc#parseCompletedFetch, parseCompletedFetch>>
+
+* `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#waitOnMetadata, wait for cluster metadata>>
+
+* `Sender` is requested to <<kafka-Sender.adoc#sendProducerData, sendProducerData>>, <<kafka-Sender.adoc#maybeSendTransactionalRequest, maybeSendTransactionalRequest>>, <<kafka-Sender.adoc#maybeWaitForProducerId, maybeWaitForProducerId>>, and <<kafka-Sender.adoc#completeBatch, completeBatch>>
+====
 
 === [[awaitUpdate]] Waiting for Metadata Update (i.e. Metadata Version Change) -- `awaitUpdate` Method
 

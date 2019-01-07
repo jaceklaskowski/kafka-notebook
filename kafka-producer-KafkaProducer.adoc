@@ -232,7 +232,7 @@ Failed to update metadata after [maxWaitMs] ms.
 Invalid partition given with record: [partition] is not in the range [0...[partitionsCount]).
 ```
 
-NOTE: `waitOnMetadata` is used when `KafkaProducer` <<partitionsFor, requests partitions for a topic>> and <<doSend, asynchronously sends a record to a topic>>.
+NOTE: `waitOnMetadata` is used when `KafkaProducer` is requested for <<partitionsFor, the partitions of a topic>> and <<doSend, asynchronously sending a record to a topic>>.
 
 === [[creating-instance]] Creating KafkaProducer Instance
 
