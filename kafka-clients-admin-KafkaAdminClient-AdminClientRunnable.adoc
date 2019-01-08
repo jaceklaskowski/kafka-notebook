@@ -1,0 +1,47 @@
+== [[AdminClientRunnable]] AdminClientRunnable
+
+`AdminClientRunnable` is...FIXME
+
+=== [[sendEligibleCalls]] `sendEligibleCalls` Internal Method
+
+[source, java]
+----
+long sendEligibleCalls(long now)
+----
+
+`sendEligibleCalls`...FIXME
+
+NOTE: `sendEligibleCalls` is used exclusively when `AdminClientRunnable` is requested to <<run, run>>.
+
+=== [[run]] Starting Thread of Execution -- `run` Method (of Java's `Runnable`)
+
+[source, java]
+----
+void run()
+----
+
+NOTE: `run` is a part of link:++https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runnable.html#run()++[java.lang.Runnable] that is executed when the thread is started.
+
+`run`...FIXME
+
+=== [[timeoutCallsInFlight]] `timeoutCallsInFlight` Internal Method
+
+[source, java]
+----
+void timeoutCallsInFlight(TimeoutProcessor processor)
+----
+
+`timeoutCallsInFlight`...FIXME
+
+NOTE: `timeoutCallsInFlight` is used when...FIXME
+
+=== [[handleResponses]] `handleResponses` Internal Method
+
+[source, java]
+----
+void handleResponses(long now, List<ClientResponse> responses)
+----
+
+`handleResponses`...FIXME
+
+NOTE: `handleResponses` is used when...FIXME

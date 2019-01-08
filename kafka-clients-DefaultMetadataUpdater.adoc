@@ -1,27 +1,29 @@
 == [[DefaultMetadataUpdater]] DefaultMetadataUpdater
 
-`DefaultMetadataUpdater` is a link:kafka-clients-MetadataUpdater.adoc[MetadataUpdater] that `NetworkClient` uses to...FIXME
+`DefaultMetadataUpdater` is a <<kafka-clients-MetadataUpdater.adoc#, MetadataUpdater>> that `NetworkClient` uses to...FIXME
 
-`DefaultMetadataUpdater` is <<creating-instance, created>> when...FIXME
+[[creating-instance]]
+[[metadata]]
+`DefaultMetadataUpdater` takes a single <<kafka-clients-Metadata.adoc#, Metadata>> when created.
+
+`DefaultMetadataUpdater` is <<creating-instance, created>> exclusively for a <<kafka-clients-NetworkClient.adoc#metadataUpdater, NetworkClient>>.
 
 [[internal-registries]]
 .DefaultMetadataUpdater's Internal Properties (e.g. Registries and Counters)
-[cols="1,2",options="header",width="100%"]
+[cols="1m,2",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| [[metadata]] `metadata`
-| link:kafka-clients-Metadata.adoc[Metadata]
-
-| [[metadataFetchInProgress]] `metadataFetchInProgress`
-a| Flag to control whether a cluster metadata update is in progress, i.e. FIXME
+| metadataFetchInProgress
+a| [[metadataFetchInProgress]] Flag to control whether a cluster metadata update is in progress, i.e. FIXME
 
 * Disabled when `DefaultMetadataUpdater` is <<creating-instance, created>>
 
 * Turned on exclusively when `DefaultMetadataUpdater` does <<maybeUpdate-long-node, maybeUpdate>> (with a timestamp and a broker node)
 
 * Turned off when `DefaultMetadataUpdater` handles <<handleCompletedMetadataResponse, completed metadata response>>, <<handleDisconnection, disconnection>> or <<handleAuthenticationFailure, authentication failure>>
+
 |===
 
 [[logging]]
@@ -29,13 +31,7 @@ a| Flag to control whether a cluster metadata update is in progress, i.e. FIXME
 ====
 Enable `WARN`, `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.NetworkClient` logger to see what happens inside.
 
-Add the following line to `config/tools-log4j.properties` (for Kafka tools):
-
-```
-log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG
-```
-
-Add the following line to `config/log4j.properties`:
+Add the following line to `log4j.properties`:
 
 ```
 log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG
@@ -43,14 +39,6 @@ log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG
 
 Refer to link:kafka-logging.adoc[Logging].
 ====
-
-=== [[creating-instance]] Creating DefaultMetadataUpdater Instance
-
-`DefaultMetadataUpdater` takes the following when created:
-
-* FIXME
-
-`DefaultMetadataUpdater` initializes the <<internal-registries, internal registries and counters>>.
 
 === [[isUpdateDue]] `isUpdateDue` Method
 
@@ -153,3 +141,14 @@ long maybeUpdate(long now, Node node)
 `maybeUpdate`...FIXME
 
 NOTE: `maybeUpdate` is used exclusively when `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>.
+
+=== [[requestUpdate]] Scheduling Update Of Cluster Metadata -- `requestUpdate` Method
+
+[source, java]
+----
+void requestUpdate()
+----
+
+NOTE: `requestUpdate` is part of the <<kafka-clients-MetadataUpdater.adoc#requestUpdate, MetadataUpdater Contract>> to schedule an update of the current cluster metadata.
+
+`requestUpdate` simply requests the <<metadata, Metadata>> for a <<kafka-clients-Metadata.adoc#requestUpdate, metadata update>>.

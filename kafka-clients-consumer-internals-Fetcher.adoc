@@ -59,7 +59,7 @@ CAUTION: FIXME
 
 === [[sendMetadataRequest]] `sendMetadataRequest` Internal Method
 
-[source, scala]
+[source, java]
 ----
 RequestFuture<ClientResponse> sendMetadataRequest(MetadataRequest.Builder request)
 ----
@@ -70,7 +70,7 @@ With the node, `sendMetadataRequest` requests <<client, ConsumerNetworkClient>> 
 
 When no node was found, `sendMetadataRequest` returns a `RequestFuture` with `NoAvailableBrokersException`.
 
-NOTE: `sendMetadataRequest` is used exclusively when `Fetcher` <<getTopicMetadata, is requested for topic metadata>>.
+NOTE: `sendMetadataRequest` is used exclusively when `Fetcher` is requested for a <<getTopicMetadata, topic metadata>>.
 
 === [[beginningOffsets]] `beginningOffsets` Method
 
@@ -84,7 +84,9 @@ CAUTION: FIXME
 
 [source, java]
 ----
-Map<String, List<PartitionInfo>> getTopicMetadata(MetadataRequest.Builder request, long timeout)
+Map<String, List<PartitionInfo>> getTopicMetadata(
+  MetadataRequest.Builder request,
+  long timeout)
 ----
 
 Internally, `getTopicMetadata` <<sendMetadataRequest, sends the metadata request>> and requests <<client, ConsumerNetworkClient>> to link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#poll[poll] until it finishes successfully or `timeout` expires.
@@ -102,7 +104,8 @@ CAUTION: FIXME Describe the failure path
 `getTopicMetadata` is used when:
 
 * `Fetcher` is requested to <<getAllTopicMetadata, find metadata for all topics>>
-* `KafkaConsumer` is requested to link:kafka-clients-consumer-KafkaConsumer.adoc#partitionsFor[find partitions for a topic].
+
+* `KafkaConsumer` is requested to <<kafka-clients-consumer-KafkaConsumer.adoc#partitionsFor, find partitions for a topic>>
 ====
 
 === [[getAllTopicMetadata]] Finding Metadata for All Topics -- `getAllTopicMetadata` Method

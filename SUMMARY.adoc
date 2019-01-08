@@ -17,6 +17,7 @@
 . link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
 .. link:kafka-AdminClient.adoc[AdminClient]
 .. link:kafka-clients-admin-internals-AdminMetadataManager.adoc[AdminMetadataManager]
+.. link:kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc[AdminClientRunnable]
 
 . link:kafka-admin-AdminUtils.adoc[AdminUtils]
 
@@ -233,8 +234,7 @@
 === Kafka Clients
 
 . link:kafka-clients-KafkaClient.adoc[KafkaClient]
-.. link:kafka-clients-NetworkClient.adoc[NetworkClient -- Non-Blocking KafkaClient]
-.. link:kafka-clients-NetworkClientUtils.adoc[NetworkClientUtils]
+.. link:kafka-clients-NetworkClient.adoc[NetworkClient -- Non-Blocking Network KafkaClient]
 
 . link:kafka-clients-MetadataUpdater.adoc[MetadataUpdater]
 .. link:kafka-clients-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
@@ -247,6 +247,8 @@
 
 . link:kafka-clients-RequestCompletionHandler.adoc[RequestCompletionHandler]
 . link:kafka-clients-StaleMetadataException.adoc[StaleMetadataException]
+
+. link:kafka-clients-NetworkClientUtils.adoc[NetworkClientUtils]
 
 === Kafka Common
 

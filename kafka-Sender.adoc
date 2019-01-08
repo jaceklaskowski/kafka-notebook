@@ -79,7 +79,7 @@ NOTE: `run` is used exclusively when `Sender` is requested to <<run, start>> (as
 void run()
 ----
 
-NOTE: `run` is a part of http://download.java.net/java/jdk9/docs/api/java/lang/Runnable.html#run--[java.lang.Runnable] that is executed when the thread is started.
+NOTE: `run` is a part of link:++https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runnable.html#run()++[java.lang.Runnable] that is executed when the thread is started.
 
 `run` first prints out the following DEBUG message to the logs:
 
@@ -163,3 +163,14 @@ void handleProduceResponse(
 `handleProduceResponse`...FIXME
 
 NOTE: `handleProduceResponse` is used exclusively when `Sender` is requested to <<sendProduceRequest, sendProduceRequest>>.
+
+=== [[awaitLeastLoadedNodeReady]] `awaitLeastLoadedNodeReady` Internal Method
+
+[source, java]
+----
+Node awaitLeastLoadedNodeReady(long remainingTimeMs)
+----
+
+`awaitLeastLoadedNodeReady`...FIXME
+
+NOTE: `awaitLeastLoadedNodeReady` is used when `Sender` is requsted to <<maybeSendTransactionalRequest, maybeSendTransactionalRequest>> and <<maybeWaitForProducerId, maybeWaitForProducerId>>.

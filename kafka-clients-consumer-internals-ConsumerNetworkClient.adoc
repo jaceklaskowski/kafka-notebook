@@ -6,16 +6,16 @@
 
 [[internal-registries]]
 .ConsumerNetworkClient's Internal Properties (e.g. Registries and Counters)
-[cols="1,2",options="header",width="100%"]
+[cols="1m,2",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| [[pendingCompletion]] `pendingCompletion`
-|
+| pendingCompletion
+| [[pendingCompletion]]
 
-| [[unsent]] `unsent`
-| `UnsentRequests` with pending requests per node that have not been sent yet (i.e. awaiting transmission).
+| unsent
+| [[unsent]] `UnsentRequests` with pending requests per node that have not been sent yet (i.e. awaiting transmission).
 |===
 
 [[logging]]
@@ -23,7 +23,7 @@
 ====
 Enable `DEBUG` logging level for `org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient` logger to see what happens inside.
 
-Add the following line to `config/log4j.properties`:
+Add the following line to `log4j.properties`:
 
 ```
 log4j.logger.org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient=DEBUG
@@ -88,34 +88,50 @@ NOTE: `ensureFreshMetadata` is used when `ConsumerCoordinator` does link:kafka-c
 
 === [[pendingRequestCount]] `pendingRequestCount` Method
 
-CAUTION: FIXME
+[source, java]
+----
+int pendingRequestCount()
+int pendingRequestCount(Node node)
+----
+
+`pendingRequestCount`...FIXME
+
+NOTE: `pendingRequestCount` is used when...FIXME
 
 === [[leastLoadedNode]] `leastLoadedNode` Method
 
-CAUTION: FIXME
+[source, java]
+----
+Node leastLoadedNode()
+----
+
+`leastLoadedNode`...FIXME
+
+[NOTE]
+====
+`leastLoadedNode` is used when:
+
+* `AbstractCoordinator` is requested to <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#lookupCoordinator, lookupCoordinator>>
+
+* `Fetcher` is requested to <<kafka-clients-consumer-internals-Fetcher.adoc#sendMetadataRequest, sendMetadataRequest>>
+====
 
 === [[poll]] `poll` Method
 
 [source, java]
 ----
-void poll(long timeout)
-void poll(long timeout, long now, PollCondition pollCondition)
-void poll(long timeout, long now, PollCondition pollCondition, boolean disableWakeup)
 void poll(RequestFuture<?> future)
-boolean poll(RequestFuture<?> future, long timeout)
+boolean poll(RequestFuture<?> future, Timer timer)
+void poll(Timer timer)
+void poll(Timer timer, PollCondition pollCondition)
+void poll(Timer timer, PollCondition pollCondition, boolean disableWakeup)
 ----
 
 `poll`...FIXME
 
 [NOTE]
 ====
-`poll` is used when:
-
-* `KafkaConsumer` link:kafka-clients-consumer-KafkaConsumer.adoc#pollOnce[polls once]
-* `ConsumerNetworkClient` does <<pollNoWakeup, pollNoWakeup>>, <<awaitMetadataUpdate, awaitMetadataUpdate>>, <<awaitPendingRequests, awaitPendingRequests>>
-* `AbstractCoordinator` does `ensureCoordinatorReady` and `joinGroupIfNeeded`
-* `ConsumerCoordinator` link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsSync[commitOffsetsSync] and link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#fetchCommittedOffsets[fetchCommittedOffsets]
-* `Fetcher` is requested for link:kafka-clients-consumer-internals-Fetcher.adoc#getTopicMetadata[topic metadata] or link:kafka-clients-consumer-internals-Fetcher.adoc#retrieveOffsetsByTimes[retrieveOffsetsByTimes]
+`poll` is used when...FIXME
 ====
 
 === [[awaitMetadataUpdate]] Waiting for Metadata Update -- `awaitMetadataUpdate` Method
@@ -131,7 +147,14 @@ NOTE: `awaitMetadataUpdate` is used when...FIXME
 
 === [[awaitPendingRequests]] `awaitPendingRequests` Method
 
-CAUTION: FIXME
+[source, java]
+----
+boolean awaitPendingRequests(Node node, Timer timer)
+----
+
+`awaitPendingRequests`...FIXME
+
+NOTE: `awaitPendingRequests` is used when...FIXME
 
 === [[pollNoWakeup]] `pollNoWakeup` Method
 
@@ -164,3 +187,36 @@ void pollNoWakeup()
 * [[requestTimeoutMs]] `requestTimeoutMs`
 
 `ConsumerNetworkClient` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[trySend]] `trySend` Internal Method
+
+[source, java]
+----
+long trySend(long now)
+----
+
+`trySend`...FIXME
+
+NOTE: `trySend` is used exclusively when `ConsumerNetworkClient` is requested to <<poll, poll>>.
+
+=== [[tryConnect]] `tryConnect` Method
+
+[source, java]
+----
+void tryConnect(Node node)
+----
+
+`tryConnect`...FIXME
+
+NOTE: `tryConnect` is used exclusively when `FindCoordinatorResponseHandler` is requested to `onSuccess`.
+
+=== [[handlePendingDisconnects]] `handlePendingDisconnects` Internal Method
+
+[source, java]
+----
+void handlePendingDisconnects()
+----
+
+`handlePendingDisconnects`...FIXME
+
+NOTE: `handlePendingDisconnects` is used exclusively when `FindCoordinatorResponseHandler` is requested to <<poll, poll>>.

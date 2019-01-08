@@ -92,5 +92,7 @@ a| [[requestUpdate]]
 void requestUpdate()
 ----
 
-Used when...FIXME
+Schedules an update of the current cluster metadata
+
+Used when `NetworkClient` is requested to <<kafka-clients-NetworkClient.adoc#handleTimedOutRequests, handleTimedOutRequests>>, <<kafka-clients-NetworkClient.adoc#handleDisconnections, handleDisconnections>> and <<kafka-clients-NetworkClient.adoc#initiateConnect, establish a connection to a broker node>>
 |===

@@ -12,3 +12,14 @@ def doWork(): Unit
 NOTE: `doWork` is a part of link:kafka-ShutdownableThread.adoc#doWork[ShutdownableThread Contract].
 
 `doWork`...FIXME
+
+=== [[sendRequests]] `sendRequests` Internal Method
+
+[source, java]
+----
+def sendRequests(now: Long): Long
+----
+
+`sendRequests`...FIXME
+
+NOTE: `sendRequests` is used exclusively when `InterBrokerSendThread` is requested to <<doWork, doWork>>.

@@ -105,3 +105,41 @@ void ensureActiveGroup()
 `ensureActiveGroup`...FIXME
 
 NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#poll[poll for coordinator events]
+
+=== [[lookupCoordinator]] `lookupCoordinator` Method
+
+[source, java]
+----
+RequestFuture<Void> lookupCoordinator()
+----
+
+`lookupCoordinator`...FIXME
+
+[NOTE]
+====
+`lookupCoordinator` is used when:
+
+* `AbstractCoordinator` is requested to <<ensureCoordinatorReady, ensureCoordinatorReady>>
+
+* `ConsumerCoordinator` is requested to <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsAsync, commitOffsetsAsync>>
+
+* `HeartbeatThread` is requested to run
+====
+
+=== [[ensureCoordinatorReady]] `ensureCoordinatorReady` Method
+
+[source, java]
+----
+boolean ensureCoordinatorReady(final Timer timer)
+----
+
+`ensureCoordinatorReady`...FIXME
+
+[NOTE]
+====
+`ensureCoordinatorReady` is used when:
+
+* `AbstractCoordinator` is requested to <<ensureActiveGroup, ensureActiveGroup>> and <<joinGroupIfNeeded, joinGroupIfNeeded>>
+
+* `ConsumerCoordinator` is requested to <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#poll, poll>>, <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#fetchCommittedOffsets, fetchCommittedOffsets>>, <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#close, close>>, and <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsSync, commitOffsetsSync>>
+====

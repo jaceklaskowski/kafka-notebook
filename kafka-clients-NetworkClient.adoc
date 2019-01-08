@@ -1,13 +1,37 @@
-== [[NetworkClient]] NetworkClient -- Non-Blocking KafkaClient
+== [[NetworkClient]] NetworkClient -- Non-Blocking Network KafkaClient
 
-`NetworkClient` is a non-blocking link:kafka-clients-KafkaClient.adoc[KafkaClient] that uses <<selector, Selectable>> for network communication (i.e. sending and receiving messages).
+`NetworkClient` is a non-blocking <<kafka-clients-KafkaClient.adoc#, KafkaClient>> that uses a <<selector, Selectable>> for network communication (i.e. sending and receiving messages).
 
-NOTE: link:kafka-Selector.adoc[Selector] is the one and only link:kafka-Selectable.adoc[Selectable] that uses Java's selectable channels for stream-oriented connecting sockets (i.e. Java's http://download.java.net/java/jdk9/docs/api/java/nio/channels/SocketChannel.html[java.nio.channels.SocketChannel]).
+NOTE: link:kafka-Selector.adoc[Selector] is the one and only link:kafka-Selectable.adoc[Selectable] that uses Java's selectable channels for stream-oriented connecting sockets (i.e. Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/channels/SocketChannel.html[java.nio.channels.SocketChannel]).
 
 `NetworkClient` does the actual reads and writes (to sockets) every <<poll, poll>>.
 
 .NetworkClient
 image::images/NetworkClient.png[align="center"]
+
+`NetworkClient` uses the <<metadataUpdater, MetadataUpdater>> for the following:
+
+* <<disconnect, disconnect>>
+
+* <<close, close>>
+
+* <<isReady, isReady>>
+
+* <<poll, poll>>
+
+* <<close, close>>
+
+* <<leastLoadedNode, leastLoadedNode>>
+
+* <<processDisconnection, processDisconnection>>
+
+* <<handleTimedOutRequests, handleTimedOutRequests>>
+
+* <<handleCompletedReceives, handleCompletedReceives>>
+
+* <<handleDisconnections, handleDisconnections>>
+
+* <<initiateConnect, initiateConnect>>
 
 `NetworkClient` is <<creating-instance, created>> when:
 
@@ -66,15 +90,15 @@ void initiateConnect(Node node, long now)
 Initiating connection to node [node]
 ```
 
-`initiateConnect` requests <<connectionStates, ClusterConnectionStates>> to link:kafka-ClusterConnectionStates.adoc#connecting[enter the connecting state for the connection] to the broker `node`.
+`initiateConnect` requests the <<connectionStates, ClusterConnectionStates>> to link:kafka-ClusterConnectionStates.adoc#connecting[enter the connecting state for the connection] to the broker `node`.
 
-`initiateConnect` requests <<selector, Selectable>> to link:kafka-Selectable.adoc#connect[connect] to the broker `node` (at a given host and port).
+`initiateConnect` requests the <<selector, Selectable>> to link:kafka-Selectable.adoc#connect[connect] to the broker `node` (at a given host and port).
 
 NOTE: `initiateConnect` passes the sizes of <<socketSendBuffer, send>> and <<socketReceiveBuffer, receive>> buffers for the socket connection.
 
-In case of an IO failure, `initiateConnect` requests <<connectionStates, ClusterConnectionStates>> to link:kafka-ClusterConnectionStates.adoc#disconnected[enter the disconnected state for the connection] to the broker `node`.
+In case of an IO failure, `initiateConnect` requests the <<connectionStates, ClusterConnectionStates>> to link:kafka-ClusterConnectionStates.adoc#disconnected[enter the disconnected state for the connection] to the broker `node`.
 
-`initiateConnect` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-clients-MetadataUpdater.adoc#requestUpdate[update].
+`initiateConnect` requests the <<metadataUpdater, MetadataUpdater>> for link:kafka-clients-MetadataUpdater.adoc#requestUpdate[update].
 
 You should see the following DEBUG message in the logs:
 
@@ -86,9 +110,9 @@ Error connecting to node [node]
 ====
 `initiateConnect` is used when:
 
-* `NetworkClient` <<ready, attempts to connect to a broker node>>
+* `NetworkClient` is requested to <<ready, attempt to connect to a broker node>>
 
-* `DefaultMetadataUpdater` link:kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate[maybeUpdate]
+* `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>
 ====
 
 === [[ready]] `ready` Method
@@ -98,11 +122,9 @@ Error connecting to node [node]
 boolean ready(Node node, long now)
 ----
 
-NOTE: `ready` is a part of link:kafka-clients-KafkaClient.adoc#ready[KafkaClient Contract].
+NOTE: `ready` is a part of <<kafka-clients-KafkaClient.adoc#ready, KafkaClient Contract>>.
 
 `ready`...FIXME
-
-NOTE: `ready` is used when...FIXME
 
 === [[wakeup]] `wakeup` Method
 
@@ -126,7 +148,7 @@ List<ClientResponse> poll(long timeout, long now)
 
 NOTE: `poll` is a part of <<kafka-clients-KafkaClient.adoc#poll, KafkaClient Contract>>.
 
-`poll` requests <<metadataUpdater, MetadataUpdater>> for link:kafka-clients-MetadataUpdater.adoc#maybeUpdate[cluster metadata update (if needed and possible)].
+`poll` requests the <<metadataUpdater, MetadataUpdater>> for link:kafka-clients-MetadataUpdater.adoc#maybeUpdate[cluster metadata update (if needed and possible)].
 
 `poll` then requests <<selector, Selectable>> to link:kafka-Selectable.adoc#poll[poll].
 
@@ -134,7 +156,7 @@ In the end, `poll` handles completed request sends, receives, disconnected conne
 
 In case <<abortedSends, abortedSends>> is not empty, `poll` creates a collection of `ClientResponse` with <<abortedSends, abortedSends>>, triggers their `RequestCompletionHandlers` and returns them.
 
-=== [[handleCompletedReceives]] `handleCompletedReceives` Method
+=== [[handleCompletedReceives]] `handleCompletedReceives` Internal Method
 
 [source, java]
 ----
@@ -143,13 +165,13 @@ void handleCompletedReceives(List<ClientResponse> responses, long now)
 
 `handleCompletedReceives`...FIXME
 
-NOTE: `handleCompletedReceives` is used exclusively when `NetworkClient` <<poll, polls>>.
+NOTE: `handleCompletedReceives` is used exclusively when `NetworkClient` is requested to <<poll, poll>>.
 
 === [[creating-instance]] Creating NetworkClient Instance
 
 `NetworkClient` takes the following when created:
 
-* [[metadataUpdater]] <<kafka-clients-MetadataUpdater.adoc#, MetadataUpdater>>
+* [[metadataUpdater]] <<kafka-clients-MetadataUpdater.adoc#, MetadataUpdater>> (i.e. <<kafka-clients-DefaultMetadataUpdater.adoc#, DefaultMetadataUpdater>>)
 * [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
 * [[selector]] <<kafka-Selectable.adoc#, Selectable>>
 * [[clientId]] Client ID that is used to identify the client in requests to a Kafka server (when `NetworkClient` is requested to <<newClientRequest, create a new ClientRequest>>)
@@ -254,3 +276,110 @@ void send(ClientRequest request, long now)
 NOTE: `send` is part of the <<kafka-clients-KafkaClient.adoc#send, KafkaClient Contract>> to...FIXME.
 
 `send`...FIXME
+
+=== [[handleDisconnections]] `handleDisconnections` Internal Method
+
+[source, java]
+----
+void handleDisconnections(List<ClientResponse> responses, long now)
+----
+
+`handleDisconnections`...FIXME
+
+NOTE: `handleDisconnections` is used exclusively when `NetworkClient` is requested to <<poll, poll>>.
+
+=== [[handleTimedOutRequests]] `handleTimedOutRequests` Internal Method
+
+[source, java]
+----
+void handleTimedOutRequests(List<ClientResponse> responses, long now)
+----
+
+`handleTimedOutRequests`...FIXME
+
+NOTE: `handleTimedOutRequests` is used exclusively when `NetworkClient` is requested to <<poll, poll>>.
+
+=== [[processDisconnection]] `processDisconnection` Internal Method
+
+[source, java]
+----
+void processDisconnection(
+  List<ClientResponse> responses,
+  String nodeId,
+  long now,
+  ChannelState disconnectState)
+----
+
+`processDisconnection`...FIXME
+
+NOTE: `processDisconnection` is used when `NetworkClient` is requested to <<handleTimedOutRequests, handleTimedOutRequests>>, <<handleApiVersionsResponse, handleApiVersionsResponse>>, and <<handleDisconnections, handleDisconnections>>.
+
+=== [[handleApiVersionsResponse]] `handleApiVersionsResponse` Internal Method
+
+[source, java]
+----
+void handleApiVersionsResponse(
+  List<ClientResponse> responses,
+  InFlightRequest req,
+  long now,
+  ApiVersionsResponse apiVersionsResponse)
+----
+
+`handleApiVersionsResponse`...FIXME
+
+NOTE: `handleApiVersionsResponse` is used exclusively when `NetworkClient` is requested to <<handleCompletedReceives, handleCompletedReceives>> (when requested to <<poll, poll>>).
+
+=== [[leastLoadedNode]] `leastLoadedNode` Method
+
+[source, java]
+----
+Node leastLoadedNode(long now)
+----
+
+NOTE: `leastLoadedNode` is part of the <<kafka-clients-KafkaClient.adoc#leastLoadedNode, KafkaClient Contract>> to...FIXME.
+
+`leastLoadedNode`...FIXME
+
+=== [[close]] `close` Method
+
+[source, java]
+----
+void close()
+----
+
+NOTE: `close` is part of Java's link:++https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/Closeable.html#close()++[java.io.Closeable] to close this stream and releases any system resources associated with it.
+
+`close`...FIXME
+
+=== [[close-nodeId]] `close` Method
+
+[source, java]
+----
+void close(String nodeId)
+----
+
+NOTE: `close` is part of the <<kafka-clients-KafkaClient.adoc#close, KafkaClient Contract>> to...FIXME.
+
+`close`...FIXME
+
+=== [[isReady]] `isReady` Method
+
+[source, java]
+----
+boolean isReady(Node node, long now)
+----
+
+NOTE: `isReady` is part of the <<kafka-clients-KafkaClient.adoc#isReady, KafkaClient Contract>> to...FIXME.
+
+`isReady`...FIXME
+
+=== [[disconnect]] `disconnect` Method
+
+[source, java]
+----
+void disconnect(String nodeId)
+----
+
+NOTE: `disconnect` is part of the <<kafka-clients-KafkaClient.adoc#disconnect, KafkaClient Contract>> to...FIXME.
+
+`disconnect`...FIXME

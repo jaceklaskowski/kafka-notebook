@@ -105,7 +105,7 @@ void maybeAutoCommitOffsetsAsync(long now)
 ====
 `maybeAutoCommitOffsetsAsync` is used when:
 
-* `KafkaConsumer` is requested to link:kafka-clients-consumer-KafkaConsumer.adoc#assign[manually assign partitions]
+* `KafkaConsumer` is requested to <<kafka-clients-consumer-KafkaConsumer.adoc#assign, manually assign partitions>>
 
 * `ConsumerCoordinator` is requested to <<poll, poll>>
 ====
@@ -130,7 +130,7 @@ void doAutoCommitOffsetsAsync()
 
 `doAutoCommitOffsetsAsync`...FIXME
 
-NOTE: `doAutoCommitOffsetsAsync` is used when...FIXME
+NOTE: `doAutoCommitOffsetsAsync` is used exclusively when `ConsumerCoordinator` is requested to <<maybeAutoCommitOffsetsAsync, maybeAutoCommitOffsetsAsync>>.
 
 === [[close]] `close` Method
 
@@ -148,14 +148,20 @@ NOTE: `close` is used when...FIXME
 [source, java]
 ----
 void commitOffsetsAsync(
-  final Map<TopicPartition,
-  OffsetAndMetadata> offsets,
+  final Map<TopicPartition, OffsetAndMetadata> offsets,
   final OffsetCommitCallback callback)
 ----
 
 `commitOffsetsAsync`...FIXME
 
-NOTE: `commitOffsetsAsync` is used when...FIXME
+[NOTE]
+====
+`commitOffsetsAsync` is used when:
+
+* `KafkaConsumer` is requested to <<kafka-clients-consumer-KafkaConsumer.adoc#commitAsync, commitAsync>>
+
+* `ConsumerCoordinator` is requested to <<doAutoCommitOffsetsAsync, doAutoCommitOffsetsAsync>>
+====
 
 === [[commitOffsetsSync]] `commitOffsetsSync` Method
 
@@ -210,7 +216,7 @@ NOTE: `onJoinPrepare` is part of link:kafka-clients-consumer-internals-AbstractC
 
 === [[performAssignment]] `performAssignment` Method
 
-[source, scala]
+[source, java]
 ----
 Map<String, ByteBuffer> performAssignment(
   String leaderId,

@@ -30,7 +30,13 @@ a| [[close]]
 void close(String nodeId)
 ----
 
-Used when...FIXME
+Used when:
+
+* `RequestSendThread` is requested to `doWork` and `brokerReady`
+
+* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#controlledShutdown, controlledShutdown>>
+
+* `ReplicaFetcherBlockingSend` is requested to <<kafka-ReplicaFetcherBlockingSend.adoc#sendRequest, send a client request and wait for a response>>
 
 | connectionDelay
 a| [[connectionDelay]]
@@ -60,7 +66,11 @@ a| [[disconnect]]
 void disconnect(String nodeId)
 ----
 
-Used when...FIXME
+Used when:
+
+* `AdminClientRunnable` is requested to <<kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc#timeoutCallsInFlight, timeoutCallsInFlight>> and <<kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc#handleResponses, handleResponses>>
+
+* `ConsumerNetworkClient` is requested to <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#handlePendingDisconnects, handlePendingDisconnects>>
 
 | hasInFlightRequests
 a| [[hasInFlightRequests]]
@@ -102,7 +112,11 @@ a| [[isReady]]
 boolean isReady(Node node, long now)
 ----
 
-Used when...FIXME
+Used when:
+
+* `NetworkClient` is requested to <<kafka-clients-NetworkClient.adoc#ready, ready>> and <<kafka-clients-NetworkClient.adoc#leastLoadedNode, leastLoadedNode>>
+
+* `NetworkClientUtils` is requested to <<kafka-clients-NetworkClientUtils.adoc#isReady, isReady>> and <<kafka-clients-NetworkClientUtils.adoc#awaitReady, wait until a connection to a broker node is ready>>
 
 | leastLoadedNode
 a| [[leastLoadedNode]]
@@ -112,7 +126,15 @@ a| [[leastLoadedNode]]
 Node leastLoadedNode(long now)
 ----
 
-Used when...FIXME
+Used when:
+
+* `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>
+
+* `ConsumerNetworkClient` is requested to <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#leastLoadedNode, leastLoadedNode>>
+
+* `Sender` is requested to <<kafka-Sender.adoc#awaitLeastLoadedNodeReady, awaitLeastLoadedNodeReady>>
+
+* `LeastLoadedNodeProvider` and `MetadataUpdateNodeIdProvider` are requested to provide the least-loaded node
 
 | newClientRequest
 a| [[newClientRequest]]
@@ -173,7 +195,17 @@ a| [[ready]]
 boolean ready(Node node, long now)
 ----
 
-Used when...FIXME
+Used when:
+
+* `NetworkClientUtils` helper object is requested to <<kafka-clients-NetworkClientUtils.adoc#awaitReady, wait until a connection to a broker node is ready>>
+
+* `AdminClientRunnable` is requested to <<kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc#sendEligibleCalls, sendEligibleCalls>>
+
+* `ConsumerNetworkClient` is requested to <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#trySend, trySend>> and <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#tryConnect, tryConnect>>
+
+* `Sender` is requested to <<kafka-Sender.adoc#sendProducerData, sendProducerData>> (when requested to <<kafka-Sender.adoc#run-millis, run a single iteration of sending>>)
+
+* `InterBrokerSendThread` is requested to <<kafka-InterBrokerSendThread.adoc#sendRequests, sendRequests>>
 
 | send
 a| [[send]]
