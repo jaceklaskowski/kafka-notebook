@@ -1,3 +1,72 @@
-== [[CoordinatorResponseHandler]] CoordinatorResponseHandler
+== [[CoordinatorResponseHandler]] CoordinatorResponseHandler Contract
 
-`CoordinatorResponseHandler` is...FIXME
+`CoordinatorResponseHandler` is the <<contract, extension>> of the <<kafka-clients-consumer-internals-RequestFutureAdapter.adoc#, RequestFutureAdapter contract>> for <<extensions, type converters>> that <<handle, handle ClientResponses>>.
+
+[[contract]]
+.CoordinatorResponseHandler Contract
+[cols="1m,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| handle
+a| [[handle]]
+
+[source, java]
+----
+void handle(
+  R response,
+  RequestFuture<T> future)
+----
+
+Used exclusively when `CoordinatorResponseHandler` is requested to <<onSuccess, onSuccess>>
+|===
+
+[[extensions]]
+.CoordinatorResponseHandlers
+[cols="1,2",options="header",width="100%"]
+|===
+| CoordinatorResponseHandler
+| Description
+
+| HeartbeatResponseHandler
+| [[HeartbeatResponseHandler]]
+
+| JoinGroupResponseHandler
+| [[JoinGroupResponseHandler]]
+
+| LeaveGroupResponseHandler
+| [[LeaveGroupResponseHandler]]
+
+| OffsetCommitResponseHandler
+| [[OffsetCommitResponseHandler]]
+
+| OffsetFetchResponseHandler
+| [[OffsetFetchResponseHandler]]
+
+| SyncGroupResponseHandler
+| [[SyncGroupResponseHandler]]
+
+|===
+
+=== [[onFailure]] `onFailure` Method
+
+[source, java]
+----
+void onFailure(RuntimeException e, RequestFuture<T> future)
+----
+
+NOTE: `onFailure` is part of the <<kafka-clients-consumer-internals-RequestFutureAdapter.adoc#onFailure, RequestFutureAdapter Contract>> to perform a type conversion when a `RequestFuture` completes with a failure.
+
+`onFailure`...FIXME
+
+=== [[onSuccess]] `onSuccess` Method
+
+[source, java]
+----
+void onSuccess(ClientResponse clientResponse, RequestFuture<T> future)
+----
+
+NOTE: `onSuccess` is part of the <<kafka-clients-consumer-internals-RequestFutureAdapter.adoc#onSuccess, RequestFutureAdapter Contract>> to perform a type conversion when a `RequestFuture` completes with a success.
+
+`onSuccess`...FIXME

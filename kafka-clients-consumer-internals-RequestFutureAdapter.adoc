@@ -1,6 +1,6 @@
 == [[RequestFutureAdapter]] RequestFutureAdapter Contract
 
-`RequestFutureAdapter` is the <<contract, base>> of <<extensions, RequestFuture type converters>> that can do type conversion when a <<kafka-clients-consumer-internals-RequestFuture.adoc#, RequestFuture>> completes <<onSuccess, successfully>> or with a <<onFailure, failure>>.
+`RequestFutureAdapter` is the <<contract, base>> of <<extensions, RequestFuture type converters>> that can do type conversion when a <<kafka-clients-consumer-internals-RequestFuture.adoc#, RequestFuture>> completes with a <<onSuccess, success>> or a <<onFailure, failure>>.
 
 [[contract]]
 .RequestFutureAdapter Contract
@@ -19,6 +19,8 @@ void onFailure(
   RequestFuture<T> future)
 ----
 
+Performs a type conversion when a `RequestFuture` completes with a failure
+
 Used when:
 
 * `FindCoordinatorResponseHandler` is requested to <<kafka-clients-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc#onFailure, onFailure>>
@@ -34,6 +36,8 @@ void onSuccess(
   F value,
   RequestFuture<T> future)
 ----
+
+Performs type conversion when a `RequestFuture` completes with a success
 
 Used exclusively when `RequestFuture` is requested to <<kafka-clients-consumer-internals-RequestFuture.adoc#compose, compose>>
 |===

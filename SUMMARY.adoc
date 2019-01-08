@@ -180,7 +180,7 @@
 . link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
 .. link:kafka-clients-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator]
 .. link:kafka-clients-consumer-internals-RequestFutureAdapter.adoc[RequestFutureAdapter Contract]
-.. link:kafka-clients-consumer-internals-CoordinatorResponseHandler.adoc[CoordinatorResponseHandler]
+.. link:kafka-clients-consumer-internals-CoordinatorResponseHandler.adoc[CoordinatorResponseHandler Contract]
 .. link:kafka-clients-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc[FindCoordinatorResponseHandler]
 
 . link:kafka-clients-consumer-internals-RequestFuture.adoc[RequestFuture]
