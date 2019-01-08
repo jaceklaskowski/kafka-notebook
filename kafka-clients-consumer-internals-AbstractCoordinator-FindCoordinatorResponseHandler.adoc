@@ -1,0 +1,25 @@
+== [[FindCoordinatorResponseHandler]] FindCoordinatorResponseHandler
+
+`FindCoordinatorResponseHandler` is a <<kafka-clients-consumer-internals-RequestFutureAdapter.adoc#, RequestFutureAdapter>> of <<kafka-clients-ClientResponse.adoc#, ClientResponse>>.
+
+=== [[onSuccess]] `onSuccess` Method
+
+[source, java]
+----
+void onSuccess(ClientResponse resp, RequestFuture<Void> future)
+----
+
+NOTE: `onSuccess` is part of the <<kafka-clients-consumer-internals-RequestFutureAdapter.adoc#onSuccess, RequestFutureAdapter Contract>> to...FIXME.
+
+`onSuccess`...FIXME
+
+=== [[onFailure]] `onFailure` Method
+
+[source, java]
+----
+void onFailure(RuntimeException e, RequestFuture<Void> future)
+----
+
+NOTE: `onFailure` is part of the <<kafka-clients-consumer-internals-RequestFutureAdapter.adoc#onFailure, RequestFutureAdapter Contract>> to...FIXME.
+
+`onFailure`...FIXME

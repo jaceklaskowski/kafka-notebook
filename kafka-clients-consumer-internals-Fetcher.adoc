@@ -118,3 +118,17 @@ Map<String, List<PartitionInfo>> getAllTopicMetadata(long timeout)
 `getAllTopicMetadata` <<getTopicMetadata, gets topic metadata>> specifying no topics (which means all topics available).
 
 NOTE: `getAllTopicMetadata` is used exclusively when `KafkaConsumer` link:kafka-clients-consumer-KafkaConsumer.adoc#listTopics[requests metadata for all topics].
+
+=== [[sendListOffsetRequest]] `sendListOffsetRequest` Internal Method
+
+[source, java]
+----
+RequestFuture<ListOffsetResult> sendListOffsetRequest(
+  final Node node,
+  final Map<TopicPartition, ListOffsetRequest.PartitionData> timestampsToSearch,
+  boolean requireTimestamp)
+----
+
+`sendListOffsetRequest`...FIXME
+
+NOTE: `sendListOffsetRequest` is used when...FIXME

@@ -1,0 +1,23 @@
+== [[RequestFuture]] RequestFuture
+
+`RequestFuture` is...FIXME
+
+=== [[compose]] `compose` Method
+
+[source, java]
+----
+RequestFuture<S> compose(final RequestFutureAdapter<T, S> adapter)
+----
+
+`compose`...FIXME
+
+[NOTE]
+====
+`compose` is used when:
+
+* `AbstractCoordinator` is requested to <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#sendJoinGroupRequest, sendJoinGroupRequest>>, <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#sendSyncGroupRequest, sendSyncGroupRequest>>, <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#sendFindCoordinatorRequest, sendFindCoordinatorRequest>>, <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#maybeLeaveGroup, maybeLeaveGroup>>, and <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#sendHeartbeatRequest, sendHeartbeatRequest>>
+
+* `ConsumerCoordinator` is requested to <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#sendOffsetCommitRequest, sendOffsetCommitRequest>> and <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#sendOffsetFetchRequest, sendOffsetFetchRequest>>
+
+* `Fetcher` is requested to <<kafka-clients-consumer-internals-Fetcher.adoc#sendListOffsetRequest, sendListOffsetRequest>>
+====

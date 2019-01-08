@@ -1,0 +1,53 @@
+== [[RequestFutureAdapter]] RequestFutureAdapter Contract
+
+`RequestFutureAdapter` is the <<contract, base>> of <<extensions, RequestFuture type converters>> that can do type conversion when a <<kafka-clients-consumer-internals-RequestFuture.adoc#, RequestFuture>> completes <<onSuccess, successfully>> or with a <<onFailure, failure>>.
+
+[[contract]]
+.RequestFutureAdapter Contract
+[cols="1m,2",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| onFailure
+a| [[onFailure]]
+
+[source, java]
+----
+void onFailure(
+  RuntimeException e,
+  RequestFuture<T> future)
+----
+
+Used when:
+
+* `FindCoordinatorResponseHandler` is requested to <<kafka-clients-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc#onFailure, onFailure>>
+
+* `RequestFuture` is requested to <<kafka-clients-consumer-internals-RequestFuture.adoc#compose, compose>>
+
+| onSuccess
+a| [[onSuccess]]
+
+[source, java]
+----
+void onSuccess(
+  F value,
+  RequestFuture<T> future)
+----
+
+Used exclusively when `RequestFuture` is requested to <<kafka-clients-consumer-internals-RequestFuture.adoc#compose, compose>>
+|===
+
+[[extensions]]
+.RequestFutureAdapters (Direct Implementations)
+[cols="1,2",options="header",width="100%"]
+|===
+| RequestFutureAdapter
+| Description
+
+| <<kafka-clients-consumer-internals-CoordinatorResponseHandler.adoc#, CoordinatorResponseHandler>>
+| [[CoordinatorResponseHandler]]
+
+| <<kafka-clients-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc#, FindCoordinatorResponseHandler>>
+| [[FindCoordinatorResponseHandler]]
+|===

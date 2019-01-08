@@ -350,3 +350,27 @@ boolean rejoinNeededOrPending()
 NOTE: `rejoinNeededOrPending` is part of the <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#rejoinNeededOrPending, AbstractCoordinator Contract>> to...FIXME.
 
 `rejoinNeededOrPending`...FIXME
+
+=== [[sendOffsetCommitRequest]] `sendOffsetCommitRequest` Internal Method
+
+[source, java]
+----
+RequestFuture<Void> sendOffsetCommitRequest(
+  final Map<TopicPartition, OffsetAndMetadata> offsets)
+----
+
+`sendOffsetCommitRequest`...FIXME
+
+NOTE: `sendOffsetCommitRequest` is used when...FIXME
+
+=== [[sendOffsetFetchRequest]] `sendOffsetFetchRequest` Internal Method
+
+[source, java]
+----
+RequestFuture<Map<TopicPartition, OffsetAndMetadata>> sendOffsetFetchRequest(
+  Set<TopicPartition> partitions)
+----
+
+`sendOffsetFetchRequest`...FIXME
+
+NOTE: `sendOffsetFetchRequest` is used when...FIXME

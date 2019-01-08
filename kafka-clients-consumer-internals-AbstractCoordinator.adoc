@@ -2,7 +2,10 @@
 
 `AbstractCoordinator` is a <<contract, contract>> for...FIXME
 
-NOTE: link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator] is the default `AbstractCoordinator` in Apache Kafka's Consumer API.
+NOTE: `AbstractCoordinator` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<extensions, concrete Coordinators>>.
+
+[[extensions]]
+NOTE: <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>> is the one and only known implementation of the <<contract, AbstractCoordinator Contract>> in Apache Kafka's Consumer API.
 
 [[contract]]
 [source, java]
@@ -143,3 +146,59 @@ boolean ensureCoordinatorReady(final Timer timer)
 
 * `ConsumerCoordinator` is requested to <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#poll, poll>>, <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#fetchCommittedOffsets, fetchCommittedOffsets>>, <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#close, close>>, and <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsSync, commitOffsetsSync>>
 ====
+
+=== [[sendJoinGroupRequest]] `sendJoinGroupRequest` Method
+
+[source, java]
+----
+RequestFuture<ByteBuffer> sendJoinGroupRequest()
+----
+
+`sendJoinGroupRequest`...FIXME
+
+NOTE: `sendJoinGroupRequest` is used when...FIXME
+
+=== [[sendSyncGroupRequest]] `sendSyncGroupRequest` Internal Method
+
+[source, java]
+----
+RequestFuture<ByteBuffer> sendSyncGroupRequest(
+  SyncGroupRequest.Builder requestBuilder)
+----
+
+`sendSyncGroupRequest`...FIXME
+
+NOTE: `sendSyncGroupRequest` is used when...FIXME
+
+=== [[sendFindCoordinatorRequest]] `sendFindCoordinatorRequest` Internal Method
+
+[source, java]
+----
+RequestFuture<Void> sendFindCoordinatorRequest(Node node)
+----
+
+`sendFindCoordinatorRequest`...FIXME
+
+NOTE: `sendFindCoordinatorRequest` is used when...FIXME
+
+=== [[maybeLeaveGroup]] `maybeLeaveGroup` Method
+
+[source, java]
+----
+void maybeLeaveGroup()
+----
+
+`maybeLeaveGroup`...FIXME
+
+NOTE: `maybeLeaveGroup` is used when...FIXME
+
+=== [[sendHeartbeatRequest]] `sendHeartbeatRequest` Method
+
+[source, java]
+----
+RequestFuture<Void> sendHeartbeatRequest()
+----
+
+`sendHeartbeatRequest`...FIXME
+
+NOTE: `sendHeartbeatRequest` is used when...FIXME
