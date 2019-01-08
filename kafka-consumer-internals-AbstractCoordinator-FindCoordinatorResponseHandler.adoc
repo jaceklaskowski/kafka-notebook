@@ -2,6 +2,8 @@
 
 `FindCoordinatorResponseHandler` is a <<kafka-consumer-internals-RequestFutureAdapter.adoc#, RequestFutureAdapter>> of <<kafka-clients-ClientResponse.adoc#, ClientResponse>>.
 
+`FindCoordinatorResponseHandler` is used exclusively when `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#sendFindCoordinatorRequest, sendFindCoordinatorRequest>>.
+
 === [[onSuccess]] `onSuccess` Method
 
 [source, java]
@@ -9,7 +11,7 @@
 void onSuccess(ClientResponse resp, RequestFuture<Void> future)
 ----
 
-NOTE: `onSuccess` is part of the <<kafka-consumer-internals-RequestFutureAdapter.adoc#onSuccess, RequestFutureAdapter Contract>> to...FIXME.
+NOTE: `onSuccess` is part of the <<kafka-consumer-internals-RequestFutureAdapter.adoc#onSuccess, RequestFutureAdapter Contract>> to perform a type conversion when a `RequestFuture` completes with a success.
 
 `onSuccess`...FIXME
 

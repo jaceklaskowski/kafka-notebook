@@ -82,13 +82,23 @@ Used exclusively when `AbstractCoordinator` is requested to <<sendJoinGroupReque
 | Name
 | Description
 
+| coordinator
+a| [[coordinator]] Group Coordinator (as a Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/Node.html[Node])
+
+Initialized when `FindCoordinatorResponseHandler` is requested to <<kafka-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc#onSuccess, onSuccess>>
+
+| findCoordinatorFuture
+| [[findCoordinatorFuture]] <<kafka-consumer-internals-RequestFuture.adoc#, ++RequestFuture<Void>++>> for <<sendFindCoordinatorRequest, sendFindCoordinatorRequest>> when <<lookupCoordinator, lookupCoordinator>>
+
+Reset in <<clearFindCoordinatorFuture, clearFindCoordinatorFuture>>
+
+Used in <<lookupCoordinator, lookupCoordinator>> and when `HeartbeatThread` is requested to run
+
 | heartbeatThread
 | [[heartbeatThread]] `HeartbeatThread`
 
 | joinFuture
-| [[joinFuture]] <<kafka-consumer-internals-RequestFuture.adoc#, ++RequestFuture<ByteBuffer>++>> for...FIXME
-
-Initialized in <<initiateJoinGroup, initiateJoinGroup>> (as the result of <<sendJoinGroupRequest, sendJoinGroupRequest>>)
+| [[joinFuture]] <<kafka-consumer-internals-RequestFuture.adoc#, ++RequestFuture<ByteBuffer>++>> for <<sendJoinGroupRequest, sendJoinGroupRequest>> when <<initiateJoinGroup, initiateJoinGroup>>
 
 Reset in <<resetJoinGroupFuture, resetJoinGroupFuture>>
 
@@ -101,6 +111,20 @@ Used in <<rejoinNeededOrPending, rejoinNeededOrPending>> and <<initiateJoinGroup
 | [[rejoinNeeded]] Flag to control whether to...FIXME
 
 |===
+
+[[logging]]
+[TIP]
+====
+Enable `DEBUG` logging levels for `org.apache.kafka.clients.consumer.internals.AbstractCoordinator` logger to see what happens inside.
+
+Add the following line to `log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.consumer.internals.AbstractCoordinator=DEBUG
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
 
 === [[creating-instance]] Creating AbstractCoordinator Instance
 
@@ -224,7 +248,7 @@ RequestFuture<Void> sendFindCoordinatorRequest(Node node)
 
 `sendFindCoordinatorRequest`...FIXME
 
-NOTE: `sendFindCoordinatorRequest` is used when...FIXME
+NOTE: `sendFindCoordinatorRequest` is used exclusively when `AbstractCoordinator` is requested to <<lookupCoordinator, lookupCoordinator>>.
 
 === [[maybeLeaveGroup]] `maybeLeaveGroup` Method
 
@@ -269,6 +293,17 @@ void resetJoinGroupFuture()
 `resetJoinGroupFuture` simply resets the <<joinFuture, joinFuture>> internal registry (i.e. sets it to `null`).
 
 NOTE: `resetJoinGroupFuture` is used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>>.
+
+=== [[clearFindCoordinatorFuture]] `clearFindCoordinatorFuture` Internal Method
+
+[source, java]
+----
+void clearFindCoordinatorFuture()
+----
+
+`clearFindCoordinatorFuture` simply resets the <<findCoordinatorFuture, findCoordinatorFuture>> internal registry (i.e. sets it to `null`).
+
+NOTE: `clearFindCoordinatorFuture` is used exclusively when `FindCoordinatorResponseHandler` is requested to <<kafka-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc#onSuccess, onSuccess>> and <<kafka-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc#onFailure, onFailure>>.
 
 === [[rejoinNeededOrPending]] `rejoinNeededOrPending` Internal Method
 
