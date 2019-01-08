@@ -178,18 +178,18 @@
 .. link:kafka-consumer-internals-AbstractPartitionAssignor.adoc[AbstractPartitionAssignor]
 
 . link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
-.. link:kafka-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator]
-.. link:kafka-consumer-internals-RequestFutureAdapter.adoc[RequestFutureAdapter Contract]
-.. link:kafka-consumer-internals-CoordinatorResponseHandler.adoc[CoordinatorResponseHandler Contract]
-.. link:kafka-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc[FindCoordinatorResponseHandler]
-
-. link:kafka-consumer-internals-RequestFuture.adoc[RequestFuture]
+.. link:kafka-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator Contract]
 
 . link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 . link:kafka-consumer-internals-ConsumerMetrics.adoc[ConsumerMetrics]
 . link:kafka-consumer-internals-Fetcher.adoc[Fetcher]
 . link:kafka-consumer-internals-RequestFutureListener.adoc[RequestFutureListener]
 . link:kafka-consumer-internals-SubscriptionState.adoc[SubscriptionState]
+
+. link:kafka-consumer-internals-RequestFuture.adoc[RequestFuture]
+. link:kafka-consumer-internals-RequestFutureAdapter.adoc[RequestFutureAdapter Contract]
+.. link:kafka-consumer-internals-CoordinatorResponseHandler.adoc[CoordinatorResponseHandler Contract]
+.. link:kafka-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc[FindCoordinatorResponseHandler]
 
 === Kafka Architecture
 

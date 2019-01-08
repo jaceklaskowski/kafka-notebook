@@ -60,7 +60,7 @@ Configured using <<kafka-consumer-ConsumerConfig.adoc#PARTITION_ASSIGNMENT_STRAT
 Used exclusively to create the <<coordinator, ConsumerCoordinator>>
 
 | client
-| [[client]] link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+| [[client]] <<kafka-consumer-internals-ConsumerNetworkClient.adoc#, ConsumerNetworkClient>>
 
 Used mainly _(?)_ to create the <<fetcher, Fetcher>> and <<coordinator, ConsumerCoordinator>>
 
@@ -199,7 +199,7 @@ image::images/KafkaConsumer-subscribe.png[align="center"]
 
 [source, java]
 ----
-ConsumerRecords<K, V> poll(long timeout)
+ConsumerRecords<K, V> poll(final Duration timeout)
 ----
 
 `poll` polls for new records until `timeout` expires.
@@ -232,6 +232,19 @@ CAUTION: FIXME Make the above more user-friendly, e.g. when could `interceptors`
 image::images/KafkaConsumer-poll.png[align="center"]
 
 NOTE: `poll` is a part of link:kafka-consumers.adoc#poll[Consumer contract] to...FIXME
+
+==== [[poll-internal]] `poll` Internal Method
+
+[source, java]
+----
+ConsumerRecords<K, V> poll(
+  final Timer timer,
+  final boolean includeMetadataInTimeout)
+----
+
+`poll`...FIXME
+
+NOTE: The private `poll` is used exclusively in <<poll, poll>>.
 
 === [[commitSync]] `commitSync` Method
 
@@ -458,7 +471,7 @@ void throwIfNoAssignorsConfigured()
 
 NOTE: `throwIfNoAssignorsConfigured` is used exclusively when `KafkaConsumer` is requested to <<subscribe, subscribe to topics>>.
 
-=== [[updateAssignmentMetadataIfNeeded]] `updateAssignmentMetadataIfNeeded` Internal Method
+=== [[updateAssignmentMetadataIfNeeded]] `updateAssignmentMetadataIfNeeded` Method
 
 [source, java]
 ----
@@ -467,7 +480,7 @@ boolean updateAssignmentMetadataIfNeeded(final Timer timer)
 
 `updateAssignmentMetadataIfNeeded`...FIXME
 
-NOTE: `updateAssignmentMetadataIfNeeded` is used when...FIXME
+NOTE: `updateAssignmentMetadataIfNeeded` is used exclusively when `KafkaConsumer` is requested to <<poll, poll for records>>.
 
 === [[pollForFetches]] `pollForFetches` Internal Method
 
@@ -478,7 +491,7 @@ Map<TopicPartition, List<ConsumerRecord<K, V>>> pollForFetches(Timer timer)
 
 `pollForFetches`...FIXME
 
-NOTE: `pollForFetches` is used when...FIXME
+NOTE: `pollForFetches` is used exclusively when `KafkaConsumer` is requested to <<poll, poll for records>>.
 
 === [[commitAsync]] `commitAsync` Method
 

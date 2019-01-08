@@ -276,12 +276,12 @@ NOTE: `timeToNextPoll` is used when...FIXME
 
 [source, java]
 ----
-void poll(long now, long remainingMs)
+boolean poll(Timer timer)
 ----
 
 `poll`...FIXME
 
-NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#pollOnce[pollOnce].
+NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to <<kafka-consumer-KafkaConsumer.adoc#updateAssignmentMetadataIfNeeded, updateAssignmentMetadataIfNeeded>>.
 
 === [[addMetadataListener]] Registering Metadata.Listener -- `addMetadataListener` Internal Method
 

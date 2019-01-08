@@ -1,6 +1,6 @@
-== [[AbstractCoordinator]] AbstractCoordinator
+== [[AbstractCoordinator]] AbstractCoordinator Contract
 
-`AbstractCoordinator` is a <<contract, contract>> for...FIXME
+`AbstractCoordinator` is the <<contract, base>> of <<extensions, Coordinators>> that <<FIXME, FIXME>>.
 
 NOTE: `AbstractCoordinator` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<extensions, concrete Coordinators>>.
 
@@ -8,56 +8,98 @@ NOTE: `AbstractCoordinator` is a Java abstract class and cannot be <<creating-in
 NOTE: <<kafka-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>> is the one and only known implementation of the <<contract, AbstractCoordinator Contract>> in Apache Kafka's Consumer API.
 
 [[contract]]
-[source, java]
-----
-package org.apache.kafka.clients.consumer.internals;
-
-abstract class AbstractCoordinator {
-  void onJoinComplete(
-    int generation,
-    String memberId,
-    String protocol,
-    ByteBuffer memberAssignment);
-  void onJoinPrepare(int generation, String memberId);
-  Map<String, ByteBuffer> performAssignment(
-    String leaderId,
-    String protocol,
-    Map<String, ByteBuffer> allMemberMetadata);
-  ...FIXME
-}
-----
-
-.AbstractCoordinator Contract
-[cols="1,2",options="header",width="100%"]
+.AbstractCoordinator Contract (Abstract Methods Only)
+[cols="1m,2",options="header",width="100%"]
 |===
 | Method
 | Description
 
-| [[onJoinComplete]] `onJoinComplete`
-| Used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>> (and the request to <<initiateJoinGroup, initiateJoinGroup>> succeeded)
+| metadata
+a| [[metadata]]
 
-| [[onJoinPrepare]] `onJoinPrepare`
-| Used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>> (and <<needsJoinPrepare, needsJoinPrepare>> flag is on)
+[source, java]
+----
+List<ProtocolMetadata> metadata()
+----
 
-| [[performAssignment]] `performAssignment`
-|
+Used exclusively when `AbstractCoordinator` is requested to <<sendJoinGroupRequest, sendJoinGroupRequest>>
+
+| onJoinComplete
+a| [[onJoinComplete]]
+
+[source, java]
+----
+void onJoinComplete(
+  int generation,
+  String memberId,
+  String protocol,
+  ByteBuffer memberAssignment)
+----
+
+Used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>> (and the request to <<initiateJoinGroup, initiateJoinGroup>> succeeded)
+
+| onJoinPrepare
+a| [[onJoinPrepare]]
+
+[source, java]
+----
+void onJoinPrepare(
+  int generation,
+  String memberId)
+----
+
+Used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>> (and the <<needsJoinPrepare, needsJoinPrepare>> flag is on)
+
+| performAssignment
+a| [[performAssignment]]
+
+[source, java]
+----
+Map<String, ByteBuffer> performAssignment(
+  String leaderId,
+  String protocol,
+  Map<String, ByteBuffer> allMemberMetadata)
+----
+
+Used exclusively when `AbstractCoordinator` is requested to <<onJoinLeader, onJoinLeader>>
+
+| protocolType
+a| [[protocolType]]
+
+[source, java]
+----
+String protocolType()
+----
+
+Used exclusively when `AbstractCoordinator` is requested to <<sendJoinGroupRequest, sendJoinGroupRequest>>
+
 |===
 
 [[internal-registries]]
 .AbstractCoordinator's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1,2",options="header",width="100%"]
+[cols="1m,2",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| [[joinFuture]] `joinFuture`
-| `RequestFuture<ByteBuffer>` for...FIXME
+| heartbeatThread
+| [[heartbeatThread]] `HeartbeatThread`
 
-| [[needsJoinPrepare]] `needsJoinPrepare`
-| Controls when to execute <<onJoinPrepare, onJoinPrepare>> while performing <<joinGroupIfNeeded, joinGroupIfNeeded>>
+| joinFuture
+| [[joinFuture]] <<kafka-consumer-internals-RequestFuture.adoc#, ++RequestFuture<ByteBuffer>++>> for...FIXME
 
-| [[rejoinNeeded]] `rejoinNeeded`
-| Controls when to...FIXME
+Initialized in <<initiateJoinGroup, initiateJoinGroup>> (as the result of <<sendJoinGroupRequest, sendJoinGroupRequest>>)
+
+Reset in <<resetJoinGroupFuture, resetJoinGroupFuture>>
+
+Used in <<rejoinNeededOrPending, rejoinNeededOrPending>> and <<initiateJoinGroup, initiateJoinGroup>>
+
+| needsJoinPrepare
+| [[needsJoinPrepare]] Flag to control whether to execute <<onJoinPrepare, onJoinPrepare>> while performing <<joinGroupIfNeeded, joinGroupIfNeeded>>
+
+| rejoinNeeded
+| [[rejoinNeeded]] Flag to control whether to...FIXME
+
 |===
 
 === [[creating-instance]] Creating AbstractCoordinator Instance
@@ -65,22 +107,24 @@ abstract class AbstractCoordinator {
 `AbstractCoordinator` takes the following when created:
 
 * [[logContext]] `LogContext`
-* [[client]] link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+* [[client]] <<kafka-consumer-internals-ConsumerNetworkClient.adoc#, ConsumerNetworkClient>>
 * [[groupId]] Group ID
 * [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
 * [[sessionTimeoutMs]] `sessionTimeoutMs`
-* [[heartbeatIntervalMs]] `heartbeatIntervalMs`
-* [[metrics]] `Metrics`
+* [[heartbeatIntervalMs]] `heartbeatIntervalMs` (or simply [[heartbeat]] a `Heartbeat` instance)
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[metricGrpPrefix]] Metric group prefix
 * [[time]] `Time`
 * [[retryBackoffMs]] `retryBackoffMs`
 * [[leaveGroupOnClose]] `leaveGroupOnClose` flag
 
+NOTE: `AbstractCoordinator` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<extensions, concrete Coordinators>>.
+
 === [[joinGroupIfNeeded]] `joinGroupIfNeeded` Method
 
 [source, java]
 ----
-void joinGroupIfNeeded()
+boolean joinGroupIfNeeded(final Timer timer)
 ----
 
 `joinGroupIfNeeded`...FIXME
@@ -103,11 +147,12 @@ NOTE: `initiateJoinGroup` is used exclusively when `AbstractCoordinator` is requ
 [source, java]
 ----
 void ensureActiveGroup()
+boolean ensureActiveGroup(final Timer timer)
 ----
 
 `ensureActiveGroup`...FIXME
 
-NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to link:kafka-consumer-internals-ConsumerCoordinator.adoc#poll[poll for coordinator events]
+NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>>.
 
 === [[lookupCoordinator]] `lookupCoordinator` Method
 
@@ -202,3 +247,67 @@ RequestFuture<Void> sendHeartbeatRequest()
 `sendHeartbeatRequest`...FIXME
 
 NOTE: `sendHeartbeatRequest` is used when...FIXME
+
+=== [[onJoinLeader]] `onJoinLeader` Internal Method
+
+[source, java]
+----
+RequestFuture<ByteBuffer> onJoinLeader(JoinGroupResponse joinResponse)
+----
+
+`onJoinLeader`...FIXME
+
+NOTE: `onJoinLeader` is used when...FIXME
+
+=== [[resetJoinGroupFuture]] `resetJoinGroupFuture` Internal Method
+
+[source, java]
+----
+void resetJoinGroupFuture()
+----
+
+`resetJoinGroupFuture` simply resets the <<joinFuture, joinFuture>> internal registry (i.e. sets it to `null`).
+
+NOTE: `resetJoinGroupFuture` is used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>>.
+
+=== [[rejoinNeededOrPending]] `rejoinNeededOrPending` Internal Method
+
+[source, java]
+----
+boolean rejoinNeededOrPending()
+----
+
+`rejoinNeededOrPending` is positive (`true`) when <<rejoinNeeded, rejoinNeeded>> and <<joinFuture, joinFuture>> is initialized (i.e. not `null`).
+
+[NOTE]
+====
+`rejoinNeededOrPending` is used when:
+
+* `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#rejoinNeededOrPending, rejoinNeededOrPending>> and <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll>>
+
+* `KafkaConsumer` is requested to <<kafka-consumer-KafkaConsumer.adoc#pollForFetches, pollForFetches>>
+
+* `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>>
+====
+
+=== [[pollHeartbeat]] `pollHeartbeat` Method
+
+[source, java]
+----
+void pollHeartbeat(long now)
+----
+
+`pollHeartbeat`...FIXME
+
+NOTE: `pollHeartbeat` is used when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for Coordinator events>>.
+
+=== [[startHeartbeatThreadIfNeeded]] `startHeartbeatThreadIfNeeded` Internal Method
+
+[source, java]
+----
+void startHeartbeatThreadIfNeeded()
+----
+
+`startHeartbeatThreadIfNeeded`...FIXME
+
+NOTE: `startHeartbeatThreadIfNeeded` is used exclusively when `AbstractCoordinator` is requested to <<ensureActiveGroup, ensureActiveGroup>>.
