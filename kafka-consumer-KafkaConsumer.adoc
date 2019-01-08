@@ -9,7 +9,7 @@ image::images/KafkaConsumer.png[align="center"]
 
 NOTE: link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers] and link:kafka-properties.adoc#group.id[group.id] properties are mandatory. They usually appear in the code as `ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG` and  `ConsumerConfig.GROUP_ID_CONFIG` values, respectively.
 
-`KafkaConsumer` is a concrete <<kafka-clients-consumer-Consumer.adoc#, Consumer>>.
+`KafkaConsumer` is a concrete <<kafka-consumer-Consumer.adoc#, Consumer>>.
 
 [source, scala]
 ----
@@ -53,14 +53,14 @@ KafkaConsumer is not safe for multi-threaded access
 | Description
 
 | assignors
-a| [[assignors]] Zero or more <<kafka-clients-consumer-internals-PartitionAssignor.adoc#, PartitionAssignors>>
+a| [[assignors]] Zero or more <<kafka-consumer-internals-PartitionAssignor.adoc#, PartitionAssignors>>
 
-Configured using <<kafka-clients-consumer-ConsumerConfig.adoc#PARTITION_ASSIGNMENT_STRATEGY_CONFIG, ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG>> (aka `partition.assignment.strategy`) configuration property
+Configured using <<kafka-consumer-ConsumerConfig.adoc#PARTITION_ASSIGNMENT_STRATEGY_CONFIG, ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG>> (aka `partition.assignment.strategy`) configuration property
 
 Used exclusively to create the <<coordinator, ConsumerCoordinator>>
 
 | client
-| [[client]] link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+| [[client]] link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 
 Used mainly _(?)_ to create the <<fetcher, Fetcher>> and <<coordinator, ConsumerCoordinator>>
 
@@ -70,19 +70,19 @@ Used also in <<poll, poll>>, <<pollOnce, pollOnce>> and <<wakeup, wakeup>> (but 
 | [[clientId]]
 
 | coordinator
-a| [[coordinator]] <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>>
+a| [[coordinator]] <<kafka-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>>
 
 Used in <<subscribe, subscribe>>, <<unsubscribe, unsubscribe>>, <<assign, assign>>, <<updateAssignmentMetadataIfNeeded, updateAssignmentMetadataIfNeeded>>, <<pollForFetches, pollForFetches>>, <<commitSync, commitSync>>, <<commitAsync, commitAsync>>, <<committed, committed>>, <<close, close>>, and <<updateFetchPositions, updateFetchPositions>>
 
 | fetcher
-| [[fetcher]] link:kafka-clients-consumer-internals-Fetcher.adoc[Fetcher]
+| [[fetcher]] link:kafka-consumer-internals-Fetcher.adoc[Fetcher]
 
 Created right when `KafkaConsumer` is <<creating-instance, created>>.
 
 Used when...FIXME
 
 | interceptors
-| [[interceptors]] `ConsumerInterceptors` that holds link:kafka-clients-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor] instances (defined using link:kafka-properties.adoc#interceptor.classes[interceptor.classes] setting).
+| [[interceptors]] `ConsumerInterceptors` that holds link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor] instances (defined using link:kafka-properties.adoc#interceptor.classes[interceptor.classes] setting).
 
 Used when...FIXME
 
@@ -93,7 +93,7 @@ Created for a <<creating-instance, KafkaConsumer>> with the following:
 
 * <<retryBackoffMs, retryBackoffMs>> configuration property
 
-* <<kafka-clients-consumer-ConsumerConfig.adoc#METADATA_MAX_AGE_CONFIG, ConsumerConfig.METADATA_MAX_AGE_CONFIG>> configuration property
+* <<kafka-consumer-ConsumerConfig.adoc#METADATA_MAX_AGE_CONFIG, ConsumerConfig.METADATA_MAX_AGE_CONFIG>> configuration property
 
 * `allowAutoTopicCreation` flag on
 
@@ -144,7 +144,7 @@ Refer to link:kafka-logging.adoc[Logging].
 void assign(Collection<TopicPartition> partitions)
 ----
 
-NOTE: `assign` is part of link:kafka-clients-consumer-Consumer.adoc#assign[Consumer Contract] to...FIXME.
+NOTE: `assign` is part of link:kafka-consumer-Consumer.adoc#assign[Consumer Contract] to...FIXME.
 
 `assign`...FIXME
 
@@ -155,7 +155,7 @@ NOTE: `assign` is part of link:kafka-clients-consumer-Consumer.adoc#assign[Consu
 void unsubscribe()
 ----
 
-NOTE: `unsubscribe` is part of link:kafka-clients-consumer-Consumer.adoc#unsubscribe[Consumer Contract] to...FIXME.
+NOTE: `unsubscribe` is part of link:kafka-consumer-Consumer.adoc#unsubscribe[Consumer Contract] to...FIXME.
 
 `unsubscribe`...FIXME
 
@@ -171,7 +171,7 @@ void subscribe(Pattern pattern, ConsumerRebalanceListener listener)
 
 `subscribe` subscribes `KafkaConsumer` to the given topics.
 
-NOTE: `subscribe` is a part of link:kafka-clients-consumer-Consumer.adoc#subscribe[Consumer Contract] to...FIXME
+NOTE: `subscribe` is a part of link:kafka-consumer-Consumer.adoc#subscribe[Consumer Contract] to...FIXME
 
 [source, scala]
 ----
@@ -220,11 +220,11 @@ while (true) {
 
 Internally, `poll` starts by <<pollOnce, polling once>> (for `timeout` milliseconds).
 
-If there are records available, `poll` checks <<fetcher, Fetcher>> for link:kafka-clients-consumer-internals-Fetcher.adoc#sendFetches[sendFetches] and <<client, ConsumerNetworkClient>> for link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#pendingRequestCount[pendingRequestCount] flag. If either is positive, `poll` requests <<client, ConsumerNetworkClient>> to link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#pollNoWakeup[pollNoWakeup].
+If there are records available, `poll` checks <<fetcher, Fetcher>> for link:kafka-consumer-internals-Fetcher.adoc#sendFetches[sendFetches] and <<client, ConsumerNetworkClient>> for link:kafka-consumer-internals-ConsumerNetworkClient.adoc#pendingRequestCount[pendingRequestCount] flag. If either is positive, `poll` requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#pollNoWakeup[pollNoWakeup].
 
 CAUTION: FIXME Make the above more user-friendly
 
-`poll` returns the available `ConsumerRecords` directly when no <<interceptors, ConsumerInterceptors>> are defined or passes them through <<interceptors, ConsumerInterceptors>> using link:kafka-clients-consumer-ConsumerInterceptor.adoc#onConsume[onConsume].
+`poll` returns the available `ConsumerRecords` directly when no <<interceptors, ConsumerInterceptors>> are defined or passes them through <<interceptors, ConsumerInterceptors>> using link:kafka-consumer-ConsumerInterceptor.adoc#onConsume[onConsume].
 
 CAUTION: FIXME Make the above more user-friendly, e.g. when could `interceptors` be empty?
 
@@ -240,7 +240,7 @@ NOTE: `poll` is a part of link:kafka-consumers.adoc#poll[Consumer contract] to..
 void commitSync()
 ----
 
-NOTE: `commitSync` is part of link:kafka-clients-consumer-Consumer.adoc#commitSync[Consumer Contract] to...FIXME.
+NOTE: `commitSync` is part of link:kafka-consumer-Consumer.adoc#commitSync[Consumer Contract] to...FIXME.
 
 `commitSync`...FIXME
 
@@ -251,7 +251,7 @@ NOTE: `commitSync` is part of link:kafka-clients-consumer-Consumer.adoc#commitSy
 void seek(TopicPartition partition, long offset)
 ----
 
-NOTE: `seek` is part of link:kafka-clients-consumer-Consumer.adoc#seek[Consumer Contract] to...FIXME.
+NOTE: `seek` is part of link:kafka-consumer-Consumer.adoc#seek[Consumer Contract] to...FIXME.
 
 `seek`...FIXME
 
@@ -289,7 +289,7 @@ NOTE: `pollOnce` is used exclusively when `KafkaConsumer` is requested to <<poll
 Map<String, List<PartitionInfo>> listTopics()
 ----
 
-Internally, `listTopics` simply requests <<fetcher, Fetcher>> for link:kafka-clients-consumer-internals-Fetcher.adoc#getAllTopicMetadata[metadata for all topics] and returns it.
+Internally, `listTopics` simply requests <<fetcher, Fetcher>> for link:kafka-consumer-internals-Fetcher.adoc#getAllTopicMetadata[metadata for all topics] and returns it.
 
 [source, scala]
 ----
@@ -307,13 +307,13 @@ NOTE: `listTopics` uses <<requestTimeoutMs, requestTimeoutMs>> that corresponds 
 Map<TopicPartition, Long> beginningOffsets(Collection<TopicPartition> partitions)
 ----
 
-`beginningOffsets` requests <<fetcher, Fetcher>> for link:kafka-clients-consumer-internals-Fetcher.adoc#beginningOffsets[beginningOffsets] and returns it.
+`beginningOffsets` requests <<fetcher, Fetcher>> for link:kafka-consumer-internals-Fetcher.adoc#beginningOffsets[beginningOffsets] and returns it.
 
 === [[creating-instance]] Creating KafkaConsumer Instance
 
 `KafkaConsumer` takes the following when created:
 
-* [[configs]] Consumer configuration (that is converted internally to link:kafka-clients-consumer-ConsumerConfig.adoc[ConsumerConfig])
+* [[configs]] Consumer configuration (that is converted internally to link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig])
 * [[keyDeserializer]] link:kafka-common-serialization-Deserializer.adoc[Deserializer] for keys
 * [[valueDeserializer]] link:kafka-common-serialization-Deserializer.adoc[Deserializer] for values
 
@@ -332,7 +332,7 @@ KafkaConsumer(
   Deserializer<V> valueDeserializer)
 ----
 
-When created, `KafkaConsumer` adds the <<keyDeserializer, keyDeserializer>> and <<valueDeserializer, valueDeserializer>> to <<configs, configs>> (as link:kafka-properties.adoc#key.deserializer[key.deserializer] and link:kafka-properties.adoc#value.deserializer[value.deserializer] properties respectively) and creates a link:kafka-clients-consumer-ConsumerConfig.adoc[ConsumerConfig].
+When created, `KafkaConsumer` adds the <<keyDeserializer, keyDeserializer>> and <<valueDeserializer, valueDeserializer>> to <<configs, configs>> (as link:kafka-properties.adoc#key.deserializer[key.deserializer] and link:kafka-properties.adoc#value.deserializer[value.deserializer] properties respectively) and creates a link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig].
 
 `KafkaConsumer` passes the call on to the <<creating-instance-internal, internal constructor>>.
 
@@ -368,7 +368,7 @@ CAUTION: FIXME Finish me!
 1. link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms]
 1. `allowAutoTopicCreation` enabled
 1. `topicExpiryEnabled` disabled
-1. link:kafka-ClusterResourceListener.adoc[ClusterResourceListeners] with user-defined list of link:kafka-clients-consumer-ConsumerInterceptor.adoc[ConsumerInterceptors] in link:kafka-properties.adoc#interceptor.classes[interceptor.classes] property
+1. link:kafka-ClusterResourceListener.adoc[ClusterResourceListeners] with user-defined list of link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptors] in link:kafka-properties.adoc#interceptor.classes[interceptor.classes] property
 
 `KafkaConsumer` link:kafka-clients-Metadata.adoc#update[updates] `metadata` with link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers].
 
@@ -406,9 +406,9 @@ org.apache.kafka.common.KafkaException: Failed to construct kafka consumer
 void wakeup()
 ----
 
-NOTE: `wakeup` is a part of link:kafka-clients-consumer-Consumer.adoc#wakeup[Consumer Contract].
+NOTE: `wakeup` is a part of link:kafka-consumer-Consumer.adoc#wakeup[Consumer Contract].
 
-`wakeup` simply requests <<client, ConsumerNetworkClient>> to link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#wakeup[wakeup].
+`wakeup` simply requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#wakeup[wakeup].
 
 .KafkaConsumer's wakeup Method
 image::images/KafkaConsumer-wakeup.png[align="center"]
@@ -442,7 +442,7 @@ ClusterResourceListeners configureClusterResourceListeners(
 
 * <<keyDeserializer, key>> and <<valueDeserializer, value>> deserializers (defined when `KafkaConsumer` is created)
 
-* link:kafka-clients-consumer-ConsumerInterceptor.adoc[ConsumerInterceptors] from link:kafka-properties.adoc#interceptor.classes[interceptor.classes] Kafka property
+* link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptors] from link:kafka-properties.adoc#interceptor.classes[interceptor.classes] Kafka property
 
 * link:kafka-MetricsReporter.adoc[MetricsReporters] from link:kafka-properties.adoc#metric_reporters[metric.reporters] Kafka property
 ====
@@ -492,7 +492,7 @@ void commitAsync(
   OffsetCommitCallback callback)
 ----
 
-NOTE: `commitAsync` is part of the <<kafka-clients-consumer-Consumer.adoc#commitAsync, Consumer Contract>> to...FIXME.
+NOTE: `commitAsync` is part of the <<kafka-consumer-Consumer.adoc#commitAsync, Consumer Contract>> to...FIXME.
 
 `commitAsync`...FIXME
 
@@ -507,7 +507,7 @@ OffsetAndMetadata committed(
   final Duration timeout)
 ----
 
-NOTE: `committed` is part of the <<kafka-clients-consumer-Consumer.adoc#committed, Consumer Contract>> to...FIXME.
+NOTE: `committed` is part of the <<kafka-consumer-Consumer.adoc#committed, Consumer Contract>> to...FIXME.
 
 `committed`...FIXME
 
@@ -519,7 +519,7 @@ void close()
 void close(Duration timeout)
 ----
 
-NOTE: `close` is part of the <<kafka-clients-consumer-Consumer.adoc#close, Consumer Contract>> to...FIXME.
+NOTE: `close` is part of the <<kafka-consumer-Consumer.adoc#close, Consumer Contract>> to...FIXME.
 
 `close`...FIXME
 

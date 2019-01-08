@@ -2,7 +2,7 @@
 
 `Consumer` is the <<contract, contract>> for link:kafka-consumers.adoc[Kafka consumers].
 
-NOTE: link:kafka-clients-consumer-KafkaConsumer.adoc[KafkaConsumer] is the main public class that Kafka developers use to write Kafka consumers.
+NOTE: link:kafka-consumer-KafkaConsumer.adoc[KafkaConsumer] is the main public class that Kafka developers use to write Kafka consumers.
 
 === [[contract]] Consumer Contract
 

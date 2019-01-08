@@ -4,7 +4,7 @@
 
 NOTE: `org.apache.kafka.common.Cluster` is a `public final` class.
 
-A special variant of a cluster is *boostrap cluster* that is made up of the <<bootstrap, bootstrap brokers>> that are mandatory (and specified explicitly) when Kafka clients are created, i.e. link:kafka-KafkaAdminClient.adoc#creating-instance[KafkaAdminClient], link:kafka-AdminClient.adoc#create[AdminClient], link:kafka-clients-consumer-KafkaConsumer.adoc#creating-instance[KafkaConsumer] and link:kafka-producer-KafkaProducer.adoc#creating-instance[KafkaProducer].
+A special variant of a cluster is *boostrap cluster* that is made up of the <<bootstrap, bootstrap brokers>> that are mandatory (and specified explicitly) when Kafka clients are created, i.e. link:kafka-KafkaAdminClient.adoc#creating-instance[KafkaAdminClient], link:kafka-AdminClient.adoc#create[AdminClient], link:kafka-consumer-KafkaConsumer.adoc#creating-instance[KafkaConsumer] and link:kafka-producer-KafkaProducer.adoc#creating-instance[KafkaProducer].
 
 NOTE: A bootstrap cluster does not hold all information about the cluster.
 
@@ -45,7 +45,7 @@ static Cluster bootstrap(List<InetSocketAddress> addresses)
 
 `bootstrap`...FIXME
 
-NOTE: `bootstrap` is used when <<kafka-KafkaAdminClient.adoc#, KafkaAdminClient>>, <<kafka-clients-consumer-KafkaConsumer.adoc#, KafkaConsumer>> and <<kafka-producer-KafkaProducer.adoc#, KafkaProducer>> are created (and update their internal metadata).
+NOTE: `bootstrap` is used when <<kafka-KafkaAdminClient.adoc#, KafkaAdminClient>>, <<kafka-consumer-KafkaConsumer.adoc#, KafkaConsumer>> and <<kafka-producer-KafkaProducer.adoc#, KafkaProducer>> are created (and update their internal metadata).
 
 === [[isBootstrapConfigured]] `isBootstrapConfigured` Method
 
@@ -73,7 +73,7 @@ List<PartitionInfo> partitionsForTopic(String topic)
 
 * `Metadata` link:kafka-clients-Metadata.adoc#getClusterForCurrentTopics[getClusterForCurrentTopics]
 * `KafkaAdminClient` link:kafka-KafkaAdminClient.adoc#describeTopics[describeTopics]
-* `KafkaConsumer` link:kafka-clients-consumer-KafkaConsumer.adoc#partitionsFor[partitionsFor]
+* `KafkaConsumer` link:kafka-consumer-KafkaConsumer.adoc#partitionsFor[partitionsFor]
 * `KafkaProducer` link:kafka-producer-KafkaProducer.adoc#partitionsFor[requests partitions for a topic]
 * `DefaultPartitioner` link:kafka-producer-DefaultPartitioner.adoc#partition[assigns the partition for a record]
 ====

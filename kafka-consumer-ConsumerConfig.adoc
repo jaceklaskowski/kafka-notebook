@@ -1,6 +1,6 @@
 == [[ConsumerConfig]] ConsumerConfig -- Configuration Properties for Kafka Consumers
 
-`ConsumerConfig` is a Apache Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/config/AbstractConfig.html[AbstractConfig] for the <<properties, configuration properties>> of a <<kafka-clients-consumer-KafkaConsumer.adoc#, KafkaConsumer>>.
+`ConsumerConfig` is a Apache Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/config/AbstractConfig.html[AbstractConfig] for the <<properties, configuration properties>> of a <<kafka-consumer-KafkaConsumer.adoc#, KafkaConsumer>>.
 
 [source, scala]
 ----
@@ -35,7 +35,7 @@ a| [[METADATA_MAX_AGE_CONFIG]][[metadata.max.age.ms]] The period of time (in mil
 
 `partition.assignment.strategy`
 
-Default: <<kafka-clients-consumer-RangeAssignor.adoc#, RangeAssignor>>
+Default: <<kafka-consumer-RangeAssignor.adoc#, RangeAssignor>>
 
 a| [[PARTITION_ASSIGNMENT_STRATEGY_CONFIG]][[partition.assignment.strategy]] The class name of the partition assignment strategy that the client will use to distribute partition ownership amongst consumer instances when group management is used
 
@@ -43,9 +43,9 @@ TIP: Read up https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Client-side
 
 Used when:
 
-* `KafkaConsumer` is <<kafka-clients-consumer-KafkaConsumer.adoc#assignors, created>>
+* `KafkaConsumer` is <<kafka-consumer-KafkaConsumer.adoc#assignors, created>>
 
 * Kafka Streams' `StreamsConfig` is requested to `getMainConsumerConfigs`
 
-NOTE: Required for `KafkaConsumer` to <<kafka-clients-consumer-KafkaConsumer.adoc#subscribe, subscribe to topics>>
+NOTE: Required for `KafkaConsumer` to <<kafka-consumer-KafkaConsumer.adoc#subscribe, subscribe to topics>>
 |===

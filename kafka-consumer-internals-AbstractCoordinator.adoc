@@ -5,7 +5,7 @@
 NOTE: `AbstractCoordinator` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<extensions, concrete Coordinators>>.
 
 [[extensions]]
-NOTE: <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>> is the one and only known implementation of the <<contract, AbstractCoordinator Contract>> in Apache Kafka's Consumer API.
+NOTE: <<kafka-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>> is the one and only known implementation of the <<contract, AbstractCoordinator Contract>> in Apache Kafka's Consumer API.
 
 [[contract]]
 [source, java]
@@ -65,7 +65,7 @@ abstract class AbstractCoordinator {
 `AbstractCoordinator` takes the following when created:
 
 * [[logContext]] `LogContext`
-* [[client]] link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+* [[client]] link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 * [[groupId]] Group ID
 * [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
 * [[sessionTimeoutMs]] `sessionTimeoutMs`
@@ -107,7 +107,7 @@ void ensureActiveGroup()
 
 `ensureActiveGroup`...FIXME
 
-NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#poll[poll for coordinator events]
+NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to link:kafka-consumer-internals-ConsumerCoordinator.adoc#poll[poll for coordinator events]
 
 === [[lookupCoordinator]] `lookupCoordinator` Method
 
@@ -124,7 +124,7 @@ RequestFuture<Void> lookupCoordinator()
 
 * `AbstractCoordinator` is requested to <<ensureCoordinatorReady, ensureCoordinatorReady>>
 
-* `ConsumerCoordinator` is requested to <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsAsync, commitOffsetsAsync>>
+* `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsAsync, commitOffsetsAsync>>
 
 * `HeartbeatThread` is requested to run
 ====
@@ -144,7 +144,7 @@ boolean ensureCoordinatorReady(final Timer timer)
 
 * `AbstractCoordinator` is requested to <<ensureActiveGroup, ensureActiveGroup>> and <<joinGroupIfNeeded, joinGroupIfNeeded>>
 
-* `ConsumerCoordinator` is requested to <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#poll, poll>>, <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#fetchCommittedOffsets, fetchCommittedOffsets>>, <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#close, close>>, and <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsSync, commitOffsetsSync>>
+* `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll>>, <<kafka-consumer-internals-ConsumerCoordinator.adoc#fetchCommittedOffsets, fetchCommittedOffsets>>, <<kafka-consumer-internals-ConsumerCoordinator.adoc#close, close>>, and <<kafka-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsSync, commitOffsetsSync>>
 ====
 
 === [[sendJoinGroupRequest]] `sendJoinGroupRequest` Method

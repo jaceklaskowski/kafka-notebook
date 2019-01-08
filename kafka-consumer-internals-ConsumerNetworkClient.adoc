@@ -2,7 +2,7 @@
 
 `ConsumerNetworkClient` is a high-level Kafka consumer that...FIXME
 
-`ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-clients-consumer-KafkaConsumer.adoc#client[KafkaConsumer] and link:kafka-AdminClient.adoc[AdminClient].
+`ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-consumer-KafkaConsumer.adoc#client[KafkaConsumer] and link:kafka-AdminClient.adoc[AdminClient].
 
 [[internal-registries]]
 .ConsumerNetworkClient's Internal Properties (e.g. Registries and Counters)
@@ -84,7 +84,7 @@ void ensureFreshMetadata()
 
 `ensureFreshMetadata` <<awaitMetadataUpdate, waits for metadata update>> when <<metadata, Metadata>> was requested for link:kafka-clients-Metadata.adoc#updateRequested[update] or link:kafka-clients-Metadata.adoc#timeToNextUpdate[time to the next update] is now.
 
-NOTE: `ensureFreshMetadata` is used when `ConsumerCoordinator` does link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete], link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#performAssignment[performAssignment] and link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#poll[poll].
+NOTE: `ensureFreshMetadata` is used when `ConsumerCoordinator` does link:kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete], link:kafka-consumer-internals-ConsumerCoordinator.adoc#performAssignment[performAssignment] and link:kafka-consumer-internals-ConsumerCoordinator.adoc#poll[poll].
 
 === [[pendingRequestCount]] `pendingRequestCount` Method
 
@@ -111,9 +111,9 @@ Node leastLoadedNode()
 ====
 `leastLoadedNode` is used when:
 
-* `AbstractCoordinator` is requested to <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#lookupCoordinator, lookupCoordinator>>
+* `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#lookupCoordinator, lookupCoordinator>>
 
-* `Fetcher` is requested to <<kafka-clients-consumer-internals-Fetcher.adoc#sendMetadataRequest, sendMetadataRequest>>
+* `Fetcher` is requested to <<kafka-consumer-internals-Fetcher.adoc#sendMetadataRequest, sendMetadataRequest>>
 ====
 
 === [[poll]] `poll` Method
@@ -169,7 +169,7 @@ void pollNoWakeup()
 ====
 `pollNoWakeup` is used when:
 
-* `KafkaConsumer` link:kafka-clients-consumer-KafkaConsumer.adoc#poll[polls]
+* `KafkaConsumer` link:kafka-consumer-KafkaConsumer.adoc#poll[polls]
 * `AbstractCoordinator` does `maybeLeaveGroup`
 * `HeartbeatThread` runs
 * `ConsumerCoordinator` does `commitOffsetsAsync`

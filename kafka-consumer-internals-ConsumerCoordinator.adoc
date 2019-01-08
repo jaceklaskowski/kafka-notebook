@@ -1,8 +1,8 @@
 == [[ConsumerCoordinator]] ConsumerCoordinator
 
-`ConsumerCoordinator` is a concrete <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>> that...FIXME
+`ConsumerCoordinator` is a concrete <<kafka-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>> that...FIXME
 
-`ConsumerCoordinator` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-clients-consumer-KafkaConsumer.adoc#coordinator[created].
+`ConsumerCoordinator` is <<creating-instance, created>> exclusively when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#coordinator[created].
 
 .ConsumerCoordinator and KafkaConsumer
 image::images/ConsumerCoordinator.png[align="center"]
@@ -51,7 +51,7 @@ With <<autoCommitEnabled, autoCommitEnabled>> enabled (i.e. link:kafka-propertie
 
 * <<metadata, metadata>>
 
-* [[lookupAssignor]] Looking up the <<kafka-clients-consumer-internals-PartitionAssignor.adoc#, PartitionAssignor>> by name (when <<onJoinComplete, onJoinComplete>> and <<performAssignment, performAssignment>>)
+* [[lookupAssignor]] Looking up the <<kafka-consumer-internals-PartitionAssignor.adoc#, PartitionAssignor>> by name (when <<onJoinComplete, onJoinComplete>> and <<performAssignment, performAssignment>>)
 
 [[internal-registries]]
 .ConsumerCoordinator's Internal Properties (e.g. Registries, Counters and Flags)
@@ -105,7 +105,7 @@ void maybeAutoCommitOffsetsAsync(long now)
 ====
 `maybeAutoCommitOffsetsAsync` is used when:
 
-* `KafkaConsumer` is requested to <<kafka-clients-consumer-KafkaConsumer.adoc#assign, manually assign partitions>>
+* `KafkaConsumer` is requested to <<kafka-consumer-KafkaConsumer.adoc#assign, manually assign partitions>>
 
 * `ConsumerCoordinator` is requested to <<poll, poll>>
 ====
@@ -158,7 +158,7 @@ void commitOffsetsAsync(
 ====
 `commitOffsetsAsync` is used when:
 
-* `KafkaConsumer` is requested to <<kafka-clients-consumer-KafkaConsumer.adoc#commitAsync, commitAsync>>
+* `KafkaConsumer` is requested to <<kafka-consumer-KafkaConsumer.adoc#commitAsync, commitAsync>>
 
 * `ConsumerCoordinator` is requested to <<doAutoCommitOffsetsAsync, doAutoCommitOffsetsAsync>>
 ====
@@ -199,7 +199,7 @@ void onJoinComplete(
   ByteBuffer assignmentBuffer)
 ----
 
-NOTE: `onJoinComplete` is part of link:kafka-clients-consumer-internals-AbstractCoordinator.adoc#onJoinComplete[AbstractCoordinator Contract] to...FIXME.
+NOTE: `onJoinComplete` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#onJoinComplete[AbstractCoordinator Contract] to...FIXME.
 
 `onJoinComplete`...FIXME
 
@@ -210,7 +210,7 @@ NOTE: `onJoinComplete` is part of link:kafka-clients-consumer-internals-Abstract
 void onJoinPrepare(int generation, String memberId)
 ----
 
-NOTE: `onJoinPrepare` is part of link:kafka-clients-consumer-internals-AbstractCoordinator.adoc#onJoinPrepare[AbstractCoordinator Contract] to...FIXME.
+NOTE: `onJoinPrepare` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#onJoinPrepare[AbstractCoordinator Contract] to...FIXME.
 
 `onJoinPrepare`...FIXME
 
@@ -224,7 +224,7 @@ Map<String, ByteBuffer> performAssignment(
   Map<String, ByteBuffer> allSubscriptions)
 ----
 
-NOTE: `performAssignment` is part of link:kafka-clients-consumer-internals-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to...FIXME.
+NOTE: `performAssignment` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to...FIXME.
 
 `performAssignment`...FIXME
 
@@ -257,7 +257,7 @@ NOTE: `updatePatternSubscription` is used when...FIXME
 boolean needRejoin()
 ----
 
-NOTE: `needRejoin` is part of link:kafka-clients-consumer-internals-AbstractCoordinator.adoc#needRejoin[AbstractCoordinator Contract] to...FIXME.
+NOTE: `needRejoin` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#needRejoin[AbstractCoordinator Contract] to...FIXME.
 
 `needRejoin`...FIXME
 
@@ -281,7 +281,7 @@ void poll(long now, long remainingMs)
 
 `poll`...FIXME
 
-NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka-clients-consumer-KafkaConsumer.adoc#pollOnce[pollOnce].
+NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#pollOnce[pollOnce].
 
 === [[addMetadataListener]] Registering Metadata.Listener -- `addMetadataListener` Internal Method
 
@@ -318,21 +318,21 @@ NOTE: `fetchCommittedOffsets` is used when...FIXME
 `ConsumerCoordinator` takes the following when created:
 
 * [[logContext]] `LogContext`
-* [[client]] <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#, ConsumerNetworkClient>>
+* [[client]] <<kafka-consumer-internals-ConsumerNetworkClient.adoc#, ConsumerNetworkClient>>
 * [[groupId]] Group ID
 * [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
 * [[sessionTimeoutMs]] `sessionTimeoutMs`
 * [[heartbeatIntervalMs]] `heartbeatIntervalMs`
-* [[assignors]] Collection of <<kafka-clients-consumer-internals-PartitionAssignor.adoc#, PartitionAssignors>>
+* [[assignors]] Collection of <<kafka-consumer-internals-PartitionAssignor.adoc#, PartitionAssignors>>
 * [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
-* [[subscriptions]] <<kafka-clients-consumer-internals-SubscriptionState.adoc#, SubscriptionState>>
+* [[subscriptions]] <<kafka-consumer-internals-SubscriptionState.adoc#, SubscriptionState>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[metricGrpPrefix]] Prefix of the metric group
 * [[time]] `Time`
 * [[retryBackoffMs]] `retryBackoffMs`
 * [[autoCommitEnabled]] `autoCommitEnabled` flag
 * [[autoCommitIntervalMs]] `autoCommitIntervalMs`
-* [[interceptors]] <<kafka-clients-consumer-ConsumerInterceptor.adoc#, ConsumerInterceptors>>
+* [[interceptors]] <<kafka-consumer-ConsumerInterceptor.adoc#, ConsumerInterceptors>>
 * [[excludeInternalTopics]] `excludeInternalTopics` flag
 * [[leaveGroupOnClose]] `leaveGroupOnClose` flag
 
@@ -347,7 +347,7 @@ In the end, `ConsumerCoordinator` requests the <<metadata, Metadata>> to <<kafka
 boolean rejoinNeededOrPending()
 ----
 
-NOTE: `rejoinNeededOrPending` is part of the <<kafka-clients-consumer-internals-AbstractCoordinator.adoc#rejoinNeededOrPending, AbstractCoordinator Contract>> to...FIXME.
+NOTE: `rejoinNeededOrPending` is part of the <<kafka-consumer-internals-AbstractCoordinator.adoc#rejoinNeededOrPending, AbstractCoordinator Contract>> to...FIXME.
 
 `rejoinNeededOrPending`...FIXME
 

@@ -1,6 +1,6 @@
 == [[Metadata]] Metadata
 
-`Metadata` describes a Kafka <<cluster, cluster>> (and is <<creating-instance, created>>) for <<kafka-clients-consumer-KafkaConsumer.adoc#metadata, KafkaConsumer>> and <<kafka-producer-KafkaProducer.adoc#metadata, KafkaProducer>>.
+`Metadata` describes a Kafka <<cluster, cluster>> (and is <<creating-instance, created>>) for <<kafka-consumer-KafkaConsumer.adoc#metadata, KafkaConsumer>> and <<kafka-producer-KafkaProducer.adoc#metadata, KafkaProducer>>.
 
 .Metadata's Properties When Created by Clients
 [cols="m,^1,^1,^1,^1",options="header",width="100%"]
@@ -34,7 +34,7 @@ A (_seemingly_) common usage pattern is as follows:
 [[listeners]]
 `Metadata` manages <<kafka-clients-Metadata-Listener.adoc#, metadata update listeners>> that want to be <<kafka-clients-Metadata-Listener.adoc#onMetadataUpdate, notified>> about <<update, metadata updates>>. Listeners can be <<addListener, registered>> and <<removeListener, deregistered>>.
 
-NOTE: <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>> is the only entity to register a metadata update listener.
+NOTE: <<kafka-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>> is the only entity to register a metadata update listener.
 
 [[internal-registries]]
 .Metadata's Internal Properties (e.g. Registries and Counters)
@@ -122,9 +122,9 @@ synchronized boolean updateRequested()
 
 * `DefaultMetadataUpdater` link:kafka-clients-DefaultMetadataUpdater.adoc#handleAuthenticationFailure[handles an authentication failure]
 
-* `ConsumerCoordinator` link:kafka-clients-consumer-internals-ConsumerCoordinator.adoc#poll[polls for coordinator events]
+* `ConsumerCoordinator` link:kafka-consumer-internals-ConsumerCoordinator.adoc#poll[polls for coordinator events]
 
-* `ConsumerNetworkClient` link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#ensureFreshMetadata[makes sure that the metadata is fresh]
+* `ConsumerNetworkClient` link:kafka-consumer-internals-ConsumerNetworkClient.adoc#ensureFreshMetadata[makes sure that the metadata is fresh]
 ====
 
 === [[failedUpdate]] Recording Update Request Failure -- `failedUpdate` Method
@@ -162,7 +162,7 @@ synchronized long timeToNextUpdate(long nowMs)
 ====
 `timeToNextUpdate` is used when:
 
-* `ConsumerNetworkClient` link:kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#ensureFreshMetadata[ensureFreshMetadata]
+* `ConsumerNetworkClient` link:kafka-consumer-internals-ConsumerNetworkClient.adoc#ensureFreshMetadata[ensureFreshMetadata]
 
 * `DefaultMetadataUpdater` (of `NetworkClient`) link:kafka-clients-DefaultMetadataUpdater.adoc#isUpdateDue[isUpdateDue] and link:kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate[maybeUpdate]
 ====
@@ -195,13 +195,13 @@ int requestUpdate()
 
 * `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#requestUpdate, requestUpdate>>
 
-* `KafkaConsumer` is requested to <<kafka-clients-consumer-KafkaConsumer.adoc#subscribe, subscribe>>
+* `KafkaConsumer` is requested to <<kafka-consumer-KafkaConsumer.adoc#subscribe, subscribe>>
 
-* `ConsumerCoordinator` is <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#, created>>, <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#addMetadataListener, addMetadataListener>>, <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#poll, poll>>
+* `ConsumerCoordinator` is <<kafka-consumer-internals-ConsumerCoordinator.adoc#, created>>, <<kafka-consumer-internals-ConsumerCoordinator.adoc#addMetadataListener, addMetadataListener>>, <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll>>
 
-* `ConsumerNetworkClient` is requested to <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#awaitMetadataUpdate, awaitMetadataUpdate>>
+* `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#awaitMetadataUpdate, awaitMetadataUpdate>>
 
-* `Fetcher` is requested to <<kafka-clients-consumer-internals-Fetcher.adoc#resetOffsetsAsync, resetOffsetsAsync>>, <<kafka-clients-consumer-internals-Fetcher.adoc#groupListOffsetRequests, groupListOffsetRequests>>, <<kafka-clients-consumer-internals-Fetcher.adoc#prepareFetchRequests, prepareFetchRequests>>, <<kafka-clients-consumer-internals-Fetcher.adoc#parseCompletedFetch, parseCompletedFetch>>
+* `Fetcher` is requested to <<kafka-consumer-internals-Fetcher.adoc#resetOffsetsAsync, resetOffsetsAsync>>, <<kafka-consumer-internals-Fetcher.adoc#groupListOffsetRequests, groupListOffsetRequests>>, <<kafka-consumer-internals-Fetcher.adoc#prepareFetchRequests, prepareFetchRequests>>, <<kafka-consumer-internals-Fetcher.adoc#parseCompletedFetch, parseCompletedFetch>>
 
 * `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#waitOnMetadata, wait for cluster metadata>>
 
@@ -276,7 +276,7 @@ Updated cluster metadata version [version] to [cluster]
 
 * `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse, handle a MetadataResponse>>
 
-* <<kafka-clients-consumer-KafkaConsumer.adoc#, KafkaConsumer>> and <<kafka-producer-KafkaProducer.adoc#, KafkaProducer>> are created  (and request updating the cluster metadata with a "bootstrap" cluster, i.e. with the bootstrap servers only)
+* <<kafka-consumer-KafkaConsumer.adoc#, KafkaConsumer>> and <<kafka-producer-KafkaProducer.adoc#, KafkaProducer>> are created  (and request updating the cluster metadata with a "bootstrap" cluster, i.e. with the bootstrap servers only)
 ====
 
 === [[creating-instance]] Creating Metadata Instance
@@ -306,9 +306,9 @@ synchronized void needMetadataForAllTopics(boolean needMetadataForAllTopics)
 ====
 `needMetadataForAllTopics` is used when `KafkaConsumer`:
 
-* link:kafka-clients-consumer-KafkaConsumer.adoc#subscribe-pattern[Subscribes to topics matching specified pattern] (and `needMetadataForAllTopics` flag is then enabled)
+* link:kafka-consumer-KafkaConsumer.adoc#subscribe-pattern[Subscribes to topics matching specified pattern] (and `needMetadataForAllTopics` flag is then enabled)
 
-* link:kafka-clients-consumer-KafkaConsumer.adoc#unsubscribe[Unsubscribes from topics] (and `needMetadataForAllTopics` flag is then disabled)
+* link:kafka-consumer-KafkaConsumer.adoc#unsubscribe[Unsubscribes from topics] (and `needMetadataForAllTopics` flag is then disabled)
 ====
 
 === [[requestUpdateForNewTopics]] `requestUpdateForNewTopics` Internal Method
@@ -340,4 +340,4 @@ void addListener(Listener listener)
 
 `addListener` simply adds the given <<kafka-clients-Metadata-Listener.adoc#, Listener>> to the <<listeners, listeners>> internal registry.
 
-NOTE: `addListener` is used exclusively when `ConsumerCoordinator` is requested to <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#addMetadataListener, addMetadataListener>> (when <<kafka-clients-consumer-internals-ConsumerCoordinator.adoc#, created>>).
+NOTE: `addListener` is used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#addMetadataListener, addMetadataListener>> (when <<kafka-consumer-internals-ConsumerCoordinator.adoc#, created>>).

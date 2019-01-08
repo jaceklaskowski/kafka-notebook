@@ -38,5 +38,5 @@ RequestHeader makeHeader(short version)
 
 * `NetworkClient` is requested to <<kafka-clients-NetworkClient.adoc#doSend, doSend>>
 
-* `ConsumerNetworkClient` is requested to <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#checkDisconnects, checkDisconnects>>
+* `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#checkDisconnects, checkDisconnects>>
 ====

@@ -70,7 +70,7 @@ Used when:
 
 * `AdminClientRunnable` is requested to <<kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc#timeoutCallsInFlight, timeoutCallsInFlight>> and <<kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc#handleResponses, handleResponses>>
 
-* `ConsumerNetworkClient` is requested to <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#handlePendingDisconnects, handlePendingDisconnects>>
+* `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#handlePendingDisconnects, handlePendingDisconnects>>
 
 | hasInFlightRequests
 a| [[hasInFlightRequests]]
@@ -130,7 +130,7 @@ Used when:
 
 * `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>
 
-* `ConsumerNetworkClient` is requested to <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#leastLoadedNode, leastLoadedNode>>
+* `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#leastLoadedNode, leastLoadedNode>>
 
 * `Sender` is requested to <<kafka-Sender.adoc#awaitLeastLoadedNodeReady, awaitLeastLoadedNodeReady>>
 
@@ -173,7 +173,7 @@ Used when:
 
 * `AdminClientRunnable` is requested to run
 
-* `ConsumerNetworkClient` is requested to <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#poll, poll>>
+* `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#poll, poll>>
 
 * `Sender` is requested to <<kafka-Sender.adoc#run, start>> (as a thread of execution)
 
@@ -201,7 +201,7 @@ Used when:
 
 * `AdminClientRunnable` is requested to <<kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc#sendEligibleCalls, sendEligibleCalls>>
 
-* `ConsumerNetworkClient` is requested to <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#trySend, trySend>> and <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#tryConnect, tryConnect>>
+* `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#trySend, trySend>> and <<kafka-consumer-internals-ConsumerNetworkClient.adoc#tryConnect, tryConnect>>
 
 * `Sender` is requested to <<kafka-Sender.adoc#sendProducerData, sendProducerData>> (when requested to <<kafka-Sender.adoc#run-millis, run a single iteration of sending>>)
 
@@ -225,7 +225,7 @@ Used when:
 
 * `AdminClientRunnable` is requested to `sendEligibleCalls`
 
-* `ConsumerNetworkClient` is requested to <<kafka-clients-consumer-internals-ConsumerNetworkClient.adoc#trySend, trySend>>
+* `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#trySend, trySend>>
 
 * `Sender` is requested to <<kafka-Sender.adoc#maybeSendTransactionalRequest, maybeSendTransactionalRequest>> and <<kafka-Sender.adoc#sendProduceRequest, sendProduceRequest>>
 

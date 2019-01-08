@@ -1,6 +1,6 @@
 == [[CoordinatorResponseHandler]] CoordinatorResponseHandler Contract
 
-`CoordinatorResponseHandler` is the <<contract, extension>> of the <<kafka-clients-consumer-internals-RequestFutureAdapter.adoc#, RequestFutureAdapter contract>> for <<extensions, type converters>> that <<handle, handle ClientResponses>>.
+`CoordinatorResponseHandler` is the <<contract, extension>> of the <<kafka-consumer-internals-RequestFutureAdapter.adoc#, RequestFutureAdapter contract>> for <<extensions, type converters>> that <<handle, handle ClientResponses>>.
 
 [[contract]]
 .CoordinatorResponseHandler Contract
@@ -56,7 +56,7 @@ Used exclusively when `CoordinatorResponseHandler` is requested to <<onSuccess, 
 void onFailure(RuntimeException e, RequestFuture<T> future)
 ----
 
-NOTE: `onFailure` is part of the <<kafka-clients-consumer-internals-RequestFutureAdapter.adoc#onFailure, RequestFutureAdapter Contract>> to perform a type conversion when a `RequestFuture` completes with a failure.
+NOTE: `onFailure` is part of the <<kafka-consumer-internals-RequestFutureAdapter.adoc#onFailure, RequestFutureAdapter Contract>> to perform a type conversion when a `RequestFuture` completes with a failure.
 
 `onFailure`...FIXME
 
@@ -67,6 +67,6 @@ NOTE: `onFailure` is part of the <<kafka-clients-consumer-internals-RequestFutur
 void onSuccess(ClientResponse clientResponse, RequestFuture<T> future)
 ----
 
-NOTE: `onSuccess` is part of the <<kafka-clients-consumer-internals-RequestFutureAdapter.adoc#onSuccess, RequestFutureAdapter Contract>> to perform a type conversion when a `RequestFuture` completes with a success.
+NOTE: `onSuccess` is part of the <<kafka-consumer-internals-RequestFutureAdapter.adoc#onSuccess, RequestFutureAdapter Contract>> to perform a type conversion when a `RequestFuture` completes with a success.
 
 `onSuccess`...FIXME
