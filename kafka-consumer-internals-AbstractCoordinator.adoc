@@ -350,7 +350,7 @@ void pollHeartbeat(long now)
 
 `pollHeartbeat`...FIXME
 
-NOTE: `pollHeartbeat` is used when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for Coordinator events>>.
+NOTE: `pollHeartbeat` is used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for Coordinator events>>.
 
 === [[startHeartbeatThreadIfNeeded]] `startHeartbeatThreadIfNeeded` Internal Method
 
@@ -415,3 +415,14 @@ void resetGeneration()
 
 * <<kafka-consumer-internals-HeartbeatResponseHandler.adoc#, HeartbeatResponseHandler>>, <<kafka-consumer-internals-JoinGroupResponseHandler.adoc#, JoinGroupResponseHandler>>, <<kafka-consumer-internals-SyncGroupResponseHandler.adoc#, SyncGroupResponseHandler>>, and <<kafka-consumer-internals-OffsetCommitResponseHandler.adoc#, OffsetCommitResponseHandler>> are requested to handle a response with an error (`UNKNOWN_MEMBER_ID`, `ILLEGAL_GENERATION`, or `REBALANCE_IN_PROGRESS`)
 ====
+
+=== [[coordinatorUnknown]] `coordinatorUnknown` Method
+
+[source, java]
+----
+boolean coordinatorUnknown()
+----
+
+`coordinatorUnknown`...FIXME
+
+NOTE: `coordinatorUnknown` is used when...FIXME

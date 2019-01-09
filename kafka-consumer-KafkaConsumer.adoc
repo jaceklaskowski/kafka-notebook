@@ -1,11 +1,13 @@
-== [[KafkaConsumer]] KafkaConsumer -- Main Class For Kafka Consumers
+== [[KafkaConsumer]] KafkaConsumer -- Kafka Client for Consuming Records
 
-`KafkaConsumer` is the main public class that a Kafka developer use to write link:kafka-consumers.adoc[Kafka consumers] that consume records from a Kafka cluster.
+`KafkaConsumer` is the <<kafka-consumer-Consumer.adoc#, Kafka client to consume records from a Kafka cluster>>.
+
+`KafkaConsumer` is the main public class that a Kafka developer use to write <<kafka-consumers.adoc#, Kafka consumers>>.
 
 .KafkaConsumer
 image::images/KafkaConsumer.png[align="center"]
 
-`KafkaConsumer` is a part of the public API and is <<creating-instance, created>> with properties and (key and value) deserializers as configuration.
+`KafkaConsumer` is <<creating-instance, created>> with properties and (key and value) deserializers.
 
 [NOTE]
 ====
@@ -13,8 +15,6 @@ link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers] and link:kafka-p
 
 Use <<kafka-consumer-ConsumerConfig.adoc#BOOTSTRAP_SERVERS_CONFIG, ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG>> and  <<kafka-consumer-ConsumerConfig.adoc#GROUP_ID_CONFIG, ConsumerConfig.GROUP_ID_CONFIG>> values in your source code, respectively.
 ====
-
-`KafkaConsumer` is a concrete <<kafka-consumer-Consumer.adoc#, Consumer>> client.
 
 [source, scala]
 ----

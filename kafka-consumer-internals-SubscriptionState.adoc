@@ -2,6 +2,9 @@
 
 `SubscriptionState` allows for tracking the topics, partitions, and offsets assigned to a Kafka consumer.
 
+[[partitionsAutoAssigned]]
+`SubscriptionState` is in *partitionsAutoAssigned* if it is `AUTO_TOPICS` or `AUTO_PATTERN`.
+
 [[internal-registries]]
 .SubscriptionState's Internal Properties (e.g. Registries, Counters and Flags)
 [cols="1,2",options="header",width="100%"]

@@ -3,6 +3,52 @@
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
 
+=== Kafka Clients / Consumer API
+
+. link:kafka-consumer-KafkaConsumer.adoc[KafkaConsumer -- Kafka Client for Consuming Records]
+.. link:kafka-consumer-Consumer.adoc[Consumer Contract]
+
+. link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig -- Configuration Properties for Kafka Consumers]
+. link:kafka-consumer-ConsumerRecord.adoc[ConsumerRecord]
+. link:kafka-consumer-OffsetAndMetadata.adoc[OffsetAndMetadata]
+. link:kafka-consumer-OffsetAndTimestamp.adoc[OffsetAndTimestamp]
+
+. link:kafka-consumer-CommitFailedException.adoc[CommitFailedException]
+. link:kafka-consumer-InvalidOffsetException.adoc[InvalidOffsetException]
+. link:kafka-consumer-NoOffsetForPartitionException.adoc[NoOffsetForPartitionException]
+. link:kafka-consumer-OffsetOutOfRangeException.adoc[OffsetOutOfRangeException]
+. link:kafka-consumer-RetriableCommitFailedException.adoc[RetriableCommitFailedException]
+
+. link:kafka-consumer-MockConsumer.adoc[MockConsumer]
+
+. link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor]
+. link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener]
+. link:kafka-consumer-OffsetCommitCallback.adoc[OffsetCommitCallback]
+
+. link:kafka-consumer-internals-PartitionAssignor.adoc[PartitionAssignor Contract]
+.. link:kafka-consumer-RangeAssignor.adoc[RangeAssignor]
+.. link:kafka-consumer-RoundRobinAssignor.adoc[RoundRobinAssignor]
+.. link:kafka-consumer-StickyAssignor.adoc[StickyAssignor]
+.. link:kafka-consumer-internals-AbstractPartitionAssignor.adoc[AbstractPartitionAssignor]
+
+. link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
+.. link:kafka-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator Contract]
+
+. link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+. link:kafka-consumer-internals-ConsumerMetrics.adoc[ConsumerMetrics]
+. link:kafka-consumer-internals-Fetcher.adoc[Fetcher]
+. link:kafka-consumer-internals-RequestFutureListener.adoc[RequestFutureListener]
+. link:kafka-consumer-internals-SubscriptionState.adoc[SubscriptionState]
+
+. link:kafka-consumer-internals-RequestFuture.adoc[RequestFuture]
+. link:kafka-consumer-internals-RequestFutureAdapter.adoc[RequestFutureAdapter Contract]
+.. link:kafka-consumer-internals-CoordinatorResponseHandler.adoc[CoordinatorResponseHandler Contract]
+.. link:kafka-consumer-internals-FindCoordinatorResponseHandler.adoc[FindCoordinatorResponseHandler]
+.. link:kafka-consumer-internals-HeartbeatResponseHandler.adoc[HeartbeatResponseHandler]
+.. link:kafka-consumer-internals-JoinGroupResponseHandler.adoc[JoinGroupResponseHandler]
+.. link:kafka-consumer-internals-OffsetCommitResponseHandler.adoc[OffsetCommitResponseHandler]
+.. link:kafka-consumer-internals-SyncGroupResponseHandler.adoc[SyncGroupResponseHandler]
+
 === Kafka Operations and Administration
 
 . link:kafka-admin-ConfigCommand.adoc[ConfigCommand]
@@ -133,7 +179,7 @@
 . link:kafka-BrokerTopicMetrics.adoc[BrokerTopicMetrics]
 . link:kafka-metrics-KafkaMetricsGroup.adoc[KafkaMetricsGroup]
 
-=== Kafka Producer API
+=== Kafka Clients / Producer API
 
 . link:kafka-Producer.adoc[Producer]
 . link:kafka-producer-KafkaProducer.adoc[KafkaProducer]
@@ -148,52 +194,6 @@
 .. link:kafka-producer-DefaultPartitioner.adoc[DefaultPartitioner]
 
 . link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
-
-=== Kafka Clients / Consumer API
-
-. link:kafka-consumer-KafkaConsumer.adoc[KafkaConsumer -- Main Class For Kafka Consumers]
-.. link:kafka-consumer-Consumer.adoc[Consumer Contract]
-
-. link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig -- Configuration Properties for Kafka Consumers]
-. link:kafka-consumer-ConsumerRecord.adoc[ConsumerRecord]
-. link:kafka-consumer-OffsetAndMetadata.adoc[OffsetAndMetadata]
-. link:kafka-consumer-OffsetAndTimestamp.adoc[OffsetAndTimestamp]
-
-. link:kafka-consumer-CommitFailedException.adoc[CommitFailedException]
-. link:kafka-consumer-InvalidOffsetException.adoc[InvalidOffsetException]
-. link:kafka-consumer-NoOffsetForPartitionException.adoc[NoOffsetForPartitionException]
-. link:kafka-consumer-OffsetOutOfRangeException.adoc[OffsetOutOfRangeException]
-. link:kafka-consumer-RetriableCommitFailedException.adoc[RetriableCommitFailedException]
-
-. link:kafka-consumer-MockConsumer.adoc[MockConsumer]
-
-. link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor]
-. link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener]
-. link:kafka-consumer-OffsetCommitCallback.adoc[OffsetCommitCallback]
-
-. link:kafka-consumer-internals-PartitionAssignor.adoc[PartitionAssignor Contract]
-.. link:kafka-consumer-RangeAssignor.adoc[RangeAssignor]
-.. link:kafka-consumer-RoundRobinAssignor.adoc[RoundRobinAssignor]
-.. link:kafka-consumer-StickyAssignor.adoc[StickyAssignor]
-.. link:kafka-consumer-internals-AbstractPartitionAssignor.adoc[AbstractPartitionAssignor]
-
-. link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
-.. link:kafka-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator Contract]
-
-. link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
-. link:kafka-consumer-internals-ConsumerMetrics.adoc[ConsumerMetrics]
-. link:kafka-consumer-internals-Fetcher.adoc[Fetcher]
-. link:kafka-consumer-internals-RequestFutureListener.adoc[RequestFutureListener]
-. link:kafka-consumer-internals-SubscriptionState.adoc[SubscriptionState]
-
-. link:kafka-consumer-internals-RequestFuture.adoc[RequestFuture]
-. link:kafka-consumer-internals-RequestFutureAdapter.adoc[RequestFutureAdapter Contract]
-.. link:kafka-consumer-internals-CoordinatorResponseHandler.adoc[CoordinatorResponseHandler Contract]
-.. link:kafka-consumer-internals-FindCoordinatorResponseHandler.adoc[FindCoordinatorResponseHandler]
-.. link:kafka-consumer-internals-HeartbeatResponseHandler.adoc[HeartbeatResponseHandler]
-.. link:kafka-consumer-internals-JoinGroupResponseHandler.adoc[JoinGroupResponseHandler]
-.. link:kafka-consumer-internals-OffsetCommitResponseHandler.adoc[OffsetCommitResponseHandler]
-.. link:kafka-consumer-internals-SyncGroupResponseHandler.adoc[SyncGroupResponseHandler]
 
 === Kafka Architecture
 

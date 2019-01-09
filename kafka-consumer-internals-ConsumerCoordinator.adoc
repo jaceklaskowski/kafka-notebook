@@ -69,6 +69,13 @@ Used in <<rejoinNeededOrPending, rejoinNeededOrPending>>
 
 * Reset (to `null`) in <<onJoinComplete, onJoinComplete>> (when <<isLeader, isLeader>> flag is off)
 
+| completedOffsetCommits
+a| [[completedOffsetCommits]] Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentLinkedQueue.html[java.util.concurrent.ConcurrentLinkedQueue] of `OffsetCommitCompletions` with user-defined <<kafka-consumer-OffsetCommitCallback.adoc#, OffsetCommitCallbacks>>
+
+`OffsetCommitCallbacks` are <<kafka-consumer-OffsetCommitCallback.adoc#onComplete, executed>> in <<invokeCompletedOffsetCommitCallbacks, invokeCompletedOffsetCommitCallbacks>>
+
+`OffsetCommitCompletion` are added in <<commitOffsetsAsync, commitOffsetsAsync>> (and also directly in <<doCommitOffsetsAsync, doCommitOffsetsAsync>>)
+
 | isLeader
 | [[isLeader]] Flag of whether the `ConsumerCoordinator` is a leader (`true`) or not (`false`). Defaults to `false`
 
@@ -279,6 +286,16 @@ NOTE: `timeToNextPoll` is used when...FIXME
 boolean poll(Timer timer)
 ----
 
+`poll` first <<invokeCompletedOffsetCommitCallbacks, invokeCompletedOffsetCommitCallbacks>>.
+
+`poll` branches off per whether the <<subscriptions, SubscriptionState>> is <<kafka-consumer-internals-SubscriptionState.adoc#partitionsAutoAssigned, partitionsAutoAssigned>> or not.
+
+CAUTION: FIXME What does `partitionsAutoAssigned` mean exactly?
+
+In <<kafka-consumer-internals-SubscriptionState.adoc#partitionsAutoAssigned, partitionsAutoAssigned>>, `poll` <<kafka-consumer-internals-AbstractCoordinator.adoc#pollHeartbeat, pollHeartbeat>>.
+
+`poll` returns `false` if <<kafka-consumer-internals-AbstractCoordinator.adoc#coordinatorUnknown, coordinatorUnknown>> and <<kafka-consumer-internals-AbstractCoordinator.adoc#ensureCoordinatorReady, ensureCoordinatorReady>> failed (`false`).
+
 `poll`...FIXME
 
 NOTE: `poll` is used exclusively when `KafkaConsumer` is requested to <<kafka-consumer-KafkaConsumer.adoc#updateAssignmentMetadataIfNeeded, updateAssignmentMetadataIfNeeded>>.
@@ -374,3 +391,14 @@ RequestFuture<Map<TopicPartition, OffsetAndMetadata>> sendOffsetFetchRequest(
 `sendOffsetFetchRequest`...FIXME
 
 NOTE: `sendOffsetFetchRequest` is used when...FIXME
+
+=== [[invokeCompletedOffsetCommitCallbacks]] `invokeCompletedOffsetCommitCallbacks` Internal Method
+
+[source, java]
+----
+void invokeCompletedOffsetCommitCallbacks()
+----
+
+`invokeCompletedOffsetCommitCallbacks` takes (_polls_) every `OffsetCommitCompletion` from the <<completedOffsetCommits, completedOffsetCommits>> internal registry and requests it to invoke <<kafka-consumer-OffsetCommitCallback.adoc#onComplete, OffsetCommitCallback.onComplete>>.
+
+NOTE: `invokeCompletedOffsetCommitCallbacks` is used when `ConsumerCoordinator` is requested to <<poll, poll>>, <<close, close>>, <<commitOffsetsAsync, commitOffsetsAsync>>, and <<commitOffsetsSync, commitOffsetsSync>>.
