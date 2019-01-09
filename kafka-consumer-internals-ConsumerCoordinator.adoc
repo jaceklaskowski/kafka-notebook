@@ -257,7 +257,7 @@ NOTE: `updatePatternSubscription` is used when...FIXME
 boolean needRejoin()
 ----
 
-NOTE: `needRejoin` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#needRejoin[AbstractCoordinator Contract] to...FIXME.
+NOTE: `needRejoin` is part of the <<kafka-consumer-internals-AbstractCoordinator.adoc#needRejoin, AbstractCoordinator Contract>> to...FIXME.
 
 `needRejoin`...FIXME
 
@@ -272,7 +272,7 @@ long timeToNextPoll(long now)
 
 NOTE: `timeToNextPoll` is used when...FIXME
 
-=== [[poll]] Polling for Coordinator Events -- `poll` Method
+=== [[poll]] Polling for Group Coordinator Events -- `poll` Method
 
 [source, java]
 ----

@@ -23,7 +23,7 @@ Performs a type conversion when a `RequestFuture` completes with a failure
 
 Used when:
 
-* `FindCoordinatorResponseHandler` is requested to <<kafka-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc#onFailure, onFailure>>
+* `FindCoordinatorResponseHandler` is requested to <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#onFailure, onFailure>>
 
 * `RequestFuture` is requested to <<kafka-consumer-internals-RequestFuture.adoc#compose, compose>>
 
@@ -52,6 +52,6 @@ Used exclusively when `RequestFuture` is requested to <<kafka-consumer-internals
 | <<kafka-consumer-internals-CoordinatorResponseHandler.adoc#, CoordinatorResponseHandler>>
 | [[CoordinatorResponseHandler]]
 
-| <<kafka-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc#, FindCoordinatorResponseHandler>>
+| <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#, FindCoordinatorResponseHandler>>
 | [[FindCoordinatorResponseHandler]]
 |===

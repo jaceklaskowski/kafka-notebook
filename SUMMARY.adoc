@@ -189,7 +189,11 @@
 . link:kafka-consumer-internals-RequestFuture.adoc[RequestFuture]
 . link:kafka-consumer-internals-RequestFutureAdapter.adoc[RequestFutureAdapter Contract]
 .. link:kafka-consumer-internals-CoordinatorResponseHandler.adoc[CoordinatorResponseHandler Contract]
-.. link:kafka-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc[FindCoordinatorResponseHandler]
+.. link:kafka-consumer-internals-FindCoordinatorResponseHandler.adoc[FindCoordinatorResponseHandler]
+.. link:kafka-consumer-internals-HeartbeatResponseHandler.adoc[HeartbeatResponseHandler]
+.. link:kafka-consumer-internals-JoinGroupResponseHandler.adoc[JoinGroupResponseHandler]
+.. link:kafka-consumer-internals-OffsetCommitResponseHandler.adoc[OffsetCommitResponseHandler]
+.. link:kafka-consumer-internals-SyncGroupResponseHandler.adoc[SyncGroupResponseHandler]
 
 === Kafka Architecture
 

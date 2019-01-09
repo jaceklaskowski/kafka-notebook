@@ -7,9 +7,14 @@ image::images/KafkaConsumer.png[align="center"]
 
 `KafkaConsumer` is a part of the public API and is <<creating-instance, created>> with properties and (key and value) deserializers as configuration.
 
-NOTE: link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers] and link:kafka-properties.adoc#group.id[group.id] properties are mandatory. They usually appear in the code as `ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG` and  `ConsumerConfig.GROUP_ID_CONFIG` values, respectively.
+[NOTE]
+====
+link:kafka-properties.adoc#bootstrap.servers[bootstrap.servers] and link:kafka-properties.adoc#group.id[group.id] properties are mandatory.
 
-`KafkaConsumer` is a concrete <<kafka-consumer-Consumer.adoc#, Consumer>>.
+Use <<kafka-consumer-ConsumerConfig.adoc#BOOTSTRAP_SERVERS_CONFIG, ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG>> and  <<kafka-consumer-ConsumerConfig.adoc#GROUP_ID_CONFIG, ConsumerConfig.GROUP_ID_CONFIG>> values in your source code, respectively.
+====
+
+`KafkaConsumer` is a concrete <<kafka-consumer-Consumer.adoc#, Consumer>> client.
 
 [source, scala]
 ----
@@ -18,7 +23,7 @@ val bootstrapServers = ":9092,localhost:9092"
 import org.apache.kafka.clients.consumer.ConsumerConfig
 // required properties
 val configs = Map[String, Object](
-  ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers,
+  ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers
 )
 import org.apache.kafka.common.serialization.StringDeserializer
 val keyDeserializer = new StringDeserializer
@@ -30,6 +35,30 @@ val consumer = new KafkaConsumer[String, String](
   configs.asJava,
   keyDeserializer,
   valueDeserializer)
+----
+
+Once <<creating-instance, created>>, `KafkaConsumer` is supposed to <<subscribe, subscribe to topics>> or <<assign, assign partitions>>.
+
+[source, scala]
+----
+scala> :type consumer
+org.apache.kafka.clients.consumer.KafkaConsumer[String,String]
+
+import scala.collection.JavaConverters._
+val topics = Seq("input").asJava
+consumer.subscribe(topics)
+----
+
+`KafkaConsumer` is then requested to <<poll, poll for records>> (in a loop).
+
+[source, scala]
+----
+scala> :type consumer
+org.apache.kafka.clients.consumer.KafkaConsumer[String,String]
+
+import java.time.Duration.ZERO
+val records = consumer.poll(ZERO)
+records.asScala.foreach(println)
 ----
 
 `KafkaConsumer` registers itself in JMX with *kafka.consumer* prefix.
@@ -195,43 +224,51 @@ In the end, `subscribe` requests <<subscriptions, SubscriptionState>> for `group
 .KafkaConsumer subscribes to topics
 image::images/KafkaConsumer-subscribe.png[align="center"]
 
-=== [[poll]] Poll Specified Milliseconds For ConsumerRecords per TopicPartitions -- `poll` Method
+=== [[poll]] Poll For ConsumerRecords (per TopicPartitions) -- `poll` Method
 
 [source, java]
 ----
 ConsumerRecords<K, V> poll(final Duration timeout)
 ----
 
-`poll` polls for new records until `timeout` expires.
-
-NOTE: `KafkaConsumer` has to be subscribed to some topics or assigned partitions before calling <<poll, poll>>.
-
-NOTE: The input `timeout` should be `0` or greater and represents the milliseconds to poll for records.
-
-[source, scala]
-----
-val seconds = 10
-while (true) {
-  println(s"Polling for records for $seconds secs")
-  val records = consumer.poll(seconds * 1000)
-  // do something with the records here
-}
-----
-
-Internally, `poll` starts by <<pollOnce, polling once>> (for `timeout` milliseconds).
-
-If there are records available, `poll` checks <<fetcher, Fetcher>> for link:kafka-consumer-internals-Fetcher.adoc#sendFetches[sendFetches] and <<client, ConsumerNetworkClient>> for link:kafka-consumer-internals-ConsumerNetworkClient.adoc#pendingRequestCount[pendingRequestCount] flag. If either is positive, `poll` requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#pollNoWakeup[pollNoWakeup].
-
-CAUTION: FIXME Make the above more user-friendly
-
-`poll` returns the available `ConsumerRecords` directly when no <<interceptors, ConsumerInterceptors>> are defined or passes them through <<interceptors, ConsumerInterceptors>> using link:kafka-consumer-ConsumerInterceptor.adoc#onConsume[onConsume].
-
-CAUTION: FIXME Make the above more user-friendly, e.g. when could `interceptors` be empty?
+NOTE: `poll` is part of the <<kafka-consumer-Consumer.adoc#poll, Consumer Contract>> to poll for <<kafka-consumer-ConsumerRecord.adoc#, ConsumerRecords>>.
 
 .KafkaConsumer polls topics
 image::images/KafkaConsumer-poll.png[align="center"]
 
-NOTE: `poll` is a part of link:kafka-consumers.adoc#poll[Consumer contract] to...FIXME
+`poll` polls for new records until `timeout` expires.
+
+[source, scala]
+----
+scala> :type consumer
+org.apache.kafka.clients.consumer.KafkaConsumer[String,String]
+
+import java.time.Duration.ZERO
+while (true) {
+  println(s"Polling for records for $ZERO secs")
+  val records = consumer.poll(ZERO)
+  // do something with the records
+  // e.g. print them out to the console
+  records.asScala.foreach(println)
+}
+----
+
+NOTE: `KafkaConsumer` has to be subscribed to topics or assigned partitions before calling <<poll, poll>>.
+
+[source, scala]
+----
+scala> :type consumer
+org.apache.kafka.clients.consumer.KafkaConsumer[String,String]
+
+import java.time.Duration
+scala> val records = consumer.poll(Duration.ZERO)
+java.lang.IllegalStateException: Consumer is not subscribed to any topics or assigned any partitions
+  at org.apache.kafka.clients.consumer.KafkaConsumer.poll(KafkaConsumer.java:1171)
+  at org.apache.kafka.clients.consumer.KafkaConsumer.poll(KafkaConsumer.java:1164)
+  ... 36 elided
+----
+
+Internally, `poll` simply calls the internal <<poll-internal, poll>> method with the <<time, Time>> that expires after the given timeout and the `includeMetadataInTimeout` flag on.
 
 ==== [[poll-internal]] `poll` Internal Method
 
@@ -242,9 +279,11 @@ ConsumerRecords<K, V> poll(
   final boolean includeMetadataInTimeout)
 ----
 
-`poll`...FIXME
+`poll` first <<acquireAndEnsureOpen, acquireAndEnsureOpen>>.
 
-NOTE: The private `poll` is used exclusively in <<poll, poll>>.
+`poll` requests the <<client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#maybeTriggerWakeup, maybeTriggerWakeup>>.
+
+`poll`...FIXME
 
 === [[commitSync]] `commitSync` Method
 
@@ -280,9 +319,16 @@ CAUTION: FIXME
 
 CAUTION: FIXME
 
-=== [[updateFetchPositions]] `updateFetchPositions` Method
+=== [[updateFetchPositions]] `updateFetchPositions` Internal Method
 
-CAUTION: FIXME
+[source, java]
+----
+boolean updateFetchPositions(final Timer timer)
+----
+
+`updateFetchPositions`...FIXME
+
+NOTE: `updateFetchPositions` is used when...FIXME
 
 === [[pollOnce]] Polling One-Off for ConsumerRecords per TopicPartition -- `pollOnce` Internal Method
 
@@ -471,14 +517,18 @@ void throwIfNoAssignorsConfigured()
 
 NOTE: `throwIfNoAssignorsConfigured` is used exclusively when `KafkaConsumer` is requested to <<subscribe, subscribe to topics>>.
 
-=== [[updateAssignmentMetadataIfNeeded]] `updateAssignmentMetadataIfNeeded` Method
+=== [[updateAssignmentMetadataIfNeeded]] `updateAssignmentMetadataIfNeeded` Internal Method
 
 [source, java]
 ----
 boolean updateAssignmentMetadataIfNeeded(final Timer timer)
 ----
 
-`updateAssignmentMetadataIfNeeded`...FIXME
+`updateAssignmentMetadataIfNeeded` requests the <<coordinator, ConsumerCoordinator>> to <<poll, poll>> until the `Timer` expires.
+
+`updateAssignmentMetadataIfNeeded` returns `false` if the poll was unsuccessful, i.e. FIXME
+
+If the poll was successful, `updateAssignmentMetadataIfNeeded` <<updateFetchPositions, updateFetchPositions>>.
 
 NOTE: `updateAssignmentMetadataIfNeeded` is used exclusively when `KafkaConsumer` is requested to <<poll, poll for records>>.
 

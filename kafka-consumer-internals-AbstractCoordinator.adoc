@@ -85,7 +85,7 @@ Used exclusively when `AbstractCoordinator` is requested to <<sendJoinGroupReque
 | coordinator
 a| [[coordinator]] Group Coordinator (as a Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/Node.html[Node])
 
-Initialized when `FindCoordinatorResponseHandler` is requested to <<kafka-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc#onSuccess, onSuccess>>
+Initialized when `FindCoordinatorResponseHandler` is requested to <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#onSuccess, onSuccess>>
 
 | findCoordinatorFuture
 | [[findCoordinatorFuture]] <<kafka-consumer-internals-RequestFuture.adoc#, ++RequestFuture<Void>++>> for <<sendFindCoordinatorRequest, sendFindCoordinatorRequest>> when <<lookupCoordinator, lookupCoordinator>>
@@ -93,6 +93,9 @@ Initialized when `FindCoordinatorResponseHandler` is requested to <<kafka-consum
 Reset in <<clearFindCoordinatorFuture, clearFindCoordinatorFuture>>
 
 Used in <<lookupCoordinator, lookupCoordinator>> and when `HeartbeatThread` is requested to run
+
+| generation
+a| [[generation]] Defaults to `NO_GENERATION`
 
 | heartbeatThread
 | [[heartbeatThread]] `HeartbeatThread`
@@ -108,7 +111,21 @@ Used in <<rejoinNeededOrPending, rejoinNeededOrPending>> and <<initiateJoinGroup
 | [[needsJoinPrepare]] Flag to control whether to execute <<onJoinPrepare, onJoinPrepare>> while performing <<joinGroupIfNeeded, joinGroupIfNeeded>>
 
 | rejoinNeeded
-| [[rejoinNeeded]] Flag to control whether to...FIXME
+a| [[rejoinNeeded]]
+
+[source, java]
+----
+boolean rejoinNeeded
+----
+
+Flag to control whether to <<rejoinNeededOrPending, rejoinNeededOrPending>>. Enabled (`true`) by default.
+
+Turned off (`false`) when the <<joinFuture, joinFuture>> completed successfully in <<initiateJoinGroup, initiateJoinGroup>>
+
+Turned on (`true`) in <<resetGeneration, resetGeneration>> and <<requestRejoin, requestRejoin>>
+
+| state
+a| [[state]] Defaults to `UNJOINED`
 
 |===
 
@@ -159,18 +176,17 @@ NOTE: `joinGroupIfNeeded` is used exclusively when `AbstractCoordinator` is requ
 
 [source, java]
 ----
-synchronized RequestFuture<ByteBuffer> initiateJoinGroup()
+RequestFuture<ByteBuffer> initiateJoinGroup()
 ----
 
 `initiateJoinGroup`...FIXME
 
-NOTE: `initiateJoinGroup` is used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>> (when a rejoin is <<rejoinNeeded, needed>> or <<joinFuture, still in progress and incomplete>>).
+NOTE: `initiateJoinGroup` is used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>>.
 
 === [[ensureActiveGroup]] `ensureActiveGroup` Method
 
 [source, java]
 ----
-void ensureActiveGroup()
 boolean ensureActiveGroup(final Timer timer)
 ----
 
@@ -225,7 +241,7 @@ RequestFuture<ByteBuffer> sendJoinGroupRequest()
 
 `sendJoinGroupRequest`...FIXME
 
-NOTE: `sendJoinGroupRequest` is used when...FIXME
+NOTE: `sendJoinGroupRequest` is used exclusively when `AbstractCoordinator` is requested to <<initiateJoinGroup, initiateJoinGroup>>.
 
 === [[sendSyncGroupRequest]] `sendSyncGroupRequest` Internal Method
 
@@ -303,7 +319,7 @@ void clearFindCoordinatorFuture()
 
 `clearFindCoordinatorFuture` simply resets the <<findCoordinatorFuture, findCoordinatorFuture>> internal registry (i.e. sets it to `null`).
 
-NOTE: `clearFindCoordinatorFuture` is used exclusively when `FindCoordinatorResponseHandler` is requested to <<kafka-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc#onSuccess, onSuccess>> and <<kafka-consumer-internals-AbstractCoordinator-FindCoordinatorResponseHandler.adoc#onFailure, onFailure>>.
+NOTE: `clearFindCoordinatorFuture` is used exclusively when `FindCoordinatorResponseHandler` is requested to <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#onSuccess, onSuccess>> and <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#onFailure, onFailure>>.
 
 === [[rejoinNeededOrPending]] `rejoinNeededOrPending` Internal Method
 
@@ -346,3 +362,56 @@ void startHeartbeatThreadIfNeeded()
 `startHeartbeatThreadIfNeeded`...FIXME
 
 NOTE: `startHeartbeatThreadIfNeeded` is used exclusively when `AbstractCoordinator` is requested to <<ensureActiveGroup, ensureActiveGroup>>.
+
+=== [[needRejoin]] `needRejoin` Method
+
+[source, java]
+----
+boolean needRejoin()
+----
+
+`needRejoin` simply returns the <<rejoinNeeded, rejoinNeeded>> flag.
+
+NOTE: `needRejoin` is used when...FIXME
+
+=== [[requestRejoin]] `requestRejoin` Method
+
+[source, java]
+----
+void requestRejoin()
+----
+
+`requestRejoin` simply turns the <<rejoinNeeded, rejoinNeeded>> flag on.
+
+[NOTE]
+====
+`requestRejoin` is used when:
+
+* `HeartbeatResponseHandler` is requested to <<kafka-consumer-internals-HeartbeatResponseHandler.adoc#handle, handle a response>> that the consumer group is rebalancing
+
+* `SyncGroupResponseHandler` is requested to <<kafka-consumer-internals-SyncGroupResponseHandler.adoc#handle, handle a response>> with an error
+====
+
+=== [[resetGeneration]] `resetGeneration` Method
+
+[source, java]
+----
+void resetGeneration()
+----
+
+`resetGeneration` simply resets the following internal registries:
+
+* <<generation, generation>> becomes `NO_GENERATION`
+
+* <<rejoinNeeded, rejoinNeeded>> is turned on
+
+* <<state, state>> is `UNJOINED`
+
+[NOTE]
+====
+`resetGeneration` is used when:
+
+* `AbstractCoordinator` is requested to <<maybeLeaveGroup, maybeLeaveGroup>>
+
+* <<kafka-consumer-internals-HeartbeatResponseHandler.adoc#, HeartbeatResponseHandler>>, <<kafka-consumer-internals-JoinGroupResponseHandler.adoc#, JoinGroupResponseHandler>>, <<kafka-consumer-internals-SyncGroupResponseHandler.adoc#, SyncGroupResponseHandler>>, and <<kafka-consumer-internals-OffsetCommitResponseHandler.adoc#, OffsetCommitResponseHandler>> are requested to handle a response with an error (`UNKNOWN_MEMBER_ID`, `ILLEGAL_GENERATION`, or `REBALANCE_IN_PROGRESS`)
+====

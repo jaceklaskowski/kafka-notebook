@@ -220,3 +220,14 @@ void handlePendingDisconnects()
 `handlePendingDisconnects`...FIXME
 
 NOTE: `handlePendingDisconnects` is used exclusively when `FindCoordinatorResponseHandler` is requested to <<poll, poll>>.
+
+=== [[maybeTriggerWakeup]] `maybeTriggerWakeup` Method
+
+[source, java]
+----
+void maybeTriggerWakeup()
+----
+
+`maybeTriggerWakeup`...FIXME
+
+NOTE: `maybeTriggerWakeup` is used when...FIXME
