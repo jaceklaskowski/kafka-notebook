@@ -206,9 +206,9 @@ NOTE: `trySend` is used exclusively when `ConsumerNetworkClient` is requested to
 void tryConnect(Node node)
 ----
 
-`tryConnect`...FIXME
+`tryConnect` simply requests the <<client, KafkaClient>> to <<kafka-clients-KafkaClient.adoc#ready, initiate a connection>> to the given broker https://kafka.apache.org/21/javadoc/org/apache/kafka/common/Node.html[Node].
 
-NOTE: `tryConnect` is used exclusively when `FindCoordinatorResponseHandler` is requested to `onSuccess`.
+NOTE: `tryConnect` is used exclusively when `FindCoordinatorResponseHandler` is requested to <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#onSuccess, onSuccess>>.
 
 === [[handlePendingDisconnects]] `handlePendingDisconnects` Internal Method
 
@@ -219,7 +219,7 @@ void handlePendingDisconnects()
 
 `handlePendingDisconnects`...FIXME
 
-NOTE: `handlePendingDisconnects` is used exclusively when `FindCoordinatorResponseHandler` is requested to <<poll, poll>>.
+NOTE: `handlePendingDisconnects` is used exclusively when `ConsumerNetworkClient` is requested to <<poll, poll>>.
 
 === [[maybeTriggerWakeup]] `maybeTriggerWakeup` Method
 

@@ -1,8 +1,8 @@
 == [[FindCoordinatorResponseHandler]] FindCoordinatorResponseHandler
 
-`FindCoordinatorResponseHandler` is a <<kafka-consumer-internals-RequestFutureAdapter.adoc#, RequestFutureAdapter>> of <<kafka-clients-ClientResponse.adoc#, ClientResponse>>.
+`FindCoordinatorResponseHandler` is a concrete <<kafka-consumer-internals-RequestFutureAdapter.adoc#, RequestFutureAdapter>> of <<kafka-clients-ClientResponse.adoc#, ClientResponse>>.
 
-`FindCoordinatorResponseHandler` is used exclusively when `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#sendFindCoordinatorRequest, sendFindCoordinatorRequest>>.
+`FindCoordinatorResponseHandler` is used exclusively when `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#sendFindCoordinatorRequest, sendFindCoordinatorRequest>> (when requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#lookupCoordinator, lookupCoordinator>>).
 
 === [[onSuccess]] `onSuccess` Method
 

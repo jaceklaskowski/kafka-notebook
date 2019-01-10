@@ -16,12 +16,12 @@ Use <<kafka-consumer-ConsumerConfig.adoc#BOOTSTRAP_SERVERS_CONFIG, ConsumerConfi
 
 [source, scala]
 ----
-// sandbox/kafka-sandbox
 val bootstrapServers = ":9092,localhost:9092"
+val groupId = "kafka-sandbox"
 import org.apache.kafka.clients.consumer.ConsumerConfig
-// required properties
-val configs = Map[String, Object](
-  ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers
+val requiredConfigsOnly = Map[String, Object](
+  ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> bootstrapServers,
+  ConsumerConfig.GROUP_ID_CONFIG -> groupId
 )
 import org.apache.kafka.common.serialization.StringDeserializer
 val keyDeserializer = new StringDeserializer
@@ -30,7 +30,7 @@ val valueDeserializer = new StringDeserializer
 import scala.collection.JavaConverters._
 import org.apache.kafka.clients.consumer.KafkaConsumer
 val consumer = new KafkaConsumer[String, String](
-  configs.asJava,
+  requiredConfigsOnly.asJava,
   keyDeserializer,
   valueDeserializer)
 ----

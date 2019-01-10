@@ -195,6 +195,8 @@ a| [[ready]]
 boolean ready(Node node, long now)
 ----
 
+Initiates a connection to the given broker `Node` (i.e. a connection to a broker node is ready)
+
 Used when:
 
 * `NetworkClientUtils` helper object is requested to <<kafka-clients-NetworkClientUtils.adoc#awaitReady, wait until a connection to a broker node is ready>>

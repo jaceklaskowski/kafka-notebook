@@ -132,7 +132,7 @@ a| [[state]] Defaults to `UNJOINED`
 [[logging]]
 [TIP]
 ====
-Enable `DEBUG` logging levels for `org.apache.kafka.clients.consumer.internals.AbstractCoordinator` logger to see what happens inside.
+Enable `WARN`, `INFO`, or `DEBUG` logging level for `org.apache.kafka.clients.consumer.internals.AbstractCoordinator` logger to see what happens inside.
 
 Add the following line to `log4j.properties`:
 
@@ -255,14 +255,22 @@ RequestFuture<ByteBuffer> sendSyncGroupRequest(
 
 NOTE: `sendSyncGroupRequest` is used when...FIXME
 
-=== [[sendFindCoordinatorRequest]] `sendFindCoordinatorRequest` Internal Method
+=== [[sendFindCoordinatorRequest]] Sending FindCoordinatorRequest (to Kafka Broker) -- `sendFindCoordinatorRequest` Internal Method
 
 [source, java]
 ----
 RequestFuture<Void> sendFindCoordinatorRequest(Node node)
 ----
 
-`sendFindCoordinatorRequest`...FIXME
+`sendFindCoordinatorRequest` prints out the following DEBUG message to the logs:
+
+```
+Sending FindCoordinator request to broker [node]
+```
+
+`sendFindCoordinatorRequest` creates a new <<kafka-common-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>> with `GROUP` type and the <<groupId, groupId>>.
+
+In the end, `sendFindCoordinatorRequest` requests the <<client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#send, send>> the `FindCoordinatorRequest` and convert the request future using a new <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#, FindCoordinatorResponseHandler>>.
 
 NOTE: `sendFindCoordinatorRequest` is used exclusively when `AbstractCoordinator` is requested to <<lookupCoordinator, lookupCoordinator>>.
 
