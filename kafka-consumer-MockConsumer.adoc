@@ -1,3 +1,206 @@
 == [[MockConsumer]] MockConsumer
 
-`MockConsumer` is...FIXME
+`MockConsumer` is a concrete <<kafka-consumer-Consumer.adoc#, Consumer>> to be used for unit testing.
+
+NOTE: `MockConsumer` is used in Kafka Streams' `TopologyTestDriver` to write tests to verify the behavior of topologies.
+
+[[creating-instance]]
+[[offsetResetStrategy]]
+`MockConsumer` takes a single `OffsetResetStrategy` to be created.
+
+[source, scala]
+----
+import org.apache.kafka.clients.consumer._
+val consumer = new MockConsumer[String, String](OffsetResetStrategy.EARLIEST)
+----
+
+While being created, `MockConsumer` initializes the <<internal-registries, internal registries and counters>>.
+
+Beside <<kafka-consumer-Consumer.adoc#contract, Consumer API>>, `MockConsumer`  defines its own <<api, testing-specific API>>.
+
+[[api]]
+.MockConsumer API
+[cols="1m,3",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| addEndOffsets
+a| [[addEndOffsets]]
+
+[source, java]
+----
+void addEndOffsets(Map<TopicPartition, Long> newOffsets)
+----
+
+| addRecord
+a| [[addRecord]]
+
+[source, java]
+----
+void addRecord(ConsumerRecord<K, V> record)
+----
+
+| closed
+a| [[closed-api]]
+
+[source, java]
+----
+boolean closed()
+----
+
+| rebalance
+a| [[rebalance]]
+
+[source, java]
+----
+void rebalance(Collection<TopicPartition> newAssignment)
+----
+
+| scheduleNopPollTask
+a| [[scheduleNopPollTask]]
+
+[source, java]
+----
+void scheduleNopPollTask()
+----
+
+| schedulePollTask
+a| [[schedulePollTask]]
+
+[source, java]
+----
+void schedulePollTask(Runnable task)
+----
+
+| setException
+a| [[setException]]
+
+[source, java]
+----
+void setException(KafkaException exception)
+----
+
+| updateBeginningOffsets
+a| [[updateBeginningOffsets]]
+
+[source, java]
+----
+void updateBeginningOffsets(
+  Map<TopicPartition, Long> newOffsets)
+----
+
+| updateEndOffsets
+a| [[updateEndOffsets]]
+
+[source, java]
+----
+void updateEndOffsets(
+  Map<TopicPartition, Long> newOffsets)
+----
+
+| updatePartitions
+a| [[updatePartitions]]
+
+[source, java]
+----
+void updatePartitions(
+  String topic,
+  List<PartitionInfo> partitions)
+----
+
+|===
+
+
+[[internal-registries]]
+.MockConsumer's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| subscriptions
+a| [[subscriptions]] <<kafka-consumer-internals-SubscriptionState.adoc#, SubscriptionState>>
+
+Used when...FIXME
+
+| partitions
+a| [[partitions]]
+
+[source, java]
+----
+Map<String, List<PartitionInfo>> partitions
+----
+
+Used when...FIXME
+
+| records
+a| [[records]]
+
+[source, java]
+----
+Map<TopicPartition, List<ConsumerRecord<K, V>>> records
+----
+
+Used when...FIXME
+
+| paused
+a| [[paused]] Kafka's `TopicPartition` paused
+
+Used when...FIXME
+
+| closed
+a| [[closed]] Flag that says whether...FIXME Defaults to `false`
+
+Used when...FIXME
+
+| beginningOffsets
+a| [[beginningOffsets]]
+
+[source, java]
+----
+Map<TopicPartition, Long> beginningOffsets
+----
+
+Used when...FIXME
+
+| endOffsets
+a| [[endOffsets]]
+
+[source, java]
+----
+Map<TopicPartition, List<Long>> endOffsets
+----
+
+Used when...FIXME
+
+| pollTasks
+a| [[pollTasks]]
+
+[source, java]
+----
+Queue<Runnable>
+----
+
+Used when...FIXME
+
+| exception
+a| [[exception]] A `KafkaException` if thrown
+
+Used when...FIXME
+
+| wakeup
+a| [[wakeup]] Flag that says whether...FIXME (a Java https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/atomic/AtomicBoolean.html[AtomicBoolean])
+
+Used when...FIXME
+
+| committed
+a| [[committed]]
+
+[source, java]
+----
+Map<TopicPartition, OffsetAndMetadata> committed
+----
+
+Used when...FIXME
+|===

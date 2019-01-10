@@ -1,8 +1,6 @@
-== [[KafkaConsumer]] KafkaConsumer
+== [[KafkaConsumer]] KafkaConsumer -- Primary Kafka Client
 
-`KafkaConsumer` is the <<kafka-consumer-Consumer.adoc#, Kafka client to consume records from a Kafka cluster>>.
-
-`KafkaConsumer` is the main public class that a Kafka developer use to write <<kafka-consumers.adoc#, Kafka consumers>>.
+`KafkaConsumer` is a concrete <<kafka-consumer-Consumer.adoc#, Kafka client to consume records from Kafka topics>> for Kafka developers to write <<kafka-consumers.adoc#, Kafka consumers>>.
 
 .KafkaConsumer
 image::images/KafkaConsumer.png[align="center"]
