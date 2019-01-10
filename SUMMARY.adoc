@@ -5,13 +5,17 @@
 
 === Kafka Clients / Consumer API
 
-. link:kafka-consumer-KafkaConsumer.adoc[KafkaConsumer -- Kafka Client for Consuming Records]
-.. link:kafka-consumer-Consumer.adoc[Consumer Contract]
+. link:kafka-consumer-Consumer.adoc[Consumer Contract -- Kafka Clients for Consuming Records]
+.. link:kafka-consumer-KafkaConsumer.adoc[KafkaConsumer]
+.. link:kafka-consumer-MockConsumer.adoc[MockConsumer]
 
-. link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig -- Configuration Properties for Kafka Consumers]
 . link:kafka-consumer-ConsumerRecord.adoc[ConsumerRecord]
 . link:kafka-consumer-OffsetAndMetadata.adoc[OffsetAndMetadata]
 . link:kafka-consumer-OffsetAndTimestamp.adoc[OffsetAndTimestamp]
+. link:kafka-consumer-OffsetCommitCallback.adoc[OffsetCommitCallback]
+. link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener]
+
+. link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig -- Configuration Properties for KafkaConsumer]
 
 . link:kafka-consumer-CommitFailedException.adoc[CommitFailedException]
 . link:kafka-consumer-InvalidOffsetException.adoc[InvalidOffsetException]
@@ -19,11 +23,7 @@
 . link:kafka-consumer-OffsetOutOfRangeException.adoc[OffsetOutOfRangeException]
 . link:kafka-consumer-RetriableCommitFailedException.adoc[RetriableCommitFailedException]
 
-. link:kafka-consumer-MockConsumer.adoc[MockConsumer]
-
 . link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor]
-. link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener]
-. link:kafka-consumer-OffsetCommitCallback.adoc[OffsetCommitCallback]
 
 . link:kafka-consumer-internals-PartitionAssignor.adoc[PartitionAssignor Contract]
 .. link:kafka-consumer-RangeAssignor.adoc[RangeAssignor]

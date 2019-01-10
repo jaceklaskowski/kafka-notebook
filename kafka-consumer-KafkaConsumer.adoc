@@ -1,4 +1,4 @@
-== [[KafkaConsumer]] KafkaConsumer -- Kafka Client for Consuming Records
+== [[KafkaConsumer]] KafkaConsumer
 
 `KafkaConsumer` is the <<kafka-consumer-Consumer.adoc#, Kafka client to consume records from a Kafka cluster>>.
 

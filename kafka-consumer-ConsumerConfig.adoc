@@ -1,4 +1,4 @@
-== [[ConsumerConfig]] ConsumerConfig -- Configuration Properties for Kafka Consumers
+== [[ConsumerConfig]] ConsumerConfig -- Configuration Properties for KafkaConsumer
 
 `ConsumerConfig` is a Apache Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/config/AbstractConfig.html[AbstractConfig] for the <<properties, configuration properties>> of a <<kafka-consumer-KafkaConsumer.adoc#, KafkaConsumer>>.
 
