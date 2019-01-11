@@ -1,3 +1,194 @@
-== [[AbstractRequest]] AbstractRequest
+== [[AbstractRequest]] AbstractRequest Contract
 
-`AbstractRequest` is...FIXME
+`AbstractRequest` is the <<contract, extension>> of the <<kafka-common-requests-AbstractRequestResponse.adoc#, AbstractRequestResponse contract>> for <<implementations, message requests>>.
+
+[[creating-instance]]
+`AbstractRequest` takes the following to be created:
+
+* [[api]] `ApiKeys`
+* [[version]] Version
+
+NOTE: `AbstractRequest` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractRequests>>.
+
+[[contract]]
+.AbstractRequest Contract
+[cols="1m,3",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| getErrorResponse
+a| [[getErrorResponse]]
+
+[source, java]
+----
+AbstractResponse getErrorResponse(
+  int throttleTimeMs,
+  Throwable e)
+----
+
+Used when...FIXME
+
+| toStruct
+a| [[toStruct]]
+
+[source, java]
+----
+Struct toStruct()
+----
+
+Used when...FIXME
+
+|===
+
+[[implementations]]
+.AbstractRequests
+[cols="1,3",options="header",width="100%"]
+|===
+| AbstractRequest
+| Description
+
+| AddOffsetsToTxnRequest
+| [[AddOffsetsToTxnRequest]]
+
+| AddPartitionsToTxnRequest
+| [[AddPartitionsToTxnRequest]]
+
+| AlterConfigsRequest
+| [[AlterConfigsRequest]]
+
+| AlterReplicaLogDirsRequest
+| [[AlterReplicaLogDirsRequest]]
+
+| ApiVersionsRequest
+| [[ApiVersionsRequest]]
+
+| ControlledShutdownRequest
+| [[ControlledShutdownRequest]]
+
+| CreateAclsRequest
+| [[CreateAclsRequest]]
+
+| CreateDelegationTokenRequest
+| [[CreateDelegationTokenRequest]]
+
+| CreatePartitionsRequest
+| [[CreatePartitionsRequest]]
+
+| CreateTopicsRequest
+| [[CreateTopicsRequest]]
+
+| DeleteAclsRequest
+| [[DeleteAclsRequest]]
+
+| DeleteGroupsRequest
+| [[DeleteGroupsRequest]]
+
+| DeleteRecordsRequest
+| [[DeleteRecordsRequest]]
+
+| DeleteTopicsRequest
+| [[DeleteTopicsRequest]]
+
+| DescribeAclsRequest
+| [[DescribeAclsRequest]]
+
+| DescribeConfigsRequest
+| [[DescribeConfigsRequest]]
+
+| DescribeDelegationTokenRequest
+| [[DescribeDelegationTokenRequest]]
+
+| DescribeGroupsRequest
+| [[DescribeGroupsRequest]]
+
+| <<kafka-common-requests-DescribeLogDirsRequest.adoc#, DescribeLogDirsRequest>>
+| [[DescribeLogDirsRequest]]
+
+| EndTxnRequest
+| [[EndTxnRequest]]
+
+| ExpireDelegationTokenRequest
+| [[ExpireDelegationTokenRequest]]
+
+| FetchRequest
+| [[FetchRequest]]
+
+| <<kafka-common-requests-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>>
+| [[FindCoordinatorRequest]]
+
+| HeartbeatRequest
+| [[HeartbeatRequest]]
+
+| InitProducerIdRequest
+| [[InitProducerIdRequest]]
+
+| JoinGroupRequest
+| [[JoinGroupRequest]]
+
+| LeaderAndIsrRequest
+| [[LeaderAndIsrRequest]]
+
+| LeaveGroupRequest
+| [[LeaveGroupRequest]]
+
+| ListGroupsRequest
+| [[ListGroupsRequest]]
+
+| ListOffsetRequest
+| [[ListOffsetRequest]]
+
+| <<kafka-common-requests-MetadataRequest.adoc#, MetadataRequest>>
+| [[MetadataRequest]]
+
+| OffsetCommitRequest
+| [[OffsetCommitRequest]]
+
+| OffsetFetchRequest
+| [[OffsetFetchRequest]]
+
+| OffsetsForLeaderEpochRequest
+| [[OffsetsForLeaderEpochRequest]]
+
+| ProduceRequest
+| [[ProduceRequest]]
+
+| RenewDelegationTokenRequest
+| [[RenewDelegationTokenRequest]]
+
+| SaslAuthenticateRequest
+| [[SaslAuthenticateRequest]]
+
+| SaslHandshakeRequest
+| [[SaslHandshakeRequest]]
+
+| StopReplicaRequest
+| [[StopReplicaRequest]]
+
+| SyncGroupRequest
+| [[SyncGroupRequest]]
+
+| TxnOffsetCommitRequest
+| [[TxnOffsetCommitRequest]]
+
+| <<kafka-common-requests-UpdateMetadataRequest.adoc#, UpdateMetadataRequest>>
+| [[UpdateMetadataRequest]]
+
+| WriteTxnMarkersRequest
+| [[WriteTxnMarkersRequest]]
+
+|===
+
+=== [[parseRequest]] Creating AbstractRequest For API Key -- `parseRequest` Factory Method
+
+[source, java]
+----
+AbstractRequest parseRequest(
+  ApiKeys apiKey,
+  short apiVersion,
+  Struct struct)
+----
+
+`parseRequest` simply creates a <<implementations, concrete AbstractRequest>> for the given `ApiKeys`.
+
+NOTE: `parseRequest` is used exclusively when `RequestContext` is requested to <<kafka-common-requests-RequestContext.adoc#parseRequest, parse a request>>.

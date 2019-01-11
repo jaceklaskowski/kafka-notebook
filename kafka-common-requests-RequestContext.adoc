@@ -1,0 +1,21 @@
+== [[RequestContext]] RequestContext
+
+`RequestContext` is...FIXME
+
+=== [[parseRequest]] `parseRequest` Method
+
+[source, java]
+----
+RequestAndSize parseRequest(ByteBuffer buffer)
+----
+
+`parseRequest`...FIXME
+
+[NOTE]
+====
+`parseRequest` is used when:
+
+* `RequestChannel.Request` is created
+
+* `SaslServerAuthenticator` is requested to `handleSaslToken` and `handleKafkaRequest`
+====

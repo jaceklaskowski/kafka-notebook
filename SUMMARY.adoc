@@ -270,16 +270,16 @@
 . link:kafka-common-NotificationHandler.adoc[NotificationHandler Contract]
 . link:kafka-common-ZkNodeChangeNotificationListener.adoc[ZkNodeChangeNotificationListener]
 
-. link:kafka-common-requests-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
-
 . link:kafka-common-Configurable.adoc[Configurable Contract]
 . link:kafka-common-Reconfigurable.adoc[Reconfigurable]
 
 === Kafka Common / Requests
 
 . link:kafka-common-requests-AbstractRequestResponse.adoc[AbstractRequestResponse Contract]
-.. link:kafka-common-requests-AbstractRequest.adoc[AbstractRequest]
+.. link:kafka-common-requests-AbstractRequest.adoc[AbstractRequest Contract]
 .. link:kafka-common-requests-AbstractResponse.adoc[AbstractResponse]
+
+. link:kafka-common-requests-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
 
 . link:kafka-common-requests-FindCoordinatorRequest.adoc[FindCoordinatorRequest]
 . link:kafka-common-requests-FindCoordinatorResponse.adoc[FindCoordinatorResponse]
@@ -288,6 +288,8 @@
 . link:kafka-common-requests-MetadataResponse.adoc[MetadataResponse]
 
 . link:kafka-common-requests-UpdateMetadataRequest.adoc[UpdateMetadataRequest]
+
+. link:kafka-common-requests-RequestContext.adoc[RequestContext]
 
 === Kafka Common / Serialization
 
