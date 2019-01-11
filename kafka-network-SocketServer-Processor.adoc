@@ -42,7 +42,7 @@ Used when...FIXME
 * [[id]] ID
 * [[time]] `Time`
 * [[maxRequestSize]] `maxRequestSize`
-* [[requestChannel]] `RequestChannel`
+* [[requestChannel]] <<kafka-network-RequestChannel.adoc#, RequestChannel>>
 * [[connectionQuotas]] `ConnectionQuotas`
 * [[connectionsMaxIdleMs]] `connectionsMaxIdleMs`
 * [[failedAuthenticationDelayMs]] `failedAuthenticationDelayMs`

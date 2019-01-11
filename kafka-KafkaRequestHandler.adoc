@@ -43,7 +43,7 @@ NOTE: `run` is used when `KafkaRequestHandlerPool` is link:kafka-KafkaRequestHan
 * [[brokerId]] Broker ID
 * [[aggregateIdleMeter]] Aggregate Idle `Meter`
 * [[totalHandlerThreads]] Total number of handler threads
-* [[requestChannel]] `RequestChannel`
+* [[requestChannel]] <<kafka-network-RequestChannel.adoc#, RequestChannel>>
 * [[apis]] link:kafka-server-KafkaApis.adoc[KafkaApis]
 * [[time]] `Time`
 

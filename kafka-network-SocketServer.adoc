@@ -7,6 +7,9 @@
 .SocketServer's Startup
 image::images/SocketServer-startup.png[align="center"]
 
+[[maxQueuedRequests]]
+`SocketServer` uses <<kafka-KafkaConfig.adoc#queuedMaxRequests, queued.max.requests>> configuration property for...FIXME
+
 [[metrics]]
 .SocketServer's Metrics (in kafka.network group)
 [cols="1,2",options="header",width="100%"]
@@ -40,9 +43,6 @@ image::images/SocketServer-startup.png[align="center"]
 | endpoints
 | [[endpoints]] `EndPoints` (aka _listeners_) per name (as configured using link:kafka-KafkaConfig.adoc#listeners[listeners] Kafka property)
 
-| maxQueuedRequests
-| [[maxQueuedRequests]]
-
 | maxConnectionsPerIp
 | [[maxConnectionsPerIp]]
 
@@ -63,7 +63,13 @@ New processor threads are added in <<addProcessors, addProcessors>>
 Used in <<stopProcessingRequests, stopProcessingRequests>> (to shut down the network processor threads)
 
 | requestChannel
-| [[requestChannel]]
+a| [[requestChannel]] A <<kafka-network-RequestChannel.adoc#, RequestChannel>> (with <<maxQueuedRequests, queued.max.requests>> queue size)
+
+Used when:
+
+* `SocketServer` is requested to <<newProcessor, create a network processor thread>>, <<addProcessors, addProcessors>>, <<stopProcessingRequests, stopProcessingRequests>>, <<resizeThreadPool, resizeThreadPool>>, and <<shutdown, shutdown>>
+
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>> (and creates the <<kafka-server-KafkaServer.adoc#apis, KafkaApis>> and the <<kafka-server-KafkaServer.adoc#requestHandlerPool, KafkaRequestHandlerPool>>)
 
 | totalProcessorThreads
 | [[totalProcessorThreads]] Total number of <<processors, processors>>, i.e. <<numProcessorThreads, numProcessorThreads>> for every <<endpoints, endpoint>>

@@ -285,6 +285,13 @@ Increase the default value (`1`) since it is better to over-partition a topic th
 
 Default: `9092`
 
+| queued.max.requests
+a| [[queued.max.requests]] The number of queued requests allowed before blocking the network threads
+
+Default: `500`
+
+Must be at least `1`
+
 | rebalance.timeout.ms
 | [[rebalance.timeout.ms]][[rebalance_timeout_ms]] The maximum allowed time for each worker to join the group once a rebalance has begun.
 

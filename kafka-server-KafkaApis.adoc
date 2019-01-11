@@ -266,7 +266,7 @@ NOTE: `handleControlledShutdownRequest` is used when...FIXME
 
 `KafkaApis` takes the following when created:
 
-* [[requestChannel]] RequestChannel
+* [[requestChannel]] <<kafka-network-RequestChannel.adoc#, RequestChannel>>
 * [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
 * [[adminManager]] <<kafka-server-AdminManager.adoc#, AdminManager>>
 * [[groupCoordinator]] <<kafka-GroupCoordinator.adoc#, GroupCoordinator>>

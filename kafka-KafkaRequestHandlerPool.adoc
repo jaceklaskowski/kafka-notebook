@@ -35,7 +35,7 @@ CAUTION: FIXME
 `KafkaRequestHandlerPool` takes the following when created:
 
 * [[brokerId]] Broker ID
-* [[requestChannel]] `RequestChannel`
+* [[requestChannel]] <<kafka-network-RequestChannel.adoc#, RequestChannel>>
 * [[apis]] link:kafka-server-KafkaApis.adoc[KafkaApis]
 * [[time]] `Time`
 * [[numThreads]] Number of threads (i.e. instances of <<runnables, KafkaRequestHandlers>> as defined by link:kafka-KafkaConfig.adoc#numNetworkThreads[numNetworkThreads] property)

@@ -122,6 +122,11 @@ Used when `SocketServer` is <<kafka-network-SocketServer.adoc#memoryPool, create
 | tokenAuthEnabled
 a| [[tokenAuthEnabled]] <<kafka-properties.adoc#delegation.token.master.key, delegation.token.master.key>>
 
+| queuedMaxRequests
+a| [[queuedMaxRequests]] <<kafka-properties.adoc#queued.max.requests, queued.max.requests>>
+
+Used exclusively when `SocketServer` is <<kafka-network-SocketServer.adoc#maxQueuedRequests, created>>
+
 | zkConnect
 a| [[zkConnect]] <<kafka-properties.adoc#zookeeper.connect, zookeeper.connect>>
 
