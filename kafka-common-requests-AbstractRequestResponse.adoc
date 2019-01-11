@@ -1,0 +1,40 @@
+== [[AbstractRequestResponse]] AbstractRequestResponse Contract
+
+`AbstractRequestResponse` is the <<contract, abstraction>> of <<implementations, messages>> exchanged between Kafka clients and brokers.
+
+NOTE: `AbstractRequestResponse` is a Java abstract class and cannot be created directly. It is created indirectly for the <<implementations, concrete AbstractRequestResponses>>.
+
+[[contract]]
+[[serialize]]
+`AbstractRequestResponse` defines the single `serialize` static method.
+
+[source, java]
+----
+ByteBuffer serialize(Struct headerStruct, Struct bodyStruct)
+----
+
+`serialize` simply allocates a new https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/ByteBuffer.html[java.nio.ByteBuffer] for the given header and body structs followed by writing them out to the buffer (and rewinding the buffer).
+
+`serialize` is used when <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>> and <<kafka-common-requests-AbstractResponse.adoc#, AbstractResponse>> are requested to serialize.
+
+[[implementations]]
+[[extensions]]
+.AbstractRequestResponses (Direct Extensions and Implementations)
+[cols="1,3",options="header",width="100%"]
+|===
+| AbstractRequestResponse
+| Description
+
+| <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>>
+| [[AbstractRequest]]
+
+| <<kafka-common-requests-AbstractResponse.adoc#, AbstractResponse>>
+| [[AbstractResponse]]
+
+| RequestHeader
+| [[RequestHeader]]
+
+| ResponseHeader
+| [[ResponseHeader]]
+
+|===

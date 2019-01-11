@@ -272,16 +272,22 @@
 
 . link:kafka-common-requests-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
 
-. link:kafka-common-UpdateMetadataRequest.adoc[UpdateMetadataRequest]
-
-. link:kafka-common-MetadataRequest.adoc[MetadataRequest]
-. link:kafka-common-MetadataResponse.adoc[MetadataResponse]
-
-. link:kafka-common-FindCoordinatorRequest.adoc[FindCoordinatorRequest]
-. link:kafka-common-FindCoordinatorResponse.adoc[FindCoordinatorResponse]
-
 . link:kafka-common-Configurable.adoc[Configurable Contract]
 . link:kafka-common-Reconfigurable.adoc[Reconfigurable]
+
+=== Kafka Common / Requests
+
+. link:kafka-common-requests-AbstractRequestResponse.adoc[AbstractRequestResponse Contract]
+.. link:kafka-common-requests-AbstractRequest.adoc[AbstractRequest]
+.. link:kafka-common-requests-AbstractResponse.adoc[AbstractResponse]
+
+. link:kafka-common-requests-FindCoordinatorRequest.adoc[FindCoordinatorRequest]
+. link:kafka-common-requests-FindCoordinatorResponse.adoc[FindCoordinatorResponse]
+
+. link:kafka-common-requests-MetadataRequest.adoc[MetadataRequest]
+. link:kafka-common-requests-MetadataResponse.adoc[MetadataResponse]
+
+. link:kafka-common-requests-UpdateMetadataRequest.adoc[UpdateMetadataRequest]
 
 === Kafka Common / Serialization
 

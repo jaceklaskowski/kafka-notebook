@@ -196,9 +196,9 @@ NOTE: `handleFetchRequest` is used exclusively when `KafkaApis` is requested to 
 handleTopicMetadataRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleTopicMetadataRequest` takes the <<kafka-common-MetadataRequest.adoc#, MetadataRequest>> from the body (from the input `request`).
+`handleTopicMetadataRequest` takes the <<kafka-common-requests-MetadataRequest.adoc#, MetadataRequest>> from the body (from the input `request`).
 
-`handleTopicMetadataRequest` requests the <<metadataCache, MetadataCache>> for <<kafka-server-MetadataCache.adoc#getAllTopics, getAllTopics>> or its subset (per <<kafka-common-MetadataRequest.adoc#topics, topics>> attribute of the `MetadataRequest`).
+`handleTopicMetadataRequest` requests the <<metadataCache, MetadataCache>> for <<kafka-server-MetadataCache.adoc#getAllTopics, getAllTopics>> or its subset (per <<kafka-common-requests-MetadataRequest.adoc#topics, topics>> attribute of the `MetadataRequest`).
 
 `handleTopicMetadataRequest` filters out the topics for which the current principal (user) is not authorized to execute `Describe` operation.
 
@@ -214,7 +214,7 @@ For every authorized topic, `handleTopicMetadataRequest`...FIXME
 Sending topic metadata [completeTopicMetadata] and brokers [brokers] for correlation id [correlationId] to client [clientId]
 ```
 
-In the end, `handleTopicMetadataRequest` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with a new <<kafka-common-MetadataResponse.adoc#, MetadataResponse>>.
+In the end, `handleTopicMetadataRequest` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with a new <<kafka-common-requests-MetadataResponse.adoc#, MetadataResponse>>.
 
 NOTE: `handleTopicMetadataRequest` is used exclusively when `KafkaApis` is requested to handle a <<Metadata, Metadata>> request.
 
@@ -504,7 +504,7 @@ NOTE: `createTopic` is used when `KafkaApis` is requested to <<createInternalTop
 handleFindCoordinatorRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleFindCoordinatorRequest` takes the <<kafka-common-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>> from the body (from the input `request`).
+`handleFindCoordinatorRequest` takes the <<kafka-common-requests-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>> from the body (from the input `request`).
 
 `handleFindCoordinatorRequest` checks permissions...FIXME
 
@@ -522,7 +522,7 @@ For `TRANSACTION` coordinator type, `handleFindCoordinatorRequest` does the foll
 
 . <<getOrCreateInternalTopic, getOrCreateInternalTopic>> for <<TRANSACTION_STATE_TOPIC_NAME, __transaction_state>> topic
 
-In the end, `handleFindCoordinatorRequest` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with a new <<kafka-common-FindCoordinatorResponse.adoc#, FindCoordinatorResponse>>.
+In the end, `handleFindCoordinatorRequest` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with a new <<kafka-common-requests-FindCoordinatorResponse.adoc#, FindCoordinatorResponse>>.
 
 You should see the following TRACE message in the logs:
 

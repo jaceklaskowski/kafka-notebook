@@ -104,7 +104,7 @@ NOTE: `handleCompletedMetadataResponse` is a part of link:kafka-clients-Metadata
 
 `handleCompletedMetadataResponse` turns <<metadataFetchInProgress, metadataFetchInProgress>> flag off.
 
-`handleCompletedMetadataResponse` takes the link:kafka-common-MetadataResponse.adoc#cluster[cluster] from the `response`.
+`handleCompletedMetadataResponse` takes the link:kafka-common-requests-MetadataResponse.adoc#cluster[cluster] from the `response`.
 
 `handleCompletedMetadataResponse` requests <<metadata, Metadata>> to link:kafka-clients-Metadata.adoc#update[update] (with the cluster and unavailable topics) when there is at least one node in the cluster.
 

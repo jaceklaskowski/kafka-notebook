@@ -18,7 +18,7 @@ NOTE: A bootstrap cluster does not hold all information about the cluster.
 
 * `Metadata` is requested to <<kafka-clients-Metadata.adoc#getClusterForCurrentTopics, getClusterForCurrentTopics>>
 
-* `MetadataResponse` is requested to <<kafka-common-MetadataResponse.adoc#cluster, cluster>>
+* `MetadataResponse` is requested to <<kafka-common-requests-MetadataResponse.adoc#cluster, cluster>>
 
 [[internal-registries]]
 .Cluster's Internal Properties (e.g. Registries, Counters and Flags)

@@ -268,7 +268,7 @@ RequestFuture<Void> sendFindCoordinatorRequest(Node node)
 Sending FindCoordinator request to broker [node]
 ```
 
-`sendFindCoordinatorRequest` creates a new <<kafka-common-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>> with `GROUP` type and the <<groupId, groupId>>.
+`sendFindCoordinatorRequest` creates a new <<kafka-common-requests-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>> with `GROUP` type and the <<groupId, groupId>>.
 
 In the end, `sendFindCoordinatorRequest` requests the <<client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#send, send>> the `FindCoordinatorRequest` and convert the request future using a new <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#, FindCoordinatorResponseHandler>>.
 
