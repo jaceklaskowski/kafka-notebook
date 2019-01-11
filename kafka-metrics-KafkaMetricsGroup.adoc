@@ -76,7 +76,7 @@ trait KafkaMetricsGroup {
 | <<kafka-KafkaRequestHandlerPool.adoc#, KafkaRequestHandlerPool>>
 | [[KafkaRequestHandlerPool]]
 
-| <<kafka-KafkaServer.adoc#, KafkaServer>>
+| <<kafka-server-KafkaServer.adoc#, KafkaServer>>
 | [[KafkaServer]]
 
 | <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>

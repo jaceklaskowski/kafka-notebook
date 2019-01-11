@@ -9,6 +9,6 @@
 `DynamicLogConfig` takes the following when created:
 
 * [[logManager]] <<kafka-LogManager.adoc#, LogManager>>
-* [[server]] <<kafka-KafkaServer.adoc#, KafkaServer>>
+* [[server]] <<kafka-server-KafkaServer.adoc#, KafkaServer>>
 
 `DynamicLogConfig` initializes the <<internal-registries, internal registries and counters>>.

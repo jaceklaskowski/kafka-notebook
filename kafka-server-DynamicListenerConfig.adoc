@@ -9,7 +9,7 @@ When requested for the <<kafka-server-BrokerReconfigurable.adoc#reconfigurableCo
 
 * FIXME
 
-=== [[reconfigure]] `reconfigure` Method
+=== [[reconfigure]] Reconfiguring Listeners -- `reconfigure` Method
 
 [source, scala]
 ----

@@ -1,6 +1,6 @@
 == [[ReplicaManager]] ReplicaManager
 
-`ReplicaManager` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+`ReplicaManager` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 .ReplicaManager and KafkaServer
 image::images/ReplicaManager.png[align="center"]
@@ -210,7 +210,7 @@ startup(): Unit
 
 NOTE: `startup` uses `Scheduler` that was specified when `ReplicaManager` <<creating-instance, was created>>.
 
-NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
+NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-server-KafkaServer.adoc#startup[starts up].
 
 === [[maybeShrinkIsr]] `maybeShrinkIsr` Internal Method
 

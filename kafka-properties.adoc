@@ -99,6 +99,18 @@ a| [[client.id]]
 
 Default: `(randomly-generated)`
 
+| connection.failed.authentication.delay.ms
+a| [[connection.failed.authentication.delay.ms]] Connection close delay on failed authentication: this is the time (in milliseconds) by which connection close will be delayed on authentication failure. This must be configured to be less than <<connections.max.idle.ms, connections.max.idle.ms>> to prevent connection timeout.
+
+Default: `100`
+
+Has to be at least `0`
+
+| connections.max.idle.ms
+a| [[connections.max.idle.ms]] Idle connections timeout: the server socket processor threads close the connections that idle more than this
+
+Default: `10 * 60 * 1000L`
+
 | default.replication.factor
 a| [[default.replication.factor]] The default replication factor that is used for auto-created topics
 
@@ -252,7 +264,7 @@ When used together, `min.insync.replicas` and acks allow you to enforce greater 
 A typical scenario would be to create a topic with a replication factor of 3, set `min.insync.replicas` to 2, and produce with acks of "all". This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 
 | num.io.threads
-| [[num.io.threads]] The number of threads that link:kafka-KafkaServer.adoc[KafkaServer] uses for processing requests, which may include disk I/O
+| [[num.io.threads]] The number of threads that link:kafka-server-KafkaServer.adoc[KafkaServer] uses for processing requests, which may include disk I/O
 
 Default: `8`
 
@@ -314,6 +326,13 @@ Use `ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG`
 | [[session.timeout.ms]][[session_timeout_ms]] The timeout used to detect worker failures.
 
 Default: `10000`
+
+| socket.request.max.bytes
+a| [[socket.request.max.bytes]] The maximum number of bytes in a socket request
+
+Default: `100 * 1024 * 1024`
+
+Must be at least `1`
 
 | unclean.leader.election.enable
 a| [[unclean.leader.election.enable]] Controls whether to enable replicas not in the ISR set to be elected as leader as the last resort, even though doing so may result in data loss.

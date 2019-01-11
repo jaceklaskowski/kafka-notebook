@@ -4,7 +4,7 @@
 
 `KafkaZkClient` is <<creating-instance, created>> (using the <<apply, apply>> factory method) when:
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#initZkClient, initZkClient>> (right after `kafka.Kafka` command-line application is <<kafka-Kafka.adoc#main, executed>>)
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>> (right after `kafka.Kafka` command-line application is <<kafka-Kafka.adoc#main, executed>>)
 
 * `AclCommand`, `ConfigCommand`, `PreferredReplicaLeaderElectionCommand`, `ReassignPartitionsCommand`, `TopicCommand` commands are executed
 
@@ -92,7 +92,7 @@ apply(
 ====
 `apply` is used when:
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#initZkClient, initZkClient>> (right after `kafka.Kafka` command-line application is <<kafka-Kafka.adoc#main, executed>>)
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>> (right after `kafka.Kafka` command-line application is <<kafka-Kafka.adoc#main, executed>>)
 
 * The following commands are executed (`main`):
 ** `AclCommand` (when `SimpleAclAuthorizer` is used and requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>)
@@ -233,7 +233,7 @@ getAllBrokersInCluster: Seq[Broker]
 
 * `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#initializeControllerContext, initializeControllerContext>> and at <<kafka-controller-ControllerEvent.adoc#BrokerChange, BrokerChange>> controller event
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#createBrokerInfo, createBrokerInfo>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#createBrokerInfo, createBrokerInfo>>
 
 * `AdminZkClient` is requested to <<kafka-zk-AdminZkClient.adoc#getBrokerMetadatas, getBrokerMetadatas>>
 ====
@@ -362,7 +362,7 @@ getControllerId: Option[Int]
 
 * `ControllerEventThread` is requested to <<kafka-controller-ControllerEventThread.adoc#doWork, process controller events>> (and processes <<kafka-controller-ControllerEvent.adoc#ControllerChange, ControllerChange>> and <<kafka-controller-ControllerEvent.adoc#Reelect, Reelect>> events)
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#controlledShutdown, perform a controlled shutdown>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#controlledShutdown, perform a controlled shutdown>>
 ====
 
 === [[checkedEphemeralCreate]] Creating Ephemeral Znode (And Throwing Exception When Unsuccessful)-- `checkedEphemeralCreate` Method

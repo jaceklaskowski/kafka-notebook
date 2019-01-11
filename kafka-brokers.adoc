@@ -2,7 +2,7 @@
 
 NOTE: A *Kafka server*, a *Kafka broker* and a *Kafka node* all refer to the same concept and are synonyms (see the scaladoc of https://github.com/apache/kafka/blob/trunk/core/src/main/scala/kafka/server/KafkaServer.scala#L89[KafkaServer]).
 
-A *Kafka broker* is modelled as link:kafka-KafkaServer.adoc[KafkaServer] that hosts link:kafka-topics.adoc[topics].
+A *Kafka broker* is modelled as link:kafka-server-KafkaServer.adoc[KafkaServer] that hosts link:kafka-topics.adoc[topics].
 
 NOTE: Given topics are always partitioned across brokers in a cluster a single broker hosts topic partitions of one or more topics actually (even when a topic is only partitioned to just a single partition).
 

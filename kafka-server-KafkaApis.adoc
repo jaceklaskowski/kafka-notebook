@@ -2,7 +2,7 @@
 
 `KafkaApis` <<handle, handles API requests>> (by means of <<handlers, handlers>>).
 
-`KafkaApis` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started] (and creates link:kafka-KafkaServer.adoc#requestHandlerPool[KafkaRequestHandlerPool]).
+`KafkaApis` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-server-KafkaServer.adoc#startup[started] (and creates link:kafka-server-KafkaServer.adoc#requestHandlerPool[KafkaRequestHandlerPool]).
 
 .KafkaApis is Created for KafkaRequestHandlerPool when KafkaServer Starts Up
 image::images/KafkaApis.png[align="center"]

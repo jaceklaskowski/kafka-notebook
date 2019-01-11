@@ -52,7 +52,7 @@ Used when:
 
 * `TransactionCoordinator` is requested to <<kafka-TransactionCoordinator.adoc#shutdown, shutdown>>
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#shutdown, shutdown>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#shutdown, shutdown>>
 
 * `ZooKeeperClient` is requested to <<kafka-ZooKeeperClient.adoc#close, close>>
 
@@ -88,7 +88,7 @@ Used when:
 
 * `TransactionCoordinator` is requested to <<kafka-TransactionCoordinator.adoc#startup, start up>>
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup>>
 
 * `ZooKeeperClient` is <<kafka-ZooKeeperClient.adoc#creating-instance, created>>
 |===

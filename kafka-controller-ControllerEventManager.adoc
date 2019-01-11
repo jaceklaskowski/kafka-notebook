@@ -4,7 +4,7 @@
 
 `ControllerEventManager` allows for <<put, emitting ControllerEvents>> (with optional <<clearAndPut, clearing the event queue first>>).
 
-`ControllerEventManager` is <<creating-instance, created>> exclusively for the <<kafka-controller-KafkaController.adoc#eventManager, KafkaController>> (when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>).
+`ControllerEventManager` is <<creating-instance, created>> exclusively for the <<kafka-controller-KafkaController.adoc#eventManager, KafkaController>> (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>).
 
 When <<start, started>>, `ControllerEventManager` simply requests the <<thread, ControllerEventThread>> to <<kafka-controller-ControllerEventThread.adoc#doWork, start processing ControllerEvents>>.
 
@@ -81,7 +81,7 @@ start(): Unit
 
 NOTE: `ControllerEventThread` is a `ShutdownableThread` that triggers `doWork()` method when started.
 
-NOTE: `start` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#startup, start up>> (when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start>>).
+NOTE: `start` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#startup, start up>> (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start>>).
 
 === [[clearAndPut]] `clearAndPut` Method
 

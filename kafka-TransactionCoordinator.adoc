@@ -13,7 +13,7 @@ startup
 
 `startup`...FIXME
 
-NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 === [[creating-instance]] Creating TransactionCoordinator Instance
 
@@ -46,7 +46,7 @@ apply(
 
 `apply`...FIXME
 
-NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 === [[shutdown]] `shutdown` Method
 

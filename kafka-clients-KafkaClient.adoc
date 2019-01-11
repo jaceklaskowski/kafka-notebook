@@ -34,7 +34,7 @@ Used when:
 
 * `RequestSendThread` is requested to `doWork` and `brokerReady`
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#controlledShutdown, controlledShutdown>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#controlledShutdown, controlledShutdown>>
 
 * `ReplicaFetcherBlockingSend` is requested to <<kafka-ReplicaFetcherBlockingSend.adoc#sendRequest, send a client request and wait for a response>>
 

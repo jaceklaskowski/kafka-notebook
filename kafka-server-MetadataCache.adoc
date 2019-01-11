@@ -2,7 +2,7 @@
 
 `MetadataCache` is...FIXME
 
-`MetadataCache` is <<creating-instance, created>> exclusively for <<kafka-KafkaServer.adoc#metadataCache, KafkaServer>> (when <<kafka-KafkaServer.adoc#startup, started>>).
+`MetadataCache` is <<creating-instance, created>> exclusively for <<kafka-server-KafkaServer.adoc#metadataCache, KafkaServer>> (when <<kafka-server-KafkaServer.adoc#startup, started>>).
 
 [[brokerId]]
 [[creating-instance]]

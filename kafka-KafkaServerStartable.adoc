@@ -15,7 +15,7 @@ image::images/KafkaServerStartable-KafkaServer.png[align="center"]
 | Description
 
 | [[server]] `server`
-| link:kafka-KafkaServer.adoc[KafkaServer] instance.
+| link:kafka-server-KafkaServer.adoc[KafkaServer] instance.
 
 Created when `KafkaServerStartable` is <<creating-instance, created>>.
 |===
@@ -64,7 +64,7 @@ NOTE: `fromProps` is used when `kafka.Kafka` runs as a standalone command-line a
 startup(): Unit
 ----
 
-`startup` requests the managed <<server, KafkaServer>> to link:kafka-KafkaServer.adoc#startup[start].
+`startup` requests the managed <<server, KafkaServer>> to link:kafka-server-KafkaServer.adoc#startup[start].
 
 In case of any exceptions, `startup` exits the JVM with status `1`. You should see the following FATAL message in the logs if that happens.
 

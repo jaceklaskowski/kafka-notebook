@@ -1,6 +1,6 @@
 == [[LogManager]] LogManager
 
-`LogManager` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+`LogManager` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 .LogManager and KafkaServer
 image::images/LogManager.png[align="center"]
@@ -198,7 +198,7 @@ apply(
 
 `apply`...FIXME
 
-NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 === [[liveLogDirs]] `liveLogDirs` Method
 

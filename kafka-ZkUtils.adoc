@@ -78,7 +78,7 @@ apply(
 ====
 `apply` is used when:
 
-1. `KafkaServer` link:kafka-KafkaServer.adoc#initZk[connects to Zookeeper]
+1. `KafkaServer` link:kafka-server-KafkaServer.adoc#initZk[connects to Zookeeper]
 1. FIXME
 ====
 

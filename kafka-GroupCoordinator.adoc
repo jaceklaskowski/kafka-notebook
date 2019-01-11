@@ -33,7 +33,7 @@ apply(
 
 `apply`...FIXME
 
-NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 === [[creating-instance]] Creating GroupCoordinator Instance
 
@@ -72,7 +72,7 @@ In the end, `startup` prints out the following INFO message to the logs:
 INFO [GroupCoordinator [brokerId]]: Startup complete. (kafka.coordinator.group.GroupCoordinator)
 ```
 
-NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
+NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-server-KafkaServer.adoc#startup[starts up].
 
 === [[partitionFor]] `partitionFor` Method
 

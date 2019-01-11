@@ -28,4 +28,4 @@ You can register a `ClusterResourceListener` for the following Kafka services:
 
 * `Metadata` notifies link:kafka-clients-Metadata.adoc#clusterResourceListeners[ClusterResourceListeners] about every link:kafka-clients-Metadata.adoc#update[cluster metadata change]
 
-* `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up]
+* `KafkaServer` link:kafka-server-KafkaServer.adoc#startup[starts up]

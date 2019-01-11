@@ -2,7 +2,7 @@
 
 `AdminManager` is...FIXME
 
-`AdminManager` is <<creating-instance, created>> exclusively when `KafkaServer` is <<kafka-KafkaServer.adoc#startup, started>>.
+`AdminManager` is <<creating-instance, created>> exclusively when `KafkaServer` is <<kafka-server-KafkaServer.adoc#startup, started>>.
 
 .AdminManager
 image::images/AdminManager.png[align="center"]

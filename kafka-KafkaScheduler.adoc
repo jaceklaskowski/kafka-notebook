@@ -10,9 +10,9 @@
 
 * `GroupMetadataManager` is <<kafka-GroupMetadataManager.adoc#scheduler, created>>
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>
 
-* `ZooKeeperClient` is <<kafka-KafkaServer.adoc#expiryScheduler, created>>
+* `ZooKeeperClient` is <<kafka-server-KafkaServer.adoc#expiryScheduler, created>>
 
 `KafkaScheduler` is used to create a <<kafka-LogManager.adoc#apply, LogManager>> and a <<kafka-TransactionCoordinator.adoc#apply, TransactionCoordinator>>.
 

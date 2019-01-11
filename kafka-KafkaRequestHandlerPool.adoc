@@ -7,7 +7,7 @@ image::images/KafkaRequestHandlerPool.png[align="center"]
 
 NOTE: The number of *kafka-request-handler* threads is controlled by link:kafka-properties.adoc#num.network.threads[num.network.threads] Kafka property and defaults to `3`.
 
-`KafkaRequestHandlerPool` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-KafkaServer.adoc#startup[started].
+`KafkaRequestHandlerPool` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-server-KafkaServer.adoc#startup[started].
 
 [[internal-registries]]
 .KafkaRequestHandlerPool's Internal Properties (e.g. Registries and Counters)

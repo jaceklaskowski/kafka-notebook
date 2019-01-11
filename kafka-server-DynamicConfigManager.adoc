@@ -4,7 +4,7 @@
 
 `DynamicConfigManager` uses the <<ConfigChangedNotificationHandler, ConfigChangedNotificationHandler>> to <<ConfigChangedNotificationHandler-processNotification, process config change notifications>>.
 
-`DynamicConfigManager` is <<creating-instance, created>> exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+`DynamicConfigManager` is <<creating-instance, created>> exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 [[internal-registries]]
 .DynamicConfigManager's Internal Properties (e.g. Registries, Counters and Flags)
@@ -28,7 +28,7 @@ startup
 
 `startup`...FIXME
 
-NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>.
+NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 === [[creating-instance]] Creating DynamicConfigManager Instance
 

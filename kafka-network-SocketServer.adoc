@@ -2,7 +2,7 @@
 
 `SocketServer` is a NIO socket server.
 
-`SocketServer` is created exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[is started].
+`SocketServer` is created exclusively when `KafkaServer` link:kafka-server-KafkaServer.adoc#startup[is started].
 
 .SocketServer's Startup
 image::images/SocketServer-startup.png[align="center"]
@@ -25,68 +25,91 @@ image::images/SocketServer-startup.png[align="center"]
 |===
 
 [[internal-registries]]
-.SocketServer's Internal Properties (e.g. Registries and Counters) (in alphabetical order)
-[cols="1,2",options="header",width="100%"]
+.SocketServer's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,3",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| [[acceptors]] `acceptors`
-| `Acceptor` threads per `EndPoint`
+| acceptors
+| [[acceptors]] `Acceptor` threads per `EndPoint`
 
-| [[connectionQuotas]] `connectionQuotas`
-| `ConnectionQuotas`
+| connectionQuotas
+| [[connectionQuotas]] `ConnectionQuotas`
 
-| [[endpoints]] `endpoints`
-| `EndPoints` (aka _listeners_) per name (as configured using link:kafka-KafkaConfig.adoc#listeners[listeners] Kafka property)
+| endpoints
+| [[endpoints]] `EndPoints` (aka _listeners_) per name (as configured using link:kafka-KafkaConfig.adoc#listeners[listeners] Kafka property)
 
-| [[maxQueuedRequests]] `maxQueuedRequests`
-|
+| maxQueuedRequests
+| [[maxQueuedRequests]]
 
-| [[maxConnectionsPerIp]] `maxConnectionsPerIp`
-|
+| maxConnectionsPerIp
+| [[maxConnectionsPerIp]]
 
-| [[maxConnectionsPerIpOverrides]] `maxConnectionsPerIpOverrides`
-|
+| maxConnectionsPerIpOverrides
+| [[maxConnectionsPerIpOverrides]]
 
-| [[memoryPool]] `memoryPool`
-|
+| memoryPool
+| [[memoryPool]] `MemoryPool`
 
-| [[numProcessorThreads]] `numProcessorThreads`
-| The number of processors per endpoint (as configured using link:kafka-KafkaConfig.adoc#numNetworkThreads[num.network.threads] Kafka property)
+| numProcessorThreads
+| [[numProcessorThreads]] The number of processors per endpoint (as configured using link:kafka-KafkaConfig.adoc#numNetworkThreads[num.network.threads] Kafka property)
 
-| [[processors]] `processors`
-| `Processor` threads (initially <<totalProcessorThreads, totalProcessorThreads>>)
+| processors
+| [[processors]] <<kafka-network-SocketServer-Processor.adoc#, Network processor threads>> per ID (initially <<totalProcessorThreads, totalProcessorThreads>>)
 
-| [[requestChannel]] `requestChannel`
-|
+New processor threads are added in <<addProcessors, addProcessors>>
 
-| [[totalProcessorThreads]] `totalProcessorThreads`
-| Total number of <<processors, processors>>, i.e. <<numProcessorThreads, numProcessorThreads>> for every <<endpoints, endpoint>>
+Used in <<stopProcessingRequests, stopProcessingRequests>> (to shut down the network processor threads)
+
+| requestChannel
+| [[requestChannel]]
+
+| totalProcessorThreads
+| [[totalProcessorThreads]] Total number of <<processors, processors>>, i.e. <<numProcessorThreads, numProcessorThreads>> for every <<endpoints, endpoint>>
+
 |===
 
-=== [[newProcessor]] Creating Processor -- `newProcessor` Internal Method
+=== [[newProcessor]] Creating Network Processor Thread -- `newProcessor` Internal Method
 
-CAUTION: FIXME
+[source, scala]
+----
+newProcessor(
+  id: Int,
+  connectionQuotas: ConnectionQuotas,
+  listenerName: ListenerName,
+  securityProtocol: SecurityProtocol,
+  memoryPool: MemoryPool): Processor
+----
+
+`newProcessor` simply creates a new <<kafka-network-SocketServer-Processor.adoc#, Processor>> with the <<requestChannel, RequestChannel>> and the following configuration properties:
+
+* <<kafka-KafkaConfig.adoc#socketRequestMaxBytes, socket.request.max.bytes>>
+
+* <<kafka-KafkaConfig.adoc#connectionsMaxIdleMs, connections.max.idle.ms>>
+
+* <<kafka-KafkaConfig.adoc#failedAuthenticationDelayMs, connection.failed.authentication.delay.ms>>
+
+NOTE: `newProcessor` is used exclusively when `SocketServer` is requested to <<addProcessors, addProcessors>>.
 
 === [[startup]] Starting Up (and Auxiliary Services) -- `startup` Method
 
 [source, scala]
 ----
-startup(): Unit
+startup(startupProcessors: Boolean = true): Unit
 ----
 
 Internally, `startup` creates the <<connectionQuotas, ConnectionQuotas>> (with <<maxConnectionsPerIp, maxConnectionsPerIp>> and <<maxConnectionsPerIpOverrides, maxConnectionsPerIpOverrides>>).
 
 For every endpoint (in <<endpoints, endpoints>> registry) `startup` does the following:
 
-1. Creates up to <<numProcessorThreads, numProcessorThreads>> number of <<newProcessor, Processors>> (for <<connectionQuotas, ConnectionQuotas>> and <<memoryPool, MemoryPool>>)
+. Creates up to <<numProcessorThreads, numProcessorThreads>> number of <<newProcessor, Processors>> (for <<connectionQuotas, ConnectionQuotas>> and <<memoryPool, MemoryPool>>)
 
-1. Creates a `Acceptor` for the endpoint and processors
+. Creates a `Acceptor` for the endpoint and processors
 
-1. Records the `Acceptor` in <<acceptors, acceptors>> internal registry
+. Records the `Acceptor` in <<acceptors, acceptors>> internal registry
 
-1. Starts a non-daemon thread for the `Acceptor` with the name as `kafka-socket-acceptor-[listenerName]-[securityProtocol]-[port]` (e.g. `kafka-socket-acceptor-ListenerName(PLAINTEXT)-PLAINTEXT-9092`) and waits until it has started fully
+. Starts a non-daemon thread for the `Acceptor` with the name as `kafka-socket-acceptor-[listenerName]-[securityProtocol]-[port]` (e.g. `kafka-socket-acceptor-ListenerName(PLAINTEXT)-PLAINTEXT-9092`) and waits until it has started fully
 
 `startup` then registers <<metrics, metrics>>.
 
@@ -96,15 +119,95 @@ In the end, `startup` prints out the following INFO message to the logs:
 INFO [SocketServer brokerId=[brokerID]] Started [number] acceptor threads
 ```
 
-NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
+NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 === [[creating-instance]] Creating SocketServer Instance
 
 `SocketServer` takes the following when created:
 
-* [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
-* [[metrics]] `Metrics`
+* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[time]] `Time`
 * [[credentialProvider]] `CredentialProvider`
 
 `SocketServer` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[addProcessors]] `addProcessors` Internal Method
+
+[source, scala]
+----
+addProcessors(
+  acceptor: Acceptor,
+  endpoint: EndPoint,
+  newProcessorsPerListener: Int): Unit
+----
+
+`addProcessors`...FIXME
+
+NOTE: `addProcessors` is used when `SocketServer` is requested to <<createAcceptorAndProcessors, createAcceptorAndProcessors>> and <<resizeThreadPool, resizeThreadPool>>.
+
+=== [[createAcceptorAndProcessors]] `createAcceptorAndProcessors` Internal Method
+
+[source, scala]
+----
+createAcceptorAndProcessors(
+  processorsPerListener: Int,
+  endpoints: Seq[EndPoint]): Unit
+----
+
+`createAcceptorAndProcessors`...FIXME
+
+NOTE: `createAcceptorAndProcessors` is used when `SocketServer` is requested to <<startup, startup>> and <<addListeners, addListeners>>.
+
+=== [[resizeThreadPool]] `resizeThreadPool` Method
+
+[source, scala]
+----
+resizeThreadPool(
+  oldNumNetworkThreads: Int,
+  newNumNetworkThreads: Int): Unit
+----
+
+`resizeThreadPool`...FIXME
+
+NOTE: `resizeThreadPool` is used exclusively when `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure>> (the number of network threads).
+
+=== [[addListeners]] `addListeners` Method
+
+[source, scala]
+----
+addListeners(listenersAdded: Seq[EndPoint]): Unit
+----
+
+`addListeners`...FIXME
+
+NOTE: `addListeners` is used exclusively when `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#reconfigure, reconfigure listeners>>.
+
+=== [[stopProcessingRequests]] Stopping Request Processors -- `stopProcessingRequests` Method
+
+[source, scala]
+----
+stopProcessingRequests(): Unit
+----
+
+`stopProcessingRequests`...FIXME
+
+[NOTE]
+====
+`stopProcessingRequests` is used when:
+
+* `SocketServer` is requested to <<shutdown, shutdown>>
+
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#shutdown, shutdown>>
+====
+
+=== [[shutdown]] Shutting Down -- `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown`...FIXME
+
+NOTE: `shutdown` is used when...FIXME

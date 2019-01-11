@@ -2,7 +2,7 @@
 
 `KafkaHealthcheck` <<register, registers>> the broker it runs on with Zookeeper (which in turn makes the broker visible to other brokers that together can form a Kafka cluster).
 
-`KafkaHealthcheck` is <<creating-instance, created>> and <<startup, started>> when `KafkaServer` is requested to link:kafka-KafkaServer.adoc#startup[start up].
+`KafkaHealthcheck` is <<creating-instance, created>> and <<startup, started>> when `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#startup[start up].
 
 .KafkaHealthcheck
 image::images/KafkaHealthcheck.png[align="center"]
@@ -41,7 +41,7 @@ startup
 
 In the end, `startup` <<register, registers the broker with Zookeeper>>.
 
-NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-KafkaServer.adoc#startup[starts up].
+NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-server-KafkaServer.adoc#startup[starts up].
 
 === [[register]] Registering Broker in Zookeeper -- `register` Method
 

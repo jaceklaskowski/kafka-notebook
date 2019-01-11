@@ -24,7 +24,7 @@ Used when:
 
 * `KafkaConfig` is requested to <<validateValues, validateValues>>
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#createBrokerInfo, createBrokerInfo>> (when <<kafka-KafkaServer.adoc#startup, started>>)
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#createBrokerInfo, createBrokerInfo>> (when <<kafka-server-KafkaServer.adoc#startup, started>>)
 
 | autoCreateTopicsEnable
 a| [[autoCreateTopicsEnable]] <<kafka-properties.adoc#auto.create.topics.enable, auto.create.topics.enable>>
@@ -45,10 +45,26 @@ Used exclusively when `KafkaController` is requested to <<kafka-controller-Kafka
 | brokerIdGenerationEnable
 a| [[brokerIdGenerationEnable]] <<kafka-properties.adoc#broker.id.generation.enable, broker.id.generation.enable>>
 
-Used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#getBrokerIdAndOfflineDirs, getBrokerIdAndOfflineDirs>>
+Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#getBrokerIdAndOfflineDirs, getBrokerIdAndOfflineDirs>>
+
+| connectionsMaxIdleMs
+a| [[connectionsMaxIdleMs]] <<kafka-properties.adoc#connections.max.idle.ms, connections.max.idle.ms>>
+
+Used when:
+
+* `TransactionMarkerChannelManager` is created
+
+* `SocketServer` is requested to <<kafka-network-SocketServer.adoc#newProcessor, create a new network processor thread>>
+
+* `ReplicaFetcherBlockingSend` is <<kafka-ReplicaFetcherBlockingSend.adoc#networkClient, created>>
 
 | deleteTopicEnable
 | [[deleteTopicEnable]] link:kafka-properties.adoc#delete.topic.enable[delete.topic.enable]
+
+| failedAuthenticationDelayMs
+a| [[failedAuthenticationDelayMs]] <<kafka-properties.adoc#connection.failed.authentication.delay.ms, connection.failed.authentication.delay.ms>>
+
+Used exclusively when `SocketServer` is requested to <<kafka-network-SocketServer.adoc#newProcessor, create a new network processor thread>>
 
 | hostName
 | [[hostName]] link:kafka-properties.adoc#host.name[host.name]
@@ -76,18 +92,18 @@ Used when:
 
 * `LogManager` is <<kafka-LogManager.adoc#logDirs, created>>
 
-* `LogDirFailureChannel` is created (when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>)
+* `LogDirFailureChannel` is created (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>)
 
 * `KafkaConfig` is requested to <<getNumReplicaAlterLogDirsThreads, getNumReplicaAlterLogDirsThreads>>
 
-* `KafkaServer` is <<kafka-KafkaServer.adoc#brokerMetadataCheckpoints, created>> and is requested to <<kafka-KafkaServer.adoc#getBrokerIdAndOfflineDirs, getBrokerIdAndOfflineDirs>> and <<kafka-KafkaServer.adoc#checkpointBrokerId, checkpointBrokerId>>
+* `KafkaServer` is <<kafka-server-KafkaServer.adoc#brokerMetadataCheckpoints, created>> and is requested to <<kafka-server-KafkaServer.adoc#getBrokerIdAndOfflineDirs, getBrokerIdAndOfflineDirs>> and <<kafka-server-KafkaServer.adoc#checkpointBrokerId, checkpointBrokerId>>
 
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#describeLogDirs, describeLogDirs>>
 
 | maxReservedBrokerId
 a| [[maxReservedBrokerId]] <<kafka-properties.adoc#reserved.broker.max.id, reserved.broker.max.id>>
 
-Used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#generateBrokerId, generateBrokerId>>
+Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#generateBrokerId, generateBrokerId>>
 
 | numNetworkThreads
 | [[numNetworkThreads]] link:kafka-properties.adoc#num.network.threads[num.network.threads]
@@ -98,6 +114,11 @@ Used exclusively when `KafkaServer` is requested to <<kafka-KafkaServer.adoc#gen
 | replicaLagTimeMaxMs
 a| [[replicaLagTimeMaxMs]]
 
+| socketRequestMaxBytes
+a| [[socketRequestMaxBytes]] <<kafka-properties.adoc#socket.request.max.bytes, socket.request.max.bytes>>
+
+Used when `SocketServer` is <<kafka-network-SocketServer.adoc#memoryPool, created>> and requested to <<kafka-network-SocketServer.adoc#newProcessor, create a new network processor thread>>
+
 | tokenAuthEnabled
 a| [[tokenAuthEnabled]] <<kafka-properties.adoc#delegation.token.master.key, delegation.token.master.key>>
 
@@ -106,7 +127,7 @@ a| [[zkConnect]] <<kafka-properties.adoc#zookeeper.connect, zookeeper.connect>>
 
 Used when:
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#initZkClient, initZkClient>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
 
 * `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
 
@@ -115,7 +136,7 @@ a| [[zkEnableSecureAcls]] <<kafka-properties.adoc#zookeeper.set.acl, zookeeper.s
 
 Used when:
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#initZkClient, initZkClient>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
 
 * `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
 
@@ -124,7 +145,7 @@ a| [[zkSessionTimeoutMs]] <<kafka-properties.adoc#zookeeper.session.timeout.ms, 
 
 Used when:
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#initZkClient, initZkClient>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
 
 * `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
 
@@ -133,7 +154,7 @@ a| [[zkConnectionTimeoutMs]] <<kafka-properties.adoc#zookeeper.connection.timeou
 
 Used when:
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#initZkClient, initZkClient>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
 
 * `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
 
@@ -142,7 +163,7 @@ a| [[zkMaxInFlightRequests]] <<kafka-properties.adoc#zookeeper.max.in.flight.req
 
 Used when:
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#initZkClient, initZkClient>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
 
 * `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
 |===
@@ -169,7 +190,7 @@ Used when:
 
 * `KafkaConfig` is requested to <<addReconfigurable, addReconfigurable>>
 
-* `KafkaServer` is requested to <<kafka-KafkaServer.adoc#startup, start up>>
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>
 |===
 
 === [[getListeners]] Creating Listeners -- `getListeners` Internal Method
