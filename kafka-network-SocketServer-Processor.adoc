@@ -1,0 +1,79 @@
+== [[Processor]] Processor Thread
+
+`Processor` is a https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runnable.html[java.lang.Runnable] (as a `AbstractServerThread`) that is executed as a separately-executing thread.
+
+`Processor` is also a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> that...FIXME
+
+`Processor` is <<creating-instance, created>> exclusively when `SocketServer` is requested to <<kafka-network-SocketServer.adoc#newProcessor, create a new processor>>.
+
+[[internal-registries]]
+.Processor's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| inflightResponses
+| [[inflightResponses]] `Map[String, RequestChannel.Response]`
+
+Used when...FIXME
+
+| newConnections
+| [[newConnections]] `ConcurrentLinkedQueue[SocketChannel]`
+
+Used when...FIXME
+
+| responseQueue
+| [[responseQueue]] `LinkedBlockingDeque[RequestChannel.Response]`
+
+Used when...FIXME
+
+| selector
+| [[selector]] <<kafka-Selector.adoc#, Selector>>
+
+Used when...FIXME
+
+|===
+
+=== [[creating-instance]] Creating Processor Instance
+
+`Processor` takes the following to be created:
+
+* [[id]] ID
+* [[time]] `Time`
+* [[maxRequestSize]] `maxRequestSize`
+* [[requestChannel]] `RequestChannel`
+* [[connectionQuotas]] `ConnectionQuotas`
+* [[connectionsMaxIdleMs]] `connectionsMaxIdleMs`
+* [[failedAuthenticationDelayMs]] `failedAuthenticationDelayMs`
+* [[listenerName]] Listener Name
+* [[securityProtocol]] `SecurityProtocol`
+* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
+* [[credentialProvider]] `CredentialProvider`
+* [[memoryPool]] `MemoryPool`
+* [[logContext]] `LogContext`
+
+`Processor` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[processCompletedReceives]] `processCompletedReceives` Internal Method
+
+[source, scala]
+----
+processCompletedReceives()
+----
+
+`processCompletedReceives`...FIXME
+
+NOTE: `processCompletedReceives` is used exclusively when `Processor` is requested to <<run, run>>.
+
+=== [[run]] `run` Method
+
+[source, scala]
+----
+run(): Unit
+----
+
+NOTE: `run` is part of the https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runnable.html[java.lang.Runnable] to start itself as a separately-executing thread.
+
+`run`...FIXME

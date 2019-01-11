@@ -2,6 +2,12 @@
 
 `RequestContext` is...FIXME
 
+`RequestContext` is <<creating-instance, created>> when:
+
+* `Processor` is requested to <<kafka-network-SocketServer-Processor.adoc#processCompletedReceives, processCompletedReceives>>
+
+* `SaslServerAuthenticator` is requested to `handleSaslToken` and `handleKafkaRequest`
+
 === [[parseRequest]] `parseRequest` Method
 
 [source, java]
@@ -19,3 +25,14 @@ RequestAndSize parseRequest(ByteBuffer buffer)
 
 * `SaslServerAuthenticator` is requested to `handleSaslToken` and `handleKafkaRequest`
 ====
+
+=== [[creating-instance]] Creating RequestContext Instance
+
+`RequestContext` takes the following to be created:
+
+* [[header]] `RequestHeader`
+* [[connectionId]] Connection ID
+* [[clientAddress]] Client address (as a https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/net/InetAddress.html[java.net.InetAddress])
+* [[principal]] `KafkaPrincipal`
+* [[listenerName]] Listener name
+* [[securityProtocol]] `SecurityProtocol`

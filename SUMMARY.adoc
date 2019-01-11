@@ -139,7 +139,9 @@
 .. link:kafka-Selectable.adoc[Selectable]
 
 . link:kafka-ShutdownableThread.adoc[ShutdownableThread]
-. link:kafka-SocketServer.adoc[SocketServer]
+. link:kafka-network-SocketServer.adoc[SocketServer]
+.. link:kafka-network-SocketServer-Processor.adoc[Processor Thread]
+
 . link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
 . link:kafka-ZkUtils.adoc[ZkUtils]

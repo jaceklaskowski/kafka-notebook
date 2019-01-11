@@ -118,7 +118,7 @@ Used when...FIXME
 | link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool]
 
 | [[socketServer]] `socketServer`
-| link:kafka-SocketServer.adoc[SocketServer]
+| link:kafka-network-SocketServer.adoc[SocketServer]
 
 | [[transactionCoordinator]] `transactionCoordinator`
 | link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
@@ -214,7 +214,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 `startup` creates the <<credentialProvider, CredentialProvider>> (per link:kafka-properties.adoc#sasl.enabled.mechanisms[sasl.enabled.mechanisms] property).
 
-`startup` creates the <<socketServer, SocketServer>> (for <<config, KafkaConfig>>, <<metrics, Metrics>> and <<credentialProvider, CredentialProvider>>) and requests it to link:kafka-SocketServer.adoc#startup[start up].
+`startup` creates the <<socketServer, SocketServer>> (for <<config, KafkaConfig>>, <<metrics, Metrics>> and <<credentialProvider, CredentialProvider>>) and requests it to link:kafka-network-SocketServer.adoc#startup[start up].
 
 `startup` creates the <<replicaManager, ReplicaManager>> and requests it to link:kafka-server-ReplicaManager.adoc#startup[start up].
 

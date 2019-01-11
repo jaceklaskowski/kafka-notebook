@@ -257,7 +257,7 @@ A typical scenario would be to create a topic with a replication factor of 3, se
 Default: `8`
 
 | num.network.threads
-| [[num.network.threads]] The number of threads that SocketServer uses for the link:kafka-SocketServer.adoc#numProcessorThreads[number of processors per endpoint].
+| [[num.network.threads]] The number of threads that SocketServer uses for the link:kafka-network-SocketServer.adoc#numProcessorThreads[number of processors per endpoint].
 
 Default: `3`
 

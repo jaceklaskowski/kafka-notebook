@@ -112,7 +112,7 @@ trait KafkaMetricsGroup {
 | RequestMetrics
 | [[RequestMetrics]]
 
-| <<kafka-SocketServer.adoc#, SocketServer>>
+| <<kafka-network-SocketServer.adoc#, SocketServer>>
 | [[SocketServer]]
 
 | Throttler
