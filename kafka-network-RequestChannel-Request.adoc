@@ -1,0 +1,29 @@
+== [[Request]] RequestChannel.Request
+
+`RequestChannel.Request` is <<creating-instance, created>> exclusively when `Processor` is requested to <<kafka-network-SocketServer-Processor.adoc#processCompletedReceives, processCompletedReceives>>.
+
+[[internal-registries]]
+.Request's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| bodyAndSize
+| [[bodyAndSize]] `RequestAndSize` that is created by requesting the <<context, RequestContext>> to <<kafka-common-requests-RequestContext.adoc#parseRequest, parse a request>> (from the given <<buffer, ByteBuffer>>)
+
+Used when...FIXME
+|===
+
+=== [[creating-instance]] Creating RequestChannel.Request Instance
+
+`Request` takes the following to be created:
+
+* [[processor]] Processor ID
+* [[context]] <<kafka-common-requests-RequestContext.adoc#, RequestContext>>
+* [[startTimeNanos]] `startTimeNanos`
+* [[memoryPool]] `MemoryPool`
+* [[buffer]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/ByteBuffer.html[java.nio.ByteBuffer]
+* [[metrics]] `RequestChannel.Metrics`
+
+`Request` initializes the <<internal-registries, internal registries and counters>>.

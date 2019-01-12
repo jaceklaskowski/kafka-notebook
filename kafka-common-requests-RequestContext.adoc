@@ -21,7 +21,7 @@ RequestAndSize parseRequest(ByteBuffer buffer)
 ====
 `parseRequest` is used when:
 
-* `RequestChannel.Request` is created
+* <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>> is created
 
 * `SaslServerAuthenticator` is requested to `handleSaslToken` and `handleKafkaRequest`
 ====

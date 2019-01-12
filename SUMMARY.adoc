@@ -142,6 +142,7 @@
 . link:kafka-network-SocketServer.adoc[SocketServer]
 .. link:kafka-network-SocketServer-Processor.adoc[Network Processor Thread (Socket Server Request Processor)]
 . link:kafka-network-RequestChannel.adoc[RequestChannel]
+.. link:kafka-network-RequestChannel-Request.adoc[RequestChannel.Request]
 
 . link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
