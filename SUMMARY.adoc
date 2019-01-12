@@ -100,7 +100,8 @@
 .. link:kafka-log-LogCleaner.adoc[LogCleaner]
 
 . link:kafka-GroupCoordinator.adoc[GroupCoordinator]
-. link:kafka-GroupMetadataManager.adoc[GroupMetadataManager]
+.. link:kafka-GroupMetadataManager.adoc[GroupMetadataManager]
+
 . link:kafka-InterBrokerSendThread.adoc[InterBrokerSendThread]
 . link:kafka-Kafka.adoc[Kafka]
 . link:kafka-server-KafkaApis.adoc[KafkaApis -- API Request Handler]
@@ -109,7 +110,7 @@
 
 . link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
 . link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer over KafkaServer]
-. link:kafka-server-KafkaServer.adoc[KafkaServer]
+. link:kafka-server-KafkaServer.adoc[KafkaServer -- Kafka Broker]
 . link:kafka-KafkaConfig.adoc[KafkaConfig]
 
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]

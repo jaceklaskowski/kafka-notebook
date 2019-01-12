@@ -51,7 +51,7 @@ image::images/KafkaApis.png[align="center"]
 | Fetch
 | [[Fetch]] <<handleFetchRequest, handleFetchRequest>>
 
-| FindCoordinator
+| <<kafka-common-requests-FindCoordinatorRequest.adoc#FIND_COORDINATOR, FindCoordinator>>
 | [[FindCoordinator]] <<handleFindCoordinatorRequest, handleFindCoordinatorRequest>>
 
 | LeaderAndIsr
@@ -111,7 +111,7 @@ log4j.logger.kafka.server.KafkaApis=TRACE
 Refer to link:kafka-logging.adoc[Logging].
 ====
 
-=== [[handle]] Routing API Requests -- `handle` Method
+=== [[handle]] Routing API Requests to Respective Handlers -- `handle` Method
 
 [source, scala]
 ----
@@ -124,9 +124,9 @@ handle(request: RequestChannel.Request): Unit
 Handling request:[request] from connection [id];securityProtocol:[protocol],principal:[principal]
 ```
 
-`handle` then relays the input `request` to the corresponding <<handlers, handler>> per the <<keys, apiKey>> (from the header of the input `request`).
+`handle` then relays the input <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>> to the corresponding <<handlers, handler>> per the <<keys, apiKey>> (from the header of the input `request`).
 
-NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is link:kafka-KafkaRequestHandler.adoc#run[started].
+NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is requested to <<kafka-KafkaRequestHandler.adoc#run, run>>.
 
 === [[handleLeaderAndIsrRequest]] Handling LeaderAndIsr Request -- `handleLeaderAndIsrRequest` Handler
 
@@ -442,7 +442,7 @@ getOrCreateInternalTopic(
 
 In the end, `getOrCreateInternalTopic` returns the `TopicMetadata` if available or <<createInternalTopic, createInternalTopic>>.
 
-NOTE: `getOrCreateInternalTopic` is used exclusively when `KafkaApis` is requested to <<handleFindCoordinatorRequest, handle a FindCoordinator request>>.
+NOTE: `getOrCreateInternalTopic` is used exclusively when `KafkaApis` is requested to <<handleFindCoordinatorRequest, handle a FindCoordinatorRequest>>.
 
 === [[getTopicMetadata]] `getTopicMetadata` Internal Method
 
@@ -497,25 +497,27 @@ createTopic(
 
 NOTE: `createTopic` is used when `KafkaApis` is requested to <<createInternalTopic, createInternalTopic>> and <<getTopicMetadata, getTopicMetadata>>.
 
-=== [[handleFindCoordinatorRequest]] Handling FindCoordinator Request -- `handleFindCoordinatorRequest` Handler
+=== [[handleFindCoordinatorRequest]] Handling FindCoordinatorRequest -- `handleFindCoordinatorRequest` Handler
 
 [source, scala]
 ----
 handleFindCoordinatorRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleFindCoordinatorRequest` takes the <<kafka-common-requests-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>> from the body (from the input `request`).
+`handleFindCoordinatorRequest` takes the <<kafka-common-requests-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>).
 
 `handleFindCoordinatorRequest` checks permissions...FIXME
 
-For an authorized request, `handleFindCoordinatorRequest` branches off per `CoordinatorType`, i.e. `GROUP` or `TRANSACTION`.
+For an authorized request, `handleFindCoordinatorRequest` branches off per <<kafka-common-requests-FindCoordinatorRequest.adoc#coordinatorType, CoordinatorType>>, i.e. <<handleFindCoordinatorRequest-GROUP, GROUP>> or <<handleFindCoordinatorRequest-TRANSACTION, TRANSACTION>>.
 
+[[handleFindCoordinatorRequest-GROUP]]
 For `GROUP` coordinator type, `handleFindCoordinatorRequest` does the following:
 
-. Requests the <<groupCoordinator, GroupCoordinator>> for <<kafka-GroupCoordinator.adoc#partitionFor, partitionFor>> (for the `coordinatorKey` of the `FindCoordinatorRequest`)
+. Requests the <<groupCoordinator, GroupCoordinator>> for <<kafka-GroupCoordinator.adoc#partitionFor, partitionFor>> the <<kafka-common-requests-FindCoordinatorRequest.adoc#coordinatorKey, coordinator key>> (of the `FindCoordinatorRequest`)
 
 . <<getOrCreateInternalTopic, getOrCreateInternalTopic>> for <<GROUP_METADATA_TOPIC_NAME, __consumer_offsets>> topic
 
+[[handleFindCoordinatorRequest-TRANSACTION]]
 For `TRANSACTION` coordinator type, `handleFindCoordinatorRequest` does the following:
 
 . Requests the <<txnCoordinator, TransactionCoordinator>> for <<kafka-TransactionCoordinator.adoc#partitionFor, partitionFor>> (for the `coordinatorKey` of the `FindCoordinatorRequest`)

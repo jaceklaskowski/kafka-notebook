@@ -1,17 +1,33 @@
 == [[GroupCoordinator]] GroupCoordinator
 
-`GroupCoordinator` is...FIXME
+`GroupCoordinator` is used (in <<kafka-server-KafkaApis.adoc#, KafkaApis>>) for <<handleGroupImmigration, handleGroupImmigration>>, <<handleGroupEmigration, handleGroupEmigration>>, <<handleDeletedPartitions, handleDeletedPartitions>>, <<handleCommitOffsets, handleCommitOffsets>>, <<handleFetchOffsets, handleFetchOffsets>>, <<handleDescribeGroup, handleDescribeGroup>>, <<handleListGroups, handleListGroups>>, <<handleJoinGroup, handleJoinGroup>>, <<handleSyncGroup, handleSyncGroup>>, <<handleDeleteGroups, handleDeleteGroups>>, <<handleLeaveGroup, handleLeaveGroup>>, <<handleHeartbeat, handleHeartbeat>>, <<handleTxnCommitOffsets, handleTxnCommitOffsets>> and <<scheduleHandleTxnCompletion, scheduleHandleTxnCompletion>> (that all simply request the <<groupManager, GroupMetadataManager>> to handle them).
 
-`GroupCoordinator` is <<creating-instance, created>> when...FIXME
+`GroupCoordinator` is also used for <<partitionFor, partitionFor>>.
+
+`GroupCoordinator` is <<apply, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>> for the only purpose of creating the <<kafka-server-KafkaApis.adoc#groupCoordinator, KafkaApis>>.
 
 .GroupCoordinator's Startup
 image::images/GroupCoordinator-startup.png[align="center"]
 
 [[isActive]]
-`GroupCoordinator` uses `isActive` flag to...FIXME
+`GroupCoordinator` manages the <<groupManager, GroupMetadataManager>>. `GroupCoordinator` uses `isActive` flag to control whether the <<groupManager, GroupMetadataManager>> was requested to <<kafka-GroupMetadataManager.adoc#startup, start up>> (when `GroupCoordinator` <<startup, was>>) that is used in <<handleListGroups, handleListGroups>> and <<validateGroupStatus, validateGroupStatus>>.
 
 [[logIdent]]
 `GroupCoordinator` uses *[GroupCoordinator [brokerId]]* as the logging prefix (aka `logIdent`).
+
+[[logging]]
+[TIP]
+====
+Enable `DEBUG` logging level for `kafka.coordinator.group.GroupCoordinator` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.coordinator.group.GroupCoordinator=DEBUG
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
 
 === [[apply]] Creating GroupCoordinator Instance -- `apply` Factory Method
 
@@ -21,7 +37,7 @@ apply(
   config: KafkaConfig,
   zkClient: KafkaZkClient,
   replicaManager: ReplicaManager,
-  time: Time): GroupCoordinator
+  time: Time): GroupCoordinator // <1>
 apply(
   config: KafkaConfig,
   zkClient: KafkaZkClient,
@@ -30,6 +46,7 @@ apply(
   joinPurgatory: DelayedOperationPurgatory[DelayedJoin],
   time: Time): GroupCoordinator
 ----
+<1> Creates a `DelayedOperationPurgatory` and a `DelayedOperationPurgatory`
 
 `apply`...FIXME
 
@@ -37,7 +54,7 @@ NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-ser
 
 === [[creating-instance]] Creating GroupCoordinator Instance
 
-`GroupCoordinator` takes the following when created:
+`GroupCoordinator` takes the following to be created:
 
 * [[brokerId]] Broker ID
 * [[groupConfig]] `GroupConfig`
@@ -49,7 +66,7 @@ NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-ser
 
 `GroupCoordinator` initializes the <<internal-registries, internal registries and counters>>.
 
-=== [[startup]] Starting Up (and GroupMetadataManager) -- `startup` Method
+=== [[startup]] Starting Up -- `startup` Method
 
 [source, scala]
 ----
@@ -59,20 +76,20 @@ startup(enableMetadataExpiration: Boolean = true): Unit
 `startup` first prints out the following INFO message to the logs:
 
 ```
-INFO [GroupCoordinator [brokerId]]: Starting up. (kafka.coordinator.group.GroupCoordinator)
+Starting up.
 ```
 
-With `enableMetadataExpiration` input flag enabled, `startup` requests <<groupManager, GroupMetadataManager>> to link:kafka-GroupMetadataManager.adoc#enableMetadataExpiration[enableMetadataExpiration].
+`startup` requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#startup, startup>> (with the given `enableMetadataExpiration` flag).
 
-`startup` turns <<isActive, isActive>> flag on.
+`startup` turns the <<isActive, isActive>> internal flag on.
 
 In the end, `startup` prints out the following INFO message to the logs:
 
 ```
-INFO [GroupCoordinator [brokerId]]: Startup complete. (kafka.coordinator.group.GroupCoordinator)
+Startup complete.
 ```
 
-NOTE: `startup` is used exclusively when `KafkaServer` link:kafka-server-KafkaServer.adoc#startup[starts up].
+NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 === [[partitionFor]] `partitionFor` Method
 
@@ -156,3 +173,200 @@ handleDescribeGroup(groupId: String): (Errors, GroupSummary)
 `handleDescribeGroup`...FIXME
 
 NOTE: `handleDescribeGroup` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleDescribeGroupRequest, handleDescribeGroupRequest>>.
+
+=== [[handleGroupImmigration]] `handleGroupImmigration` Method
+
+[source, scala]
+----
+handleGroupImmigration(offsetTopicPartitionId: Int): Unit
+----
+
+`handleGroupImmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#scheduleLoadGroupAndOffsets, scheduleLoadGroupAndOffsets>> (for the given offset and the <<onGroupLoaded, onGroupLoaded>> callback)
+
+NOTE: `handleGroupImmigration` is used when...FIXME
+
+=== [[handleGroupEmigration]] `handleGroupEmigration` Method
+
+[source, scala]
+----
+handleGroupEmigration(offsetTopicPartitionId: Int): Unit
+----
+
+`handleGroupEmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#removeGroupsForPartition, removeGroupsForPartition>> (for the given offset and the <<onGroupUnloaded, onGroupUnloaded>> callback)
+
+NOTE: `handleGroupEmigration` is used when...FIXME
+
+=== [[handleDeletedPartitions]] `handleDeletedPartitions` Method
+
+[source, scala]
+----
+handleDeletedPartitions(topicPartitions: Seq[TopicPartition]): Unit
+----
+
+`handleDeletedPartitions` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>> and...FIXME
+
+NOTE: `handleDeletedPartitions` is used when...FIXME
+
+=== [[handleFetchOffsets]] `handleFetchOffsets` Method
+
+[source, scala]
+----
+handleFetchOffsets(
+  groupId: String,
+  partitions: Option[Seq[TopicPartition]] = None):
+(Errors, Map[TopicPartition, OffsetFetchResponse.PartitionData])
+----
+
+`handleFetchOffsets`...FIXME
+
+NOTE: `handleFetchOffsets` is used when...FIXME
+
+=== [[handleListGroups]] `handleListGroups` Method
+
+[source, scala]
+----
+handleListGroups(): (Errors, List[GroupOverview])
+----
+
+`handleListGroups`...FIXME
+
+NOTE: `handleListGroups` is used when...FIXME
+
+=== [[handleJoinGroup]] `handleJoinGroup` Method
+
+[source, scala]
+----
+handleJoinGroup(
+  groupId: String,
+  memberId: String,
+  clientId: String,
+  clientHost: String,
+  rebalanceTimeoutMs: Int,
+  sessionTimeoutMs: Int,
+  protocolType: String,
+  protocols: List[(String, Array[Byte])],
+  responseCallback: JoinCallback): Unit
+----
+
+`handleJoinGroup`...FIXME
+
+NOTE: `handleJoinGroup` is used when...FIXME
+
+=== [[handleSyncGroup]] `handleSyncGroup` Method
+
+[source, scala]
+----
+handleSyncGroup(
+  groupId: String,
+  generation: Int,
+  memberId: String,
+  groupAssignment: Map[String, Array[Byte]],
+  responseCallback: SyncCallback): Unit
+----
+
+`handleSyncGroup`...FIXME
+
+NOTE: `handleSyncGroup` is used when...FIXME
+
+=== [[handleDeleteGroups]] `handleDeleteGroups` Method
+
+[source, scala]
+----
+handleDeleteGroups(groupIds: Set[String]): Map[String, Errors]
+----
+
+`handleDeleteGroups`...FIXME
+
+NOTE: `handleDeleteGroups` is used when...FIXME
+
+=== [[handleHeartbeat]] `handleHeartbeat` Method
+
+[source, scala]
+----
+handleHeartbeat(
+  groupId: String,
+  memberId: String,
+  generationId: Int,
+  responseCallback: Errors => Unit)
+----
+
+`handleHeartbeat`...FIXME
+
+NOTE: `handleHeartbeat` is used when...FIXME
+
+=== [[handleLeaveGroup]] `handleLeaveGroup` Method
+
+[source, scala]
+----
+handleLeaveGroup(
+  groupId: String,
+  memberId: String,
+  responseCallback: Errors => Unit): Unit
+----
+
+`handleLeaveGroup`...FIXME
+
+NOTE: `handleLeaveGroup` is used when...FIXME
+
+=== [[scheduleHandleTxnCompletion]] `scheduleHandleTxnCompletion` Method
+
+[source, scala]
+----
+scheduleHandleTxnCompletion(
+  producerId: Long,
+  offsetsPartitions: Iterable[TopicPartition],
+  transactionResult: TransactionResult): Unit
+----
+
+`scheduleHandleTxnCompletion`...FIXME
+
+NOTE: `scheduleHandleTxnCompletion` is used when...FIXME
+
+=== [[handleTxnCommitOffsets]] `handleTxnCommitOffsets` Method
+
+[source, scala]
+----
+handleTxnCommitOffsets(
+  groupId: String,
+  producerId: Long,
+  producerEpoch: Short,
+  offsetMetadata: immutable.Map[TopicPartition, OffsetAndMetadata],
+  responseCallback: immutable.Map[TopicPartition, Errors] => Unit): Unit
+----
+
+`handleTxnCommitOffsets`...FIXME
+
+NOTE: `handleTxnCommitOffsets` is used when...FIXME
+
+=== [[onGroupLoaded]] `onGroupLoaded` Internal Callback
+
+[source, scala]
+----
+onGroupLoaded(group: GroupMetadata): Unit
+----
+
+`onGroupLoaded`...FIXME
+
+NOTE: `onGroupLoaded` is used when...FIXME
+
+=== [[onGroupUnloaded]] `onGroupUnloaded` Internal Callback
+
+[source, scala]
+----
+onGroupUnloaded(group: GroupMetadata): Unit
+----
+
+`onGroupUnloaded`...FIXME
+
+NOTE: `onGroupUnloaded` is used when...FIXME
+
+=== [[validateGroupStatus]] `validateGroupStatus` Internal Method
+
+[source, scala]
+----
+validateGroupStatus(groupId: String, api: ApiKeys): Option[Errors]
+----
+
+`validateGroupStatus`...FIXME
+
+NOTE: `validateGroupStatus` is used when...FIXME
