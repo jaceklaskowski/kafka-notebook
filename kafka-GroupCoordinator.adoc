@@ -192,9 +192,9 @@ NOTE: `handleGroupImmigration` is used when...FIXME
 handleGroupEmigration(offsetTopicPartitionId: Int): Unit
 ----
 
-`handleGroupEmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#removeGroupsForPartition, removeGroupsForPartition>> (for the given offset and the <<onGroupUnloaded, onGroupUnloaded>> callback)
+`handleGroupEmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#removeGroupsForPartition, removeGroupsForPartition>> (for the given offset and the <<onGroupUnloaded, onGroupUnloaded>> callback).
 
-NOTE: `handleGroupEmigration` is used when...FIXME
+NOTE: `handleGroupEmigration` is used when `KafkaApis` is requested to handle a <<kafka-server-KafkaApis.adoc#handleLeaderAndIsrRequest, LeaderAndIsrRequest>> and a <<kafka-server-KafkaApis.adoc#handleStopReplicaRequest, StopReplicaRequest>>.
 
 === [[handleDeletedPartitions]] `handleDeletedPartitions` Method
 

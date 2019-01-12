@@ -128,7 +128,7 @@ Handling request:[request] from connection [id];securityProtocol:[protocol],prin
 
 NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is requested to <<kafka-KafkaRequestHandler.adoc#run, run>>.
 
-=== [[handleLeaderAndIsrRequest]] Handling LeaderAndIsr Request -- `handleLeaderAndIsrRequest` Handler
+=== [[handleLeaderAndIsrRequest]] Handling LeaderAndIsrRequest -- `handleLeaderAndIsrRequest` Handler
 
 [source, scala]
 ----
@@ -385,7 +385,7 @@ fetchOffsets(
 
 NOTE: `fetchOffsets` is used exclusively when `KafkaApis` is requested to <<handleListOffsetRequestV0, handleListOffsetRequestV0>>.
 
-=== [[handleStopReplicaRequest]] Handling StopReplica Request -- `handleStopReplicaRequest` Handler
+=== [[handleStopReplicaRequest]] Handling StopReplicaRequest -- `handleStopReplicaRequest` Handler
 
 [source, scala]
 ----
