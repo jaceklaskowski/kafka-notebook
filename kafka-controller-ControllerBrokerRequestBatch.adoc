@@ -1,8 +1,20 @@
 == [[ControllerBrokerRequestBatch]] ControllerBrokerRequestBatch
 
-`ControllerBrokerRequestBatch` is...FIXME
+`ControllerBrokerRequestBatch` is <<creating-instance, created>> exclusively for a <<kafka-controller-KafkaController.adoc#brokerRequestBatch, KafkaController>> that uses it for the following:
 
-`ControllerBrokerRequestBatch` is <<creating-instance, created>> exclusively for a <<kafka-controller-KafkaController.adoc#brokerRequestBatch, KafkaController>>.
+* <<addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>>
+
+* <<addUpdateMetadataRequestForBrokers, addUpdateMetadataRequestForBrokers>>
+
+* <<addStopReplicaRequestForBrokers, addStopReplicaRequestForBrokers>>
+
+Every time `ControllerBrokerRequestBatch` is used it is first <<newBatch, newBatch>> that is then <<sendRequestsToBrokers, sendRequestsToBrokers>>.
+
+[[creating-instance]]
+`ControllerBrokerRequestBatch` takes the following to be created:
+
+* [[controller]] <<kafka-controller-KafkaController.adoc#, KafkaController>>
+* [[stateChangeLogger]] `StateChangeLogger`
 
 === [[sendRequestsToBrokers]] `sendRequestsToBrokers` Method
 
@@ -24,11 +36,77 @@ sendRequestsToBrokers(controllerEpoch: Int): Unit
 * `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
 ====
 
-=== [[creating-instance]] Creating ControllerBrokerRequestBatch Instance
+=== [[newBatch]] `newBatch` Method
 
-`ControllerBrokerRequestBatch` takes the following when created:
+[source, scala]
+----
+newBatch(): Unit
+----
 
-* [[controller]] <<kafka-controller-KafkaController.adoc#, KafkaController>>
-* [[stateChangeLogger]] `StateChangeLogger`
+`newBatch`...FIXME
 
-`ControllerBrokerRequestBatch` initializes the <<internal-registries, internal registries and counters>>.
+NOTE: `newBatch` is used when...FIXME
+
+=== [[addLeaderAndIsrRequestForBrokers]] `addLeaderAndIsrRequestForBrokers` Method
+
+[source, scala]
+----
+addLeaderAndIsrRequestForBrokers(
+  brokerIds: Seq[Int],
+  topicPartition: TopicPartition,
+  leaderIsrAndControllerEpoch: LeaderIsrAndControllerEpoch,
+  replicas: Seq[Int],
+  isNew: Boolean): Unit
+----
+
+`addLeaderAndIsrRequestForBrokers`...FIXME
+
+[NOTE]
+====
+`addLeaderAndIsrRequestForBrokers` is used when:
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>
+
+* `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#initializeLeaderAndIsrForPartitions, initializeLeaderAndIsrForPartitions>> and <<kafka-controller-PartitionStateMachine.adoc#doElectLeaderForPartitions, doElectLeaderForPartitions>>
+
+* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#doHandleStateChanges, doHandleStateChanges>>
+====
+
+=== [[addUpdateMetadataRequestForBrokers]] `addUpdateMetadataRequestForBrokers` Method
+
+[source, scala]
+----
+addUpdateMetadataRequestForBrokers(
+  brokerIds: Seq[Int],
+  partitions: collection.Set[TopicPartition]): Unit
+----
+
+`addUpdateMetadataRequestForBrokers`...FIXME
+
+NOTE: `addUpdateMetadataRequestForBrokers` is used when...FIXME
+
+=== [[addStopReplicaRequestForBrokers]] `addStopReplicaRequestForBrokers` Method
+
+[source, scala]
+----
+addStopReplicaRequestForBrokers(
+  brokerIds: Seq[Int],
+  topicPartition: TopicPartition,
+  deletePartition: Boolean,
+  callback: (AbstractResponse, Int) => Unit): Unit
+----
+
+`addStopReplicaRequestForBrokers`...FIXME
+
+NOTE: `addStopReplicaRequestForBrokers` is used when...FIXME
+
+=== [[clear]] `clear` Method
+
+[source, scala]
+----
+clear(): Unit
+----
+
+`clear`...FIXME
+
+NOTE: `clear` is used when...FIXME

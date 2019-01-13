@@ -124,6 +124,10 @@ a| ControlledShutdown
 |
 | [[PartitionReassignment]]
 
+| PartitionReassignmentIsrChange
+|
+| [[PartitionReassignmentIsrChange]]
+
 | PreferredReplicaLeaderElection
 |
 | [[PreferredReplicaLeaderElection]]
@@ -572,7 +576,10 @@ sendUpdateMetadataRequest(): Unit
 
 [source, scala]
 ----
-updateLeaderEpochAndSendRequest(): Unit
+updateLeaderEpochAndSendRequest(
+  partition: TopicPartition,
+  replicasToReceiveRequest: Seq[Int],
+  newAssignedReplicas: Seq[Int]): Unit
 ----
 
 `updateLeaderEpochAndSendRequest`...FIXME
@@ -592,7 +599,14 @@ NOTE: `shutdown` is used exclusively when `KafkaServer` is requested to <<kafka-
 
 === [[updateMetrics]] `updateMetrics` Internal Method
 
-CAUTION: FIXME
+[source, scala]
+----
+updateMetrics(): Unit
+----
+
+`updateMetrics`...FIXME
+
+NOTE: `updateMetrics` is used exclusively when `KafkaController` is <<creating-instance, created>> (and creates the <<eventManager, ControllerEventManager>>).
 
 === [[onBrokerStartup]] `onBrokerStartup` Method
 
@@ -603,7 +617,7 @@ onBrokerStartup(newBrokers: Seq[Int]): Unit
 
 `onBrokerStartup`...FIXME
 
-NOTE: `onBrokerStartup` is used exclusively when `KafkaController` processes `BrokerChange` controller event.
+NOTE: `onBrokerStartup` is used exclusively when `KafkaController` is requested to process a `BrokerChange` controller event.
 
 === [[elect]] Controller Election -- `elect` Method
 
@@ -880,7 +894,7 @@ onPartitionReassignment(
 
 `onPartitionReassignment`...FIXME
 
-NOTE: `onPartitionReassignment` is used when...FIXME
+NOTE: `onPartitionReassignment` is used when `KafkaController` is requested to <<onBrokerStartup, onBrokerStartup>>, <<maybeTriggerPartitionReassignment, maybeTriggerPartitionReassignment>> and process a <<PartitionReassignmentIsrChange, PartitionReassignmentIsrChange>> event.
 
 === [[onBrokerUpdate]] `onBrokerUpdate` Internal Method
 

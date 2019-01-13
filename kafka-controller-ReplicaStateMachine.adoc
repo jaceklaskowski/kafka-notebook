@@ -1,15 +1,55 @@
 == [[ReplicaStateMachine]] ReplicaStateMachine
 
-`ReplicaStateMachine` is...FIXME
+`ReplicaStateMachine` is <<creating-instance, created>> exclusively for a <<kafka-controller-KafkaController.adoc#replicaStateMachine, KafkaController>> that uses it for the following:
+
+* FIXME
+
+`ReplicaStateMachine` is <<startup, started>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when `KafkaController` is requested for <<elect, controller election>> and a broker is successfully elected as the controller).
+
+`ReplicaStateMachine` is <<shutdown, shut down>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, resign as the active controller>>.
+
+[[logIdent]]
+`ReplicaStateMachine` uses *[ReplicaStateMachine controllerId=[brokerID]]* as the logging prefix (aka `logIdent`).
+
+[[logging]]
+[TIP]
+====
+Enable `INFO` or `ERROR` logging levels for `kafka.controller.ReplicaStateMachine` logger to see what happens inside.
+
+Add the following line to `log4j.properties`:
+
+```
+log4j.logger.kafka.controller.ReplicaStateMachine=INFO
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+
+---
+
+Please note that Kafka comes with a preconfigured `kafka.controller` logger in `config/log4j.properties`:
+
+```
+log4j.appender.controllerAppender=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.controllerAppender.DatePattern='.'yyyy-MM-dd-HH
+log4j.appender.controllerAppender.File=${kafka.logs.dir}/controller.log
+log4j.appender.controllerAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.controllerAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
+
+log4j.logger.kafka.controller=TRACE, controllerAppender
+log4j.additivity.kafka.controller=false
+```
+
+That means that the logs of `ReplicaStateMachine` go to `logs/controller.log` file at `TRACE` logging level and are not added to the main logs (per `log4j.additivity` being off).
+====
 
 === [[handleStateChanges]] `handleStateChanges` Method
 
 [source, scala]
 ----
 handleStateChanges(
-  replicas: Set[PartitionAndReplica],
+  replicas: Seq[PartitionAndReplica],
   targetState: ReplicaState,
-  callbacks: Callbacks): Unit
+  callbacks: Callbacks = new Callbacks()): Unit
 ----
 
 `handleStateChanges`...FIXME
@@ -74,4 +114,16 @@ doHandleStateChanges(
 
 `doHandleStateChanges`...FIXME
 
-NOTE: `doHandleStateChanges` is used when...FIXME
+NOTE: `doHandleStateChanges` is used exclusively when `ReplicaStateMachine` is requested to <<handleStateChanges, handleStateChanges>>.
+
+=== [[creating-instance]] Creating ReplicaStateMachine Instance
+
+`ReplicaStateMachine` takes the following to be created:
+
+* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[stateChangeLogger]] `StateChangeLogger`
+* [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
+* [[topicDeletionManager]] <<kafka-controller-TopicDeletionManager.adoc#, TopicDeletionManager>>
+* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
+* [[replicaState]] `PartitionAndReplica` with `ReplicaState` (`mutable.Map[PartitionAndReplica, ReplicaState]`)
+* [[controllerBrokerRequestBatch]] <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>>

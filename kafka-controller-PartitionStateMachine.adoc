@@ -1,6 +1,8 @@
 == [[PartitionStateMachine]] PartitionStateMachine
 
-`PartitionStateMachine` is <<creating-instance, created>> exclusively for <<kafka-controller-KafkaController.adoc#partitionStateMachine, KafkaController>>.
+`PartitionStateMachine` is <<creating-instance, created>> exclusively for <<kafka-controller-KafkaController.adoc#partitionStateMachine, KafkaController>> that uses it for the following:
+
+* FIXME
 
 `PartitionStateMachine` is <<startup, started>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when `KafkaController` is requested for <<elect, controller election>> and a broker is successfully elected as the controller).
 
@@ -32,14 +34,14 @@
 |===
 
 [[logIdent]]
-`PartitionStateMachine` uses *[PartitionStateMachine controllerId=[controllerId]]* as the logging prefix (aka `logIdent`).
+`PartitionStateMachine` uses *[PartitionStateMachine controllerId=[brokerID]]* as the logging prefix (aka `logIdent`).
 
 [[logging]]
 [TIP]
 ====
 Enable `INFO` or `ERROR` logging levels for `kafka.controller.PartitionStateMachine` logger to see what happens inside.
 
-Add the following line to `config/log4j.properties`:
+Add the following line to `log4j.properties`:
 
 ```
 log4j.logger.kafka.controller.PartitionStateMachine=INFO
@@ -90,7 +92,7 @@ triggerOnlinePartitionStateChange(partitionState: Map[TopicPartition, PartitionS
 
 * `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onBrokerStartup, onBrokerStartup>>, <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, and at <<kafka-controller-ControllerEvent.adoc#UncleanLeaderElectionEnable, UncleanLeaderElectionEnable>> and <<kafka-controller-ControllerEvent.adoc#TopicUncleanLeaderElectionEnable, TopicUncleanLeaderElectionEnable>> controller events
 
-* `PartitionStateMachine` is requested to <<startup, startup>>
+* `PartitionStateMachine` is requested to <<startup, start up>>
 ====
 
 === [[handleStateChanges]] `handleStateChanges` Method
@@ -171,7 +173,7 @@ doElectLeaderForPartitions(
 
 `doElectLeaderForPartitions`...FIXME
 
-NOTE: `doElectLeaderForPartitions` is used when...FIXME
+NOTE: `doElectLeaderForPartitions` is used exclusively when `PartitionStateMachine` is requested to <<electLeaderForPartitions, electLeaderForPartitions>>.
 
 === [[creating-instance]] Creating PartitionStateMachine Instance
 
@@ -247,3 +249,14 @@ changeStateTo(
 `changeStateTo`...FIXME
 
 NOTE: `changeStateTo` is used when...FIXME
+
+=== [[initializeLeaderAndIsrForPartitions]] `initializeLeaderAndIsrForPartitions` Internal Method
+
+[source, scala]
+----
+initializeLeaderAndIsrForPartitions(partitions: Seq[TopicPartition]): Seq[TopicPartition]
+----
+
+`initializeLeaderAndIsrForPartitions`...FIXME
+
+NOTE: `initializeLeaderAndIsrForPartitions` is used exclusively when `PartitionStateMachine` is requested to <<doHandleStateChanges, doHandleStateChanges>>.
