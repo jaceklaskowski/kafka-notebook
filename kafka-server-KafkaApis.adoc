@@ -18,7 +18,7 @@ image::images/KafkaApis.png[align="center"]
 
 [[keys]]
 [[handlers]]
-.KafkaApis's API Keys and Handlers (in alphabetical order)
+.KafkaApis's API Keys and Their Handlers (in alphabetical order)
 [cols="1m,1",options="header",width="100%"]
 |===
 | API Key
@@ -55,7 +55,7 @@ image::images/KafkaApis.png[align="center"]
 | [[FindCoordinator]] <<handleFindCoordinatorRequest, handleFindCoordinatorRequest>>
 
 | LeaderAndIsr
-| [[LeaderAndIsr]] <<handleAlterReplicaLogDirsRequest, handleAlterReplicaLogDirsRequest>>
+| [[LEADER_AND_ISR]][[LeaderAndIsr]] <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
 
 | Metadata
 | [[Metadata]] <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
@@ -137,7 +137,7 @@ handleLeaderAndIsrRequest(request: RequestChannel.Request): Unit
 
 `handleLeaderAndIsrRequest`...FIXME
 
-NOTE: `handleLeaderAndIsrRequest` is used exclusively when `KafkaApis` is requested to handle a <<LeaderAndIsr, LeaderAndIsr>> request.
+NOTE: `handleLeaderAndIsrRequest` is used exclusively when `KafkaApis` is requested to handle a <<LeaderAndIsr, LeaderAndIsrRequest>>.
 
 === [[handleAlterReplicaLogDirsRequest]] Handling AlterReplicaLogDirs Request -- `handleAlterReplicaLogDirsRequest` Handler
 

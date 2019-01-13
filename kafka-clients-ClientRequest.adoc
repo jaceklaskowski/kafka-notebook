@@ -11,7 +11,7 @@
 `ClientRequest` takes the following when created:
 
 * [[destination]] Destination
-* [[requestBuilder]] `AbstractRequest.Builder`
+* [[requestBuilder]] <<kafka-common-requests-AbstractRequest-Builder.adoc#, AbstractRequest.Builder>>
 * [[correlationId]] Correlation ID
 * [[clientId]] Client ID
 * [[createdTimeMs]] `createdTimeMs`

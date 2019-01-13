@@ -181,9 +181,9 @@ NOTE: `handleDescribeGroup` is used exclusively when `KafkaApis` is requested to
 handleGroupImmigration(offsetTopicPartitionId: Int): Unit
 ----
 
-`handleGroupImmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#scheduleLoadGroupAndOffsets, scheduleLoadGroupAndOffsets>> (for the given offset and the <<onGroupLoaded, onGroupLoaded>> callback)
+`handleGroupImmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#scheduleLoadGroupAndOffsets, scheduleLoadGroupAndOffsets>> (for the given offset and with the <<onGroupLoaded, onGroupLoaded>> callback)
 
-NOTE: `handleGroupImmigration` is used when...FIXME
+NOTE: `handleGroupImmigration` is used exclusively when `KafkaApis` is requested to handle a <<kafka-server-KafkaApis.adoc#handleLeaderAndIsrRequest, LeaderAndIsrRequest>>.
 
 === [[handleGroupEmigration]] `handleGroupEmigration` Method
 
@@ -192,7 +192,7 @@ NOTE: `handleGroupImmigration` is used when...FIXME
 handleGroupEmigration(offsetTopicPartitionId: Int): Unit
 ----
 
-`handleGroupEmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#removeGroupsForPartition, removeGroupsForPartition>> (for the given offset and the <<onGroupUnloaded, onGroupUnloaded>> callback).
+`handleGroupEmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#removeGroupsForPartition, removeGroupsForPartition>> (for the given offset and with the <<onGroupUnloaded, onGroupUnloaded>> callback).
 
 NOTE: `handleGroupEmigration` is used when `KafkaApis` is requested to handle a <<kafka-server-KafkaApis.adoc#handleLeaderAndIsrRequest, LeaderAndIsrRequest>> and a <<kafka-server-KafkaApis.adoc#handleStopReplicaRequest, StopReplicaRequest>>.
 

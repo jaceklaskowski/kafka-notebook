@@ -1,0 +1,41 @@
+== [[LeaderAndIsrRequest]] LeaderAndIsrRequest
+
+[[LEADER_AND_ISR]]
+[[creating-instance]]
+`LeaderAndIsrRequest` is a concrete <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>> with *LeaderAndIsr* API key and the following:
+
+* [[controllerId]] Controller ID
+* [[controllerEpoch]] Controller Epoch
+* [[partitionStates]] Partitions with `PartitionState` (`Map<TopicPartition, PartitionState> `)
+* [[liveLeaders]] Live broker nodes
+* [[version]] Version
+
+`LeaderAndIsrRequest` is <<creating-instance, created>> when:
+
+* `AbstractRequest` is requested to <<kafka-common-requests-AbstractRequest.adoc#parseRequest, parse a request>> (with the <<LEADER_AND_ISR, LeaderAndIsr>> API key)
+
+* `LeaderAndIsrRequest` is requested to <<parse, parse a byte buffer>>
+
+* `LeaderAndIsrRequest.Builder` is requested to <<build, build a LeaderAndIsrRequest>>
+
+=== [[LeaderAndIsrRequest.Builder]][[Builder]][[build]] `LeaderAndIsrRequest.Builder` Factory Object
+
+`LeaderAndIsrRequest` comes with a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a `LeaderAndIsrRequest`.
+
+[source, java]
+----
+LeaderAndIsrRequest build(short version)
+----
+
+`LeaderAndIsrRequest.Builder` is used exclusively when `ControllerBrokerRequestBatch` is requested to <<kafka-controller-ControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, sendRequestsToBrokers>>.
+
+=== [[parse]] Creating LeaderAndIsrRequest from Byte Buffer -- `parse` Factory Method
+
+[source, java]
+----
+LeaderAndIsrRequest parse(ByteBuffer buffer, short version)
+----
+
+`parse`...FIXME
+
+NOTE: `parse` is used when...FIXME

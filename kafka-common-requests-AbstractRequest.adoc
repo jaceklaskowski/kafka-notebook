@@ -126,7 +126,7 @@ Used when...FIXME
 | JoinGroupRequest
 | [[JoinGroupRequest]]
 
-| LeaderAndIsrRequest
+| <<kafka-common-requests-LeaderAndIsrRequest.adoc#, LeaderAndIsrRequest>>
 | [[LeaderAndIsrRequest]]
 
 | LeaveGroupRequest

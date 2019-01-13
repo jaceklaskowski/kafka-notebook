@@ -282,12 +282,15 @@
 
 . link:kafka-common-requests-AbstractRequestResponse.adoc[AbstractRequestResponse Contract]
 .. link:kafka-common-requests-AbstractRequest.adoc[AbstractRequest Contract]
+.. link:kafka-common-requests-AbstractRequest-Builder.adoc[AbstractRequest.Builder Contract]
 .. link:kafka-common-requests-AbstractResponse.adoc[AbstractResponse]
 
 . link:kafka-common-requests-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
 
 . link:kafka-common-requests-FindCoordinatorRequest.adoc[FindCoordinatorRequest]
 . link:kafka-common-requests-FindCoordinatorResponse.adoc[FindCoordinatorResponse]
+
+. link:kafka-common-requests-LeaderAndIsrRequest.adoc[LeaderAndIsrRequest]
 
 . link:kafka-common-requests-MetadataRequest.adoc[MetadataRequest]
 . link:kafka-common-requests-MetadataResponse.adoc[MetadataResponse]
