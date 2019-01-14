@@ -615,9 +615,33 @@ NOTE: `updateMetrics` is used exclusively when `KafkaController` is <<creating-i
 onBrokerStartup(newBrokers: Seq[Int]): Unit
 ----
 
-`onBrokerStartup`...FIXME
+`onBrokerStartup` prints out the following INFO message to the logs:
 
-NOTE: `onBrokerStartup` is used exclusively when `KafkaController` is requested to process a `BrokerChange` controller event.
+```
+New broker startup callback for [newBrokers]
+```
+
+`onBrokerStartup` requests the <<controllerContext, ControllerContext>> for the <<kafka-controller-ControllerContext.adoc#replicasOnOfflineDirs, replicasOnOfflineDirs>> and removes the given broker IDs (in `newBrokers`).
+
+`onBrokerStartup` <<sendUpdateMetadataRequest, sendUpdateMetadataRequest>> to the <<kafka-controller-ControllerContext.adoc#liveOrShuttingDownBrokerIds, liveOrShuttingDownBrokerIds>> (of the <<controllerContext, ControllerContext>>).
+
+`onBrokerStartup` requests the <<controllerContext, ControllerContext>> for the <<kafka-controller-ControllerContext.adoc#replicasOnBrokers, replicas>> on the given `newBrokers`.
+
+`onBrokerStartup` requests the <<replicaStateMachine, ReplicaStateMachine>> to <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>> for the replicas on the new brokers and `OnlineReplica` target state.
+
+`onBrokerStartup` requests the <<partitionStateMachine, PartitionStateMachine>> to <<kafka-controller-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>>.
+
+`onBrokerStartup` requests the <<controllerContext, ControllerContext>> for the <<kafka-controller-ControllerContext.adoc#partitionsBeingReassigned, partitionsBeingReassigned>> and collects the partitions that have replicas on the new brokers. For every partition with a replica on the new brokers, `onBrokerStartup` <<onPartitionReassignment, onPartitionReassignment>>.
+
+`onBrokerStartup` collects replicas (on the new brokers) that are scheduled to be deleted by requesting the <<topicDeletionManager, TopicDeletionManager>> to <<kafka-controller-TopicDeletionManager.adoc#isTopicQueuedUpForDeletion, see whether isTopicQueuedUpForDeletion>>. If there are any, `onBrokerStartup` prints out the following INFO message to the logs and requests the <<topicDeletionManager, TopicDeletionManager>> to <<kafka-controller-TopicDeletionManager.adoc#resumeDeletionForTopics, resumeDeletionForTopics>>.
+
+```
+Some replicas [replicasForTopicsToBeDeleted] for topics scheduled for deletion [topicsToBeDeleted] are on the newly restarted brokers [newBrokers]. Signaling restart of topic deletion for these topics
+```
+
+In the end, `onBrokerStartup` <<registerBrokerModificationsHandler, registerBrokerModificationsHandler>> for the new brokers.
+
+NOTE: `onBrokerStartup` is used exclusively when `KafkaController` is requested to process a <<BrokerChange, BrokerChange>> controller event.
 
 === [[elect]] Controller Election -- `elect` Method
 

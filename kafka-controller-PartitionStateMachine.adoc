@@ -90,7 +90,7 @@ triggerOnlinePartitionStateChange(partitionState: Map[TopicPartition, PartitionS
 ====
 `triggerOnlinePartitionStateChange` is used when:
 
-* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onBrokerStartup, onBrokerStartup>>, <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, and at <<kafka-controller-ControllerEvent.adoc#UncleanLeaderElectionEnable, UncleanLeaderElectionEnable>> and <<kafka-controller-ControllerEvent.adoc#TopicUncleanLeaderElectionEnable, TopicUncleanLeaderElectionEnable>> controller events
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onBrokerStartup, onBrokerStartup>>, <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, and process <<kafka-controller-ControllerEvent.adoc#UncleanLeaderElectionEnable, UncleanLeaderElectionEnable>> and <<kafka-controller-ControllerEvent.adoc#TopicUncleanLeaderElectionEnable, TopicUncleanLeaderElectionEnable>> controller events
 
 * `PartitionStateMachine` is requested to <<startup, start up>>
 ====

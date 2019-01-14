@@ -163,3 +163,14 @@ isTopicQueuedUpForDeletion(topic: String): Boolean
 `isTopicQueuedUpForDeletion`...FIXME
 
 NOTE: `isTopicQueuedUpForDeletion` is used when...FIXME
+
+=== [[resumeDeletionForTopics]] `resumeDeletionForTopics` Method
+
+[source, scala]
+----
+resumeDeletionForTopics(topics: Set[String] = Set.empty): Unit
+----
+
+`resumeDeletionForTopics`...FIXME
+
+NOTE: `resumeDeletionForTopics` is used when...FIXME
