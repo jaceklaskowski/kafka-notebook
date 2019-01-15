@@ -16,6 +16,29 @@ Every time `ControllerBrokerRequestBatch` is used it is first <<newBatch, newBat
 * [[controller]] <<kafka-controller-KafkaController.adoc#, KafkaController>>
 * [[stateChangeLogger]] `StateChangeLogger`
 
+[[internal-registries]]
+.ControllerBrokerRequestBatch's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| leaderAndIsrRequestMap
+a| [[leaderAndIsrRequestMap]] `Map[Int, mutable.Map[TopicPartition, LeaderAndIsrRequest.PartitionState]]`
+
+| stopReplicaRequestMap
+a| [[stopReplicaRequestMap]] `Map[Int, Seq[StopReplicaRequestInfo]]`
+
+| updateMetadataRequestBrokerSet
+| [[updateMetadataRequestBrokerSet]] Broker IDs to <<sendRequestsToBrokers, send UPDATE_METADATA requests to>> (and to be removed right after a successful sending)
+
+New broker IDs added in <<addUpdateMetadataRequestForBrokers, addUpdateMetadataRequestForBrokers>>
+
+| updateMetadataRequestPartitionInfoMap
+| [[updateMetadataRequestPartitionInfoMap]] `TopicPartitions` with their `PartitionState`
+
+|===
+
 === [[sendRequestsToBrokers]] `sendRequestsToBrokers` Method
 
 [source, scala]
@@ -43,9 +66,30 @@ sendRequestsToBrokers(controllerEpoch: Int): Unit
 newBatch(): Unit
 ----
 
-`newBatch`...FIXME
+`newBatch` simply throws a `IllegalStateException` if one of the <<leaderAndIsrRequestMap, leaderAndIsrRequestMap>>, <<stopReplicaRequestMap, stopReplicaRequestMap>> and <<updateMetadataRequestBrokerSet, updateMetadataRequestBrokerSet>> internal registries are not empty.
 
-NOTE: `newBatch` is used when...FIXME
+```
+Controller to broker state change requests batch is not empty while creating a new one. Some LeaderAndIsr state changes [leaderAndIsrRequestMap] might be lost
+```
+
+```
+Controller to broker state change requests batch is not empty while creating a new one. Some StopReplica state changes [stopReplicaRequestMap] might be lost
+```
+
+```
+Controller to broker state change requests batch is not empty while creating a new one. Some UpdateMetadata state changes to brokers [updateMetadataRequestBrokerSet] with partition info [updateMetadataRequestPartitionInfoMap] might be lost
+```
+
+[NOTE]
+====
+`newBatch` is used when:
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>>, and process a <<kafka-controller-KafkaController.adoc#ControlledShutdown, ControlledShutdown>> controller event
+
+* `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#handleStateChanges, handleStateChanges>>
+
+* `PartitionStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
+====
 
 === [[addLeaderAndIsrRequestForBrokers]] `addLeaderAndIsrRequestForBrokers` Method
 
@@ -83,7 +127,14 @@ addUpdateMetadataRequestForBrokers(
 
 `addUpdateMetadataRequestForBrokers`...FIXME
 
-NOTE: `addUpdateMetadataRequestForBrokers` is used when...FIXME
+[NOTE]
+====
+`addUpdateMetadataRequestForBrokers` is used when:
+
+* `ControllerBrokerRequestBatch` is requested to <<addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>>
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>>
+====
 
 === [[addStopReplicaRequestForBrokers]] `addStopReplicaRequestForBrokers` Method
 
@@ -98,7 +149,14 @@ addStopReplicaRequestForBrokers(
 
 `addStopReplicaRequestForBrokers`...FIXME
 
-NOTE: `addStopReplicaRequestForBrokers` is used when...FIXME
+[NOTE]
+====
+`addStopReplicaRequestForBrokers` is used when:
+
+* `KafkaController` is requested to process a <<kafka-controller-KafkaController.adoc#ControlledShutdown, ControlledShutdown>> controller event
+
+* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#doHandleStateChanges, doHandleStateChanges>>
+====
 
 === [[clear]] `clear` Method
 
@@ -107,6 +165,6 @@ NOTE: `addStopReplicaRequestForBrokers` is used when...FIXME
 clear(): Unit
 ----
 
-`clear`...FIXME
+`clear` simply removes all bindings in the <<leaderAndIsrRequestMap, leaderAndIsrRequestMap>>, <<stopReplicaRequestMap, stopReplicaRequestMap>> and <<updateMetadataRequestBrokerSet, updateMetadataRequestBrokerSet>> internal registries.
 
-NOTE: `clear` is used when...FIXME
+NOTE: `clear` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#handleIllegalState, handleIllegalState>>.

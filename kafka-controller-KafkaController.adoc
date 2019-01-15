@@ -552,7 +552,7 @@ handleIllegalState(e: IllegalStateException): Nothing
 
 `handleIllegalState`...FIXME
 
-NOTE: `handleIllegalState` is used when `KafkaController` catches a `IllegalStateException` in <<updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<sendUpdateMetadataRequest, sendUpdateMetadataRequest>> and <<ControlledShutdown, ControlledShutdown>> event.
+NOTE: `handleIllegalState` is used when `KafkaController` catches an `IllegalStateException` in <<updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<sendUpdateMetadataRequest, sendUpdateMetadataRequest>> and when processing a <<ControlledShutdown, ControlledShutdown>> event.
 
 === [[sendUpdateMetadataRequest]] `sendUpdateMetadataRequest` Method
 
