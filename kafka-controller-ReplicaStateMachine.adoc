@@ -54,7 +54,16 @@ handleStateChanges(
 
 `handleStateChanges`...FIXME
 
-NOTE: `handleStateChanges` is used when...FIXME
+[NOTE]
+====
+`handleStateChanges` is used when:
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onBrokerLogDirFailure, onBrokerLogDirFailure>>, <<kafka-controller-KafkaController.adoc#onBrokerStartup, onBrokerStartup>>, <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, <<kafka-controller-KafkaController.adoc#onNewPartitionCreation, onNewPartitionCreation>>, <<kafka-controller-KafkaController.adoc#onPartitionReassignment, onPartitionReassignment>>, <<kafka-controller-KafkaController.adoc#stopOldReplicasOfReassignedPartition, stopOldReplicasOfReassignedPartition>>, <<kafka-controller-KafkaController.adoc#startNewReplicasForReassignedPartition, startNewReplicasForReassignedPartition>>, and process a <<kafka-controller-KafkaController.adoc#ControlledShutdown, ControlledShutdown>> controller event
+
+* `ReplicaStateMachine` is requested to <<startup, start up>>
+
+* `TopicDeletionManager` is requested to <<kafka-controller-TopicDeletionManager.adoc#failReplicaDeletion, failReplicaDeletion>>, <<kafka-controller-TopicDeletionManager.adoc#completeReplicaDeletion, completeReplicaDeletion>>, <<kafka-controller-TopicDeletionManager.adoc#markTopicForDeletionRetry, markTopicForDeletionRetry>>, <<kafka-controller-TopicDeletionManager.adoc#completeDeleteTopic, completeDeleteTopic>>, and <<kafka-controller-TopicDeletionManager.adoc#startReplicaDeletion, startReplicaDeletion>>
+====
 
 === [[shutdown]] `shutdown` Method
 
@@ -74,9 +83,29 @@ NOTE: `shutdown` is used when...FIXME
 startup(): Unit
 ----
 
-`startup`...FIXME
+`startup` prints out the following INFO message to the logs:
 
-NOTE: `startup` is used when...FIXME
+```
+Initializing replica state
+```
+
+`startup` <<initializeReplicaState, initializeReplicaState>>.
+
+`startup` prints out the following INFO message to the logs:
+
+```
+Triggering online replica state changes
+```
+
+`startup` <<handleStateChanges, handleStateChanges>> with the <<kafka-controller-ControllerContext.adoc#allLiveReplicas, live replicas>> (from the <<controllerContext, ControllerContext>>) and `OnlineReplica` target state.
+
+In the end, `startup` prints out the following INFO message to the logs:
+
+```
+Started replica state machine with initial state -> [replicaState]
+```
+
+NOTE: `startup` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when a `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#elect, elect>> and a broker is successfully elected as the controller).
 
 === [[getTopicPartitionStatesFromZk]] `getTopicPartitionStatesFromZk` Internal Method
 
@@ -99,7 +128,7 @@ initializeReplicaState(): Unit
 
 `initializeReplicaState`...FIXME
 
-NOTE: `initializeReplicaState` is used when...FIXME
+NOTE: `initializeReplicaState` is used exclusively when `ReplicaStateMachine` is requested to <<startup, start up>>.
 
 === [[doHandleStateChanges]] `doHandleStateChanges` Internal Method
 

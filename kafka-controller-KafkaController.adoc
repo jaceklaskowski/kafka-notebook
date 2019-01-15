@@ -1351,3 +1351,42 @@ onNewPartitionCreation(newPartitions: Set[TopicPartition]): Unit
 `onNewPartitionCreation`...FIXME
 
 NOTE: `onNewPartitionCreation` is used when <<kafka-controller-ControllerEvent.adoc#TopicChange, TopicChange>> and <<kafka-controller-ControllerEvent.adoc#PartitionModifications, PartitionModifications>> controller events are processed.
+
+=== [[onBrokerLogDirFailure]] `onBrokerLogDirFailure` Internal Method
+
+[source, scala]
+----
+onBrokerLogDirFailure(brokerIds: Seq[Int]): Unit
+----
+
+`onBrokerLogDirFailure`...FIXME
+
+NOTE: `onBrokerLogDirFailure` is used when...FIXME
+
+=== [[stopOldReplicasOfReassignedPartition]] `stopOldReplicasOfReassignedPartition` Internal Method
+
+[source, scala]
+----
+stopOldReplicasOfReassignedPartition(
+  topicPartition: TopicPartition,
+  reassignedPartitionContext: ReassignedPartitionsContext,
+  oldReplicas: Set[Int]): Unit
+----
+
+`stopOldReplicasOfReassignedPartition`...FIXME
+
+NOTE: `stopOldReplicasOfReassignedPartition` is used when...FIXME
+
+=== [[startNewReplicasForReassignedPartition]] `startNewReplicasForReassignedPartition` Internal Method
+
+[source, scala]
+----
+startNewReplicasForReassignedPartition(
+  topicPartition: TopicPartition,
+  reassignedPartitionContext: ReassignedPartitionsContext,
+  newReplicas: Set[Int]): Unit
+----
+
+`startNewReplicasForReassignedPartition`...FIXME
+
+NOTE: `startNewReplicasForReassignedPartition` is used when...FIXME

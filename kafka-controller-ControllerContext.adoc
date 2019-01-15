@@ -187,3 +187,14 @@ isReplicaOnline(
 `isReplicaOnline`...FIXME
 
 NOTE: `isReplicaOnline` is used when...FIXME
+
+=== [[allLiveReplicas]] `allLiveReplicas` Method
+
+[source, scala]
+----
+allLiveReplicas(): Set[PartitionAndReplica]
+----
+
+`allLiveReplicas`...FIXME
+
+NOTE: `allLiveReplicas` is used when...FIXME

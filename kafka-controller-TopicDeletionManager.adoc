@@ -45,7 +45,14 @@ Refer to link:kafka-logging.adoc[Logging].
 
 === [[startReplicaDeletion]] `startReplicaDeletion` Internal Method
 
-CAUTION: FIXME
+[source, scala]
+----
+startReplicaDeletion(replicasForTopicsToBeDeleted: Set[PartitionAndReplica]): Unit
+----
+
+`startReplicaDeletion`...FIXME
+
+NOTE: `startReplicaDeletion` is used when...FIXME
 
 === [[enqueueTopicsForDeletion]] `enqueueTopicsForDeletion` Method
 
@@ -53,7 +60,14 @@ CAUTION: FIXME
 
 === [[failReplicaDeletion]] `failReplicaDeletion` Method
 
-CAUTION: FIXME
+[source, scala]
+----
+failReplicaDeletion(replicas: Set[PartitionAndReplica]): Unit
+----
+
+`failReplicaDeletion`...FIXME
+
+NOTE: `failReplicaDeletion` is used when...FIXME
 
 === [[creating-instance]] Creating TopicDeletionManager Instance
 
@@ -174,3 +188,25 @@ resumeDeletionForTopics(topics: Set[String] = Set.empty): Unit
 `resumeDeletionForTopics`...FIXME
 
 NOTE: `resumeDeletionForTopics` is used when...FIXME
+
+=== [[completeReplicaDeletion]] `completeReplicaDeletion` Method
+
+[source, scala]
+----
+completeReplicaDeletion(replicas: Set[PartitionAndReplica]): Unit
+----
+
+`completeReplicaDeletion`...FIXME
+
+NOTE: `completeReplicaDeletion` is used when...FIXME
+
+=== [[markTopicForDeletionRetry]] `markTopicForDeletionRetry` Internal Method
+
+[source, scala]
+----
+markTopicForDeletionRetry(topic: String): Unit
+----
+
+`markTopicForDeletionRetry`...FIXME
+
+NOTE: `markTopicForDeletionRetry` is used when...FIXME
