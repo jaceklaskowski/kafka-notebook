@@ -561,13 +561,17 @@ NOTE: `handleIllegalState` is used when `KafkaController` catches a `IllegalStat
 sendUpdateMetadataRequest(): Unit
 ----
 
-`sendUpdateMetadataRequest`...FIXME
+`sendUpdateMetadataRequest` requests the <<brokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-ControllerBrokerRequestBatch.adoc#newBatch, newBatch>> and <<kafka-controller-ControllerBrokerRequestBatch.adoc#addUpdateMetadataRequestForBrokers, addUpdateMetadataRequestForBrokers>>.
+
+In the end, `sendUpdateMetadataRequest` requests the <<brokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-ControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, sendRequestsToBrokers>> with the current epoch.
+
+In case of `IllegalStateException`, `sendUpdateMetadataRequest` <<handleIllegalState, handleIllegalState>> (that <<triggerControllerMove, triggers controller movement>>).
 
 [NOTE]
 ====
 `sendUpdateMetadataRequest` is used when:
 
-* `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>, <<onBrokerStartup, onBrokerStartup>>, <<onBrokerUpdate, onBrokerUpdate>>, <<onReplicasBecomeOffline, onReplicasBecomeOffline>>, <<onPartitionReassignment, onPartitionReassignment>>, <<processUpdateNotifications, processUpdateNotifications>>
+* `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>, <<onBrokerStartup, onBrokerStartup>>, <<onBrokerUpdate, onBrokerUpdate>>, <<onReplicasBecomeOffline, onReplicasBecomeOffline>>, <<onPartitionReassignment, onPartitionReassignment>>, process a <<IsrChangeNotification, IsrChangeNotification>> controller event
 
 * `TopicDeletionManager` is requested to <<kafka-controller-TopicDeletionManager.adoc#onTopicDeletion, onTopicDeletion>>
 ====
@@ -884,17 +888,6 @@ deregisterTopicDeletionListener(): Unit
 `deregisterTopicDeletionListener` requests <<zkUtils, ZkUtils>> to link:kafka-ZkUtils.adoc#unsubscribeChildChanges[unsubscribeChildChanges] to `/admin/delete_topics` znode with <<topicDeletionListener, TopicDeletionListener>>.
 
 NOTE: `deregisterTopicDeletionListener` is used exclusively when `KafkaController` <<onControllerResignation, resigns as the active controller>>.
-
-=== [[processUpdateNotifications]] `processUpdateNotifications` Internal Method
-
-[source, scala]
-----
-processUpdateNotifications(partitions: Seq[TopicPartition]): Unit
-----
-
-`processUpdateNotifications`...FIXME
-
-NOTE: `processUpdateNotifications` is used when...FIXME
 
 === [[onReplicasBecomeOffline]] `onReplicasBecomeOffline` Internal Method
 
