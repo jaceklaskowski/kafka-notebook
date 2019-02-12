@@ -1,3 +1,66 @@
 == [[Reconfigurable]] Reconfigurable Contract
 
-`Reconfigurable` is...FIXME
+`Reconfigurable` is the <<contract, abstraction>> of <<implementations, reconfigurables>> that support <<reconfigure, dynamic reconfiguration>>.
+
+[[contract]]
+.Reconfigurable Contract
+[cols="1m,3",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| reconfigurableConfigs
+a| [[reconfigurableConfigs]]
+
+[source, java]
+----
+Set<String> reconfigurableConfigs()
+----
+
+Used when...FIXME
+
+| reconfigure
+a| [[reconfigure]]
+
+[source, java]
+----
+void reconfigure(Map<String, ?> configs)
+----
+
+Used when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#maybeReconfigure, maybeReconfigure>> and <<kafka-server-DynamicBrokerConfig.adoc#processReconfigurable, processReconfigurable>>.
+
+| validateReconfiguration
+a| [[validateReconfiguration]]
+
+[source, java]
+----
+void validateReconfiguration(Map<String, ?> configs) throws ConfigException
+----
+
+Used when...FIXME
+
+|===
+
+[[implementations]]
+.Reconfigurables (Direct Implementations)
+[cols="1,3",options="header",width="100%"]
+|===
+| Reconfigurable
+| Description
+
+| <<kafka-server-DynamicClientQuotaCallback.adoc#, DynamicClientQuotaCallback>>
+| [[DynamicClientQuotaCallback]]
+
+| <<kafka-server-DynamicLogConfig.adoc#, DynamicLogConfig>>
+| [[DynamicLogConfig]]
+
+| <<kafka-server-DynamicMetricsReporters.adoc#, DynamicMetricsReporters>>
+| [[DynamicMetricsReporters]]
+
+| `ListenerReconfigurable`
+| [[ListenerReconfigurable]]
+
+| `SslFactory`
+| [[SslFactory]]
+
+|===

@@ -2,11 +2,11 @@
 
 [[LEADER_AND_ISR]]
 [[creating-instance]]
-`LeaderAndIsrRequest` is a concrete <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>> with *LeaderAndIsr* API key and the following:
+`LeaderAndIsrRequest` is a concrete <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>> with *LeaderAndIsr* API key and the following properties:
 
 * [[controllerId]] Controller ID
 * [[controllerEpoch]] Controller Epoch
-* [[partitionStates]] Partitions with `PartitionState` (`Map<TopicPartition, PartitionState> `)
+* [[partitionStates]] Partitions with `PartitionState` (`Map<TopicPartition, PartitionState>`)
 * [[liveLeaders]] Live broker nodes
 * [[version]] Version
 

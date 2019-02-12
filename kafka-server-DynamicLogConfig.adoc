@@ -2,7 +2,7 @@
 
 `DynamicLogConfig` is a <<kafka-common-Reconfigurable.adoc#, Reconfigurable>> that...FIXME
 
-`DynamicLogConfig` is <<creating-instance, created>> when...FIXME
+`DynamicLogConfig` is <<creating-instance, created>> exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#addReconfigurables, register Reconfigurables for a KafkaServer>> (when requested to <<kafka-server-KafkaServer.adoc#startup, start up>>).
 
 === [[creating-instance]] Creating DynamicLogConfig Instance
 
@@ -12,3 +12,14 @@
 * [[server]] <<kafka-server-KafkaServer.adoc#, KafkaServer>>
 
 `DynamicLogConfig` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[reconfigure]] `reconfigure` Method
+
+[source, scala]
+----
+reconfigure(configs: util.Map[String, _]): Unit
+----
+
+NOTE: `reconfigure` is part of the <<kafka-common-Reconfigurable.adoc#reconfigure, Reconfigurable Contract>> to...FIXME.
+
+`reconfigure`...FIXME

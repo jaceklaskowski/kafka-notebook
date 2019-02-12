@@ -4,9 +4,13 @@
 
 * FIXME
 
-`PartitionStateMachine` is <<startup, started>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when `KafkaController` is requested for <<elect, controller election>> and a broker is successfully elected as the controller).
+Immediately after having been <<creating-instance, created>>, `KafkaController` <<setTopicDeletionManager, associates it with a TopicDeletionManager>>.
+
+`PartitionStateMachine` is <<startup, started>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when `KafkaController` is requested for <<elect, controller election>> and the broker is successfully elected as the active controller).
 
 `PartitionStateMachine` is <<shutdown, shut down>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, resign as the active controller>>.
+
+`PartitionStateMachine` is requested to <<triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>> when `KafkaController` is <<kafka-controller-KafkaController.adoc#onBrokerStartup, onBrokerStartup>> (when requested to process a <<kafka-controller-KafkaController.adoc#BrokerChange, BrokerChange>> controller event).
 
 [[PartitionLeaderElectionStrategy]]
 `PartitionStateMachine` uses a `PartitionLeaderElectionStrategy` when <<handleStateChanges, handleStateChanges>> (with <<doHandleStateChanges, doHandleStateChanges>>) and <<electLeaderForPartitions, electLeaderForPartitions>> (with <<doElectLeaderForPartitions, doElectLeaderForPartitions>>):

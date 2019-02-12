@@ -417,13 +417,13 @@ Resigning
 
 `onControllerResignation` unsubscribes from intercepting Zookeeper events for the following znodes in order:
 
-1. <<deregisterIsrChangeNotificationListener, Child changes to /isr_change_notification znode>>
+. <<deregisterIsrChangeNotificationListener, Child changes to /isr_change_notification znode>>
 
-1. <<deregisterPartitionReassignmentListener, Data changes to /admin/reassign_partitions znode>>
+. <<deregisterPartitionReassignmentListener, Data changes to /admin/reassign_partitions znode>>
 
-1. <<deregisterPreferredReplicaElectionListener, Data changes to /admin/preferred_replica_election znode>>
+. <<deregisterPreferredReplicaElectionListener, Data changes to /admin/preferred_replica_election znode>>
 
-1. <<deregisterLogDirEventNotificationListener, Child changes to /log_dir_event_notification znode>>
+. <<deregisterLogDirEventNotificationListener, Child changes to /log_dir_event_notification znode>>
 
 `onControllerResignation` requests <<topicDeletionManager, TopicDeletionManager>> to link:kafka-controller-TopicDeletionManager.adoc#reset[reset].
 
@@ -1390,3 +1390,14 @@ startNewReplicasForReassignedPartition(
 `startNewReplicasForReassignedPartition`...FIXME
 
 NOTE: `startNewReplicasForReassignedPartition` is used when...FIXME
+
+=== [[enableDefaultUncleanLeaderElection]] `enableDefaultUncleanLeaderElection` Method
+
+[source, scala]
+----
+enableDefaultUncleanLeaderElection(): Unit
+----
+
+`enableDefaultUncleanLeaderElection`...FIXME
+
+NOTE: `enableDefaultUncleanLeaderElection` is used exclusively when `DynamicLogConfig` is requested to <<kafka-server-DynamicLogConfig.adoc#reconfigure, reconfigure>>.

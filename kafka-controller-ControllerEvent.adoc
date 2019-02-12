@@ -126,7 +126,7 @@ a| [[IsrChangeNotification]] Emitted when the <<kafka-controller-KafkaController
 
 | UncleanLeaderElectionEnable
 | <<kafka-controller-ControllerState.adoc#UncleanLeaderElectionEnable, UncleanLeaderElectionEnable>>
-| [[UncleanLeaderElectionEnable]]
+| [[UncleanLeaderElectionEnable]] Emitted when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#enableDefaultUncleanLeaderElection, enableDefaultUncleanLeaderElection>>
 
 |===
 

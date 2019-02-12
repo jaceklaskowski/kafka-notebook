@@ -172,3 +172,67 @@ validate(props: Properties, perBrokerConfig: Boolean): Unit
 `validate`...FIXME
 
 NOTE: `validate` is used exclusively when `AdminManager` is requested to <<kafka-server-AdminManager.adoc#alterConfigs, alterConfigs>> (when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleAlterConfigsRequest, handleAlterConfigsRequest>>).
+
+=== [[maybeReconfigure]] `maybeReconfigure` Method
+
+[source, scala]
+----
+maybeReconfigure(
+  reconfigurable: Reconfigurable,
+  oldConfig: KafkaConfig,
+  newConfig: util.Map[String, _]): Unit
+----
+
+`maybeReconfigure`...FIXME
+
+[NOTE]
+====
+`maybeReconfigure` is used when:
+
+* `DynamicMetricsReporters` is requested to <<kafka-server-DynamicMetricsReporters.adoc#reconfigure, reconfigure>>
+
+* `DynamicClientQuotaCallback` is requested to <<kafka-server-DynamicClientQuotaCallback.adoc#reconfigure, reconfigure>>
+====
+
+=== [[processReconfigurable]] `processReconfigurable` Method
+
+[source, scala]
+----
+processReconfigurable(
+  reconfigurable: Reconfigurable,
+  updatedConfigNames: Set[String],
+  allNewConfigs: util.Map[String, _],
+  newCustomConfigs: util.Map[String, Object],
+  validateOnly: Boolean): Unit
+----
+
+`processReconfigurable`...FIXME
+
+NOTE: `processReconfigurable` is used when `DynamicBrokerConfig` is requested to <<processReconfiguration, processReconfiguration>> and <<processListenerReconfigurable, processListenerReconfigurable>>.
+
+=== [[processListenerReconfigurable]] `processListenerReconfigurable` Internal Method
+
+[source, scala]
+----
+processListenerReconfigurable(
+  listenerReconfigurable: ListenerReconfigurable,
+  newConfig: KafkaConfig,
+  customConfigs: util.Map[String, Object],
+  validateOnly: Boolean,
+  reloadOnly:  Boolean): Unit
+----
+
+`processListenerReconfigurable`...FIXME
+
+NOTE: `processListenerReconfigurable` is used when `DynamicBrokerConfig` is requested to <<reloadUpdatedFilesWithoutConfigChange, reloadUpdatedFilesWithoutConfigChange>> and <<processReconfiguration, processReconfiguration>>.
+
+=== [[reloadUpdatedFilesWithoutConfigChange]] `reloadUpdatedFilesWithoutConfigChange` Internal Method
+
+[source, scala]
+----
+reloadUpdatedFilesWithoutConfigChange(newProps: Properties): Unit
+----
+
+`reloadUpdatedFilesWithoutConfigChange`...FIXME
+
+NOTE: `reloadUpdatedFilesWithoutConfigChange` is used exclusively when `AdminManager` is requested to <<kafka-server-AdminManager.adoc#alterConfigs, alterConfigs>> (when `KafkaApis` is requested to handle a <<kafka-server-KafkaApis.adoc#AlterConfigs, AlterConfigs>> request).
