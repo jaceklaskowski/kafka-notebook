@@ -1,6 +1,6 @@
 == [[KafkaProducer]] KafkaProducer -- Main Class For Kafka Producers
 
-`KafkaProducer` is the one and only known <<kafka-Producer.adoc#, Producer>> in Apache Kafka.
+`KafkaProducer` is the <<kafka-producer-Producer.adoc#, Producer>> in Apache Kafka.
 
 `KafkaProducer` is the class that a Kafka developer use to <<send, send messages>> to a Kafka cluster.
 
@@ -16,7 +16,7 @@ import java.util.Properties
 val props = new Properties()
 props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer].getName)
 props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer].getName)
-props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092")
+props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, ":9092")
 val producer = new KafkaProducer[String, String](props)
 
 // Creating a record to be sent
@@ -114,10 +114,14 @@ The `Partitioner` is initialized when the `KafkaProducer` is <<creating-instance
 a| [[producerConfig]] <<kafka-ProducerConfig.adoc#, ProducerConfig>>
 
 | sender
-a| [[sender]] <<kafka-Sender.adoc#, Kafka producer I/O thread>> (aka `Sender`) that is <<kafka-Sender.adoc#run, started>> at the time `KafkaProducer` is <<creating-instance, created>>.
+a| [[sender]] <<kafka-Sender.adoc#, Kafka producer I/O thread>> (aka `Sender`) that is <<kafka-Sender.adoc#run, started>> when `KafkaProducer` is <<creating-instance, created>>.
 
 | time
 a| [[time]] Time abstraction with `SYSTEM` as the default.
+
+| transactionManager
+a| [[transactionManager]] <<kafka-producer-internals-TransactionManager.adoc#, TransactionManager>>
+
 |===
 
 [[logging]]
@@ -125,7 +129,7 @@ a| [[time]] Time abstraction with `SYSTEM` as the default.
 ====
 Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.producer.KafkaProducer` logger to see what happens inside.
 
-Add the following line to `config/tools-log4j.properties`:
+Add the following line to `config/log4j.properties`:
 
 ```
 log4j.logger.org.apache.kafka.clients.producer.KafkaProducer=TRACE
@@ -141,7 +145,7 @@ Refer to link:kafka-logging.adoc[Logging].
 Future<RecordMetadata> send(ProducerRecord<K, V> record, Callback callback)
 ----
 
-NOTE: `send` is a part of link:kafka-Producer.adoc#send[Producer Contract].
+NOTE: `send` is a part of link:kafka-producer-Producer.adoc#send[Producer Contract].
 
 `send`...FIXME
 
@@ -186,7 +190,7 @@ ClusterResourceListeners configureClusterResourceListeners(
 List<PartitionInfo> partitionsFor(String topic)
 ----
 
-NOTE: `partitionsFor` is a part of link:kafka-Producer.adoc#partitionsFor[Producer Contract].
+NOTE: `partitionsFor` is a part of link:kafka-producer-Producer.adoc#partitionsFor[Producer Contract].
 
 `partitionsFor` <<waitOnMetadata, waits on cluster metadata>> for the input `topic` and <<maxBlockTimeMs, max.block.ms>> time. Once retrieved, `partitionsFor` requests `Cluster` for the link:kafka-common-Cluster.adoc#partitionsForTopic[partitions].
 
@@ -382,3 +386,20 @@ int partition(
 `partition`...FIXME
 
 NOTE: `partition` is used exclusively when `KafkaProducer` is requested to <<doSend, send a record to topic asynchronously>>.
+
+=== [[beginTransaction]] `beginTransaction` Method
+
+[source, java]
+----
+void beginTransaction() throws ProducerFencedException
+----
+
+NOTE: `beginTransaction` is part of the <<kafka-producer-Producer.adoc#beginTransaction, Producer Contract>> to...FIXME.
+
+`beginTransaction` simply requests the internal <<transactionManager, TransactionManager>> to <<kafka-producer-internals-TransactionManager.adoc#beginTransaction, beginTransaction>>.
+
+`beginTransaction` throws an `IllegalStateException` when the <<transactionManager, TransactionManager>> is undefined (`null`).
+
+```
+Cannot use transactional methods without enabling transactions by setting the transactional.id configuration property
+```

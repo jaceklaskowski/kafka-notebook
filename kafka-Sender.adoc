@@ -107,7 +107,7 @@ Starting Kafka producer I/O thread.
 * [[time]] `Time`
 * [[requestTimeout]] `requestTimeout`
 * [[retryBackoffMs]] `retryBackoffMs`
-* [[transactionManager]] `TransactionManager`
+* [[transactionManager]] <<kafka-producer-internals-TransactionManager.adoc#, TransactionManager>>
 * [[apiVersions]] `ApiVersions`
 
 `Sender` initializes the <<internal-registries, internal registries and counters>>.

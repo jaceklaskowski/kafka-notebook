@@ -72,6 +72,7 @@
 . link:kafka-controller-election.adoc[Kafka Controller Election]
 . link:kafka-topic-replication.adoc[Topic Replication]
 . link:kafka-topic-deletion.adoc[Topic Deletion]
+. link:kafka-transactional-producer.adoc[Transactional Producer]
 
 === Kafka Broker Services
 
@@ -186,7 +187,7 @@
 
 === Kafka Clients / Producer API
 
-. link:kafka-Producer.adoc[Producer]
+. link:kafka-producer-Producer.adoc[Producer]
 . link:kafka-producer-KafkaProducer.adoc[KafkaProducer]
 .. link:kafka-Sender.adoc[Sender -- Kafka Producer I/O Thread]
 
@@ -199,6 +200,8 @@
 .. link:kafka-producer-DefaultPartitioner.adoc[DefaultPartitioner]
 
 . link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
+
+. link:kafka-producer-internals-TransactionManager.adoc[TransactionManager]
 
 === Kafka Architecture
 

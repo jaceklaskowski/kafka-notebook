@@ -1,0 +1,14 @@
+== [[TransactionManager]] TransactionManager
+
+`TransactionManager` is...FIXME
+
+=== [[beginTransaction]] `beginTransaction` Method
+
+[source, java]
+----
+void beginTransaction()
+----
+
+`beginTransaction`...FIXME
+
+NOTE: `beginTransaction` is used when...FIXME
