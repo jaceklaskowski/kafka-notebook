@@ -1,6 +1,41 @@
 == [[TransactionManager]] TransactionManager
 
-`TransactionManager` is <<creating-instance, created>> exclusively when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#configureTransactionState, configureTransactionState>> (with a <<kafka-ProducerConfig.adoc#TRANSACTIONAL_ID_CONFIG, user-configured transaction>> or <<kafka-ProducerConfig.adoc#enable.idempotence, idempotence enabled>>).
+`TransactionManager` is <<creating-instance, created>> exclusively for a <<kafka-transactional-producer.adoc#, transactional KafkaProducer>> (when a <<kafka-ProducerConfig.adoc#TRANSACTIONAL_ID_CONFIG, user-configured transaction>> or <<kafka-ProducerConfig.adoc#ENABLE_IDEMPOTENCE_CONFIG, idempotence>> are enabled).
+
+[TIP]
+====
+A <<kafka-transactional-producer.adoc#, transactional KafkaProducer>> uses *[Producer clientId=[clientId], transactionalId=[transactionalId]]* prefix for <<kafka-producer-KafkaProducer.adoc#logging, logging>>.
+====
+
+[TIP]
+====
+You should see one of the following INFO messages in the logs with a <<kafka-transactional-producer.adoc#, transactional KafkaProducer>>:
+
+```
+Instantiated a transactional producer.
+```
+
+or
+
+```
+Instantiated an idempotent producer.
+```
+====
+
+[source, scala]
+----
+// Enable TRACE logging level for KafkaProducer
+val props = new java.util.Properties()
+props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer].getName)
+props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, classOf[StringSerializer].getName)
+props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, ":9092")
+val clientId = this.getClass.getSimpleName.replace("$", "")
+props.put(ProducerConfig.CLIENT_ID_CONFIG, clientId)
+props.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "txId")
+val producer = new KafkaProducer[String, String](props)
+
+// Observe the logs
+----
 
 `KafkaProducer` uses the following configuration properties when creating a `TransactionManager`:
 
@@ -9,6 +44,21 @@
 * <<kafka-ProducerConfig.adoc#TRANSACTIONAL_ID_CONFIG, transactional.id>> for <<transactionalId, transactionalId>>
 
 * <<kafka-ProducerConfig.adoc#TRANSACTION_TIMEOUT_CONFIG, transaction.timeout.ms>> for <<transactionTimeoutMs, transactionTimeoutMs>>
+
+[[isTransactional]]
+`TransactionManager` is *transactional* when the <<transactionalId, Transactional Id>> is assigned.
+
+[[currentState]]
+`TransactionManager` is in one of the following states:
+
+* `UNINITIALIZED` when <<creating-instance, created>>
+* `INITIALIZING`
+* `READY`
+* `IN_TRANSACTION`
+* `COMMITTING_TRANSACTION`
+* `ABORTING_TRANSACTION`
+* `ABORTABLE_ERROR`
+* `FATAL_ERROR`
 
 [[internal-registries]]
 .TransactionManager's Internal Properties (e.g. Registries, Counters and Flags)
@@ -105,3 +155,60 @@ NOTE: `beginTransaction` is used when...FIXME
 * [[retryBackoffMs]] `retryBackoffMs`
 
 `TransactionManager` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[initializeTransactions]] `initializeTransactions` Method
+
+[source, java]
+----
+TransactionalRequestResult initializeTransactions()
+----
+
+`initializeTransactions`...FIXME
+
+NOTE: `initializeTransactions` is used when...FIXME
+
+=== [[sendOffsetsToTransaction]] `sendOffsetsToTransaction` Method
+
+[source, java]
+----
+TransactionalRequestResult sendOffsetsToTransaction(
+  Map<TopicPartition, OffsetAndMetadata> offsets,
+  String consumerGroupId)
+----
+
+`sendOffsetsToTransaction`...FIXME
+
+NOTE: `sendOffsetsToTransaction` is used when...FIXME
+
+=== [[beginCommit]] `beginCommit` Method
+
+[source, java]
+----
+TransactionalRequestResult beginCommit()
+----
+
+`beginCommit`...FIXME
+
+NOTE: `beginCommit` is used when...FIXME
+
+=== [[beginAbort]] `beginAbort` Method
+
+[source, java]
+----
+TransactionalRequestResult beginAbort()
+----
+
+`beginAbort`...FIXME
+
+NOTE: `beginAbort` is used when...FIXME
+
+=== [[maybeAddPartitionToTransaction]] `maybeAddPartitionToTransaction` Method
+
+[source, java]
+----
+void maybeAddPartitionToTransaction(TopicPartition topicPartition)
+----
+
+`maybeAddPartitionToTransaction`...FIXME
+
+NOTE: `maybeAddPartitionToTransaction` is used when...FIXME
