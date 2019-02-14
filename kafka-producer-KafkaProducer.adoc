@@ -27,9 +27,9 @@ val r = new ProducerRecord[String, String]("0", "this is a message")
 producer.send(r)
 ----
 
-`KafkaProducer` uses the <<kafka-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>> configuration property to define <<interceptors, ProducerInterceptors>> that are notified (about successes and failures) every time `KafkaProducer` is requested to <<send, send a record to a topic>>.
+`KafkaProducer` uses the <<kafka-producer-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>> configuration property to define <<interceptors, ProducerInterceptors>> that are notified (about successes and failures) every time `KafkaProducer` is requested to <<send, send a record to a topic>>.
 
-`KafkaProducer` uses the <<kafka-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property to define the <<partitioner, Partitioner>> that is used (to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>>) when `KafkaProducer` is requested to <<partition, partition>> (when requested to <<doSend, send a record to topic asynchronously>>).
+`KafkaProducer` uses the <<kafka-producer-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property to define the <<partitioner, Partitioner>> that is used (to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>>) when `KafkaProducer` is requested to <<partition, partition>> (when requested to <<doSend, send a record to topic asynchronously>>).
 
 Internally, `KafkaProducer` uses the <<sender, Kafka producer I/O thread>> that is responsible for sending produce requests to a Kafka cluster (on <<ioThread, kafka-producer-network-thread>> daemon thread of execution). The thread is started right when `KafkaProducer` is <<creating-instance, created>>.
 
@@ -74,7 +74,7 @@ image::images/KafkaProducer.png[align="center"]
 a| [[accumulator]] `RecordAccumulator`
 
 | clientId
-a| [[clientId]] Client ID per <<kafka-ProducerConfig.adoc#CLIENT_ID_CONFIG, CLIENT_ID_CONFIG>> (if defined) or `producer-[number]`
+a| [[clientId]] Client ID per <<kafka-producer-ProducerConfig.adoc#CLIENT_ID_CONFIG, CLIENT_ID_CONFIG>> (if defined) or `producer-[number]`
 
 Used when:
 
@@ -85,7 +85,7 @@ Used when:
 | interceptors
 a| [[interceptors]] <<kafka-ProducerInterceptor.adoc#, ProducerInterceptors>> that are notified (about successes and failures) when `KafkaProducer` is requested to <<send, send a record to a topic>>
 
-The `ProducerInterceptors` are initialized when the `KafkaProducer` is <<creating-instance, created>> using <<kafka-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>> configuration property.
+The `ProducerInterceptors` are initialized when the `KafkaProducer` is <<creating-instance, created>> using <<kafka-producer-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>> configuration property.
 
 | ioThread
 a| [[ioThread]] *kafka-producer-network-thread* daemon thread of execution for the <<sender, sender>>
@@ -111,10 +111,10 @@ a| [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
 | partitioner
 a| [[partitioner]] <<kafka-producer-Partitioner.adoc#, Partitioner>> that is used (to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>>) when `KafkaProducer` is requested to <<partition, partition>> (when requested to <<doSend, send a record to topic asynchronously>>)
 
-The `Partitioner` is initialized when the `KafkaProducer` is <<creating-instance, created>> using <<kafka-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property.
+The `Partitioner` is initialized when the `KafkaProducer` is <<creating-instance, created>> using <<kafka-producer-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property.
 
 | producerConfig
-a| [[producerConfig]] <<kafka-ProducerConfig.adoc#, ProducerConfig>>
+a| [[producerConfig]] <<kafka-producer-ProducerConfig.adoc#, ProducerConfig>>
 
 | sender
 a| [[sender]] <<kafka-Sender.adoc#, Kafka producer I/O thread>> (aka `Sender`) that is <<kafka-Sender.adoc#run, started>> when `KafkaProducer` is <<creating-instance, created>>.
@@ -253,7 +253,7 @@ NOTE: `waitOnMetadata` is used when `KafkaProducer` is requested for <<partition
 
 `KafkaProducer` takes the following when created:
 
-* [[config]] <<kafka-ProducerConfig.adoc#, ProducerConfig>>
+* [[config]] <<kafka-producer-ProducerConfig.adoc#, ProducerConfig>>
 * [[keySerializer]] <<kafka-common-serialization-Serializer.adoc#, Serializer>> for keys
 * [[valueSerializer]] <<kafka-common-serialization-Serializer.adoc#, Serializer>> for values
 * <<kafka-clients-Metadata.adoc#, Metadata>>
@@ -263,7 +263,7 @@ NOTE: `waitOnMetadata` is used when `KafkaProducer` is requested for <<partition
 
 While being created, `KafkaProducer` saves the <<config, ProducerConfig>> in the <<producerConfig, producerConfig>> internal registry and the <<time, time>> becomes `SYSTEM`.
 
-`KafkaProducer` sets the <<clientId, clientId>> as the <<kafka-ProducerConfig.adoc#CLIENT_ID_CONFIG, ProducerConfig.CLIENT_ID_CONFIG>> or uses `producer-[id]`.
+`KafkaProducer` sets the <<clientId, clientId>> as the <<kafka-producer-ProducerConfig.adoc#CLIENT_ID_CONFIG, ProducerConfig.CLIENT_ID_CONFIG>> or uses `producer-[id]`.
 
 `KafkaProducer` prints out the following `TRACE` message to the logs:
 
@@ -273,87 +273,87 @@ Starting the Kafka producer
 
 `KafkaProducer` creates a `MetricConfig` with the following:
 
-* Number of samples as <<kafka-ProducerConfig.adoc#METRICS_NUM_SAMPLES_CONFIG, ProducerConfig.METRICS_NUM_SAMPLES_CONFIG>>
+* Number of samples as <<kafka-producer-ProducerConfig.adoc#METRICS_NUM_SAMPLES_CONFIG, ProducerConfig.METRICS_NUM_SAMPLES_CONFIG>>
 
-* Time window of <<kafka-ProducerConfig.adoc#METRICS_SAMPLE_WINDOW_MS_CONFIG, ProducerConfig.METRICS_SAMPLE_WINDOW_MS_CONFIG>> milliseconds
+* Time window of <<kafka-producer-ProducerConfig.adoc#METRICS_SAMPLE_WINDOW_MS_CONFIG, ProducerConfig.METRICS_SAMPLE_WINDOW_MS_CONFIG>> milliseconds
 
-* Recording level as <<kafka-ProducerConfig.adoc#METRICS_RECORDING_LEVEL_CONFIG, ProducerConfig.METRICS_RECORDING_LEVEL_CONFIG>>
+* Recording level as <<kafka-producer-ProducerConfig.adoc#METRICS_RECORDING_LEVEL_CONFIG, ProducerConfig.METRICS_RECORDING_LEVEL_CONFIG>>
 
 * Metrics tags with a single pair of `client-id` and the <<clientId, clientId>>
 
-`KafkaProducer` uses the <<kafka-ProducerConfig.adoc#METRIC_REPORTER_CLASSES_CONFIG, ProducerConfig.METRIC_REPORTER_CLASSES_CONFIG>> as the <<kafka-MetricsReporter.adoc#, MetricsReporters>> and adds the <<kafka-MetricsReporter.adoc#JmxReporter, JmxReporter>> (with `kafka.producer` prefix).
+`KafkaProducer` uses the <<kafka-producer-ProducerConfig.adoc#METRIC_REPORTER_CLASSES_CONFIG, ProducerConfig.METRIC_REPORTER_CLASSES_CONFIG>> as the <<kafka-MetricsReporter.adoc#, MetricsReporters>> and adds the <<kafka-MetricsReporter.adoc#JmxReporter, JmxReporter>> (with `kafka.producer` prefix).
 
 `KafkaProducer` sets the <<metrics, metrics>> as a new <<kafka-Metrics.adoc#, Metrics>> (with the `MetricConfig`, the `MetricsReporters` and the <<time, time>>).
 
-`KafkaProducer` sets the <<partitioner, partitioner>> as <<kafka-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>>.
+`KafkaProducer` sets the <<partitioner, partitioner>> as <<kafka-producer-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>>.
 
 `KafkaProducer` sets the <<keySerializer, keySerializer>> as follows:
 
-* <<kafka-ProducerConfig.adoc#KEY_SERIALIZER_CLASS_CONFIG, ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG>> when the input `keySerializer` was not defined and immediately requests the `Serializer` to <<kafka-common-serialization-Serializer.adoc#configure, configure>> itself
+* <<kafka-producer-ProducerConfig.adoc#KEY_SERIALIZER_CLASS_CONFIG, ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG>> when the input `keySerializer` was not defined and immediately requests the `Serializer` to <<kafka-common-serialization-Serializer.adoc#configure, configure>> itself
 
 * The input `keySerializer`
 
 `KafkaProducer` sets the <<valueSerializer, valueSerializer>> as follows:
 
-* <<kafka-ProducerConfig.adoc#VALUE_SERIALIZER_CLASS_CONFIG, ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG>> when the input `keySerializer` was not defined and immediately requests the `Serializer` to <<kafka-common-serialization-Serializer.adoc#configure, configure>> itself
+* <<kafka-producer-ProducerConfig.adoc#VALUE_SERIALIZER_CLASS_CONFIG, ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG>> when the input `keySerializer` was not defined and immediately requests the `Serializer` to <<kafka-common-serialization-Serializer.adoc#configure, configure>> itself
 
 * The input `valueSerializer`
 
-`KafkaProducer` sets the <<interceptors, interceptors>> as <<kafka-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>>.
+`KafkaProducer` sets the <<interceptors, interceptors>> as <<kafka-producer-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>>.
 
 `KafkaProducer` sets the following:
 
-* <<maxRequestSize, maxRequestSize>> as <<kafka-ProducerConfig.adoc#MAX_REQUEST_SIZE_CONFIG, ProducerConfig.MAX_REQUEST_SIZE_CONFIG>>
+* <<maxRequestSize, maxRequestSize>> as <<kafka-producer-ProducerConfig.adoc#MAX_REQUEST_SIZE_CONFIG, ProducerConfig.MAX_REQUEST_SIZE_CONFIG>>
 
-* <<totalMemorySize, totalMemorySize>> as <<kafka-ProducerConfig.adoc#BUFFER_MEMORY_CONFIG, ProducerConfig.BUFFER_MEMORY_CONFIG>>
+* <<totalMemorySize, totalMemorySize>> as <<kafka-producer-ProducerConfig.adoc#BUFFER_MEMORY_CONFIG, ProducerConfig.BUFFER_MEMORY_CONFIG>>
 
-* <<compressionType, compressionType>> as <<kafka-ProducerConfig.adoc#COMPRESSION_TYPE_CONFIG, ProducerConfig.COMPRESSION_TYPE_CONFIG>>
+* <<compressionType, compressionType>> as <<kafka-producer-ProducerConfig.adoc#COMPRESSION_TYPE_CONFIG, ProducerConfig.COMPRESSION_TYPE_CONFIG>>
 
-* <<maxBlockTimeMs, maxBlockTimeMs>> as <<kafka-ProducerConfig.adoc#MAX_BLOCK_MS_CONFIG, ProducerConfig.MAX_BLOCK_MS_CONFIG>>
+* <<maxBlockTimeMs, maxBlockTimeMs>> as <<kafka-producer-ProducerConfig.adoc#MAX_BLOCK_MS_CONFIG, ProducerConfig.MAX_BLOCK_MS_CONFIG>>
 
-* <<requestTimeoutMs, requestTimeoutMs>> as <<kafka-ProducerConfig.adoc#REQUEST_TIMEOUT_MS_CONFIG, ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG>>
+* <<requestTimeoutMs, requestTimeoutMs>> as <<kafka-producer-ProducerConfig.adoc#REQUEST_TIMEOUT_MS_CONFIG, ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG>>
 
 `KafkaProducer` creates a new `ApiVersions` for the <<apiVersions, apiVersions>>.
 
 `KafkaProducer` creates a new `RecordAccumulator` for the <<accumulator, accumulator>> with the following configuration properties:
 
-* <<kafka-ProducerConfig.adoc#BATCH_SIZE_CONFIG, ProducerConfig.BATCH_SIZE_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#BATCH_SIZE_CONFIG, ProducerConfig.BATCH_SIZE_CONFIG>>
 
-* <<totalMemorySize, totalMemorySize>>, i.e. <<kafka-ProducerConfig.adoc#BUFFER_MEMORY_CONFIG, ProducerConfig.BUFFER_MEMORY_CONFIG>>
+* <<totalMemorySize, totalMemorySize>>, i.e. <<kafka-producer-ProducerConfig.adoc#BUFFER_MEMORY_CONFIG, ProducerConfig.BUFFER_MEMORY_CONFIG>>
 
-* <<compressionType, compressionType>>, i.e. <<kafka-ProducerConfig.adoc#COMPRESSION_TYPE_CONFIG, ProducerConfig.COMPRESSION_TYPE_CONFIG>>
+* <<compressionType, compressionType>>, i.e. <<kafka-producer-ProducerConfig.adoc#COMPRESSION_TYPE_CONFIG, ProducerConfig.COMPRESSION_TYPE_CONFIG>>
 
-* <<kafka-ProducerConfig.adoc#LINGER_MS_CONFIG, ProducerConfig.LINGER_MS_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#LINGER_MS_CONFIG, ProducerConfig.LINGER_MS_CONFIG>>
 
-* <<kafka-ProducerConfig.adoc#RETRY_BACKOFF_MS_CONFIG, ProducerConfig.RETRY_BACKOFF_MS_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#RETRY_BACKOFF_MS_CONFIG, ProducerConfig.RETRY_BACKOFF_MS_CONFIG>>
 
 `KafkaProducer` sets the <<metadata, metadata>> as follows:
 
-* Creates a new <<kafka-clients-Metadata.adoc#, Metadata>> (with <<kafka-ProducerConfig.adoc#RETRY_BACKOFF_MS_CONFIG, ProducerConfig.RETRY_BACKOFF_MS_CONFIG>>, <<kafka-ProducerConfig.adoc#METADATA_MAX_AGE_CONFIG, ProducerConfig.METADATA_MAX_AGE_CONFIG>> and <<configureClusterResourceListeners, configureClusterResourceListeners>>) and immediately requests the <<metadata, Metadata>> to <<kafka-clients-Metadata.adoc#update, update>> (with <<kafka-ProducerConfig.adoc#BOOTSTRAP_SERVERS_CONFIG, ProducerConfig.BOOTSTRAP_SERVERS_CONFIG>>)
+* Creates a new <<kafka-clients-Metadata.adoc#, Metadata>> (with <<kafka-producer-ProducerConfig.adoc#RETRY_BACKOFF_MS_CONFIG, ProducerConfig.RETRY_BACKOFF_MS_CONFIG>>, <<kafka-producer-ProducerConfig.adoc#METADATA_MAX_AGE_CONFIG, ProducerConfig.METADATA_MAX_AGE_CONFIG>> and <<configureClusterResourceListeners, configureClusterResourceListeners>>) and immediately requests the <<metadata, Metadata>> to <<kafka-clients-Metadata.adoc#update, update>> (with <<kafka-producer-ProducerConfig.adoc#BOOTSTRAP_SERVERS_CONFIG, ProducerConfig.BOOTSTRAP_SERVERS_CONFIG>>)
 
 * The input `metadata` if given
 
 `KafkaProducer` creates a new <<kafka-clients-NetworkClient.adoc#, NetworkClient>> (unless the input <<kafka-clients-KafkaClient.adoc#, KafkaClient>> was given) with the following configuration properties:
 
-* <<kafka-ProducerConfig.adoc#CONNECTIONS_MAX_IDLE_MS_CONFIG, ProducerConfig.CONNECTIONS_MAX_IDLE_MS_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#CONNECTIONS_MAX_IDLE_MS_CONFIG, ProducerConfig.CONNECTIONS_MAX_IDLE_MS_CONFIG>>
 
-* <<kafka-ProducerConfig.adoc#RECONNECT_BACKOFF_MS_CONFIG, ProducerConfig.RECONNECT_BACKOFF_MS_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#RECONNECT_BACKOFF_MS_CONFIG, ProducerConfig.RECONNECT_BACKOFF_MS_CONFIG>>
 
-* <<kafka-ProducerConfig.adoc#RECONNECT_BACKOFF_MAX_MS_CONFIG, ProducerConfig.RECONNECT_BACKOFF_MAX_MS_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#RECONNECT_BACKOFF_MAX_MS_CONFIG, ProducerConfig.RECONNECT_BACKOFF_MAX_MS_CONFIG>>
 
-* <<kafka-ProducerConfig.adoc#SEND_BUFFER_CONFIG, ProducerConfig.SEND_BUFFER_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#SEND_BUFFER_CONFIG, ProducerConfig.SEND_BUFFER_CONFIG>>
 
-* <<kafka-ProducerConfig.adoc#RECEIVE_BUFFER_CONFIG, ProducerConfig.RECEIVE_BUFFER_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#RECEIVE_BUFFER_CONFIG, ProducerConfig.RECEIVE_BUFFER_CONFIG>>
 
-* <<kafka-ProducerConfig.adoc#REQUEST_TIMEOUT_MS_CONFIG, ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#REQUEST_TIMEOUT_MS_CONFIG, ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG>>
 
 `KafkaProducer` creates a new <<kafka-Sender.adoc#, Sender>> as the <<sender, sender>> with the following configuration properties:
 
-* <<kafka-ProducerConfig.adoc#MAX_REQUEST_SIZE_CONFIG, ProducerConfig.MAX_REQUEST_SIZE_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#MAX_REQUEST_SIZE_CONFIG, ProducerConfig.MAX_REQUEST_SIZE_CONFIG>>
 
-* <<kafka-ProducerConfig.adoc#REQUEST_TIMEOUT_MS_CONFIG, ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#REQUEST_TIMEOUT_MS_CONFIG, ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG>>
 
-* <<kafka-ProducerConfig.adoc#RETRY_BACKOFF_MS_CONFIG, ProducerConfig.RETRY_BACKOFF_MS_CONFIG>>
+* <<kafka-producer-ProducerConfig.adoc#RETRY_BACKOFF_MS_CONFIG, ProducerConfig.RETRY_BACKOFF_MS_CONFIG>>
 
 `KafkaProducer` sets the <<transactionManager, transactionManager>> as <<configureTransactionState, configureTransactionState>>.
 
@@ -367,7 +367,7 @@ Starting the Kafka producer
 
 `KafkaProducer` starts the <<ioThread, kafka-producer-network-thread>> daemon thread of execution for the <<sender, sender>>.
 
-`KafkaProducer` requests the `ProducerConfig` to <<kafka-ProducerConfig.adoc#logUnused, logUnused>>.
+`KafkaProducer` requests the `ProducerConfig` to <<kafka-producer-ProducerConfig.adoc#logUnused, logUnused>>.
 
 `KafkaProducer` registers the AppInfo MBean (with `kafka.producer` JMX prefix, the <<clientId, clientId>> and the <<metrics, metrics>>).
 

@@ -2,7 +2,7 @@
 
 `DefaultPartitioner` is a <<kafka-producer-Partitioner.adoc#, Partitioner>> that uses a 32-bit murmur2 hash to compute the <<partition, partition>> for a record (with the key defined) or chooses a partition in a round-robin fashion (per the available partitions of the topic).
 
-`DefaultPartitioner` is the default partitioning strategy (per <<kafka-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property).
+`DefaultPartitioner` is the default partitioning strategy (per <<kafka-producer-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property).
 
 `DefaultPartitioner` is a <<kafka-common-Configurable.adoc#, Configurable>> that needs no <<kafka-common-Configurable.adoc#configure, configuration>> while being created.
 

@@ -195,7 +195,7 @@
 . link:kafka-ProducerRecord.adoc[ProducerRecord]
 . link:kafka-producer-Callback.adoc[Callback]
 
-. link:kafka-ProducerConfig.adoc[ProducerConfig]
+. link:kafka-producer-ProducerConfig.adoc[ProducerConfig]
 
 . link:kafka-producer-Partitioner.adoc[Partitioner]
 .. link:kafka-producer-DefaultPartitioner.adoc[DefaultPartitioner]

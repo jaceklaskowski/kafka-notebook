@@ -1,6 +1,6 @@
 == [[TransactionManager]] TransactionManager
 
-`TransactionManager` is <<creating-instance, created>> exclusively for a <<kafka-transactional-producer.adoc#, transactional KafkaProducer>> (when a <<kafka-ProducerConfig.adoc#TRANSACTIONAL_ID_CONFIG, user-configured transaction>> or <<kafka-ProducerConfig.adoc#ENABLE_IDEMPOTENCE_CONFIG, idempotence>> are enabled).
+`TransactionManager` is <<creating-instance, created>> exclusively for a <<kafka-transactional-producer.adoc#, transactional KafkaProducer>> (when a <<kafka-producer-ProducerConfig.adoc#TRANSACTIONAL_ID_CONFIG, user-configured transaction>> or <<kafka-producer-ProducerConfig.adoc#ENABLE_IDEMPOTENCE_CONFIG, idempotence>> are enabled).
 
 [TIP]
 ====
@@ -39,11 +39,11 @@ val producer = new KafkaProducer[String, String](props)
 
 `KafkaProducer` uses the following configuration properties when creating a `TransactionManager`:
 
-* <<kafka-ProducerConfig.adoc#RETRY_BACKOFF_MS_CONFIG, retry.backoff.ms>> for <<retryBackoffMs, retryBackoffMs>>
+* <<kafka-producer-ProducerConfig.adoc#RETRY_BACKOFF_MS_CONFIG, retry.backoff.ms>> for <<retryBackoffMs, retryBackoffMs>>
 
-* <<kafka-ProducerConfig.adoc#TRANSACTIONAL_ID_CONFIG, transactional.id>> for <<transactionalId, transactionalId>>
+* <<kafka-producer-ProducerConfig.adoc#TRANSACTIONAL_ID_CONFIG, transactional.id>> for <<transactionalId, transactionalId>>
 
-* <<kafka-ProducerConfig.adoc#TRANSACTION_TIMEOUT_CONFIG, transaction.timeout.ms>> for <<transactionTimeoutMs, transactionTimeoutMs>>
+* <<kafka-producer-ProducerConfig.adoc#TRANSACTION_TIMEOUT_CONFIG, transaction.timeout.ms>> for <<transactionTimeoutMs, transactionTimeoutMs>>
 
 [[isTransactional]]
 `TransactionManager` is *transactional* when the <<transactionalId, Transactional Id>> is assigned.
