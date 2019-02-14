@@ -46,7 +46,7 @@ apply(
 
 `apply`...FIXME
 
-NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
+NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>> (to create a <<kafka-server-KafkaServer.adoc#transactionCoordinator, TransactionCoordinator>>).
 
 === [[shutdown]] `shutdown` Method
 

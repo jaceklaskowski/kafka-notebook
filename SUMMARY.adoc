@@ -104,7 +104,6 @@
 . link:kafka-GroupCoordinator.adoc[GroupCoordinator]
 .. link:kafka-GroupMetadataManager.adoc[GroupMetadataManager]
 
-. link:kafka-InterBrokerSendThread.adoc[InterBrokerSendThread]
 . link:kafka-Kafka.adoc[Kafka]
 . link:kafka-server-KafkaApis.adoc[KafkaApis -- API Request Handler]
 
@@ -147,8 +146,12 @@
 . link:kafka-network-RequestChannel.adoc[RequestChannel]
 .. link:kafka-network-RequestChannel-Request.adoc[RequestChannel.Request]
 
+
 . link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
+.. link:kafka-TransactionMarkerChannelManager.adoc[TransactionMarkerChannelManager]
+.. link:kafka-InterBrokerSendThread.adoc[InterBrokerSendThread]
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
+
 . link:kafka-ZkUtils.adoc[ZkUtils]
 . link:kafka-ZKRebalancerListener.adoc[ZKRebalancerListener]
 
@@ -255,6 +258,8 @@
 . link:kafka-clients-KafkaClient.adoc[KafkaClient]
 .. link:kafka-clients-NetworkClient.adoc[NetworkClient -- Non-Blocking Network KafkaClient]
 
+. link:kafka-clients-RequestCompletionHandler.adoc[RequestCompletionHandler Contract]
+
 . link:kafka-clients-MetadataUpdater.adoc[MetadataUpdater]
 .. link:kafka-clients-DefaultMetadataUpdater.adoc[DefaultMetadataUpdater]
 
@@ -264,7 +269,6 @@
 . link:kafka-clients-ClientRequest.adoc[ClientRequest]
 . link:kafka-clients-ClientResponse.adoc[ClientResponse]
 
-. link:kafka-clients-RequestCompletionHandler.adoc[RequestCompletionHandler]
 . link:kafka-clients-StaleMetadataException.adoc[StaleMetadataException]
 
 . link:kafka-clients-NetworkClientUtils.adoc[NetworkClientUtils]

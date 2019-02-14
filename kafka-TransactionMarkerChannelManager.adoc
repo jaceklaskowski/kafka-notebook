@@ -1,0 +1,41 @@
+== [[TransactionMarkerChannelManager]] TransactionMarkerChannelManager
+
+`TransactionMarkerChannelManager` is a <<kafka-InterBrokerSendThread.adoc#, InterBrokerSendThread>> that...FIXME
+
+`TransactionMarkerChannelManager` uses the name *TxnMarkerSenderThread-[brokerId]*.
+
+[[logIdent]]
+`TransactionMarkerChannelManager` uses *[Transaction Marker Channel Manager [brokerId]]* as the logging prefix (aka `logIdent`).
+
+`TransactionMarkerChannelManager` is <<creating-instance, created>> (using <<apply, apply>> factory method) exclusively when `TransactionCoordinator` is <<kafka-TransactionCoordinator.adoc#apply, created>> (for a <<kafka-server-KafkaServer.adoc#, KafkaServer>>).
+
+=== [[creating-instance]] Creating TransactionMarkerChannelManager Instance
+
+`TransactionMarkerChannelManager` takes the following to be created:
+
+* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
+* [[networkClient]] <<kafka-clients-NetworkClient.adoc#, NetworkClient>>
+* [[txnStateManager]] <<kafka-TransactionStateManager.adoc#, TransactionStateManager>>
+* [[txnMarkerPurgatory]] `DelayedOperationPurgatory[DelayedTxnMarker]`
+* [[time]] `Time`
+
+`TransactionMarkerChannelManager` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[apply]] Creating TransactionMarkerChannelManager -- `apply` Factory Method
+
+[source, scala]
+----
+apply(
+  config: KafkaConfig,
+  metrics: Metrics,
+  metadataCache: MetadataCache,
+  txnStateManager: TransactionStateManager,
+  txnMarkerPurgatory: DelayedOperationPurgatory[DelayedTxnMarker],
+  time: Time,
+  logContext: LogContext): TransactionMarkerChannelManager
+----
+
+`apply`...FIXME
+
+NOTE: `apply` is used exclusively when `TransactionCoordinator` is <<kafka-TransactionCoordinator.adoc#apply, created>> (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>).

@@ -150,9 +150,9 @@ NOTE: `beginTransaction` is used when...FIXME
 `TransactionManager` takes the following to be created:
 
 * [[logContext]] `LogContext`
-* [[transactionalId]] Transactional Id
-* [[transactionTimeoutMs]] `transactionTimeoutMs`
-* [[retryBackoffMs]] `retryBackoffMs`
+* [[transactionalId]] Transactional ID (as <<kafka-producer-ProducerConfig.adoc#transactional.id, transactional.id>>)
+* [[transactionTimeoutMs]] `transactionTimeoutMs` (as <<kafka-producer-ProducerConfig.adoc#transaction.timeout.ms, transaction.timeout.ms>>)
+* [[retryBackoffMs]] `retryBackoffMs` (as <<kafka-producer-ProducerConfig.adoc#retry.backoff.ms, retry.backoff.ms>>)
 
 `TransactionManager` initializes the <<internal-registries, internal registries and counters>>.
 

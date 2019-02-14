@@ -1,31 +1,48 @@
-== [[RequestCompletionHandler]] RequestCompletionHandler
+== [[RequestCompletionHandler]] RequestCompletionHandler Contract
 
-`RequestCompletionHandler` is the <<contract, contract>> to attach an action that is executed when a request is complete, i.e. the corresponding response has been received or there was a disconnection while handling the request.
+`RequestCompletionHandler` is the <<contract, contract>> of <<implementations, request completion handlers>> that are <<onComplete, executed when a request is complete>>, i.e. the corresponding response has been received or there was a disconnection while handling the request.
 
 [[contract]]
-[[onComplete]]
-[source, java]
-----
-package org.apache.kafka.clients;
-
-public interface RequestCompletionHandler {
-    public void onComplete(ClientResponse response);
-}
-----
-
-[[known-implementations]]
-.RequestCompletionHandler's Known Implementations
-[cols="1,2",options="header",width="100%"]
+.RequestCompletionHandler Contract
+[cols="1m,3",options="header",width="100%"]
 |===
-| Name
+| Method
 | Description
 
-| [[RequestFutureCompletionHandler]] `RequestFutureCompletionHandler`
-|
+| onComplete
+a| [[onComplete]]
 
-| [[TxnRequestHandler]] `TxnRequestHandler`
-|
+[source, java]
+----
+void onComplete(ClientResponse response)
+----
 
-| [[TransactionMarkerRequestCompletionHandler]] `TransactionMarkerRequestCompletionHandler`
-|
+Action to be executed when a request is complete
+
+Used when:
+
+* `ClientResponse` is requested to <<kafka-clients-ClientResponse.adoc#onComplete, onComplete>> (when `NetworkClient` is requested to <<kafka-clients-NetworkClient.adoc#poll, poll>>)
+
+* `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#checkDisconnects, checkDisconnects>> (when `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#poll, poll>>)
+
+* `InterBrokerSendThread` is requested to <<kafka-InterBrokerSendThread.adoc#completeWithDisconnect, completeWithDisconnect>> (when `InterBrokerSendThread` is requested to <<kafka-InterBrokerSendThread.adoc#doWork, doWork>>)
+
+|===
+
+[[implementations]]
+.RequestCompletionHandlers (Direct Implementations)
+[cols="1,3",options="header",width="100%"]
+|===
+| RequestCompletionHandler
+| Description
+
+| RequestFutureCompletionHandler
+| [[RequestFutureCompletionHandler]]
+
+| TransactionMarkerRequestCompletionHandler
+| [[TransactionMarkerRequestCompletionHandler]]
+
+| TxnRequestHandler
+| [[TxnRequestHandler]]
+
 |===

@@ -214,7 +214,7 @@ In case of any exception, `completeResponses` prints out the following ERROR mes
 Uncaught error in request completion: [exception]
 ```
 
-NOTE: `completeResponses` is used when `NetworkClient` <<poll, poll>> (for both <<abortedSends, abortedSends>> and completed actions).
+NOTE: `completeResponses` is used when `NetworkClient` is requested to <<poll, poll>> (for both <<abortedSends, abortedSends>> and completed actions).
 
 === [[newClientRequest]] Creating ClientRequest -- `newClientRequest` Method
 

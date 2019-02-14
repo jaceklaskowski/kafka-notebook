@@ -1,12 +1,15 @@
 == [[InterBrokerSendThread]] InterBrokerSendThread
 
-`InterBrokerSendThread`...FIXME
+`InterBrokerSendThread` is the <<contract, extension>> of the <<kafka-ShutdownableThread.adoc#, ShutdownableThread contract>> for <<implementations, inter-broker send threads>> with a <<networkClient, non-blocking NetworkClient>> that <<doWork, doWork>>.
+
+[[implementations]]
+NOTE: `TransactionMarkerChannelManager` is the only available implementation of the <<contract, InterBrokerSendThread Contract>> in Apache Kafka.
 
 === [[doWork]] `doWork` Method
 
 [source, scala]
 ----
-def doWork(): Unit
+doWork(): Unit
 ----
 
 NOTE: `doWork` is a part of link:kafka-ShutdownableThread.adoc#doWork[ShutdownableThread Contract].
@@ -15,11 +18,58 @@ NOTE: `doWork` is a part of link:kafka-ShutdownableThread.adoc#doWork[Shutdownab
 
 === [[sendRequests]] `sendRequests` Internal Method
 
-[source, java]
+[source, scala]
 ----
-def sendRequests(now: Long): Long
+sendRequests(now: Long): Long
 ----
 
 `sendRequests`...FIXME
 
 NOTE: `sendRequests` is used exclusively when `InterBrokerSendThread` is requested to <<doWork, doWork>>.
+
+=== [[completeWithDisconnect]] `completeWithDisconnect` Method
+
+[source, scala]
+----
+completeWithDisconnect(
+  request: ClientRequest,
+  now: Long,
+  authenticationException: AuthenticationException): Unit
+----
+
+`completeWithDisconnect`...FIXME
+
+NOTE: `completeWithDisconnect` is used when `InterBrokerSendThread` is requested to <<checkDisconnects, checkDisconnects>> and <<failExpiredRequests, failExpiredRequests>> (when `InterBrokerSendThread` is requested to <<doWork, doWork>>).
+
+=== [[checkDisconnects]] `checkDisconnects` Internal Method
+
+[source, scala]
+----
+checkDisconnects(now: Long): Unit
+----
+
+`checkDisconnects`...FIXME
+
+NOTE: `checkDisconnects` is used exclusively when `InterBrokerSendThread` is requested to <<doWork, doWork>>.
+
+=== [[failExpiredRequests]] `failExpiredRequests` Internal Method
+
+[source, scala]
+----
+failExpiredRequests(now: Long): Unit
+----
+
+`failExpiredRequests`...FIXME
+
+NOTE: `failExpiredRequests` is used exclusively when `InterBrokerSendThread` is requested to <<doWork, doWork>>.
+
+=== [[creating-instance]] Creating InterBrokerSendThread Instance
+
+`InterBrokerSendThread` takes the following to be created:
+
+* [[name]] Name
+* [[networkClient]] <<kafka-clients-NetworkClient.adoc#, NetworkClient>>
+* [[time]] `Time`
+* [[isInterruptible]] `isInterruptible` flag (default: `true`)
+
+`InterBrokerSendThread` initializes the <<internal-registries, internal registries and counters>>.
