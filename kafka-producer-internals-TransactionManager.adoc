@@ -1,6 +1,88 @@
 == [[TransactionManager]] TransactionManager
 
-`TransactionManager` is...FIXME
+`TransactionManager` is <<creating-instance, created>> exclusively when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#configureTransactionState, configureTransactionState>> (with a <<kafka-ProducerConfig.adoc#TRANSACTIONAL_ID_CONFIG, user-configured transaction>> or <<kafka-ProducerConfig.adoc#enable.idempotence, idempotence enabled>>).
+
+`KafkaProducer` uses the following configuration properties when creating a `TransactionManager`:
+
+* <<kafka-ProducerConfig.adoc#RETRY_BACKOFF_MS_CONFIG, retry.backoff.ms>> for <<retryBackoffMs, retryBackoffMs>>
+
+* <<kafka-ProducerConfig.adoc#TRANSACTIONAL_ID_CONFIG, transactional.id>> for <<transactionalId, transactionalId>>
+
+* <<kafka-ProducerConfig.adoc#TRANSACTION_TIMEOUT_CONFIG, transaction.timeout.ms>> for <<transactionTimeoutMs, transactionTimeoutMs>>
+
+[[internal-registries]]
+.TransactionManager's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| consumerGroupCoordinator
+| [[consumerGroupCoordinator]] Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/Node.html[Node]
+
+Used when...FIXME
+
+| inflightBatchesBySequence
+| [[inflightBatchesBySequence]] `Map<TopicPartition, PriorityQueue<ProducerBatch>>`
+
+Used when...FIXME
+
+| lastAckedOffset
+| [[lastAckedOffset]] `Map<TopicPartition, Long>`
+
+Used when...FIXME
+
+| lastAckedSequence
+| [[lastAckedSequence]] `Map<TopicPartition, Integer>`
+
+Used when...FIXME
+
+| newPartitionsInTransaction
+| [[newPartitionsInTransaction]] `Set<TopicPartition>`
+
+Used when...FIXME
+
+| nextSequence
+| [[nextSequence]] `Map<TopicPartition, Integer>`
+
+Used when...FIXME
+
+| partitionsInTransaction
+| [[partitionsInTransaction]] `Set<TopicPartition>`
+
+Used when...FIXME
+
+| partitionsWithUnresolvedSequences
+| [[partitionsWithUnresolvedSequences]] `Set<TopicPartition>`
+
+Used when...FIXME
+
+| pendingPartitionsInTransaction
+| [[pendingPartitionsInTransaction]] `Set<TopicPartition>`
+
+Used when...FIXME
+
+| pendingRequests
+| [[pendingRequests]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/PriorityQueue.html[java.util.PriorityQueue] of `TxnRequestHandlers`
+
+Used when...FIXME
+
+| pendingTxnOffsetCommits
+| [[pendingTxnOffsetCommits]] `Map<TopicPartition, CommittedOffset>`
+
+Used when...FIXME
+
+| producerIdAndEpoch
+| [[producerIdAndEpoch]] `ProducerIdAndEpoch`
+
+Used when...FIXME
+
+| transactionCoordinator
+| [[transactionCoordinator]] Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/Node.html[Node]
+
+Used when...FIXME
+
+|===
 
 === [[beginTransaction]] `beginTransaction` Method
 
@@ -12,3 +94,14 @@ void beginTransaction()
 `beginTransaction`...FIXME
 
 NOTE: `beginTransaction` is used when...FIXME
+
+=== [[creating-instance]] Creating TransactionManager Instance
+
+`TransactionManager` takes the following to be created:
+
+* [[logContext]] `LogContext`
+* [[transactionalId]] Transactional Id
+* [[transactionTimeoutMs]] `transactionTimeoutMs`
+* [[retryBackoffMs]] `retryBackoffMs`
+
+`TransactionManager` initializes the <<internal-registries, internal registries and counters>>.

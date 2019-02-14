@@ -8,28 +8,47 @@
 
 [[configuration-values]]
 .ProducerConfig's Configuration Properties
-[cols="1m,1,1m,2",options="header",width="100%"]
+[cols="1m,1",options="header",width="100%"]
 |===
-| Name
-| Default Value
-| Kafka Property
+| Name / Default Value / Property
 | Description
 
+| ACKS_CONFIG
+
+Default: `1`
+
+Property: `acks`
+
+a| [[acks]][[ACKS_CONFIG]] The number of acknowledgments a producer requires the leader to have received before considering a request complete. This controls the durability of records that are sent.
+
+The following settings are allowed:
+
+* `0` - a producer will not wait for any acknowledgment from the server at all. The record will be immediately added to the socket buffer and considered sent. No guarantee can be made that the server has received the record in this case, and the <<retries, retries>> configuration will not take effect (as the client won't generally know of any failures). The offset given back for each record will always be set to `-1`.
+
+* `1` (default) - the leader will write the record to its local log but will respond without awaiting full acknowledgement from all followers. In this case should the leader fail immediately after acknowledging the record but before the followers have replicated it then the record will be lost.
+
+* `all` or `-1` - the leader will wait for the full set of in-sync replicas to acknowledge the record. This guarantees that the record will not be lost as long as at least one in-sync replica remains alive. This is the strongest available guarantee.
+
 | BOOTSTRAP_SERVERS_CONFIG
-| (empty)
-| bootstrap.servers
-a| [[BOOTSTRAP_SERVERS_CONFIG]] Host:port pairs to use to establish the initial connection to a Kafka cluster. The client will make use of all servers irrespective of which servers are specified here for bootstrapping, i.e. this list only impacts the initial hosts used to discover the full set of servers.
+
+Default: (empty)
+
+Property: `bootstrap.servers`
+
+a| [[bootstrap.servers]][[BOOTSTRAP_SERVERS_CONFIG]] Host:port pairs to use to establish the initial connection to a Kafka cluster. The client will make use of all servers irrespective of which servers are specified here for bootstrapping, i.e. this list only impacts the initial hosts used to discover the full set of servers.
 
 This list should be in the form `host1:port1,host2:port2,...`
 
 Since these servers are just used for the initial connection to discover the full cluster membership (which may change dynamically), this list need not contain the full set of servers (you may want more than one, though, in case a server is down).
 
 | BATCH_SIZE_CONFIG
-| `16384`
-| batch.size
-a| [[BATCH_SIZE_CONFIG]] Batch size (in bytes)
 
-The producer will attempt to batch records together into fewer requests whenever multiple records are being sent to the same partition. This helps performance on both the client and the server.
+Default: `16384`
+
+Property: `batch.size`
+a| [[batch.size]][[BATCH_SIZE_CONFIG]] Batch size (in bytes)
+
+A Kafka producer will attempt to batch records together into fewer requests whenever multiple records are being sent to the same partition. This helps performance on both the client and the server.
 
 No attempt will be made to batch records larger than this size.
 
@@ -42,155 +61,243 @@ A very large batch size may use memory a bit more wastefully as we will always a
 Must be at least `0`
 
 | BUFFER_MEMORY_CONFIG
-| `32 * 1024 * 1024`
-| buffer.memory
-a| [[BUFFER_MEMORY_CONFIG]] The total bytes of memory a producer can use to buffer records waiting to be sent to the server.
+
+Default: `32 * 1024 * 1024`
+
+Property: `buffer.memory`
+a| [[buffer.memory]][[BUFFER_MEMORY_CONFIG]] The total bytes of memory a Kafka producer can use to buffer records waiting to be sent to the server.
 
 If records are sent faster than they can be delivered to the server the producer will block for <<MAX_BLOCK_MS_CONFIG, MAX_BLOCK_MS_CONFIG>> after which it will throw an exception.
 
 This setting should correspond roughly to the total memory the producer will use, but is not a hard bound since not all memory the producer uses is used for buffering. Some additional memory will be used for compression (if compression is enabled) as well as for maintaining in-flight requests.
 
 | CLIENT_ID_CONFIG
-| (empty)
-| client.id
-a| [[CLIENT_ID_CONFIG]] An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.
+
+Default: (empty)
+
+Property: `client.id`
+a| [[client.id]][[CLIENT_ID_CONFIG]] An id string to pass to the server when making requests. The purpose of this is to be able to track the source of requests beyond just ip/port by allowing a logical application name to be included in server-side request logging.
 
 | COMPRESSION_TYPE_CONFIG
-| `none`
-| compression.type
-a| [[COMPRESSION_TYPE_CONFIG]] The compression type for all data generated by the producer. The default is `none` (i.e. no compression).
+
+Default: `none`
+
+Property: `compression.type`
+a| [[compression.type]][[COMPRESSION_TYPE_CONFIG]] The compression type for all data generated by the producer. The default is `none` (i.e. no compression).
 
 Valid values are `none`, `gzip`, `snappy`, or `lz4`.
 
 Compression is of full batches of data, so the efficacy of batching will also impact the compression ratio (more batching means better compression).
 
 | CONNECTIONS_MAX_IDLE_MS_CONFIG
-| `9 * 60 * 1000`
-| connections.max.idle.ms
-a| [[CONNECTIONS_MAX_IDLE_MS_CONFIG]] Close idle connections after the number of milliseconds specified by this config.
+
+Default: `9 * 60 * 1000`
+
+Property: `connections.max.idle.ms`
+a| [[connections.max.idle.ms]][[CONNECTIONS_MAX_IDLE_MS_CONFIG]] Close idle connections after the number of milliseconds specified by this config.
+
+| DELIVERY_TIMEOUT_MS_CONFIG
+
+Default: `120 * 1000`
+
+Property: `delivery.timeout.ms`
+a| [[delivery.timeout.ms]][[DELIVERY_TIMEOUT_MS_CONFIG]] An upper bound on the time to report a success or a failure after a call to `send()` returns. This limits the total time that a record will be delayed prior to sending, the time to await acknowledgement from the broker (if expected), and the time allowed for retriable send failures.
+
+A Kafka producer may report failure to send a record earlier than this config if either an unrecoverable error is encountered, the retries have been exhausted, or the record is added to a batch which reached an earlier delivery expiration deadline.
+
+The value of this config should be greater than or equal to the sum of <<request.timeout.ms, request.timeout.ms>> and <<linger.ms, linger.ms>>.
+
+Must be at least `0`
+
+| ENABLE_IDEMPOTENCE_CONFIG
+
+Default: `false`
+
+Property: `enable.idempotence`
+a| [[enable.idempotence]][[ENABLE_IDEMPOTENCE_CONFIG]] When enabled (`true`), a producer will ensure that exactly one copy of a message is written to the stream.
+
+When disabled (`false`), it is acceptable that a producer may write duplicates of a message to the stream (e.g. due to broker failures and retries).
+
+Enabling idempotence requires:
+
+* <<max.in.flight.requests.per.connection, max.in.flight.requests.per.connection>> to be less than or equal to `5`
+* <<retries, retries>> to be greater than `0`
+* <<acks, acks>> must be `all`
+
+If these values are not explicitly set, suitable values will be chosen. If incompatible values are set, a `ConfigException` will be thrown.
 
 | INTERCEPTOR_CLASSES_CONFIG
-| (empty)
-| interceptor.classes
-a| [[INTERCEPTOR_CLASSES_CONFIG]] <<kafka-ProducerInterceptor.adoc#, ProducerInterceptors>> to use to intercept (and possibly mutate) the records sent out by the producer before they are published to the Kafka cluster.
+
+Default: (empty)
+
+Property: `interceptor.classes`
+a| [[interceptor.classes]][[INTERCEPTOR_CLASSES_CONFIG]] <<kafka-ProducerInterceptor.adoc#, ProducerInterceptors>> to use to intercept (and possibly mutate) the records sent out by the producer before they are published to the Kafka cluster.
 
 | KEY_SERIALIZER_CLASS_CONFIG
-|
-| key.serializer
-a| [[KEY_SERIALIZER_CLASS_CONFIG]] Serializer class for keys that implements the <<kafka-common-serialization-Serializer.adoc#, org.apache.kafka.common.serialization.Serializer>> interface.
+
+Default: (empty)
+
+Property: `key.serializer`
+a| [[key.serializer]][[KEY_SERIALIZER_CLASS_CONFIG]] Serializer class for keys that implements the <<kafka-common-serialization-Serializer.adoc#, org.apache.kafka.common.serialization.Serializer>> interface.
 
 | LINGER_MS_CONFIG
-| `0`
-| linger.ms
-a| [[LINGER_MS_CONFIG]] The producer groups together any records that arrive in between request transmissions into a single batched request. Normally this occurs only under load when records arrive faster than they can be sent out. However in some circumstances the client may want to reduce the number of requests even under moderate load. This setting accomplishes this by adding a small amount of artificial delay, i.e. rather than immediately sending out a record the producer will wait for up to the given delay to allow other records to be sent so that the sends can be batched together. This can be thought of as analogous to Nagle's algorithm in TCP. This setting gives the upper bound on the delay for batching: once we get <<BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG>> worth of records for a partition it will be sent immediately regardless of this setting, however if we have fewer than this many bytes accumulated for this partition we will 'linger' for the specified time waiting for more records to show up.
 
-Default is `0` (i.e. no delay)
+Default: `0`
+
+Property: `linger.ms`
+a| [[linger.ms]][[LINGER_MS_CONFIG]] The producer groups together any records that arrive in between request transmissions into a single batched request. Normally this occurs only under load when records arrive faster than they can be sent out. However in some circumstances the client may want to reduce the number of requests even under moderate load. This setting accomplishes this by adding a small amount of artificial delay, i.e. rather than immediately sending out a record the producer will wait for up to the given delay to allow other records to be sent so that the sends can be batched together. This can be thought of as analogous to Nagle's algorithm in TCP. This setting gives the upper bound on the delay for batching: once we get <<BATCH_SIZE_CONFIG, BATCH_SIZE_CONFIG>> worth of records for a partition it will be sent immediately regardless of this setting, however if we have fewer than this many bytes accumulated for this partition we will 'linger' for the specified time waiting for more records to show up.
+
+Must be at least `0`
+
+| MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION
+
+Default: `5`
+
+Property: `max.in.flight.requests.per.connection`
+a| [[max.in.flight.requests.per.connection]][[MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION]] The maximum number of unacknowledged requests a client will send on a single connection before blocking.
+
+Note that if this setting is set to be greater than `1` and there are failed sends, there is a risk of message re-ordering due to retries (i.e. if retries are enabled).
+
+Must be at least `1`
+
+| RETRIES_CONFIG
+
+Default: `Integer.MAX_VALUE`
+
+Property: `retries`
+a| [[retries]][[RETRIES_CONFIG]] A value greater than `0` will cause the client to resend any record whose send fails with a potentially transient error.
+
+Note that this retry is no different than if the client resent the record upon receiving the error.
+
+Allowing retries without setting <<max.in.flight.requests.per.connection, max.in.flight.requests.per.connection>> to `1` will potentially change the ordering of records because if two batches are sent to a single partition, and the first fails and is retried but the second succeeds, then the records in the second batch may appear first.
+
+Note also that produce requests will be failed before the number of retries has been exhausted if the timeout configured by <<delivery.timeout.ms, delivery.timeout.ms>> expires first before successful acknowledgement.
+
+Users should generally prefer to leave this config unset and instead use <<delivery.timeout.ms, delivery.timeout.ms>> to control retry behavior.
 
 Must be at least `0`
 
 | VALUE_SERIALIZER_CLASS_CONFIG
-|
-| value.serializer
-a| [[VALUE_SERIALIZER_CLASS_CONFIG]] Serializer class for values that implements the <<kafka-common-serialization-Serializer.adoc#, org.apache.kafka.common.serialization.Serializer>> interface.
+
+Property: `value.serializer`
+a| [[value.serializer]][[VALUE_SERIALIZER_CLASS_CONFIG]] Serializer class for values that implements the <<kafka-common-serialization-Serializer.adoc#, org.apache.kafka.common.serialization.Serializer>> interface.
 
 | MAX_BLOCK_MS_CONFIG
-| `60 * 1000`
-| max.block.ms
-a| [[MAX_BLOCK_MS_CONFIG]] How long `KafkaProducer.send()` and `KafkaProducer.partitionsFor()` block.
+
+Default: `60 * 1000`
+
+Property: `max.block.ms`
+a| [[max.block.ms]][[MAX_BLOCK_MS_CONFIG]] How long can `KafkaProducer.send()` and `KafkaProducer.partitionsFor()` block.
 
 These methods can be blocked either because the buffer is full or metadata unavailable. Blocking in the user-supplied serializers or partitioner will not be counted against this timeout.
 
 Must be at least `0`
 
 | MAX_REQUEST_SIZE_CONFIG
-| `1024 * 1024`
-| max.request.size
-a| [[MAX_REQUEST_SIZE_CONFIG]] The maximum size of a request in bytes. This setting will limit the number of record batches the producer will send in a single request to avoid sending huge requests. This is also effectively a cap on the maximum record batch size.
+
+Default: `1024 * 1024`
+
+Property: `max.request.size`
+a| [[max.request.size]][[MAX_REQUEST_SIZE_CONFIG]] The maximum size of a request in bytes. This setting will limit the number of record batches the producer will send in a single request to avoid sending huge requests. This is also effectively a cap on the maximum record batch size.
 
 Note that the server has its own cap on record batch size which may be different.
 
 Must be at least `0`
 
 | METADATA_MAX_AGE_CONFIG
-| `5 * 60 * 1000`
-| metadata.max.age.ms
-a| [[METADATA_MAX_AGE_CONFIG]] The period of time (in milliseconds) after which we force a refresh of metadata even if we haven't seen any partition leadership changes to proactively discover any new brokers or partitions.
+
+Default: `5 * 60 * 1000`
+
+Property: `metadata.max.age.ms`
+a| [[metadata.max.age.ms]][[METADATA_MAX_AGE_CONFIG]] The period of time (in milliseconds) after which we force a refresh of metadata even if we haven't seen any partition leadership changes to proactively discover any new brokers or partitions.
 
 Must be at least `0`
 
 | METRICS_NUM_SAMPLES_CONFIG
-|
-| metrics.num.samples
-a| [[METRICS_NUM_SAMPLES_CONFIG]] The number of samples maintained to compute metrics (for <<kafka-producer-KafkaProducer.adoc#, Kafka producers>>). Must be at least `1`.
+
+Property: `metrics.num.samples`
+a| [[metrics.num.samples]][[METRICS_NUM_SAMPLES_CONFIG]] The number of samples maintained to compute metrics (for <<kafka-producer-KafkaProducer.adoc#, Kafka producers>>). Must be at least `1`.
 
 | METRICS_RECORDING_LEVEL_CONFIG
-|
-| metrics.recording.level
-a| [[METRICS_RECORDING_LEVEL_CONFIG]] The name of highest recording level for metrics. Must be one of the following: `INFO` or `DEBUG`.
+
+Property: `metrics.recording.level`
+a| [[metrics.recording.level]] [[METRICS_RECORDING_LEVEL_CONFIG]] The name of highest recording level for metrics.
+
+Must be one of the following: `INFO` or `DEBUG`.
 
 | METRIC_REPORTER_CLASSES_CONFIG
-|
-| metric.reporters
-a| [[METRIC_REPORTER_CLASSES_CONFIG]] The class names of the <<kafka-MetricsReporter.adoc#, MetricsReporters>> that will be notified of new metric creation.
+
+Property: `metric.reporters`
+a| [[metric.reporters]][[METRIC_REPORTER_CLASSES_CONFIG]] The class names of the <<kafka-MetricsReporter.adoc#, MetricsReporters>> that will be notified of new metric creation.
 
 The <<kafka-MetricsReporter.adoc#JmxReporter, JmxReporter>> is always included to register JMX statistics.
 
 | METRICS_SAMPLE_WINDOW_MS_CONFIG
-|
-| metrics.sample.window.ms
-a| [[METRICS_SAMPLE_WINDOW_MS_CONFIG]] The window of time a metrics sample is computed over (for <<kafka-producer-KafkaProducer.adoc#, Kafka producers>>).
+
+Property: `metrics.sample.window.ms`
+a| [[metrics.sample.window.ms]][[METRICS_SAMPLE_WINDOW_MS_CONFIG]] The window of time a metrics sample is computed over (for <<kafka-producer-KafkaProducer.adoc#, Kafka producers>>).
 
 | PARTITIONER_CLASS_CONFIG
-| <<kafka-producer-DefaultPartitioner.adoc#, DefaultPartitioner>>
-| partitioner.class
-a| [[PARTITIONER_CLASS_CONFIG]] The <<kafka-producer-Partitioner.adoc#, Partitioner>> to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>> when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#send, send a record to topic>>.
+
+Default: <<kafka-producer-DefaultPartitioner.adoc#, DefaultPartitioner>>
+
+Property: `partitioner.class`
+a| [[partitioner.class]][[PARTITIONER_CLASS_CONFIG]] The <<kafka-producer-Partitioner.adoc#, Partitioner>> to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>> when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#send, send a record to topic>>.
 
 | RECONNECT_BACKOFF_MAX_MS_CONFIG
-|
-|
 a| [[RECONNECT_BACKOFF_MAX_MS_CONFIG]]
 
 | RECONNECT_BACKOFF_MS_CONFIG
-|
-|
 a| [[RECONNECT_BACKOFF_MS_CONFIG]]
 
 | RECEIVE_BUFFER_CONFIG
-|
-|
 a| [[RECEIVE_BUFFER_CONFIG]]
 
 | REQUEST_TIMEOUT_MS_CONFIG
-| `30 * 1000`
-| request.timeout.ms
-a| [[REQUEST_TIMEOUT_MS_CONFIG]] Maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
+
+Default: `30 * 1000`
+
+Property: `request.timeout.ms`
+a| [[request.timeout.ms]][[REQUEST_TIMEOUT_MS_CONFIG]] Maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if <<retries, retries>> are exhausted.
 
 This should be larger than `replica.lag.time.max.ms` (a broker configuration) to reduce the possibility of message duplication due to unnecessary producer retries.
 
 Must be at least `0`
 
 | RETRY_BACKOFF_MS_CONFIG
-| `100`
-| retry.backoff.ms
-a| [[RETRY_BACKOFF_MS_CONFIG]] The amount of time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
+
+Default: `100`
+
+Property: `retry.backoff.ms`
+a| [[retry.backoff.ms]][[RETRY_BACKOFF_MS_CONFIG]] The amount of time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
 
 Must be at least `0`
 
 | SEND_BUFFER_CONFIG
-|
-|
 a| [[SEND_BUFFER_CONFIG]]
 
-| TRANSACTIONAL_ID_CONFIG
-| (empty)
-| transactional.id
-a| [[TRANSACTIONAL_ID_CONFIG]] The Transactional ID to use for *transactional delivery*. This enables reliability semantics which span multiple producer sessions since it allows the client to guarantee that transactions using the same Transactional ID have been completed prior to starting any new transactions.
+| TRANSACTION_TIMEOUT_CONFIG
 
-With no Transactional ID provided, the producer is limited to idempotent delivery. Note that `enable.idempotence` must be enabled if a Transactional ID is configured.
+Property: `transaction.timeout.ms`
+a| [[transaction.timeout.ms]][[TRANSACTION_TIMEOUT_CONFIG]] The maximum amount of time (in ms) that the transaction coordinator will wait for a transaction status update from a producer before proactively aborting the ongoing transaction.
+
+If this value is larger than <<kafka-properties.adoc#transaction.max.timeout.ms, transaction.max.timeout.ms>> configuration (of Kafka brokers), the request will fail with an `InvalidTransactionTimeout` error.
+
+| TRANSACTIONAL_ID_CONFIG
+
+Default: (empty)
+
+Property: `transactional.id`
+a| [[transactional.id]][[TRANSACTIONAL_ID_CONFIG]] User-defined transactional ID to use for *transactional delivery*. This enables reliability semantics which span multiple producer sessions since it allows the client to guarantee that transactions using the same Transactional ID have been completed prior to starting any new transactions.
+
+With no Transactional ID provided, the producer is limited to idempotent delivery.
+
+<<enable.idempotence, enable.idempotence>> must be enabled (`true`) if a Transactional ID is configured.
 
 The default means transactions cannot be used.
 
 Note that transactions requires a cluster of at least 3 brokers by default what is the recommended setting for production; for development you can change this, by adjusting broker setting `transaction.state.log.replication.factor`.
+
 |===
 
 === [[logUnused]] `logUnused` Method

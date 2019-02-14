@@ -73,6 +73,7 @@
 . link:kafka-topic-replication.adoc[Topic Replication]
 . link:kafka-topic-deletion.adoc[Topic Deletion]
 . link:kafka-transactional-producer.adoc[Transactional Producer]
+. link:kafka-idempotent-producer.adoc[Idempotent Producer]
 
 === Kafka Broker Services
 

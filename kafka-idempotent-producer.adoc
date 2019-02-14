@@ -1,0 +1,3 @@
+== Idempotent Producer
+
+*Idempotent Producer* is a Kafka <<kafka-producer-Producer.adoc#, Producer>> that...FIXME

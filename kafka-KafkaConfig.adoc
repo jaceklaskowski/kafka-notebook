@@ -122,6 +122,11 @@ Used when `SocketServer` is <<kafka-network-SocketServer.adoc#memoryPool, create
 | tokenAuthEnabled
 a| [[tokenAuthEnabled]] <<kafka-properties.adoc#delegation.token.master.key, delegation.token.master.key>>
 
+| transactionMaxTimeoutMs
+a| [[transactionMaxTimeoutMs]] <<kafka-properties.adoc#transaction.max.timeout.ms, transaction.max.timeout.ms>>
+
+Used exclusively when <<kafka-TransactionCoordinator.adoc#, TransactionCoordinator>> is created
+
 | queuedMaxRequests
 a| [[queuedMaxRequests]] <<kafka-properties.adoc#queued.max.requests, queued.max.requests>>
 

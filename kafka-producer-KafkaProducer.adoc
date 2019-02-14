@@ -70,6 +70,9 @@ image::images/KafkaProducer.png[align="center"]
 | Name
 | Description
 
+| accumulator
+a| [[accumulator]] `RecordAccumulator`
+
 | clientId
 a| [[clientId]] Client ID per <<kafka-ProducerConfig.adoc#CLIENT_ID_CONFIG, CLIENT_ID_CONFIG>> (if defined) or `producer-[number]`
 
@@ -117,10 +120,18 @@ a| [[producerConfig]] <<kafka-ProducerConfig.adoc#, ProducerConfig>>
 a| [[sender]] <<kafka-Sender.adoc#, Kafka producer I/O thread>> (aka `Sender`) that is <<kafka-Sender.adoc#run, started>> when `KafkaProducer` is <<creating-instance, created>>.
 
 | time
-a| [[time]] Time abstraction with `SYSTEM` as the default.
+a| [[time]] Time abstraction (with `SYSTEM` being the default).
 
 | transactionManager
 a| [[transactionManager]] <<kafka-producer-internals-TransactionManager.adoc#, TransactionManager>>
+
+Used when:
+
+* `KafkaProducer` is created (and creates a <<accumulator, RecordAccumulator>> and a <<newSender, Sender>>)
+
+* For transactional public methods: <<initTransactions, initTransactions>>, <<beginTransaction, beginTransaction>>, <<sendOffsetsToTransaction, sendOffsetsToTransaction>>, <<commitTransaction, commitTransaction>>, <<abortTransaction, abortTransaction>>
+
+* <<doSend, doSend>>
 
 |===
 
@@ -403,3 +414,17 @@ NOTE: `beginTransaction` is part of the <<kafka-producer-Producer.adoc#beginTran
 ```
 Cannot use transactional methods without enabling transactions by setting the transactional.id configuration property
 ```
+
+=== [[configureTransactionState]] `configureTransactionState` Static Internal Method
+
+[source, java]
+----
+TransactionManager configureTransactionState(
+  ProducerConfig config,
+  LogContext logContext,
+  Logger log)
+----
+
+`configureTransactionState`...FIXME
+
+NOTE: `configureTransactionState` is used exclusively when `KafkaProducer` is created (and initializes a <<transactionManager, TransactionManager>>).
