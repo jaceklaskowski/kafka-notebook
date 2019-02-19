@@ -1,0 +1,14 @@
+== [[HeartbeatThread]] HeartbeatThread
+
+`HeartbeatThread` is a Kafka thread of execution that...FIXME
+
+=== [[run]] Starting Thread -- `run` Method
+
+[source, java]
+----
+void run()
+----
+
+NOTE: `run` is part of the https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runnable.html[java.lang.Runnable] to start itself as a separately-executing thread.
+
+`run`...FIXME

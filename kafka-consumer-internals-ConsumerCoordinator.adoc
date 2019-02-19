@@ -231,7 +231,7 @@ Map<String, ByteBuffer> performAssignment(
   Map<String, ByteBuffer> allSubscriptions)
 ----
 
-NOTE: `performAssignment` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to...FIXME.
+NOTE: `performAssignment` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to perform partition assignment.
 
 `performAssignment`...FIXME
 

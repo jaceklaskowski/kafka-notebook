@@ -20,6 +20,7 @@ void handle(
 ----
 
 Used exclusively when `CoordinatorResponseHandler` is requested to <<onSuccess, onSuccess>>
+
 |===
 
 [[extensions]]
@@ -29,22 +30,22 @@ Used exclusively when `CoordinatorResponseHandler` is requested to <<onSuccess, 
 | CoordinatorResponseHandler
 | Description
 
-| HeartbeatResponseHandler
+| <<kafka-consumer-internals-HeartbeatResponseHandler.adoc#, HeartbeatResponseHandler>>
 | [[HeartbeatResponseHandler]]
 
-| JoinGroupResponseHandler
+| <<kafka-consumer-internals-JoinGroupResponseHandler.adoc#, JoinGroupResponseHandler>>
 | [[JoinGroupResponseHandler]]
 
 | LeaveGroupResponseHandler
 | [[LeaveGroupResponseHandler]]
 
-| OffsetCommitResponseHandler
+| <<kafka-consumer-internals-OffsetCommitResponseHandler.adoc#, OffsetCommitResponseHandler>>
 | [[OffsetCommitResponseHandler]]
 
 | OffsetFetchResponseHandler
 | [[OffsetFetchResponseHandler]]
 
-| SyncGroupResponseHandler
+| <<kafka-consumer-internals-SyncGroupResponseHandler.adoc#, SyncGroupResponseHandler>>
 | [[SyncGroupResponseHandler]]
 
 |===

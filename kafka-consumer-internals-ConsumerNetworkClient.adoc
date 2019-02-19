@@ -98,7 +98,7 @@ int pendingRequestCount(Node node)
 
 NOTE: `pendingRequestCount` is used when...FIXME
 
-=== [[leastLoadedNode]] `leastLoadedNode` Method
+=== [[leastLoadedNode]] Least-Loaded Kafka Node -- `leastLoadedNode` Method
 
 [source, java]
 ----
