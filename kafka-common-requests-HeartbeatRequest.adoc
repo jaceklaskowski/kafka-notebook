@@ -1,0 +1,37 @@
+== [[HeartbeatRequest]] HeartbeatRequest
+
+[[HEARTBEAT]]
+[[creating-instance]]
+`HeartbeatRequest` is a concrete <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>> with *Heartbeat* API key and the following:
+
+* [[groupId]] Group ID
+* [[groupGenerationId]] Group Generation ID
+* [[memberId]] Member ID
+
+`HeartbeatRequest` is <<creating-instance, created>> when:
+
+* `AbstractRequest` is requested to <<kafka-common-requests-AbstractRequest.adoc#parseRequest, parse a request>> (with the <<HEARTBEAT, Heartbeat>> API key)
+
+* `HeartbeatRequest` is requested to <<parse, parse a byte buffer>>
+
+* `HeartbeatRequest.Builder` is requested to <<build, build a HeartbeatRequest>>
+
+=== [[HeartbeatRequest.Builder]][[Builder]][[build]] `HeartbeatRequest.Builder` Factory Object
+
+`HeartbeatRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a `HeartbeatRequest`.
+
+[source, java]
+----
+HeartbeatRequest build(short version)
+----
+
+=== [[parse]] Creating HeartbeatRequest from Byte Buffer -- `parse` Factory Method
+
+[source, java]
+----
+HeartbeatRequest parse(ByteBuffer buffer, short version)
+----
+
+`parse`...FIXME
+
+NOTE: `parse` is used when...FIXME

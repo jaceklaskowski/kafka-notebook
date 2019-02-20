@@ -299,6 +299,8 @@
 . link:kafka-common-requests-FindCoordinatorRequest.adoc[FindCoordinatorRequest]
 . link:kafka-common-requests-FindCoordinatorResponse.adoc[FindCoordinatorResponse]
 
+. link:kafka-common-requests-HeartbeatRequest.adoc[HeartbeatRequest]
+
 . link:kafka-common-requests-LeaderAndIsrRequest.adoc[LeaderAndIsrRequest]
 
 . link:kafka-common-requests-MetadataRequest.adoc[MetadataRequest]

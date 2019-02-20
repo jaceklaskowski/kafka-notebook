@@ -2,8 +2,9 @@
 
 `HeartbeatThread` is a daemon Kafka thread of execution that...FIXME
 
-`HeartbeatThread` is created and immediately started exclusively for `AbstractCoordinator` when requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#startHeartbeatThreadIfNeeded, start a HeartbeatThread>> (when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>> after `KafkaConsumer` was requested to <<poll, poll for records>>).
+`HeartbeatThread` is <<creating-instance, created>> and immediately <<run, started>> exclusively for `AbstractCoordinator` when requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#startHeartbeatThreadIfNeeded, start a HeartbeatThread>> (when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>> after `KafkaConsumer` was requested to <<poll, poll for records>>).
 
+[[creating-instance]]
 `HeartbeatThread` takes no arguments to be created.
 
 [[name]]
@@ -34,12 +35,22 @@ NOTE: `run` is part of the https://docs.oracle.com/en/java/javase/11/docs/api/ja
 Heartbeat thread started
 ```
 
-`run` requests the <<kafka-consumer-internals-AbstractCoordinator.adoc#client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#pollNoWakeup, pollNoWakeup>>.
+In an infinite `while` loop, `run` does the following (infinitely):
 
-In the end (when no errors happened), `run` <<kafka-consumer-internals-AbstractCoordinator.adoc#sendHeartbeatRequest, sendHeartbeatRequest>>.
+. Exits when <<closed, closed>>
 
-`run` exits when <<closed, closed>>.
+. Waits till `AbstractCoordinator` wakes it up when not <<enabled, enabled>>
 
-`run` waits till `AbstractCoordinator` wakes it up when not <<enabled, enabled>>.
+. Requests the <<kafka-consumer-internals-AbstractCoordinator.adoc#client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#pollNoWakeup, pollNoWakeup>>
+
+. <<kafka-consumer-internals-AbstractCoordinator.adoc#sendHeartbeatRequest, Sends a HeartbeatRequest to the group coordinator>>
+
+. (when the response eventually arrives) Requests the <<heartbeat, Heartbeat>> to record a success (`receiveHeartbeat`) or a failure (`failHeartbeat`)
+
+In the end, when the infinite `while` loop is terminated for any reason, `run` prints out the following DEBUG message to the logs:
+
+```
+Heartbeat thread has closed
+```
 
 NOTE: `run` does some checks but they seem not of much interest to me...yet.

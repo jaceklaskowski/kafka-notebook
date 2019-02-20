@@ -286,7 +286,7 @@ Sending FindCoordinator request to broker [node]
 
 `sendFindCoordinatorRequest` creates a new <<kafka-common-requests-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>> with `GROUP` type and the <<groupId, groupId>>.
 
-In the end, `sendFindCoordinatorRequest` requests the <<client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#send, send>> the `FindCoordinatorRequest` (to the given Kafka node) and then uses a new <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#, FindCoordinatorResponseHandler>> to handle a response.
+In the end, `sendFindCoordinatorRequest` requests the <<client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#send, send>> the `FindCoordinatorRequest` (to the given Kafka node) and then creates a new <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#, FindCoordinatorResponseHandler>> to handle a response.
 
 NOTE: `sendFindCoordinatorRequest` is used exclusively when `AbstractCoordinator` is requested to <<lookupCoordinator, lookupCoordinator>>.
 
@@ -301,16 +301,24 @@ void maybeLeaveGroup()
 
 NOTE: `maybeLeaveGroup` is used when...FIXME
 
-=== [[sendHeartbeatRequest]] `sendHeartbeatRequest` Method
+=== [[sendHeartbeatRequest]] Sending HeartbeatRequest to Group Coordinator (Kafka Broker) -- `sendHeartbeatRequest` Method
 
 [source, java]
 ----
 RequestFuture<Void> sendHeartbeatRequest()
 ----
 
-`sendHeartbeatRequest`...FIXME
+`sendHeartbeatRequest` prints out the following DEBUG message to the logs:
 
-NOTE: `sendHeartbeatRequest` is used when...FIXME
+```
+Sending Heartbeat request to coordinator [coordinator]
+```
+
+`sendHeartbeatRequest` creates a new <<kafka-common-requests-HeartbeatRequest.adoc#HeartbeatRequest.Builder, HeartbeatRequest.Builder>> (for the <<groupId, groupId>>, <<generation, generation>> and <<generation, member>> IDs).
+
+In the end, `sendHeartbeatRequest` requests the <<client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#send, send>> the `HeartbeatRequest` to the <<coordinator, group coordinator>> node and then creates a new <<kafka-consumer-internals-HeartbeatResponseHandler.adoc#, HeartbeatResponseHandler>> to handle a response.
+
+NOTE: `sendHeartbeatRequest` is used exclusively when `HeartbeatThread` is requested to <<kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc#run, run>>.
 
 === [[onJoinLeader]] `onJoinLeader` Internal Method
 
