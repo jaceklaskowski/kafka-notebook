@@ -56,4 +56,17 @@ Used when:
 * Kafka Streams' `StreamsConfig` is requested to `getMainConsumerConfigs`
 
 NOTE: Required for `KafkaConsumer` to <<kafka-consumer-KafkaConsumer.adoc#subscribe, subscribe to topics>>
+
+| `REQUEST_TIMEOUT_MS_CONFIG`
+
+`request.timeout.ms`
+
+Default: `30000` ms
+
+a| [[REQUEST_TIMEOUT_MS_CONFIG]][[request.timeout.ms]] How long (in millis) a Kafka client waits for a response to a request.
+
+If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
+
+Must be at least `0`
+
 |===

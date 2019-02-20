@@ -1,11 +1,8 @@
 == [[HeartbeatThread]] HeartbeatThread
 
-`HeartbeatThread` is a daemon Kafka thread of execution that...FIXME
+`HeartbeatThread` is a daemon Kafka thread of execution that `AbstractCoordinator` starts to <<run, send HeartbeatRequests to the group coordinator>> regularly.
 
 `HeartbeatThread` is <<creating-instance, created>> and immediately <<run, started>> exclusively for `AbstractCoordinator` when requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#startHeartbeatThreadIfNeeded, start a HeartbeatThread>> (when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>> after `KafkaConsumer` was requested to <<poll, poll for records>>).
-
-[[creating-instance]]
-`HeartbeatThread` takes no arguments to be created.
 
 [[name]]
 `HeartbeatThread` uses *kafka-coordinator-heartbeat-thread* prefix followed by the <<kafka-consumer-internals-AbstractCoordinator.adoc#groupId, group ID>> as the thread name.
@@ -19,6 +16,9 @@ kafka-coordinator-heartbeat-thread | [groupId]
 
 [[enabled]]
 `HeartbeatThread` uses `enabled` flag to indicate...FIXME
+
+[[creating-instance]]
+`HeartbeatThread` takes no arguments to be created.
 
 === [[run]] Starting Thread -- `run` Method
 
@@ -37,9 +37,11 @@ Heartbeat thread started
 
 In an infinite `while` loop, `run` does the following (infinitely):
 
-. Exits when <<closed, closed>>
+. Checks the internal state to exit or wait:
 
-. Waits till `AbstractCoordinator` wakes it up when not <<enabled, enabled>>
+.. Exits when <<closed, closed>>
+
+.. Waits for `AbstractCoordinator` to wake it up when not <<enabled, enabled>>
 
 . Requests the <<kafka-consumer-internals-AbstractCoordinator.adoc#client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#pollNoWakeup, pollNoWakeup>>
 
@@ -53,4 +55,4 @@ In the end, when the infinite `while` loop is terminated for any reason, `run` p
 Heartbeat thread has closed
 ```
 
-NOTE: `run` does some checks but they seem not of much interest to me...yet.
+WARNING: `run` does some other state control checks but they look uninteresting...to me...now.

@@ -117,7 +117,7 @@ Used when...FIXME
 | <<kafka-common-requests-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>>
 | [[FindCoordinatorRequest]]
 
-| HeartbeatRequest
+| <<kafka-common-requests-HeartbeatRequest.adoc#, HeartbeatRequest>>
 | [[HeartbeatRequest]]
 
 | InitProducerIdRequest
