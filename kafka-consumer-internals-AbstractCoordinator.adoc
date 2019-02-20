@@ -94,13 +94,15 @@ Initialized when `FindCoordinatorResponseHandler` is requested to <<kafka-consum
 
 Reset in <<clearFindCoordinatorFuture, clearFindCoordinatorFuture>>
 
-Used in <<lookupCoordinator, lookupCoordinator>> and when `HeartbeatThread` is requested to run
+Used in <<lookupCoordinator, lookupCoordinator>> and when `HeartbeatThread` is requested to <<kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc#run, run>>
 
 | generation
 a| [[generation]] Defaults to `NO_GENERATION`
 
 | heartbeatThread
-| [[heartbeatThread]] `HeartbeatThread`
+a| [[heartbeatThread]] <<kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc#, HeartbeatThread>>
+
+Initialized and immediately started when `AbstractCoordinator` is requested to <<startHeartbeatThreadIfNeeded, start a HeartbeatThread>>
 
 | joinFuture
 | [[joinFuture]] <<kafka-consumer-internals-RequestFuture.adoc#, ++RequestFuture<ByteBuffer>++>> for <<sendJoinGroupRequest, sendJoinGroupRequest>> when <<initiateJoinGroup, initiateJoinGroup>>
@@ -189,12 +191,14 @@ NOTE: `initiateJoinGroup` is used exclusively when `AbstractCoordinator` is requ
 
 [source, java]
 ----
+void ensureActiveGroup() // <1>
 boolean ensureActiveGroup(final Timer timer)
 ----
+<1> Calls the other `ensureActiveGroup` in an infinite `while` loop with an unexpiring timer
 
 `ensureActiveGroup`...FIXME
 
-NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>>.
+NOTE: `ensureActiveGroup` is used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>>.
 
 === [[lookupCoordinator]] Discovering Current Coordinator for Consumer Group -- `lookupCoordinator` Method
 
@@ -372,7 +376,7 @@ void pollHeartbeat(long now)
 
 NOTE: `pollHeartbeat` is used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for Coordinator events>>.
 
-=== [[startHeartbeatThreadIfNeeded]] `startHeartbeatThreadIfNeeded` Internal Method
+=== [[startHeartbeatThreadIfNeeded]] Starting HeartbeatThread -- `startHeartbeatThreadIfNeeded` Internal Method
 
 [source, java]
 ----

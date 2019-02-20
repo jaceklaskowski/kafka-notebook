@@ -1,6 +1,23 @@
 == [[HeartbeatThread]] HeartbeatThread
 
-`HeartbeatThread` is a Kafka thread of execution that...FIXME
+`HeartbeatThread` is a daemon Kafka thread of execution that...FIXME
+
+`HeartbeatThread` is created and immediately started exclusively for `AbstractCoordinator` when requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#startHeartbeatThreadIfNeeded, start a HeartbeatThread>> (when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>> after `KafkaConsumer` was requested to <<poll, poll for records>>).
+
+`HeartbeatThread` takes no arguments to be created.
+
+[[name]]
+`HeartbeatThread` uses *kafka-coordinator-heartbeat-thread* prefix followed by the <<kafka-consumer-internals-AbstractCoordinator.adoc#groupId, group ID>> as the thread name.
+
+```
+kafka-coordinator-heartbeat-thread | [groupId]
+```
+
+[[closed]]
+`HeartbeatThread` uses `closed` flag to indicate...FIXME
+
+[[enabled]]
+`HeartbeatThread` uses `enabled` flag to indicate...FIXME
 
 === [[run]] Starting Thread -- `run` Method
 
@@ -11,4 +28,18 @@ void run()
 
 NOTE: `run` is part of the https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Runnable.html[java.lang.Runnable] to start itself as a separately-executing thread.
 
-`run`...FIXME
+`run` prints out the following DEBUG message to the logs:
+
+```
+Heartbeat thread started
+```
+
+`run` requests the <<kafka-consumer-internals-AbstractCoordinator.adoc#client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#pollNoWakeup, pollNoWakeup>>.
+
+In the end (when no errors happened), `run` <<kafka-consumer-internals-AbstractCoordinator.adoc#sendHeartbeatRequest, sendHeartbeatRequest>>.
+
+`run` exits when <<closed, closed>>.
+
+`run` waits till `AbstractCoordinator` wakes it up when not <<enabled, enabled>>.
+
+NOTE: `run` does some checks but they seem not of much interest to me...yet.

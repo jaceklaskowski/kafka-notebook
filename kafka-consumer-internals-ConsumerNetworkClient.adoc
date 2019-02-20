@@ -169,10 +169,13 @@ void pollNoWakeup()
 ====
 `pollNoWakeup` is used when:
 
-* `KafkaConsumer` link:kafka-consumer-KafkaConsumer.adoc#poll[polls]
-* `AbstractCoordinator` does `maybeLeaveGroup`
-* `HeartbeatThread` runs
-* `ConsumerCoordinator` does `commitOffsetsAsync`
+* `KafkaConsumer` is requested to <<kafka-consumer-KafkaConsumer.adoc#poll, poll for records>>
+
+* `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#maybeLeaveGroup, maybeLeaveGroup>>
+
+* `HeartbeatThread` is requested to <<kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc#run, run>>
+
+* `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsAsync, commitOffsetsAsync>>
 ====
 
 === [[creating-instance]] Creating ConsumerNetworkClient Instance
