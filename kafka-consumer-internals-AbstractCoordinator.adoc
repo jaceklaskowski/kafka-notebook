@@ -22,7 +22,7 @@ a| [[metadata]]
 List<ProtocolMetadata> metadata()
 ----
 
-Used exclusively when `AbstractCoordinator` is requested to <<sendJoinGroupRequest, sendJoinGroupRequest>>
+Used exclusively when `AbstractCoordinator` is requested to <<sendJoinGroupRequest, send a JoinGroupRequest to the group coordinator>>
 
 | onJoinComplete
 a| [[onJoinComplete]]
@@ -73,7 +73,7 @@ a| [[protocolType]]
 String protocolType()
 ----
 
-Used exclusively when `AbstractCoordinator` is requested to <<sendJoinGroupRequest, sendJoinGroupRequest>>
+Used exclusively when `AbstractCoordinator` is requested to <<sendJoinGroupRequest, send a JoinGroupRequest to the group coordinator>>
 
 |===
 
@@ -105,7 +105,7 @@ a| [[heartbeatThread]] <<kafka-consumer-internals-AbstractCoordinator-HeartbeatT
 Initialized and immediately started when `AbstractCoordinator` is requested to <<startHeartbeatThreadIfNeeded, start a HeartbeatThread>>
 
 | joinFuture
-| [[joinFuture]] <<kafka-consumer-internals-RequestFuture.adoc#, ++RequestFuture<ByteBuffer>++>> for <<sendJoinGroupRequest, sendJoinGroupRequest>> when <<initiateJoinGroup, initiateJoinGroup>>
+| [[joinFuture]] <<kafka-consumer-internals-RequestFuture.adoc#, ++RequestFuture<ByteBuffer>++>> for <<sendJoinGroupRequest, sending a JoinGroupRequest to the group coordinator>> when <<initiateJoinGroup, initiateJoinGroup>>
 
 Reset in <<resetJoinGroupFuture, resetJoinGroupFuture>>
 

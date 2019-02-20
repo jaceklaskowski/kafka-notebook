@@ -15,7 +15,7 @@ RequestFuture<S> compose(final RequestFutureAdapter<T, S> adapter)
 ====
 `compose` is used when:
 
-* `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#sendJoinGroupRequest, sendJoinGroupRequest>>, <<kafka-consumer-internals-AbstractCoordinator.adoc#sendSyncGroupRequest, sendSyncGroupRequest>>, <<kafka-consumer-internals-AbstractCoordinator.adoc#sendFindCoordinatorRequest, sendFindCoordinatorRequest>>, <<kafka-consumer-internals-AbstractCoordinator.adoc#maybeLeaveGroup, maybeLeaveGroup>>, and <<kafka-consumer-internals-AbstractCoordinator.adoc#sendHeartbeatRequest, sendHeartbeatRequest>>
+* `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#sendJoinGroupRequest, send a JoinGroupRequest to the group coordinator>>, <<kafka-consumer-internals-AbstractCoordinator.adoc#sendSyncGroupRequest, sendSyncGroupRequest>>, <<kafka-consumer-internals-AbstractCoordinator.adoc#sendFindCoordinatorRequest, sendFindCoordinatorRequest>>, <<kafka-consumer-internals-AbstractCoordinator.adoc#maybeLeaveGroup, maybeLeaveGroup>>, and <<kafka-consumer-internals-AbstractCoordinator.adoc#sendHeartbeatRequest, sendHeartbeatRequest>>
 
 * `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#sendOffsetCommitRequest, sendOffsetCommitRequest>> and <<kafka-consumer-internals-ConsumerCoordinator.adoc#sendOffsetFetchRequest, sendOffsetFetchRequest>>
 

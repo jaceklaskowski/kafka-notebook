@@ -7,18 +7,22 @@
 
 [[internal-registries]]
 .SubscriptionState's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1,2",options="header",width="100%"]
+[cols="1m,3",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| [[listener]] `listener`
-a| link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener] for notifications about partition assignment changes
+| listener
+a| [[listener]] link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener] for notifications about partition assignment changes
 
 Used exclusively when `ConsumerCoordinator` is notified about:
 
 * link:kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinComplete[onJoinComplete] (that triggers link:kafka-consumer-ConsumerRebalanceListener.adoc#onPartitionsAssigned[ConsumerRebalanceListener.onPartitionsAssigned])
 * link:kafka-consumer-internals-ConsumerCoordinator.adoc#onJoinPrepare[onJoinPrepare] (that triggers link:kafka-consumer-ConsumerRebalanceListener.adoc#onPartitionsRevoked[ConsumerRebalanceListener.onPartitionsRevoked])
+
+| groupSubscription
+a| [[groupSubscription]]
+
 |===
 
 === [[subscribe]] `subscribe` Method
@@ -31,3 +35,14 @@ void subscribe(Pattern pattern, ConsumerRebalanceListener listener)
 `subscribe`...FIXME
 
 NOTE: `subscribe` is used exclusively when `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#subscribe[subscribe to the topics that match a pattern with a ConsumerRebalanceListener].
+
+=== [[groupSubscribe]] Adding Topics to Group Subscription -- `groupSubscribe` Method
+
+[source, java]
+----
+void groupSubscribe(Collection<String> topics)
+----
+
+`groupSubscribe`...FIXME
+
+NOTE: `groupSubscribe` is used when...FIXME

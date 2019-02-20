@@ -51,7 +51,7 @@ With <<autoCommitEnabled, autoCommitEnabled>> enabled (i.e. link:kafka-propertie
 
 * <<metadata, metadata>>
 
-* [[lookupAssignor]] Looking up the <<kafka-consumer-internals-PartitionAssignor.adoc#, PartitionAssignor>> by name (when <<onJoinComplete, onJoinComplete>> and <<performAssignment, performAssignment>>)
+* Looking up the <<kafka-consumer-internals-PartitionAssignor.adoc#, PartitionAssignor>> by name (when <<onJoinComplete, onJoinComplete>> and <<performAssignment, performAssignment>>)
 
 [[internal-registries]]
 .ConsumerCoordinator's Internal Properties (e.g. Registries, Counters and Flags)
@@ -77,7 +77,9 @@ a| [[completedOffsetCommits]] Java's https://docs.oracle.com/en/java/javase/11/d
 `OffsetCommitCompletion` are added in <<commitOffsetsAsync, commitOffsetsAsync>> (and also directly in <<doCommitOffsetsAsync, doCommitOffsetsAsync>>)
 
 | isLeader
-| [[isLeader]] Flag of whether the `ConsumerCoordinator` is a leader (`true`) or not (`false`). Defaults to `false`
+a| [[isLeader]] Flag that says whether the `ConsumerCoordinator` is a leader (`true`) or not (`false`).
+
+Default: `false`
 
 Turned on in <<performAssignment, performAssignment>> and off in <<onJoinPrepare, onJoinPrepare>>
 
@@ -235,7 +237,7 @@ NOTE: `onJoinPrepare` is part of link:kafka-consumer-internals-AbstractCoordinat
 
 `onJoinPrepare`...FIXME
 
-=== [[performAssignment]] Performing Partition Assignment -- `performAssignment` Method
+=== [[performAssignment]] Performing Partition Assignment (using PartitionAssignor) -- `performAssignment` Method
 
 [source, java]
 ----
@@ -247,7 +249,43 @@ Map<String, ByteBuffer> performAssignment(
 
 NOTE: `performAssignment` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to perform partition assignment (i.e. assign partitions to the members of a consumer group).
 
-`performAssignment`...FIXME
+`performAssignment` <<lookupAssignor, tries to find the PartitionAssignor>> by the given `assignmentStrategy`.
+
+`performAssignment` deserializes `Subscriptions` (from the given `allSubscriptions`) for every entry (and creates a `Map<String, Subscription>`).
+
+`performAssignment` requests the <<subscriptions, SubscriptionState>> to <<kafka-consumer-internals-SubscriptionState.adoc#groupSubscribe, add the topics to group subscription>> (i.e. add all the topics that the consumer group is subscribed to to receive topic metadata updates).
+
+`performAssignment` requests the <<metadata, Metadata>> to <<kafka-clients-Metadata.adoc#setTopics, setTopics>> to be the <<kafka-consumer-internals-SubscriptionState.adoc#groupSubscription, groupSubscription>> of the <<subscriptions, SubscriptionState>>.
+
+`performAssignment` requests the <<client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#ensureFreshMetadata, update the cluster metadata>>.
+
+`performAssignment` turns the <<isLeader, isLeader>> internal flag on.
+
+`performAssignment` prints out the following DEBUG message to the logs:
+
+```
+Performing assignment using strategy [assignor] with subscriptions [subscriptions]
+```
+
+`performAssignment` requests the <<kafka-consumer-internals-PartitionAssignor.adoc#, PartitionAssignor>> to <<kafka-consumer-internals-PartitionAssignor.adoc#assign, assign partitions to the members of the consumer group>> (with the current <<metadata, cluster metadata>> and subscriptions) and gets the partition assignment back (as `Map<String, Assignment>`).
+
+NOTE: Here `performAssignment` does some customizations that a user-customized assignor could request. It is not a very interesting code to spend your time on.
+
+`performAssignment` sets the <<assignmentSnapshot, assignmentSnapshot>> to be <<metadataSnapshot, metadataSnapshot>>.
+
+`performAssignment` prints out the following DEBUG message to the logs:
+
+```
+Finished assignment for group: [assignment]
+```
+
+In the end, `performAssignment` takes the partition assignment, encodes the `Assignment` per group member to create a `groupAssignment` (i.e. the `Map<String, ByteBuffer>` that is returned).
+
+`performAssignment` throws an `IllegalStateException` when <<lookupAssignor, no PartitionAssignor could be found>>:
+
+```
+Coordinator selected invalid assignment protocol: [assignmentStrategy]
+```
 
 === [[maybeLeaveGroup]] `maybeLeaveGroup` Method
 
@@ -354,7 +392,7 @@ NOTE: `fetchCommittedOffsets` is used when...FIXME
 * [[rebalanceTimeoutMs]] `rebalanceTimeoutMs`
 * [[sessionTimeoutMs]] `sessionTimeoutMs`
 * [[heartbeatIntervalMs]] `heartbeatIntervalMs`
-* [[assignors]] Collection of <<kafka-consumer-internals-PartitionAssignor.adoc#, PartitionAssignors>>
+* [[assignors]] <<kafka-consumer-internals-PartitionAssignor.adoc#, PartitionAssignors>>
 * [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
 * [[subscriptions]] <<kafka-consumer-internals-SubscriptionState.adoc#, SubscriptionState>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
@@ -416,3 +454,16 @@ void invokeCompletedOffsetCommitCallbacks()
 `invokeCompletedOffsetCommitCallbacks` takes (_polls_) every `OffsetCommitCompletion` from the <<completedOffsetCommits, completedOffsetCommits>> internal registry and requests it to invoke <<kafka-consumer-OffsetCommitCallback.adoc#onComplete, OffsetCommitCallback.onComplete>>.
 
 NOTE: `invokeCompletedOffsetCommitCallbacks` is used when `ConsumerCoordinator` is requested to <<poll, poll>>, <<close, close>>, <<commitOffsetsAsync, commitOffsetsAsync>>, and <<commitOffsetsSync, commitOffsetsSync>>.
+
+=== [[lookupAssignor]] Finding PartitionAssignor by Name -- `lookupAssignor` Internal Method
+
+[source, java]
+----
+PartitionAssignor lookupAssignor(String name)
+----
+
+`lookupAssignor` tries to find the <<kafka-consumer-internals-PartitionAssignor.adoc#, PartitionAssignor>> by the given `name` in the <<assignors, assignors>>.
+
+If not found, `lookupAssignor` returns `null`.
+
+NOTE: `lookupAssignor` is used when `ConsumerCoordinator` is requested to <<onJoinComplete, onJoinComplete>> and <<performAssignment, performAssignment>>.

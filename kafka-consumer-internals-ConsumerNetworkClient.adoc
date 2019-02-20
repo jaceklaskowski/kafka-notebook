@@ -75,7 +75,7 @@ Received user wakeup
 
 NOTE: `wakeup` is used when...FIXME
 
-=== [[ensureFreshMetadata]] Ensuring Fresh Metadata (and Possibly Blocking Until It Refreshes) -- `ensureFreshMetadata` Method
+=== [[ensureFreshMetadata]] Updating Cluster Metadata (and Possibly Blocking Until It Refreshes) -- `ensureFreshMetadata` Method
 
 [source, java]
 ----

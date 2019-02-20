@@ -123,7 +123,7 @@ Used when...FIXME
 | InitProducerIdRequest
 | [[InitProducerIdRequest]]
 
-| JoinGroupRequest
+| <<kafka-common-requests-JoinGroupRequest.adoc#, JoinGroupRequest>>
 | [[JoinGroupRequest]]
 
 | <<kafka-common-requests-LeaderAndIsrRequest.adoc#, LeaderAndIsrRequest>>

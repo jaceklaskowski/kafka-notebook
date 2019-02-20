@@ -4,7 +4,7 @@
 
 NOTE: `JoinGroupResponseHandler` is a Java private class of <<kafka-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>> and so can only be used by <<kafka-consumer-internals-AbstractCoordinator.adoc#extensions, AbstractCoordinators>>.
 
-`JoinGroupResponseHandler` is <<creating-instance, created>> exclusively when `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#sendJoinGroupRequest, sendJoinGroupRequest>> (when requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#initiateJoinGroup, initiateJoinGroup>> when <<kafka-consumer-internals-AbstractCoordinator.adoc#joinGroupIfNeeded, joinGroupIfNeeded>> which is when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>>).
+`JoinGroupResponseHandler` is <<creating-instance, created>> exclusively when `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#sendJoinGroupRequest, send a JoinGroupRequest to the group coordinator>> (when requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#initiateJoinGroup, initiateJoinGroup>> when <<kafka-consumer-internals-AbstractCoordinator.adoc#joinGroupIfNeeded, joinGroupIfNeeded>> which is when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>>).
 
 `JoinGroupResponseHandler` takes no arguments to be created.
 
