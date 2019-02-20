@@ -99,6 +99,20 @@ Used in <<rejoinNeededOrPending, rejoinNeededOrPending>> and <<performAssignment
 
 |===
 
+[[logging]]
+[TIP]
+====
+Enable `ERROR`, `WARN`, `INFO`, `DEBUG`, or `TRACE` logging level for `org.apache.kafka.clients.consumer.internals.ConsumerCoordinator` logger to see what happens inside.
+
+Add the following line to `log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.consumer.internals.ConsumerCoordinator=TRACE
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
 === [[maybeAutoCommitOffsetsAsync]] Sending Asynchronous Auto-Commit of Offsets -- `maybeAutoCommitOffsetsAsync` Method
 
 [source, java]
@@ -221,7 +235,7 @@ NOTE: `onJoinPrepare` is part of link:kafka-consumer-internals-AbstractCoordinat
 
 `onJoinPrepare`...FIXME
 
-=== [[performAssignment]] `performAssignment` Method
+=== [[performAssignment]] Performing Partition Assignment -- `performAssignment` Method
 
 [source, java]
 ----
@@ -231,7 +245,7 @@ Map<String, ByteBuffer> performAssignment(
   Map<String, ByteBuffer> allSubscriptions)
 ----
 
-NOTE: `performAssignment` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to perform partition assignment.
+NOTE: `performAssignment` is part of link:kafka-consumer-internals-AbstractCoordinator.adoc#performAssignment[AbstractCoordinator Contract] to perform partition assignment (i.e. assign partitions to the members of a consumer group).
 
 `performAssignment`...FIXME
 

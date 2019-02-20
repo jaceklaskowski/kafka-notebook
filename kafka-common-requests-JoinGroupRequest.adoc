@@ -1,0 +1,41 @@
+== [[JoinGroupRequest]] JoinGroupRequest
+
+[[JOIN_GROUP]]
+[[creating-instance]]
+`JoinGroupRequest` is a concrete <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>> with *JoinGroup* API key and the following:
+
+* [[version]] Version
+* [[groupId]] Group ID
+* [[sessionTimeout]] Session timeout
+* [[rebalanceTimeout]] Rebalance timeout
+* [[memberId]] Member ID
+* [[protocolType]] Protocol type (e.g. `consumer`)
+* [[groupProtocols]] Supported `ProtocolMetadata`
+
+`JoinGroupRequest` is <<creating-instance, created>> when:
+
+* `AbstractRequest` is requested to <<kafka-common-requests-AbstractRequest.adoc#parseRequest, parse a request>> (with the <<JOIN_GROUP, JoinGroup>> API key)
+
+* `JoinGroupRequest` is requested to <<parse, parse a byte buffer>>
+
+* `JoinGroupRequest.Builder` is requested to <<build, build a JoinGroupRequest>>
+
+=== [[JoinGroupRequest.Builder]][[Builder]][[build]] `JoinGroupRequest.Builder` Factory Object
+
+`JoinGroupRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a `JoinGroupRequest`.
+
+[source, java]
+----
+JoinGroupRequest build(short version)
+----
+
+=== [[parse]] Creating JoinGroupRequest from Byte Buffer -- `parse` Factory Method
+
+[source, java]
+----
+JoinGroupRequest parse(ByteBuffer buffer, short version)
+----
+
+`parse`...FIXME
+
+NOTE: `parse` is used when...FIXME

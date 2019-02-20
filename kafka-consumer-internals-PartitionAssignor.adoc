@@ -19,7 +19,9 @@ Map<String, Assignment> assign(
   Map<String, Subscription> subscriptions)
 ----
 
-Used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#performAssignment, performAssignment>>
+Assigns partitions to the members of a consumer group
+
+Used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#performAssignment, perform partition assignment>>
 
 | name
 a| [[name]]

@@ -301,6 +301,8 @@
 
 . link:kafka-common-requests-HeartbeatRequest.adoc[HeartbeatRequest]
 
+. link:kafka-common-requests-JoinGroupRequest.adoc[JoinGroupRequest]
+
 . link:kafka-common-requests-LeaderAndIsrRequest.adoc[LeaderAndIsrRequest]
 
 . link:kafka-common-requests-MetadataRequest.adoc[MetadataRequest]

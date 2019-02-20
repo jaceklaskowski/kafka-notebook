@@ -61,7 +61,7 @@ Map<String, ByteBuffer> performAssignment(
   Map<String, ByteBuffer> allMemberMetadata)
 ----
 
-Performs partition assignment
+Performs partition assignment (i.e. assigns partitions to the members of a consumer group)
 
 Used exclusively when `AbstractCoordinator` is requested to <<onJoinLeader, onJoinLeader>>
 
@@ -248,14 +248,30 @@ boolean ensureCoordinatorReady(final Timer timer)
 * `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll>>, <<kafka-consumer-internals-ConsumerCoordinator.adoc#fetchCommittedOffsets, fetchCommittedOffsets>>, <<kafka-consumer-internals-ConsumerCoordinator.adoc#close, close>>, and <<kafka-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsSync, commitOffsetsSync>>
 ====
 
-=== [[sendJoinGroupRequest]] `sendJoinGroupRequest` Method
+=== [[sendJoinGroupRequest]] Sending JoinGroupRequest to Group Coordinator (Kafka Broker) -- `sendJoinGroupRequest` Method
 
 [source, java]
 ----
 RequestFuture<ByteBuffer> sendJoinGroupRequest()
 ----
 
-`sendJoinGroupRequest`...FIXME
+`sendJoinGroupRequest` prints out the following INFO message to the logs:
+
+```
+(Re-)joining group
+```
+
+`sendJoinGroupRequest` creates a new <<kafka-common-requests-JoinGroupRequest.adoc#JoinGroupRequest.Builder, JoinGroupRequest.Builder>> (for the <<groupId, groupId>>, the <<sessionTimeoutMs, sessionTimeoutMs>>, the <<generation, member ID>>, *consumer* protocol type, the <<metadata, supported ProtocolMetadata>>, and the <<rebalanceTimeoutMs, rebalanceTimeoutMs>>).
+
+`sendJoinGroupRequest` prints out the following DEBUG message to the logs:
+
+```
+Sending JoinGroup ([requestBuilder]) to coordinator [coordinator]
+```
+
+In the end, `sendJoinGroupRequest` requests the <<client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#send, send>> the `JoinGroupRequest` to the <<coordinator, group coordinator>> node and then creates a new <<kafka-consumer-internals-JoinGroupResponseHandler.adoc#, JoinGroupResponseHandler>> to handle a response.
+
+`sendJoinGroupRequest` returns immediately with a `RequestFuture.coordinatorNotAvailable()` when the <<coordinatorUnknown, coordinator has not been discovered yet>>.
 
 NOTE: `sendJoinGroupRequest` is used exclusively when `AbstractCoordinator` is requested to <<initiateJoinGroup, initiateJoinGroup>>.
 
@@ -329,7 +345,7 @@ RequestFuture<ByteBuffer> onJoinLeader(JoinGroupResponse joinResponse)
 
 `onJoinLeader`...FIXME
 
-NOTE: `onJoinLeader` is used exclusively when `JoinGroupResponseHandler` is requested to <<kafka-consumer-internals-JoinGroupResponseHandler.adoc#handle, handle>>.
+NOTE: `onJoinLeader` is used exclusively when `JoinGroupResponseHandler` is requested to <<kafka-consumer-internals-JoinGroupResponseHandler.adoc#handle, handle a JoinGroupResponse>>.
 
 === [[resetJoinGroupFuture]] `resetJoinGroupFuture` Internal Method
 

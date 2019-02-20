@@ -1,6 +1,6 @@
 == [[JoinGroupResponseHandler]] JoinGroupResponseHandler
 
-`JoinGroupResponseHandler` is a custom <<kafka-consumer-internals-CoordinatorResponseHandler.adoc#, CoordinatorResponseHandler>> for <<handle, JoinGroupResponses>>.
+`JoinGroupResponseHandler` is a concrete <<kafka-consumer-internals-CoordinatorResponseHandler.adoc#, CoordinatorResponseHandler>> to <<handle, handle a JoinGroupResponse>> (and convert it to a `ByteBuffer`).
 
 NOTE: `JoinGroupResponseHandler` is a Java private class of <<kafka-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>> and so can only be used by <<kafka-consumer-internals-AbstractCoordinator.adoc#extensions, AbstractCoordinators>>.
 
@@ -8,7 +8,7 @@ NOTE: `JoinGroupResponseHandler` is a Java private class of <<kafka-consumer-int
 
 `JoinGroupResponseHandler` takes no arguments to be created.
 
-=== [[handle]] `handle` Method
+=== [[handle]] Handling JoinGroupResponse -- `handle` Method
 
 [source, java]
 ----

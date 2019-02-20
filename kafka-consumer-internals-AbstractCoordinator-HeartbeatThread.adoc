@@ -1,6 +1,6 @@
 == [[HeartbeatThread]] HeartbeatThread
 
-`HeartbeatThread` is a daemon Kafka thread of execution that `AbstractCoordinator` starts to <<run, send HeartbeatRequests to the group coordinator>> regularly.
+`HeartbeatThread` is a daemon Kafka thread of execution that `AbstractCoordinator` starts to <<run, send HeartbeatRequests to the group coordinator>> regularly (aka _heartbeating_).
 
 `HeartbeatThread` is <<creating-instance, created>> and immediately <<run, started>> exclusively for `AbstractCoordinator` when requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#startHeartbeatThreadIfNeeded, start a HeartbeatThread>> (when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>> after `KafkaConsumer` was requested to <<poll, poll for records>>).
 
