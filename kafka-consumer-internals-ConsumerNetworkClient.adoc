@@ -199,7 +199,7 @@ long trySend(long now)
 
 NOTE: `trySend` is used exclusively when `ConsumerNetworkClient` is requested to <<poll, poll>>.
 
-=== [[tryConnect]] `tryConnect` Method
+=== [[tryConnect]] Initiating Connector to Kafka Node -- `tryConnect` Method
 
 [source, java]
 ----

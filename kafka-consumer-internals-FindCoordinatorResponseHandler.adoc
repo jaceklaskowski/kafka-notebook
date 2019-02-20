@@ -2,9 +2,9 @@
 
 `FindCoordinatorResponseHandler` is a concrete <<kafka-consumer-internals-RequestFutureAdapter.adoc#, RequestFutureAdapter>> of <<kafka-clients-ClientResponse.adoc#, ClientResponse>>.
 
-`FindCoordinatorResponseHandler` is used exclusively when `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#sendFindCoordinatorRequest, sendFindCoordinatorRequest>> (when requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#lookupCoordinator, lookupCoordinator>>).
+`FindCoordinatorResponseHandler` is used exclusively when `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#lookupCoordinator, discover the coordinator for a consumer group>> (and when <<onSuccess, successful>> sets the <<kafka-consumer-internals-AbstractCoordinator.adoc#coordinator, group coordinator>> as a Kafka node with the hostname and the port).
 
-=== [[onSuccess]] `onSuccess` Method
+=== [[onSuccess]] Performing Response Conversion on Success -- `onSuccess` Method
 
 [source, java]
 ----
@@ -13,15 +13,49 @@ void onSuccess(ClientResponse resp, RequestFuture<Void> future)
 
 NOTE: `onSuccess` is part of the <<kafka-consumer-internals-RequestFutureAdapter.adoc#onSuccess, RequestFutureAdapter Contract>> to perform a type conversion when a `RequestFuture` completes with a success.
 
-`onSuccess`...FIXME
+`onSuccess` prints out the following DEBUG message to the logs:
 
-=== [[onFailure]] `onFailure` Method
+```
+Received FindCoordinator response [resp]
+```
+
+`onSuccess` <<kafka-consumer-internals-AbstractCoordinator.adoc#clearFindCoordinatorFuture, clears the findCoordinatorFuture internal registry>>.
+
+`onSuccess` takes the <<kafka-common-requests-FindCoordinatorResponse.adoc#, FindCoordinatorResponse>> (from the given `ClientResponse`) and branches off per <<kafka-common-requests-FindCoordinatorResponse.adoc#error, error>>.
+
+==== [[onSuccess-NONE]] No Error
+
+With no error, `onSuccess` sets the <<kafka-consumer-internals-AbstractCoordinator.adoc#coordinator, group coordinator>> (as a Kafka node with the hostname and the port).
+
+`onSuccess` prints out the following INFO message to the logs:
+
+```
+Discovered group coordinator [coordinator]
+```
+
+`onSuccess` requests the <<kafka-consumer-internals-AbstractCoordinator.adoc#client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#tryConnect, initiate a connection to the group coordinator>>.
+
+In the end, `onSuccess` requests the <<kafka-consumer-internals-AbstractCoordinator.adoc#heartbeat, Heartbeat>> to `resetSessionTimeout` and completes the given `RequestFuture<Void>`.
+
+==== [[onSuccess-GROUP_AUTHORIZATION_FAILED]] GROUP_AUTHORIZATION_FAILED Error
+
+In case of `GROUP_AUTHORIZATION_FAILED` error, `onSuccess` raises a `GroupAuthorizationException` in the given `RequestFuture<Void>`.
+
+==== [[onSuccess-ERROR]] Other Errors
+
+All other errors lead `onSuccess` to print out the following DEBUG message to the logs and raise the error in the given `RequestFuture<Void>`.
+
+```
+Group coordinator lookup failed: [message]
+```
+
+=== [[onFailure]] Performing Response Conversion on Failure -- `onFailure` Method
 
 [source, java]
 ----
 void onFailure(RuntimeException e, RequestFuture<Void> future)
 ----
 
-NOTE: `onFailure` is part of the <<kafka-consumer-internals-RequestFutureAdapter.adoc#onFailure, RequestFutureAdapter Contract>> to...FIXME.
+NOTE: `onFailure` is part of the <<kafka-consumer-internals-RequestFutureAdapter.adoc#onFailure, RequestFutureAdapter Contract>> to perform a type conversion when a `RequestFuture` completes with a failure.
 
 `onFailure`...FIXME

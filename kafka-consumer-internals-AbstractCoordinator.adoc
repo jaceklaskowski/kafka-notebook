@@ -196,7 +196,7 @@ boolean ensureActiveGroup(final Timer timer)
 
 NOTE: `ensureActiveGroup` is used when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>>.
 
-=== [[lookupCoordinator]] `lookupCoordinator` Method
+=== [[lookupCoordinator]] Discovering Current Coordinator for Consumer Group -- `lookupCoordinator` Method
 
 [source, java]
 ----
@@ -330,14 +330,14 @@ void resetJoinGroupFuture()
 
 NOTE: `resetJoinGroupFuture` is used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>>.
 
-=== [[clearFindCoordinatorFuture]] `clearFindCoordinatorFuture` Internal Method
+=== [[clearFindCoordinatorFuture]] Clearing FindCoordinatorFuture -- `clearFindCoordinatorFuture` Internal Method
 
 [source, java]
 ----
 void clearFindCoordinatorFuture()
 ----
 
-`clearFindCoordinatorFuture` simply resets the <<findCoordinatorFuture, findCoordinatorFuture>> internal registry (i.e. sets it to `null`).
+`clearFindCoordinatorFuture` simply resets the <<findCoordinatorFuture, findCoordinatorFuture>> internal registry (to be `null`).
 
 NOTE: `clearFindCoordinatorFuture` is used exclusively when `FindCoordinatorResponseHandler` is requested to <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#onSuccess, onSuccess>> and <<kafka-consumer-internals-FindCoordinatorResponseHandler.adoc#onFailure, onFailure>>.
 
