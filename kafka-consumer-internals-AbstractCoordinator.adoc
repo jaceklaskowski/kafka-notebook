@@ -129,7 +129,7 @@ Turned off (`false`) when the <<joinFuture, joinFuture>> completed successfully 
 Turned on (`true`) in <<resetGeneration, resetGeneration>> and <<requestRejoin, requestRejoin>>
 
 | sensors
-a| [[sensors]] `GroupCoordinatorMetrics`
+a| [[sensors]] <<kafka-consumer-internals-AbstractCoordinator-GroupCoordinatorMetrics.adoc#, GroupCoordinatorMetrics>>
 
 | state
 a| [[state]] State of the member of a consumer group

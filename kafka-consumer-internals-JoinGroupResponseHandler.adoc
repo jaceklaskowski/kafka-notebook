@@ -30,7 +30,7 @@ NOTE: `handle` is part of the <<kafka-consumer-internals-CoordinatorResponseHand
 Received successful JoinGroup response: [joinResponse]
 ```
 
-`handle` requests the <<kafka-consumer-internals-AbstractCoordinator.adoc#sensors, GroupCoordinatorMetrics>> for the `joinLatency` sensor to record the request latency.
+`handle` requests the <<kafka-consumer-internals-AbstractCoordinator.adoc#sensors, GroupCoordinatorMetrics>> for the <<kafka-consumer-internals-AbstractCoordinator-GroupCoordinatorMetrics.adoc#joinLatency, joinLatency>> sensor to record the request latency.
 
 When in `REBALANCING` <<kafka-consumer-internals-AbstractCoordinator.adoc#state, state>>, `handle` creates a new <<generation, Generation>> (with the generation ID, the member ID, and the group protocol from the given `JoinGroupResponse`).
 

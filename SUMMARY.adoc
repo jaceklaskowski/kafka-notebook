@@ -34,6 +34,7 @@
 . link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
 .. link:kafka-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator Contract]
 .. link:kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc[HeartbeatThread]
+.. link:kafka-consumer-internals-AbstractCoordinator-GroupCoordinatorMetrics.adoc[GroupCoordinatorMetrics]
 
 . link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
 . link:kafka-consumer-internals-ConsumerMetrics.adoc[ConsumerMetrics]
