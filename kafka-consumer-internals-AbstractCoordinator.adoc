@@ -63,7 +63,7 @@ Map<String, ByteBuffer> performAssignment(
 
 Performs partition assignment (i.e. assigns partitions to the members of a consumer group)
 
-Used exclusively when `AbstractCoordinator` is requested to <<onJoinLeader, onJoinLeader>>
+Used exclusively when `AbstractCoordinator` is requested to <<onJoinLeader, perform partition assignment and notify the group coordinator>>
 
 | protocolType
 a| [[protocolType]]
@@ -179,14 +179,36 @@ boolean joinGroupIfNeeded(final Timer timer)
 
 NOTE: `joinGroupIfNeeded` is used exclusively when `AbstractCoordinator` is requested to <<ensureActiveGroup, ensureActiveGroup>>.
 
-=== [[initiateJoinGroup]] `initiateJoinGroup` Internal Method
+=== [[initiateJoinGroup]] Attempting to Join Consumer Group -- `initiateJoinGroup` Internal Method
 
 [source, java]
 ----
 RequestFuture<ByteBuffer> initiateJoinGroup()
 ----
 
-`initiateJoinGroup`...FIXME
+`initiateJoinGroup` <<disableHeartbeatThread, disables the HeartbeatThread>>.
+
+`initiateJoinGroup` sets the <<state, state>> as `REBALANCING`.
+
+`initiateJoinGroup` <<sendJoinGroupRequest, sends a JoinGroupRequest to the group coordinator>> (and initializes the <<joinFuture, joinFuture>>).
+
+`initiateJoinGroup` registers a <<kafka-consumer-internals-RequestFutureListener.adoc#, RequestFutureListener>> to handle a response.
+
+When the response is successful, `initiateJoinGroup` does the following:
+
+. Prints out the following INFO message to the logs:
++
+```
+Successfully joined group with generation [generationId]
+```
+
+. Sets the <<state, state>> as `STABLE` (and the <<rejoinNeeded, rejoinNeeded>> flag off)
+
+. Requests the <<heartbeatThread, HeartbeatThread>> to <<kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc#enable, enable itself>>.
+
+When the response is a failure, `initiateJoinGroup` simply sets the <<state, state>> as `UNJOINED`
+
+`initiateJoinGroup` exits immediately when the <<joinFuture, joinFuture>> has already been initialized (is not `null`) and gives it back.
 
 NOTE: `initiateJoinGroup` is used exclusively when `AbstractCoordinator` is requested to <<joinGroupIfNeeded, joinGroupIfNeeded>>.
 
@@ -339,7 +361,7 @@ In the end, `sendHeartbeatRequest` requests the <<client, ConsumerNetworkClient>
 
 NOTE: `sendHeartbeatRequest` is used exclusively when `HeartbeatThread` is requested to <<kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc#run, run>>.
 
-=== [[onJoinLeader]] Sending Leader SyncGroup to Group Coordinator -- `onJoinLeader` Internal Method
+=== [[onJoinLeader]] Performing Partition Assignment and Notifying Group Coordinator -- `onJoinLeader` Internal Method
 
 [source, java]
 ----
@@ -358,7 +380,7 @@ Sending leader SyncGroup to coordinator [coordinator]: [requestBuilder]
 
 In the end, `onJoinLeader` <<sendSyncGroupRequest, sends a SyncGroupRequest>> (to the <<coordinator, group coordinator>> node).
 
-NOTE: `onJoinLeader` is used exclusively when `JoinGroupResponseHandler` is requested to <<kafka-consumer-internals-JoinGroupResponseHandler.adoc#handle, handle a JoinGroupResponse>>.
+NOTE: `onJoinLeader` is used exclusively when `JoinGroupResponseHandler` is requested to <<kafka-consumer-internals-JoinGroupResponseHandler.adoc#handle, handle a successful response from the group coordinator>> (and the consumer is the leader of the consumer group).
 
 === [[resetJoinGroupFuture]] `resetJoinGroupFuture` Internal Method
 
@@ -487,3 +509,14 @@ boolean coordinatorUnknown()
 `coordinatorUnknown`...FIXME
 
 NOTE: `coordinatorUnknown` is used when...FIXME
+
+=== [[disableHeartbeatThread]] `disableHeartbeatThread` Internal Method
+
+[source, java]
+----
+void disableHeartbeatThread()
+----
+
+`disableHeartbeatThread` simply requests the <<heartbeatThread, HeartbeatThread>> to <<kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc#disable, disable>> (if available, i.e. not `null`).
+
+NOTE: `disableHeartbeatThread` is used exclusively when `AbstractCoordinator` is requested to <<initiateJoinGroup, initiateJoinGroup>>.

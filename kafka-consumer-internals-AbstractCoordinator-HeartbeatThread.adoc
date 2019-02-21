@@ -15,7 +15,7 @@ kafka-coordinator-heartbeat-thread | [groupId]
 `HeartbeatThread` uses `closed` flag to indicate...FIXME
 
 [[enabled]]
-`HeartbeatThread` uses `enabled` flag to indicate...FIXME
+`HeartbeatThread` uses `enabled` flag to indicate whether to wait for <<kafka-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>> to notify it (_release_). The flag is off (`false`) initially and can be turned on (`true`) and off by <<enable, enable>> or <<disable, disable>>, respectively.
 
 [[creating-instance]]
 `HeartbeatThread` takes no arguments to be created.
@@ -56,3 +56,44 @@ Heartbeat thread has closed
 ```
 
 WARNING: `run` does some other state control checks but they look uninteresting...to me...now.
+
+=== [[disable]] Disabling HeartbeatThread -- `disable` Method
+
+[source, java]
+----
+void disable()
+----
+
+`disable` prints out the following DEBUG message to the logs and turns the <<enabled, enabled>> flag off (`false`).
+
+```
+Disabling heartbeat thread
+```
+
+[NOTE]
+====
+`disable` is used when:
+
+* `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#disableHeartbeatThread, disableHeartbeatThread>>
+
+* `HeartbeatThread` is requested to <<run, run>> (when in `UNJOINED` or `REBALANCING` <<kafka-consumer-internals-AbstractCoordinator.adoc#state, states>>)
+====
+
+=== [[enable]] Enabling HeartbeatThread -- `enable` Method
+
+[source, java]
+----
+void enable()
+----
+
+`enable` prints out the following DEBUG message to the logs:
+
+```
+Enabling heartbeat thread
+```
+
+`enable` turns the <<enabled, enabled>> flag on (`true`) and requests the <<kafka-consumer-internals-AbstractCoordinator.adoc#heartbeat, Heartbeat>> to `resetTimeouts`.
+
+In the end, `enable` notifies (_wakes up_) the owning <<kafka-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>>.
+
+NOTE: `enable` is used exclusively when `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#initiateJoinGroup, initiateJoinGroup>>.

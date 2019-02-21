@@ -1,6 +1,6 @@
 == [[JoinGroupResponseHandler]] JoinGroupResponseHandler
 
-`JoinGroupResponseHandler` is a concrete <<kafka-consumer-internals-CoordinatorResponseHandler.adoc#, CoordinatorResponseHandler>> to <<handle, handle a JoinGroupResponse>> (and convert it to a `ByteBuffer`).
+`JoinGroupResponseHandler` is a concrete <<kafka-consumer-internals-CoordinatorResponseHandler.adoc#, CoordinatorResponseHandler>> to <<handle, handle a successful response from a group coordinator>> (and convert it to a `ByteBuffer`).
 
 NOTE: `JoinGroupResponseHandler` is a Java private class of <<kafka-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>> and so can only be used by <<kafka-consumer-internals-AbstractCoordinator.adoc#extensions, AbstractCoordinators>>.
 
@@ -34,7 +34,7 @@ Received successful JoinGroup response: [joinResponse]
 
 When in `REBALANCING` <<kafka-consumer-internals-AbstractCoordinator.adoc#state, state>>, `handle` creates a new <<generation, Generation>> (with the generation ID, the member ID, and the group protocol from the given `JoinGroupResponse`).
 
-In the end, `handle` checks if the given `JoinGroupResponse` is for the leader of the consumer group or a follower and does <<kafka-consumer-internals-AbstractCoordinator.adoc#onJoinLeader, onJoinLeader>> or <<kafka-consumer-internals-AbstractCoordinator.adoc#onJoinFollower, onJoinFollower>>, respectively.
+In the end, `handle` checks if the given `JoinGroupResponse` is for the leader of the consumer group or a follower and <<kafka-consumer-internals-AbstractCoordinator.adoc#onJoinLeader, performs partition assignment and notifies the group coordinator>> or <<kafka-consumer-internals-AbstractCoordinator.adoc#onJoinFollower, onJoinFollower>>, respectively.
 
 When not in `REBALANCING` <<kafka-consumer-internals-AbstractCoordinator.adoc#state, state>>, `handle` requests the raises the given `RequestFuture<ByteBuffer>` to raise a `UnjoinedGroupException`.
 
