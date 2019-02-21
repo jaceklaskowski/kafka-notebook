@@ -132,7 +132,15 @@ Turned on (`true`) in <<resetGeneration, resetGeneration>> and <<requestRejoin, 
 a| [[sensors]] `GroupCoordinatorMetrics`
 
 | state
-a| [[state]] Defaults to `UNJOINED`
+a| [[state]] State of the member of a consumer group
+
+Possible states:
+
+* `UNJOINED` (when not joined in a consumer group when <<initiateJoinGroup, attempting to join a consumer group>> or <<resetGeneration, resetGeneration>>)
+* `REBALANCING` (when <<initiateJoinGroup, attempting to join a consumer group>>)
+* `STABLE` (when <<initiateJoinGroup, successfully joined a consumer group>>)
+
+Default: `UNJOINED`
 
 |===
 
