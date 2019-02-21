@@ -19,6 +19,8 @@ void handle(
   RequestFuture<T> future)
 ----
 
+Handles a successful response from a group coordinator
+
 Used exclusively when `CoordinatorResponseHandler` is requested to <<onSuccess, onSuccess>>
 
 |===
@@ -34,7 +36,7 @@ Used exclusively when `CoordinatorResponseHandler` is requested to <<onSuccess, 
 | [[HeartbeatResponseHandler]]
 
 | <<kafka-consumer-internals-JoinGroupResponseHandler.adoc#, JoinGroupResponseHandler>>
-| [[JoinGroupResponseHandler]]
+| [[JoinGroupResponseHandler]] Handles `JoinGroupResponses`
 
 | LeaveGroupResponseHandler
 | [[LeaveGroupResponseHandler]]

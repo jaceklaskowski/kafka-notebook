@@ -128,6 +128,9 @@ Turned off (`false`) when the <<joinFuture, joinFuture>> completed successfully 
 
 Turned on (`true`) in <<resetGeneration, resetGeneration>> and <<requestRejoin, requestRejoin>>
 
+| sensors
+a| [[sensors]] `GroupCoordinatorMetrics`
+
 | state
 a| [[state]] Defaults to `UNJOINED`
 

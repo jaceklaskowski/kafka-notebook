@@ -6,9 +6,10 @@ NOTE: `JoinGroupResponseHandler` is a Java private class of <<kafka-consumer-int
 
 `JoinGroupResponseHandler` is <<creating-instance, created>> exclusively when `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#sendJoinGroupRequest, send a JoinGroupRequest to the group coordinator>> (when requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#initiateJoinGroup, initiateJoinGroup>> when <<kafka-consumer-internals-AbstractCoordinator.adoc#joinGroupIfNeeded, joinGroupIfNeeded>> which is when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#poll, poll for coordinator events>>).
 
+[[creating-instance]]
 `JoinGroupResponseHandler` takes no arguments to be created.
 
-=== [[handle]] Handling JoinGroupResponse -- `handle` Method
+=== [[handle]] Handling Successful Response From Group Coordinator -- `handle` Method
 
 [source, java]
 ----
@@ -17,6 +18,24 @@ void handle(
   RequestFuture<ByteBuffer> future)
 ----
 
-NOTE: `handle` is part of the <<kafka-consumer-internals-CoordinatorResponseHandler.adoc#handle, CoordinatorResponseHandler Contract>> to...FIXME.
+NOTE: `handle` is part of the <<kafka-consumer-internals-CoordinatorResponseHandler.adoc#handle, CoordinatorResponseHandler Contract>> to handle a successful response from a group coordinator.
 
-`handle`...FIXME
+`handle` branches off per the error in the given `JoinGroupResponse`.
+
+==== [[handle-NONE]] No Errors
+
+`handle` prints out the following DEBUG message to the logs:
+
+```
+Received successful JoinGroup response: [joinResponse]
+```
+
+`handle` requests the <<kafka-consumer-internals-AbstractCoordinator.adoc#sensors, GroupCoordinatorMetrics>> for the `joinLatency` sensor to record the request latency.
+
+When in `REBALANCING` <<kafka-consumer-internals-AbstractCoordinator.adoc#state, state>>, `handle` creates a new <<generation, Generation>> (with the generation ID, the member ID, and the group protocol from the given `JoinGroupResponse`).
+
+In the end, `handle` checks if the given `JoinGroupResponse` is for the leader of the consumer group or a follower and does <<kafka-consumer-internals-AbstractCoordinator.adoc#onJoinLeader, onJoinLeader>> or <<kafka-consumer-internals-AbstractCoordinator.adoc#onJoinFollower, onJoinFollower>>, respectively.
+
+When not in `REBALANCING` <<kafka-consumer-internals-AbstractCoordinator.adoc#state, state>>, `handle` requests the raises the given `RequestFuture<ByteBuffer>` to raise a `UnjoinedGroupException`.
+
+CAUTION: There are other errors, but of little interest currently (aka _FIXME_).
