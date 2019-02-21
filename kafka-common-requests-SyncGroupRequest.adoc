@@ -1,0 +1,39 @@
+== [[SyncGroupRequest]] SyncGroupRequest
+
+[[SYNC_GROUP]]
+[[creating-instance]]
+`SyncGroupRequest` is a concrete <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>> with *SyncGroup* API key and the following:
+
+* [[groupId]] Group ID
+* [[generationId]] Generation ID
+* [[memberId]] Member ID
+* [[groupAssignment]] Group partition assignment (as `Map<String, ByteBuffer>`)
+* [[version]] Version
+
+`SyncGroupRequest` is <<creating-instance, created>> when:
+
+* `AbstractRequest` is requested to <<kafka-common-requests-AbstractRequest.adoc#parseRequest, parse a request>> (with the <<SYNC_GROUP, SyncGroup>> API key)
+
+* `SyncGroupRequest` is requested to <<parse, parse a byte buffer>>
+
+* `SyncGroupRequest.Builder` is requested to <<build, build a SyncGroupRequest>>
+
+=== [[SyncGroupRequest.Builder]][[Builder]][[build]] `SyncGroupRequest.Builder` Factory Object
+
+`SyncGroupRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a `SyncGroupRequest`.
+
+[source, java]
+----
+SyncGroupRequest build(short version)
+----
+
+=== [[parse]] Creating SyncGroupRequest from Byte Buffer -- `parse` Factory Method
+
+[source, java]
+----
+SyncGroupRequest parse(ByteBuffer buffer, short version)
+----
+
+`parse`...FIXME
+
+NOTE: `parse` is used when...FIXME

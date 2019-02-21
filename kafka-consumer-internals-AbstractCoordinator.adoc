@@ -275,7 +275,7 @@ In the end, `sendJoinGroupRequest` requests the <<client, ConsumerNetworkClient>
 
 NOTE: `sendJoinGroupRequest` is used exclusively when `AbstractCoordinator` is requested to <<initiateJoinGroup, initiateJoinGroup>>.
 
-=== [[sendSyncGroupRequest]] `sendSyncGroupRequest` Internal Method
+=== [[sendSyncGroupRequest]] Sending SyncGroupRequest (to Kafka Broker) -- `sendSyncGroupRequest` Internal Method
 
 [source, java]
 ----
@@ -336,14 +336,24 @@ In the end, `sendHeartbeatRequest` requests the <<client, ConsumerNetworkClient>
 
 NOTE: `sendHeartbeatRequest` is used exclusively when `HeartbeatThread` is requested to <<kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc#run, run>>.
 
-=== [[onJoinLeader]] `onJoinLeader` Internal Method
+=== [[onJoinLeader]] Sending Leader SyncGroup to Group Coordinator -- `onJoinLeader` Internal Method
 
 [source, java]
 ----
 RequestFuture<ByteBuffer> onJoinLeader(JoinGroupResponse joinResponse)
 ----
 
-`onJoinLeader`...FIXME
+`onJoinLeader` <<performAssignment, performs partition assignment>> with the leader ID, the group protocol, and the member metadata (all from the given `JoinGroupResponse`).
+
+`onJoinLeader` creates a new <<kafka-common-requests-SyncGroupRequest.adoc#SyncGroupRequest.Builder, SyncGroupRequest.Builder>> (with the <<groupId, group>>, <<generation, generation>>, and <<generation, member>> IDs as well as the group partition assignment).
+
+`onJoinLeader` prints out the following DEBUG message to the logs:
+
+```
+Sending leader SyncGroup to coordinator [coordinator]: [requestBuilder]
+```
+
+In the end, `onJoinLeader` <<sendSyncGroupRequest, sends a SyncGroupRequest>> (to the <<coordinator, group coordinator>> node).
 
 NOTE: `onJoinLeader` is used exclusively when `JoinGroupResponseHandler` is requested to <<kafka-consumer-internals-JoinGroupResponseHandler.adoc#handle, handle a JoinGroupResponse>>.
 

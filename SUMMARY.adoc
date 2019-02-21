@@ -308,6 +308,8 @@
 . link:kafka-common-requests-MetadataRequest.adoc[MetadataRequest]
 . link:kafka-common-requests-MetadataResponse.adoc[MetadataResponse]
 
+. link:kafka-common-requests-SyncGroupRequest.adoc[SyncGroupRequest]
+
 . link:kafka-common-requests-UpdateMetadataRequest.adoc[UpdateMetadataRequest]
 
 . link:kafka-common-requests-RequestContext.adoc[RequestContext]
