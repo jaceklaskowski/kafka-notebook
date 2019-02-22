@@ -376,7 +376,7 @@ NOTE: `sendHeartbeatRequest` is used exclusively when `HeartbeatThread` is reque
 RequestFuture<ByteBuffer> onJoinLeader(JoinGroupResponse joinResponse)
 ----
 
-`onJoinLeader` <<performAssignment, performs partition assignment>> with the leader ID, the group protocol, and the member metadata (all from the given `JoinGroupResponse`).
+`onJoinLeader` <<performAssignment, performs partition assignment>> with the leader ID, the group protocol, and the member metadata (all from the given <<kafka-common-requests-JoinGroupResponse.adoc#, JoinGroupResponse>>).
 
 `onJoinLeader` creates a new <<kafka-common-requests-SyncGroupRequest.adoc#SyncGroupRequest.Builder, SyncGroupRequest.Builder>> (with the <<groupId, group>>, <<generation, generation>>, and <<generation, member>> IDs as well as the group partition assignment).
 

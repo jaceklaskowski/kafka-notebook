@@ -36,7 +36,7 @@ Used exclusively when `CoordinatorResponseHandler` is requested to <<onSuccess, 
 | [[HeartbeatResponseHandler]]
 
 | <<kafka-consumer-internals-JoinGroupResponseHandler.adoc#, JoinGroupResponseHandler>>
-| [[JoinGroupResponseHandler]] Handles `JoinGroupResponses`
+| [[JoinGroupResponseHandler]] Handles <<kafka-common-requests-JoinGroupResponse.adoc#, JoinGroupResponses>>
 
 | LeaveGroupResponseHandler
 | [[LeaveGroupResponseHandler]]

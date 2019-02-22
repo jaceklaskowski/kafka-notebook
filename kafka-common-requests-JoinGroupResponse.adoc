@@ -1,0 +1,35 @@
+== [[JoinGroupResponse]] JoinGroupResponse
+
+`JoinGroupResponse` is a concrete <<kafka-common-requests-AbstractResponse.adoc#, AbstractResponse>> that...FIXME
+
+`JoinGroupResponse` is <<creating-instance, created>> when:
+
+* `JoinGroupRequest` is requested to <<kafka-common-requests-JoinGroupRequest.adoc#getErrorResponse, getErrorResponse>>
+
+* `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleJoinGroupRequest, handle a JoinGroupRequest>>
+
+* `AbstractResponse` is requested to <<kafka-common-requests-AbstractResponse.adoc#parseResponse, parse a JoinGroup response>>
+
+* `JoinGroupResponse` is requested to <<parse, parse a ByteBuffer>>
+
+[[creating-instance]]
+`JoinGroupResponse` takes the following to be created:
+
+* [[throttleTimeMs]] Throttle time (default: `0` ms)
+* [[error]] `Errors`
+* [[generationId]] Generation ID
+* [[groupProtocol]] Group protocol
+* [[memberId]] Member ID
+* [[leaderId]] Leader ID
+* [[groupMembers]] Group members (`Map<String, ByteBuffer>`)
+
+=== [[parse]] Creating JoinGroupResponse from ByteBuffer -- `parse` Factory Method
+
+[source, java]
+----
+JoinGroupResponse parse(ByteBuffer buffer, short version)
+----
+
+`parse`...FIXME
+
+NOTE: `parse` is used when...FIXME

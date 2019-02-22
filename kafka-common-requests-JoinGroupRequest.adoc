@@ -39,3 +39,14 @@ JoinGroupRequest parse(ByteBuffer buffer, short version)
 `parse`...FIXME
 
 NOTE: `parse` is used when...FIXME
+
+=== [[getErrorResponse]] `getErrorResponse` Method
+
+[source, java]
+----
+AbstractResponse getErrorResponse(int throttleTimeMs, Throwable e)
+----
+
+NOTE: `getErrorResponse` is part of the <<kafka-common-requests-AbstractRequest.adoc#getErrorResponse, AbstractRequest Contract>> to create a <<kafka-common-requests-AbstractResponse.adoc#, AbstractResponse>> for a failure.
+
+`getErrorResponse`...FIXME

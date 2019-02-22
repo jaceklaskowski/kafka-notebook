@@ -54,6 +54,9 @@ image::images/KafkaApis.png[align="center"]
 | <<kafka-common-requests-FindCoordinatorRequest.adoc#FIND_COORDINATOR, FindCoordinator>>
 | [[FindCoordinator]] <<handleFindCoordinatorRequest, handleFindCoordinatorRequest>>
 
+| JoinGroup
+| [[JOIN_GROUP]][[JoinGroup]] <<handleJoinGroupRequest, handleJoinGroupRequest>>
+
 | LeaderAndIsr
 | [[LEADER_AND_ISR]][[LeaderAndIsr]] <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
 
@@ -533,3 +536,14 @@ Sending FindCoordinator response [body] for correlation id [correlationId] to cl
 ```
 
 NOTE: `handleFindCoordinatorRequest` is used exclusively when `KafkaApis` is requested to handle a <<FindCoordinator, FindCoordinator>> request.
+
+=== [[handleJoinGroupRequest]] Handling JoinGroupRequest -- `handleJoinGroupRequest` Handler
+
+[source, scala]
+----
+handleJoinGroupRequest(request: RequestChannel.Request): Unit
+----
+
+`handleJoinGroupRequest`...FIXME
+
+NOTE: `handleJoinGroupRequest` is used exclusively when `KafkaApis` is requested to handle a <<JoinGroup, JoinGroup>> request.

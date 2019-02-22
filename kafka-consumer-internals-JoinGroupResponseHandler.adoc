@@ -1,6 +1,6 @@
 == [[JoinGroupResponseHandler]] JoinGroupResponseHandler
 
-`JoinGroupResponseHandler` is a concrete <<kafka-consumer-internals-CoordinatorResponseHandler.adoc#, CoordinatorResponseHandler>> to <<handle, handle a successful response from a group coordinator>> (and convert it to a `ByteBuffer`).
+`JoinGroupResponseHandler` is a concrete <<kafka-consumer-internals-CoordinatorResponseHandler.adoc#, CoordinatorResponseHandler>> to <<handle, handle a successful JoinGroupResponse from a group coordinator>> (and convert it to a `ByteBuffer`).
 
 NOTE: `JoinGroupResponseHandler` is a Java private class of <<kafka-consumer-internals-AbstractCoordinator.adoc#, AbstractCoordinator>> and so can only be used by <<kafka-consumer-internals-AbstractCoordinator.adoc#extensions, AbstractCoordinators>>.
 
@@ -20,7 +20,7 @@ void handle(
 
 NOTE: `handle` is part of the <<kafka-consumer-internals-CoordinatorResponseHandler.adoc#handle, CoordinatorResponseHandler Contract>> to handle a successful response from a group coordinator.
 
-`handle` branches off per the error in the given `JoinGroupResponse`.
+`handle` branches off per the error in the given <<kafka-common-requests-JoinGroupResponse.adoc#, JoinGroupResponse>>.
 
 ==== [[handle-NONE]] No Errors
 
