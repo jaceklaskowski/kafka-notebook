@@ -283,3 +283,25 @@ appendForGroup(
 `appendForGroup`...FIXME
 
 NOTE: `appendForGroup` is used exclusively when `GroupMetadataManager` is requested to <<storeGroup, storeGroup>> and <<storeOffsets, storeOffsets>>.
+
+=== [[addGroup]] `addGroup` Method
+
+[source, scala]
+----
+addGroup(group: GroupMetadata): GroupMetadata
+----
+
+`addGroup`...FIXME
+
+NOTE: `addGroup` is used when...FIXME
+
+=== [[getGroup]] `getGroup` Method
+
+[source, scala]
+----
+getGroup(groupId: String): Option[GroupMetadata]
+----
+
+`getGroup`...FIXME
+
+NOTE: `getGroup` is used when...FIXME

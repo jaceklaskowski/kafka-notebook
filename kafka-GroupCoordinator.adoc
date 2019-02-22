@@ -248,9 +248,17 @@ handleJoinGroup(
   responseCallback: JoinCallback): Unit
 ----
 
-`handleJoinGroup`...FIXME
+`handleJoinGroup` starts by <<validateGroupStatus, validating the status>> of the group and the coordinator itself. In case of an error, `handleJoinGroup` uses the given `JoinCallback` to report it back and returns.
 
-NOTE: `handleJoinGroup` is used when...FIXME
+`handleJoinGroup` validates the group configuration, namely the given `sessionTimeoutMs`. In case of an error, `handleJoinGroup` uses the given `JoinCallback` to report a `INVALID_SESSION_TIMEOUT` error back and returns.
+
+`handleJoinGroup` requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#getGroup, getGroup>> by the given `groupId`.
+
+If the group could not be found and the given `memberId` is defined (i.e. not empty), `handleJoinGroup` uses the given `JoinCallback` to report a `UNKNOWN_MEMBER_ID` error back and returns.
+
+If the group could not be found and the given `memberId` is undefined (i.e. empty) or simply the group is available, `handleJoinGroup` requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#addGroup, addGroup>> followed by <<doJoinGroup, doJoinGroup>>.
+
+NOTE: `handleJoinGroup` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleJoinGroupRequest, handle a JoinGroupRequest>>.
 
 === [[handleSyncGroup]] `handleSyncGroup` Method
 
@@ -370,3 +378,23 @@ validateGroupStatus(groupId: String, api: ApiKeys): Option[Errors]
 `validateGroupStatus`...FIXME
 
 NOTE: `validateGroupStatus` is used when...FIXME
+
+=== [[doJoinGroup]] `doJoinGroup` Internal Method
+
+[source, scala]
+----
+doJoinGroup(
+  group: GroupMetadata,
+  memberId: String,
+  clientId: String,
+  clientHost: String,
+  rebalanceTimeoutMs: Int,
+  sessionTimeoutMs: Int,
+  protocolType: String,
+  protocols: List[(String, Array[Byte])],
+  responseCallback: JoinCallback): Unit
+----
+
+`doJoinGroup`...FIXME
+
+NOTE: `doJoinGroup` is used when...FIXME
