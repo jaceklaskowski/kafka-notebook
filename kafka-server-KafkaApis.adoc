@@ -112,6 +112,23 @@ log4j.logger.kafka.server.KafkaApis=TRACE
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
+
+---
+
+Please note that Kafka comes with a preconfigured `kafka.server.KafkaApis` logger in `config/log4j.properties`:
+
+```
+log4j.appender.requestAppender=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.requestAppender.DatePattern='.'yyyy-MM-dd-HH
+log4j.appender.requestAppender.File=${kafka.logs.dir}/kafka-request.log
+log4j.appender.requestAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.requestAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
+
+log4j.logger.kafka.server.KafkaApis=TRACE, requestAppender
+log4j.additivity.kafka.server.KafkaApis=false
+```
+
+That means that the logs of `KafkaApis` go to `logs/kafka-request.log` file at `TRACE` logging level and are not added to the main logs (per `log4j.additivity` being off).
 ====
 
 === [[handle]] Routing API Requests to Respective Handlers -- `handle` Method
