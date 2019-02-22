@@ -544,6 +544,21 @@ NOTE: `handleFindCoordinatorRequest` is used exclusively when `KafkaApis` is req
 handleJoinGroupRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleJoinGroupRequest`...FIXME
+`handleJoinGroupRequest` takes the <<kafka-common-requests-JoinGroupRequest.adoc#, JoinGroupRequest>> (from the given `RequestChannel.Request`) and simply requests the <<groupCoordinator, GroupCoordinator>> to <<kafka-GroupCoordinator.adoc#handleJoinGroup, handleJoinGroup>> (with <<handleJoinGroupRequest-sendResponseCallback, sendResponseCallback>> to handle the response).
 
 NOTE: `handleJoinGroupRequest` is used exclusively when `KafkaApis` is requested to handle a <<JoinGroup, JoinGroup>> request.
+
+==== [[handleJoinGroupRequest-sendResponseCallback]] Handling JoinGroup Response -- `sendResponseCallback` Method
+
+[source, scala]
+----
+sendResponseCallback(joinResult: JoinGroupResult): Unit
+----
+
+`sendResponseCallback` creates a new <<kafka-common-requests-JoinGroupResponse.adoc#, JoinGroupResponse>> for the given `JoinGroupResult` and prints out the following TRACE message to the logs:
+
+```
+Sending join group response [responseBody] for correlation id [correlationId] to client [clientId].
+```
+
+In the end, `sendResponseCallback` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with the new <<kafka-common-requests-JoinGroupResponse.adoc#, JoinGroupResponse>>.
