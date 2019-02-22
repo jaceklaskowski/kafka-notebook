@@ -98,9 +98,16 @@ NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-s
 partitionFor(group: String): Int
 ----
 
-`partitionFor` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#partitionFor, partitionFor>> the input `group` ID.
+`partitionFor` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#partitionFor, partitionFor>> the given `group` ID.
 
-NOTE: `partitionFor` is used when...FIXME
+[NOTE]
+====
+`partitionFor` is used when:
+
+* `KafkaApis` is requested to handle an <<kafka-server-KafkaApis.adoc#handleAddOffsetsToTxnRequest, AddOffsetsToTxn>> and <<kafka-server-KafkaApis.adoc#handleFindCoordinatorRequest, FindCoordinatorRequest>> requests
+
+* `GroupCoordinator` is requested to <<prepareRebalance, prepareRebalance>> and <<onCompleteJoin, onCompleteJoin>>
+====
 
 === [[handleCommitOffsets]] `handleCommitOffsets` Method
 
@@ -145,7 +152,7 @@ onCompleteJoin(group: GroupMetadata): Unit
 
 `onCompleteJoin`...FIXME
 
-NOTE: `onCompleteJoin` is used when...FIXME
+NOTE: `onCompleteJoin` is used exclusively when `DelayedJoin` delayed operation is requested to `onComplete`.
 
 === [[doSyncGroup]] `doSyncGroup` Internal Method
 
@@ -397,4 +404,26 @@ doJoinGroup(
 
 `doJoinGroup`...FIXME
 
-NOTE: `doJoinGroup` is used when...FIXME
+NOTE: `doJoinGroup` is used exclusively when `GroupCoordinator` is requested to <<handleJoinGroup, handleJoinGroup>>.
+
+=== [[prepareRebalance]] `prepareRebalance` Internal Method
+
+[source, scala]
+----
+prepareRebalance(group: GroupMetadata, reason: String): Unit
+----
+
+`prepareRebalance`...FIXME
+
+NOTE: `prepareRebalance` is used exclusively when `GroupCoordinator` is requested to <<maybePrepareRebalance, maybePrepareRebalance>>.
+
+=== [[maybePrepareRebalance]] `maybePrepareRebalance` Internal Method
+
+[source, scala]
+----
+maybePrepareRebalance(group: GroupMetadata, reason: String): Unit
+----
+
+`maybePrepareRebalance`...FIXME
+
+NOTE: `maybePrepareRebalance` is used exclusively when `GroupCoordinator` is requested to...FIXME

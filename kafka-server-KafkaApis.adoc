@@ -24,6 +24,9 @@ image::images/KafkaApis.png[align="center"]
 | API Key
 | Handler
 
+| AddOffsetsToTxn
+| [[AddOffsetsToTxn]][[ADD_OFFSETS_TO_TXN]] <<handleAddOffsetsToTxnRequest, handleAddOffsetsToTxnRequest>>
+
 | AlterConfigs
 | [[AlterConfigs]] <<handleAlterConfigsRequest, handleAlterConfigsRequest>>
 
@@ -157,7 +160,7 @@ handleLeaderAndIsrRequest(request: RequestChannel.Request): Unit
 
 `handleLeaderAndIsrRequest`...FIXME
 
-NOTE: `handleLeaderAndIsrRequest` is used exclusively when `KafkaApis` is requested to handle a <<LeaderAndIsr, LeaderAndIsrRequest>>.
+NOTE: `handleLeaderAndIsrRequest` is used exclusively when `KafkaApis` is requested to handle a <<LeaderAndIsr, LeaderAndIsr>> request.
 
 === [[handleAlterReplicaLogDirsRequest]] Handling AlterReplicaLogDirs Request -- `handleAlterReplicaLogDirsRequest` Handler
 
@@ -579,3 +582,14 @@ Sending join group response [responseBody] for correlation id [correlationId] to
 ```
 
 In the end, `sendResponseCallback` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with the new <<kafka-common-requests-JoinGroupResponse.adoc#, JoinGroupResponse>>.
+
+=== [[handleAddOffsetsToTxnRequest]] Handling AddOffsetsToTxn Request -- `handleAddOffsetsToTxnRequest` Handler
+
+[source, scala]
+----
+handleAddOffsetsToTxnRequest(request: RequestChannel.Request): Unit
+----
+
+`handleAddOffsetsToTxnRequest`...FIXME
+
+NOTE: `handleAddOffsetsToTxnRequest` is used exclusively when `KafkaApis` is requested to handle a <<AddOffsetsToTxn, AddOffsetsToTxn>> request.

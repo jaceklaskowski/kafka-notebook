@@ -1,7 +1,5 @@
 == [[GroupMetadataManager]] GroupMetadataManager
 
-`GroupMetadataManager` is...FIXME
-
 `GroupMetadataManager` is <<creating-instance, created>> exclusively when `GroupCoordinator` is <<kafka-GroupCoordinator.adoc#apply, created>>.
 
 .Creating GroupMetadataManager
@@ -34,6 +32,7 @@ image::images/GroupMetadataManager-creating-instance.png[align="center"]
 
 | NumGroupsEmpty
 | [[NumGroupsEmpty]]
+
 |===
 
 [[internal-registries]]
