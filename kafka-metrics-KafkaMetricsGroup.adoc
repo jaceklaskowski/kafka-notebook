@@ -31,7 +31,7 @@ trait KafkaMetricsGroup {
 | AppInfo
 | [[AppInfo]]
 
-| <<kafka-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>>
+| <<kafka-server-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>>
 | [[BrokerTopicMetrics]]
 
 | <<kafka-controller-ControllerChannelManager.adoc#, ControllerChannelManager>>

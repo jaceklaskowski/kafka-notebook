@@ -2,8 +2,8 @@
 
 `BrokerTopicStats` is topic-related metrics:
 
-* [[stats]] <<kafka-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>> stats per topic
+* [[stats]] <<kafka-server-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>> stats per topic
 
-* [[allTopicsStats]] Accumulated <<kafka-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>> for all topics
+* [[allTopicsStats]] Accumulated <<kafka-server-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>> for all topics
 
 `BrokerTopicStats` is created exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, startup>> and used to create the <<kafka-server-KafkaApis.adoc#brokerTopicStats, KafkaApis>>, the <<kafka-server-ReplicaManager.adoc#brokerTopicStats, ReplicaManager>>, the <<kafka-LogManager.adoc#brokerTopicStats, LogManager>>.

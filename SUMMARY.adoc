@@ -189,7 +189,7 @@
 === Kafka Metrics
 
 . link:kafka-server-BrokerTopicStats.adoc[BrokerTopicStats]
-. link:kafka-BrokerTopicMetrics.adoc[BrokerTopicMetrics]
+. link:kafka-server-BrokerTopicMetrics.adoc[BrokerTopicMetrics]
 . link:kafka-metrics-KafkaMetricsGroup.adoc[KafkaMetricsGroup]
 
 === Kafka Clients / Producer API
