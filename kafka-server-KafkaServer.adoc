@@ -30,7 +30,11 @@ image::images/KafkaServer-startup.png[align="center"]
 | [[brokerState]] `BrokerState`
 
 | _brokerTopicStats
-| [[_brokerTopicStats]] `BrokerTopicStats`
+a| [[_brokerTopicStats]][[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
+
+Created when `KafkaServer` is requested to <<startup, startup>>
+
+Used when `KafkaServer` is requested to <<startup, startup>> and creates the <<apis, KafkaApis>>, the <<replicaManager, ReplicaManager>>, the <<logManager, LogManager>>
 
 | _clusterId
 | [[_clusterId]] Cluster ID
