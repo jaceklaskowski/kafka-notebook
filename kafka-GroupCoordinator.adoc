@@ -123,7 +123,7 @@ handleCommitOffsets(
 
 `handleCommitOffsets`...FIXME
 
-NOTE: `handleCommitOffsets` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleOffsetCommitRequest, handleOffsetCommitRequest>>.
+NOTE: `handleCommitOffsets` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleOffsetCommitRequest, handle an OffsetCommit request>>.
 
 === [[doCommitOffsets]] `doCommitOffsets` Internal Method
 

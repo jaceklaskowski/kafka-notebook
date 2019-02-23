@@ -22,7 +22,7 @@
 
 === [[JoinGroupRequest.Builder]][[Builder]][[build]] `JoinGroupRequest.Builder` Factory Object
 
-`JoinGroupRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a `JoinGroupRequest`.
+`JoinGroupRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a <<JoinGroupRequest, JoinGroupRequest>>.
 
 [source, java]
 ----

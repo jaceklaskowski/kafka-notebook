@@ -20,7 +20,7 @@
 
 === [[SyncGroupRequest.Builder]][[Builder]][[build]] `SyncGroupRequest.Builder` Factory Object
 
-`SyncGroupRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a `SyncGroupRequest`.
+`SyncGroupRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a <<SyncGroupRequest, SyncGroupRequest>>.
 
 [source, java]
 ----

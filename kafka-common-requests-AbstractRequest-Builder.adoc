@@ -1,6 +1,6 @@
 == [[Builder]][[AbstractRequest.Builder]] AbstractRequest.Builder Contract
 
-`AbstractRequest.Builder` is the <<contract, abstraction>> of <<implementations, request builders>> that can <<build, build>> a request.
+`AbstractRequest.Builder` is the <<contract, abstraction>> of <<implementations, request builders>> that can <<build, build a request>>.
 
 [[contract]]
 .AbstractRequest.Builder Contract
@@ -29,4 +29,5 @@ Used when:
 * `OffsetFetchRequest` is requested to `forAllPartitions`
 
 * `SaslClientAuthenticator` is requested to `createSaslHandshakeRequest` and `sendSaslClientToken`
+
 |===

@@ -1,0 +1,53 @@
+== [[OffsetCommitRequest]] OffsetCommitRequest
+
+[[OFFSET_COMMIT]]
+[[creating-instance]]
+`OffsetCommitRequest` is a concrete <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>> with *OffsetCommit* API key and the following:
+
+* [[groupId]] Group ID
+* [[generationId]] Generation ID
+* [[memberId]] Member ID
+* [[retentionTime]] Retention time
+* [[offsetData]] Offset data (`Map<TopicPartition, PartitionData>`)
+* [[version]] Version
+
+`OffsetCommitRequest` is used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#sendOffsetCommitRequest, sendOffsetCommitRequest>>.
+
+`OffsetCommitRequest` is <<creating-instance, created>> when:
+
+* `AbstractRequest` is requested to <<kafka-common-requests-AbstractRequest.adoc#parseRequest, parse a request>> (with the <<OFFSET_COMMIT, OffsetCommit>> API key)
+
+* `OffsetCommitRequest` is requested to <<parse, parse a byte buffer>>
+
+* `OffsetCommitRequest.Builder` is requested to <<build, build an OffsetCommitRequest>>
+
+=== [[OffsetCommitRequest.Builder]][[Builder]][[build]] `OffsetCommitRequest.Builder` Factory Object
+
+`OffsetCommitRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> an <<OffsetCommitRequest, OffsetCommitRequest>>.
+
+[source, java]
+----
+OffsetCommitRequest build(short version)
+----
+
+=== [[parse]] Creating OffsetCommitRequest from Byte Buffer -- `parse` Factory Method
+
+[source, java]
+----
+OffsetCommitRequest parse(ByteBuffer buffer, short version)
+----
+
+`parse`...FIXME
+
+NOTE: `parse` is used when...FIXME
+
+=== [[getErrorResponse]] `getErrorResponse` Method
+
+[source, java]
+----
+AbstractResponse getErrorResponse(int throttleTimeMs, Throwable e)
+----
+
+NOTE: `getErrorResponse` is part of the <<kafka-common-requests-AbstractRequest.adoc#getErrorResponse, AbstractRequest Contract>> to create a <<kafka-common-requests-AbstractResponse.adoc#, AbstractResponse>> for a failure.
+
+`getErrorResponse`...FIXME

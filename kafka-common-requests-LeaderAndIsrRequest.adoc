@@ -20,7 +20,7 @@
 
 === [[LeaderAndIsrRequest.Builder]][[Builder]][[build]] `LeaderAndIsrRequest.Builder` Factory Object
 
-`LeaderAndIsrRequest` comes with a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a `LeaderAndIsrRequest`.
+`LeaderAndIsrRequest` comes with a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a <<LeaderAndIsrRequest, LeaderAndIsrRequest>>.
 
 [source, java]
 ----

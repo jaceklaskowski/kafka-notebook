@@ -439,7 +439,7 @@ handleOffsetCommitRequest(request: RequestChannel.Request): Unit
 
 `handleOffsetCommitRequest`...FIXME
 
-NOTE: `handleOffsetCommitRequest` is used exclusively when `KafkaApis` is requested to handle a <<OffsetCommit, OffsetCommit>> request.
+NOTE: `handleOffsetCommitRequest` is used exclusively when `KafkaApis` is requested to handle an <<OffsetCommit, OffsetCommit>> request.
 
 === [[createInternalTopic]] `createInternalTopic` Internal Method
 

@@ -18,7 +18,7 @@
 
 === [[HeartbeatRequest.Builder]][[Builder]][[build]] `HeartbeatRequest.Builder` Factory Object
 
-`HeartbeatRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a `HeartbeatRequest`.
+`HeartbeatRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a <<HeartbeatRequest, HeartbeatRequest>>.
 
 [source, java]
 ----

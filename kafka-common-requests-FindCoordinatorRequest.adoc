@@ -18,7 +18,7 @@
 
 === [[FindCoordinatorRequest.Builder]][[Builder]][[build]] `FindCoordinatorRequest.Builder` Factory Object
 
-`FindCoordinatorRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a `FindCoordinatorRequest`.
+`FindCoordinatorRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a <<FindCoordinatorRequest, FindCoordinatorRequest>>.
 
 [source, java]
 ----
