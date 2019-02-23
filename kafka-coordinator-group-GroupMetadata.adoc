@@ -1,0 +1,43 @@
+== [[GroupMetadata]] GroupMetadata
+
+`GroupMetadata` is...FIXME
+
+=== [[add]] Registering Consumer with Consumer Group -- `add` Method
+
+[source, scala]
+----
+add(
+  member: MemberMetadata,
+  callback: JoinCallback = null): Unit
+----
+
+`add`...FIXME
+
+[NOTE]
+====
+`add` is used when:
+
+* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#addMemberAndRebalance, addMemberAndRebalance>>
+
+* `GroupMetadata` is requested to <<loadGroup, loadGroup>>
+====
+
+=== [[loadGroup]] Loading Consumer Group Metadata -- `loadGroup` Factory Method
+
+[source, scala]
+----
+loadGroup(
+  groupId: String,
+  initialState: GroupState,
+  generationId: Int,
+  protocolType: String,
+  protocol: String,
+  leaderId: String,
+  currentStateTimestamp: Option[Long],
+  members: Iterable[MemberMetadata],
+  time: Time): GroupMetadata
+----
+
+`loadGroup`...FIXME
+
+NOTE: `loadGroup` is used exclusively when `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#readGroupMessageValue, readGroupMessageValue>>.

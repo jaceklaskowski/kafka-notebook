@@ -427,3 +427,22 @@ maybePrepareRebalance(group: GroupMetadata, reason: String): Unit
 `maybePrepareRebalance`...FIXME
 
 NOTE: `maybePrepareRebalance` is used exclusively when `GroupCoordinator` is requested to...FIXME
+
+=== [[addMemberAndRebalance]] `addMemberAndRebalance` Internal Method
+
+[source, scala]
+----
+addMemberAndRebalance(
+  rebalanceTimeoutMs: Int,
+  sessionTimeoutMs: Int,
+  clientId: String,
+  clientHost: String,
+  protocolType: String,
+  protocols: List[(String, Array[Byte])],
+  group: GroupMetadata,
+  callback: JoinCallback): MemberMetadata
+----
+
+`addMemberAndRebalance`...FIXME
+
+NOTE: `addMemberAndRebalance` is used exclusively when `GroupCoordinator` is requested to <<doJoinGroup, doJoinGroup>>.

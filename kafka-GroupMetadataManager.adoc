@@ -37,21 +37,21 @@ image::images/GroupMetadataManager-creating-instance.png[align="center"]
 
 [[internal-registries]]
 .GroupMetadataManager's Internal Properties (e.g. Registries and Counters)
-[cols="1,2",options="header",width="100%"]
+[cols="1m,3",options="header",width="100%"]
 |===
 | Name
 | Description
 
-| `compressionType`
+| compressionType
 | [[compressionType]] `CompressionType` (default: `NoCompressionCodec`)
 
-| [[groupMetadataCache]] `groupMetadataCache`
-| Pool of `GroupMetadata` by group ID
+| groupMetadataCache
+| [[groupMetadataCache]] <<kafka-coordinator-group-GroupMetadata.adoc#, GroupMetadata>> by group ID
 
-| `groupMetadataTopicPartitionCount`
+| groupMetadataTopicPartitionCount
 | [[groupMetadataTopicPartitionCount]] Number of partitions for the `__consumer_offsets` consumer group metadata topic (default: `50`)
 
-| `scheduler`
+| scheduler
 a| [[scheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *group-metadata-manager-* prefix
 
 <<kafka-KafkaScheduler.adoc#startup, Started>> when `GroupMetadataManager` is requested to <<startup, start up>>.
@@ -67,6 +67,7 @@ Used when:
 * <<removeGroupsForPartition, removeGroupsForPartition>> that <<removeGroupsAndOffsets, unloads offsets and group metadata from __consumer_offsets topic>>
 
 * <<scheduleHandleTxnCompletion, scheduleHandleTxnCompletion>> that schedules the *handleTxnCompletion-[producerId]* task that <<handleTxnCompletion, handleTxnCompletion>>
+
 |===
 
 === [[enableMetadataExpiration]] `enableMetadataExpiration` Method
@@ -104,7 +105,7 @@ cleanupGroupMetadata(deletedTopicPartitions: Option[Seq[TopicPartition]]): Unit
 ----
 <1> Calls the other `cleanupGroupMetadata` with empty `deletedTopicPartitions` collection
 
-`cleanupGroupMetadata` takes the current time (using <<time, time>>) and for every `GroupMetadata` in <<groupMetadataCache, cache>> does the following:
+`cleanupGroupMetadata` takes the current time (using <<time, time>>) and for every <<kafka-coordinator-group-GroupMetadata.adoc#, GroupMetadata>> in the <<groupMetadataCache, cache>> does the following:
 
 1. FIXME
 
@@ -304,3 +305,39 @@ getGroup(groupId: String): Option[GroupMetadata]
 `getGroup`...FIXME
 
 NOTE: `getGroup` is used when...FIXME
+
+=== [[readGroupMessageValue]] `readGroupMessageValue` Method
+
+[source, scala]
+----
+readGroupMessageValue(
+  groupId: String,
+  buffer: ByteBuffer,
+  time: Time): GroupMetadata
+----
+
+`readGroupMessageValue`...FIXME
+
+[NOTE]
+====
+`readGroupMessageValue` is used when:
+
+* `GroupMetadataManager` is requested to <<doLoadGroupsAndOffsets, doLoadGroupsAndOffsets>>
+
+* `GroupMetadataMessageFormatter` is requested to `writeTo`
+
+* `OffsetsMessageParser` is requested to `parseGroupMetadata`
+====
+
+=== [[doLoadGroupsAndOffsets]] `doLoadGroupsAndOffsets` Internal Method
+
+[source, scala]
+----
+doLoadGroupsAndOffsets(
+  topicPartition: TopicPartition,
+  onGroupLoaded: GroupMetadata => Unit): Unit
+----
+
+`doLoadGroupsAndOffsets`...FIXME
+
+NOTE: `doLoadGroupsAndOffsets` is used exclusively when `GroupMetadataManager` is requested to <<loadGroupsAndOffsets, loadGroupsAndOffsets>>.
