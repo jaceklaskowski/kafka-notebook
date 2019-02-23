@@ -1,6 +1,6 @@
 == [[KafkaMetricsGroup]] KafkaMetricsGroup
 
-`KafkaMetricsGroup` is the <<contract, contract>> of <<implementations, metrics groups>> that can register new *performance metrics*, e.g. <<newGauge, gauge>>, <<newHistogram, histogram>>, <<newMeter, meter>> and <<newTimer, timer>>.
+`KafkaMetricsGroup` is the <<contract, contract>> of <<implementations, metrics groups>> that can register *performance metrics*, e.g. <<newGauge, gauges>>, <<newHistogram, histograms>>, <<newMeter, meters>> and <<newTimer, timers>>.
 
 [[contract]]
 [source, scala]
@@ -32,7 +32,7 @@ trait KafkaMetricsGroup {
 | [[AppInfo]]
 
 | <<kafka-server-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>>
-| [[BrokerTopicMetrics]]
+| [[BrokerTopicMetrics]] Topic metrics
 
 | <<kafka-controller-ControllerChannelManager.adoc#, ControllerChannelManager>>
 | [[ControllerChannelManager]]
@@ -55,7 +55,7 @@ trait KafkaMetricsGroup {
 | DelayedProduceMetrics
 | [[DelayedProduceMetrics]]
 
-| DelegationTokenManager
+| <<kafka-server-DelegationTokenManager.adoc#, DelegationTokenManager>>
 | [[DelegationTokenManager]]
 
 | FetcherLagMetrics
@@ -85,10 +85,10 @@ trait KafkaMetricsGroup {
 | <<kafka-Log.adoc#, Log>>
 | [[Log]]
 
-| LogCleaner
+| <<kafka-log-LogCleaner.adoc#, LogCleaner>>
 | [[LogCleaner]]
 
-| LogCleanerManager
+| <<kafka-LogCleanerManager.adoc#, LogCleanerManager>>
 | [[LogCleanerManager]]
 
 | LogFlushStats
@@ -100,13 +100,13 @@ trait KafkaMetricsGroup {
 | <<kafka-cluster-Partition.adoc#, Partition>>
 | [[Partition]]
 
-| Processor
+| <<kafka-network-SocketServer-Processor.adoc#, Processor>>
 | [[Processor]]
 
 | <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
 | [[ReplicaManager]]
 
-| RequestChannel
+| <<kafka-network-RequestChannel.adoc#, RequestChannel>>
 | [[RequestChannel]]
 
 | RequestMetrics
@@ -118,11 +118,12 @@ trait KafkaMetricsGroup {
 | Throttler
 | [[Throttler]]
 
-| TransactionMarkerChannelManager
+| <<kafka-TransactionMarkerChannelManager.adoc#, TransactionMarkerChannelManager>>
 | [[TransactionMarkerChannelManager]]
 
 | <<kafka-ZooKeeperClient.adoc#, ZooKeeperClient>>
 | [[ZooKeeperClient]]
+
 |===
 
 === [[newGauge]] `newGauge` Method

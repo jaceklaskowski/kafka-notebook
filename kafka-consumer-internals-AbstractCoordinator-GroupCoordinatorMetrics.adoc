@@ -61,7 +61,7 @@
 
 |===
 
-`GroupCoordinatorMetrics` is registered under *consumer-coordinator-metrics* group name.
+`GroupCoordinatorMetrics` is registered in *consumer-coordinator-metrics* group.
 
 .GroupCoordinatorMetrics in jconsole
 image::images/GroupCoordinatorMetrics-jconsole.png[align="center"]

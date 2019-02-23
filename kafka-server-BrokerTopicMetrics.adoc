@@ -1,3 +1,62 @@
 == [[BrokerTopicMetrics]] BrokerTopicMetrics
 
-`BrokerTopicMetrics` is...FIXME
+`BrokerTopicMetrics` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with <<metrics, performance metrics>> of topics.
+
+[[metrics]]
+.BrokerTopicMetrics's Metrics
+[cols="1m,2",options="header",width="100%"]
+|===
+| Metric Name
+| Description
+
+| BytesInPerSec
+| [[bytesInRate]]
+
+| BytesOutPerSec
+| [[bytesOutRate]]
+
+| BytesRejectedPerSec
+| [[bytesRejectedRate]]
+
+| FailedFetchRequestsPerSec
+| [[failedFetchRequestRate]]
+
+| FailedProduceRequestsPerSec
+| [[failedProduceRequestRate]]
+
+| FetchMessageConversionsPerSec
+| [[fetchMessageConversionsRate]]
+
+| MessagesInPerSec
+| [[messagesInRate]]
+
+| ProduceMessageConversionsPerSec
+| [[produceMessageConversionsRate]]
+
+| ReplicationBytesInPerSec
+| [[replicationBytesInRate]] (only when <<name, topic name>> is undefined)
+
+| ReplicationBytesOutPerSec
+| [[replicationBytesOutRate]] (only when <<name, topic name>> is undefined)
+
+| TotalFetchRequestsPerSec
+| [[totalFetchRequestRate]]
+
+| TotalProduceRequestsPerSec
+| [[totalProduceRequestRate]]
+
+|===
+
+The <<metrics, performance metrics>> are registered in *kafka.server:type=BrokerTopicMetrics* group.
+
+.BrokerTopicMetrics in jconsole
+image::images/BrokerTopicMetrics-jconsole.png[align="center"]
+
+`BrokerTopicMetrics` is <<creating-instance, created>> for `BrokerTopicStats` when requested to <<kafka-server-BrokerTopicStats.adoc#stats, look up or create a new BrokerTopicMetrics for a topic>> or <<kafka-server-BrokerTopicStats.adoc#allTopicsStats, accumulated metrics for all topics>>.
+
+[[name]]
+[[creating-instance]]
+`BrokerTopicMetrics` takes an optional *topic name* to be created.
+
+[[tags]]
+`BrokerTopicMetrics` uses metric tags of `topic` and the <<name, topic name>> (if defined).

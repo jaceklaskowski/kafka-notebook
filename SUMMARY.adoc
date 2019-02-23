@@ -186,11 +186,11 @@
 . link:kafka-cluster-Partition.adoc[Partition]
 . link:kafka-cluster-Replica.adoc[Replica]
 
-=== Kafka Metrics
+=== Kafka Performance Metrics
 
+. link:kafka-metrics-KafkaMetricsGroup.adoc[KafkaMetricsGroup]
 . link:kafka-server-BrokerTopicStats.adoc[BrokerTopicStats]
 . link:kafka-server-BrokerTopicMetrics.adoc[BrokerTopicMetrics]
-. link:kafka-metrics-KafkaMetricsGroup.adoc[KafkaMetricsGroup]
 
 === Kafka Clients / Producer API
 
