@@ -1,6 +1,118 @@
-== [[GroupMetadata]] GroupMetadata
+== [[GroupMetadata]] GroupMetadata -- Metadata of Consumer Group
 
-`GroupMetadata` is...FIXME
+`GroupMetadata` is the metadata of a consumer group.
+
+[[creating-instance]]
+`GroupMetadata` takes the following to be created:
+
+* [[groupId]] Group ID
+* [[initialState]] <<GroupState, GroupState>>
+* [[time]] `Time`
+
+[[GroupState]]
+`GroupMetadata` uses the <<states, states>> to describe the state of a consumer group.
+
+[[states]]
+.States of Consumer Group
+[cols="1m,3",options="header",width="100%"]
+|===
+| State
+| Description
+
+| CompletingRebalance
+a| [[CompletingRebalance]] <<transitionTo, Transitioned to>> when:
+
+* <<initNextGeneration, initNextGeneration>> (and there are any <<members, members>>)
+
+| Dead
+a| [[Dead]] <<transitionTo, Transitioned to>> when:
+
+* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#handleDeleteGroups, handleDeleteGroups>> (when in <<Empty, Empty>> state)
+
+* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#onGroupUnloaded, onGroupUnloaded>>
+
+* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>>
+
+| Empty
+a| [[Empty]] <<transitionTo, Transitioned to>> when:
+
+* <<initNextGeneration, initNextGeneration>> (and there are no <<members, members>>)
+
+* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>> (when in <<Empty, Empty>> state with no <<hasOffsets, offsets>>)
+
+* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#readGroupMessageValue, readGroupMessageValue>> (and there are no members)
+
+| PreparingRebalance
+a| [[PreparingRebalance]] <<transitionTo, Transitioned to>> when:
+
+* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#prepareRebalance, prepareRebalance>>
+
+| Stable
+a| [[Stable]] <<transitionTo, Transitioned to>> when:
+
+* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#doSyncGroup, doSyncGroup>> (when in <<CompletingRebalance, CompletingRebalance>> state and the <<generationId, generationId>> did not change)
+
+* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#readGroupMessageValue, readGroupMessageValue>> (and there is at least one member)
+
+|===
+
+[[validPreviousStates]]
+`GroupMetadata` defines `validPreviousStates` internal registry of the valid previous states per <<states, state>>.
+
+.Valid Previous States
+[cols="1,3",options="header",width="100%"]
+|===
+| State
+| Valid Previous States
+
+| <<Dead, Dead>>
+| <<Stable, Stable>>, <<PreparingRebalance, PreparingRebalance>>, <<CompletingRebalance, CompletingRebalance>>, <<Empty, Empty>>, <<Dead, Dead>>
+
+| <<CompletingRebalance, CompletingRebalance>>
+| <<PreparingRebalance, PreparingRebalance>>
+
+| <<Stable, Stable>>
+| <<CompletingRebalance, CompletingRebalance>>
+
+| <<PreparingRebalance, PreparingRebalance>>
+| <<Stable, Stable>>, <<CompletingRebalance, CompletingRebalance>>, <<Empty, Empty>>
+
+| <<Empty, Empty>>
+| <<PreparingRebalance, PreparingRebalance>>
+
+|===
+
+`GroupMetadata` is <<creating-instance, created>> when:
+
+* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#handleJoinGroup, handleJoinGroup>>, <<kafka-GroupCoordinator.adoc#handleTxnCommitOffsets, handleTxnCommitOffsets>> and <<kafka-GroupCoordinator.adoc#handleCommitOffsets, handleCommitOffsets>>
+
+* `GroupMetadata` is requested to <<loadGroup, loadGroup>>
+
+* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#doLoadGroupsAndOffsets, doLoadGroupsAndOffsets>>
+
+[[internal-registries]]
+.GroupMetadata's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| generationId
+a| [[generationId]]
+
+Starts at `0`
+
+| leaderId
+| [[leaderId]] ID of the Kafka Consumer that is the leader of the consumer group
+
+Starts empty (`None`) and is initialized in <<loadGroup, loadGroup>>, <<add, add>> or <<remove, remove>>
+
+Used when <<isLeader, isLeader>> and <<leaderOrNull, leaderOrNull>>
+
+| members
+a| [[members]] Members of the consumer group (as `MemberMetadata` per member ID)
+
+|===
 
 === [[add]] Registering Consumer with Consumer Group -- `add` Method
 
@@ -41,3 +153,47 @@ loadGroup(
 `loadGroup`...FIXME
 
 NOTE: `loadGroup` is used exclusively when `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#readGroupMessageValue, readGroupMessageValue>>.
+
+=== [[remove]] Unregistering Consumer from Consumer Group -- `remove` Method
+
+[source, scala]
+----
+remove(memberId: String): Unit
+----
+
+`remove`...FIXME
+
+NOTE: `remove` is used when `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#removeMemberAndUpdateGroup, removeMemberAndUpdateGroup>> and <<kafka-GroupCoordinator.adoc#onCompleteJoin, onCompleteJoin>>.
+
+=== [[transitionTo]] Changing State of Consumer Group -- `transitionTo` Method
+
+[source, scala]
+----
+transitionTo(groupState: GroupState): Unit
+----
+
+`transitionTo`...FIXME
+
+NOTE: `transitionTo` is used when...FIXME
+
+=== [[initNextGeneration]] `initNextGeneration` Method
+
+[source, scala]
+----
+initNextGeneration(): Unit
+----
+
+`initNextGeneration`...FIXME
+
+NOTE: `initNextGeneration` is used exclusively when `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#onCompleteJoin, onCompleteJoin>>.
+
+=== [[hasOffsets]] Asserting No Offets in Use -- `hasOffsets` Method
+
+[source, scala]
+----
+hasOffsets: Boolean
+----
+
+`hasOffsets`...FIXME
+
+NOTE: `hasOffsets` is used exclusively when `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>>

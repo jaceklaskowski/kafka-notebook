@@ -105,7 +105,7 @@
 
 . link:kafka-GroupCoordinator.adoc[GroupCoordinator]
 .. link:kafka-GroupMetadataManager.adoc[GroupMetadataManager]
-.. link:kafka-coordinator-group-GroupMetadata.adoc[GroupMetadata]
+.. link:kafka-coordinator-group-GroupMetadata.adoc[GroupMetadata -- Metadata of Consumer Group]
 
 . link:kafka-Kafka.adoc[Kafka]
 . link:kafka-server-KafkaApis.adoc[KafkaApis -- API Request Handler]

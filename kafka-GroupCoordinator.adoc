@@ -446,3 +446,31 @@ addMemberAndRebalance(
 `addMemberAndRebalance`...FIXME
 
 NOTE: `addMemberAndRebalance` is used exclusively when `GroupCoordinator` is requested to <<doJoinGroup, doJoinGroup>>.
+
+=== [[removeMemberAndUpdateGroup]] `removeMemberAndUpdateGroup` Internal Method
+
+[source, scala]
+----
+removeMemberAndUpdateGroup(
+  group: GroupMetadata,
+  member: MemberMetadata,
+  reason: String): Unit
+----
+
+`removeMemberAndUpdateGroup`...FIXME
+
+NOTE: `removeMemberAndUpdateGroup` is used when `GroupCoordinator` is requested to <<handleLeaveGroup, handleLeaveGroup>> and <<onExpireHeartbeat, onExpireHeartbeat>>.
+
+=== [[onExpireHeartbeat]] `onExpireHeartbeat` Method
+
+[source, scala]
+----
+onExpireHeartbeat(
+  group: GroupMetadata,
+  member: MemberMetadata,
+  heartbeatDeadline: Long): Unit
+----
+
+`onExpireHeartbeat`...FIXME
+
+NOTE: `onExpireHeartbeat` is used exclusively when `DelayedHeartbeat` is requested to `onExpiration`.
