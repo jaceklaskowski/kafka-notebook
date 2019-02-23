@@ -219,7 +219,7 @@ NOTE: `handleFetchRequest` is used exclusively when `KafkaApis` is requested to 
 handleTopicMetadataRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleTopicMetadataRequest` takes the <<kafka-common-requests-MetadataRequest.adoc#, MetadataRequest>> from the body (from the input `request`).
+`handleTopicMetadataRequest` takes the <<kafka-common-requests-MetadataRequest.adoc#, MetadataRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>).
 
 `handleTopicMetadataRequest` requests the <<metadataCache, MetadataCache>> for <<kafka-server-MetadataCache.adoc#getAllTopics, getAllTopics>> or its subset (per <<kafka-common-requests-MetadataRequest.adoc#topics, topics>> attribute of the `MetadataRequest`).
 
@@ -241,7 +241,7 @@ In the end, `handleTopicMetadataRequest` <<sendResponseMaybeThrottle, sendRespon
 
 NOTE: `handleTopicMetadataRequest` is used exclusively when `KafkaApis` is requested to handle a <<Metadata, Metadata>> request.
 
-=== [[authorize]] `authorize` Internal Method
+=== [[authorize]] Authorizing Operation on Resource -- `authorize` Internal Method
 
 [source, scala]
 ----
@@ -352,7 +352,7 @@ NOTE: `handleListOffsetRequestV1AndAbove` is used exclusively when `KafkaApis` i
 handleDescribeLogDirsRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleDescribeLogDirsRequest` takes the `DescribeLogDirsRequest` (from the body of the input `RequestChannel.Request`).
+`handleDescribeLogDirsRequest` takes the <<kafka-common-requests-DescribeLogDirsRequest.adoc#, DescribeLogDirsRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>).
 
 `handleDescribeLogDirsRequest` branches off per whether the `DescribeLogDirsRequest` was for <<kafka-common-requests-DescribeLogDirsRequest.adoc#isAllTopicPartitions, isAllTopicPartitions>> or not.
 
@@ -430,16 +430,37 @@ handleUpdateMetadataRequest(request: RequestChannel.Request): Unit
 
 NOTE: `handleUpdateMetadataRequest` is used exclusively when `KafkaApis` is requested to handle a <<UpdateMetadata, UpdateMetadata>> request.
 
-=== [[handleOffsetCommitRequest]] Handling OffsetCommit Request -- `handleOffsetCommitRequest` Handler
+=== [[handleOffsetCommitRequest]] Handling OffsetCommitRequest -- `handleOffsetCommitRequest` Handler
 
 [source, scala]
 ----
 handleOffsetCommitRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleOffsetCommitRequest`...FIXME
+`handleOffsetCommitRequest` takes the <<kafka-common-requests-OffsetCommitRequest.adoc#, OffsetCommitRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>).
+
+If <<authorize, authorized>>, `handleOffsetCommitRequest` simply requests the <<groupCoordinator, GroupCoordinator>> to <<kafka-GroupCoordinator.adoc#handleCommitOffsets, handleCommitOffsets>> (with the <<handleOffsetCommitRequest-sendResponseCallback, sendResponseCallback>>).
+
+NOTE: If <<authorize, authorized>>, `handleOffsetCommitRequest` branches off per API version (i.e. `0` to store offsets in Zookeeper and `1` and beyond). The API version `0` is not described here.
+
+If not <<authorize, authorized>>, `handleOffsetCommitRequest`...FIXME
 
 NOTE: `handleOffsetCommitRequest` is used exclusively when `KafkaApis` is requested to handle an <<OffsetCommit, OffsetCommit>> request.
+
+==== [[handleOffsetCommitRequest-sendResponseCallback]] `sendResponseCallback` Method
+
+[source, scala]
+----
+sendResponseCallback(commitStatus: immutable.Map[TopicPartition, Errors]): Unit
+----
+
+`sendResponseCallback` prints out the following DEBUG message to the logs for offsets with errors (i.e. unauthorized topics to read or non-existing topics):
+
+```
+Offset commit request with correlation id [correlationId] from client [clientId] on partition [topicPartition] failed due to [exceptionName]
+```
+
+In the end, `sendResponseCallback` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> a new `OffsetCommitResponse`.
 
 === [[createInternalTopic]] `createInternalTopic` Internal Method
 
@@ -564,7 +585,7 @@ NOTE: `handleFindCoordinatorRequest` is used exclusively when `KafkaApis` is req
 handleJoinGroupRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleJoinGroupRequest` takes the <<kafka-common-requests-JoinGroupRequest.adoc#, JoinGroupRequest>> (from the given `RequestChannel.Request`) and simply requests the <<groupCoordinator, GroupCoordinator>> to <<kafka-GroupCoordinator.adoc#handleJoinGroup, handleJoinGroup>> (with <<handleJoinGroupRequest-sendResponseCallback, sendResponseCallback>> to handle the response).
+`handleJoinGroupRequest` takes the <<kafka-common-requests-JoinGroupRequest.adoc#, JoinGroupRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>) and simply requests the <<groupCoordinator, GroupCoordinator>> to <<kafka-GroupCoordinator.adoc#handleJoinGroup, handleJoinGroup>> (with <<handleJoinGroupRequest-sendResponseCallback, sendResponseCallback>> to handle the response).
 
 NOTE: `handleJoinGroupRequest` is used exclusively when `KafkaApis` is requested to handle a <<JoinGroup, JoinGroup>> request.
 
