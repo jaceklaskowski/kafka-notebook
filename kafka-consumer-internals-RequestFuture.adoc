@@ -17,7 +17,7 @@ RequestFuture<S> compose(final RequestFutureAdapter<T, S> adapter)
 
 * `AbstractCoordinator` is requested to <<kafka-consumer-internals-AbstractCoordinator.adoc#sendJoinGroupRequest, send a JoinGroupRequest to the group coordinator>>, <<kafka-consumer-internals-AbstractCoordinator.adoc#sendSyncGroupRequest, sendSyncGroupRequest>>, <<kafka-consumer-internals-AbstractCoordinator.adoc#sendFindCoordinatorRequest, sendFindCoordinatorRequest>>, <<kafka-consumer-internals-AbstractCoordinator.adoc#maybeLeaveGroup, maybeLeaveGroup>>, and <<kafka-consumer-internals-AbstractCoordinator.adoc#sendHeartbeatRequest, sendHeartbeatRequest>>
 
-* `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#sendOffsetCommitRequest, sendOffsetCommitRequest>> and <<kafka-consumer-internals-ConsumerCoordinator.adoc#sendOffsetFetchRequest, sendOffsetFetchRequest>>
+* `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#sendOffsetCommitRequest, send an OffsetCommitRequest to the group coordinator (a Kafka broker)>> and <<kafka-consumer-internals-ConsumerCoordinator.adoc#sendOffsetFetchRequest, sendOffsetFetchRequest>>
 
 * `Fetcher` is requested to <<kafka-consumer-internals-Fetcher.adoc#sendListOffsetRequest, sendListOffsetRequest>>
 ====

@@ -528,3 +528,14 @@ void disableHeartbeatThread()
 `disableHeartbeatThread` simply requests the <<heartbeatThread, HeartbeatThread>> to <<kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc#disable, disable>> (if available, i.e. not `null`).
 
 NOTE: `disableHeartbeatThread` is used exclusively when `AbstractCoordinator` is requested to <<initiateJoinGroup, initiateJoinGroup>>.
+
+=== [[checkAndGetCoordinator]] `checkAndGetCoordinator` Method
+
+[source, java]
+----
+Node checkAndGetCoordinator()
+----
+
+`checkAndGetCoordinator`...FIXME
+
+NOTE: `checkAndGetCoordinator` is used when...FIXME

@@ -11,7 +11,7 @@
 * [[offsetData]] Offset data (`Map<TopicPartition, PartitionData>`)
 * [[version]] Version
 
-`OffsetCommitRequest` is used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#sendOffsetCommitRequest, sendOffsetCommitRequest>>.
+`OffsetCommitRequest` is used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#sendOffsetCommitRequest, send an OffsetCommitRequest to the group coordinator (a Kafka broker)>>.
 
 `OffsetCommitRequest` is <<creating-instance, created>> when:
 

@@ -420,7 +420,7 @@ NOTE: `rejoinNeededOrPending` is part of the <<kafka-consumer-internals-Abstract
 
 `rejoinNeededOrPending`...FIXME
 
-=== [[sendOffsetCommitRequest]] `sendOffsetCommitRequest` Internal Method
+=== [[sendOffsetCommitRequest]] Sending OffsetCommitRequest to Group Coordinator (Kafka Broker) -- `sendOffsetCommitRequest` Internal Method
 
 [source, java]
 ----
@@ -428,9 +428,23 @@ RequestFuture<Void> sendOffsetCommitRequest(
   final Map<TopicPartition, OffsetAndMetadata> offsets)
 ----
 
-`sendOffsetCommitRequest`...FIXME
+`sendOffsetCommitRequest` <<kafka-consumer-internals-AbstractCoordinator.adoc#checkAndGetCoordinator, gets the node of the consumer group>>.
 
-NOTE: `sendOffsetCommitRequest` is used when...FIXME
+`sendOffsetCommitRequest` creates a <<kafka-common-requests-OffsetCommitRequest.adoc#OffsetCommitRequest.Builder, OffsetCommitRequest.Builder>> for the <<kafka-consumer-internals-AbstractCoordinator.adoc#groupId, group ID>> and an offset data based on the given offsets.
+
+`sendOffsetCommitRequest` prints out the following TRACE message to the logs:
+
+```
+Sending OffsetCommit request with [offsets] to coordinator [coordinator]
+```
+
+`sendOffsetCommitRequest` requests the <<kafka-consumer-internals-AbstractCoordinator.adoc#client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#send, send>> an `OffsetCommitRequest` to the group coordinator and then creates a new <<kafka-consumer-internals-OffsetCommitResponseHandler.adoc#, OffsetCommitResponseHandler>> to handle a response.
+
+`sendOffsetCommitRequest` returns immediately when there is no offsets to send.
+
+`sendOffsetCommitRequest` returns immediately with a `COORDINATOR_NOT_AVAILABLE` failure when the <<kafka-consumer-internals-AbstractCoordinator.adoc#checkAndGetCoordinator, consumer group coordinator is not available>>.
+
+NOTE: `sendOffsetCommitRequest` is used when `ConsumerCoordinator` is requested to <<doCommitOffsetsAsync, doCommitOffsetsAsync>> and <<commitOffsetsSync, commitOffsetsSync>>.
 
 === [[sendOffsetFetchRequest]] `sendOffsetFetchRequest` Internal Method
 
@@ -467,3 +481,16 @@ PartitionAssignor lookupAssignor(String name)
 If not found, `lookupAssignor` returns `null`.
 
 NOTE: `lookupAssignor` is used when `ConsumerCoordinator` is requested to <<onJoinComplete, onJoinComplete>> and <<performAssignment, performAssignment>>.
+
+=== [[doCommitOffsetsAsync]] `doCommitOffsetsAsync` Internal Method
+
+[source, java]
+----
+void doCommitOffsetsAsync(
+  final Map<TopicPartition, OffsetAndMetadata> offsets,
+  final OffsetCommitCallback callback)
+----
+
+`doCommitOffsetsAsync`...FIXME
+
+NOTE: `doCommitOffsetsAsync` is used exclusively when `ConsumerCoordinator` is requested to <<commitOffsetsAsync, commitOffsetsAsync>>.
