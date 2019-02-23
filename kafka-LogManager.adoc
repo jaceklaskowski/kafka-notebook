@@ -173,7 +173,7 @@ NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, c
 * [[maxPidExpirationMs]] `maxPidExpirationMs`
 * [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
 * [[brokerState]] `BrokerState`
-* [[brokerTopicStats]] <<kafka-BrokerTopicStats.adoc#, BrokerTopicStats>>
+* [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
 * [[logDirFailureChannel]] `LogDirFailureChannel`
 * [[time]] `Time`
 

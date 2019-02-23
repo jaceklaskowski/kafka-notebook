@@ -13,7 +13,7 @@
 * [[logStartOffset]] `logStartOffset`
 * [[recoveryPoint]] `recoveryPoint`
 * [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
-* [[brokerTopicStats]] <<kafka-BrokerTopicStats.adoc#, BrokerTopicStats>>
+* [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
 * [[time]] `Time`
 * [[maxProducerIdExpirationMs]] `maxProducerIdExpirationMs`
 * [[producerIdExpirationCheckIntervalMs]] `producerIdExpirationCheckIntervalMs`
