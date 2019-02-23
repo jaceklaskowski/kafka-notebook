@@ -39,6 +39,20 @@ When <<startup, started>>, `ReplicaManager` schedules <<kafka-server-scheduled-t
 |
 |===
 
+[[logging]]
+[TIP]
+====
+Enable `TRACE` logging level for `kafka.server.ReplicaManager` logger to see what happens inside.
+
+Add the following line to `log4j.properties`:
+
+```
+log4j.logger.kafka.server.ReplicaManager=TRACE
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
 === [[createReplicaFetcherManager]] `createReplicaFetcherManager` Internal Method
 
 [source, scala]
@@ -149,17 +163,6 @@ fetchMessages(
 `fetchMessages`...FIXME
 
 NOTE: `fetchMessages` is used exclusively when `KafkaApis` link:kafka-server-KafkaApis.adoc#handleFetchRequest[handles a Fetch request].
-
-=== [[getLeaderPartitions]] `getLeaderPartitions` Internal Method
-
-[source, scala]
-----
-getLeaderPartitions: List[Partition]
-----
-
-`getLeaderPartitions` gives the partitions from <<allPartitions, allPartitions>> that are not <<OfflinePartition, offline>> and their leaderReplicaIfLocal property is defined.
-
-NOTE: `getLeaderPartitions` is used when...FIXME
 
 === [[maybePropagateIsrChanges]] `maybePropagateIsrChanges` Method
 
@@ -323,3 +326,110 @@ maybeUpdateMetadataCache(
 `maybeUpdateMetadataCache`...FIXME
 
 NOTE: `maybeUpdateMetadataCache` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleUpdateMetadataRequest, handleUpdateMetadataRequest>>.
+
+=== [[appendRecords]] Appending Records -- `appendRecords` Method
+
+[source, scala]
+----
+appendRecords(
+  timeout: Long,
+  requiredAcks: Short,
+  internalTopicsAllowed: Boolean,
+  isFromClient: Boolean,
+  entriesPerPartition: Map[TopicPartition, MemoryRecords],
+  responseCallback: Map[TopicPartition, PartitionResponse] => Unit,
+  delayedProduceLock: Option[Lock] = None,
+  recordConversionStatsCallback: Map[TopicPartition, RecordConversionStats] => Unit = _ => ()): Unit
+----
+
+`appendRecords`...FIXME
+
+[NOTE]
+====
+`appendRecords` is used when:
+
+* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#appendForGroup, request the ReplicaManager to append records>>
+
+* `TransactionStateManager` is requested to <<kafka-TransactionStateManager.adoc#enableTransactionalIdExpiration, enableTransactionalIdExpiration>> and <<kafka-TransactionStateManager.adoc#appendTransactionToLog, appendTransactionToLog>>
+
+* `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleProduceRequest, handleProduceRequest>> and <<kafka-server-KafkaApis.adoc#handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>>
+====
+
+=== [[appendToLocalLog]] `appendToLocalLog` Internal Method
+
+[source, scala]
+----
+appendToLocalLog(
+  internalTopicsAllowed: Boolean,
+  isFromClient: Boolean,
+  entriesPerPartition: Map[TopicPartition, MemoryRecords],
+  requiredAcks: Short): Map[TopicPartition, LogAppendResult]
+----
+
+`appendToLocalLog` prints out the following TRACE message to the logs:
+
+```
+Append [[entriesPerPartition]] to local log
+```
+
+For every partition in the given `entriesPerPartition`, `appendToLocalLog` <<getPartitionOrException, gets the partition (or throws an exception)>> (with `expectLeader` flag enabled) and then request the `Partition` to <<kafka-cluster-Partition.adoc#appendRecordsToLeader, appendRecordsToLeader>>.
+
+`appendToLocalLog`...FIXME
+
+In the end, `appendToLocalLog` prints out the following TRACE message to the logs:
+
+```
+[sizeInBytes] written to log [topicPartition] beginning at offset [firstOffset] and ending at offset [lastOffset]
+```
+
+In case of exceptions, `appendToLocalLog`...FIXME
+
+NOTE: `appendToLocalLog` is used exclusively when `ReplicaManager` is requested to <<appendRecords, append records>>.
+
+=== [[getPartitionOrException]] Getting Partition Or Throwing Exception -- `getPartitionOrException` Method
+
+[source, scala]
+----
+getPartitionOrException(
+  topicPartition: TopicPartition,
+  expectLeader: Boolean): Partition
+----
+
+`getPartitionOrException` <<getPartition, gets the partition>> if available or throws one of the following exceptions:
+
+* `KafkaStorageException` when the partition is offline
++
+```
+Partition [topicPartition] is in an offline log directory
+```
+
+* `NotLeaderForPartitionException`
++
+```
+Broker [localBrokerId] is not a replica of [topicPartition]
+```
+
+* `ReplicaNotAvailableException`
++
+```
+Partition [topicPartition] is not available
+```
+
+* `UnknownTopicOrPartitionException`
++
+```
+Partition [topicPartition] doesn't exist
+```
+
+NOTE: `getPartitionOrException` is used when...FIXME
+
+=== [[getPartition]] Getting Partition by TopicPartition -- `getPartition` Method
+
+[source, scala]
+----
+getPartition(topicPartition: TopicPartition): Option[Partition]
+----
+
+`getPartition` gets the <<kafka-cluster-Partition.adoc#, partition>> for the given `TopicPartition`.
+
+NOTE: `getPartition` is used when...FIXME

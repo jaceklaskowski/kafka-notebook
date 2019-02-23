@@ -217,3 +217,17 @@ alterReplicaLogDirs(partitionDirs: Map[TopicPartition, String]): Map[TopicPartit
 `alterReplicaLogDirs`...FIXME
 
 NOTE: `alterReplicaLogDirs` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleAlterReplicaLogDirsRequest, handle an AlterReplicaLogDirs request>>.
+
+=== [[appendRecordsToLeader]] `appendRecordsToLeader` Method
+
+[source, scala]
+----
+appendRecordsToLeader(
+  records: MemoryRecords,
+  isFromClient: Boolean,
+  requiredAcks: Int = 0): LogAppendInfo
+----
+
+`appendRecordsToLeader`...FIXME
+
+NOTE: `appendRecordsToLeader` is used when...FIXME

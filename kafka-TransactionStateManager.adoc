@@ -70,3 +70,19 @@ removeTransactions(): Unit
 `removeTransactions`...FIXME
 
 NOTE: `removeTransactions` is used when...FIXME
+
+=== [[appendTransactionToLog]] `appendTransactionToLog` Method
+
+[source, scala]
+----
+appendTransactionToLog(
+  transactionalId: String,
+  coordinatorEpoch: Int,
+  newMetadata: TxnTransitMetadata,
+  responseCallback: Errors => Unit,
+  retryOnError: Errors => Boolean = _ => false): Unit
+----
+
+`appendTransactionToLog`...FIXME
+
+NOTE: `appendTransactionToLog` is used when...FIXME

@@ -270,7 +270,7 @@ storeGroup(
 
 NOTE: `storeGroup` is used exclusively when `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#doSyncGroup, doSyncGroup>> and <<kafka-GroupCoordinator.adoc#onCompleteJoin, onCompleteJoin>>.
 
-=== [[appendForGroup]] `appendForGroup` Internal Method
+=== [[appendForGroup]] Requesting ReplicaManager to Append Records -- `appendForGroup` Internal Method
 
 [source, scala]
 ----
@@ -280,7 +280,7 @@ appendForGroup(
   callback: Map[TopicPartition, PartitionResponse] => Unit): Unit
 ----
 
-`appendForGroup`...FIXME
+`appendForGroup` simply requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#appendRecords, append records>>.
 
 NOTE: `appendForGroup` is used exclusively when `GroupMetadataManager` is requested to <<storeGroup, storeGroup>> and <<storeOffsets, storeOffsets>>.
 

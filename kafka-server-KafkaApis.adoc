@@ -72,11 +72,18 @@ image::images/KafkaApis.png[align="center"]
 | OffsetFetch
 | [[OffsetFetch]] <<handleOffsetFetchRequest, handleOffsetFetchRequest>>
 
+| Produce
+| [[Produce]] <<handleProduceRequest, handleProduceRequest>>
+
 | StopReplica
 | [[StopReplica]] <<handleStopReplicaRequest, handleStopReplicaRequest>>
 
 | UpdateMetadata
 | [[UpdateMetadata]] <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
+
+| WriteTxnMarkers
+| [[WriteTxnMarkers]] <<handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>>
+
 |===
 
 `KafkaApis` uses the <<replicaManager, ReplicaManager>> in the following <<handlers, handlers>>:
@@ -614,3 +621,25 @@ handleAddOffsetsToTxnRequest(request: RequestChannel.Request): Unit
 `handleAddOffsetsToTxnRequest`...FIXME
 
 NOTE: `handleAddOffsetsToTxnRequest` is used exclusively when `KafkaApis` is requested to handle a <<AddOffsetsToTxn, AddOffsetsToTxn>> request.
+
+=== [[handleProduceRequest]] `handleProduceRequest` Handler
+
+[source, scala]
+----
+handleProduceRequest(request: RequestChannel.Request): Unit
+----
+
+`handleProduceRequest`...FIXME
+
+NOTE: `handleProduceRequest` is used exclusively when `KafkaApis` is requested to handle a <<Produce, Produce>> request.
+
+=== [[handleWriteTxnMarkersRequest]] `handleWriteTxnMarkersRequest` Handler
+
+[source, scala]
+----
+handleWriteTxnMarkersRequest(request: RequestChannel.Request): Unit
+----
+
+`handleWriteTxnMarkersRequest`...FIXME
+
+NOTE: `handleWriteTxnMarkersRequest` is used exclusively when `KafkaApis` is requested to handle a <<WriteTxnMarkers, WriteTxnMarkers>> request.
