@@ -1,6 +1,6 @@
 == [[KafkaMetricsGroup]] KafkaMetricsGroup
 
-`KafkaMetricsGroup` is the <<contract, contract>> of <<implementations, metrics groups>> that can register *performance metrics*, e.g. <<newGauge, gauges>>, <<newHistogram, histograms>>, <<newMeter, meters>> and <<newTimer, timers>>.
+`KafkaMetricsGroup` is the <<contract, abstraction>> of <<implementations, metrics groups>> that can register *performance metrics*, e.g. <<newGauge, gauges>>, <<newHistogram, histograms>>, <<newMeter, meters>> and <<newTimer, timers>>.
 
 [[contract]]
 [source, scala]

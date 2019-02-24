@@ -1,6 +1,6 @@
 == [[GroupMetadataManager]] GroupMetadataManager
 
-`GroupMetadataManager` is <<creating-instance, created>> exclusively when `GroupCoordinator` is <<kafka-GroupCoordinator.adoc#apply, created>>.
+`GroupMetadataManager` is <<creating-instance, created>> exclusively when `GroupCoordinator` is <<kafka-coordinator-group-GroupCoordinator.adoc#apply, created>>.
 
 .Creating GroupMetadataManager
 image::images/GroupMetadataManager-creating-instance.png[align="center"]
@@ -81,7 +81,7 @@ enableMetadataExpiration(): Unit
 
 `enableMetadataExpiration` schedules *delete-expired-group-metadata* task that <<cleanupGroupMetadata, cleanupGroupMetadata>> every `offsetsRetentionCheckIntervalMs` milliseconds.
 
-NOTE: `enableMetadataExpiration` is used exclusively when `GroupCoordinator` is link:kafka-GroupCoordinator.adoc#startup[started].
+NOTE: `enableMetadataExpiration` is used exclusively when `GroupCoordinator` is link:kafka-coordinator-group-GroupCoordinator.adoc#startup[started].
 
 === [[creating-instance]] Creating GroupMetadataManager Instance
 
@@ -254,7 +254,7 @@ storeOffsets(
 
 `storeOffsets`...FIXME
 
-NOTE: `storeOffsets` is used exclusively when `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#doCommitOffsets, doCommitOffsets>>.
+NOTE: `storeOffsets` is used exclusively when `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#doCommitOffsets, doCommitOffsets>>.
 
 === [[storeGroup]] `storeGroup` Method
 
@@ -268,7 +268,7 @@ storeGroup(
 
 `storeGroup`...FIXME
 
-NOTE: `storeGroup` is used exclusively when `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#doSyncGroup, doSyncGroup>> and <<kafka-GroupCoordinator.adoc#onCompleteJoin, onCompleteJoin>>.
+NOTE: `storeGroup` is used exclusively when `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#doSyncGroup, doSyncGroup>> and <<kafka-coordinator-group-GroupCoordinator.adoc#onCompleteJoin, onCompleteJoin>>.
 
 === [[appendForGroup]] Requesting ReplicaManager to Append Records -- `appendForGroup` Internal Method
 

@@ -299,7 +299,7 @@ NOTE: `handleControlledShutdownRequest` is used when...FIXME
 * [[requestChannel]] <<kafka-network-RequestChannel.adoc#, RequestChannel>>
 * [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
 * [[adminManager]] <<kafka-server-AdminManager.adoc#, AdminManager>>
-* [[groupCoordinator]] <<kafka-GroupCoordinator.adoc#, GroupCoordinator>>
+* [[groupCoordinator]] <<kafka-coordinator-group-GroupCoordinator.adoc#, GroupCoordinator>>
 * [[txnCoordinator]] <<kafka-TransactionCoordinator.adoc#, TransactionCoordinator>>
 * [[controller]] <<kafka-controller-KafkaController.adoc#, KafkaController>>
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
@@ -446,7 +446,7 @@ handleOffsetCommitRequest(request: RequestChannel.Request): Unit
 
 `handleOffsetCommitRequest` takes the <<kafka-common-requests-OffsetCommitRequest.adoc#, OffsetCommitRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>).
 
-If <<authorize, authorized>>, `handleOffsetCommitRequest` simply requests the <<groupCoordinator, GroupCoordinator>> to <<kafka-GroupCoordinator.adoc#handleCommitOffsets, handleCommitOffsets>> (with the <<handleOffsetCommitRequest-sendResponseCallback, sendResponseCallback>>).
+If <<authorize, authorized>>, `handleOffsetCommitRequest` simply requests the <<groupCoordinator, GroupCoordinator>> to <<kafka-coordinator-group-GroupCoordinator.adoc#handleCommitOffsets, handleCommitOffsets>> (with the <<handleOffsetCommitRequest-sendResponseCallback, sendResponseCallback>>).
 
 NOTE: If <<authorize, authorized>>, `handleOffsetCommitRequest` branches off per API version (i.e. `0` to store offsets in Zookeeper and `1` and beyond). The API version `0` is not described here.
 
@@ -564,7 +564,7 @@ For an authorized request, `handleFindCoordinatorRequest` branches off per <<kaf
 [[handleFindCoordinatorRequest-GROUP]]
 For `GROUP` coordinator type, `handleFindCoordinatorRequest` does the following:
 
-. Requests the <<groupCoordinator, GroupCoordinator>> for <<kafka-GroupCoordinator.adoc#partitionFor, partitionFor>> the <<kafka-common-requests-FindCoordinatorRequest.adoc#coordinatorKey, coordinator key>> (of the `FindCoordinatorRequest`)
+. Requests the <<groupCoordinator, GroupCoordinator>> for <<kafka-coordinator-group-GroupCoordinator.adoc#partitionFor, partitionFor>> the <<kafka-common-requests-FindCoordinatorRequest.adoc#coordinatorKey, coordinator key>> (of the `FindCoordinatorRequest`)
 
 . <<getOrCreateInternalTopic, getOrCreateInternalTopic>> for <<GROUP_METADATA_TOPIC_NAME, __consumer_offsets>> topic
 
@@ -592,7 +592,7 @@ NOTE: `handleFindCoordinatorRequest` is used exclusively when `KafkaApis` is req
 handleJoinGroupRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleJoinGroupRequest` takes the <<kafka-common-requests-JoinGroupRequest.adoc#, JoinGroupRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>) and simply requests the <<groupCoordinator, GroupCoordinator>> to <<kafka-GroupCoordinator.adoc#handleJoinGroup, handleJoinGroup>> (with <<handleJoinGroupRequest-sendResponseCallback, sendResponseCallback>> to handle the response).
+`handleJoinGroupRequest` takes the <<kafka-common-requests-JoinGroupRequest.adoc#, JoinGroupRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>) and simply requests the <<groupCoordinator, GroupCoordinator>> to <<kafka-coordinator-group-GroupCoordinator.adoc#handleJoinGroup, handleJoinGroup>> (with <<handleJoinGroupRequest-sendResponseCallback, sendResponseCallback>> to handle the response).
 
 NOTE: `handleJoinGroupRequest` is used exclusively when `KafkaApis` is requested to handle a <<JoinGroup, JoinGroup>> request.
 

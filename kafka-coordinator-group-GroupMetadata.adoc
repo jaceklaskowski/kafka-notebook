@@ -27,9 +27,9 @@ a| [[CompletingRebalance]] <<transitionTo, Transitioned to>> when:
 | Dead
 a| [[Dead]] <<transitionTo, Transitioned to>> when:
 
-* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#handleDeleteGroups, handleDeleteGroups>> (when in <<Empty, Empty>> state)
+* `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#handleDeleteGroups, handleDeleteGroups>> (when in <<Empty, Empty>> state)
 
-* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#onGroupUnloaded, onGroupUnloaded>>
+* `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#onGroupUnloaded, onGroupUnloaded>>
 
 * `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>>
 
@@ -45,12 +45,12 @@ a| [[Empty]] <<transitionTo, Transitioned to>> when:
 | PreparingRebalance
 a| [[PreparingRebalance]] <<transitionTo, Transitioned to>> when:
 
-* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#prepareRebalance, prepareRebalance>>
+* `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#prepareRebalance, prepareRebalance>>
 
 | Stable
 a| [[Stable]] <<transitionTo, Transitioned to>> when:
 
-* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#doSyncGroup, doSyncGroup>> (when in <<CompletingRebalance, CompletingRebalance>> state and the <<generationId, generationId>> did not change)
+* `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#doSyncGroup, doSyncGroup>> (when in <<CompletingRebalance, CompletingRebalance>> state and the <<generationId, generationId>> did not change)
 
 * `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#readGroupMessageValue, readGroupMessageValue>> (and there is at least one member)
 
@@ -84,7 +84,7 @@ a| [[Stable]] <<transitionTo, Transitioned to>> when:
 
 `GroupMetadata` is <<creating-instance, created>> when:
 
-* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#handleJoinGroup, handleJoinGroup>>, <<kafka-GroupCoordinator.adoc#handleTxnCommitOffsets, handleTxnCommitOffsets>> and <<kafka-GroupCoordinator.adoc#handleCommitOffsets, handleCommitOffsets>>
+* `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#handleJoinGroup, handleJoinGroup>>, <<kafka-coordinator-group-GroupCoordinator.adoc#handleTxnCommitOffsets, handleTxnCommitOffsets>> and <<kafka-coordinator-group-GroupCoordinator.adoc#handleCommitOffsets, handleCommitOffsets>>
 
 * `GroupMetadata` is requested to <<loadGroup, loadGroup>>
 
@@ -129,7 +129,7 @@ add(
 ====
 `add` is used when:
 
-* `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#addMemberAndRebalance, addMemberAndRebalance>>
+* `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#addMemberAndRebalance, addMemberAndRebalance>>
 
 * `GroupMetadata` is requested to <<loadGroup, loadGroup>>
 ====
@@ -163,7 +163,7 @@ remove(memberId: String): Unit
 
 `remove`...FIXME
 
-NOTE: `remove` is used when `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#removeMemberAndUpdateGroup, removeMemberAndUpdateGroup>> and <<kafka-GroupCoordinator.adoc#onCompleteJoin, onCompleteJoin>>.
+NOTE: `remove` is used when `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#removeMemberAndUpdateGroup, removeMemberAndUpdateGroup>> and <<kafka-coordinator-group-GroupCoordinator.adoc#onCompleteJoin, onCompleteJoin>>.
 
 === [[transitionTo]] Changing State of Consumer Group -- `transitionTo` Method
 
@@ -185,7 +185,7 @@ initNextGeneration(): Unit
 
 `initNextGeneration`...FIXME
 
-NOTE: `initNextGeneration` is used exclusively when `GroupCoordinator` is requested to <<kafka-GroupCoordinator.adoc#onCompleteJoin, onCompleteJoin>>.
+NOTE: `initNextGeneration` is used exclusively when `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#onCompleteJoin, onCompleteJoin>>.
 
 === [[hasOffsets]] Asserting No Offets in Use -- `hasOffsets` Method
 

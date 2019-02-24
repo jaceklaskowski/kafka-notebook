@@ -49,11 +49,11 @@ Used when `KafkaServer` is requested to <<startup, startup>> and creates the <<a
 | [[dynamicConfigManager]] <<kafka-server-DynamicConfigManager.adoc#, DynamicConfigManager>>
 
 | groupCoordinator
-a| [[groupCoordinator]] <<kafka-GroupCoordinator.adoc#, GroupCoordinator>> (for the only purpose of creating the <<apis, KafkaApis>>)
+a| [[groupCoordinator]] <<kafka-coordinator-group-GroupCoordinator.adoc#, GroupCoordinator>> (for the only purpose of creating the <<apis, KafkaApis>>)
 
-<<kafka-GroupCoordinator.adoc#apply, Created>> and immediately <<kafka-GroupCoordinator.adoc#startup, started up>> when `KafkaServer` is requested to <<startup, start up>>
+<<kafka-coordinator-group-GroupCoordinator.adoc#apply, Created>> and immediately <<kafka-coordinator-group-GroupCoordinator.adoc#startup, started up>> when `KafkaServer` is requested to <<startup, start up>>
 
-<<kafka-GroupCoordinator.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>
+<<kafka-coordinator-group-GroupCoordinator.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>
 
 | isStartingUp
 | [[isStartingUp]] Flag for...FIXME
@@ -228,7 +228,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 `startup` link:kafka-server-AdminManager.adoc#creating-instance[creates] the <<adminManager, AdminManager>> (for <<config, KafkaConfig>>, <<metrics, Metrics>>, <<metadataCache, MetadataCache>> and <<zkUtils, ZkUtils>>).
 
-`startup` link:kafka-GroupCoordinator.adoc#creating-instance[creates] the <<groupCoordinator, GroupCoordinator>> (for <<config, KafkaConfig>>, <<zkUtils, ZkUtils>> and <<replicaManager, ReplicaManager>>) and requests it to link:kafka-GroupCoordinator.adoc#startup[start up].
+`startup` link:kafka-coordinator-group-GroupCoordinator.adoc#creating-instance[creates] the <<groupCoordinator, GroupCoordinator>> (for <<config, KafkaConfig>>, <<zkUtils, ZkUtils>> and <<replicaManager, ReplicaManager>>) and requests it to link:kafka-coordinator-group-GroupCoordinator.adoc#startup[start up].
 
 `startup` link:kafka-TransactionCoordinator.adoc#creating-instance[creates] the <<transactionCoordinator, TransactionCoordinator>> (for <<config, KafkaConfig>>, <<replicaManager, ReplicaManager>>, a new dedicated link:kafka-KafkaScheduler.adoc[KafkaScheduler] with `transaction-log-manager-` thread name prefix, <<zkUtils, ZkUtils>>, <<metrics, Metrics>> and <<metadataCache, MetadataCache>>) and requests it to link:kafka-TransactionCoordinator.adoc#startup[start up].
 

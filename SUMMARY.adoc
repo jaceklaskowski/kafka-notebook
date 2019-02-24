@@ -103,7 +103,7 @@
 .. link:kafka-server-DynamicListenerConfig.adoc[DynamicListenerConfig]
 .. link:kafka-log-LogCleaner.adoc[LogCleaner]
 
-. link:kafka-GroupCoordinator.adoc[GroupCoordinator]
+. link:kafka-coordinator-group-GroupCoordinator.adoc[GroupCoordinator]
 .. link:kafka-GroupMetadataManager.adoc[GroupMetadataManager]
 .. link:kafka-coordinator-group-GroupMetadata.adoc[GroupMetadata -- Metadata of Consumer Group]
 
