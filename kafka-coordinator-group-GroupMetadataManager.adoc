@@ -188,7 +188,7 @@ scheduleHandleTxnCompletion(
 
 `scheduleHandleTxnCompletion`...FIXME
 
-NOTE: `scheduleHandleTxnCompletion` is used when...FIXME
+NOTE: `scheduleHandleTxnCompletion` is used exclusively when `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#scheduleHandleTxnCompletion, scheduleHandleTxnCompletion>>.
 
 === [[loadGroupsAndOffsets]] `loadGroupsAndOffsets` Method
 
@@ -226,7 +226,7 @@ handleTxnCompletion(
 
 `handleTxnCompletion`...FIXME
 
-NOTE: `handleTxnCompletion` is used when...FIXME
+NOTE: `handleTxnCompletion` is used exclusively when `GroupMetadataManager` is requested to <<scheduleHandleTxnCompletion, scheduleHandleTxnCompletion>>.
 
 === [[partitionFor]] `partitionFor` Method
 
@@ -295,16 +295,25 @@ addGroup(group: GroupMetadata): GroupMetadata
 
 NOTE: `addGroup` is used when...FIXME
 
-=== [[getGroup]] `getGroup` Method
+=== [[getGroup]] Getting Metadata of Group by Group ID -- `getGroup` Method
 
 [source, scala]
 ----
 getGroup(groupId: String): Option[GroupMetadata]
 ----
 
-`getGroup`...FIXME
+`getGroup` finds the <<kafka-coordinator-group-GroupMetadata.adoc#, GroupMetadata>> for the group ID in the <<groupMetadataCache, groupMetadataCache>> internal registry.
 
-NOTE: `getGroup` is used when...FIXME
+`getGroup` returns `None` if the metadata could not be found.
+
+[NOTE]
+====
+`getGroup` is used when:
+
+* `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#handleJoinGroup, handleJoinGroup>>, <<kafka-coordinator-group-GroupCoordinator.adoc#handleSyncGroup, handleSyncGroup>>, <<kafka-coordinator-group-GroupCoordinator.adoc#handleLeaveGroup, handleLeaveGroup>>, <<kafka-coordinator-group-GroupCoordinator.adoc#handleDeleteGroups, handleDeleteGroups>>, <<kafka-coordinator-group-GroupCoordinator.adoc#handleHeartbeat, handleHeartbeat>>, <<kafka-coordinator-group-GroupCoordinator.adoc#handleTxnCommitOffsets, handleTxnCommitOffsets>>, <<kafka-coordinator-group-GroupCoordinator.adoc#handleCommitOffsets, handleCommitOffsets>>, and <<kafka-coordinator-group-GroupCoordinator.adoc#handleDescribeGroup, handleDescribeGroup>>
+
+* `GroupMetadataManager` is requested to <<groupNotExists, groupNotExists>> (when `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#handleDeleteGroups, handleDeleteGroups>>) and <<handleTxnCompletion, handleTxnCompletion>> (when `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#scheduleHandleTxnCompletion, scheduleHandleTxnCompletion>>)
+====
 
 === [[readGroupMessageValue]] `readGroupMessageValue` Method
 
@@ -341,3 +350,14 @@ doLoadGroupsAndOffsets(
 `doLoadGroupsAndOffsets`...FIXME
 
 NOTE: `doLoadGroupsAndOffsets` is used exclusively when `GroupMetadataManager` is requested to <<loadGroupsAndOffsets, loadGroupsAndOffsets>>.
+
+=== [[groupNotExists]] `groupNotExists` Method
+
+[source, scala]
+----
+groupNotExists(groupId: String): Boolean
+----
+
+`groupNotExists`...FIXME
+
+NOTE: `groupNotExists` is used exclusively when `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#handleDeleteGroups, handleDeleteGroups>>

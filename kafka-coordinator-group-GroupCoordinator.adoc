@@ -123,7 +123,7 @@ handleCommitOffsets(
 
 `handleCommitOffsets` firstly <<validateGroupStatus, validateGroupStatus>> (for the given `groupId` and `OFFSET_COMMIT` API key).
 
-`handleCommitOffsets` requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#getGroup, getGroup>> (by the given `groupId`) and then <<doCommitOffsets, doCommitOffsets>>.
+`handleCommitOffsets` requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#getGroup, get the metadata of the group>> (by the given `groupId`) and then <<doCommitOffsets, doCommitOffsets>>.
 
 If the <<groupManager, GroupMetadataManager>> could not <<kafka-coordinator-group-GroupMetadataManager.adoc#getGroup, getGroup>>, `handleCommitOffsets`...FIXME
 
@@ -341,7 +341,7 @@ scheduleHandleTxnCompletion(
 
 `scheduleHandleTxnCompletion`...FIXME
 
-NOTE: `scheduleHandleTxnCompletion` is used when...FIXME
+NOTE: `scheduleHandleTxnCompletion` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>>.
 
 === [[handleTxnCommitOffsets]] `handleTxnCommitOffsets` Method
 
