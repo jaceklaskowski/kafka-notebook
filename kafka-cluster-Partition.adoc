@@ -147,7 +147,7 @@ NOTE: `isUnderReplicated` is used when...FIXME
 isUnderMinIsr: Boolean
 ----
 
-`isUnderMinIsr` is `true` only if the partition <<isLeaderReplicaLocal, isLeaderReplicaLocal>> and the number of <<inSyncReplicas, in-sync replicas>> is below the <<kafka-properties.adoc#min.insync.replicas, min.insync.replicas>> configuration property (as configured for the <<kafka-Log.adoc#, Log>> of the <<leaderReplica, leader replica>>).
+`isUnderMinIsr` is `true` only if the partition <<isLeaderReplicaLocal, isLeaderReplicaLocal>> and the number of <<inSyncReplicas, in-sync replicas>> is below the <<kafka-properties.adoc#min.insync.replicas, min.insync.replicas>> configuration property (as configured for the <<kafka-log-Log.adoc#, Log>> of the <<leaderReplica, leader replica>>).
 
 NOTE: `isUnderMinIsr` is used when...FIXME
 
@@ -228,7 +228,7 @@ appendRecordsToLeader(
   requiredAcks: Int = 0): LogAppendInfo
 ----
 
-`appendRecordsToLeader` basically requests the `Log` (of the leader <<kafka-cluster-Replica.adoc#, Replica>>) to <<kafka-Log.adoc#appendAsLeader, appendAsLeader>>.
+`appendRecordsToLeader` basically requests the `Log` (of the leader <<kafka-cluster-Replica.adoc#, Replica>>) to <<kafka-log-Log.adoc#appendAsLeader, appendAsLeader>>.
 
 Internally, `appendRecordsToLeader`...FIXME
 
@@ -271,5 +271,5 @@ appendRecordsToFollowerOrFutureReplica(
 
 * `ReplicaAlterLogDirsThread` is requested to `processPartitionData`
 
-* `ReplicaFetcherThread` is requested to <<kafka-ReplicaFetcherThread.adoc#processPartitionData, processPartitionData>>
+* `ReplicaFetcherThread` is requested to <<kafka-server-ReplicaFetcherThread.adoc#processPartitionData, processPartitionData>>
 ====

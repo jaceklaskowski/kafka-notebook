@@ -82,7 +82,7 @@ trait KafkaMetricsGroup {
 | <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 | [[KafkaZkClient]]
 
-| <<kafka-Log.adoc#, Log>>
+| <<kafka-log-Log.adoc#, Log>>
 | [[Log]]
 
 | <<kafka-log-LogCleaner.adoc#, LogCleaner>>

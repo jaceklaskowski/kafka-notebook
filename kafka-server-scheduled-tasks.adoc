@@ -46,15 +46,15 @@ m| load-txns-for-partition-[topicPartition]
 m| remove-txns-for-partition-[topicPartition]
 | <<kafka-TransactionStateManager.adoc#removeTransactions, removeTransactions>>
 
-.3+^.^| <<kafka-Log.adoc#, Log>>
+.3+^.^| <<kafka-log-Log.adoc#, Log>>
 m| PeriodicProducerExpirationCheck
 | <<kafka-log-ProducerStateManager.adoc#removeExpiredProducers, removeExpiredProducers>>
 
 m| flush-log
-| <<kafka-Log.adoc#flush, flush>>
+| <<kafka-log-Log.adoc#flush, flush>>
 
 m| delete-file
-| <<kafka-Log.adoc#deleteSeg, deleteSeg>>
+| <<kafka-log-Log.adoc#deleteSeg, deleteSeg>>
 
 .5+^.^| <<kafka-LogManager.adoc#, LogManager>>
 m| kafka-log-retention

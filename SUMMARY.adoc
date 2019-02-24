@@ -121,7 +121,7 @@
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
 . link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads]
 
-. link:kafka-Log.adoc[Log]
+. link:kafka-log-Log.adoc[Log]
 . link:kafka-LogCleanerManager.adoc[LogCleanerManager]
 . link:kafka-LogManager.adoc[LogManager]
 . link:kafka-log-ProducerStateManager.adoc[ProducerStateManager]
@@ -133,7 +133,7 @@
 . link:kafka-server-ReplicaManager.adoc[ReplicaManager]
 .. link:kafka-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
 ... link:kafka-AbstractFetcherManager.adoc[AbstractFetcherManager]
-.. link:kafka-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
+.. link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
 ... link:kafka-AbstractFetcherThread.adoc[AbstractFetcherThread]
 ... link:kafka-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend]
 .. link:kafka-ReplicationQuotaManager.adoc[ReplicationQuotaManager]

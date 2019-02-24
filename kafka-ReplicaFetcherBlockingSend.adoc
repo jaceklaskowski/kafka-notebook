@@ -2,7 +2,7 @@
 
 `ReplicaFetcherBlockingSend` is...FIXME
 
-`ReplicaFetcherBlockingSend` is <<creating-instance, created>> exclusively when `ReplicaFetcherThread` is link:kafka-ReplicaFetcherThread.adoc#leaderEndpoint[created].
+`ReplicaFetcherBlockingSend` is <<creating-instance, created>> exclusively when `ReplicaFetcherThread` is link:kafka-server-ReplicaFetcherThread.adoc#leaderEndpoint[created].
 
 `ReplicaFetcherBlockingSend` uses <<networkClient, NetworkClient>> to <<sendRequest, send requests>> for...FIXME
 
@@ -65,7 +65,7 @@ In case `NetworkClientUtils` found the broker node unavailable, `sendRequest` re
 Failed to connect to [sourceNode] within [socketTimeout] ms
 ```
 
-NOTE: `sendRequest` is used when `ReplicaFetcherThread` link:kafka-ReplicaFetcherThread.adoc#earliestOrLatestOffset[earliestOrLatestOffset] and link:kafka-ReplicaFetcherThread.adoc#fetchEpochsFromLeader[fetchEpochsFromLeader].
+NOTE: `sendRequest` is used when `ReplicaFetcherThread` link:kafka-server-ReplicaFetcherThread.adoc#earliestOrLatestOffset[earliestOrLatestOffset] and link:kafka-server-ReplicaFetcherThread.adoc#fetchEpochsFromLeader[fetchEpochsFromLeader].
 
 === [[close]] `close` Method
 
