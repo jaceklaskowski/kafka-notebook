@@ -121,7 +121,13 @@ handleCommitOffsets(
   responseCallback: immutable.Map[TopicPartition, Errors] => Unit): Unit
 ----
 
-`handleCommitOffsets`...FIXME
+`handleCommitOffsets` firstly <<validateGroupStatus, validateGroupStatus>> (for the given `groupId` and `OFFSET_COMMIT` API key).
+
+`handleCommitOffsets` requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#getGroup, getGroup>> (by the given `groupId`) and then <<doCommitOffsets, doCommitOffsets>>.
+
+If the <<groupManager, GroupMetadataManager>> could not <<kafka-GroupMetadataManager.adoc#getGroup, getGroup>>, `handleCommitOffsets`...FIXME
+
+In case of an error while <<validateGroupStatus, validateGroupStatus>>, `handleCommitOffsets`...FIXME
 
 NOTE: `handleCommitOffsets` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleOffsetCommitRequest, handle an OffsetCommitRequest>>.
 
@@ -375,7 +381,7 @@ onGroupUnloaded(group: GroupMetadata): Unit
 
 NOTE: `onGroupUnloaded` is used when...FIXME
 
-=== [[validateGroupStatus]] `validateGroupStatus` Internal Method
+=== [[validateGroupStatus]] Validating Group Status -- `validateGroupStatus` Internal Method
 
 [source, scala]
 ----
