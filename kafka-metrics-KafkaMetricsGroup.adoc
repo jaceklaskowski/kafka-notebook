@@ -67,7 +67,7 @@ trait KafkaMetricsGroup {
 | FetchSessionCache
 | [[FetchSessionCache]]
 
-| <<kafka-GroupMetadataManager.adoc#, GroupMetadataManager>>
+| <<kafka-coordinator-group-GroupMetadataManager.adoc#, GroupMetadataManager>>
 | [[GroupMetadataManager]]
 
 | <<kafka-controller-KafkaController.adoc#, KafkaController>>

@@ -31,16 +31,16 @@ a| [[Dead]] <<transitionTo, Transitioned to>> when:
 
 * `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#onGroupUnloaded, onGroupUnloaded>>
 
-* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>>
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>>
 
 | Empty
 a| [[Empty]] <<transitionTo, Transitioned to>> when:
 
 * <<initNextGeneration, initNextGeneration>> (and there are no <<members, members>>)
 
-* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>> (when in <<Empty, Empty>> state with no <<hasOffsets, offsets>>)
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>> (when in <<Empty, Empty>> state with no <<hasOffsets, offsets>>)
 
-* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#readGroupMessageValue, readGroupMessageValue>> (and there are no members)
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#readGroupMessageValue, readGroupMessageValue>> (and there are no members)
 
 | PreparingRebalance
 a| [[PreparingRebalance]] <<transitionTo, Transitioned to>> when:
@@ -52,7 +52,7 @@ a| [[Stable]] <<transitionTo, Transitioned to>> when:
 
 * `GroupCoordinator` is requested to <<kafka-coordinator-group-GroupCoordinator.adoc#doSyncGroup, doSyncGroup>> (when in <<CompletingRebalance, CompletingRebalance>> state and the <<generationId, generationId>> did not change)
 
-* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#readGroupMessageValue, readGroupMessageValue>> (and there is at least one member)
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#readGroupMessageValue, readGroupMessageValue>> (and there is at least one member)
 
 |===
 
@@ -88,7 +88,7 @@ a| [[Stable]] <<transitionTo, Transitioned to>> when:
 
 * `GroupMetadata` is requested to <<loadGroup, loadGroup>>
 
-* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#doLoadGroupsAndOffsets, doLoadGroupsAndOffsets>>
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#doLoadGroupsAndOffsets, doLoadGroupsAndOffsets>>
 
 [[internal-registries]]
 .GroupMetadata's Internal Properties (e.g. Registries, Counters and Flags)
@@ -152,7 +152,7 @@ loadGroup(
 
 `loadGroup`...FIXME
 
-NOTE: `loadGroup` is used exclusively when `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#readGroupMessageValue, readGroupMessageValue>>.
+NOTE: `loadGroup` is used exclusively when `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#readGroupMessageValue, readGroupMessageValue>>.
 
 === [[remove]] Unregistering Consumer from Consumer Group -- `remove` Method
 
@@ -196,4 +196,4 @@ hasOffsets: Boolean
 
 `hasOffsets`...FIXME
 
-NOTE: `hasOffsets` is used exclusively when `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>>
+NOTE: `hasOffsets` is used exclusively when `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>>

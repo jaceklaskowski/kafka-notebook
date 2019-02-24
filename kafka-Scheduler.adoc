@@ -35,7 +35,7 @@ Used when:
 
 * `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, onControllerResignation>>
 
-* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#shutdown, shutdown>>
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#shutdown, shutdown>>
 
 * `LogManager` is requested to <<kafka-LogManager.adoc#deleteLogs, deleteLogs>>
 
@@ -48,7 +48,7 @@ Used when:
 
 * `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, onControllerResignation>>
 
-* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#shutdown, shutdown>>
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#shutdown, shutdown>>
 
 * `TransactionCoordinator` is requested to <<kafka-TransactionCoordinator.adoc#shutdown, shutdown>>
 
@@ -63,7 +63,7 @@ Used when:
 
 * `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> and <<kafka-controller-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, scheduleAutoLeaderRebalanceTask>>
 
-* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#startup, start up>>, <<kafka-GroupMetadataManager.adoc#scheduleLoadGroupAndOffsets, scheduleLoadGroupAndOffsets>>, <<kafka-GroupMetadataManager.adoc#removeGroupsForPartition, removeGroupsForPartition>> and <<kafka-GroupMetadataManager.adoc#scheduleHandleTxnCompletion, scheduleHandleTxnCompletion>>
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#startup, start up>>, <<kafka-coordinator-group-GroupMetadataManager.adoc#scheduleLoadGroupAndOffsets, scheduleLoadGroupAndOffsets>>, <<kafka-coordinator-group-GroupMetadataManager.adoc#removeGroupsForPartition, removeGroupsForPartition>> and <<kafka-coordinator-group-GroupMetadataManager.adoc#scheduleHandleTxnCompletion, scheduleHandleTxnCompletion>>
 
 * `TransactionCoordinator` is requested to <<kafka-TransactionCoordinator.adoc#startup, start up>>
 
@@ -84,7 +84,7 @@ Used when:
 
 * `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>>
 
-* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#startup, start up>>
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#startup, start up>>
 
 * `TransactionCoordinator` is requested to <<kafka-TransactionCoordinator.adoc#startup, start up>>
 

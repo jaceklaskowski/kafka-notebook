@@ -348,7 +348,7 @@ appendRecords(
 ====
 `appendRecords` is used when:
 
-* `GroupMetadataManager` is requested to <<kafka-GroupMetadataManager.adoc#appendForGroup, request the ReplicaManager to append records>>
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#appendForGroup, request the ReplicaManager to append records>>
 
 * `TransactionStateManager` is requested to <<kafka-TransactionStateManager.adoc#enableTransactionalIdExpiration, enableTransactionalIdExpiration>> and <<kafka-TransactionStateManager.adoc#appendTransactionToLog, appendTransactionToLog>>
 

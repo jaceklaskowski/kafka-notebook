@@ -10,7 +10,7 @@
 image::images/GroupCoordinator-startup.png[align="center"]
 
 [[isActive]]
-`GroupCoordinator` manages the <<groupManager, GroupMetadataManager>>. `GroupCoordinator` uses `isActive` flag to control whether the <<groupManager, GroupMetadataManager>> was requested to <<kafka-GroupMetadataManager.adoc#startup, start up>> (when `GroupCoordinator` <<startup, was>>) that is used in <<handleListGroups, handleListGroups>> and <<validateGroupStatus, validateGroupStatus>>.
+`GroupCoordinator` manages the <<groupManager, GroupMetadataManager>>. `GroupCoordinator` uses `isActive` flag to control whether the <<groupManager, GroupMetadataManager>> was requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#startup, start up>> (when `GroupCoordinator` <<startup, was>>) that is used in <<handleListGroups, handleListGroups>> and <<validateGroupStatus, validateGroupStatus>>.
 
 [[logIdent]]
 `GroupCoordinator` uses *[GroupCoordinator [brokerId]]* as the logging prefix (aka `logIdent`).
@@ -59,7 +59,7 @@ NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-ser
 * [[brokerId]] Broker ID
 * [[groupConfig]] `GroupConfig`
 * [[offsetConfig]] link:kafka-OffsetConfig.adoc[OffsetConfig]
-* [[groupManager]] <<kafka-GroupMetadataManager.adoc#, GroupMetadataManager>>
+* [[groupManager]] <<kafka-coordinator-group-GroupMetadataManager.adoc#, GroupMetadataManager>>
 * [[heartbeatPurgatory]] `DelayedOperationPurgatory[DelayedHeartbeat]`
 * [[joinPurgatory]] `DelayedOperationPurgatory[DelayedJoin]`
 * [[time]] `Time`
@@ -79,7 +79,7 @@ startup(enableMetadataExpiration: Boolean = true): Unit
 Starting up.
 ```
 
-`startup` requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#startup, startup>> (with the given `enableMetadataExpiration` flag).
+`startup` requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#startup, startup>> (with the given `enableMetadataExpiration` flag).
 
 `startup` turns the <<isActive, isActive>> internal flag on.
 
@@ -98,7 +98,7 @@ NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-s
 partitionFor(group: String): Int
 ----
 
-`partitionFor` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#partitionFor, partitionFor>> the given `group` ID.
+`partitionFor` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#partitionFor, partitionFor>> the given `group` ID.
 
 [NOTE]
 ====
@@ -123,9 +123,9 @@ handleCommitOffsets(
 
 `handleCommitOffsets` firstly <<validateGroupStatus, validateGroupStatus>> (for the given `groupId` and `OFFSET_COMMIT` API key).
 
-`handleCommitOffsets` requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#getGroup, getGroup>> (by the given `groupId`) and then <<doCommitOffsets, doCommitOffsets>>.
+`handleCommitOffsets` requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#getGroup, getGroup>> (by the given `groupId`) and then <<doCommitOffsets, doCommitOffsets>>.
 
-If the <<groupManager, GroupMetadataManager>> could not <<kafka-GroupMetadataManager.adoc#getGroup, getGroup>>, `handleCommitOffsets`...FIXME
+If the <<groupManager, GroupMetadataManager>> could not <<kafka-coordinator-group-GroupMetadataManager.adoc#getGroup, getGroup>>, `handleCommitOffsets`...FIXME
 
 In case of an error while <<validateGroupStatus, validateGroupStatus>>, `handleCommitOffsets`...FIXME
 
@@ -194,7 +194,7 @@ NOTE: `handleDescribeGroup` is used exclusively when `KafkaApis` is requested to
 handleGroupImmigration(offsetTopicPartitionId: Int): Unit
 ----
 
-`handleGroupImmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#scheduleLoadGroupAndOffsets, scheduleLoadGroupAndOffsets>> (for the given offset and with the <<onGroupLoaded, onGroupLoaded>> callback)
+`handleGroupImmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#scheduleLoadGroupAndOffsets, scheduleLoadGroupAndOffsets>> (for the given offset and with the <<onGroupLoaded, onGroupLoaded>> callback)
 
 NOTE: `handleGroupImmigration` is used exclusively when `KafkaApis` is requested to handle a <<kafka-server-KafkaApis.adoc#handleLeaderAndIsrRequest, LeaderAndIsrRequest>>.
 
@@ -205,7 +205,7 @@ NOTE: `handleGroupImmigration` is used exclusively when `KafkaApis` is requested
 handleGroupEmigration(offsetTopicPartitionId: Int): Unit
 ----
 
-`handleGroupEmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#removeGroupsForPartition, removeGroupsForPartition>> (for the given offset and with the <<onGroupUnloaded, onGroupUnloaded>> callback).
+`handleGroupEmigration` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#removeGroupsForPartition, removeGroupsForPartition>> (for the given offset and with the <<onGroupUnloaded, onGroupUnloaded>> callback).
 
 NOTE: `handleGroupEmigration` is used when `KafkaApis` is requested to handle a <<kafka-server-KafkaApis.adoc#handleLeaderAndIsrRequest, LeaderAndIsrRequest>> and a <<kafka-server-KafkaApis.adoc#handleStopReplicaRequest, StopReplicaRequest>>.
 
@@ -216,7 +216,7 @@ NOTE: `handleGroupEmigration` is used when `KafkaApis` is requested to handle a 
 handleDeletedPartitions(topicPartitions: Seq[TopicPartition]): Unit
 ----
 
-`handleDeletedPartitions` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>> and...FIXME
+`handleDeletedPartitions` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>> and...FIXME
 
 NOTE: `handleDeletedPartitions` is used when...FIXME
 
@@ -265,11 +265,11 @@ handleJoinGroup(
 
 `handleJoinGroup` validates the group configuration, namely the given `sessionTimeoutMs`. In case of an error, `handleJoinGroup` uses the given `JoinCallback` to report a `INVALID_SESSION_TIMEOUT` error back and returns.
 
-`handleJoinGroup` requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#getGroup, getGroup>> by the given `groupId`.
+`handleJoinGroup` requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#getGroup, getGroup>> by the given `groupId`.
 
 If the group could not be found and the given `memberId` is defined (i.e. not empty), `handleJoinGroup` uses the given `JoinCallback` to report a `UNKNOWN_MEMBER_ID` error back and returns.
 
-If the group could not be found and the given `memberId` is undefined (i.e. empty) or simply the group is available, `handleJoinGroup` requests the <<groupManager, GroupMetadataManager>> to <<kafka-GroupMetadataManager.adoc#addGroup, addGroup>> followed by <<doJoinGroup, doJoinGroup>>.
+If the group could not be found and the given `memberId` is undefined (i.e. empty) or simply the group is available, `handleJoinGroup` requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#addGroup, addGroup>> followed by <<doJoinGroup, doJoinGroup>>.
 
 NOTE: `handleJoinGroup` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleJoinGroupRequest, handle a JoinGroupRequest>>.
 

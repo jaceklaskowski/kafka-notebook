@@ -8,7 +8,7 @@
 
 * `KafkaController` is <<kafka-controller-KafkaController.adoc#, created>> (and initializes <<kafka-controller-KafkaController.adoc#kafkaScheduler, kafkaScheduler>> and <<kafka-controller-KafkaController.adoc#tokenCleanScheduler, tokenCleanScheduler>>)
 
-* `GroupMetadataManager` is <<kafka-GroupMetadataManager.adoc#scheduler, created>>
+* `GroupMetadataManager` is <<kafka-coordinator-group-GroupMetadataManager.adoc#scheduler, created>>
 
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>
 

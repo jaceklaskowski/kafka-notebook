@@ -19,18 +19,18 @@ m| delete-expired-tokens
 m| auto-leader-rebalance-task
 | Sends `AutoPreferredReplicaLeaderElection` controller event to <<kafka-controller-ControllerEventManager.adoc#, ControllerEventManager>>
 
-.4+^.^| <<kafka-GroupMetadataManager.adoc#, GroupMetadataManager>>
+.4+^.^| <<kafka-coordinator-group-GroupMetadataManager.adoc#, GroupMetadataManager>>
 m| delete-expired-group-metadata
-| <<kafka-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>>
+| <<kafka-coordinator-group-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>>
 
 m| __consumer_offsets-[offsetsPartition]
-| <<kafka-GroupMetadataManager.adoc#loadGroupsAndOffsets, loadGroupsAndOffsets>>
+| <<kafka-coordinator-group-GroupMetadataManager.adoc#loadGroupsAndOffsets, loadGroupsAndOffsets>>
 
 m| __consumer_offsets-[offsetsPartition]
-| <<kafka-GroupMetadataManager.adoc#removeGroupsAndOffsets, removeGroupsAndOffsets>>
+| <<kafka-coordinator-group-GroupMetadataManager.adoc#removeGroupsAndOffsets, removeGroupsAndOffsets>>
 
 m| handleTxnCompletion-[producerId]
-| <<kafka-GroupMetadataManager.adoc#handleTxnCompletion, handleTxnCompletion>>
+| <<kafka-coordinator-group-GroupMetadataManager.adoc#handleTxnCompletion, handleTxnCompletion>>
 
 | <<kafka-TransactionCoordinator.adoc#, TransactionCoordinator>>
 m| transaction-abort
