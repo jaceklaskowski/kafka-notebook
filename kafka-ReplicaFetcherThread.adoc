@@ -43,3 +43,17 @@ NOTE: `fetchEpochsFromLeader` is a part of link:kafka-AbstractFetcherThread.adoc
 `fetchEpochsFromLeader`...FIXME
 
 NOTE: `fetchEpochsFromLeader` is used when...FIXME
+
+=== [[processPartitionData]] `processPartitionData` Method
+
+[source, scala]
+----
+processPartitionData(
+  topicPartition: TopicPartition,
+  fetchOffset: Long,
+  partitionData: FetchData): Option[LogAppendInfo]
+----
+
+NOTE: `processPartitionData` is part of the <<kafka-AbstractFetcherThread.adoc#processPartitionData, AbstractFetcherThread Contract>> to...FIXME.
+
+`processPartitionData`...FIXME

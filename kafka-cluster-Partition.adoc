@@ -228,6 +228,48 @@ appendRecordsToLeader(
   requiredAcks: Int = 0): LogAppendInfo
 ----
 
-`appendRecordsToLeader`...FIXME
+`appendRecordsToLeader` basically requests the `Log` (of the leader <<kafka-cluster-Replica.adoc#, Replica>>) to <<kafka-Log.adoc#appendAsLeader, appendAsLeader>>.
 
-NOTE: `appendRecordsToLeader` is used when...FIXME
+Internally, `appendRecordsToLeader`...FIXME
+
+[NOTE]
+====
+`appendRecordsToLeader` is used when:
+
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>>
+
+* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#appendToLocalLog, appendToLocalLog>>
+====
+
+=== [[doAppendRecordsToFollowerOrFutureReplica]] `doAppendRecordsToFollowerOrFutureReplica` Internal Method
+
+[source, scala]
+----
+doAppendRecordsToFollowerOrFutureReplica(
+  records: MemoryRecords,
+  isFuture: Boolean): Option[LogAppendInfo]
+----
+
+`doAppendRecordsToFollowerOrFutureReplica`...FIXME
+
+NOTE: `doAppendRecordsToFollowerOrFutureReplica` is used exclusively when `Partition` is requested to <<appendRecordsToFollowerOrFutureReplica, appendRecordsToFollowerOrFutureReplica>>.
+
+=== [[appendRecordsToFollowerOrFutureReplica]] `appendRecordsToFollowerOrFutureReplica` Method
+
+[source, scala]
+----
+appendRecordsToFollowerOrFutureReplica(
+  records: MemoryRecords,
+  isFuture: Boolean): Option[LogAppendInfo]
+----
+
+`appendRecordsToFollowerOrFutureReplica`...FIXME
+
+[NOTE]
+====
+`appendRecordsToFollowerOrFutureReplica` is used when:
+
+* `ReplicaAlterLogDirsThread` is requested to `processPartitionData`
+
+* `ReplicaFetcherThread` is requested to <<kafka-ReplicaFetcherThread.adoc#processPartitionData, processPartitionData>>
+====

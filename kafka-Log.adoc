@@ -89,3 +89,43 @@ deleteSeg(): Unit
 `deleteSeg`...FIXME
 
 NOTE: `deleteSeg` is used when...FIXME
+
+=== [[appendAsLeader]] `appendAsLeader` Method
+
+[source, scala]
+----
+appendAsLeader(
+  records: MemoryRecords,
+  leaderEpoch: Int,
+  isFromClient: Boolean = true): LogAppendInfo
+----
+
+`appendAsLeader` simply <<append, append>> with the `assignOffsets` flag on.
+
+NOTE: `appendAsLeader` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#appendRecordsToLeader, appendRecordsToLeader>>.
+
+=== [[appendAsFollower]] `appendAsFollower` Method
+
+[source, scala]
+----
+appendAsFollower(records: MemoryRecords): LogAppendInfo
+----
+
+`appendAsFollower` simply <<append, append>> with the `isFromClient` and `assignOffsets` flags off.
+
+NOTE: `appendAsFollower` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#doAppendRecordsToFollowerOrFutureReplica, doAppendRecordsToFollowerOrFutureReplica>>.
+
+=== [[append]] `append` Internal Method
+
+[source, scala]
+----
+append(
+  records: MemoryRecords,
+  isFromClient: Boolean,
+  assignOffsets: Boolean,
+  leaderEpoch: Int): LogAppendInfo
+----
+
+`append`...FIXME
+
+NOTE: `append` is used when `Log` is requested to <<appendAsLeader, appendAsLeader>> and <<appendAsFollower, appendAsFollower>>.
