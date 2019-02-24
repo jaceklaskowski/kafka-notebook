@@ -3,7 +3,7 @@
 `BrokerTopicMetrics` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with <<metrics, performance metrics>> of topics.
 
 [[metrics]]
-.BrokerTopicMetrics's Metrics
+.BrokerTopicMetrics's Performance Metrics
 [cols="1m,2",options="header",width="100%"]
 |===
 | Metric Name

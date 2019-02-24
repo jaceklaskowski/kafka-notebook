@@ -5,27 +5,20 @@
 .Creating GroupMetadataManager
 image::images/GroupMetadataManager-creating-instance.png[align="center"]
 
+`GroupMetadataManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers the <<metrics, performance metrics>>.
+
 [[metrics]]
-.GroupMetadataManager's Metrics
+.GroupMetadataManager's Performance Metrics
 [cols="1m,2",options="header",width="100%"]
 |===
-| Name
+| Metric Name
 | Description
-
-| NumOffsets
-| [[NumOffsets]]
 
 | NumGroups
 | [[NumGroups]]
 
-| NumGroupsPreparingRebalance
-| [[NumGroupsPreparingRebalance]]
-
 | NumGroupsCompletingRebalance
 | [[NumGroupsCompletingRebalance]]
-
-| NumGroupsStable
-| [[NumGroupsStable]]
 
 | NumGroupsDead
 | [[NumGroupsDead]]
@@ -33,7 +26,21 @@ image::images/GroupMetadataManager-creating-instance.png[align="center"]
 | NumGroupsEmpty
 | [[NumGroupsEmpty]]
 
+| NumGroupsPreparingRebalance
+| [[NumGroupsPreparingRebalance]]
+
+| NumGroupsStable
+| [[NumGroupsStable]]
+
+| NumOffsets
+| [[NumOffsets]]
+
 |===
+
+The <<metrics, performance metrics>> are registered in *kafka.coordinator.group:type=GroupMetadataManager* group.
+
+.GroupMetadataManager in jconsole
+image::images/GroupMetadataManager-jconsole.png[align="center"]
 
 [[internal-registries]]
 .GroupMetadataManager's Internal Properties (e.g. Registries and Counters)
