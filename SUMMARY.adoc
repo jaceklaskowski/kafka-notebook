@@ -122,9 +122,11 @@
 . link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads]
 
 . link:kafka-log-Log.adoc[Log]
+.. link:kafka-log-LogSegment.adoc[LogSegment]
 . link:kafka-LogCleanerManager.adoc[LogCleanerManager]
 . link:kafka-LogManager.adoc[LogManager]
 . link:kafka-log-ProducerStateManager.adoc[ProducerStateManager]
+. link:kafka-log-LogConfig.adoc[LogConfig]
 
 . link:kafka-server-MetadataCache.adoc[MetadataCache]
 

@@ -42,8 +42,6 @@ NOTE: `fetchEpochsFromLeader` is a part of link:kafka-AbstractFetcherThread.adoc
 
 `fetchEpochsFromLeader`...FIXME
 
-NOTE: `fetchEpochsFromLeader` is used when...FIXME
-
 === [[processPartitionData]] `processPartitionData` Method
 
 [source, scala]
@@ -57,3 +55,25 @@ processPartitionData(
 NOTE: `processPartitionData` is part of the <<kafka-AbstractFetcherThread.adoc#processPartitionData, AbstractFetcherThread Contract>> to...FIXME.
 
 `processPartitionData`...FIXME
+
+=== [[truncate]] `truncate` Method
+
+[source, scala]
+----
+truncate(tp: TopicPartition, offsetTruncationState: OffsetTruncationState): Unit
+----
+
+NOTE: `truncate` is a part of link:kafka-AbstractFetcherThread.adoc#truncate[AbstractFetcherThread Contract].
+
+`truncate`...FIXME
+
+=== [[truncateFullyAndStartAt]] `truncateFullyAndStartAt` Method
+
+[source, scala]
+----
+truncateFullyAndStartAt(topicPartition: TopicPartition, offset: Long): Unit
+----
+
+NOTE: `truncateFullyAndStartAt` is a part of link:kafka-AbstractFetcherThread.adoc#truncateFullyAndStartAt[AbstractFetcherThread Contract].
+
+`truncateFullyAndStartAt`...FIXME

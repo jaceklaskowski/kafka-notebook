@@ -1,0 +1,22 @@
+== [[LogConfig]] LogConfig
+
+`LogConfig` is a Apache Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/config/AbstractConfig.html[AbstractConfig] for the <<properties, configuration properties>> of a...FIXME
+
+[[properties]]
+.LogConfig's Configuration Properties
+[cols="1,3",options="header",width="100%"]
+|===
+| Name / Default Value / Property
+| Description
+
+| FileDeleteDelayMsProp
+
+Default: `60000`
+
+Property: `file.delete.delay.ms`
+
+a| [[file.delete.delay.ms]][[FileDeleteDelayMsProp]][[fileDeleteDelayMs]] The time (in millis) to wait before deleting a file from the filesystem
+
+Must be at least `0`
+
+|===

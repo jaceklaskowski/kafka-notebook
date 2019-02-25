@@ -205,18 +205,7 @@ maybeCreateFutureReplica(logDir: String): Boolean
 
 `maybeCreateFutureReplica`...FIXME
 
-NOTE: `maybeCreateFutureReplica` is used exclusively when `Partition` is requested to <<alterReplicaLogDirs, alterReplicaLogDirs>>.
-
-=== [[alterReplicaLogDirs]] `alterReplicaLogDirs` Method
-
-[source, scala]
-----
-alterReplicaLogDirs(partitionDirs: Map[TopicPartition, String]): Map[TopicPartition, Errors]
-----
-
-`alterReplicaLogDirs`...FIXME
-
-NOTE: `alterReplicaLogDirs` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleAlterReplicaLogDirsRequest, handle an AlterReplicaLogDirs request>>.
+NOTE: `maybeCreateFutureReplica` is used exclusively when `ReplicaManager` is requested to <<alterReplicaLogDirs, alterReplicaLogDirs>>.
 
 === [[appendRecordsToLeader]] `appendRecordsToLeader` Method
 
@@ -272,4 +261,42 @@ appendRecordsToFollowerOrFutureReplica(
 * `ReplicaAlterLogDirsThread` is requested to `processPartitionData`
 
 * `ReplicaFetcherThread` is requested to <<kafka-server-ReplicaFetcherThread.adoc#processPartitionData, processPartitionData>>
+====
+
+=== [[truncateTo]] `truncateTo` Method
+
+[source, scala]
+----
+truncateTo(offset: Long, isFuture: Boolean): Unit
+----
+
+`truncateTo`...FIXME
+
+[NOTE]
+====
+`truncateTo` is used when:
+
+* `ReplicaAlterLogDirsThread` is requested to `truncate`
+
+* `ReplicaFetcherThread` is requested to <<kafka-server-ReplicaFetcherThread.adoc#truncate, truncate>>
+====
+
+=== [[truncateFullyAndStartAt]] `truncateFullyAndStartAt` Method
+
+[source, scala]
+----
+truncateFullyAndStartAt(newOffset: Long, isFuture: Boolean): Unit
+----
+
+`truncateFullyAndStartAt`...FIXME
+
+[NOTE]
+====
+`truncateFullyAndStartAt` is used when:
+
+* `Partition` is requested to <<appendRecordsToFollowerOrFutureReplica, appendRecordsToFollowerOrFutureReplica>>
+
+* `ReplicaAlterLogDirsThread` is requested to `truncateFullyAndStartAt`
+
+* `ReplicaFetcherThread` is requested to <<kafka-server-ReplicaFetcherThread.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
 ====

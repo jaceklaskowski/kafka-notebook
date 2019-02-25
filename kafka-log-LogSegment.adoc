@@ -1,0 +1,3 @@
+== [[LogSegment]] LogSegment
+
+`LogSegment` is...FIXME

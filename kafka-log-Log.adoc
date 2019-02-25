@@ -1,15 +1,111 @@
 == [[Log]] Partition Log
 
-`Log` is a *partition log* that...FIXME
+`Log` is a *partition log* that is <<apply, created>> when `LogManager` is requested to <<kafka-LogManager.adoc#loadLog, loadLog>> (when `LogManager` is <<kafka-LogManager.adoc#creating-instance, created>>) and <<kafka-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
 
-`Log` is <<creating-instance, created>> when...FIXME
+`Log` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers the <<metrics, performance metrics>>.
+
+[[metrics]]
+.Log's Performance Metrics
+[cols="1m,2",options="header",width="100%"]
+|===
+| Metric Name
+| Description
+
+| NumLogSegments
+| [[NumLogSegments]]
+
+| LogEndOffset
+| [[LogEndOffset]]
+
+| LogStartOffset
+| [[LogStartOffset]]
+
+| Size
+| [[Size]]
+
+|===
+
+The <<metrics, performance metrics>> are registered in *kafka.log:type=Log* group.
+
+.Log in jconsole
+image::images/Log-jconsole.png[align="center"]
+
+`Log` uses a <<scheduler, Scheduler>> to schedule the <<background-tasks, background tasks>>.
+
+[[background-tasks]]
+.Log's Background Tasks
+[cols="1m,1,1,2",options="header",width="100%"]
+|===
+| Name
+| Period
+| Delay
+| Description
+
+| PeriodicProducerExpirationCheck
+| <<producerIdExpirationCheckIntervalMs, producerIdExpirationCheckIntervalMs>>
+| <<producerIdExpirationCheckIntervalMs, producerIdExpirationCheckIntervalMs>>
+| [[PeriodicProducerExpirationCheck]] Requests the <<producerStateManager, ProducerStateManager>> to <<kafka-log-ProducerStateManager.adoc#removeExpiredProducers, removeExpiredProducers>>
+
+Scheduled immediately when `Log` is <<creating-instance, created>>.
+
+| flush-log
+| `-1` (once)
+| `0L`
+| [[flush-log]] <<flush, flush>>
+
+Scheduled when `Log` is requested to <<roll, roll>>.
+
+| delete-file
+| `-1` (once)
+| <<kafka-log-LogConfig.adoc#fileDeleteDelayMs, file.delete.delay.ms>>
+| [[delete-file]] <<deleteSeg, deleteSeg>>
+
+Scheduled when `Log` is requested to <<asyncDeleteSegment, asyncDeleteSegment>>.
+
+|===
+
+[[logIdent]]
+`Log` uses *[Log partition=[topicPartition], dir=[parent]]* as the logging prefix (aka `logIdent`).
+
+[[internal-registries]]
+.Log's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| nextOffsetMetadata
+| [[nextOffsetMetadata]] `LogOffsetMetadata`
+
+Used when...FIXME
+
+| segments
+| [[segments]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html[java.util.concurrent.ConcurrentSkipListMap] of `Longs` and their <<kafka-log-LogSegment.adoc#, LogSegments>>
+
+Used when...FIXME
+
+|===
+
+[[logging]]
+[TIP]
+====
+Enable `WARN`, `INFO`, `DEBUG` or `TRACE` logging levels for `kafka.log.Log` logger to see what happens inside.
+
+Add the following line to `log4j.properties`:
+
+```
+log4j.logger.kafka.log.Log=TRACE
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
 
 === [[creating-instance]] Creating Log Instance
 
 `Log` takes the following when created:
 
-* [[dir]] Directory
-* [[config]] `LogConfig`
+* [[dir]] Log directory
+* [[config]] <<kafka-log-LogConfig.adoc#, LogConfig>>
 * [[logStartOffset]] `logStartOffset`
 * [[recoveryPoint]] `recoveryPoint`
 * [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
@@ -57,7 +153,7 @@ roll(expectedNextOffset: Long = 0): LogSegment
 
 NOTE: `roll` is used when...FIXME
 
-=== [[asyncDeleteSegment]] `asyncDeleteSegment` Method
+=== [[asyncDeleteSegment]] `asyncDeleteSegment` Internal Method
 
 [source, scala]
 ----
@@ -66,7 +162,7 @@ asyncDeleteSegment(segment: LogSegment): Unit
 
 `asyncDeleteSegment`...FIXME
 
-NOTE: `asyncDeleteSegment` is used when...FIXME
+NOTE: `asyncDeleteSegment` is used when `Log` is requested to <<deleteSegment, deleteSegment>> and <<replaceSegments, replaceSegments>>.
 
 === [[flush]] `flush` Method
 
@@ -129,3 +225,156 @@ append(
 `append`...FIXME
 
 NOTE: `append` is used when `Log` is requested to <<appendAsLeader, appendAsLeader>> and <<appendAsFollower, appendAsFollower>>.
+
+=== [[deleteSegment]] `deleteSegment` Internal Method
+
+[source, scala]
+----
+deleteSegment(segment: LogSegment): Unit
+----
+
+`deleteSegment`...FIXME
+
+NOTE: `deleteSegment` is used when `Log` is requested to <<recoverLog, recoverLog>>, <<deleteSegments, deleteSegments>>, <<roll, roll>>, <<truncateTo, truncateTo>>, and <<truncateFullyAndStartAt, truncateFullyAndStartAt>>.
+
+=== [[replaceSegments]] `replaceSegments` Internal Method
+
+[source, scala]
+----
+replaceSegments(
+  newSegments: Seq[LogSegment],
+  oldSegments: Seq[LogSegment],
+  isRecoveredSwapFile: Boolean = false): Unit
+----
+
+`replaceSegments`...FIXME
+
+[NOTE]
+====
+`replaceSegments` is used when:
+
+* `Log` is requested to <<completeSwapOperations, completeSwapOperations>> and <<splitOverflowedSegment, splitOverflowedSegment>>
+
+* `Cleaner` is requested to `cleanSegments`
+====
+
+=== [[recoverLog]] `recoverLog` Internal Method
+
+[source, scala]
+----
+recoverLog(): Long
+----
+
+`recoverLog`...FIXME
+
+NOTE: `recoverLog` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>>.
+
+=== [[deleteSegments]] `deleteSegments` Internal Method
+
+[source, scala]
+----
+deleteSegments(deletable: Iterable[LogSegment]): Int
+----
+
+`deleteSegments`...FIXME
+
+NOTE: `deleteSegments` is used exclusively when `Log` is requested to <<deleteOldSegments, deleteOldSegments>>.
+
+=== [[truncateTo]] `truncateTo` Internal Method
+
+[source, scala]
+----
+truncateTo(targetOffset: Long): Boolean
+----
+
+`truncateTo`...FIXME
+
+NOTE: `truncateTo` is used exclusively when `LogManager` is requested to <<kafka-LogManager.adoc#truncateTo, truncateTo>>.
+
+=== [[truncateFullyAndStartAt]] `truncateFullyAndStartAt` Internal Method
+
+[source, scala]
+----
+truncateFullyAndStartAt(newOffset: Long): Unit
+----
+
+`truncateFullyAndStartAt`...FIXME
+
+[NOTE]
+====
+`truncateFullyAndStartAt` is used when:
+
+* `Log` is requested to <<truncateTo, truncateTo>>
+
+* `LogManager` is requested to <<kafka-LogManager.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
+====
+
+=== [[loadSegments]] `loadSegments` Internal Method
+
+[source, scala]
+----
+loadSegments(): Long
+----
+
+`loadSegments`...FIXME
+
+NOTE: `loadSegments` is used exclusively when `Log` is <<creating-instance, created>> (to create a <<nextOffsetMetadata, LogOffsetMetadata>>).
+
+=== [[deleteOldSegments]] `deleteOldSegments` Method
+
+[source, scala]
+----
+deleteOldSegments(): Long
+// Private API
+deleteOldSegments(
+  predicate: (LogSegment, Option[LogSegment]) => Boolean,
+  reason: String): Int
+----
+
+`deleteOldSegments`...FIXME
+
+NOTE: `deleteOldSegments` is used when...FIXME
+
+=== [[completeSwapOperations]] `completeSwapOperations` Internal Method
+
+[source, scala]
+----
+completeSwapOperations(swapFiles: Set[File]): Unit
+----
+
+`completeSwapOperations`...FIXME
+
+NOTE: `completeSwapOperations` is used when...FIXME
+
+=== [[splitOverflowedSegment]] `splitOverflowedSegment` Internal Method
+
+[source, scala]
+----
+splitOverflowedSegment(segment: LogSegment): List[LogSegment]
+----
+
+`splitOverflowedSegment`...FIXME
+
+NOTE: `splitOverflowedSegment` is used when...FIXME
+
+=== [[loadProducerState]] `loadProducerState` Internal Method
+
+[source, scala]
+----
+loadProducerState(lastOffset: Long, reloadFromCleanShutdown: Boolean): Unit
+----
+
+`loadProducerState`...FIXME
+
+NOTE: `loadProducerState` is used when `Log` is <<creating-instance, created>> and requested to <<truncateTo, truncateTo>>.
+
+=== [[loadSegmentFiles]] `loadSegmentFiles` Internal Method
+
+[source, scala]
+----
+loadSegmentFiles(): Unit
+----
+
+`loadSegmentFiles`...FIXME
+
+NOTE: `loadSegmentFiles` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>> (when <<creating-instance, created>>).

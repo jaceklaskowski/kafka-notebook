@@ -20,9 +20,10 @@ image::images/LogManager.png[align="center"]
 | Description
 
 | _liveLogDirs
-| [[_liveLogDirs]] Java's https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentLinkedQueue.html[ConcurrentLinkedQueue] of log directories
+| [[_liveLogDirs]] Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentLinkedQueue.html[ConcurrentLinkedQueue] of live log directories (after <<createAndValidateLogDirs, createAndValidateLogDirs>> was executed with the <<logDirs, logDirs>> and the <<initialOfflineDirs, initialOfflineDirs>> directories).
 
 Used when...FIXME
+
 |===
 
 [[logging]]
@@ -160,10 +161,10 @@ NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, c
 
 `LogManager` takes the following when created:
 
-* [[logDirs]] Log directories
+* [[logDirs]] Absolute paths to log directories
 * [[initialOfflineDirs]] Initial offline directories
 * [[topicConfigs]] Topic configurations (`Map[String, LogConfig]`)
-* [[initialDefaultConfig]] Initial default configuration (`LogConfig`)
+* [[initialDefaultConfig]] Initial <<kafka-log-LogConfig.adoc#, LogConfig>>
 * [[cleanerConfig]] `CleanerConfig`
 * [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir`
 * [[flushCheckMs]] `flushCheckMs`
@@ -265,3 +266,43 @@ isLogDirOnline(logDir: String): Boolean
 `isLogDirOnline`...FIXME
 
 NOTE: `isLogDirOnline` is used when...FIXME
+
+=== [[createAndValidateLogDirs]] `createAndValidateLogDirs` Internal Method
+
+[source, scala]
+----
+createAndValidateLogDirs(
+  dirs: Seq[File],
+  initialOfflineDirs: Seq[File]): ConcurrentLinkedQueue[File]
+----
+
+`createAndValidateLogDirs`...FIXME
+
+NOTE: `createAndValidateLogDirs` is used exclusively when `LogManager` is <<_liveLogDirs, created>>.
+
+=== [[truncateTo]] `truncateTo` Method
+
+[source, scala]
+----
+truncateTo(
+  partitionOffsets: Map[TopicPartition, Long],
+  isFuture: Boolean): Unit
+----
+
+`truncateTo`...FIXME
+
+NOTE: `truncateTo` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#truncateTo, truncateTo>>.
+
+=== [[truncateFullyAndStartAt]] `truncateFullyAndStartAt` Method
+
+[source, scala]
+----
+truncateFullyAndStartAt(
+  topicPartition: TopicPartition,
+  newOffset: Long,
+  isFuture: Boolean): Unit
+----
+
+`truncateFullyAndStartAt`...FIXME
+
+NOTE: `truncateFullyAndStartAt` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>.
