@@ -184,7 +184,7 @@ NOTE: `maybePropagateIsrChanges` is used exclusively when <<kafka-server-schedul
 * [[time]] `Time`
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
-* [[logManager]] <<kafka-LogManager.adoc#, LogManager>>
+* [[logManager]] <<kafka-log-LogManager.adoc#, LogManager>>
 * [[isShuttingDown]] `isShuttingDown` flag
 * [[quotaManagers]] `QuotaManagers`
 * [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>

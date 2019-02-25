@@ -90,7 +90,7 @@ At least one log directory must be defined via <<kafka-properties.adoc#log.dirs,
 
 Used when:
 
-* `LogManager` is <<kafka-LogManager.adoc#logDirs, created>>
+* `LogManager` is <<kafka-log-LogManager.adoc#logDirs, created>>
 
 * `LogDirFailureChannel` is created (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>)
 

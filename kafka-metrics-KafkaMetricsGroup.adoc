@@ -88,13 +88,13 @@ trait KafkaMetricsGroup {
 | <<kafka-log-LogCleaner.adoc#, LogCleaner>>
 | [[LogCleaner]]
 
-| <<kafka-LogCleanerManager.adoc#, LogCleanerManager>>
+| <<kafka-log-LogCleanerManager.adoc#, LogCleanerManager>>
 | [[LogCleanerManager]]
 
 | LogFlushStats
 | [[LogFlushStats]]
 
-| <<kafka-LogManager.adoc#, LogManager>>
+| <<kafka-log-LogManager.adoc#, LogManager>>
 | [[LogManager]]
 
 | <<kafka-cluster-Partition.adoc#, Partition>>

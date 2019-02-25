@@ -56,21 +56,21 @@ m| flush-log
 m| delete-file
 | <<kafka-log-Log.adoc#deleteSeg, deleteSeg>>
 
-.5+^.^| <<kafka-LogManager.adoc#, LogManager>>
+.5+^.^| <<kafka-log-LogManager.adoc#, LogManager>>
 m| kafka-log-retention
-| <<kafka-LogManager.adoc#cleanupLogs, cleanupLogs>>
+| <<kafka-log-LogManager.adoc#cleanupLogs, cleanupLogs>>
 
 m| kafka-log-flusher
-| <<kafka-LogManager.adoc#flushDirtyLogs, flushDirtyLogs>>
+| <<kafka-log-LogManager.adoc#flushDirtyLogs, flushDirtyLogs>>
 
 m| kafka-recovery-point-checkpoint
-| <<kafka-LogManager.adoc#checkpointLogRecoveryOffsets, checkpointLogRecoveryOffsets>>
+| <<kafka-log-LogManager.adoc#checkpointLogRecoveryOffsets, checkpointLogRecoveryOffsets>>
 
 m| kafka-log-start-offset-checkpoint
-| <<kafka-LogManager.adoc#checkpointLogStartOffsets, checkpointLogStartOffsets>>
+| <<kafka-log-LogManager.adoc#checkpointLogStartOffsets, checkpointLogStartOffsets>>
 
 m| kafka-delete-logs
-| <<kafka-LogManager.adoc#deleteLogs, deleteLogs>>
+| <<kafka-log-LogManager.adoc#deleteLogs, deleteLogs>>
 
 .4+^.^| <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
 m| highwatermark-checkpoint

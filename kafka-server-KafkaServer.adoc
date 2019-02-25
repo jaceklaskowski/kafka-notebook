@@ -74,7 +74,7 @@ a| [[groupCoordinator]] <<kafka-coordinator-group-GroupCoordinator.adoc#, GroupC
 | [[logDirFailureChannel]] `LogDirFailureChannel`
 
 | logManager
-a| [[logManager]][[getLogManager]] <<kafka-LogManager.adoc#, LogManager>>
+a| [[logManager]][[getLogManager]] <<kafka-log-LogManager.adoc#, LogManager>>
 
 Used when:
 
@@ -86,9 +86,9 @@ Used when:
 
 ---
 
-<<kafka-LogManager.adoc#apply, Created>> and immediately <<kafka-LogManager.adoc#startup, started>> when `KafkaServer` is requested to <<startup, start up>>.
+<<kafka-log-LogManager.adoc#apply, Created>> and immediately <<kafka-log-LogManager.adoc#startup, started>> when `KafkaServer` is requested to <<startup, start up>>.
 
-<<kafka-LogManager.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>.
+<<kafka-log-LogManager.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>.
 
 | metadataCache
 a| [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>> that is created for the sake of creating the following services (at <<startup, startup>>):
@@ -214,7 +214,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 `startup` creates the <<logDirFailureChannel, LogDirFailureChannel>>
 
-`startup` creates the <<logManager, LogManager>> and requests it to link:kafka-LogManager.adoc#startup[start up].
+`startup` creates the <<logManager, LogManager>> and requests it to link:kafka-log-LogManager.adoc#startup[start up].
 
 `startup` creates the <<metadataCache, MetadataCache>> (for the <<brokerId, broker ID>>).
 
@@ -345,7 +345,7 @@ NOTE: `controlledShutdown` is used when...FIXME
 checkpointBrokerId(brokerId: Int): Unit
 ----
 
-For every directory in <<kafka-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> that is <<kafka-LogManager.adoc#isLogDirOnline, isLogDirOnline>> (according to the <<logManager, LogManager>>), `checkpointBrokerId` finds the corresponding `BrokerMetadataCheckpoint` (with the path to the *meta.properties* file) in the <<brokerMetadataCheckpoints, brokerMetadataCheckpoints>> registry and requests it to `read` it.
+For every directory in <<kafka-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> that is <<kafka-log-LogManager.adoc#isLogDirOnline, isLogDirOnline>> (according to the <<logManager, LogManager>>), `checkpointBrokerId` finds the corresponding `BrokerMetadataCheckpoint` (with the path to the *meta.properties* file) in the <<brokerMetadataCheckpoints, brokerMetadataCheckpoints>> registry and requests it to `read` it.
 
 Unless the `meta.properties` file was already available, `checkpointBrokerId` requests the `BrokerMetadataCheckpoints` (of the log directories with no meta files) to `write` the broker metadata.
 

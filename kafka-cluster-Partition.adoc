@@ -35,7 +35,7 @@ a| [[localBrokerId]] One of the following:
 * `-1` if <<isOffline, offline>>
 
 | logManager
-a| [[logManager]] <<kafka-LogManager.adoc#, LogManager>> (of the <<replicaManager, ReplicaManager>>) if not <<isOffline, offline>> or `null`
+a| [[logManager]] <<kafka-log-LogManager.adoc#, LogManager>> (of the <<replicaManager, ReplicaManager>>) if not <<isOffline, offline>> or `null`
 
 | zkClient
 a| [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>> (of the <<replicaManager, ReplicaManager>>) if not <<isOffline, offline>> or `null`

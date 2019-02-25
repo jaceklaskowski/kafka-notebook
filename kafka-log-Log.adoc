@@ -1,6 +1,6 @@
 == [[Log]] Partition Log
 
-`Log` is a *partition log* that is <<apply, created>> when `LogManager` is requested to <<kafka-LogManager.adoc#loadLog, loadLog>> (when `LogManager` is <<kafka-LogManager.adoc#creating-instance, created>>) and <<kafka-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
+`Log` is a *partition log* that is <<apply, created>> when `LogManager` is requested to <<kafka-log-LogManager.adoc#loadLog, loadLog>> (when `LogManager` is <<kafka-log-LogManager.adoc#creating-instance, created>>) and <<kafka-log-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
 
 `Log` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers the <<metrics, performance metrics>>.
 
@@ -140,7 +140,7 @@ apply(
 
 `apply`...FIXME
 
-NOTE: `apply` is used when `LogManager` is requested to <<kafka-LogManager.adoc#loadLog, loadLog>> and <<kafka-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
+NOTE: `apply` is used when `LogManager` is requested to <<kafka-log-LogManager.adoc#loadLog, loadLog>> and <<kafka-log-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
 
 === [[roll]] `roll` Method
 
@@ -289,7 +289,7 @@ truncateTo(targetOffset: Long): Boolean
 
 `truncateTo`...FIXME
 
-NOTE: `truncateTo` is used exclusively when `LogManager` is requested to <<kafka-LogManager.adoc#truncateTo, truncateTo>>.
+NOTE: `truncateTo` is used exclusively when `LogManager` is requested to <<kafka-log-LogManager.adoc#truncateTo, truncateTo>>.
 
 === [[truncateFullyAndStartAt]] `truncateFullyAndStartAt` Internal Method
 
@@ -306,7 +306,7 @@ truncateFullyAndStartAt(newOffset: Long): Unit
 
 * `Log` is requested to <<truncateTo, truncateTo>>
 
-* `LogManager` is requested to <<kafka-LogManager.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
+* `LogManager` is requested to <<kafka-log-LogManager.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
 ====
 
 === [[loadSegments]] `loadSegments` Internal Method

@@ -8,7 +8,7 @@
 
 `TopicConfigHandler` takes the following when created:
 
-* [[logManager]] <<kafka-LogManager.adoc#, LogManager>>
+* [[logManager]] <<kafka-log-LogManager.adoc#, LogManager>>
 * [[kafkaConfig]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
 * [[quotas]] `QuotaManagers`
 

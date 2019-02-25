@@ -37,7 +37,7 @@ Used when:
 
 * `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#shutdown, shutdown>>
 
-* `LogManager` is requested to <<kafka-LogManager.adoc#deleteLogs, deleteLogs>>
+* `LogManager` is requested to <<kafka-log-LogManager.adoc#deleteLogs, deleteLogs>>
 
 * `KafkaScheduler` is requested to <<kafka-KafkaScheduler.adoc#startup, startup>> and <<kafka-KafkaScheduler.adoc#ensureRunning, ensureRunning>>
 
@@ -71,7 +71,7 @@ Used when:
 
 * `Log` is <<kafka-log-Log.adoc#creating-instance, created>> and requested to <<kafka-log-Log.adoc#roll, roll>> and <<kafka-log-Log.adoc#asyncDeleteSegment, asyncDeleteSegment>>
 
-* `LogManager` is requested to <<kafka-LogManager.adoc#startup, start up>> and <<kafka-LogManager.adoc#deleteLogs, deleteLogs>>
+* `LogManager` is requested to <<kafka-log-LogManager.adoc#startup, start up>> and <<kafka-log-LogManager.adoc#deleteLogs, deleteLogs>>
 
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#startHighWaterMarksCheckPointThread, startHighWaterMarksCheckPointThread>> and <<kafka-server-ReplicaManager.adoc#startup, startup>>
 

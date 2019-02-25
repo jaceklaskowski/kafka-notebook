@@ -14,7 +14,7 @@
 
 * `ZooKeeperClient` is <<kafka-server-KafkaServer.adoc#expiryScheduler, created>>
 
-`KafkaScheduler` is used to create a <<kafka-LogManager.adoc#apply, LogManager>> and a <<kafka-TransactionCoordinator.adoc#apply, TransactionCoordinator>>.
+`KafkaScheduler` is used to create a <<kafka-log-LogManager.adoc#apply, LogManager>> and a <<kafka-TransactionCoordinator.adoc#apply, TransactionCoordinator>>.
 
 [[internal-registries]]
 .KafkaScheduler's Internal Properties (e.g. Registries and Counters)
