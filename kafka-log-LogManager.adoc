@@ -7,6 +7,36 @@ image::images/LogManager.png[align="center"]
 
 While being <<creating-instance, created>>, `LogManager` is given the <<logDirs, log directories>> that are configured using <<kafka-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>).
 
+`LogManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers the <<metrics, performance metrics>>.
+
+[[metrics]]
+.LogManager's Performance Metrics
+[cols="1m,2",options="header",width="100%"]
+|===
+| Metric Name
+| Description
+
+| OfflineLogDirectoryCount
+| [[offlineLogDirectoryCount]][[OfflineLogDirectoryCount]] The number of offline log directories
+
+| LogDirectoryOffline
+a| [[LogDirectoryOffline]] Registered for every <<logDirs, log directory>> to indicate whether it is online or offline
+
+Possible values:
+
+* `0` when a log directory is online
+
+* `1` when a log directory is offline
+
+The path of the directory is the tag of the metric.
+
+|===
+
+The <<metrics, performance metrics>> are registered in *kafka.log:type=LogManager* group.
+
+.LogManager in jconsole
+image::images/LogManager-jconsole.png[align="center"]
+
 `LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a <<kafka-server-DynamicLogConfig.adoc#logManager, DynamicLogConfig>>, a <<kafka-server-TopicConfigHandler.adoc#logManager, TopicConfigHandler>>.
 
 [[InitialTaskDelayMs]]
