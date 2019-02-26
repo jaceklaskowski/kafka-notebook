@@ -5,7 +5,7 @@
 .LogManager and KafkaServer
 image::images/LogManager.png[align="center"]
 
-`LogManager` manages the <<logDirs, log directories>> that are configured using <<kafka-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>).
+While being <<creating-instance, created>>, `LogManager` is given the <<logDirs, log directories>> that are configured using <<kafka-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>).
 
 `LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a <<kafka-server-DynamicLogConfig.adoc#logManager, DynamicLogConfig>>, a <<kafka-server-TopicConfigHandler.adoc#logManager, TopicConfigHandler>>.
 
@@ -267,7 +267,7 @@ isLogDirOnline(logDir: String): Boolean
 
 NOTE: `isLogDirOnline` is used when...FIXME
 
-=== [[createAndValidateLogDirs]] `createAndValidateLogDirs` Internal Method
+=== [[createAndValidateLogDirs]] Validating Data Log Directories -- `createAndValidateLogDirs` Internal Method
 
 [source, scala]
 ----
@@ -276,7 +276,17 @@ createAndValidateLogDirs(
   initialOfflineDirs: Seq[File]): ConcurrentLinkedQueue[File]
 ----
 
-`createAndValidateLogDirs`...FIXME
+For every directory in the given `dirs`, `createAndValidateLogDirs` makes sure that the data directory is available (i.e. it is a readable directory) or creates it.
+
+`createAndValidateLogDirs` prints out the following INFO message to the logs when a data directory does not exist:
+
+```
+Log directory [dir] not found, creating it.
+```
+
+NOTE: `createAndValidateLogDirs` is given the <<logDirs, logDirs>> and the <<initialOfflineDirs, initialOfflineDirs>> that `LogManager` is <<creating-instance, created>> with.
+
+`createAndValidateLogDirs` throws...FIXME
 
 NOTE: `createAndValidateLogDirs` is used exclusively when `LogManager` is <<_liveLogDirs, created>>.
 
