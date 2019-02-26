@@ -1,6 +1,23 @@
 == [[DynamicThreadPool]] DynamicThreadPool
 
-`DynamicThreadPool` is...FIXME
+[[reconfigurableConfigs]]
+`DynamicThreadPool` is a <<kafka-server-BrokerReconfigurable.adoc#, BrokerReconfigurable>> for the following <<kafka-server-BrokerReconfigurable.adoc#reconfigurableConfigs, dynamic configurations>>:
+
+* <<kafka-KafkaConfig.adoc#NumIoThreadsProp, num.io.threads>>
+
+* <<kafka-KafkaConfig.adoc#NumNetworkThreadsProp, num.network.threads>>
+
+* <<kafka-KafkaConfig.adoc#NumReplicaFetchersProp, num.replica.fetchers>>
+
+* <<kafka-KafkaConfig.adoc#NumRecoveryThreadsPerDataDirProp, num.recovery.threads.per.data.dir>>
+
+* <<kafka-KafkaConfig.adoc#BackgroundThreadsProp, background.threads>>
+
+`DynamicThreadPool` is <<creating-instance, created>> exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#addReconfigurables, addReconfigurables>> (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>).
+
+[[creating-instance]]
+[[server]]
+`DynamicThreadPool` takes a single <<kafka-server-KafkaServer.adoc#, KafkaServer>> to be created.
 
 === [[reconfigure]] `reconfigure` Method
 
@@ -9,6 +26,6 @@
 reconfigure(oldConfig: KafkaConfig, newConfig: KafkaConfig): Unit
 ----
 
-NOTE: `reconfigure` is part of the <<kafka-server-BrokerReconfigurable.adoc#reconfigure, BrokerReconfigurable Contract>> to...FIXME.
+NOTE: `reconfigure` is part of the <<kafka-server-BrokerReconfigurable.adoc#reconfigure, BrokerReconfigurable Contract>> to change (_reconfigure_) the value of a Kafka dynamic configuration.
 
 `reconfigure`...FIXME

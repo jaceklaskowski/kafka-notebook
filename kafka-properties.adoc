@@ -20,6 +20,9 @@ Unlike <<listeners, listeners>> it is invalid to advertise the `0.0.0.0` non-rou
 
 * Use <<kafka-KafkaConfig.adoc#advertisedListeners, KafkaConfig.advertisedListeners>> to access the current value
 
+| authorizer.class.name
+| [[authorizer.class.name]]
+
 | auto.commit.interval.ms
 a| [[auto.commit.interval.ms]] How often (in milliseconds) consumer offsets should be auto-committed when <<enable.auto.commit, enable.auto.commit>> is enabled
 
@@ -53,8 +56,19 @@ a| [[auto.offset.reset]] Reset policy -- what to do when there is no initial off
 
 Default: `latest`
 
-| authorizer.class.name
-| [[authorizer.class.name]]
+| background.threads
+a| [[background.threads]] The number of threads to use for various background processing tasks
+
+Default: `10`
+
+Must be at least `1`
+
+<<kafka-server-DynamicThreadPool.adoc#, Dynamic reconfigurable configuration>>
+
+| link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
+a| [[bootstrap.servers]] A comma-separated list of `host:port` pairs that are the addresses of one or more brokers in a link:kafka-brokers.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
+
+Default: `(empty)`
 
 | broker.id
 | [[broker.id]] The broker id of a Kafka broker for identification purposes
@@ -73,18 +87,6 @@ When enabled (`true`) the value configured for <<reserved.broker.max.id, reserve
 * Use `KafkaConfig.BrokerIdGenerationEnableProp` to reference the property
 
 * Use <<kafka-KafkaConfig.adoc#brokerIdGenerationEnable, KafkaConfig.brokerIdGenerationEnable>> to access the current value
-
-| background.threads
-| [[background.threads]] The number of threads to use for various background processing tasks
-
-As least 1 thread is required
-
-Default: `10`
-
-| link:kafka-properties-bootstrap-servers.adoc[bootstrap.servers]
-a| [[bootstrap.servers]] A comma-separated list of `host:port` pairs that are the addresses of one or more brokers in a link:kafka-brokers.adoc[Kafka cluster], e.g. `localhost:9092` or `localhost:9092,another.host:9092`.
-
-Default: `(empty)`
 
 | broker.rack
 | [[broker.rack]]
@@ -137,11 +139,6 @@ When disabled, offsets have to be committed manually (synchronously using link:k
 
 Used when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#creating-instance[created] and creates a link:kafka-consumer-internals-ConsumerCoordinator.adoc#autoCommitEnabled[ConsumerCoordinator].
 
-| fetch.min.bytes
-| [[fetch.min.bytes]] The minimum amount of data the server should return for a fetch request. If insufficient data is available the request will wait for that much data to accumulate before answering the request. The default setting of 1 byte means that fetch requests are answered as soon as a single byte of data is available or the fetch request times out waiting for data to arrive. Setting this to something greater than 1 will cause the server to wait for larger amounts of data to accumulate which can improve server throughput a bit at the cost of some additional latency.
-
-Use `ConsumerConfig.FETCH_MIN_BYTES_CONFIG`
-
 | fetch.max.bytes
 | [[fetch.max.bytes]] The maximum amount of data the server should return for a fetch request. Records are fetched in batches by the consumer, and if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that the consumer can make progress. As such, this is not a absolute maximum. The maximum record batch size accepted by the broker is defined via <<message.max.bytes, message.max.bytes>> (broker config) or <<max.message.bytes, max.message.bytes>> (topic config). Note that the consumer performs multiple fetches in parallel.
 
@@ -151,6 +148,11 @@ Use `ConsumerConfig.FETCH_MAX_BYTES_CONFIG`
 | [[fetch.max.wait.ms]] The maximum amount of time the server will block before answering the fetch request if there isn't sufficient data to immediately satisfy the requirement given by fetch.min.bytes.
 
 Use `ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG`
+
+| fetch.min.bytes
+| [[fetch.min.bytes]] The minimum amount of data the server should return for a fetch request. If insufficient data is available the request will wait for that much data to accumulate before answering the request. The default setting of 1 byte means that fetch requests are answered as soon as a single byte of data is available or the fetch request times out waiting for data to arrive. Setting this to something greater than 1 will cause the server to wait for larger amounts of data to accumulate which can improve server throughput a bit at the cost of some additional latency.
+
+Use `ConsumerConfig.FETCH_MIN_BYTES_CONFIG`
 
 | link:kafka-properties-group-id.adoc[group.id]
 | [[group.id]] The name of the consumer group the consumer is part of.
@@ -177,6 +179,9 @@ It is not allowed to set `inter.broker.listener.name` and <<security.inter.broke
 a| [[interceptor.classes]] Comma-separated list of link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor] class names.
 
 Default: `(empty)`
+
+| key.deserializer
+| [[key.deserializer]] How to deserialize message keys.
 
 | leader.imbalance.check.interval.seconds
 a| [[leader.imbalance.check.interval.seconds]] How often the active <<kafka-controller-KafkaController.adoc#, KafkaController>> schedules the <<kafka-controller-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, partition rebalance check>> (aka _AutoLeaderRebalance_ or _AutoPreferredReplicaLeaderElection_ or _auto leader balancing_)
@@ -205,9 +210,6 @@ a| [[log.dirs]] The directories in which the log data is kept
 Default: <<log.dir, log.dir>>
 
 Use <<kafka-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> to access the current value.
-
-| key.deserializer
-| [[key.deserializer]] How to deserialize message keys.
 
 | max.block.ms
 | [[max.block.ms]]
@@ -264,14 +266,22 @@ When used together, `min.insync.replicas` and acks allow you to enforce greater 
 A typical scenario would be to create a topic with a replication factor of 3, set `min.insync.replicas` to 2, and produce with acks of "all". This will ensure that the producer raises an exception if a majority of replicas do not receive a write.
 
 | num.io.threads
-| [[num.io.threads]] The number of threads that link:kafka-server-KafkaServer.adoc[KafkaServer] uses for processing requests, which may include disk I/O
+a| [[num.io.threads]] The number of threads that link:kafka-server-KafkaServer.adoc[KafkaServer] uses for processing requests, which may include disk I/O
 
 Default: `8`
 
+Must be at least `1`
+
+<<kafka-server-DynamicThreadPool.adoc#, Dynamic reconfigurable configuration>>
+
 | num.network.threads
-| [[num.network.threads]] The number of threads that SocketServer uses for the link:kafka-network-SocketServer.adoc#numProcessorThreads[number of processors per endpoint].
+a| [[num.network.threads]] The number of threads that SocketServer uses for the link:kafka-network-SocketServer.adoc#numProcessorThreads[number of processors per endpoint] (for receiving requests from the network and sending responses to the network)
 
 Default: `3`
+
+Must be at least `1`
+
+<<kafka-server-DynamicThreadPool.adoc#, Dynamic reconfigurable configuration>>
 
 | num.partitions
 | [[num.partitions]] The number of log partitions for auto-created topics
@@ -281,11 +291,20 @@ Default: `1`
 Increase the default value (`1`) since it is better to over-partition a topic that leads to a better data balancing and aids consumer parallelism.
 
 | num.recovery.threads.per.data.dir
-| [[num.recovery.threads.per.data.dir]] The number of threads per log data directory for log recovery at startup and flushing at shutdown
+a| [[num.recovery.threads.per.data.dir]] The number of threads per log data directory for log recovery at startup and flushing at shutdown
 
 Default: `1`
 
 Must be at least `1`
+
+<<kafka-server-DynamicThreadPool.adoc#, Dynamic reconfigurable configuration>>
+
+| num.replica.fetchers
+a| [[num.replica.fetchers]] The number of fetcher threads used to replicate messages from a source broker.
+
+Increasing this value can increase the degree of I/O parallelism in the follower broker.
+
+Default: `1`
 
 <<kafka-server-DynamicThreadPool.adoc#, Dynamic reconfigurable configuration>>
 
@@ -313,6 +332,11 @@ Must be at least `1`
 | replica.socket.timeout.ms
 | [[replica.socket.timeout.ms]]
 
+| request.timeout.ms
+| [[request.timeout.ms]] The configuration controls the maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
+
+Use `ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG`
+
 | reserved.broker.max.id
 | [[reserved.broker.max.id]] Maximum number that can be used for <<broker.id, broker.id>>. Has to be at least `0`.
 
@@ -326,11 +350,6 @@ Default: `1000`
 | [[retry.backoff.ms]] Time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
 
 Use `ConsumerConfig.RETRY_BACKOFF_MS_CONFIG`
-
-| request.timeout.ms
-| [[request.timeout.ms]] The configuration controls the maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.
-
-Use `ConsumerConfig.REQUEST_TIMEOUT_MS_CONFIG`
 
 | sasl.enabled.mechanisms
 | [[sasl.enabled.mechanisms]]

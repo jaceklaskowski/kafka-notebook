@@ -37,7 +37,7 @@ a| [[autoLeaderRebalanceEnable]] <<kafka-properties.adoc#auto.leader.rebalance.e
 Used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>>
 
 | backgroundThreads
-| [[backgroundThreads]] <<kafka-properties.adoc#background.threads, background.threads>>
+a| [[backgroundThreads]][[BackgroundThreadsProp]] <<kafka-properties.adoc#background.threads, background.threads>>
 
 | brokerId
 | [[brokerId]] <<kafka-properties.adoc#broker.id, broker.id>>
@@ -105,13 +105,19 @@ a| [[maxReservedBrokerId]] <<kafka-properties.adoc#reserved.broker.max.id, reser
 
 Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#generateBrokerId, generateBrokerId>>
 
+| numIoThreads
+a| [[numIoThreads]][[NumIoThreadsProp]] <<kafka-properties.adoc#num.io.threads, num.io.threads>>
+
 | numNetworkThreads
-| [[numNetworkThreads]] link:kafka-properties.adoc#num.network.threads[num.network.threads]
+a| [[numNetworkThreads]][[NumNetworkThreadsProp]] <<kafka-properties.adoc#num.network.threads, num.network.threads>>
 
 | numRecoveryThreadsPerDataDir
 a| [[numRecoveryThreadsPerDataDir]][[NumRecoveryThreadsPerDataDirProp]] <<kafka-properties.adoc#num.recovery.threads.per.data.dir, num.recovery.threads.per.data.dir>>
 
 Used exclusively when `LogManager` is <<kafka-log-LogManager.adoc#apply, created>>
+
+| numReplicaFetchers
+a| [[numReplicaFetchers]][[NumReplicaFetchersProp]] <<kafka-properties.adoc#num.replica.fetchers, num.replica.fetchers>>
 
 | port
 | [[port]] link:kafka-properties.adoc#port[port]
@@ -146,8 +152,26 @@ Used when:
 
 * `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
 
+| zkConnectionTimeoutMs
+a| [[zkConnectionTimeoutMs]] <<kafka-properties.adoc#zookeeper.connection.timeout.ms, zookeeper.connection.timeout.ms>> when set or <<kafka-properties.adoc#zookeeper.session.timeout.ms, zookeeper.session.timeout.ms>>
+
+Used when:
+
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
+
+* `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
+
 | zkEnableSecureAcls
 a| [[zkEnableSecureAcls]] <<kafka-properties.adoc#zookeeper.set.acl, zookeeper.set.acl>>
+
+Used when:
+
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
+
+* `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
+
+| zkMaxInFlightRequests
+a| [[zkMaxInFlightRequests]] <<kafka-properties.adoc#zookeeper.max.in.flight.requests, zookeeper.max.in.flight.requests>>
 
 Used when:
 
@@ -164,23 +188,6 @@ Used when:
 
 * `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
 
-| zkConnectionTimeoutMs
-a| [[zkConnectionTimeoutMs]] <<kafka-properties.adoc#zookeeper.connection.timeout.ms, zookeeper.connection.timeout.ms>> when set or <<kafka-properties.adoc#zookeeper.session.timeout.ms, zookeeper.session.timeout.ms>>
-
-Used when:
-
-* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
-
-* `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
-
-| zkMaxInFlightRequests
-a| [[zkMaxInFlightRequests]] <<kafka-properties.adoc#zookeeper.max.in.flight.requests, zookeeper.max.in.flight.requests>>
-
-Used when:
-
-* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
-
-* `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
 |===
 
 [[internal-registries]]

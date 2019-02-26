@@ -19,6 +19,8 @@ a| [[reconfigurableConfigs]]
 reconfigurableConfigs: Set[String]
 ----
 
+Dynamic configurations
+
 Used when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#addBrokerReconfigurable, addBrokerReconfigurable>> and <<kafka-server-DynamicBrokerConfig.adoc#processReconfiguration, processReconfiguration>>
 
 | reconfigure

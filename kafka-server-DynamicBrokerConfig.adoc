@@ -1,7 +1,5 @@
 == [[DynamicBrokerConfig]] DynamicBrokerConfig
 
-`DynamicBrokerConfig` is...FIXME
-
 `DynamicBrokerConfig` is <<creating-instance, created>> exclusively when `KafkaConfig` is <<kafka-KafkaConfig.adoc#dynamicConfig, created>>.
 
 DynamicBrokerConfig` is used to create a <<kafka-KafkaConfig.adoc#dynamicConfigOverride, KafkaConfig>>.
@@ -14,10 +12,19 @@ NOTE: `DynamicBrokerConfig` is <<creating-instance, created>> when <<kafka-Kafka
 
 [[internal-registries]]
 .DynamicBrokerConfig's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,2",options="header",width="100%"]
+[cols="1m,3",options="header",width="100%"]
 |===
 | Name
 | Description
+
+| brokerReconfigurables
+a| [[brokerReconfigurables]] <<kafka-server-BrokerReconfigurable.adoc#, BrokerReconfigurables>>
+
+New reconfigurables registered in <<addBrokerReconfigurable, addBrokerReconfigurable>>
+
+All removed in <<clear, clear>>
+
+Used in <<processReconfiguration, processReconfiguration>>
 
 | currentConfig
 | [[currentConfig]] Current <<kafka-KafkaConfig.adoc#, KafkaConfig>>
@@ -63,7 +70,7 @@ processReconfiguration(
 
 `processReconfiguration`...FIXME
 
-NOTE: `processReconfiguration` is used when `DynamicBrokerConfig` is requested to <<validate, validate>> and <<updateCurrentConfig, updateCurrentConfig>>.
+NOTE: `processReconfiguration` is used when `DynamicBrokerConfig` is requested to <<validate, validate>> (with `validateOnly` flag enabled) and <<updateCurrentConfig, updateCurrentConfig>> (with `validateOnly` flag disabled).
 
 === [[updateCurrentConfig]] `updateCurrentConfig` Internal Method
 
@@ -74,7 +81,7 @@ updateCurrentConfig(): Unit
 
 `updateCurrentConfig`...FIXME
 
-NOTE: `updateCurrentConfig` is used when...FIXME
+NOTE: `updateCurrentConfig` is used when `DynamicBrokerConfig` is requested to <<updateBrokerConfig, updateBrokerConfig>> and <<updateDefaultConfig, updateDefaultConfig>>.
 
 === [[currentDynamicDefaultConfigs]] `currentDynamicDefaultConfigs` Method
 
@@ -115,7 +122,14 @@ updateDefaultConfig(persistentProps: Properties): Unit
 
 `updateDefaultConfig`...FIXME
 
-NOTE: `updateDefaultConfig` is used when...FIXME
+[NOTE]
+====
+`updateDefaultConfig` is used when:
+
+* `BrokerConfigHandler` is requested to <<kafka-server-BrokerConfigHandler.adoc#processConfigChanges, processConfigChanges>>
+
+* `DynamicBrokerConfig` is requested to <<initialize, initialize>>
+====
 
 === [[updateBrokerConfig]] `updateBrokerConfig` Method
 
@@ -126,7 +140,14 @@ updateBrokerConfig(brokerId: Int, persistentProps: Properties): Unit
 
 `updateBrokerConfig`...FIXME
 
-NOTE: `updateBrokerConfig` is used when...FIXME
+[NOTE]
+====
+`updateBrokerConfig` is used when:
+
+* `BrokerConfigHandler` is requested to <<kafka-server-BrokerConfigHandler.adoc#processConfigChanges, processConfigChanges>>
+
+* `DynamicBrokerConfig` is requested to <<initialize, initialize>>
+====
 
 === [[maybeReEncodePasswords]] `maybeReEncodePasswords` Internal Method
 
@@ -160,7 +181,7 @@ Internally, `addReconfigurables` creates a <<kafka-server-DynamicThreadPool.adoc
 
 `addReconfigurables` creates a <<kafka-server-DynamicListenerConfig.adoc#, DynamicListenerConfig>> with the input <<kafka-server-KafkaServer.adoc#, KafkaServer>> and <<addBrokerReconfigurable, addBrokerReconfigurable>>.
 
-NOTE: `addReconfigurables` is used when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
+NOTE: `addReconfigurables` is used exclusively  when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 === [[validate]] `validate` Method
 
@@ -236,3 +257,14 @@ reloadUpdatedFilesWithoutConfigChange(newProps: Properties): Unit
 `reloadUpdatedFilesWithoutConfigChange`...FIXME
 
 NOTE: `reloadUpdatedFilesWithoutConfigChange` is used exclusively when `AdminManager` is requested to <<kafka-server-AdminManager.adoc#alterConfigs, alterConfigs>> (when `KafkaApis` is requested to handle a <<kafka-server-KafkaApis.adoc#AlterConfigs, AlterConfigs>> request).
+
+=== [[clear]] `clear` Method
+
+[source, scala]
+----
+clear(): Unit
+----
+
+`clear`...FIXME
+
+NOTE: `clear` is used when...FIXME
