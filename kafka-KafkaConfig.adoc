@@ -108,6 +108,11 @@ Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.a
 | numNetworkThreads
 | [[numNetworkThreads]] link:kafka-properties.adoc#num.network.threads[num.network.threads]
 
+| numRecoveryThreadsPerDataDir
+a| [[numRecoveryThreadsPerDataDir]][[NumRecoveryThreadsPerDataDirProp]] <<kafka-properties.adoc#num.recovery.threads.per.data.dir, num.recovery.threads.per.data.dir>>
+
+Used exclusively when `LogManager` is <<kafka-log-LogManager.adoc#apply, created>>
+
 | port
 | [[port]] link:kafka-properties.adoc#port[port]
 

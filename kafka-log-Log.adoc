@@ -2,7 +2,7 @@
 
 `Log` is a *partition log* that is <<apply, created>> when `LogManager` is requested to <<kafka-log-LogManager.adoc#loadLog, loadLog>> (when `LogManager` is <<kafka-log-LogManager.adoc#creating-instance, created>>) and <<kafka-log-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
 
-`Log` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers the <<metrics, performance metrics>>.
+`Log` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
 
 [[metrics]]
 .Log's Performance Metrics

@@ -5,7 +5,7 @@
 .Creating GroupMetadataManager
 image::images/GroupMetadataManager-creating-instance.png[align="center"]
 
-`GroupMetadataManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers the <<metrics, performance metrics>>.
+`GroupMetadataManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
 
 [[metrics]]
 .GroupMetadataManager's Performance Metrics

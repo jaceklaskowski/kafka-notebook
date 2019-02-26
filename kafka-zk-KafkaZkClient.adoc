@@ -8,10 +8,10 @@
 
 * `AclCommand`, `ConfigCommand`, `PreferredReplicaLeaderElectionCommand`, `ReassignPartitionsCommand`, `TopicCommand` commands are executed
 
-`KafkaZkClient` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers the <<metrics, metrics>> in `kafka.server:type=ZooKeeperClientMetrics` metric namespace.
+`KafkaZkClient` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
 
 [[metrics]]
-.KafkaZkClient's Metrics
+.KafkaZkClient's Performance Metrics
 [cols="1m,2",options="header",width="100%"]
 |===
 | Name
@@ -21,6 +21,8 @@
 | [[ZooKeeperRequestLatencyMs]][[latencyMetric]] Histogram that is updated when `KafkaZkClient` is requested to <<retryRequestsUntilConnected, retryRequestsUntilConnected>>
 
 |===
+
+The <<metrics, performance metrics>> are registered in *kafka.server:type=ZooKeeperClientMetrics* group.
 
 .KafkaZkClient Metrics in JConsole JMX Tool
 image::images/KafkaZkClient-metrics-JConsole.png[align="center"]

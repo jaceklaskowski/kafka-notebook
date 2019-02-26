@@ -280,6 +280,15 @@ Default: `1`
 
 Increase the default value (`1`) since it is better to over-partition a topic that leads to a better data balancing and aids consumer parallelism.
 
+| num.recovery.threads.per.data.dir
+| [[num.recovery.threads.per.data.dir]] The number of threads per log data directory for log recovery at startup and flushing at shutdown
+
+Default: `1`
+
+Must be at least `1`
+
+<<kafka-server-DynamicThreadPool.adoc#, Dynamic reconfigurable configuration>>
+
 | port
 | [[port]] The port a Kafka broker listens on
 

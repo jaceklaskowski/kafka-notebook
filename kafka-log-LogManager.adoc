@@ -5,9 +5,9 @@
 .LogManager and KafkaServer
 image::images/LogManager.png[align="center"]
 
-While being <<creating-instance, created>>, `LogManager` is given the <<logDirs, log directories>> that are configured using <<kafka-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>).
+While being <<creating-instance, created>>, `LogManager` is given the <<logDirs, log directories>> that are configured using <<kafka-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>). The log directories are immediately <<createAndValidateLogDirs, validated>> and <<loadLogs, loaded>>.
 
-`LogManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers the <<metrics, performance metrics>>.
+`LogManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
 
 [[metrics]]
 .LogManager's Performance Metrics
@@ -37,6 +37,8 @@ The <<metrics, performance metrics>> are registered in *kafka.log:type=LogManage
 .LogManager in jconsole
 image::images/LogManager-jconsole.png[align="center"]
 
+`LogManager` uses the <<kafka-properties.adoc#num.recovery.threads.per.data.dir, num.recovery.threads.per.data.dir>> dynamic configuration (default: `1`) for the number of threads per log data directory for <<loadLogs, log recovery at startup>> and <<shutdown, flushing at shutdown>>.
+
 `LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a <<kafka-server-DynamicLogConfig.adoc#logManager, DynamicLogConfig>>, a <<kafka-server-TopicConfigHandler.adoc#logManager, TopicConfigHandler>>.
 
 [[InitialTaskDelayMs]]
@@ -44,15 +46,20 @@ image::images/LogManager-jconsole.png[align="center"]
 
 [[internal-registries]]
 .LogManager's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,2",options="header",width="100%"]
+[cols="1m,3",options="header",width="100%"]
 |===
 | Name
 | Description
 
 | _liveLogDirs
-| [[_liveLogDirs]] Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentLinkedQueue.html[ConcurrentLinkedQueue] of live log directories (after <<createAndValidateLogDirs, createAndValidateLogDirs>> was executed with the <<logDirs, logDirs>> and the <<initialOfflineDirs, initialOfflineDirs>> directories).
+a| [[_liveLogDirs]] Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentLinkedQueue.html[ConcurrentLinkedQueue] of live log directories (after <<createAndValidateLogDirs, createAndValidateLogDirs>> was executed with the <<logDirs, logDirs>> and the <<initialOfflineDirs, initialOfflineDirs>> directories).
 
 Used when...FIXME
+
+| numRecoveryThreadsPerDataDir
+a| [[numRecoveryThreadsPerDataDir]] Number of recovery threads per log data directory
+
+Starts as the <<recoveryThreadsPerDataDir, recoveryThreadsPerDataDir>> and can then be <<resizeRecoveryThreadPool, dynamically changed>>.
 
 |===
 
@@ -196,7 +203,7 @@ NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, c
 * [[topicConfigs]] Topic configurations (`Map[String, LogConfig]`)
 * [[initialDefaultConfig]] Initial <<kafka-log-LogConfig.adoc#, LogConfig>>
 * [[cleanerConfig]] `CleanerConfig`
-* [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir`
+* [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir` (based on the <<kafka-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, num.recovery.threads.per.data.dir>> dynamic configuration property)
 * [[flushCheckMs]] `flushCheckMs`
 * [[flushRecoveryOffsetCheckpointMs]] `flushRecoveryOffsetCheckpointMs`
 * [[flushStartOffsetCheckpointMs]] `flushStartOffsetCheckpointMs`
@@ -346,3 +353,35 @@ truncateFullyAndStartAt(
 `truncateFullyAndStartAt`...FIXME
 
 NOTE: `truncateFullyAndStartAt` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>.
+
+=== [[resizeRecoveryThreadPool]] `resizeRecoveryThreadPool` Method
+
+[source, scala]
+----
+resizeRecoveryThreadPool(newSize: Int): Unit
+----
+
+`resizeRecoveryThreadPool` prints out the following INFO message to the logs and reconfigures the <<numRecoveryThreadsPerDataDir, numRecoveryThreadsPerDataDir>> internal registry to be the given `newSize`.
+
+```
+Resizing recovery thread pool size for each data dir from [numRecoveryThreadsPerDataDir] to [newSize]
+```
+
+NOTE: `resizeRecoveryThreadPool` is used exclusively when `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure>> (with a new value of <<kafka-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, KafkaConfig.numRecoveryThreadsPerDataDir>>).
+
+=== [[shutdown]] Shutting Down -- `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown` prints out the following INFO message to the logs:
+
+```
+Shutting down.
+```
+
+`shutdown` then...FIXME
+
+NOTE: `shutdown` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#shutdown, shutdown>>.
