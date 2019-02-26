@@ -1,6 +1,14 @@
 == [[BrokerConfigHandler]] BrokerConfigHandler
 
-`BrokerConfigHandler` is...FIXME
+`BrokerConfigHandler` is a <<kafka-server-ConfigHandler.adoc#, ConfigHandler>> that can <<processConfigChanges, process configuration changes>> for *brokers* entity type.
+
+`BrokerConfigHandler` is <<creating-instance, created>> exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>> (to create a <<kafka-server-DynamicConfigManager.adoc#, DynamicConfigManager>>).
+
+[[creating-instance]]
+`BrokerConfigHandler` takes the following to be created:
+
+* [[brokerConfig]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[quotaManagers]] `QuotaManagers`
 
 === [[processConfigChanges]] `processConfigChanges` Method
 

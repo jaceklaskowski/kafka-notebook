@@ -13,6 +13,20 @@
 
 * <<kafka-KafkaConfig.adoc#BackgroundThreadsProp, background.threads>>
 
+[TIP]
+====
+Use `kafka-configs` shell script to alter a dynamic configuration:
+
+```
+$ ./bin/kafka-configs.sh \
+  --bootstrap-server :9092 \
+  --alter \
+  --entity-type brokers \
+  --entity-name 0 \
+  --add-config num.recovery.threads.per.data.dir=2
+```
+====
+
 `DynamicThreadPool` is <<creating-instance, created>> exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#addReconfigurables, addReconfigurables>> (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>).
 
 [[creating-instance]]
