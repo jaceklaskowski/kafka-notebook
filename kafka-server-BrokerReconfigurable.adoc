@@ -45,22 +45,36 @@ Used exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-Dynam
 |===
 
 [[implementations]]
-.BrokerReconfigurables (Direct Implementations)
+.BrokerReconfigurables
 [cols="1,2",options="header",width="100%"]
 |===
 | BrokerReconfigurable
-| Description
+| Dynamic Configurations
 
 | <<kafka-server-DynamicConnectionQuota.adoc#, DynamicConnectionQuota>>
-| [[DynamicConnectionQuota]]
+a| [[DynamicConnectionQuota]]
+
+<<kafka-properties.adoc#max.connections.per.ip, max.connections.per.ip>>
+
+<<kafka-properties.adoc#max.connections.per.ip.overrides, max.connections.per.ip.overrides>>
 
 | <<kafka-server-DynamicListenerConfig.adoc#, DynamicListenerConfig>>
-| [[DynamicListenerConfig]]
+a| [[DynamicListenerConfig]]
 
 | <<kafka-server-DynamicThreadPool.adoc#, DynamicThreadPool>>
-| [[DynamicThreadPool]]
+a| [[DynamicThreadPool]]
+
+<<kafka-properties.adoc#num.io.threads, num.io.threads>>
+
+<<kafka-properties.adoc#num.network.threads, num.network.threads>>
+
+<<kafka-properties.adoc#num.replica.fetchers, num.replica.fetchers>>
+
+<<kafka-properties.adoc#num.recovery.threads.per.data.dir, num.recovery.threads.per.data.dir>>
+
+<<kafka-properties.adoc#background.threads, background.threads>>
 
 | <<kafka-log-LogCleaner.adoc#, LogCleaner>>
-| [[LogCleaner]]
+a| [[LogCleaner]]
 
 |===

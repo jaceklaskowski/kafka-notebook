@@ -100,6 +100,16 @@ Used when:
 
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#describeLogDirs, describeLogDirs>>
 
+| maxConnectionsPerIp
+a| [[maxConnectionsPerIp]][[MaxConnectionsPerIpProp]] <<kafka-properties.adoc#max.connections.per.ip, max.connections.per.ip>>
+
+Used exclusively when `SocketServer` is requested to <<kafka-network-SocketServer.adoc#startup, start up>>
+
+| maxConnectionsPerIpOverrides
+a| [[maxConnectionsPerIpOverrides]][[MaxConnectionsPerIpOverridesProp]] <<kafka-properties.adoc#max.connections.per.ip.overrides, max.connections.per.ip.overrides>>
+
+Used exclusively when `SocketServer` is requested to <<kafka-network-SocketServer.adoc#startup, start up>>
+
 | maxReservedBrokerId
 a| [[maxReservedBrokerId]] <<kafka-properties.adoc#reserved.broker.max.id, reserved.broker.max.id>>
 

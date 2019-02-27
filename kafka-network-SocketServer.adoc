@@ -217,3 +217,26 @@ shutdown(): Unit
 `shutdown`...FIXME
 
 NOTE: `shutdown` is used when...FIXME
+
+=== [[updateMaxConnectionsPerIpOverride]] `updateMaxConnectionsPerIpOverride` Method
+
+[source, scala]
+----
+updateMaxConnectionsPerIpOverride(
+  maxConnectionsPerIpOverrides: Map[String, Int]): Unit
+----
+
+`updateMaxConnectionsPerIpOverride`...FIXME
+
+NOTE: `updateMaxConnectionsPerIpOverride` is used when...FIXME
+
+=== [[updateMaxConnectionsPerIp]] `updateMaxConnectionsPerIp` Method
+
+[source, scala]
+----
+updateMaxConnectionsPerIp(maxConnectionsPerIp: Int): Unit
+----
+
+`updateMaxConnectionsPerIp`...FIXME
+
+NOTE: `updateMaxConnectionsPerIp` is used when...FIXME

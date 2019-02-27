@@ -274,6 +274,22 @@ Must be at least `1`
 
 <<kafka-server-DynamicThreadPool.adoc#, Dynamic reconfigurable configuration>>
 
+| max.connections.per.ip
+a| [[max.connections.per.ip]] The maximum number of connections allowed from each ip address.
+
+Default: `Int.MaxValue`
+
+Must be at least `0` (with `0` if there are overrides configured using <<max.connections.per.ip.overrides, max.connections.per.ip.overrides>> property)
+
+<<kafka-server-DynamicConnectionQuota.adoc#, Dynamic reconfigurable configuration>>
+
+| max.connections.per.ip.overrides
+a| [[max.connections.per.ip.overrides]] A comma-separated list of per-ip or hostname overrides to the default <<max.connections.per.ip, maximum number of connections>>, e.g. `hostName:100,127.0.0.1:200`
+
+Default: (empty)
+
+<<kafka-server-DynamicConnectionQuota.adoc#, Dynamic reconfigurable configuration>>
+
 | num.network.threads
 a| [[num.network.threads]] The number of threads that SocketServer uses for the link:kafka-network-SocketServer.adoc#numProcessorThreads[number of processors per endpoint] (for receiving requests from the network and sending responses to the network)
 

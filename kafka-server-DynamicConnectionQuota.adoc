@@ -1,3 +1,27 @@
 == [[DynamicConnectionQuota]] DynamicConnectionQuota
 
-`DynamicConnectionQuota` is...FIXME
+[[reconfigurableConfigs]]
+`DynamicConnectionQuota` is a <<kafka-server-BrokerReconfigurable.adoc#, BrokerReconfigurable>> for the following <<kafka-server-BrokerReconfigurable.adoc#reconfigurableConfigs, dynamic configurations>>:
+
+* <<kafka-server-KafkaConfig.adoc#MaxConnectionsPerIpProp, max.connections.per.ip>>
+
+* <<kafka-server-KafkaConfig.adoc#MaxConnectionsPerIpOverridesProp, max.connections.per.ip.overrides>>
+
+`DynamicConnectionQuota` is <<creating-instance, created>> exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#addReconfigurables, addReconfigurables>> (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>).
+
+[[creating-instance]]
+[[server]]
+`DynamicConnectionQuota` takes a single <<kafka-server-KafkaServer.adoc#, KafkaServer>> to be created.
+
+=== [[reconfigure]] `reconfigure` Method
+
+[source, scala]
+----
+reconfigure(oldConfig: KafkaConfig, newConfig: KafkaConfig): Unit
+----
+
+NOTE: `reconfigure` is part of the <<kafka-server-BrokerReconfigurable.adoc#reconfigure, BrokerReconfigurable Contract>> to change (_reconfigure_) the value of a Kafka dynamic configuration.
+
+`reconfigure` requests the <<server, KafkaServer>> for the <<kafka-server-KafkaServer.adoc#socketServer, SocketServer>> that is in turn requested to <<kafka-network-SocketServer.adoc#updateMaxConnectionsPerIpOverride, updateMaxConnectionsPerIpOverride>> with the new value of <<kafka-server-KafkaConfig.adoc#maxConnectionsPerIpOverrides, max.connections.per.ip.overrides>>.
+
+If the values of the current and the new <<kafka-server-KafkaConfig.adoc#maxConnectionsPerIp, max.connections.per.ip>> are different, `reconfigure` requests the <<server, KafkaServer>> for the <<kafka-server-KafkaServer.adoc#socketServer, SocketServer>> that is in turn requested to <<kafka-network-SocketServer.adoc#updateMaxConnectionsPerIp, updateMaxConnectionsPerIp>> with the new value.

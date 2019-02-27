@@ -130,7 +130,7 @@ Used when...FIXME
 | [[requestHandlerPool]] link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool]
 
 | socketServer
-| [[socketServer]] link:kafka-network-SocketServer.adoc[SocketServer]
+a| [[socketServer]] <<kafka-network-SocketServer.adoc#, SocketServer>>
 
 | transactionCoordinator
 | [[transactionCoordinator]] link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
