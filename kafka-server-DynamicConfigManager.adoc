@@ -1,14 +1,22 @@
-== [[DynamicConfigManager]] DynamicConfigManager
+== [[DynamicConfigManager]] DynamicConfigManager -- Dynamic Configuration Management
 
-`DynamicConfigManager` is...FIXME
+[[path]]
+`DynamicConfigManager` monitors (indirectly through the <<configChangeListener, ZkNodeChangeNotificationListener>>) for any child node changes under */config/changes* path in Zookeeper.
 
-`DynamicConfigManager` uses the <<ConfigChangedNotificationHandler, ConfigChangedNotificationHandler>> to <<ConfigChangedNotificationHandler-processNotification, process config change notifications>>.
+`DynamicConfigManager` uses the <<configChangeListener, ZkNodeChangeNotificationListener>> (that in turn uses the <<ConfigChangedNotificationHandler, NotificationHandler>>) to <<processNotification, process configuration change notifications>> using <<configHandlers, ConfigHandlers>>.
 
-`DynamicConfigManager` is <<creating-instance, created>> exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
+`DynamicConfigManager` is <<creating-instance, created>> and immediately <<startup, started up>> when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
+
+When <<creating-instance, created>>, `DynamicConfigManager` is given the <<configHandlers, ConfigHandlers>> to use (directly from <<kafka-server-KafkaServer.adoc#dynamicConfigHandlers, KafkaServer>>).
+
+[[SequenceNumberPrefix]]
+`DynamicConfigManager` uses the feature of Zookeeper called Sequence Nodes with *config_change* sequence number prefix.
+
+TIP: Read up on https://zookeeper.apache.org/doc/current/zookeeperProgrammers.html#Sequence+Nodes+--+Unique+Naming[Sequence Nodes] in the official documentation of Apache Zookeeper.
 
 [[internal-registries]]
 .DynamicConfigManager's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,2",options="header",width="100%"]
+[cols="1m,3",options="header",width="100%"]
 |===
 | Name
 | Description
@@ -16,7 +24,19 @@
 | adminZkClient
 a| [[adminZkClient]] <<kafka-zk-AdminZkClient.adoc#, AdminZkClient>> (for the <<zkClient, KafkaZkClient>>)
 
-Used when...FIXME
+Used when:
+
+* `ConfigChangedNotificationHandler` is requested to <<processEntityConfigChangeVersion1, processEntityConfigChangeVersion1>> and <<processEntityConfigChangeVersion2, processEntityConfigChangeVersion2>>
+
+* `DynamicConfigManager` is requested to <<startup, start up>>
+
+| configChangeListener
+a| [[configChangeListener]] <<kafka-common-ZkNodeChangeNotificationListener.adoc#, ZkNodeChangeNotificationListener>> (for the <<zkClient, KafkaZkClient>> and <<path, /config/changes>> path in Zookeeper, <<SequenceNumberPrefix, config_change>> sequence number prefix and the <<ConfigChangedNotificationHandler, ConfigChangedNotificationHandler>>)
+
+<<kafka-common-ZkNodeChangeNotificationListener.adoc#init, Initialized>> when `DynamicConfigManager` is requested to <<startup, start up>>
+
+<<kafka-common-ZkNodeChangeNotificationListener.adoc#close, Closed>> when `DynamicConfigManager` is requested to <<shutdown, shut down>>
+
 |===
 
 === [[startup]] `startup` Method
@@ -38,6 +58,8 @@ NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-s
 * [[configHandlers]] <<kafka-server-ConfigHandler.adoc#, ConfigHandlers>> by name
 * [[changeExpirationMs]] `changeExpirationMs` (default: `15 mins`)
 * [[time]] `Time`
+
+NOTE: <<changeExpirationMs, changeExpirationMs>> seems never used.
 
 `DynamicConfigManager` initializes the <<internal-registries, internal registries and counters>>.
 
@@ -77,3 +99,14 @@ processEntityConfigChangeVersion2(jsonBytes: Array[Byte], js: JsonObject): Unit
 `processEntityConfigChangeVersion2`...FIXME
 
 NOTE: `processEntityConfigChangeVersion2` is used when...FIXME
+
+=== [[shutdown]] Shutting Down -- `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown` simply requests the <<configChangeListener, ZkNodeChangeNotificationListener>> to <<kafka-common-ZkNodeChangeNotificationListener.adoc#close, close>>.
+
+NOTE: `shutdown` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#shutdown, shut down>>.

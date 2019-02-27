@@ -91,7 +91,7 @@
 
 . link:kafka-server-DelegationTokenManager.adoc[DelegationTokenManager]
 
-. link:kafka-server-DynamicConfigManager.adoc[DynamicConfigManager]
+. link:kafka-server-DynamicConfigManager.adoc[DynamicConfigManager -- Dynamic Configuration Management]
 .. link:kafka-server-ConfigHandler.adoc[ConfigHandler Contract -- Configuration Change Handlers]
 .. link:kafka-server-BrokerConfigHandler.adoc[BrokerConfigHandler]
 .. link:kafka-server-ClientIdConfigHandler.adoc[ClientIdConfigHandler]

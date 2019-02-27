@@ -43,7 +43,17 @@ Used when `KafkaServer` is requested to <<startup, startup>> and creates the <<a
 | [[credentialProvider]] `CredentialProvider`
 
 | dynamicConfigHandlers
-| [[dynamicConfigHandlers]]
+a| [[dynamicConfigHandlers]] <<kafka-server-ConfigHandler.adoc#, ConfigHandlers>> by name:
+
+* <<kafka-server-TopicConfigHandler.adoc#, TopicConfigHandler>> as *topics*
+
+* <<kafka-server-ClientIdConfigHandler.adoc#, ClientIdConfigHandler>> as *clients*
+
+* <<kafka-server-UserConfigHandler.adoc#, UserConfigHandler>> as *users*
+
+* <<kafka-server-BrokerConfigHandler.adoc#, BrokerConfigHandler>> as *brokers*
+
+Initialized when `KafkaServer` is requested to <<startup, start up>> for the only purpose of creating the <<dynamicConfigManager, DynamicConfigManager>>.
 
 | dynamicConfigManager
 | [[dynamicConfigManager]] <<kafka-server-DynamicConfigManager.adoc#, DynamicConfigManager>>
