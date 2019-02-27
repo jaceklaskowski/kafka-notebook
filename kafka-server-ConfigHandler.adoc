@@ -1,32 +1,33 @@
-== [[ConfigHandler]] ConfigHandler Contract
+== [[ConfigHandler]] ConfigHandler Contract -- Configuration Change Handlers
 
-`ConfigHandler` is the <<contract, contract>> of <<implementations, config handlers>> that <<processConfigChanges, process config change notifications>> (from <<kafka-server-DynamicConfigManager.adoc#, DynamicConfigManager>>).
+`ConfigHandler` is the <<contract, contract>> of <<implementations, config change handlers>> that can <<processConfigChanges, process configuration change notifications>> (from <<kafka-server-DynamicConfigManager.adoc#, DynamicConfigManager>>).
 
 [[contract]]
-[source, scala]
-----
-package kafka.server
-
-trait ConfigHandler {
-  def processConfigChanges(entityName: String, value: Properties)
-}
-----
-
 .ConfigHandler Contract
-[cols="1m,2",options="header",width="100%"]
+[cols="1m,3",options="header",width="100%"]
 |===
-| Property
+| Method
 | Description
 
 | processConfigChanges
-| [[processConfigChanges]]
+a| [[processConfigChanges]]
 
-Used when `DynamicConfigManager` is requested to <<kafka-server-DynamicConfigManager.adoc#startup, start up>>,  <<kafka-server-DynamicConfigManager.adoc#processEntityConfigChangeVersion1, processEntityConfigChangeVersion1>>, <<kafka-server-DynamicConfigManager.adoc#processEntityConfigChangeVersion2, processEntityConfigChangeVersion2>>
+[source, scala]
+----
+processConfigChanges(entityName: String, value: Properties)
+----
+
+Used when:
+
+* `ConfigChangedNotificationHandler` is requested to `processEntityConfigChangeVersion1` and `processEntityConfigChangeVersion2` (that is a notification handler registered when `DynamicConfigManager` is <<kafka-server-DynamicConfigManager.adoc#configChangeListener, created>>)
+
+* `DynamicConfigManager` is requested to <<kafka-server-DynamicConfigManager.adoc#startup, start up>>
+
 |===
 
 [[implementations]]
 .ConfigHandlers
-[cols="1,2",options="header",width="100%"]
+[cols="1,3",options="header",width="100%"]
 |===
 | ConfigHandler
 | Description
@@ -42,4 +43,5 @@ Used when `DynamicConfigManager` is requested to <<kafka-server-DynamicConfigMan
 
 | <<kafka-server-UserConfigHandler.adoc#, UserConfigHandler>>
 | [[UserConfigHandler]]
+
 |===
