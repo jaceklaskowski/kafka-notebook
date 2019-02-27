@@ -1,14 +1,14 @@
 == [[DynamicBrokerConfig]] DynamicBrokerConfig
 
-`DynamicBrokerConfig` is <<creating-instance, created>> exclusively when `KafkaConfig` is <<kafka-KafkaConfig.adoc#dynamicConfig, created>>.
+`DynamicBrokerConfig` is <<creating-instance, created>> exclusively when `KafkaConfig` is <<kafka-server-KafkaConfig.adoc#dynamicConfig, created>>.
 
-DynamicBrokerConfig` is used to create a <<kafka-KafkaConfig.adoc#dynamicConfigOverride, KafkaConfig>>.
+`DynamicBrokerConfig` is used to create a <<kafka-server-KafkaConfig.adoc#dynamicConfigOverride, KafkaConfig>>.
 
-NOTE: `DynamicBrokerConfig` is <<creating-instance, created>> when <<kafka-KafkaConfig.adoc#dynamicConfig, KafkaConfig>> is, but the reverse is also true (!) Isn't it a dependency cycle? Not really since `KafkaConfig` will create a <<kafka-KafkaConfig.adoc#dynamicConfig, DynamicBrokerConfig>> unless one is provided.
+NOTE: `DynamicBrokerConfig` is <<creating-instance, created>> when <<kafka-server-KafkaConfig.adoc#dynamicConfig, KafkaConfig>> is, but the reverse is also true (!) Isn't it a dependency cycle? Not really since `KafkaConfig` will create a <<kafka-server-KafkaConfig.adoc#dynamicConfig, DynamicBrokerConfig>> unless one is provided.
 
 [[kafkaConfig]]
 [[creating-instance]]
-`DynamicBrokerConfig` takes a single <<kafka-KafkaConfig.adoc#, KafkaConfig>> when created.
+`DynamicBrokerConfig` takes a single <<kafka-server-KafkaConfig.adoc#, KafkaConfig>> when created.
 
 [[internal-registries]]
 .DynamicBrokerConfig's Internal Properties (e.g. Registries, Counters and Flags)
@@ -27,11 +27,23 @@ All removed in <<clear, clear>>
 Used in <<processReconfiguration, processReconfiguration>>
 
 | currentConfig
-| [[currentConfig]] Current <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+a| [[currentConfig]] Current <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 
 Initialized with the input <<kafkaConfig, KafkaConfig>>.
 
 Used when...FIXME
+
+| dynamicDefaultConfigs
+a| [[dynamicDefaultConfigs]] Dynamic configurations
+
+Cleared and immediately updated in <<updateDefaultConfig, updateDefaultConfig>>
+
+Used in <<validatedKafkaProps, validatedKafkaProps>> and <<updateCurrentConfig, updateCurrentConfig>>
+
+Cleared when `DynamicBrokerConfig` is requested to <<clear, clear>>
+
+Available using <<currentDynamicDefaultConfigs, currentDynamicDefaultConfigs>>
+
 |===
 
 [[logging]]
@@ -90,9 +102,9 @@ NOTE: `updateCurrentConfig` is used when `DynamicBrokerConfig` is requested to <
 currentDynamicDefaultConfigs: Map[String, String]
 ----
 
-`currentDynamicDefaultConfigs`...FIXME
+`currentDynamicDefaultConfigs` simply clones the <<dynamicDefaultConfigs, dynamicDefaultConfigs>>.
 
-NOTE: `currentDynamicDefaultConfigs` is used when...FIXME
+NOTE: `currentDynamicDefaultConfigs` is used when `AdminManager` is requested to <<kafka-server-AdminManager.adoc#configSynonyms, configSynonyms>> and <<kafka-server-AdminManager.adoc#describeConfigs, describeConfigs>>.
 
 === [[initialize]] Initializing (Fetching Broker Configuration From Zookeeper) -- `initialize` Method
 
@@ -101,7 +113,7 @@ NOTE: `currentDynamicDefaultConfigs` is used when...FIXME
 initialize(zkClient: KafkaZkClient): Unit
 ----
 
-`initialize` creates a new <<kafka-KafkaConfig.adoc#creating-instance, KafkaConfig>> (with the <<kafka-KafkaConfig.adoc#props, properties>> of the initial <<kafkaConfig, KafkaConfig>>) that becomes the <<currentConfig, currentConfig>>.
+`initialize` creates a new <<kafka-server-KafkaConfig.adoc#creating-instance, KafkaConfig>> (with the <<kafka-server-KafkaConfig.adoc#props, properties>> of the initial <<kafkaConfig, KafkaConfig>>) that becomes the <<currentConfig, currentConfig>>.
 
 `initialize` creates a `AdminZkClient` (with the input <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>).
 
@@ -175,9 +187,9 @@ Internally, `addReconfigurables` creates a <<kafka-server-DynamicThreadPool.adoc
 
 `addReconfigurables` creates a <<kafka-server-DynamicLogConfig.adoc#, DynamicThreadPool>> with the <<kafka-server-KafkaServer.adoc#logManager, LogManager>> and the input <<kafka-server-KafkaServer.adoc#, KafkaServer>>, and <<addReconfigurable, addReconfigurable>>.
 
-`addReconfigurables` creates a <<kafka-server-DynamicMetricsReporters.adoc#, DynamicMetricsReporters>> for the <<kafka-KafkaConfig.adoc#brokerId, broker>> and <<addReconfigurable, addReconfigurable>>.
+`addReconfigurables` creates a <<kafka-server-DynamicMetricsReporters.adoc#, DynamicMetricsReporters>> for the <<kafka-server-KafkaConfig.adoc#brokerId, broker>> and <<addReconfigurable, addReconfigurable>>.
 
-`addReconfigurables` creates a <<kafka-server-DynamicClientQuotaCallback.adoc#, DynamicClientQuotaCallback>> for the <<kafka-KafkaConfig.adoc#brokerId, broker>> and <<addReconfigurable, addReconfigurable>>.
+`addReconfigurables` creates a <<kafka-server-DynamicClientQuotaCallback.adoc#, DynamicClientQuotaCallback>> for the <<kafka-server-KafkaConfig.adoc#brokerId, broker>> and <<addReconfigurable, addReconfigurable>>.
 
 `addReconfigurables` creates a <<kafka-server-DynamicListenerConfig.adoc#, DynamicListenerConfig>> with the input <<kafka-server-KafkaServer.adoc#, KafkaServer>> and <<addBrokerReconfigurable, addBrokerReconfigurable>>.
 
@@ -267,4 +279,17 @@ clear(): Unit
 
 `clear`...FIXME
 
-NOTE: `clear` is used when...FIXME
+NOTE: `clear` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#shutdown, shut down>>.
+
+=== [[validatedKafkaProps]] `validatedKafkaProps` Method
+
+[source, scala]
+----
+validatedKafkaProps(
+  propsOverride: Properties,
+  perBrokerConfig: Boolean): Map[String, String]
+----
+
+`validatedKafkaProps`...FIXME
+
+NOTE: `validatedKafkaProps` is used when...FIXME

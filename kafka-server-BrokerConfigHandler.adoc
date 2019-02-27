@@ -7,16 +7,32 @@
 [[creating-instance]]
 `BrokerConfigHandler` takes the following to be created:
 
-* [[brokerConfig]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
-* [[quotaManagers]] `QuotaManagers`
+* [[brokerConfig]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
+* [[quotaManagers]] <<kafka-server-QuotaManagers.adoc#, QuotaManagers>>
 
-=== [[processConfigChanges]] `processConfigChanges` Method
+When requested to <<processConfigChanges, process configuration changes>> (for all brokers or the current one), `BrokerConfigHandler` simply propagates the changes to the <<kafka-server-KafkaConfig.adoc#dynamicConfig, DynamicBrokerConfig>> (of the <<brokerConfig, KafkaConfig>>).
+
+=== [[processConfigChanges]] Processing Configuration Changes -- `processConfigChanges` Method
 
 [source, scala]
 ----
 processConfigChanges(brokerId: String, properties: Properties): Unit
 ----
 
-NOTE: `processConfigChanges` is part of the <<kafka-server-ConfigHandler.adoc#processConfigChanges, ConfigHandler Contract>> to...FIXME.
+NOTE: `processConfigChanges` is part of the <<kafka-server-ConfigHandler.adoc#processConfigChanges, ConfigHandler Contract>> to process configuration changes.
 
-`processConfigChanges`...FIXME
+`processConfigChanges` branches off per the given `brokerId`.
+
+==== All Brokers
+
+For changes to all brokers (i.e. `brokerId` is *<default>*), `processConfigChanges` requests the <<brokerConfig, KafkaConfig>> for the <<kafka-server-KafkaConfig.adoc#dynamicConfig, DynamicBrokerConfig>> that is in turn requested to <<kafka-server-DynamicBrokerConfig.adoc#updateDefaultConfig, updateDefaultConfig>> (with the `Properties`).
+
+==== Current Broker
+
+For changes to the current broker (i.e. `brokerId` is exactly <<kafka-server-KafkaConfig.adoc#brokerId, brokerId>>),  `processConfigChanges` requests the <<brokerConfig, KafkaConfig>> for the <<kafka-server-KafkaConfig.adoc#dynamicConfig, DynamicBrokerConfig>> that is in turn requested to <<kafka-server-DynamicBrokerConfig.adoc#updateBrokerConfig, updateBrokerConfig>> (with the `brokerId` and the `Properties`).
+
+`processConfigChanges` requests the <<quotaManagers, QuotaManagers>> for the <<kafka-server-QuotaManagers.adoc#leader, leader ReplicationQuotaManager>> that is in turn requested to <<kafka-server-ReplicationQuotaManager.adoc#updateQuota, updateQuota>>.
+
+`processConfigChanges` requests the <<quotaManagers, QuotaManagers>> for the <<kafka-server-QuotaManagers.adoc#follower, follower ReplicationQuotaManager>> that is in turn requested to <<kafka-server-ReplicationQuotaManager.adoc#updateQuota, updateQuota>>.
+
+`processConfigChanges` requests the <<quotaManagers, QuotaManagers>> for the <<kafka-server-QuotaManagers.adoc#alterLogDirs, alterLogDirs ReplicationQuotaManager>> that is in turn requested to <<kafka-server-ReplicationQuotaManager.adoc#updateQuota, updateQuota>>.

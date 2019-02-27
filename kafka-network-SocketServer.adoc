@@ -8,7 +8,7 @@
 image::images/SocketServer-startup.png[align="center"]
 
 [[maxQueuedRequests]]
-`SocketServer` uses <<kafka-KafkaConfig.adoc#queuedMaxRequests, queued.max.requests>> configuration property for...FIXME
+`SocketServer` uses <<kafka-server-KafkaConfig.adoc#queuedMaxRequests, queued.max.requests>> configuration property for...FIXME
 
 [[metrics]]
 .SocketServer's Metrics (in kafka.network group)
@@ -41,7 +41,7 @@ image::images/SocketServer-startup.png[align="center"]
 | [[connectionQuotas]] `ConnectionQuotas`
 
 | endpoints
-| [[endpoints]] `EndPoints` (aka _listeners_) per name (as configured using link:kafka-KafkaConfig.adoc#listeners[listeners] Kafka property)
+| [[endpoints]] `EndPoints` (aka _listeners_) per name (as configured using link:kafka-server-KafkaConfig.adoc#listeners[listeners] Kafka property)
 
 | maxConnectionsPerIp
 | [[maxConnectionsPerIp]]
@@ -53,7 +53,7 @@ image::images/SocketServer-startup.png[align="center"]
 | [[memoryPool]] `MemoryPool`
 
 | numProcessorThreads
-| [[numProcessorThreads]] The number of processors per endpoint (as configured using link:kafka-KafkaConfig.adoc#numNetworkThreads[num.network.threads] Kafka property)
+| [[numProcessorThreads]] The number of processors per endpoint (as configured using link:kafka-server-KafkaConfig.adoc#numNetworkThreads[num.network.threads] Kafka property)
 
 | processors
 | [[processors]] <<kafka-network-SocketServer-Processor.adoc#, Network processor threads>> per ID (initially <<totalProcessorThreads, totalProcessorThreads>>)
@@ -90,11 +90,11 @@ newProcessor(
 
 `newProcessor` simply creates a new <<kafka-network-SocketServer-Processor.adoc#, Processor>> with the <<requestChannel, RequestChannel>> and the following configuration properties:
 
-* <<kafka-KafkaConfig.adoc#socketRequestMaxBytes, socket.request.max.bytes>>
+* <<kafka-server-KafkaConfig.adoc#socketRequestMaxBytes, socket.request.max.bytes>>
 
-* <<kafka-KafkaConfig.adoc#connectionsMaxIdleMs, connections.max.idle.ms>>
+* <<kafka-server-KafkaConfig.adoc#connectionsMaxIdleMs, connections.max.idle.ms>>
 
-* <<kafka-KafkaConfig.adoc#failedAuthenticationDelayMs, connection.failed.authentication.delay.ms>>
+* <<kafka-server-KafkaConfig.adoc#failedAuthenticationDelayMs, connection.failed.authentication.delay.ms>>
 
 NOTE: `newProcessor` is used exclusively when `SocketServer` is requested to <<addProcessors, addProcessors>>.
 
@@ -131,7 +131,7 @@ NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-s
 
 `SocketServer` takes the following when created:
 
-* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[time]] `Time`
 * [[credentialProvider]] `CredentialProvider`

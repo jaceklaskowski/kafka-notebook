@@ -304,11 +304,11 @@ NOTE: `handleControlledShutdownRequest` is used when...FIXME
 * [[controller]] <<kafka-controller-KafkaController.adoc#, KafkaController>>
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[brokerId]] Broker ID
-* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[authorizer]] <<kafka-Authorizer.adoc#, Authorizer>>
-* [[quotas]] `QuotaManagers`
+* [[quotas]] <<kafka-server-QuotaManagers.adoc#, QuotaManagers>>
 * [[fetchManager]] `FetchManager`
 * [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
 * [[clusterId]] Cluster ID

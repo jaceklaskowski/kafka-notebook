@@ -64,7 +64,7 @@ NOTE: `addBroker` is used exclusively when <<kafka-controller-KafkaController.ad
 `ControllerChannelManager` takes the following when created:
 
 * [[controllerContext]] `ControllerContext`
-* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[time]] `Time`
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[stateChangeLogger]] `StateChangeLogger`

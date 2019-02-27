@@ -1,6 +1,6 @@
 == [[KafkaConfig]] KafkaConfig
 
-`KafkaConfig` is the configuration of a Kafka server and the services.
+`KafkaConfig` is the configuration of a Kafka broker and the services.
 
 `KafkaConfig` is <<creating-instance, created>> when:
 
@@ -40,7 +40,7 @@ Used exclusively when `KafkaController` is requested to <<kafka-controller-Kafka
 a| [[backgroundThreads]][[BackgroundThreadsProp]] <<kafka-properties.adoc#background.threads, background.threads>>
 
 | brokerId
-| [[brokerId]] <<kafka-properties.adoc#broker.id, broker.id>>
+a| [[brokerId]] <<kafka-properties.adoc#broker.id, broker.id>>
 
 | brokerIdGenerationEnable
 a| [[brokerIdGenerationEnable]] <<kafka-properties.adoc#broker.id.generation.enable, broker.id.generation.enable>>
@@ -192,13 +192,13 @@ Used when:
 
 [[internal-registries]]
 .KafkaConfig's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,2",options="header",width="100%"]
+[cols="1m,3",options="header",width="100%"]
 |===
 | Name
 | Description
 
 | dynamicConfig
-a| [[dynamicConfig]] <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>> (that could be <<dynamicConfigOverride, provided>> or is going to be <<kafka-server-DynamicBrokerConfig.adoc#creating-instance, created from scratch>>)
+a| [[dynamicConfig]] <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>> (that could be <<dynamicConfigOverride, provided>> or will be <<kafka-server-DynamicBrokerConfig.adoc#creating-instance, created from scratch>>)
 
 Used when:
 
@@ -213,6 +213,7 @@ Used when:
 * `KafkaConfig` is requested to <<addReconfigurable, addReconfigurable>>
 
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>
+
 |===
 
 === [[getListeners]] Creating Listeners -- `getListeners` Internal Method

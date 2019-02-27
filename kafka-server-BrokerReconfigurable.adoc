@@ -51,6 +51,9 @@ Used exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-Dynam
 | BrokerReconfigurable
 | Description
 
+| <<kafka-server-DynamicConnectionQuota.adoc#, DynamicConnectionQuota>>
+| [[DynamicConnectionQuota]]
+
 | <<kafka-server-DynamicListenerConfig.adoc#, DynamicListenerConfig>>
 | [[DynamicListenerConfig]]
 

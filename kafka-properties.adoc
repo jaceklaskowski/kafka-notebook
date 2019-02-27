@@ -18,7 +18,7 @@ Unlike <<listeners, listeners>> it is invalid to advertise the `0.0.0.0` non-rou
 
 * Use `KafkaConfig.AdvertisedListenersProp` to reference the property
 
-* Use <<kafka-KafkaConfig.adoc#advertisedListeners, KafkaConfig.advertisedListeners>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#advertisedListeners, KafkaConfig.advertisedListeners>> to access the current value
 
 | authorizer.class.name
 | [[authorizer.class.name]]
@@ -33,7 +33,7 @@ Default: `true`
 
 * Use `KafkaConfig.AutoCreateTopicsEnableProp` to reference the property
 
-* Use <<kafka-KafkaConfig.adoc#autoCreateTopicsEnable, KafkaConfig.autoCreateTopicsEnable>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#autoCreateTopicsEnable, KafkaConfig.autoCreateTopicsEnable>> to access the current value
 
 | auto.leader.rebalance.enable
 a| [[auto.leader.rebalance.enable]] Enables auto leader balancing
@@ -44,7 +44,7 @@ A <<kafka-controller-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, backg
 
 * Use `KafkaConfig.AutoLeaderRebalanceEnableProp` to reference the property
 
-* Use <<kafka-KafkaConfig.adoc#autoLeaderRebalanceEnable, KafkaConfig.autoLeaderRebalanceEnable>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#autoLeaderRebalanceEnable, KafkaConfig.autoLeaderRebalanceEnable>> to access the current value
 
 | auto.offset.reset
 a| [[auto.offset.reset]] Reset policy -- what to do when there is no initial offset in Kafka or if the current offset does not exist any more on the server (e.g. because that data has been deleted):
@@ -75,7 +75,7 @@ Default: `(empty)`
 
 If unset, a unique broker id will be generated. To avoid conflicts between zookeeper generated broker id's and user configured broker id's, generated broker IDs start from <<reserved.broker.max.id, reserved.broker.max.id>> + 1.
 
-Use <<kafka-KafkaConfig.adoc#brokerId, KafkaConfig.brokerId>> to access the current value.
+Use <<kafka-server-KafkaConfig.adoc#brokerId, KafkaConfig.brokerId>> to access the current value.
 
 | broker.id.generation.enable
 a| [[broker.id.generation.enable]] Enables *automatic broker id generation* of a Kafka broker
@@ -86,7 +86,7 @@ When enabled (`true`) the value configured for <<reserved.broker.max.id, reserve
 
 * Use `KafkaConfig.BrokerIdGenerationEnableProp` to reference the property
 
-* Use <<kafka-KafkaConfig.adoc#brokerIdGenerationEnable, KafkaConfig.brokerIdGenerationEnable>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#brokerIdGenerationEnable, KafkaConfig.brokerIdGenerationEnable>> to access the current value
 
 | broker.rack
 | [[broker.rack]]
@@ -190,7 +190,7 @@ Default: `300`
 
 * Use `KafkaConfig.LeaderImbalanceCheckIntervalSecondsProp` to reference the property
 
-* Use <<kafka-KafkaConfig.adoc#leaderImbalanceCheckIntervalSeconds, KafkaConfig.leaderImbalanceCheckIntervalSeconds>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#leaderImbalanceCheckIntervalSeconds, KafkaConfig.leaderImbalanceCheckIntervalSeconds>> to access the current value
 
 | listeners
 a| [[listeners]] Comma-separated list of URIs and listener names that a Kafka broker will listen on
@@ -209,7 +209,7 @@ a| [[log.dirs]] The directories in which the log data is kept
 
 Default: <<log.dir, log.dir>>
 
-Use <<kafka-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> to access the current value.
+Use <<kafka-server-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> to access the current value.
 
 | max.block.ms
 | [[max.block.ms]]
@@ -344,7 +344,7 @@ Default: `1000`
 
 * Use `KafkaConfig.MaxReservedBrokerIdProp` to reference the property
 
-* Use <<kafka-KafkaConfig.adoc#maxReservedBrokerId, KafkaConfig.maxReservedBrokerId>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#maxReservedBrokerId, KafkaConfig.maxReservedBrokerId>> to access the current value
 
 | link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms]
 | [[retry.backoff.ms]] Time to wait before attempting to retry a failed request to a given topic partition. This avoids repeatedly sending requests in a tight loop under some failure scenarios.
@@ -378,7 +378,7 @@ Default: `15 minutes`
 
 Must be at least `1`
 
-* Use <<kafka-KafkaConfig.adoc#transactionMaxTimeoutMs, KafkaConfig.transactionMaxTimeoutMs>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#transactionMaxTimeoutMs, KafkaConfig.transactionMaxTimeoutMs>> to access the current value
 
 | unclean.leader.election.enable
 a| [[unclean.leader.election.enable]] Controls whether to enable replicas not in the ISR set to be elected as leader as the last resort, even though doing so may result in data loss.
@@ -401,7 +401,7 @@ It is recommended to include all the hosts in a Zookeeper ensemble (cluster)
 
 * Available as `KafkaConfig.ZkConnectProp`
 
-* Use <<kafka-KafkaConfig.adoc#zkConnect, KafkaConfig.zkConnect>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#zkConnect, KafkaConfig.zkConnect>> to access the current value
 
 | zookeeper.connection.timeout.ms
 a| [[zookeeper.connection.timeout.ms]] The max time that the client waits to establish a connection to zookeeper
@@ -410,7 +410,7 @@ Default: <<zookeeper.session.timeout.ms, zookeeper.session.timeout.ms>>
 
 * Available as `KafkaConfig.ZkConnectionTimeoutMsProp`
 
-* Use <<kafka-KafkaConfig.adoc#zkConnectionTimeoutMs, KafkaConfig.zkConnectionTimeoutMs>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#zkConnectionTimeoutMs, KafkaConfig.zkConnectionTimeoutMs>> to access the current value
 
 | zookeeper.max.in.flight.requests
 a| [[zookeeper.max.in.flight.requests]] The maximum number of unacknowledged requests the client will send to Zookeeper before blocking. Has to be at least 1
@@ -419,7 +419,7 @@ Default: `10`
 
 * Available as `KafkaConfig.ZkMaxInFlightRequestsProp`
 
-* Use <<kafka-KafkaConfig.adoc#zkMaxInFlightRequests, KafkaConfig.zkMaxInFlightRequests>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#zkMaxInFlightRequests, KafkaConfig.zkMaxInFlightRequests>> to access the current value
 
 | zookeeper.session.timeout.ms
 a| [[zookeeper.session.timeout.ms]] Zookeeper session timeout
@@ -428,7 +428,7 @@ Default: `6000`
 
 * Available as `KafkaConfig.ZkSessionTimeoutMsProp`
 
-* Use <<kafka-KafkaConfig.adoc#zkSessionTimeoutMs, KafkaConfig.zkSessionTimeoutMs>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#zkSessionTimeoutMs, KafkaConfig.zkSessionTimeoutMs>> to access the current value
 
 | zookeeper.set.acl
 a| [[zookeeper.set.acl]] Enables secure ACLs
@@ -437,5 +437,5 @@ Default: `false`
 
 * Available as `KafkaConfig.ZkEnableSecureAclsProp`
 
-* Use <<kafka-KafkaConfig.adoc#zkEnableSecureAcls, KafkaConfig.zkEnableSecureAcls>> to access the current value
+* Use <<kafka-server-KafkaConfig.adoc#zkEnableSecureAcls, KafkaConfig.zkEnableSecureAcls>> to access the current value
 |===

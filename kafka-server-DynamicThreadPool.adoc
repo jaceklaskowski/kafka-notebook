@@ -3,15 +3,15 @@
 [[reconfigurableConfigs]]
 `DynamicThreadPool` is a <<kafka-server-BrokerReconfigurable.adoc#, BrokerReconfigurable>> for the following <<kafka-server-BrokerReconfigurable.adoc#reconfigurableConfigs, dynamic configurations>>:
 
-* <<kafka-KafkaConfig.adoc#NumIoThreadsProp, num.io.threads>>
+* <<kafka-server-KafkaConfig.adoc#NumIoThreadsProp, num.io.threads>>
 
-* <<kafka-KafkaConfig.adoc#NumNetworkThreadsProp, num.network.threads>>
+* <<kafka-server-KafkaConfig.adoc#NumNetworkThreadsProp, num.network.threads>>
 
-* <<kafka-KafkaConfig.adoc#NumReplicaFetchersProp, num.replica.fetchers>>
+* <<kafka-server-KafkaConfig.adoc#NumReplicaFetchersProp, num.replica.fetchers>>
 
-* <<kafka-KafkaConfig.adoc#NumRecoveryThreadsPerDataDirProp, num.recovery.threads.per.data.dir>>
+* <<kafka-server-KafkaConfig.adoc#NumRecoveryThreadsPerDataDirProp, num.recovery.threads.per.data.dir>>
 
-* <<kafka-KafkaConfig.adoc#BackgroundThreadsProp, background.threads>>
+* <<kafka-server-KafkaConfig.adoc#BackgroundThreadsProp, background.threads>>
 
 [TIP]
 ====

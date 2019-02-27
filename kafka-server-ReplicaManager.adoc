@@ -179,14 +179,14 @@ NOTE: `maybePropagateIsrChanges` is used exclusively when <<kafka-server-schedul
 
 `ReplicaManager` takes the following when created:
 
-* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[time]] `Time`
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
 * [[logManager]] <<kafka-log-LogManager.adoc#, LogManager>>
 * [[isShuttingDown]] `isShuttingDown` flag
-* [[quotaManagers]] `QuotaManagers`
+* [[quotaManagers]] <<kafka-server-QuotaManagers.adoc#, QuotaManagers>>
 * [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
 * [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
 * [[logDirFailureChannel]] `LogDirFailureChannel`
@@ -228,7 +228,7 @@ maybeShrinkIsr(): Unit
 TRACE Evaluating ISR list of partitions to see which replicas can be removed from the ISR
 ```
 
-`maybeShrinkIsr` requests the partitions (from <<allPartitions, allPartitions>> pool that are not <<OfflinePartition, offline partitions>>) to link:kafka-cluster-Partition.adoc#maybeShrinkIsr[maybeShrinkIsr] (with link:kafka-KafkaConfig.adoc#replicaLagTimeMaxMs[replicaLagTimeMaxMs] property).
+`maybeShrinkIsr` requests the partitions (from <<allPartitions, allPartitions>> pool that are not <<OfflinePartition, offline partitions>>) to link:kafka-cluster-Partition.adoc#maybeShrinkIsr[maybeShrinkIsr] (with link:kafka-server-KafkaConfig.adoc#replicaLagTimeMaxMs[replicaLagTimeMaxMs] property).
 
 NOTE: `maybeShrinkIsr` is used exclusively to schedule <<kafka-server-scheduled-tasks.adoc#isr-expiration, isr-expiration>> recurring task when `ReplicaManager` <<startup, starts up>>.
 

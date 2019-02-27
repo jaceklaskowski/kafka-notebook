@@ -84,11 +84,6 @@
 . link:kafka-server-AdminManager.adoc[AdminManager]
 . link:kafka-Authorizer.adoc[Authorizer]
 
-. link:kafka-server-DynamicBrokerConfig.adoc[DynamicBrokerConfig]
-. link:kafka-server-DynamicLogConfig.adoc[DynamicLogConfig]
-. link:kafka-server-DynamicMetricsReporters.adoc[DynamicMetricsReporters]
-. link:kafka-server-DynamicClientQuotaCallback.adoc[DynamicClientQuotaCallback]
-
 . link:kafka-server-DelegationTokenManager.adoc[DelegationTokenManager]
 
 . link:kafka-server-DynamicConfigManager.adoc[DynamicConfigManager -- Dynamic Configuration Management]
@@ -98,9 +93,14 @@
 .. link:kafka-server-TopicConfigHandler.adoc[TopicConfigHandler]
 .. link:kafka-server-UserConfigHandler.adoc[UserConfigHandler]
 
-. link:kafka-server-BrokerReconfigurable.adoc[BrokerReconfigurable Contract -- Reconfigurable Broker Services]
-.. link:kafka-server-DynamicThreadPool.adoc[DynamicThreadPool]
-.. link:kafka-server-DynamicListenerConfig.adoc[DynamicListenerConfig]
+. link:kafka-server-DynamicBrokerConfig.adoc[DynamicBrokerConfig]
+.. link:kafka-server-BrokerReconfigurable.adoc[BrokerReconfigurable Contract -- Reconfigurable Broker Services]
+... link:kafka-server-DynamicConnectionQuota.adoc[DynamicConnectionQuota]
+... link:kafka-server-DynamicListenerConfig.adoc[DynamicListenerConfig]
+... link:kafka-server-DynamicThreadPool.adoc[DynamicThreadPool]
+.. link:kafka-server-DynamicClientQuotaCallback.adoc[DynamicClientQuotaCallback]
+.. link:kafka-server-DynamicLogConfig.adoc[DynamicLogConfig]
+.. link:kafka-server-DynamicMetricsReporters.adoc[DynamicMetricsReporters]
 
 . link:kafka-coordinator-group-GroupCoordinator.adoc[GroupCoordinator]
 .. link:kafka-coordinator-group-GroupMetadataManager.adoc[GroupMetadataManager]
@@ -114,7 +114,8 @@
 . link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
 . link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer over KafkaServer]
 . link:kafka-server-KafkaServer.adoc[KafkaServer -- Kafka Broker]
-. link:kafka-KafkaConfig.adoc[KafkaConfig]
+
+. link:kafka-server-KafkaConfig.adoc[KafkaConfig]
 
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
@@ -138,7 +139,7 @@
 .. link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
 ... link:kafka-AbstractFetcherThread.adoc[AbstractFetcherThread]
 ... link:kafka-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend]
-.. link:kafka-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
+.. link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 .. link:kafka-ReplicationUtils.adoc[ReplicationUtils]
 .. link:kafka-server-ReplicaManager-LogDirFailureHandler.adoc[LogDirFailureHandler]
 
@@ -151,11 +152,12 @@
 . link:kafka-network-RequestChannel.adoc[RequestChannel]
 .. link:kafka-network-RequestChannel-Request.adoc[RequestChannel.Request]
 
-
 . link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
 .. link:kafka-TransactionMarkerChannelManager.adoc[TransactionMarkerChannelManager]
 .. link:kafka-InterBrokerSendThread.adoc[InterBrokerSendThread]
 . link:kafka-TransactionStateManager.adoc[TransactionStateManager]
+
+. link:kafka-server-QuotaManagers.adoc[QuotaManagers]
 
 . link:kafka-ZkUtils.adoc[ZkUtils]
 . link:kafka-ZKRebalancerListener.adoc[ZKRebalancerListener]

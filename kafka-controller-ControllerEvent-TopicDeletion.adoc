@@ -36,11 +36,11 @@ Ignoring request to delete non-existing topics [nonExistentTopics]
 ```
 
 [[deleteTopicEnable]]
-`process` branches off per link:kafka-KafkaConfig.adoc#deleteTopicEnable[delete.topic.enable] Kafka property.
+`process` branches off per link:kafka-server-KafkaConfig.adoc#deleteTopicEnable[delete.topic.enable] Kafka property.
 
 ==== [[process-deleteTopicEnable-enabled]] `process` with `delete.topic.enable` Enabled
 
-With link:kafka-KafkaConfig.adoc#deleteTopicEnable[delete.topic.enable] enabled (i.e. `true`), `process` prints out the following INFO message to the logs:
+With link:kafka-server-KafkaConfig.adoc#deleteTopicEnable[delete.topic.enable] enabled (i.e. `true`), `process` prints out the following INFO message to the logs:
 
 ```
 Starting topic deletion for topics [topicsToBeDeleted]
@@ -53,7 +53,7 @@ Starting topic deletion for topics [topicsToBeDeleted]
 
 ==== [[process-deleteTopicEnable-disabled]] `process` with `delete.topic.enable` Disabled
 
-With link:kafka-KafkaConfig.adoc#deleteTopicEnable[delete.topic.enable] disabled (i.e. `false`), `process` prints out the following INFO message to the logs (for every topic):
+With link:kafka-server-KafkaConfig.adoc#deleteTopicEnable[delete.topic.enable] disabled (i.e. `false`), `process` prints out the following INFO message to the logs (for every topic):
 
 ```
 Removing /admin/delete_topics/[topicName] since delete topic is disabled

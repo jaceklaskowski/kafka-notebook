@@ -35,7 +35,7 @@ Used when...FIXME
 `ReplicaFetcherBlockingSend` takes the following when created:
 
 * [[sourceBroker]] `BrokerEndPoint`
-* [[brokerConfig]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[brokerConfig]] link:kafka-server-KafkaConfig.adoc[KafkaConfig]
 * [[metrics]] `Metrics`
 * [[time]] `Time`
 * [[fetcherId]] Fetcher ID

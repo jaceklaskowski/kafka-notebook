@@ -13,7 +13,7 @@
 
 `TransactionMarkerChannelManager` takes the following to be created:
 
-* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
 * [[networkClient]] <<kafka-clients-NetworkClient.adoc#, NetworkClient>>
 * [[txnStateManager]] <<kafka-TransactionStateManager.adoc#, TransactionStateManager>>

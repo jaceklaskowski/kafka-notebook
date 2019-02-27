@@ -136,7 +136,7 @@ Used when...FIXME
 | [[transactionCoordinator]] link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
 
 | quotaManagers
-| [[quotaManagers]] `QuotaManagers`
+a| [[quotaManagers]] <<kafka-server-QuotaManagers.adoc#, QuotaManagers>>
 
 | shutdownLatch
 | [[shutdownLatch]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/CountDownLatch.html[java.util.concurrent.CountDownLatch]
@@ -164,7 +164,7 @@ NOTE: `getOrGenerateClusterId` is used when...FIXME
 
 `KafkaServer` takes the following when created:
 
-* [[config]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[config]] link:kafka-server-KafkaConfig.adoc[KafkaConfig]
 * [[time]] `Time` (defaults to `Time.SYSTEM`)
 * [[threadNamePrefix]] Optional thread name prefix
 * [[kafkaMetricsReporters]] A collection of link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporters] (defaults to no reporters)
@@ -208,7 +208,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 `startup` creates and configures metrics.
 
-1. Requests <<config, KafkaConfig>> for link:kafka-KafkaConfig.adoc#getConfiguredInstances[configured instances] of metric reporters
+1. Requests <<config, KafkaConfig>> for link:kafka-server-KafkaConfig.adoc#getConfiguredInstances[configured instances] of metric reporters
 
 1. Adds a `JmxReporter` (with *kafka.server* prefix)
 
@@ -331,7 +331,7 @@ Connecting to zookeeper on [zkConnect]
 
 `initZkClient`...FIXME (secureAclsEnabled)
 
-`initZkClient` creates a <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>> (with the following configuration properties: <<kafka-KafkaConfig.adoc#zkConnect, KafkaConfig.zkConnect>>, <<kafka-KafkaConfig.adoc#secureAclsEnabled, KafkaConfig.secureAclsEnabled>>, <<kafka-KafkaConfig.adoc#zkSessionTimeoutMs, KafkaConfig.zkSessionTimeoutMs>>, <<kafka-KafkaConfig.adoc#zkConnectionTimeoutMs, KafkaConfig.zkConnectionTimeoutMs>>, <<kafka-KafkaConfig.adoc#zkMaxInFlightRequests, KafkaConfig.zkMaxInFlightRequests>>).
+`initZkClient` creates a <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>> (with the following configuration properties: <<kafka-server-KafkaConfig.adoc#zkConnect, KafkaConfig.zkConnect>>, <<kafka-server-KafkaConfig.adoc#secureAclsEnabled, KafkaConfig.secureAclsEnabled>>, <<kafka-server-KafkaConfig.adoc#zkSessionTimeoutMs, KafkaConfig.zkSessionTimeoutMs>>, <<kafka-server-KafkaConfig.adoc#zkConnectionTimeoutMs, KafkaConfig.zkConnectionTimeoutMs>>, <<kafka-server-KafkaConfig.adoc#zkMaxInFlightRequests, KafkaConfig.zkMaxInFlightRequests>>).
 
 In the end, `initZkClient` requests the <<_zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#createTopLevelPaths, createTopLevelPaths>>.
 
@@ -355,7 +355,7 @@ NOTE: `controlledShutdown` is used when...FIXME
 checkpointBrokerId(brokerId: Int): Unit
 ----
 
-For every directory in <<kafka-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> that is <<kafka-log-LogManager.adoc#isLogDirOnline, isLogDirOnline>> (according to the <<logManager, LogManager>>), `checkpointBrokerId` finds the corresponding `BrokerMetadataCheckpoint` (with the path to the *meta.properties* file) in the <<brokerMetadataCheckpoints, brokerMetadataCheckpoints>> registry and requests it to `read` it.
+For every directory in <<kafka-server-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> that is <<kafka-log-LogManager.adoc#isLogDirOnline, isLogDirOnline>> (according to the <<logManager, LogManager>>), `checkpointBrokerId` finds the corresponding `BrokerMetadataCheckpoint` (with the path to the *meta.properties* file) in the <<brokerMetadataCheckpoints, brokerMetadataCheckpoints>> registry and requests it to `read` it.
 
 Unless the `meta.properties` file was already available, `checkpointBrokerId` requests the `BrokerMetadataCheckpoints` (of the log directories with no meta files) to `write` the broker metadata.
 

@@ -69,7 +69,7 @@ NOTE: `createTopics` is used exclusively when `KafkaApis` is requested to <<kafk
 
 `AdminManager` takes the following when created:
 
-* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>

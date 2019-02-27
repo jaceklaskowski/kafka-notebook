@@ -149,7 +149,7 @@ NOTE: `doHandleStateChanges` is used exclusively when `ReplicaStateMachine` is r
 
 `ReplicaStateMachine` takes the following to be created:
 
-* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[stateChangeLogger]] `StateChangeLogger`
 * [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
 * [[topicDeletionManager]] <<kafka-controller-TopicDeletionManager.adoc#, TopicDeletionManager>>

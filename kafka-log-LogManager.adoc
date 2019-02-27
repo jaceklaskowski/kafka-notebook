@@ -5,7 +5,7 @@
 .LogManager and KafkaServer
 image::images/LogManager.png[align="center"]
 
-While being <<creating-instance, created>>, `LogManager` is given the <<logDirs, log directories>> that are configured using <<kafka-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>). The log directories are immediately <<createAndValidateLogDirs, validated>> and <<loadLogs, loaded>>.
+While being <<creating-instance, created>>, `LogManager` is given the <<logDirs, log directories>> that are configured using <<kafka-server-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>). The log directories are immediately <<createAndValidateLogDirs, validated>> and <<loadLogs, loaded>>.
 
 `LogManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
 
@@ -203,7 +203,7 @@ NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, c
 * [[topicConfigs]] Topic configurations (`Map[String, LogConfig]`)
 * [[initialDefaultConfig]] Initial <<kafka-log-LogConfig.adoc#, LogConfig>>
 * [[cleanerConfig]] `CleanerConfig`
-* [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir` (based on the <<kafka-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, num.recovery.threads.per.data.dir>> dynamic configuration property)
+* [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir` (based on the <<kafka-server-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, num.recovery.threads.per.data.dir>> dynamic configuration property)
 * [[flushCheckMs]] `flushCheckMs`
 * [[flushRecoveryOffsetCheckpointMs]] `flushRecoveryOffsetCheckpointMs`
 * [[flushStartOffsetCheckpointMs]] `flushStartOffsetCheckpointMs`
@@ -367,7 +367,7 @@ resizeRecoveryThreadPool(newSize: Int): Unit
 Resizing recovery thread pool size for each data dir from [numRecoveryThreadsPerDataDir] to [newSize]
 ```
 
-NOTE: `resizeRecoveryThreadPool` is used exclusively when `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure>> (with a new value of <<kafka-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, KafkaConfig.numRecoveryThreadsPerDataDir>>).
+NOTE: `resizeRecoveryThreadPool` is used exclusively when `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure>> (with a new value of <<kafka-server-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, KafkaConfig.numRecoveryThreadsPerDataDir>>).
 
 === [[shutdown]] Shutting Down -- `shutdown` Method
 

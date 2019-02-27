@@ -48,7 +48,7 @@ Used when...FIXME
 * [[failedAuthenticationDelayMs]] `failedAuthenticationDelayMs`
 * [[listenerName]] Listener Name
 * [[securityProtocol]] `SecurityProtocol`
-* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[credentialProvider]] `CredentialProvider`
 * [[memoryPool]] `MemoryPool`

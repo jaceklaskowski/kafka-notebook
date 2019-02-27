@@ -11,11 +11,11 @@
 * [[name]] Name
 * [[fetcherId]] Fetcher ID
 * [[sourceBroker]] Source `BrokerEndPoint`
-* [[brokerConfig]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[brokerConfig]] link:kafka-server-KafkaConfig.adoc[KafkaConfig]
 * [[replicaMgr]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
 * [[metrics]] `Metrics`
 * [[time]] `Time`
-* [[quota]] link:kafka-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
+* [[quota]] link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 * [[leaderEndpointBlockingSend]] Optional `BlockingSend` (undefined by default)
 
 `ReplicaFetcherThread` initializes the <<internal-registries, internal registries and counters>>.

@@ -17,6 +17,8 @@ a| [[processConfigChanges]]
 processConfigChanges(entityName: String, value: Properties)
 ----
 
+Processes configuration changes
+
 Used when:
 
 * `ConfigChangedNotificationHandler` is requested to `processEntityConfigChangeVersion1` and `processEntityConfigChangeVersion2` (that is a notification handler registered when `DynamicConfigManager` is <<kafka-server-DynamicConfigManager.adoc#configChangeListener, created>>)

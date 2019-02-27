@@ -19,11 +19,11 @@ NOTE: `createFetcherThread` is used exclusively when `AbstractFetcherManager` li
 
 `ReplicaFetcherManager` takes the following when created:
 
-* [[brokerConfig]] link:kafka-KafkaConfig.adoc[KafkaConfig]
+* [[brokerConfig]] link:kafka-server-KafkaConfig.adoc[KafkaConfig]
 * [[replicaManager]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
 * [[metrics]] `Metrics`
 * [[time]] `Time`
 * [[threadNamePrefix]] Optional thread name prefix (undefined by default)
-* [[quotaManager]] link:kafka-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
+* [[quotaManager]] link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 
 `ReplicaFetcherManager` initializes the <<internal-registries, internal registries and counters>>.

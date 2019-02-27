@@ -754,7 +754,7 @@ NOTE: `deregisterIsrChangeNotificationListener` is used when...FIXME
 
 `KafkaController` takes the following when created:
 
-* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[time]] `Time`
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>

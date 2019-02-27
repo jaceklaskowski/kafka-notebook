@@ -39,7 +39,7 @@ NOTE: `shutdown` is used exclusively when `Kafka` standalone application is requ
 
 `KafkaServerStartable` takes the following when created:
 
-1. link:kafka-KafkaConfig.adoc[KafkaConfig]
+1. link:kafka-server-KafkaConfig.adoc[KafkaConfig]
 2. Collection of link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporters]
 
 `KafkaServerStartable` initializes the <<internal-registries, internal registries and counters>>.

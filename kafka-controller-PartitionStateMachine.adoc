@@ -183,7 +183,7 @@ NOTE: `doElectLeaderForPartitions` is used exclusively when `PartitionStateMachi
 
 `PartitionStateMachine` takes the following when created:
 
-* [[config]] <<kafka-KafkaConfig.adoc#, KafkaConfig>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[stateChangeLogger]] `StateChangeLogger`
 * [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
