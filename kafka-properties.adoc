@@ -210,23 +210,38 @@ Use `0.0.0.0` to bind to all the network interfaces on a machine or leave it emp
 | listener.security.protocol.map
 a| [[listener.security.protocol.map]]
 
+| log.cleaner.enable
+a| [[log.cleaner.enable]]
+
 | log.cleaner.threads
 a| [[log.cleaner.threads]]
+
+<<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
 
 | log.cleaner.dedupe.buffer.size
 a| [[log.cleaner.dedupe.buffer.size]]
 
+<<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
+
 | log.cleaner.io.buffer.load.factor
 a| [[log.cleaner.io.buffer.load.factor]]
+
+<<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
 
 | log.cleaner.io.buffer.size
 a| [[log.cleaner.io.buffer.size]]
 
+<<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
+
 | log.cleaner.io.max.bytes.per.second
 a| [[log.cleaner.io.max.bytes.per.second]]
 
+<<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
+
 | log.cleaner.backoff.ms
 a| [[log.cleaner.backoff.ms]]
+
+<<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
 
 | log.dir
 a| [[log.dir]] The directory in which the log data is kept
@@ -269,6 +284,8 @@ Internally, `max.poll.records` is used exclusively when `KafkaConsumer` is link:
 
 | message.max.bytes
 a| [[message.max.bytes]]
+
+<<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
 
 | metadata.max.age.ms
 | [[metadata.max.age.ms]]

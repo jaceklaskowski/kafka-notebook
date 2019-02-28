@@ -205,7 +205,7 @@ NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, c
 * [[initialOfflineDirs]] Initial offline directories
 * [[topicConfigs]] Topic configurations (`Map[String, LogConfig]`)
 * [[initialDefaultConfig]] Initial <<kafka-log-LogConfig.adoc#, LogConfig>>
-* [[cleanerConfig]] `CleanerConfig`
+* [[cleanerConfig]] <<kafka-log-LogCleaner.adoc#CleanerConfig, CleanerConfig>>
 * [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir` (based on the <<kafka-server-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, num.recovery.threads.per.data.dir>> dynamic configuration property)
 * [[flushCheckMs]] `flushCheckMs`
 * [[flushRecoveryOffsetCheckpointMs]] `flushRecoveryOffsetCheckpointMs`

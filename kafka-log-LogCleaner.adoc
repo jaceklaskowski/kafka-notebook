@@ -59,9 +59,11 @@ image::images/LogCleaner-jconsole.png[align="center"]
 Used when...FIXME
 
 | config
-| [[config]] `CleanerConfig`
+| [[config]][[currentConfig]] <<CleanerConfig, CleanerConfig>>
 
-Used when...FIXME
+Initialized with the given <<initialConfig, CleanerConfig>>
+
+Changed in <<reconfigure, reconfigure>>
 
 |===
 
@@ -154,7 +156,7 @@ NOTE: `reconfigure` is part of the <<kafka-server-BrokerReconfigurable.adoc#reco
 
 `LogCleaner` takes the following to be created:
 
-* [[initialConfig]] `CleanerConfig`
+* [[initialConfig]] <<CleanerConfig, CleanerConfig>>
 * [[logDirs]] Data log directories
 * [[logs]] <<kafka-log-Log.adoc#, Logs>> per Kafka `TopicPartition`
 * [[logDirFailureChannel]] `LogDirFailureChannel`
@@ -188,13 +190,36 @@ NOTE: The number of `CleanerThread` is controlled by...FIXME (default: `1`).
 * `LogCleaner` is requested to <<reconfigure, reconfigure>>
 ====
 
-=== [[cleanerConfig]] `cleanerConfig` Method
+=== [[cleanerConfig]] Building CleanerConfig From KafkaConfig -- `cleanerConfig` Method
 
 [source, scala]
 ----
 cleanerConfig(config: KafkaConfig): CleanerConfig
 ----
 
-`cleanerConfig`...FIXME
+`cleanerConfig` simply creates a <<CleanerConfig, CleanerConfig>> from the given <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>.
 
-NOTE: `cleanerConfig` is used when...FIXME
+[NOTE]
+====
+`cleanerConfig` is used when:
+
+* `LogCleaner` is requested to <<validateReconfiguration, validateReconfiguration>> and <<reconfigure, reconfigure>>
+
+* `LogManager` is <<kafka-log-LogManager.adoc#apply, created>>
+====
+
+=== [[CleanerConfig]] `CleanerConfig`
+
+`CleanerConfig` represents a set of <<reconfigurableConfigs, dynamic configurations>> of a <<config, LogCleaner>>:
+
+* [[numThreads]] <<kafka-server-KafkaConfig.adoc#logCleanerThreads, Number of threads>> (default: `1`)
+* [[dedupeBufferSize]] <<kafka-server-KafkaConfig.adoc#logCleanerDedupeBufferSize, dedupeBufferSize>> (default: `4*1024*1024L`)
+* [[dedupeBufferLoadFactor]] <<kafka-server-KafkaConfig.adoc#logCleanerDedupeBufferLoadFactor, dedupeBufferLoadFactor>> (default: `0.9d`)
+* [[ioBufferSize]] <<kafka-server-KafkaConfig.adoc#logCleanerIoBufferSize, ioBufferSize>> (default: `1024*1024`)
+* [[maxMessageSize]] <<kafka-server-KafkaConfig.adoc#logCleanerIoBufferSize, maxMessageSize>> (default: `32*1024*1024`)
+* [[maxIoBytesPerSecond]] <<kafka-server-KafkaConfig.adoc#logCleanerIoMaxBytesPerSecond, maxIoBytesPerSecond>> (default: `Double.MaxValue`)
+* [[backOffMs]] <<kafka-server-KafkaConfig.adoc#logCleanerBackoffMs, backOffMs>> (default: `15 * 1000`)
+* [[enableCleaner]] <<kafka-server-KafkaConfig.adoc#logCleanerEnable, enableCleaner>> flag (default: `true`)
+* [[hashAlgorithm]] `hashAlgorithm` (default: `MD5`)
+
+`CleanerConfig` is created exclusively when `LogCleaner` is requested to <<cleanerConfig, build a CleanerConfig from a KafkaConfig>>.
