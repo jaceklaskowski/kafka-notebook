@@ -143,4 +143,18 @@ a| [[DynamicThreadPool]]
 | <<kafka-log-LogCleaner.adoc#, LogCleaner>>
 a| [[LogCleaner]]
 
+<<kafka-properties.adoc#log.cleaner.threads, log.cleaner.threads>>
+
+<<kafka-properties.adoc#log.cleaner.dedupe.buffer.size, log.cleaner.dedupe.buffer.size>>
+
+<<kafka-properties.adoc#log.cleaner.io.buffer.load.factor, log.cleaner.io.buffer.load.factor>>
+
+<<kafka-properties.adoc#log.cleaner.io.buffer.size, log.cleaner.io.buffer.size>>
+
+<<kafka-properties.adoc#log.cleaner.io.max.bytes.per.second, log.cleaner.io.max.bytes.per.second>>
+
+<<kafka-properties.adoc#log.cleaner.backoff.ms, log.cleaner.backoff.ms>>
+
+<<kafka-properties.adoc#message.max.bytes, message.max.bytes>>
+
 |===

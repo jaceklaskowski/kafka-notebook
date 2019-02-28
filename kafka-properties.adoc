@@ -210,6 +210,24 @@ Use `0.0.0.0` to bind to all the network interfaces on a machine or leave it emp
 | listener.security.protocol.map
 a| [[listener.security.protocol.map]]
 
+| log.cleaner.threads
+a| [[log.cleaner.threads]]
+
+| log.cleaner.dedupe.buffer.size
+a| [[log.cleaner.dedupe.buffer.size]]
+
+| log.cleaner.io.buffer.load.factor
+a| [[log.cleaner.io.buffer.load.factor]]
+
+| log.cleaner.io.buffer.size
+a| [[log.cleaner.io.buffer.size]]
+
+| log.cleaner.io.max.bytes.per.second
+a| [[log.cleaner.io.max.bytes.per.second]]
+
+| log.cleaner.backoff.ms
+a| [[log.cleaner.backoff.ms]]
+
 | log.dir
 a| [[log.dir]] The directory in which the log data is kept
 
@@ -248,6 +266,9 @@ Use `ConsumerConfig.MAX_POLL_RECORDS_CONFIG`.
 ---
 
 Internally, `max.poll.records` is used exclusively when `KafkaConsumer` is link:kafka-consumer-KafkaConsumer.adoc#creating-instance[created] (to create a link:kafka-consumer-KafkaConsumer.adoc#fetcher[Fetcher]).
+
+| message.max.bytes
+a| [[message.max.bytes]]
 
 | metadata.max.age.ms
 | [[metadata.max.age.ms]]

@@ -86,6 +86,24 @@ a| [[listeners]][[ListenersProp]] <<kafka-properties.adoc#listeners, listeners>>
 | listenerSecurityProtocolMap
 a| [[listenerSecurityProtocolMap]][[ListenerSecurityProtocolMapProp]] <<kafka-properties.adoc#listener.security.protocol.map, listener.security.protocol.map>>
 
+| LogCleanerThreadsProp
+a| [[LogCleanerThreadsProp]] <<kafka-properties.adoc#log.cleaner.threads, log.cleaner.threads>>
+
+| LogCleanerDedupeBufferSizeProp
+a| [[LogCleanerDedupeBufferSizeProp]] <<kafka-properties.adoc#log.cleaner.dedupe.buffer.size, log.cleaner.dedupe.buffer.size>>
+
+| LogCleanerDedupeBufferLoadFactorProp
+a| [[LogCleanerDedupeBufferLoadFactorProp]] <<kafka-properties.adoc#log.cleaner.io.buffer.load.factor, log.cleaner.io.buffer.load.factor>>
+
+| LogCleanerIoBufferSizeProp
+a| [[LogCleanerIoBufferSizeProp]] <<kafka-properties.adoc#log.cleaner.io.buffer.size, log.cleaner.io.buffer.size>>
+
+| LogCleanerIoMaxBytesPerSecondProp
+a| [[LogCleanerIoMaxBytesPerSecondProp]] <<kafka-properties.adoc#log.cleaner.io.max.bytes.per.second, log.cleaner.io.max.bytes.per.second>>
+
+| LogCleanerBackoffMsProp
+a| [[LogCleanerBackoffMsProp]] <<kafka-properties.adoc#log.cleaner.backoff.ms, log.cleaner.backoff.ms>>
+
 | logDirs
 a| [[logDirs]] <<kafka-properties.adoc#log.dirs, log.dirs>> or <<kafka-properties.adoc#log.dir, log.dir>>
 
@@ -117,6 +135,9 @@ Used exclusively when `SocketServer` is requested to <<kafka-network-SocketServe
 a| [[maxReservedBrokerId]] <<kafka-properties.adoc#reserved.broker.max.id, reserved.broker.max.id>>
 
 Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#generateBrokerId, generateBrokerId>>
+
+| MessageMaxBytesProp
+a| [[MessageMaxBytesProp]] <<kafka-properties.adoc#message.max.bytes, message.max.bytes>>
 
 | numIoThreads
 a| [[numIoThreads]][[NumIoThreadsProp]] <<kafka-properties.adoc#num.io.threads, num.io.threads>>
