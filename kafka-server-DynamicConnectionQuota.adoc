@@ -13,7 +13,7 @@
 [[server]]
 `DynamicConnectionQuota` takes a single <<kafka-server-KafkaServer.adoc#, KafkaServer>> to be created.
 
-=== [[reconfigure]] `reconfigure` Method
+=== [[reconfigure]] Reconfiguring -- `reconfigure` Method
 
 [source, scala]
 ----

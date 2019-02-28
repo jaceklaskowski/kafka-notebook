@@ -8,17 +8,19 @@
 | Description
 
 | advertised.listeners
-a| [[advertised.listeners]] Comma-separated list of URIs and listener names for other Kafka brokers and Kafka clients to use
+a| [[advertised.listeners]] Comma-separated list of URIs to publish to ZooKeeper for clients to use, if different than the <<listeners, listeners>> config property.
 
-Default: <<listeners, listeners>>
+Default: `null`
 
-In IaaS environments (e.g. Docker or Kubernetes), `advertised.listeners` may likely need to be different from the interface to which a Kafka broker binds. That ensures that the Kafka broker advertises an address that is accessible from both local and external hosts.
+In IaaS environments (e.g. Docker, Kubernetes, a cloud), `advertised.listeners` may need to be different from the interface to which a Kafka broker binds. That ensures that the Kafka broker advertises an address that is accessible from both local and external hosts. If not set, the value for <<listeners, listeners>> is used.
 
 Unlike <<listeners, listeners>> it is invalid to advertise the `0.0.0.0` non-routable meta-address.
 
-* Use `KafkaConfig.AdvertisedListenersProp` to reference the property
+* Use <<kafka-server-KafkaConfig.adoc#AdvertisedListenersProp, KafkaConfig.AdvertisedListenersProp>> to reference the property
 
 * Use <<kafka-server-KafkaConfig.adoc#advertisedListeners, KafkaConfig.advertisedListeners>> to access the current value
+
+<<kafka-server-DynamicListenerConfig.adoc#, Dynamic reconfigurable configuration>>
 
 | authorizer.class.name
 | [[authorizer.class.name]]
@@ -195,9 +197,18 @@ Default: `300`
 | listeners
 a| [[listeners]] Comma-separated list of URIs and listener names that a Kafka broker will listen on
 
-Default: `PLAINTEXT://<<host.name, host.name>>:<<port, port>>`
+Default: ``PLAINTEXT://<<host.name, host.name>>:<<port, port>>``
 
 Use `0.0.0.0` to bind to all the network interfaces on a machine or leave it empty to bind to the default interface.
+
+* Use <<kafka-server-KafkaConfig.adoc#ListenersProp, KafkaConfig.ListenersProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#listeners, KafkaConfig.listeners>> to access the current value
+
+<<kafka-server-DynamicListenerConfig.adoc#, Dynamic reconfigurable configuration>>
+
+| listener.security.protocol.map
+a| [[listener.security.protocol.map]]
 
 | log.dir
 a| [[log.dir]] The directory in which the log data is kept
@@ -329,6 +340,9 @@ Default: `1`
 
 Default: `9092`
 
+| principal.builder.class
+a| [[principal.builder.class]]
+
 | queued.max.requests
 a| [[queued.max.requests]] The number of queued requests allowed before blocking the network threads
 
@@ -367,8 +381,44 @@ Default: `1000`
 
 Use `ConsumerConfig.RETRY_BACKOFF_MS_CONFIG`
 
+| sasl.mechanism.inter.broker.protocol
+a| [[sasl.mechanism.inter.broker.protocol]]
+
+| sasl.jaas.config
+a| [[sasl.jaas.config]]
+
 | sasl.enabled.mechanisms
-| [[sasl.enabled.mechanisms]]
+a| [[sasl.enabled.mechanisms]]
+
+| sasl.kerberos.service.name
+a| [[sasl.kerberos.service.name]]
+
+| sasl.kerberos.kinit.cmd
+a| [[sasl.kerberos.kinit.cmd]]
+
+| sasl.kerberos.ticket.renew.window.factor
+a| [[sasl.kerberos.ticket.renew.window.factor]]
+
+| sasl.kerberos.ticket.renew.jitter
+a| [[sasl.kerberos.ticket.renew.jitter]]
+
+| sasl.kerberos.min.time.before.relogin
+a| [[sasl.kerberos.min.time.before.relogin]]
+
+| sasl.kerberos.principal.to.local.rules
+a| [[sasl.kerberos.principal.to.local.rules]]
+
+| sasl.login.refresh.window.factor
+a| [[sasl.login.refresh.window.factor]]
+
+| sasl.login.refresh.window.jitter
+a| [[sasl.login.refresh.window.jitter]]
+
+| sasl.login.refresh.min.period.seconds
+a| [[sasl.login.refresh.min.period.seconds]]
+
+| sasl.login.refresh.buffer.seconds
+a| [[sasl.login.refresh.buffer.seconds]]
 
 | send.buffer.bytes
 | [[send.buffer.bytes]] The hint about the size of the TCP network send buffer (SO_SNDBUF) to use (for a socket) when sending data. If the value is -1, the OS default will be used.
@@ -384,6 +434,54 @@ a| [[socket.request.max.bytes]] The maximum number of bytes in a socket request
 Default: `100 * 1024 * 1024`
 
 Must be at least `1`
+
+| ssl.protocol
+a| [[ssl.protocol]]
+
+| ssl.provider
+a| [[ssl.provider]]
+
+| ssl.cipher.suites
+a| [[ssl.cipher.suites]]
+
+| ssl.enabled.protocols
+a| [[ssl.enabled.protocols]]
+
+| ssl.keystore.type
+a| [[ssl.keystore.type]]
+
+| ssl.keystore.location
+a| [[ssl.keystore.location]]
+
+| ssl.keystore.password
+a| [[ssl.keystore.password]]
+
+| ssl.key.password
+a| [[ssl.key.password]]
+
+| ssl.truststore.type
+a| [[ssl.truststore.type]]
+
+| ssl.truststore.location
+a| [[ssl.truststore.location]]
+
+| ssl.truststore.password
+a| [[ssl.truststore.password]]
+
+| ssl.keymanager.algorithm
+a| [[ssl.keymanager.algorithm]]
+
+| ssl.trustmanager.algorithm
+a| [[ssl.trustmanager.algorithm]]
+
+| ssl.endpoint.identification.algorithm
+a| [[ssl.endpoint.identification.algorithm]]
+
+| ssl.secure.random.implementation
+a| [[ssl.secure.random.implementation]]
+
+| ssl.client.auth
+a| [[ssl.client.auth]]
 
 | transaction.max.timeout.ms
 a| [[transaction.max.timeout.ms]] The maximum allowed timeout for transactions (in millis).

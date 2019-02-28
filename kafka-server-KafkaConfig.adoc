@@ -16,11 +16,11 @@
 | Kafka Property
 
 | advertisedListeners
-a| [[advertisedListeners]] <<kafka-properties.adoc#advertised.listeners, advertised.listeners>>
+a| [[advertisedListeners]][[AdvertisedListenersProp]] <<kafka-properties.adoc#advertised.listeners, advertised.listeners>>
 
 Used when:
 
-* `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#validateReconfiguration, validateReconfiguration>>
+* `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#validateReconfiguration, validate reconfiguration>>
 
 * `KafkaConfig` is requested to <<validateValues, validateValues>>
 
@@ -81,7 +81,10 @@ a| [[leaderImbalanceCheckIntervalSeconds]] <<kafka-properties.adoc#leader.imbala
 Used exclusively when `ControllerEventThread` is requested to process a <<kafka-controller-ControllerEvent.adoc#AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>> event (while <<kafka-controller-ControllerEventThread.adoc#doWork, processing controller events>>)
 
 | listeners
-| [[listeners]] link:kafka-properties.adoc#listeners[listeners] (see <<getListeners, getListeners>>)
+a| [[listeners]][[ListenersProp]] <<kafka-properties.adoc#listeners, listeners>> (see <<getListeners, getListeners>>)
+
+| listenerSecurityProtocolMap
+a| [[listenerSecurityProtocolMap]][[ListenerSecurityProtocolMapProp]] <<kafka-properties.adoc#listener.security.protocol.map, listener.security.protocol.map>>
 
 | logDirs
 a| [[logDirs]] <<kafka-properties.adoc#log.dirs, log.dirs>> or <<kafka-properties.adoc#log.dir, log.dir>>
@@ -132,8 +135,98 @@ a| [[numReplicaFetchers]][[NumReplicaFetchersProp]] <<kafka-properties.adoc#num.
 | port
 | [[port]] link:kafka-properties.adoc#port[port]
 
+| PrincipalBuilderClassProp
+a| [[PrincipalBuilderClassProp]] <<kafka-properties.adoc#principal.builder.class, principal.builder.class>>
+
 | replicaLagTimeMaxMs
 a| [[replicaLagTimeMaxMs]]
+
+| SaslMechanismInterBrokerProtocolProp
+a| [[SaslMechanismInterBrokerProtocolProp]] <<kafka-properties.adoc#sasl.mechanism.inter.broker.protocol, sasl.mechanism.inter.broker.protocol>>
+
+| SaslJaasConfigProp
+a| [[SaslJaasConfigProp]] <<kafka-properties.adoc#sasl.jaas.config, sasl.jaas.config>>
+
+| SaslEnabledMechanismsProp
+a| [[SaslEnabledMechanismsProp]] <<kafka-properties.adoc#sasl.enabled.mechanisms, sasl.enabled.mechanisms>>
+
+| SaslKerberosServiceNameProp
+a| [[SaslKerberosServiceNameProp]] <<kafka-properties.adoc#sasl.kerberos.service.name, sasl.kerberos.service.name>>
+
+| SaslKerberosKinitCmdProp
+a| [[SaslKerberosKinitCmdProp]] <<kafka-properties.adoc#sasl.kerberos.kinit.cmd, sasl.kerberos.kinit.cmd>>
+
+| SaslKerberosTicketRenewWindowFactorProp
+a| [[SaslKerberosTicketRenewWindowFactorProp]] <<kafka-properties.adoc#sasl.kerberos.ticket.renew.window.factor, sasl.kerberos.ticket.renew.window.factor>>
+
+| SaslKerberosTicketRenewJitterProp
+a| [[SaslKerberosTicketRenewJitterProp]] <<kafka-properties.adoc#sasl.kerberos.ticket.renew.jitter, sasl.kerberos.ticket.renew.jitter>>
+
+| SaslKerberosMinTimeBeforeReloginProp
+a| [[SaslKerberosMinTimeBeforeReloginProp]] <<kafka-properties.adoc#sasl.kerberos.min.time.before.relogin, sasl.kerberos.min.time.before.relogin>>
+
+| SaslKerberosPrincipalToLocalRulesProp
+a| [[SaslKerberosPrincipalToLocalRulesProp]] <<kafka-properties.adoc#sasl.kerberos.principal.to.local.rules, sasl.kerberos.principal.to.local.rules>>
+
+| SaslLoginRefreshWindowFactorProp
+a| [[SaslLoginRefreshWindowFactorProp]] <<kafka-properties.adoc#sasl.login.refresh.window.factor, sasl.login.refresh.window.factor>>
+
+| SaslLoginRefreshWindowJitterProp
+a| [[SaslLoginRefreshWindowJitterProp]] <<kafka-properties.adoc#sasl.login.refresh.window.jitter, sasl.login.refresh.window.jitter>>
+
+| SaslLoginRefreshMinPeriodSecondsProp
+a| [[SaslLoginRefreshMinPeriodSecondsProp]] <<kafka-properties.adoc#sasl.login.refresh.min.period.seconds, sasl.login.refresh.min.period.seconds>>
+
+| SaslLoginRefreshBufferSecondsProp
+a| [[SaslLoginRefreshBufferSecondsProp]] <<kafka-properties.adoc#sasl.login.refresh.buffer.seconds, sasl.login.refresh.buffer.seconds>>
+
+| SslProtocolProp
+a| [[SslProtocolProp]] <<kafka-properties.adoc#ssl.protocol, ssl.protocol>>
+
+| SslProviderProp
+a| [[SslProviderProp]] <<kafka-properties.adoc#ssl.provider, ssl.provider>>
+
+| SslCipherSuitesProp
+a| [[SslCipherSuitesProp]] <<kafka-properties.adoc#ssl.cipher.suites, ssl.cipher.suites>>
+
+| SslEnabledProtocolsProp
+a| [[SslEnabledProtocolsProp]] <<kafka-properties.adoc#ssl.enabled.protocols, ssl.enabled.protocols>>
+
+| SslKeystoreTypeProp
+a| [[SslKeystoreTypeProp]] <<kafka-properties.adoc#ssl.keystore.type, ssl.keystore.type>>
+
+| SslKeystoreLocationProp
+a| [[SslKeystoreLocationProp]] <<kafka-properties.adoc#ssl.keystore.location, ssl.keystore.location>>
+
+| SslKeystorePasswordProp
+a| [[SslKeystorePasswordProp]] <<kafka-properties.adoc#ssl.keystore.password, ssl.keystore.password>>
+
+| SslKeyPasswordProp
+a| [[SslKeyPasswordProp]] <<kafka-properties.adoc#ssl.key.password, ssl.key.password>>
+
+| SslTruststoreTypeProp
+a| [[SslTruststoreTypeProp]] <<kafka-properties.adoc#ssl.truststore.type, ssl.truststore.type>>
+
+| SslTruststoreLocationProp
+a| [[SslTruststoreLocationProp]] <<kafka-properties.adoc#ssl.truststore.location, ssl.truststore.location>>
+
+| SslTruststorePasswordProp
+a| [[SslTruststorePasswordProp]] <<kafka-properties.adoc#ssl.truststore.password, ssl.truststore.password>>
+
+| SslKeyManagerAlgorithmProp
+a| [[SslKeyManagerAlgorithmProp]] <<kafka-properties.adoc#ssl.keymanager.algorithm, ssl.keymanager.algorithm>>
+
+| SslTrustManagerAlgorithmProp
+a| [[SslTrustManagerAlgorithmProp]] <<kafka-properties.adoc#ssl.trustmanager.algorithm, ssl.trustmanager.algorithm>>
+
+| SslEndpointIdentificationAlgorithmProp
+a| [[SslEndpointIdentificationAlgorithmProp]] <<kafka-properties.adoc#ssl.endpoint.identification.algorithm, ssl.endpoint.identification.algorithm>>
+
+| SslSecureRandomImplementationProp
+a| [[SslSecureRandomImplementationProp]] <<kafka-properties.adoc#ssl.secure.random.implementation, ssl.secure.random.implementation>>
+
+| SslClientAuthProp
+a| [[SslClientAuthProp]] <<kafka-properties.adoc#ssl.client.auth, ssl.client.auth>>
 
 | socketRequestMaxBytes
 a| [[socketRequestMaxBytes]] <<kafka-properties.adoc#socket.request.max.bytes, socket.request.max.bytes>>

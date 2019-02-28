@@ -3,11 +3,79 @@
 [[reconfigurableConfigs]]
 `DynamicListenerConfig` is a <<kafka-server-BrokerReconfigurable.adoc#, BrokerReconfigurable>> for the following <<kafka-server-BrokerReconfigurable.adoc#reconfigurableConfigs, dynamic configurations>>:
 
-* <<kafka-properties.adoc#advertised.listeners, advertised.listeners>>
+* <<kafka-server-KafkaConfig.adoc#AdvertisedListenersProp, advertised.listeners>>
 
-* FIXME
+* <<kafka-server-KafkaConfig.adoc#ListenersProp, listeners>>
 
-=== [[reconfigure]] Reconfiguring Listeners -- `reconfigure` Method
+* <<kafka-server-KafkaConfig.adoc#ListenerSecurityProtocolMapProp, listener.security.protocol.map>>
+
+* <<kafka-server-KafkaConfig.adoc#PrincipalBuilderClassProp, principal.builder.class>>
+
+* <<kafka-server-KafkaConfig.adoc#SslProtocolProp, ssl.protocol>>
+
+* <<kafka-server-KafkaConfig.adoc#SslProviderProp, ssl.provider>>
+
+* <<kafka-server-KafkaConfig.adoc#SslCipherSuitesProp, ssl.cipher.suites>>
+
+* <<kafka-server-KafkaConfig.adoc#SslEnabledProtocolsProp, ssl.enabled.protocols>>
+
+* <<kafka-server-KafkaConfig.adoc#SslKeystoreTypeProp, ssl.keystore.type>>
+
+* <<kafka-server-KafkaConfig.adoc#SslKeystoreLocationProp, ssl.keystore.location>>
+
+* <<kafka-server-KafkaConfig.adoc#SslKeystorePasswordProp, ssl.keystore.password>>
+
+* <<kafka-server-KafkaConfig.adoc#SslKeyPasswordProp, ssl.key.password>>
+
+* <<kafka-server-KafkaConfig.adoc#SslTruststoreTypeProp, ssl.truststore.type>>
+
+* <<kafka-server-KafkaConfig.adoc#SslTruststoreLocationProp, ssl.truststore.location>>
+
+* <<kafka-server-KafkaConfig.adoc#SslTruststorePasswordProp, ssl.truststore.password>>
+
+* <<kafka-server-KafkaConfig.adoc#SslKeyManagerAlgorithmProp, ssl.keymanager.algorithm>>
+
+* <<kafka-server-KafkaConfig.adoc#SslTrustManagerAlgorithmProp, ssl.trustmanager.algorithm>>
+
+* <<kafka-server-KafkaConfig.adoc#SslEndpointIdentificationAlgorithmProp, ssl.endpoint.identification.algorithm>>
+
+* <<kafka-server-KafkaConfig.adoc#SslSecureRandomImplementationProp, ssl.secure.random.implementation>>
+
+* <<kafka-server-KafkaConfig.adoc#SslClientAuthProp, ssl.client.auth>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslMechanismInterBrokerProtocolProp, sasl.mechanism.inter.broker.protocol>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslJaasConfigProp, sasl.jaas.config>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslEnabledMechanismsProp, sasl.enabled.mechanisms>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslKerberosServiceNameProp, sasl.kerberos.service.name>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslKerberosKinitCmdProp, sasl.kerberos.kinit.cmd>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslKerberosTicketRenewWindowFactorProp, sasl.kerberos.ticket.renew.window.factor>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslKerberosTicketRenewJitterProp, sasl.kerberos.ticket.renew.jitter>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslKerberosMinTimeBeforeReloginProp, sasl.kerberos.min.time.before.relogin>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslKerberosPrincipalToLocalRulesProp, sasl.kerberos.principal.to.local.rules>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslLoginRefreshWindowFactorProp, sasl.login.refresh.window.factor>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslLoginRefreshWindowJitterProp, sasl.login.refresh.window.jitter>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslLoginRefreshMinPeriodSecondsProp, sasl.login.refresh.min.period.seconds>>
+
+* <<kafka-server-KafkaConfig.adoc#SaslLoginRefreshBufferSecondsProp, sasl.login.refresh.buffer.seconds>>
+
+`DynamicListenerConfig` is <<creating-instance, created>> exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#addReconfigurables, addReconfigurables>> (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>).
+
+[[creating-instance]]
+[[server]]
+`DynamicListenerConfig` takes a single <<kafka-server-KafkaServer.adoc#, KafkaServer>> to be created.
+
+=== [[reconfigure]] Reconfiguring -- `reconfigure` Method
 
 [source, scala]
 ----
@@ -17,6 +85,14 @@ reconfigure(oldConfig: KafkaConfig, newConfig: KafkaConfig): Unit
 NOTE: `reconfigure` is part of the <<kafka-server-BrokerReconfigurable.adoc#reconfigure, BrokerReconfigurable Contract>> to change (_reconfigure_) the value of a Kafka dynamic configuration.
 
 `reconfigure`...FIXME
+
+If there are any listeners added or removed, `reconfigure` requests the `LoginManager` to `closeAll`.
+
+`reconfigure` requests the <<server, KafkaServer>> for the <<kafka-server-KafkaServer.adoc#socketServer, SocketServer>> that is in turn requested to <<kafka-network-SocketServer.adoc#removeListeners, removeListeners>> with the listeners removed.
+
+`reconfigure` requests the <<server, KafkaServer>> for the <<kafka-server-KafkaServer.adoc#socketServer, SocketServer>> that is in turn requested to <<kafka-network-SocketServer.adoc#addListeners, addListeners>> with the listeners added.
+
+In the end, `reconfigure` requests the <<server, KafkaServer>> for the <<kafka-server-KafkaServer.adoc#kafkaController, KafkaController>> that is in turn requested to <<kafka-controller-KafkaController.adoc#updateBrokerInfo, updateBrokerInfo>> with the new <<kafka-server-KafkaServer.adoc#createBrokerInfo, createBrokerInfo>>.
 
 === [[validateReconfiguration]] `validateReconfiguration` Method
 

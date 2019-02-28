@@ -61,6 +61,72 @@ a| [[DynamicConnectionQuota]]
 | <<kafka-server-DynamicListenerConfig.adoc#, DynamicListenerConfig>>
 a| [[DynamicListenerConfig]]
 
+<<kafka-properties.adoc#advertised.listeners, advertised.listeners>>
+
+<<kafka-properties.adoc#listeners, listeners>>
+
+<<kafka-properties.adoc#listener.security.protocol.map, listener.security.protocol.map>>
+
+<<kafka-properties.adoc#principal.builder.class, principal.builder.class>>
+
+<<kafka-properties.adoc#ssl.protocol, ssl.protocol>>
+
+<<kafka-properties.adoc#ssl.provider, ssl.provider>>
+
+<<kafka-properties.adoc#ssl.cipher.suites, ssl.cipher.suites>>
+
+<<kafka-properties.adoc#ssl.enabled.protocols, ssl.enabled.protocols>>
+
+<<kafka-properties.adoc#ssl.keystore.type, ssl.keystore.type>>
+
+<<kafka-properties.adoc#ssl.keystore.location, ssl.keystore.location>>
+
+<<kafka-properties.adoc#ssl.keystore.password, ssl.keystore.password>>
+
+<<kafka-properties.adoc#ssl.key.password, ssl.key.password>>
+
+<<kafka-properties.adoc#ssl.truststore.type, ssl.truststore.type>>
+
+<<kafka-properties.adoc#ssl.truststore.location, ssl.truststore.location>>
+
+<<kafka-properties.adoc#ssl.truststore.password, ssl.truststore.password>>
+
+<<kafka-properties.adoc#ssl.keymanager.algorithm, ssl.keymanager.algorithm>>
+
+<<kafka-properties.adoc#ssl.trustmanager.algorithm, ssl.trustmanager.algorithm>>
+
+<<kafka-properties.adoc#ssl.endpoint.identification.algorithm, ssl.endpoint.identification.algorithm>>
+
+<<kafka-properties.adoc#ssl.secure.random.implementation, ssl.secure.random.implementation>>
+
+<<kafka-properties.adoc#ssl.client.auth, ssl.client.auth>>
+
+<<kafka-properties.adoc#sasl.mechanism.inter.broker.protocol, sasl.mechanism.inter.broker.protocol>>
+
+<<kafka-properties.adoc#sasl.jaas.config, sasl.jaas.config>>
+
+<<kafka-properties.adoc#sasl.enabled.mechanisms, sasl.enabled.mechanisms>>
+
+<<kafka-properties.adoc#sasl.kerberos.service.name, sasl.kerberos.service.name>>
+
+<<kafka-properties.adoc#sasl.kerberos.kinit.cmd, sasl.kerberos.kinit.cmd>>
+
+<<kafka-properties.adoc#sasl.kerberos.ticket.renew.window.factor, sasl.kerberos.ticket.renew.window.factor>>
+
+<<kafka-properties.adoc#sasl.kerberos.ticket.renew.jitter, sasl.kerberos.ticket.renew.jitter>>
+
+<<kafka-properties.adoc#sasl.kerberos.min.time.before.relogin, sasl.kerberos.min.time.before.relogin>>
+
+<<kafka-properties.adoc#sasl.kerberos.principal.to.local.rules, sasl.kerberos.principal.to.local.rules>>
+
+<<kafka-properties.adoc#sasl.login.refresh.window.factor, sasl.login.refresh.window.factor>>
+
+<<kafka-properties.adoc#sasl.login.refresh.window.jitter, sasl.login.refresh.window.jitter>>
+
+<<kafka-properties.adoc#sasl.login.refresh.min.period.seconds, sasl.login.refresh.min.period.seconds>>
+
+<<kafka-properties.adoc#sasl.login.refresh.buffer.seconds, sasl.login.refresh.buffer.seconds>>
+
 | <<kafka-server-DynamicThreadPool.adoc#, DynamicThreadPool>>
 a| [[DynamicThreadPool]]
 

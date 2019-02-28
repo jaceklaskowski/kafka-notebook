@@ -187,7 +187,7 @@ addListeners(listenersAdded: Seq[EndPoint]): Unit
 
 `addListeners`...FIXME
 
-NOTE: `addListeners` is used exclusively when `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#reconfigure, reconfigure listeners>>.
+NOTE: `addListeners` is used exclusively when `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#reconfigure, reconfigure>>.
 
 === [[stopProcessingRequests]] Stopping Request Processors -- `stopProcessingRequests` Method
 
@@ -240,3 +240,14 @@ updateMaxConnectionsPerIp(maxConnectionsPerIp: Int): Unit
 `updateMaxConnectionsPerIp`...FIXME
 
 NOTE: `updateMaxConnectionsPerIp` is used when...FIXME
+
+=== [[removeListeners]] `removeListeners` Method
+
+[source, scala]
+----
+removeListeners(listenersRemoved: Seq[EndPoint]): Unit
+----
+
+`removeListeners`...FIXME
+
+NOTE: `removeListeners` is used when...FIXME
