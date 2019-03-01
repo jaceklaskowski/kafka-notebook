@@ -300,3 +300,14 @@ truncateFullyAndStartAt(newOffset: Long, isFuture: Boolean): Unit
 
 * `ReplicaFetcherThread` is requested to <<kafka-server-ReplicaFetcherThread.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
 ====
+
+=== [[maybeReplaceCurrentWithFutureReplica]] `maybeReplaceCurrentWithFutureReplica` Method
+
+[source, scala]
+----
+maybeReplaceCurrentWithFutureReplica(): Boolean
+----
+
+`maybeReplaceCurrentWithFutureReplica`...FIXME
+
+NOTE: `maybeReplaceCurrentWithFutureReplica` is used exclusively when `ReplicaAlterLogDirsThread` is requested to `processPartitionData`.

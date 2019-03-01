@@ -160,7 +160,7 @@ NOTE: `reconfigure` is part of the <<kafka-server-BrokerReconfigurable.adoc#reco
 `LogCleaner` takes the following to be created:
 
 * [[initialConfig]] <<CleanerConfig, CleanerConfig>>
-* [[logDirs]] Data log directories
+* [[logDirs]] Log directories
 * [[logs]] <<kafka-log-Log.adoc#, Logs>> per Kafka `TopicPartition`
 * [[logDirFailureChannel]] `LogDirFailureChannel`
 * [[time]] `Time`
@@ -228,3 +228,42 @@ cleanerConfig(config: KafkaConfig): CleanerConfig
 * [[hashAlgorithm]] `hashAlgorithm` (default: `MD5`)
 
 `CleanerConfig` is created exclusively when `LogCleaner` is requested to <<cleanerConfig, build a CleanerConfig from a KafkaConfig>>.
+
+=== [[awaitCleaned]] `awaitCleaned` Method
+
+[source, scala]
+----
+awaitCleaned(
+  topicPartition: TopicPartition,
+  offset: Long,
+  maxWaitMs: Long = 60000L): Boolean
+----
+
+`awaitCleaned`...FIXME
+
+NOTE: `awaitCleaned` seems to be used exclusively in tests.
+
+=== [[alterCheckpointDir]] `alterCheckpointDir` Method
+
+[source, scala]
+----
+alterCheckpointDir(
+  topicPartition: TopicPartition,
+  sourceLogDir: File,
+  destLogDir: File): Unit
+----
+
+`alterCheckpointDir`...FIXME
+
+NOTE: `alterCheckpointDir` is used exclusively when `LogManager` is requested to <<kafka-log-LogManager.adoc#replaceCurrentWithFutureLog, replaceCurrentWithFutureLog>>.
+
+=== [[handleLogDirFailure]] `handleLogDirFailure` Method
+
+[source, scala]
+----
+handleLogDirFailure(dir: String): Unit
+----
+
+`handleLogDirFailure`...FIXME
+
+NOTE: `handleLogDirFailure` is used exclusively when `LogManager` is requested to <<kafka-log-LogManager.adoc#handleLogDirFailure, handleLogDirFailure>>.

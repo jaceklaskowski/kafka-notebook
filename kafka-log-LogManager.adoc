@@ -388,3 +388,25 @@ Shutting down.
 `shutdown` then...FIXME
 
 NOTE: `shutdown` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#shutdown, shutdown>>.
+
+=== [[replaceCurrentWithFutureLog]] `replaceCurrentWithFutureLog` Method
+
+[source, scala]
+----
+replaceCurrentWithFutureLog(topicPartition: TopicPartition): Unit
+----
+
+`replaceCurrentWithFutureLog`...FIXME
+
+NOTE: `replaceCurrentWithFutureLog` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#maybeReplaceCurrentWithFutureReplica, maybeReplaceCurrentWithFutureReplica>>.
+
+=== [[handleLogDirFailure]] `handleLogDirFailure` Method
+
+[source, scala]
+----
+handleLogDirFailure(dir: String): Unit
+----
+
+`handleLogDirFailure`...FIXME
+
+NOTE: `handleLogDirFailure` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#handleLogDirFailure, handleLogDirFailure>>.
