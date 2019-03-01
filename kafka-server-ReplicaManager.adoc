@@ -433,3 +433,27 @@ getPartition(topicPartition: TopicPartition): Option[Partition]
 `getPartition` gets the <<kafka-cluster-Partition.adoc#, partition>> for the given `TopicPartition`.
 
 NOTE: `getPartition` is used when...FIXME
+
+=== [[stopReplica]] `stopReplica` Method
+
+[source, scala]
+----
+stopReplica(
+  topicPartition: TopicPartition,
+  deletePartition: Boolean): Unit
+----
+
+`stopReplica`...FIXME
+
+NOTE: `stopReplica` is used exclusively when `ReplicaManager` is requested to <<stopReplicas, stopReplicas>>.
+
+=== [[stopReplicas]] `stopReplicas` Method
+
+[source, scala]
+----
+stopReplicas(stopReplicaRequest: StopReplicaRequest): (mutable.Map[TopicPartition, Errors], Errors)
+----
+
+`stopReplicas`...FIXME
+
+NOTE: `stopReplicas` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleStopReplicaRequest, handleStopReplicaRequest>>.

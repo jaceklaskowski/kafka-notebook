@@ -144,12 +144,21 @@ NOTE: `addLogToBeDeleted` is used when...FIXME
 
 [source, scala]
 ----
-asyncDelete(topicPartition: TopicPartition, isFuture: Boolean = false): Log
+asyncDelete(
+  topicPartition: TopicPartition,
+  isFuture: Boolean = false): Log
 ----
 
 `asyncDelete`...FIXME
 
-NOTE: `asyncDelete` is used when...FIXME
+[NOTE]
+====
+`asyncDelete` is used when:
+
+* `Partition` is requested to <<kafka-cluster-Partition.adoc#removeFutureLocalReplica, removeFutureLocalReplica>> and <<kafka-cluster-Partition.adoc#delete, delete>>
+
+* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#stopReplica, stopReplica>>
+====
 
 === [[getOrCreateLog]] `getOrCreateLog` Method
 

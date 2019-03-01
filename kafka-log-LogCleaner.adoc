@@ -267,3 +267,28 @@ handleLogDirFailure(dir: String): Unit
 `handleLogDirFailure`...FIXME
 
 NOTE: `handleLogDirFailure` is used exclusively when `LogManager` is requested to <<kafka-log-LogManager.adoc#handleLogDirFailure, handleLogDirFailure>>.
+
+=== [[updateCheckpoints]] `updateCheckpoints` Method
+
+[source, scala]
+----
+updateCheckpoints(dataDir: File): Unit
+----
+
+`updateCheckpoints`...FIXME
+
+NOTE: `updateCheckpoints` is used exclusively when `LogManager` is requested to <<kafka-log-LogManager.adoc#asyncDelete, asyncDelete>>.
+
+=== [[maybeTruncateCheckpoint]] `maybeTruncateCheckpoint` Method
+
+[source, scala]
+----
+maybeTruncateCheckpoint(
+  dataDir: File,
+  topicPartition: TopicPartition,
+  offset: Long): Unit
+----
+
+`maybeTruncateCheckpoint`...FIXME
+
+NOTE: `maybeTruncateCheckpoint` is used when `LogManager` is requested to <<kafka-log-LogManager.adoc#truncateTo, truncateTo>> and <<kafka-log-LogManager.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>.

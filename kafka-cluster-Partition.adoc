@@ -311,3 +311,25 @@ maybeReplaceCurrentWithFutureReplica(): Boolean
 `maybeReplaceCurrentWithFutureReplica`...FIXME
 
 NOTE: `maybeReplaceCurrentWithFutureReplica` is used exclusively when `ReplicaAlterLogDirsThread` is requested to `processPartitionData`.
+
+=== [[delete]] `delete` Method
+
+[source, scala]
+----
+delete(): Unit
+----
+
+`delete`...FIXME
+
+NOTE: `delete` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#stopReplica, stopReplica>>.
+
+=== [[removeFutureLocalReplica]] `removeFutureLocalReplica` Method
+
+[source, scala]
+----
+removeFutureLocalReplica(deleteFromLogDir: Boolean = true): Unit
+----
+
+`removeFutureLocalReplica`...FIXME
+
+NOTE: `removeFutureLocalReplica` is used when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#alterReplicaLogDirs, alterReplicaLogDirs>> and <<kafka-server-ReplicaManager.adoc#handleLogDirFailure, handleLogDirFailure>>.
