@@ -54,16 +54,19 @@ image::images/LogCleaner-jconsole.png[align="center"]
 | Description
 
 | cleaners
-| [[cleaners]] `CleanerThreads`
+a| [[cleaners]] <<kafka-log-CleanerThread.adoc#, CleanerThreads>>
 
 Used when...FIXME
 
 | config
-| [[config]][[currentConfig]] <<CleanerConfig, CleanerConfig>>
+a| [[config]][[currentConfig]] <<CleanerConfig, CleanerConfig>>
 
 Initialized with the given <<initialConfig, CleanerConfig>>
 
 Changed in <<reconfigure, reconfigure>>
+
+| cleanerManager
+a| [[cleanerManager]] <<kafka-log-LogCleanerManager.adoc#, LogCleanerManager>>
 
 |===
 
@@ -177,9 +180,11 @@ startup(): Unit
 Starting the log cleaner
 ```
 
-`startup` creates a new `CleanerThread` and starts it immediately.
+`startup` creates new <<kafka-log-CleanerThread.adoc#, CleanerThreads>> and <<kafka-log-CleanerThread.adoc#doWork, starts>> them all immediately.
 
-NOTE: The number of `CleanerThread` is controlled by...FIXME (default: `1`).
+`startup` adds the cleaner threads in <<cleaners, cleaners>> internal registry.
+
+NOTE: The number of `CleanerThreads` is controlled by <<numThreads, log.cleaner.threads>> dynamic configuration (default: `1`).
 
 [NOTE]
 ====
@@ -212,7 +217,7 @@ cleanerConfig(config: KafkaConfig): CleanerConfig
 
 `CleanerConfig` represents a set of <<reconfigurableConfigs, dynamic configurations>> of a <<config, LogCleaner>>:
 
-* [[numThreads]] <<kafka-server-KafkaConfig.adoc#logCleanerThreads, Number of threads>> (default: `1`)
+* [[numThreads]] <<kafka-server-KafkaConfig.adoc#logCleanerThreads, log.cleaner.threads>> (default: `1`)
 * [[dedupeBufferSize]] <<kafka-server-KafkaConfig.adoc#logCleanerDedupeBufferSize, dedupeBufferSize>> (default: `4*1024*1024L`)
 * [[dedupeBufferLoadFactor]] <<kafka-server-KafkaConfig.adoc#logCleanerDedupeBufferLoadFactor, dedupeBufferLoadFactor>> (default: `0.9d`)
 * [[ioBufferSize]] <<kafka-server-KafkaConfig.adoc#logCleanerIoBufferSize, ioBufferSize>> (default: `1024*1024`)

@@ -126,6 +126,7 @@
 .. link:kafka-log-LogSegment.adoc[LogSegment]
 .. link:kafka-log-LogCleanerManager.adoc[LogCleanerManager]
 .. link:kafka-log-LogCleaner.adoc[LogCleaner]
+.. link:kafka-log-CleanerThread.adoc[CleanerThread]
 .. link:kafka-log-ProducerStateManager.adoc[ProducerStateManager]
 .. link:kafka-log-LogConfig.adoc[LogConfig]
 

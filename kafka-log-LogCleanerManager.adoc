@@ -27,3 +27,50 @@ cleanableOffsets(
 `cleanableOffsets`...FIXME
 
 NOTE: `cleanableOffsets` is used when...FIXME
+
+=== [[grabFilthiestCompactedLog]] `grabFilthiestCompactedLog` Method
+
+[source, scala]
+----
+grabFilthiestCompactedLog(time: Time): Option[LogToClean]
+----
+
+`grabFilthiestCompactedLog`...FIXME
+
+NOTE: `grabFilthiestCompactedLog` is used when...FIXME
+
+=== [[deletableLogs]] `deletableLogs` Method
+
+[source, scala]
+----
+deletableLogs(): Iterable[(TopicPartition, Log)]
+----
+
+`deletableLogs`...FIXME
+
+NOTE: `deletableLogs` is used when...FIXME
+
+=== [[doneDeleting]] `doneDeleting` Method
+
+[source, scala]
+----
+doneDeleting(topicPartitions: Iterable[TopicPartition]): Unit
+----
+
+`doneDeleting`...FIXME
+
+NOTE: `doneDeleting` is used when...FIXME
+
+=== [[doneCleaning]] `doneCleaning` Method
+
+[source, scala]
+----
+doneCleaning(
+  topicPartition: TopicPartition,
+  dataDir: File,
+  endOffset: Long): Unit
+----
+
+`doneCleaning`...FIXME
+
+NOTE: `doneCleaning` is used when...FIXME

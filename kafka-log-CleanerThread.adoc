@@ -1,0 +1,100 @@
+== [[CleanerThread]] CleanerThread
+
+[[name]]
+`CleanerThread` is a <<kafka-ShutdownableThread.adoc#, ShutdownableThread>> with the name of the format *kafka-log-cleaner-thread-* followed by the <<threadId, threadId>>.
+
+`CleanerThread` is <<creating-instance, created>> and immediately <<doWork, started>> exclusively when `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#startup, start up>>.
+
+NOTE: The number of `CleanerThreads` (that <<kafka-log-LogCleaner.adoc#cleaners, LogCleaner>> uses) is controlled by <<kafka-properties.adoc#log.cleaner.threads, log.cleaner.threads>> dynamic configuration (default: `1`).
+
+[[threadId]]
+[[creating-instance]]
+`CleanerThread` takes a *threadId* to be created.
+
+[[cleaner]]
+`CleanerThread` uses a `Cleaner`.
+
+[[loggerName]]
+[[logging]]
+`CleanerThread` uses <<kafka-log-LogCleaner.adoc#logging, kafka.log.LogCleaner>> logger.
+
+[TIP]
+====
+Enable `INFO` logging level for `kafka.log.LogCleaner` logger to see what happens inside.
+====
+
+NOTE: `CleanerThread` is a Java private inner class of <<kafka-log-LogCleaner.adoc#, LogCleaner>>. It can only be used by `LogCleaner` and have a direct access to the internals of the `LogCleaner`.
+
+=== [[checkDone]] `checkDone` Internal Method
+
+[source, scala]
+----
+checkDone(topicPartition: TopicPartition): Unit
+----
+
+`checkDone`...FIXME
+
+NOTE: `checkDone` is used exclusively when `CleanerThread` is <<creating-instance, created>> (to create the <<cleaner, Cleaner>>).
+
+=== [[doWork]] `doWork` Method
+
+[source, scala]
+----
+doWork(): Unit
+----
+
+NOTE: `doWork` is part of the <<kafka-ShutdownableThread.adoc#doWork, ShutdownableThread Contract>> to...FIXME.
+
+`doWork`...FIXME
+
+=== [[cleanFilthiestLog]] `cleanFilthiestLog` Internal Method
+
+[source, scala]
+----
+cleanFilthiestLog(): Boolean
+----
+
+`cleanFilthiestLog` requests the <<kafka-log-LogCleaner.adoc#cleanerManager, LogCleanerManager>> to <<kafka-log-LogCleanerManager.adoc#grabFilthiestCompactedLog, grabFilthiestCompactedLog>>.
+
+If there is any filthiest log to work on, `cleanFilthiestLog` <<cleanLog, cleanLog>> and turns the `cleaned` flag on.
+
+With no logs to work on, `cleanFilthiestLog` simply turns the `cleaned` flag off.
+
+NOTE: The value of `cleaned` flag is what `cleanFilthiestLog` returns.
+
+`cleanFilthiestLog` requests the <<kafka-log-LogCleaner.adoc#cleanerManager, LogCleanerManager>> for the <<kafka-log-LogCleanerManager.adoc#deletableLogs, deletable logs>> and then requests every `Log` to <<kafka-log-Log.adoc#deleteOldSegments, deleteOldSegments>>.
+
+In the end, `cleanFilthiestLog` requests the <<kafka-log-LogCleaner.adoc#cleanerManager, LogCleanerManager>> to <<kafka-log-LogCleanerManager.adoc#doneDeleting, doneDeleting>> (with the `TopicPartitions` of the deletable logs).
+
+In case of an exception, `cleanFilthiestLog`...FIXME
+
+NOTE: `cleanFilthiestLog` is used exclusively when `CleanerThread` is requested to <<doWork, doWork>>.
+
+=== [[cleanLog]] `cleanLog` Internal Method
+
+[source, scala]
+----
+cleanLog(cleanable: LogToClean): Unit
+----
+
+`cleanLog` requests the <<cleaner, Cleaner>> to `clean` the given `LogToClean` and <<recordStats, recordStats>>.
+
+In the end, `cleanLog` requests the <<kafka-log-LogCleaner.adoc#cleanerManager, LogCleanerManager>> to <<kafka-log-LogCleanerManager.adoc#doneCleaning, doneCleaning>>.
+
+NOTE: `cleanLog` is used exclusively when `CleanerThread` is requested to <<cleanFilthiestLog, cleanFilthiestLog>>.
+
+=== [[recordStats]] `recordStats` Internal Method
+
+[source, scala]
+----
+recordStats(
+  id: Int,
+  name: String,
+  from: Long,
+  to: Long,
+  stats: CleanerStats): Unit
+----
+
+`recordStats`...FIXME
+
+NOTE: `recordStats` is used exclusively when `CleanerThread` is requested to <<cleanLog, cleanLog>>.
