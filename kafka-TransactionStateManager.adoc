@@ -86,3 +86,16 @@ appendTransactionToLog(
 `appendTransactionToLog`...FIXME
 
 NOTE: `appendTransactionToLog` is used when...FIXME
+
+=== [[loadTransactionMetadata]] `loadTransactionMetadata` Internal Method
+
+[source, scala]
+----
+loadTransactionMetadata(
+  topicPartition: TopicPartition,
+  coordinatorEpoch: Int): Pool[String, TransactionMetadata]
+----
+
+`loadTransactionMetadata`...FIXME
+
+NOTE: `loadTransactionMetadata` is used when...FIXME

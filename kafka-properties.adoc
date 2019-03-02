@@ -406,7 +406,7 @@ Must be at least `1`
 | [[receive.buffer.bytes]] The hint about the size of the TCP network receive buffer (SO_RCVBUF) to use (for a socket) when reading data. If the value is -1, the OS default will be used.
 
 | replica.lag.time.max.ms
-| [[replica.lag.time.max.ms]]
+a| [[replica.lag.time.max.ms]]
 
 | replica.socket.timeout.ms
 | [[replica.socket.timeout.ms]]

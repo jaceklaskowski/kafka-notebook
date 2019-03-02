@@ -163,7 +163,7 @@ a| [[numReplicaFetchers]][[NumReplicaFetchersProp]] <<kafka-properties.adoc#num.
 a| [[PrincipalBuilderClassProp]] <<kafka-properties.adoc#principal.builder.class, principal.builder.class>>
 
 | replicaLagTimeMaxMs
-a| [[replicaLagTimeMaxMs]]
+a| [[replicaLagTimeMaxMs]][[ReplicaLagTimeMaxMsProp]] <<kafka-properties.adoc#replica.lag.time.max.ms, replica.lag.time.max.ms>>
 
 | replicaFetchBackoffMs
 a| [[replicaFetchBackoffMs]][[ReplicaFetchBackoffMsProp]] <<kafka-properties.adoc#replica.fetch.backoff.ms, replica.fetch.backoff.ms>>

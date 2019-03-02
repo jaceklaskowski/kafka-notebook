@@ -9,7 +9,45 @@ image::images/ReplicaManager.png[align="center"]
 
 When <<startup, started>>, `ReplicaManager` schedules <<kafka-server-scheduled-tasks.adoc#isr-expiration, isr-expiration>> and <<kafka-server-scheduled-tasks.adoc#isr-change-propagation, isr-change-propagation>> recurring tasks (every half of link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms] property and 2500 ms, respectively).
 
-`ReplicaManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>>.
+`ReplicaManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
+
+[[metrics]]
+.ReplicaManager's Performance Metrics
+[cols="1m,2",options="header",width="100%"]
+|===
+| Metric Name
+| Description
+
+| FailedIsrUpdatesPerSec
+| [[failedIsrUpdatesRate]]
+
+| IsrExpandsPerSec
+| [[isrExpandRate]]
+
+| IsrShrinksPerSec
+| [[isrShrinkRate]]
+
+| LeaderCount
+| [[leaderCount]]
+
+| OfflineReplicaCount
+| [[offlineReplicaCount]]
+
+| PartitionCount
+| [[partitionCount]]
+
+| UnderMinIsrPartitionCount
+| [[underMinIsrPartitionCount]]
+
+| UnderReplicatedPartitions
+| [[underReplicatedPartitions]] <<underReplicatedPartitionCount, underReplicatedPartitionCount>>
+
+|===
+
+The <<metrics, performance metrics>> are registered in *kafka.server:type=ReplicaManager* group.
+
+.ReplicaManager in jconsole
+image::images/ReplicaManager-jconsole.png[align="center"]
 
 `ReplicaManager` uses the <<metadataCache, MetadataCache>> for the following:
 
@@ -264,7 +302,7 @@ describeLogDirs(partitions: Set[TopicPartition]): Map[String, LogDirInfo]
 
 NOTE: `describeLogDirs` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleDescribeLogDirsRequest, handle a DescribeLogDirs request>>.
 
-=== [[getLog]] `getLog` Method
+=== [[getLog]] Finding Log For TopicPartition -- `getLog` Method
 
 [source, scala]
 ----
@@ -273,7 +311,14 @@ getLog(topicPartition: TopicPartition): Option[Log]
 
 `getLog`...FIXME
 
-NOTE: `getLog` is used when...FIXME
+[NOTE]
+====
+`getLog` is used when:
+
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#doLoadGroupsAndOffsets, doLoadGroupsAndOffsets>>
+
+* `TransactionStateManager` is requested to <<kafka-TransactionStateManager.adoc#loadTransactionMetadata, loadTransactionMetadata>>
+====
 
 === [[startHighWaterMarksCheckPointThread]] `startHighWaterMarksCheckPointThread` Method
 
@@ -451,3 +496,36 @@ stopReplica(
 `stopReplica`...FIXME
 
 NOTE: `stopReplica` is used exclusively when `ReplicaManager` is requested to <<stopReplicas, stopReplicas>>.
+
+=== [[underReplicatedPartitionCount]] `underReplicatedPartitionCount` Method
+
+[source, scala]
+----
+underReplicatedPartitionCount: Int
+----
+
+`underReplicatedPartitionCount`...FIXME
+
+NOTE: `underReplicatedPartitionCount` is used exclusively for the <<underReplicatedPartitions, UnderReplicatedPartitions>> performance metric.
+
+=== [[leaderPartitionsIterator]] `leaderPartitionsIterator` Internal Method
+
+[source, scala]
+----
+leaderPartitionsIterator: Iterator[Partition]
+----
+
+`leaderPartitionsIterator`...FIXME
+
+NOTE: `leaderPartitionsIterator` is used exclusively for the performance metrics: <<leaderCount, LeaderCount>>, <<underMinIsrPartitionCount, UnderMinIsrPartitionCount>>, and <<underReplicatedPartitions, UnderReplicatedPartitions>> (indirectly using <<underReplicatedPartitionCount, underReplicatedPartitionCount>>).
+
+=== [[nonOfflinePartitionsIterator]] `nonOfflinePartitionsIterator` Internal Method
+
+[source, scala]
+----
+nonOfflinePartitionsIterator: Iterator[Partition]
+----
+
+`nonOfflinePartitionsIterator`...FIXME
+
+NOTE: `nonOfflinePartitionsIterator` is used when `ReplicaManager` is requested to <<leaderPartitionsIterator, leaderPartitionsIterator>>, <<checkpointHighWatermarks, checkpointHighWatermarks>>, and <<handleLogDirFailure, handleLogDirFailure>>.
