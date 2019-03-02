@@ -1,6 +1,6 @@
 == [[ReplicaFetcherThread]] ReplicaFetcherThread
 
-`ReplicaFetcherThread` is a link:kafka-AbstractFetcherThread.adoc[AbstractFetcherThread]...FIXME
+`ReplicaFetcherThread` is a link:kafka-server-AbstractFetcherThread.adoc[AbstractFetcherThread]...FIXME
 
 `ReplicaFetcherThread` is <<creating-instance, created>> exclusively when `ReplicaFetcherManager` is requested to link:kafka-ReplicaFetcherManager.adoc#createFetcherThread[create one] (when...FIXME).
 
@@ -38,7 +38,7 @@ NOTE: `earliestOrLatestOffset` is used when...FIXME
 fetchEpochsFromLeader(partitions: Map[TopicPartition, Int]): Map[TopicPartition, EpochEndOffset]
 ----
 
-NOTE: `fetchEpochsFromLeader` is a part of link:kafka-AbstractFetcherThread.adoc#fetchEpochsFromLeader[AbstractFetcherThread Contract].
+NOTE: `fetchEpochsFromLeader` is a part of link:kafka-server-AbstractFetcherThread.adoc#fetchEpochsFromLeader[AbstractFetcherThread Contract].
 
 `fetchEpochsFromLeader`...FIXME
 
@@ -52,7 +52,7 @@ processPartitionData(
   partitionData: FetchData): Option[LogAppendInfo]
 ----
 
-NOTE: `processPartitionData` is part of the <<kafka-AbstractFetcherThread.adoc#processPartitionData, AbstractFetcherThread Contract>> to...FIXME.
+NOTE: `processPartitionData` is part of the <<kafka-server-AbstractFetcherThread.adoc#processPartitionData, AbstractFetcherThread Contract>> to...FIXME.
 
 `processPartitionData`...FIXME
 
@@ -63,7 +63,7 @@ NOTE: `processPartitionData` is part of the <<kafka-AbstractFetcherThread.adoc#p
 truncate(tp: TopicPartition, offsetTruncationState: OffsetTruncationState): Unit
 ----
 
-NOTE: `truncate` is a part of link:kafka-AbstractFetcherThread.adoc#truncate[AbstractFetcherThread Contract].
+NOTE: `truncate` is a part of link:kafka-server-AbstractFetcherThread.adoc#truncate[AbstractFetcherThread Contract].
 
 `truncate`...FIXME
 
@@ -74,6 +74,6 @@ NOTE: `truncate` is a part of link:kafka-AbstractFetcherThread.adoc#truncate[Abs
 truncateFullyAndStartAt(topicPartition: TopicPartition, offset: Long): Unit
 ----
 
-NOTE: `truncateFullyAndStartAt` is a part of link:kafka-AbstractFetcherThread.adoc#truncateFullyAndStartAt[AbstractFetcherThread Contract].
+NOTE: `truncateFullyAndStartAt` is a part of link:kafka-server-AbstractFetcherThread.adoc#truncateFullyAndStartAt[AbstractFetcherThread Contract].
 
 `truncateFullyAndStartAt`...FIXME

@@ -138,7 +138,7 @@
 .. link:kafka-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
 ... link:kafka-AbstractFetcherManager.adoc[AbstractFetcherManager]
 .. link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
-... link:kafka-AbstractFetcherThread.adoc[AbstractFetcherThread]
+... link:kafka-server-AbstractFetcherThread.adoc[AbstractFetcherThread]
 ... link:kafka-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend]
 .. link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 .. link:kafka-ReplicationUtils.adoc[ReplicationUtils]
