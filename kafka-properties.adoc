@@ -381,6 +381,17 @@ Default: `9092`
 | principal.builder.class
 a| [[principal.builder.class]]
 
+| replica.fetch.backoff.ms
+a| [[replica.fetch.backoff.ms]] The amount of time to sleep when fetch partition error occurs.
+
+Default: `1000`
+
+Must be at least `0`
+
+* Use <<kafka-server-KafkaConfig.adoc#ReplicaFetchBackoffMsProp, KafkaConfig.ReplicaFetchBackoffMsProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#replicaFetchBackoffMs, KafkaConfig.replicaFetchBackoffMs>> to access the current value
+
 | queued.max.requests
 a| [[queued.max.requests]] The number of queued requests allowed before blocking the network threads
 
@@ -590,4 +601,5 @@ Default: `false`
 * Available as `KafkaConfig.ZkEnableSecureAclsProp`
 
 * Use <<kafka-server-KafkaConfig.adoc#zkEnableSecureAcls, KafkaConfig.zkEnableSecureAcls>> to access the current value
+
 |===

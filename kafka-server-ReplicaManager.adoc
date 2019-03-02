@@ -1,5 +1,7 @@
 == [[ReplicaManager]] ReplicaManager
 
+`ReplicaManager` manages log replicas using the <<logManager, LogManager>>.
+
 `ReplicaManager` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 .ReplicaManager and KafkaServer
@@ -25,6 +27,9 @@ When <<startup, started>>, `ReplicaManager` schedules <<kafka-server-scheduled-t
 
 | [[allPartitions]] `allPartitions`
 | Pool of `TopicPartition` and link:kafka-cluster-Partition.adoc[Partitions]
+
+| highWatermarkCheckpoints
+a| [[highWatermarkCheckpoints]] `OffsetCheckpointFiles` per live log data directory
 
 | [[isrChangeSet]] `isrChangeSet`
 | Collection of `TopicPartition` that...FIXME
@@ -446,14 +451,3 @@ stopReplica(
 `stopReplica`...FIXME
 
 NOTE: `stopReplica` is used exclusively when `ReplicaManager` is requested to <<stopReplicas, stopReplicas>>.
-
-=== [[stopReplicas]] `stopReplicas` Method
-
-[source, scala]
-----
-stopReplicas(stopReplicaRequest: StopReplicaRequest): (mutable.Map[TopicPartition, Errors], Errors)
-----
-
-`stopReplicas`...FIXME
-
-NOTE: `stopReplicas` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleStopReplicaRequest, handleStopReplicaRequest>>.

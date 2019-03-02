@@ -258,7 +258,7 @@ appendRecordsToFollowerOrFutureReplica(
 ====
 `appendRecordsToFollowerOrFutureReplica` is used when:
 
-* `ReplicaAlterLogDirsThread` is requested to `processPartitionData`
+* `ReplicaAlterLogDirsThread` is requested to <<kafka-server-ReplicaAlterLogDirsThread.adoc#processPartitionData, processPartitionData>>
 
 * `ReplicaFetcherThread` is requested to <<kafka-server-ReplicaFetcherThread.adoc#processPartitionData, processPartitionData>>
 ====
@@ -276,7 +276,7 @@ truncateTo(offset: Long, isFuture: Boolean): Unit
 ====
 `truncateTo` is used when:
 
-* `ReplicaAlterLogDirsThread` is requested to `truncate`
+* `ReplicaAlterLogDirsThread` is requested to <<kafka-server-ReplicaAlterLogDirsThread.adoc#truncate, truncate>>
 
 * `ReplicaFetcherThread` is requested to <<kafka-server-ReplicaFetcherThread.adoc#truncate, truncate>>
 ====
@@ -296,7 +296,7 @@ truncateFullyAndStartAt(newOffset: Long, isFuture: Boolean): Unit
 
 * `Partition` is requested to <<appendRecordsToFollowerOrFutureReplica, appendRecordsToFollowerOrFutureReplica>>
 
-* `ReplicaAlterLogDirsThread` is requested to `truncateFullyAndStartAt`
+* `ReplicaAlterLogDirsThread` is requested to <<kafka-server-ReplicaAlterLogDirsThread.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
 
 * `ReplicaFetcherThread` is requested to <<kafka-server-ReplicaFetcherThread.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
 ====
@@ -310,7 +310,7 @@ maybeReplaceCurrentWithFutureReplica(): Boolean
 
 `maybeReplaceCurrentWithFutureReplica`...FIXME
 
-NOTE: `maybeReplaceCurrentWithFutureReplica` is used exclusively when `ReplicaAlterLogDirsThread` is requested to `processPartitionData`.
+NOTE: `maybeReplaceCurrentWithFutureReplica` is used exclusively when `ReplicaAlterLogDirsThread` is requested to <<kafka-server-ReplicaAlterLogDirsThread.adoc#processPartitionData, processPartitionData>>.
 
 === [[delete]] `delete` Method
 

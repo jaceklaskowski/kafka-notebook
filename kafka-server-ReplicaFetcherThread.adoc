@@ -1,8 +1,12 @@
 == [[ReplicaFetcherThread]] ReplicaFetcherThread
 
-`ReplicaFetcherThread` is a link:kafka-server-AbstractFetcherThread.adoc[AbstractFetcherThread]...FIXME
+`ReplicaFetcherThread` is an uninterruptible <<kafka-server-AbstractFetcherThread.adoc#, AbstractFetcherThread>> that...FIXME
 
-`ReplicaFetcherThread` is <<creating-instance, created>> exclusively when `ReplicaFetcherManager` is requested to link:kafka-ReplicaFetcherManager.adoc#createFetcherThread[create one] (when...FIXME).
+`ReplicaFetcherThread` is used (_managed_) exclusively by <<kafka-ReplicaFetcherManager.adoc#, ReplicaFetcherManager>>.
+
+`ReplicaFetcherThread` uses <<kafka-properties.adoc#replica.fetch.backoff.ms, replica.fetch.backoff.ms>> configuration property for the <<kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs, fetchBackOffMs>>.
+
+`ReplicaFetcherThread` is <<creating-instance, created>> exclusively when `ReplicaFetcherManager` is requested to <<kafka-ReplicaFetcherManager.adoc#createFetcherThread, create one>> (when...FIXME).
 
 === [[creating-instance]] Creating ReplicaFetcherThread Instance
 
@@ -13,10 +17,10 @@
 * [[sourceBroker]] Source `BrokerEndPoint`
 * [[brokerConfig]] link:kafka-server-KafkaConfig.adoc[KafkaConfig]
 * [[replicaMgr]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
-* [[metrics]] `Metrics`
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
 * [[time]] `Time`
-* [[quota]] link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
-* [[leaderEndpointBlockingSend]] Optional `BlockingSend` (undefined by default)
+* [[quota]] `ReplicaQuota`
+* [[leaderEndpointBlockingSend]] Optional `BlockingSend` (default: `None`)
 
 `ReplicaFetcherThread` initializes the <<internal-registries, internal registries and counters>>.
 

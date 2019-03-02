@@ -1,6 +1,6 @@
 == [[ReplicaFetcherManager]] ReplicaFetcherManager
 
-`ReplicaFetcherManager` is a link:kafka-AbstractFetcherManager.adoc[AbstractFetcherManager] that...FIXME (describe properties)
+`ReplicaFetcherManager` is a <<kafka-AbstractFetcherManager.adoc#, AbstractFetcherManager>> of <<kafka-server-ReplicaFetcherThread.adoc#, ReplicaFetcherThreads>> that...FIXME (describe properties)
 
 `ReplicaFetcherManager` is <<creating-instance, created>> exclusively when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#createReplicaFetcherManager[create one] (which is when `ReplicaManager` is link:kafka-server-ReplicaManager.adoc#replicaFetcherManager[created]).
 
@@ -8,12 +8,14 @@
 
 [source, scala]
 ----
-createFetcherThread(fetcherId: Int, sourceBroker: BrokerEndPoint): AbstractFetcherThread
+createFetcherThread(
+  fetcherId: Int,
+  sourceBroker: BrokerEndPoint): ReplicaFetcherThread
 ----
 
 `createFetcherThread`...FIXME
 
-NOTE: `createFetcherThread` is used exclusively when `AbstractFetcherManager` link:kafka-AbstractFetcherManager.adoc#addFetcherForPartitions[addFetcherForPartitions]
+NOTE: `createFetcherThread` is used exclusively when `AbstractFetcherManager` is requested to  link:kafka-AbstractFetcherManager.adoc#addFetcherForPartitions[addFetcherForPartitions]
 
 === [[creating-instance]] Creating ReplicaFetcherManager Instance
 

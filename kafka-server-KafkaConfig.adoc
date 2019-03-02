@@ -165,6 +165,11 @@ a| [[PrincipalBuilderClassProp]] <<kafka-properties.adoc#principal.builder.class
 | replicaLagTimeMaxMs
 a| [[replicaLagTimeMaxMs]]
 
+| replicaFetchBackoffMs
+a| [[replicaFetchBackoffMs]][[ReplicaFetchBackoffMsProp]] <<kafka-properties.adoc#replica.fetch.backoff.ms, replica.fetch.backoff.ms>>
+
+Used as <<kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs, fetchBackOffMs>> for <<kafka-server-ReplicaAlterLogDirsThread.adoc#, ReplicaAlterLogDirsThread>> and <<kafka-server-ReplicaFetcherThread.adoc#, ReplicaFetcherThread>>
+
 | SaslMechanismInterBrokerProtocolProp
 a| [[SaslMechanismInterBrokerProtocolProp]] <<kafka-properties.adoc#sasl.mechanism.inter.broker.protocol, sasl.mechanism.inter.broker.protocol>>
 

@@ -1,12 +1,68 @@
 == [[AbstractFetcherManager]] AbstractFetcherManager
 
-`AbstractFetcherManager` is...FIXME
+`AbstractFetcherManager` is the <<contract, abstraction>> of <<implementations, fetcher thread managers>> that can <<createFetcherThread, create a fetcher thread>> (for <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>).
+
+NOTE: `AbstractFetcherManager` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractFetcherManagers>>.
+
+[[contract]]
+.AbstractFetcherManager Contract (Abstract Methods)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| createFetcherThread
+a| [[createFetcherThread]]
+
+[source, scala]
+----
+// T is AbstractFetcherThread or subclasses
+createFetcherThread(fetcherId: Int, sourceBroker: BrokerEndPoint): T
+----
+
+Used when `AbstractFetcherManager` is requested to <<addFetcherForPartitions, addFetcherForPartitions>>
+
+|===
+
+[[implementations]]
+.AbstractFetcherManagers
+[cols="1,3",options="header",width="100%"]
+|===
+| AbstractFetcherManager
+| Description
+
+| <<kafka-server-ReplicaAlterLogDirsManager.adoc#, ReplicaAlterLogDirsManager>>
+| [[ReplicaAlterLogDirsManager]]
+
+| <<kafka-ReplicaFetcherManager.adoc#, ReplicaFetcherManager>>
+| [[ReplicaFetcherManager]]
+
+|===
+
+[[internal-registries]]
+.AbstractFetcherManager's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| numFetchersPerBroker
+a| [[numFetchersPerBroker]] Number of fetcher threads per broker
+
+Initialized with the given <<numFetchers, numFetchers>>
+
+Resized in <<resizeThreadPool, resizeThreadPool>>
+
+Used exclusively in <<getFetcherId, getFetcherId>>
+
+|===
 
 === [[addFetcherForPartitions]] `addFetcherForPartitions` Method
 
 [source, scala]
 ----
-addFetcherForPartitions(partitionAndOffsets: Map[TopicPartition, BrokerAndInitialOffset]): Unit
+addFetcherForPartitions(
+  partitionAndOffsets: Map[TopicPartition, InitialFetchState]): Unit
 ----
 
 `addFetcherForPartitions`...FIXME
@@ -15,7 +71,60 @@ addFetcherForPartitions(partitionAndOffsets: Map[TopicPartition, BrokerAndInitia
 ====
 `addFetcherForPartitions` is used when:
 
-* `ReplicaManager` link:kafka-server-ReplicaManager.adoc#alterReplicaLogDirs[alterReplicaLogDirs], link:kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower[becomeLeaderOrFollower], link:link:kafka-server-ReplicaManager.adoc#makeFollowers[makeFollowers]
+* `AbstractFetcherManager` is requested to <<resizeThreadPool, resizeThreadPool>> (when `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure>>)
 
-* `LeaderFinderThread` (of the currently-deprecated `ConsumerFetcherManager`) does `doWork`
+* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#alterReplicaLogDirs, alterReplicaLogDirs>>, <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>> and <<kafka-server-ReplicaManager.adoc#makeFollowers, makeFollowers>>
 ====
+
+=== [[resizeThreadPool]] `resizeThreadPool` Method
+
+[source, scala]
+----
+resizeThreadPool(newSize: Int): Unit
+----
+
+`resizeThreadPool` prints out the following INFO message to the logs:
+
+```
+Resizing fetcher thread pool size from [currentSize] to [newSize]
+```
+
+`resizeThreadPool`...FIXME
+
+NOTE: `resizeThreadPool` is used exclusively when `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure>>.
+
+=== [[getFetcherId]] Hashing Topic and Partition -- `getFetcherId` Method
+
+[source, scala]
+----
+getFetcherId(topicPartition: TopicPartition): Int
+----
+
+`getFetcherId` calculates a hash of the topic and partition (from the given `TopicPartition`) modulo (`%`) the <<numFetchersPerBroker, numFetchersPerBroker>>.
+
+NOTE: `getFetcherId` is used when `AbstractFetcherManager` is requested to <<getFetcher, getFetcher>>, <<markPartitionsForTruncation, markPartitionsForTruncation>> and <<addFetcherForPartitions, addFetcherForPartitions>>.
+
+=== [[getFetcher]] `getFetcher` Method
+
+[source, scala]
+----
+getFetcher(topicPartition: TopicPartition): Option[T]
+----
+
+`getFetcher`...FIXME
+
+NOTE: `getFetcher` is used when...FIXME
+
+=== [[markPartitionsForTruncation]] `markPartitionsForTruncation` Method
+
+[source, scala]
+----
+markPartitionsForTruncation(
+  brokerId: Int,
+  topicPartition: TopicPartition,
+  truncationOffset: Long): Unit
+----
+
+`markPartitionsForTruncation`...FIXME
+
+NOTE: `markPartitionsForTruncation` is used when...FIXME

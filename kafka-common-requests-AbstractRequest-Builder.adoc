@@ -24,7 +24,7 @@ Used when:
 
 * `NetworkClient` is requested to <<kafka-clients-NetworkClient.adoc#doSend, doSend>>
 
-* `ReplicaAlterLogDirsThread` is requested to `fetchFromLeader`
+* `ReplicaAlterLogDirsThread` is requested to <<kafka-server-ReplicaAlterLogDirsThread.adoc#fetchFromLeader, fetchFromLeader>>
 
 * `OffsetFetchRequest` is requested to `forAllPartitions`
 

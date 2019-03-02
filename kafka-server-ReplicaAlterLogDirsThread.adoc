@@ -1,0 +1,55 @@
+== [[ReplicaAlterLogDirsThread]] ReplicaAlterLogDirsThread
+
+`ReplicaAlterLogDirsThread` is...FIXME
+
+=== [[fetchFromLeader]] `fetchFromLeader` Method
+
+[source, scala]
+----
+fetchFromLeader(
+  fetchRequest: FetchRequest.Builder): Seq[(TopicPartition, FetchData)]
+----
+
+NOTE: `fetchFromLeader` is part of the <<kafka-server-AbstractFetcherThread.adoc#fetchFromLeader, AbstractFetcherThread Contract>> to...FIXME.
+
+`fetchFromLeader`...FIXME
+
+=== [[processPartitionData]] `processPartitionData` Method
+
+[source, scala]
+----
+processPartitionData(
+  topicPartition: TopicPartition,
+  fetchOffset: Long,
+  partitionData: PartitionData[Records]): Option[LogAppendInfo]
+----
+
+NOTE: `processPartitionData` is part of the <<kafka-server-AbstractFetcherThread.adoc#processPartitionData, AbstractFetcherThread Contract>> to...FIXME.
+
+`processPartitionData`...FIXME
+
+=== [[truncateFullyAndStartAt]] `truncateFullyAndStartAt` Method
+
+[source, scala]
+----
+truncateFullyAndStartAt(
+  topicPartition: TopicPartition,
+  offset: Long): Unit
+----
+
+NOTE: `truncateFullyAndStartAt` is part of the <<kafka-server-AbstractFetcherThread.adoc#truncateFullyAndStartAt, AbstractFetcherThread Contract>> to...FIXME.
+
+`truncateFullyAndStartAt`...FIXME
+
+=== [[truncate]] `truncate` Method
+
+[source, scala]
+----
+truncate(
+  topicPartition: TopicPartition,
+  truncationState: OffsetTruncationState): Unit
+----
+
+NOTE: `truncate` is part of the <<kafka-server-AbstractFetcherThread.adoc#truncate, AbstractFetcherThread Contract>> to...FIXME.
+
+`truncate`...FIXME

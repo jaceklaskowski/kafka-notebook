@@ -1,3 +1,193 @@
 == [[AbstractFetcherThread]] AbstractFetcherThread
 
-`AbstractFetcherThread` is...FIXME
+`AbstractFetcherThread` is the <<contract, extension>> of the <<kafka-ShutdownableThread.adoc#, ShutdownableThread contract>> for <<implementations, fetcher threads>> that <<FIXME, FIXME>>.
+
+NOTE: `AbstractFetcherThread` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractFetcherThreads>>.
+
+[[contract]]
+.AbstractFetcherThread Contract (Abstract Methods)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| buildFetch
+a| [[buildFetch]]
+
+[source, scala]
+----
+buildFetch(
+  partitionMap: Map[TopicPartition, PartitionFetchState]
+): ResultWithPartitions[Option[FetchRequest.Builder]]
+----
+
+Used when...FIXME
+
+| endOffsetForEpoch
+a| [[endOffsetForEpoch]]
+
+[source, scala]
+----
+endOffsetForEpoch(
+  topicPartition: TopicPartition,
+  epoch: Int): Option[OffsetAndEpoch]
+----
+
+Used when...FIXME
+
+| fetchEarliestOffsetFromLeader
+a| [[fetchEarliestOffsetFromLeader]]
+
+[source, scala]
+----
+fetchEarliestOffsetFromLeader(
+  topicPartition: TopicPartition,
+  currentLeaderEpoch: Int): Long
+----
+
+Used when...FIXME
+
+| fetchEpochEndOffsets
+a| [[fetchEpochEndOffsets]]
+
+[source, scala]
+----
+fetchEpochEndOffsets(
+  partitions: Map[TopicPartition, EpochData]
+): Map[TopicPartition, EpochEndOffset]
+----
+
+Used when...FIXME
+
+| fetchFromLeader
+a| [[fetchFromLeader]]
+
+[source, scala]
+----
+fetchFromLeader(
+  fetchRequest: FetchRequest.Builder): Seq[(TopicPartition, FetchData)]
+----
+
+Used when...FIXME
+
+| fetchLatestOffsetFromLeader
+a| [[fetchLatestOffsetFromLeader]]
+
+[source, scala]
+----
+fetchLatestOffsetFromLeader(
+  topicPartition: TopicPartition,
+  currentLeaderEpoch: Int): Long
+----
+
+Used when...FIXME
+
+| isOffsetForLeaderEpochSupported
+a| [[isOffsetForLeaderEpochSupported]]
+
+[source, scala]
+----
+isOffsetForLeaderEpochSupported: Boolean
+----
+
+Used when...FIXME
+
+| latestEpoch
+a| [[latestEpoch]]
+
+[source, scala]
+----
+latestEpoch(topicPartition: TopicPartition): Option[Int]
+----
+
+Used when...FIXME
+
+| logEndOffset
+a| [[logEndOffset]]
+
+[source, scala]
+----
+logEndOffset(topicPartition: TopicPartition): Long
+----
+
+Used when...FIXME
+
+| processPartitionData
+a| [[processPartitionData]]
+
+[source, scala]
+----
+processPartitionData(
+  topicPartition: TopicPartition,
+  fetchOffset: Long,
+  partitionData: FetchData): Option[LogAppendInfo]
+----
+
+Used when...FIXME
+
+| truncate
+a| [[truncate]]
+
+[source, scala]
+----
+truncate(
+  topicPartition: TopicPartition,
+  truncationState: OffsetTruncationState): Unit
+----
+
+Used when...FIXME
+
+| truncateFullyAndStartAt
+a| [[truncateFullyAndStartAt]]
+
+[source, scala]
+----
+truncateFullyAndStartAt(
+  topicPartition: TopicPartition,
+  offset: Long): Unit
+----
+
+Used when...FIXME
+
+|===
+
+[[implementations]]
+.AbstractFetcherThreads
+[cols="1,3",options="header",width="100%"]
+|===
+| AbstractFetcherThread
+| Description
+
+| <<kafka-server-ReplicaAlterLogDirsThread.adoc#, ReplicaAlterLogDirsThread>>
+| [[ReplicaAlterLogDirsThread]]
+
+| <<kafka-server-ReplicaFetcherThread.adoc#, ReplicaFetcherThread>>
+| [[ReplicaFetcherThread]]
+
+|===
+
+[[internal-registries]]
+.AbstractFetcherThread's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| partitionStates
+| [[partitionStates]] `PartitionStates[PartitionFetchState]`
+
+Used when...FIXME
+
+|===
+
+=== [[creating-instance]] Creating AbstractFetcherThread Instance
+
+`AbstractFetcherThread` takes the following to be created:
+
+* [[name]] Thread Name
+* [[clientId]] Client ID
+* [[sourceBroker]] `BrokerEndPoint`
+* [[fetchBackOffMs]] `fetchBackOffMs` (default: `0`)
+* [[isInterruptible]] `isInterruptible` flag (default: `true`)
+
+`AbstractFetcherThread` initializes the <<internal-registries, internal registries and counters>>.
