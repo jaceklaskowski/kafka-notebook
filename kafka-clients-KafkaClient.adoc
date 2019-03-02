@@ -36,7 +36,7 @@ Used when:
 
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#controlledShutdown, controlledShutdown>>
 
-* `ReplicaFetcherBlockingSend` is requested to <<kafka-ReplicaFetcherBlockingSend.adoc#sendRequest, send a client request and wait for a response>>
+* `ReplicaFetcherBlockingSend` is requested to <<kafka-server-ReplicaFetcherBlockingSend.adoc#sendRequest, send a client request and wait for a response>>
 
 | connectionDelay
 a| [[connectionDelay]]

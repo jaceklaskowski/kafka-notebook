@@ -23,7 +23,7 @@ When <<startup, started>>, `ReplicaManager` schedules <<kafka-server-scheduled-t
 | Description
 
 | [[replicaFetcherManager]] `replicaFetcherManager`
-| link:kafka-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
+| link:kafka-server-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
 
 | [[allPartitions]] `allPartitions`
 | Pool of `TopicPartition` and link:kafka-cluster-Partition.adoc[Partitions]

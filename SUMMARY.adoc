@@ -135,16 +135,15 @@
 . link:kafka-OffsetConfig.adoc[OffsetConfig]
 
 . link:kafka-server-ReplicaManager.adoc[ReplicaManager]
-.. link:kafka-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
+.. link:kafka-server-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
 ... link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
 .. link:kafka-server-ReplicaAlterLogDirsManager.adoc[ReplicaAlterLogDirsManager]
 ... link:kafka-server-ReplicaAlterLogDirsThread.adoc[ReplicaAlterLogDirsThread]
-.. link:kafka-AbstractFetcherManager.adoc[AbstractFetcherManager]
+.. link:kafka-server-AbstractFetcherManager.adoc[AbstractFetcherManager]
 ... link:kafka-server-AbstractFetcherThread.adoc[AbstractFetcherThread]
-.. link:kafka-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend]
+.. link:kafka-server-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend]
 .. link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 .. link:kafka-server-ReplicaManager-LogDirFailureHandler.adoc[LogDirFailureHandler]
-.. link:kafka-ReplicationUtils.adoc[ReplicationUtils]
 
 . link:kafka-Selector.adoc[Selector -- Selectable on Socket Channels (from Java's New IO API)]
 .. link:kafka-Selectable.adoc[Selectable]
@@ -192,6 +191,7 @@
 
 . link:kafka-cluster-Partition.adoc[Partition]
 . link:kafka-cluster-Replica.adoc[Replica]
+. link:kafka-utils-ReplicationUtils.adoc[ReplicationUtils]
 
 === Kafka Performance Metrics
 

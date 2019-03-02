@@ -19,7 +19,7 @@ trait KafkaMetricsGroup {
 | KafkaMetricsGroup
 | Description
 
-| <<kafka-AbstractFetcherManager.adoc#, AbstractFetcherManager>>
+| <<kafka-server-AbstractFetcherManager.adoc#, AbstractFetcherManager>>
 | [[AbstractFetcherManager]]
 
 | Acceptor
