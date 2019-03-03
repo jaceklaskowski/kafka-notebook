@@ -218,7 +218,7 @@ fetchMessages(
 
 `fetchMessages`...FIXME
 
-NOTE: `fetchMessages` is used exclusively when `KafkaApis` link:kafka-server-KafkaApis.adoc#handleFetchRequest[handles a Fetch request].
+NOTE: `fetchMessages` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleFetchRequest, handles a Fetch request>>.
 
 === [[maybePropagateIsrChanges]] `maybePropagateIsrChanges` Method
 
@@ -388,7 +388,7 @@ maybeUpdateMetadataCache(
 
 `maybeUpdateMetadataCache`...FIXME
 
-NOTE: `maybeUpdateMetadataCache` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleUpdateMetadataRequest, handleUpdateMetadataRequest>>.
+NOTE: `maybeUpdateMetadataCache` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleUpdateMetadataRequest, handle an UpdateMetadata request>>.
 
 === [[appendRecords]] Appending Records -- `appendRecords` Method
 
@@ -415,7 +415,7 @@ appendRecords(
 
 * `TransactionStateManager` is requested to <<kafka-TransactionStateManager.adoc#enableTransactionalIdExpiration, enableTransactionalIdExpiration>> and <<kafka-TransactionStateManager.adoc#appendTransactionToLog, appendTransactionToLog>>
 
-* `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleProduceRequest, handleProduceRequest>> and <<kafka-server-KafkaApis.adoc#handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>>
+* `KafkaApis` is requested to handle <<kafka-server-KafkaApis.adoc#handleProduceRequest, Produce>> and <<kafka-server-KafkaApis.adoc#handleWriteTxnMarkersRequest, WriteTxnMarkers>> requests
 ====
 
 === [[appendToLocalLog]] `appendToLocalLog` Internal Method
@@ -613,3 +613,56 @@ nonOfflinePartition(topicPartition: TopicPartition): Option[Partition]
 `nonOfflinePartition`...FIXME
 
 NOTE: `nonOfflinePartition` is used when...FIXME
+
+=== [[deleteRecords]] `deleteRecords` Method
+
+[source, scala]
+----
+deleteRecords(
+  timeout: Long,
+  offsetPerPartition: Map[TopicPartition, Long],
+  responseCallback: Map[TopicPartition, DeleteRecordsResponse.PartitionResponse] => Unit): Unit
+----
+
+`deleteRecords`...FIXME
+
+NOTE: `deleteRecords` is used when...FIXME
+
+=== [[fetchOffsetForTimestamp]] `fetchOffsetForTimestamp` Method
+
+[source, scala]
+----
+fetchOffsetForTimestamp(
+  topicPartition: TopicPartition,
+  timestamp: Long,
+  isolationLevel: Option[IsolationLevel],
+  currentLeaderEpoch: Optional[Integer],
+  fetchOnlyFromLeader: Boolean): TimestampOffset
+----
+
+`fetchOffsetForTimestamp`...FIXME
+
+NOTE: `fetchOffsetForTimestamp` is used when...FIXME
+
+=== [[stopReplicas]] `stopReplicas` Method
+
+[source, scala]
+----
+stopReplicas(
+  stopReplicaRequest: StopReplicaRequest): (mutable.Map[TopicPartition, Errors], Errors)
+----
+
+`stopReplicas`...FIXME
+
+NOTE: `stopReplicas` is used when...FIXME
+
+=== [[getMagic]] `getMagic` Method
+
+[source, scala]
+----
+getMagic(topicPartition: TopicPartition): Option[Byte]
+----
+
+`getMagic`...FIXME
+
+NOTE: `getMagic` is used when...FIXME

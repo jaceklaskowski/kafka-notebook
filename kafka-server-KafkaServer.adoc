@@ -18,7 +18,7 @@ image::images/KafkaServer-startup.png[align="center"]
 | [[adminManager]] link:kafka-server-AdminManager.adoc[AdminManager]
 
 | apis
-| [[apis]] link:kafka-server-KafkaApis.adoc[KafkaApis]
+a| [[apis]] <<kafka-server-KafkaApis.adoc#, KafkaApis>>
 
 | authorizer
 | [[authorizer]] Optional link:kafka-Authorizer.adoc[Authorizer]

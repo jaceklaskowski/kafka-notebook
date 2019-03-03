@@ -1,24 +1,10 @@
 == [[KafkaApis]] KafkaApis -- API Request Handler
 
-`KafkaApis` <<handle, handles API requests>> (by means of <<handlers, handlers>>).
-
-`KafkaApis` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-server-KafkaServer.adoc#startup[started] (and creates link:kafka-server-KafkaServer.adoc#requestHandlerPool[KafkaRequestHandlerPool]).
-
-.KafkaApis is Created for KafkaRequestHandlerPool when KafkaServer Starts Up
-image::images/KafkaApis.png[align="center"]
-
-[[adminZkClient]]
-`KafkaApis` uses a <<kafka-zk-AdminZkClient.adoc#, AdminZkClient>> for...FIXME
-
-`KafkaApis` uses the <<metadataCache, MetadataCache>> for the following:
-
-* <<handleTopicMetadataRequest, handleTopicMetadataRequest>> (to get <<kafka-server-MetadataCache.adoc#getControllerId, controller ID>>)
-
-* ...FIXME
+`KafkaApis` is responsible for <<handle, handling API requests>> (by means of <<handlers, handlers>>) to a <<kafka-server-KafkaServer.adoc#apis, KafkaServer>> and orchestrating interactions between the services.
 
 [[keys]]
 [[handlers]]
-.KafkaApis's API Keys and Their Handlers (in alphabetical order)
+.KafkaApis's API Keys and Their Handlers
 [cols="1m,1",options="header",width="100%"]
 |===
 | API Key
@@ -51,6 +37,9 @@ image::images/KafkaApis.png[align="center"]
 | DescribeLogDirs
 | [[DescribeLogDirs]] <<handleDescribeLogDirsRequest, handleDescribeLogDirsRequest>>
 
+| DeleteRecords
+| [[DeleteRecords]] <<handleDeleteRecordsRequest, handleDeleteRecordsRequest>>
+
 | Fetch
 | [[Fetch]] <<handleFetchRequest, handleFetchRequest>>
 
@@ -63,6 +52,9 @@ image::images/KafkaApis.png[align="center"]
 | LeaderAndIsr
 | [[LEADER_AND_ISR]][[LeaderAndIsr]] <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
 
+| ListOffsets
+| [[ListOffsets]] <<handleListOffsetRequest, handleListOffsetRequest>>
+
 | Metadata
 | [[Metadata]] <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
 
@@ -71,6 +63,9 @@ image::images/KafkaApis.png[align="center"]
 
 | OffsetFetch
 | [[OffsetFetch]] <<handleOffsetFetchRequest, handleOffsetFetchRequest>>
+
+| OffsetForLeaderEpoch
+| [[OffsetForLeaderEpoch]] <<handleOffsetForLeaderEpochRequest, handleOffsetForLeaderEpochRequest>>
 
 | Produce
 | [[Produce]] <<handleProduceRequest, handleProduceRequest>>
@@ -86,29 +81,43 @@ image::images/KafkaApis.png[align="center"]
 
 |===
 
-`KafkaApis` uses the <<replicaManager, ReplicaManager>> in the following <<handlers, handlers>>:
+`KafkaApis` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-server-KafkaServer.adoc#startup[started] (and creates link:kafka-server-KafkaServer.adoc#requestHandlerPool[KafkaRequestHandlerPool]).
 
-* <<handleAlterReplicaLogDirsRequest, handleAlterReplicaLogDirsRequest>>
+.KafkaApis is Created for KafkaRequestHandlerPool when KafkaServer Starts Up
+image::images/KafkaApis.png[align="center"]
 
-* <<handleDeleteRecordsRequest, handleDeleteRecordsRequest>>
+`KafkaApis` uses the <<replicaManager, ReplicaManager>> to handle the following API requests:
 
-* <<handleDescribeLogDirsRequest, handleDescribeLogDirsRequest>>
+* <<handleAlterReplicaLogDirsRequest, AlterReplicaLogDirs>>
 
-* <<handleFetchRequest, handleFetchRequest>>
+* <<handleDeleteRecordsRequest, DeleteRecords>>
 
-* <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
+* <<handleDescribeLogDirsRequest, DescribeLogDirs>>
 
-* <<handleListOffsetRequest, handleListOffsetRequest>>
+* <<handleFetchRequest, Fetch>>
 
-* <<handleOffsetForLeaderEpochRequest, handleOffsetForLeaderEpochRequest>>
+* <<handleLeaderAndIsrRequest, LeaderAndIsr>>
 
-* <<handleProduceRequest, handleProduceRequest>>
+* <<handleListOffsetRequest, ListOffset>>
 
-* <<handleStopReplicaRequest, handleStopReplicaRequest>>
+* <<handleOffsetForLeaderEpochRequest, OffsetForLeaderEpoch>>
 
-* <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
+* <<handleProduceRequest, Produce>>
 
-* <<handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>>
+* <<handleStopReplicaRequest, StopReplica>>
+
+* <<handleUpdateMetadataRequest, UpdateMetadata>>
+
+* <<handleWriteTxnMarkersRequest, WriteTxnMarkers>>
+
+[[adminZkClient]]
+`KafkaApis` uses a <<kafka-zk-AdminZkClient.adoc#, AdminZkClient>> for...FIXME
+
+`KafkaApis` uses the <<metadataCache, MetadataCache>> for the following:
+
+* <<handleTopicMetadataRequest, handleTopicMetadataRequest>> (to get <<kafka-server-MetadataCache.adoc#getControllerId, controller ID>>)
+
+* ...FIXME
 
 [[logging]]
 [TIP]
@@ -158,12 +167,14 @@ Handling request:[request] from connection [id];securityProtocol:[protocol],prin
 
 NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is requested to <<kafka-KafkaRequestHandler.adoc#run, run>>.
 
-=== [[handleLeaderAndIsrRequest]] Handling LeaderAndIsrRequest -- `handleLeaderAndIsrRequest` Handler
+=== [[handleLeaderAndIsrRequest]] Handling LeaderAndIsr Request -- `handleLeaderAndIsrRequest` Handler
 
 [source, scala]
 ----
 handleLeaderAndIsrRequest(request: RequestChannel.Request): Unit
 ----
+
+In summary, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>>.
 
 `handleLeaderAndIsrRequest`...FIXME
 
@@ -175,6 +186,8 @@ NOTE: `handleLeaderAndIsrRequest` is used exclusively when `KafkaApis` is reques
 ----
 handleAlterReplicaLogDirsRequest(request: RequestChannel.Request): Unit
 ----
+
+In summary, `handleAlterReplicaLogDirsRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#alterReplicaLogDirs, alterReplicaLogDirs>>.
 
 `handleAlterReplicaLogDirsRequest`...FIXME
 
@@ -214,6 +227,8 @@ NOTE: `handleOffsetFetchRequest` is used exclusively when `KafkaApis` is request
 ----
 handleFetchRequest(request: RequestChannel.Request): Unit
 ----
+
+In summary, `handleFetchRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#fetchMessages, fetchMessages>>.
 
 `handleFetchRequest`...FIXME
 
@@ -359,7 +374,9 @@ NOTE: `handleListOffsetRequestV1AndAbove` is used exclusively when `KafkaApis` i
 handleDescribeLogDirsRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleDescribeLogDirsRequest` takes the <<kafka-common-requests-DescribeLogDirsRequest.adoc#, DescribeLogDirsRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>).
+In summary, `handleDescribeLogDirsRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#describeLogDirs, describeLogDirs>>.
+
+Internally, `handleDescribeLogDirsRequest` takes the <<kafka-common-requests-DescribeLogDirsRequest.adoc#, DescribeLogDirsRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>).
 
 `handleDescribeLogDirsRequest` branches off per whether the `DescribeLogDirsRequest` was for <<kafka-common-requests-DescribeLogDirsRequest.adoc#isAllTopicPartitions, isAllTopicPartitions>> or not.
 
@@ -422,6 +439,8 @@ NOTE: `fetchOffsets` is used exclusively when `KafkaApis` is requested to <<hand
 handleStopReplicaRequest(request: RequestChannel.Request): Unit
 ----
 
+In summary, `handleStopReplicaRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#stopReplicas, stopReplicas>>.
+
 `handleStopReplicaRequest`...FIXME
 
 NOTE: `handleStopReplicaRequest` is used exclusively when `KafkaApis` is requested to handle a <<StopReplica, StopReplica>> request.
@@ -432,6 +451,8 @@ NOTE: `handleStopReplicaRequest` is used exclusively when `KafkaApis` is request
 ----
 handleUpdateMetadataRequest(request: RequestChannel.Request): Unit
 ----
+
+In summary, `handleUpdateMetadataRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#maybeUpdateMetadataCache, maybeUpdateMetadataCache>>.
 
 `handleUpdateMetadataRequest`...FIXME
 
@@ -629,6 +650,8 @@ NOTE: `handleAddOffsetsToTxnRequest` is used exclusively when `KafkaApis` is req
 handleProduceRequest(request: RequestChannel.Request): Unit
 ----
 
+In summary, `handleProduceRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#appendRecords, appendRecords>> (with `isFromClient` flag enabled).
+
 `handleProduceRequest`...FIXME
 
 NOTE: `handleProduceRequest` is used exclusively when `KafkaApis` is requested to handle a <<Produce, Produce>> request.
@@ -640,6 +663,47 @@ NOTE: `handleProduceRequest` is used exclusively when `KafkaApis` is requested t
 handleWriteTxnMarkersRequest(request: RequestChannel.Request): Unit
 ----
 
+In summary, `handleWriteTxnMarkersRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#getMagic, getMagic>> followed by <<kafka-server-ReplicaManager.adoc#appendRecords, appendRecords>> (with `isFromClient` flag disabled).
+
 `handleWriteTxnMarkersRequest`...FIXME
 
 NOTE: `handleWriteTxnMarkersRequest` is used exclusively when `KafkaApis` is requested to handle a <<WriteTxnMarkers, WriteTxnMarkers>> request.
+
+=== [[handleDeleteRecordsRequest]] `handleDeleteRecordsRequest` Handler
+
+[source, scala]
+----
+handleDeleteRecordsRequest(request: RequestChannel.Request): Unit
+----
+
+In summary, `handleDeleteRecordsRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#deleteRecords, deleteRecords>>.
+
+`handleDeleteRecordsRequest`...FIXME
+
+NOTE: `handleDeleteRecordsRequest` is used exclusively when `KafkaApis` is requested to handle a <<DeleteRecords, DeleteRecords>> request.
+
+=== [[handleOffsetForLeaderEpochRequest]] `handleOffsetForLeaderEpochRequest` Handler
+
+[source, scala]
+----
+handleOffsetForLeaderEpochRequest(request: RequestChannel.Request): Unit
+----
+
+In summary, `handleOffsetForLeaderEpochRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#lastOffsetForLeaderEpoch, lastOffsetForLeaderEpoch>>.
+
+`handleOffsetForLeaderEpochRequest`...FIXME
+
+NOTE: `handleOffsetForLeaderEpochRequest` is used exclusively when `KafkaApis` is requested to handle a <<OffsetForLeaderEpoch, OffsetForLeaderEpoch>> request.
+
+=== [[handleListOffsetRequest]] `handleListOffsetRequest` Handler
+
+[source, scala]
+----
+handleListOffsetRequest(request: RequestChannel.Request): Unit
+----
+
+In summary, `handleListOffsetRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#fetchOffsetForTimestamp, fetchOffsetForTimestamp>>.
+
+`handleListOffsetRequest`...FIXME
+
+NOTE: `handleListOffsetRequest` is used exclusively when `KafkaApis` is requested to handle a <<ListOffsets, ListOffsets>> request.
