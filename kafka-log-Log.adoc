@@ -378,3 +378,14 @@ loadSegmentFiles(): Unit
 `loadSegmentFiles`...FIXME
 
 NOTE: `loadSegmentFiles` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>> (when <<creating-instance, created>>).
+
+=== [[onHighWatermarkIncremented]] `onHighWatermarkIncremented` Method
+
+[source, scala]
+----
+onHighWatermarkIncremented(highWatermark: Long): Unit
+----
+
+`onHighWatermarkIncremented`...FIXME
+
+NOTE: `onHighWatermarkIncremented` is used when...FIXME

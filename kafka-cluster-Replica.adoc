@@ -6,6 +6,25 @@
 
 `Replica` is a <<kafka-cluster-Partition.adoc#futureLocalReplica, future local replica>> when the replica ID is `-3`.
 
+`Replica` is <<creating-instance, created>> exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#getOrCreateReplica, getOrCreateReplica>>.
+
+[[isLocal]]
+`Replica` is *local* when the <<log, Log>> was defined (at the time the replica was <<creating-instance, created>>).
+
+[[logging]]
+[TIP]
+====
+Enable `INFO` or `TRACE` logging level for `kafka.cluster.Replica` logger to see what happens inside.
+
+Add the following line to `config/tools-log4j.properties`:
+
+```
+log4j.logger.kafka.cluster.Replica=TRACE
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
+
 === [[latestEpoch]] `latestEpoch` Method
 
 [source, scala]
@@ -16,3 +35,21 @@ latestEpoch: Option[Int]
 `latestEpoch`...FIXME
 
 NOTE: `latestEpoch` is used when...FIXME
+
+=== [[creating-instance]] Creating Replica Instance
+
+`Replica` takes the following to be created:
+
+* [[brokerId]] Broker ID
+* [[topicPartition]] `TopicPartition`
+* [[time]] `Time` (default: `SYSTEM`)
+* [[initialHighWatermarkValue]] `initialHighWatermarkValue` (default: `0L`)
+* [[log]] Optional <<kafka-log-Log.adoc#, Log>> (default: `None`)
+
+`Replica` initializes the <<internal-registries, internal registries and counters>>.
+
+While being created, `Replica` prints out the following INFO message to the logs and requests the <<log, Log>> to <<kafka-log-Log.adoc#onHighWatermarkIncremented, onHighWatermarkIncremented>> with the given <<initialHighWatermarkValue, initialHighWatermarkValue>>.
+
+```
+Replica loaded for partition [topicPartition] with initial high watermark [initialHighWatermarkValue]
+```
