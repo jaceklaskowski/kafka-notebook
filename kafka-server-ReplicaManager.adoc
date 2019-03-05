@@ -302,7 +302,7 @@ makeLeaders(
 
 `makeLeaders`...FIXME
 
-NOTE: `makeLeaders` is used exclusively when `ReplicaManager` is requested to <<becomeLeaderOrFollower, becomeLeaderOrFollower>>
+NOTE: `makeLeaders` is used exclusively when `ReplicaManager` is requested to <<becomeLeaderOrFollower, becomeLeaderOrFollower>>.
 
 === [[describeLogDirs]] `describeLogDirs` Method
 
@@ -370,12 +370,14 @@ NOTE: `shutdownIdleReplicaAlterLogDirsThread` is used when...FIXME
 
 [source, scala]
 ----
-handleLogDirFailure(dir: String, sendZkNotification: Boolean = true): Unit
+handleLogDirFailure(
+  dir: String,
+  sendZkNotification: Boolean = true): Unit
 ----
 
 `handleLogDirFailure`...FIXME
 
-NOTE: `handleLogDirFailure` is used exclusively when `LogDirFailureHandler` is requested to <<kafka-server-ReplicaManager-LogDirFailureHandler.adoc#doWork, doWork>>.
+NOTE: `handleLogDirFailure` is used exclusively when `LogDirFailureHandler` is requested to <<kafka-server-ReplicaManager-LogDirFailureHandler.adoc#doWork, do the work>>.
 
 === [[maybeUpdateMetadataCache]] `maybeUpdateMetadataCache` Method
 
@@ -654,7 +656,7 @@ stopReplicas(
 
 `stopReplicas`...FIXME
 
-NOTE: `stopReplicas` is used when...FIXME
+NOTE: `stopReplicas` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleStopReplicaRequest, handle a StopReplica request>>.
 
 === [[getMagic]] `getMagic` Method
 

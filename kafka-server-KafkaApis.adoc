@@ -432,7 +432,7 @@ fetchOffsets(
 
 NOTE: `fetchOffsets` is used exclusively when `KafkaApis` is requested to <<handleListOffsetRequestV0, handleListOffsetRequestV0>>.
 
-=== [[handleStopReplicaRequest]] Handling StopReplicaRequest -- `handleStopReplicaRequest` Handler
+=== [[handleStopReplicaRequest]] Handling StopReplica Request -- `handleStopReplicaRequest` Handler
 
 [source, scala]
 ----

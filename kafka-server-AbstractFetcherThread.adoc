@@ -1,6 +1,6 @@
 == [[AbstractFetcherThread]] AbstractFetcherThread
 
-`AbstractFetcherThread` is the <<contract, extension>> of the <<kafka-ShutdownableThread.adoc#, ShutdownableThread contract>> for <<implementations, fetcher threads>> that <<FIXME, FIXME>>.
+`AbstractFetcherThread` is the <<contract, extension>> of the <<kafka-ShutdownableThread.adoc#, ShutdownableThread contract>> for <<implementations, fetcher threads>> that <<maybeTruncate, maybeTruncate>> followed by <<maybeFetch, maybeFetch>> repeatedly (while <<doWork, doing the work>>) until <<shutdown, shut down>>.
 
 NOTE: `AbstractFetcherThread` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractFetcherThreads>>.
 
@@ -21,7 +21,7 @@ buildFetch(
 ): ResultWithPartitions[Option[FetchRequest.Builder]]
 ----
 
-Used when...FIXME
+Used exclusively when `AbstractFetcherThread` is requested to <<maybeFetch, maybeFetch>>.
 
 | endOffsetForEpoch
 a| [[endOffsetForEpoch]]
@@ -33,7 +33,7 @@ endOffsetForEpoch(
   epoch: Int): Option[OffsetAndEpoch]
 ----
 
-Used when...FIXME
+Used exclusively when `AbstractFetcherThread` is requested to <<getOffsetTruncationState, getOffsetTruncationState>>.
 
 | fetchEarliestOffsetFromLeader
 a| [[fetchEarliestOffsetFromLeader]]
@@ -45,7 +45,7 @@ fetchEarliestOffsetFromLeader(
   currentLeaderEpoch: Int): Long
 ----
 
-Used when...FIXME
+Used exclusively when `AbstractFetcherThread` is requested to <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
 
 | fetchEpochEndOffsets
 a| [[fetchEpochEndOffsets]]
@@ -57,7 +57,7 @@ fetchEpochEndOffsets(
 ): Map[TopicPartition, EpochEndOffset]
 ----
 
-Used when...FIXME
+Used exclusively when `AbstractFetcherThread` is requested to <<truncateToEpochEndOffsets, truncateToEpochEndOffsets>>.
 
 | fetchFromLeader
 a| [[fetchFromLeader]]
@@ -65,10 +65,11 @@ a| [[fetchFromLeader]]
 [source, scala]
 ----
 fetchFromLeader(
-  fetchRequest: FetchRequest.Builder): Seq[(TopicPartition, FetchData)]
+  fetchRequest: FetchRequest.Builder
+): Seq[(TopicPartition, FetchData)]
 ----
 
-Used when...FIXME
+Used exclusively when `AbstractFetcherThread` is requested to <<processFetchRequest, processFetchRequest>>.
 
 | fetchLatestOffsetFromLeader
 a| [[fetchLatestOffsetFromLeader]]
@@ -80,7 +81,7 @@ fetchLatestOffsetFromLeader(
   currentLeaderEpoch: Int): Long
 ----
 
-Used when...FIXME
+Used exclusively when `AbstractFetcherThread` is requested to <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
 
 | isOffsetForLeaderEpochSupported
 a| [[isOffsetForLeaderEpochSupported]]
@@ -90,7 +91,7 @@ a| [[isOffsetForLeaderEpochSupported]]
 isOffsetForLeaderEpochSupported: Boolean
 ----
 
-Used when...FIXME
+Used exclusively when `AbstractFetcherThread` is requested to <<fetchTruncatingPartitions, fetchTruncatingPartitions>>.
 
 | latestEpoch
 a| [[latestEpoch]]
@@ -100,7 +101,7 @@ a| [[latestEpoch]]
 latestEpoch(topicPartition: TopicPartition): Option[Int]
 ----
 
-Used when...FIXME
+Used exclusively when `AbstractFetcherThread` is requested to <<fetchTruncatingPartitions, fetchTruncatingPartitions>>.
 
 | logEndOffset
 a| [[logEndOffset]]
@@ -110,7 +111,7 @@ a| [[logEndOffset]]
 logEndOffset(topicPartition: TopicPartition): Long
 ----
 
-Used when...FIXME
+Used when `AbstractFetcherThread` is requested to <<getOffsetTruncationState, getOffsetTruncationState>> and <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
 
 | processPartitionData
 a| [[processPartitionData]]
@@ -123,7 +124,7 @@ processPartitionData(
   partitionData: FetchData): Option[LogAppendInfo]
 ----
 
-Used when...FIXME
+Used exclusively when `AbstractFetcherThread` is requested to <<processFetchRequest, processFetchRequest>>.
 
 | truncate
 a| [[truncate]]
@@ -135,7 +136,7 @@ truncate(
   truncationState: OffsetTruncationState): Unit
 ----
 
-Used when...FIXME
+Used when `AbstractFetcherThread` is requested to <<truncateToHighWatermark, truncateToHighWatermark>>, <<maybeTruncateToEpochEndOffsets, maybeTruncateToEpochEndOffsets>>, and <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
 
 | truncateFullyAndStartAt
 a| [[truncateFullyAndStartAt]]
@@ -147,7 +148,7 @@ truncateFullyAndStartAt(
   offset: Long): Unit
 ----
 
-Used when...FIXME
+Used exclusively when `AbstractFetcherThread` is requested to <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
 
 |===
 
@@ -174,7 +175,11 @@ Used when...FIXME
 | Description
 
 | partitionStates
-| [[partitionStates]] `PartitionStates[PartitionFetchState]`
+a| [[partitionStates]] `TopicPartitions` with their `PartitionFetchState` (`PartitionStates[PartitionFetchState]`)
+
+* A `TopicPartition` is removed in <<onPartitionFenced, onPartitionFenced>> and <<removePartitions, removePartitions>>
+
+* `PartitionFetchState` updated in <<processFetchRequest, processFetchRequest>>, <<markPartitionsForTruncation, markPartitionsForTruncation>>, <<addPartitions, addPartitions>>, <<updateFetchOffsetAndMaybeMarkTruncationComplete, updateFetchOffsetAndMaybeMarkTruncationComplete>>, <<handleOutOfRangeError, handleOutOfRangeError>>, <<delayPartitions, delayPartitions>>
 
 Used when...FIXME
 
@@ -191,3 +196,199 @@ Used when...FIXME
 * [[isInterruptible]] `isInterruptible` flag (default: `true`)
 
 `AbstractFetcherThread` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[doWork]] `doWork` Method
+
+[source, scala]
+----
+doWork(): Unit
+----
+
+NOTE: `doWork` is part of the <<kafka-ShutdownableThread.adoc#doWork, ShutdownableThread Contract>> to do the work.
+
+`doWork` simply <<maybeTruncate, maybeTruncate>> followed by <<maybeFetch, maybeFetch>>.
+
+=== [[maybeTruncate]] `maybeTruncate` Internal Method
+
+[source, scala]
+----
+maybeTruncate(): Unit
+----
+
+`maybeTruncate` <<fetchTruncatingPartitions, fetchTruncatingPartitions>>.
+
+`maybeTruncate`...FIXME
+
+NOTE: `maybeTruncate` is used exclusively when `AbstractFetcherThread` is requested to <<doWork, do the work>>.
+
+=== [[maybeFetch]] `maybeFetch` Internal Method
+
+[source, scala]
+----
+maybeFetch(): Unit
+----
+
+`maybeFetch`...FIXME
+
+NOTE: `maybeFetch` is used exclusively when `AbstractFetcherThread` is requested to <<doWork, do the work>>.
+
+=== [[fetchTruncatingPartitions]] `fetchTruncatingPartitions` Internal Method
+
+[source, scala]
+----
+fetchTruncatingPartitions(): (Map[TopicPartition, EpochData], Set[TopicPartition])
+----
+
+`fetchTruncatingPartitions`...FIXME
+
+NOTE: `fetchTruncatingPartitions` is used exclusively when `AbstractFetcherThread` is requested to <<maybeTruncate, maybeTruncate>>.
+
+=== [[onPartitionFenced]] `onPartitionFenced` Internal Method
+
+[source, scala]
+----
+onPartitionFenced(tp: TopicPartition): Unit
+----
+
+`onPartitionFenced`...FIXME
+
+NOTE: `onPartitionFenced` is used when `AbstractFetcherThread` is requested to <<maybeTruncateToEpochEndOffsets, maybeTruncateToEpochEndOffsets>>, <<processFetchRequest, processFetchRequest>>, and <<handleOutOfRangeError, handleOutOfRangeError>>.
+
+=== [[maybeTruncateToEpochEndOffsets]] `maybeTruncateToEpochEndOffsets` Internal Method
+
+[source, scala]
+----
+maybeTruncateToEpochEndOffsets(
+  fetchedEpochs: Map[TopicPartition, EpochEndOffset]
+): ResultWithPartitions[Map[TopicPartition, OffsetTruncationState]]
+----
+
+`maybeTruncateToEpochEndOffsets`...FIXME
+
+NOTE: `maybeTruncateToEpochEndOffsets` is used exclusively when `AbstractFetcherThread` is requested to <<truncateToEpochEndOffsets, truncateToEpochEndOffsets>>.
+
+=== [[processFetchRequest]] `processFetchRequest` Internal Method
+
+[source, scala]
+----
+processFetchRequest(
+  fetchStates: Map[TopicPartition, PartitionFetchState],
+  fetchRequest: FetchRequest.Builder): Unit
+----
+
+`processFetchRequest`...FIXME
+
+NOTE: `processFetchRequest` is used exclusively when `AbstractFetcherThread` is requested to <<maybeFetch, maybeFetch>>.
+
+=== [[handleOutOfRangeError]] `handleOutOfRangeError` Internal Method
+
+[source, scala]
+----
+handleOutOfRangeError(
+  topicPartition: TopicPartition,
+  fetchState: PartitionFetchState): Boolean
+----
+
+`handleOutOfRangeError`...FIXME
+
+NOTE: `handleOutOfRangeError` is used exclusively when `AbstractFetcherThread` is requested to <<processFetchRequest, processFetchRequest>>.
+
+=== [[markPartitionsForTruncation]] `markPartitionsForTruncation` Method
+
+[source, scala]
+----
+markPartitionsForTruncation(
+  topicPartition: TopicPartition,
+  truncationOffset: Long): Unit
+markPartitionsForTruncation(
+  brokerId: Int,
+  topicPartition: TopicPartition,
+  truncationOffset: Long): Unit
+----
+
+`markPartitionsForTruncation`...FIXME
+
+NOTE: `markPartitionsForTruncation` is used when...FIXME
+
+=== [[addPartitions]] `addPartitions` Method
+
+[source, scala]
+----
+addPartitions(initialFetchStates: Map[TopicPartition, OffsetAndEpoch])
+----
+
+`addPartitions`...FIXME
+
+NOTE: `addPartitions` is used exclusively when `AbstractFetcherManager` is requested to <<kafka-server-AbstractFetcherManager.adoc#addFetcherForPartitions, addFetcherForPartitions>>.
+
+=== [[updateFetchOffsetAndMaybeMarkTruncationComplete]] `updateFetchOffsetAndMaybeMarkTruncationComplete` Internal Method
+
+[source, scala]
+----
+updateFetchOffsetAndMaybeMarkTruncationComplete(
+  fetchOffsets: Map[TopicPartition, OffsetTruncationState]): Unit
+----
+
+`updateFetchOffsetAndMaybeMarkTruncationComplete`...FIXME
+
+NOTE: `updateFetchOffsetAndMaybeMarkTruncationComplete` is used when `AbstractFetcherThread` is requested to <<truncateToEpochEndOffsets, truncateToEpochEndOffsets>> and <<truncateToHighWatermark, truncateToHighWatermark>>.
+
+=== [[truncateToEpochEndOffsets]] `truncateToEpochEndOffsets` Internal Method
+
+[source, scala]
+----
+truncateToEpochEndOffsets(
+  latestEpochsForPartitions: Map[TopicPartition, EpochData]): Unit
+----
+
+`truncateToEpochEndOffsets`...FIXME
+
+NOTE: `truncateToEpochEndOffsets` is used exclusively when `AbstractFetcherThread` is requested to <<maybeTruncate, maybeTruncate>>.
+
+=== [[truncateToHighWatermark]] `truncateToHighWatermark` Internal Method
+
+[source, scala]
+----
+truncateToHighWatermark(partitions: Set[TopicPartition]): Unit
+----
+
+`truncateToHighWatermark`...FIXME
+
+NOTE: `truncateToHighWatermark` is used exclusively when `AbstractFetcherThread` is requested to <<maybeTruncate, maybeTruncate>>.
+
+=== [[partitionsAndOffsets]] `partitionsAndOffsets` Method
+
+[source, scala]
+----
+partitionsAndOffsets: Map[TopicPartition, InitialFetchState]
+----
+
+`partitionsAndOffsets`...FIXME
+
+NOTE: `partitionsAndOffsets` is used exclusively when `AbstractFetcherManager` is requested to <<kafka-server-AbstractFetcherManager.adoc#resizeThreadPool, resizeThreadPool>>.
+
+=== [[getOffsetTruncationState]] `getOffsetTruncationState` Internal Method
+
+[source, scala]
+----
+getOffsetTruncationState(
+  tp: TopicPartition,
+  leaderEpochOffset: EpochEndOffset): OffsetTruncationState
+----
+
+`getOffsetTruncationState`...FIXME
+
+NOTE: `getOffsetTruncationState` is used exclusively when `AbstractFetcherThread` is requested to <<maybeTruncateToEpochEndOffsets, maybeTruncateToEpochEndOffsets>>.
+
+=== [[fetchOffsetAndTruncate]] `fetchOffsetAndTruncate` Method
+
+[source, scala]
+----
+fetchOffsetAndTruncate(
+  topicPartition: TopicPartition,
+  currentLeaderEpoch: Int): Long
+----
+
+`fetchOffsetAndTruncate`...FIXME
+
+NOTE: `fetchOffsetAndTruncate` is used exclusively when `AbstractFetcherThread` is requested to <<addPartitions, addPartitions>> and <<handleOutOfRangeError, handleOutOfRangeError>>.
