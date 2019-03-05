@@ -26,6 +26,12 @@ Every time `ControllerBrokerRequestBatch` is used it is first <<newBatch, newBat
 | leaderAndIsrRequestMap
 a| [[leaderAndIsrRequestMap]] `Map[Int, mutable.Map[TopicPartition, LeaderAndIsrRequest.PartitionState]]`
 
+* A new entry added in <<addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>>
+
+* Cleared in <<clear, clear>> and <<sendRequestsToBrokers, sendRequestsToBrokers>>
+
+Used when `ControllerBrokerRequestBatch` is requested to <<sendRequestsToBrokers, sendRequestsToBrokers>>
+
 | stopReplicaRequestMap
 a| [[stopReplicaRequestMap]] `Map[Int, Seq[StopReplicaRequestInfo]]`
 

@@ -6,7 +6,7 @@
 
 * [[controllerId]] Controller ID
 * [[controllerEpoch]] Controller Epoch
-* [[partitionStates]] Partitions with `PartitionState` (`Map<TopicPartition, PartitionState>`)
+* [[partitionStates]] `PartitionStates` by `TopicPartition` (`Map<TopicPartition, PartitionState>`)
 * [[liveLeaders]] Live broker nodes
 * [[version]] Version
 

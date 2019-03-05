@@ -4,7 +4,7 @@
 
 [[keys]]
 [[handlers]]
-.KafkaApis's API Keys and Their Handlers
+.KafkaApis's API Keys and Handlers
 [cols="1m,1",options="header",width="100%"]
 |===
 | API Key
@@ -14,70 +14,70 @@
 | [[AddOffsetsToTxn]][[ADD_OFFSETS_TO_TXN]] <<handleAddOffsetsToTxnRequest, handleAddOffsetsToTxnRequest>>
 
 | AlterConfigs
-| [[AlterConfigs]] <<handleAlterConfigsRequest, handleAlterConfigsRequest>>
+| [[AlterConfigs]][[ALTER_CONFIGS]] <<handleAlterConfigsRequest, handleAlterConfigsRequest>>
 
 | AlterReplicaLogDirs
-| [[AlterReplicaLogDirs]] <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
+| [[AlterReplicaLogDirs]][[ALTER_REPLICA_LOG_DIRS]] <<handleAlterReplicaLogDirsRequest, handleAlterReplicaLogDirsRequest>>
 
 | ControlledShutdown
-| [[ControlledShutdown]] <<handleControlledShutdownRequest, handleControlledShutdownRequest>>
+| [[ControlledShutdown]][[CONTROLLED_SHUTDOWN]] <<handleControlledShutdownRequest, handleControlledShutdownRequest>>
 
 | CreatePartitions
-| [[CreatePartitions]] <<handleCreatePartitionsRequest, handleCreatePartitionsRequest>>
+| [[CreatePartitions]][[CREATE_PARTITIONS]] <<handleCreatePartitionsRequest, handleCreatePartitionsRequest>>
 
 | CreateTopics
-| [[CreateTopics]] <<handleCreateTopicsRequest, handleCreateTopicsRequest>>
+| [[CreateTopics]][[CREATE_TOPICS]] <<handleCreateTopicsRequest, handleCreateTopicsRequest>>
 
 | DeleteTopics
-| [[DeleteTopics]] <<handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
+| [[DeleteTopics]][[DELETE_TOPICS]] <<handleDeleteTopicsRequest, handleDeleteTopicsRequest>>
 
 | DescribeGroups
-| [[DescribeGroups]] <<handleDescribeGroupRequest, handleDescribeGroupRequest>>
+| [[DescribeGroups]][[DESCRIBE_GROUPS]] <<handleDescribeGroupRequest, handleDescribeGroupRequest>>
 
 | DescribeLogDirs
-| [[DescribeLogDirs]] <<handleDescribeLogDirsRequest, handleDescribeLogDirsRequest>>
+| [[DescribeLogDirs]][[DESCRIBE_LOG_DIRS]] <<handleDescribeLogDirsRequest, handleDescribeLogDirsRequest>>
 
 | DeleteRecords
-| [[DeleteRecords]] <<handleDeleteRecordsRequest, handleDeleteRecordsRequest>>
+| [[DeleteRecords]][[DELETE_RECORDS]] <<handleDeleteRecordsRequest, handleDeleteRecordsRequest>>
 
 | Fetch
-| [[Fetch]] <<handleFetchRequest, handleFetchRequest>>
+| [[Fetch]][[FETCH]] <<handleFetchRequest, handleFetchRequest>>
 
 | <<kafka-common-requests-FindCoordinatorRequest.adoc#FIND_COORDINATOR, FindCoordinator>>
-| [[FindCoordinator]] <<handleFindCoordinatorRequest, handleFindCoordinatorRequest>>
+| [[FindCoordinator]][[FIND_COORDINATOR]] <<handleFindCoordinatorRequest, handleFindCoordinatorRequest>>
 
 | JoinGroup
-| [[JOIN_GROUP]][[JoinGroup]] <<handleJoinGroupRequest, handleJoinGroupRequest>>
+| [[JoinGroup]][[JOIN_GROUP]] <<handleJoinGroupRequest, handleJoinGroupRequest>>
 
 | LeaderAndIsr
-| [[LEADER_AND_ISR]][[LeaderAndIsr]] <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
+| [[LeaderAndIsr]][[LEADER_AND_ISR]] <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
 
 | ListOffsets
-| [[ListOffsets]] <<handleListOffsetRequest, handleListOffsetRequest>>
+| [[ListOffsets]][[LIST_OFFSETS]] <<handleListOffsetRequest, handleListOffsetRequest>>
 
 | Metadata
-| [[Metadata]] <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
+| [[Metadata]][[METADATA]] <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
 
 | OffsetCommit
-| [[OffsetCommit]] <<handleOffsetCommitRequest, handleOffsetCommitRequest>>
+| [[OffsetCommit]][[OFFSET_COMMIT]] <<handleOffsetCommitRequest, handleOffsetCommitRequest>>
 
 | OffsetFetch
-| [[OffsetFetch]] <<handleOffsetFetchRequest, handleOffsetFetchRequest>>
+| [[OffsetFetch]][[OFFSET_FETCH]] <<handleOffsetFetchRequest, handleOffsetFetchRequest>>
 
 | OffsetForLeaderEpoch
-| [[OffsetForLeaderEpoch]] <<handleOffsetForLeaderEpochRequest, handleOffsetForLeaderEpochRequest>>
+| [[OffsetForLeaderEpoch]][[OFFSET_FOR_LEADER_EPOCH]] <<handleOffsetForLeaderEpochRequest, handleOffsetForLeaderEpochRequest>>
 
 | Produce
-| [[Produce]] <<handleProduceRequest, handleProduceRequest>>
+| [[Produce]][[PRODUCE]] <<handleProduceRequest, handleProduceRequest>>
 
 | StopReplica
-| [[StopReplica]] <<handleStopReplicaRequest, handleStopReplicaRequest>>
+| [[StopReplica]][[STOP_REPLICA]] <<handleStopReplicaRequest, handleStopReplicaRequest>>
 
 | UpdateMetadata
-| [[UpdateMetadata]] <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
+| [[UpdateMetadata]][[UPDATE_METADATA]] <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
 
 | WriteTxnMarkers
-| [[WriteTxnMarkers]] <<handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>>
+| [[WriteTxnMarkers]][[WRITE_TXN_MARKERS]] <<handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>>
 
 |===
 
@@ -176,9 +176,24 @@ handleLeaderAndIsrRequest(request: RequestChannel.Request): Unit
 
 In summary, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>>.
 
-`handleLeaderAndIsrRequest`...FIXME
+`handleLeaderAndIsrRequest` takes the <<kafka-common-requests-LeaderAndIsrRequest.adoc#, LeaderAndIsrRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>).
+
+When <<isAuthorizedClusterAction, authorized cluster action>>, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>> (with the <<handleLeaderAndIsrRequest-onLeadershipChange, onLeadershipChange>> callback).
+
+When <<isAuthorizedClusterAction, unauthorized>>, `handleLeaderAndIsrRequest`...FIXME
 
 NOTE: `handleLeaderAndIsrRequest` is used exclusively when `KafkaApis` is requested to handle a <<LeaderAndIsr, LeaderAndIsr>> request.
+
+==== [[handleLeaderAndIsrRequest-onLeadershipChange]] `onLeadershipChange` Callback
+
+[source, scala]
+----
+onLeadershipChange(
+  updatedLeaders: Iterable[Partition],
+  updatedFollowers: Iterable[Partition]): Unit
+----
+
+`onLeadershipChange`...FIXME
 
 === [[handleAlterReplicaLogDirsRequest]] Handling AlterReplicaLogDirs Request -- `handleAlterReplicaLogDirsRequest` Handler
 
@@ -267,10 +282,13 @@ NOTE: `handleTopicMetadataRequest` is used exclusively when `KafkaApis` is reque
 
 [source, scala]
 ----
-authorize(session: RequestChannel.Session, operation: Operation, resource: Resource): Boolean
+authorize(
+  session: RequestChannel.Session,
+  operation: Operation,
+  resource: Resource): Boolean
 ----
 
-`authorize`...FIXME
+`authorize` simply requests the <<authorizer, Authorizer>> to <<kafka-Authorizer.adoc#authorize, authorize>> the given `Operation` on the given `Resource` in the `RequestChannel.Session`.
 
 NOTE: `authorize` is used when...FIXME
 
@@ -707,3 +725,14 @@ In summary, `handleListOffsetRequest` requests the <<replicaManager, ReplicaMana
 `handleListOffsetRequest`...FIXME
 
 NOTE: `handleListOffsetRequest` is used exclusively when `KafkaApis` is requested to handle a <<ListOffsets, ListOffsets>> request.
+
+=== [[isAuthorizedClusterAction]] `isAuthorizedClusterAction` Internal Method
+
+[source, scala]
+----
+isAuthorizedClusterAction(request: RequestChannel.Request): Boolean
+----
+
+`isAuthorizedClusterAction` simply <<authorize, authorize>> with `ClusterAction` operation and `ClusterResource` resource.
+
+NOTE: `isAuthorizedClusterAction` is used when...FIXME
