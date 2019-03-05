@@ -101,6 +101,8 @@ a| [[latestEpoch]]
 latestEpoch(topicPartition: TopicPartition): Option[Int]
 ----
 
+Gets the latest (current) leader epoch for the given `TopicPartition`
+
 Used exclusively when `AbstractFetcherThread` is requested to <<fetchTruncatingPartitions, fetchTruncatingPartitions>>.
 
 | logEndOffset
@@ -215,9 +217,11 @@ NOTE: `doWork` is part of the <<kafka-ShutdownableThread.adoc#doWork, Shutdownab
 maybeTruncate(): Unit
 ----
 
-`maybeTruncate` <<fetchTruncatingPartitions, fetchTruncatingPartitions>>.
+`maybeTruncate` <<fetchTruncatingPartitions, fetchTruncatingPartitions>> to find the partitions with and without epochs.
 
-`maybeTruncate`...FIXME
+For partitions with epochs, `maybeTruncate` <<truncateToEpochEndOffsets, truncateToEpochEndOffsets>>.
+
+For partitions without epochs, `maybeTruncate` <<truncateToHighWatermark, truncateToHighWatermark>>.
 
 NOTE: `maybeTruncate` is used exclusively when `AbstractFetcherThread` is requested to <<doWork, do the work>>.
 
@@ -239,7 +243,13 @@ NOTE: `maybeFetch` is used exclusively when `AbstractFetcherThread` is requested
 fetchTruncatingPartitions(): (Map[TopicPartition, EpochData], Set[TopicPartition])
 ----
 
-`fetchTruncatingPartitions`...FIXME
+`fetchTruncatingPartitions` finds the `TopicPartitions` (in the <<partitionStates, partitionStates>> registry) that are in `Truncating` state (and are not delayed) and splits them into two groups: with and without epochs.
+
+Internally, for every truncating `TopicPartition`, `fetchTruncatingPartitions` gets the <<latestEpoch, latest epoch>>.
+
+If the latest epoch is available and <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>, `fetchTruncatingPartitions` registers the `TopicPartition` as with epoch while the others are without an epoch.
+
+NOTE: Both actions (<<latestEpoch, getting the latest epoch>> and <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>) are <<implementations, implementation>>-specific).
 
 NOTE: `fetchTruncatingPartitions` is used exclusively when `AbstractFetcherThread` is requested to <<maybeTruncate, maybeTruncate>>.
 

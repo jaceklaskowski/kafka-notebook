@@ -1,3 +1,18 @@
 == [[Replica]] Replica
 
-`Replica` is...FIXME
+`Replica` (aka *partition replica*) is...FIXME
+
+`Replica` is a <<kafka-cluster-Partition.adoc#localReplica, local partition replica>> when the replica ID is the <<kafka-cluster-Partition.adoc#localBrokerId, local broker ID>>.
+
+`Replica` is a <<kafka-cluster-Partition.adoc#futureLocalReplica, future local replica>> when the replica ID is `-3`.
+
+=== [[latestEpoch]] `latestEpoch` Method
+
+[source, scala]
+----
+latestEpoch: Option[Int]
+----
+
+`latestEpoch`...FIXME
+
+NOTE: `latestEpoch` is used when...FIXME

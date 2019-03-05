@@ -198,7 +198,7 @@ updateFollowerLogReadResults(
 
 `updateFollowerLogReadResults`...FIXME
 
-NOTE: `updateFollowerLogReadResults` is used exclusively when `ReplicaManager` <<fetchMessages, fetches messages from the leader replica>>.
+NOTE: `updateFollowerLogReadResults` is used exclusively when `ReplicaManager` is requested to <<fetchMessages, fetch messages from the leader replica>>.
 
 === [[fetchMessages]] `fetchMessages` Method
 
@@ -668,3 +668,30 @@ getMagic(topicPartition: TopicPartition): Option[Byte]
 `getMagic`...FIXME
 
 NOTE: `getMagic` is used when...FIXME
+
+=== [[localReplicaOrException]] `localReplicaOrException` Method
+
+[source, scala]
+----
+localReplicaOrException(topicPartition: TopicPartition): Replica
+----
+
+`localReplicaOrException` <<getPartitionOrException, finds the partition (or throws an exception)>> for the given `TopicPartition` (and `expectLeader` flag off) and requests the `Partition` to <<kafka-cluster-Partition.adoc#localReplicaOrException, get the local partition replica (or throw an exception)>>.
+
+NOTE: A partition replica is local when the replica ID is exactly the local broker ID.
+
+NOTE: `localReplicaOrException` is used when...FIXME
+
+=== [[shouldLeaderThrottle]] `shouldLeaderThrottle` Method
+
+[source, scala]
+----
+shouldLeaderThrottle(
+  quota: ReplicaQuota,
+  topicPartition: TopicPartition,
+  replicaId: Int): Boolean
+----
+
+`shouldLeaderThrottle`...FIXME
+
+NOTE: `shouldLeaderThrottle` is used when...FIXME

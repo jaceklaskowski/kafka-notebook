@@ -103,6 +103,15 @@ Default: `None` / undefined
 
 * `None` when <<delete, delete>>
 
+| allReplicasMap
+a| [[allReplicasMap]] <<kafka-cluster-Replica.adoc#, Replicas>> by ID
+
+* A new entry added in <<getOrCreateReplica, getOrCreateReplica>>, <<addReplicaIfNotExists, addReplicaIfNotExists>>
+
+* An entry removed in <<removeReplica, removeReplica>>, <<removeFutureLocalReplica, removeFutureLocalReplica>>, <<maybeReplaceCurrentWithFutureReplica, maybeReplaceCurrentWithFutureReplica>>, and <<delete, delete>>
+
+Used in <<getReplica, getReplica>>, <<getLocalReplica, getLocalReplica>>, <<assignedReplicas, assignedReplicas>>, <<allReplicas, allReplicas>>, <<toString, toString>>
+
 |===
 
 === [[maybeExpandIsr]] `maybeExpandIsr` Method
@@ -192,7 +201,7 @@ NOTE: `maybeShrinkIsr` is used when...FIXME
 * [[topicPartition]] `TopicPartition`
 * [[isOffline]] `isOffline` flag
 * [[replicaLagTimeMaxMs]] `replicaLagTimeMaxMs`
-* [[localBrokerId]] `localBrokerId`
+* [[localBrokerId]] Local broker ID
 * [[time]] `Time`
 * [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
 * [[logManager]] <<kafka-log-LogManager.adoc#, LogManager>>
@@ -262,7 +271,7 @@ getOrCreateReplica(
 ====
 `getOrCreateReplica` is used when:
 
-* `Partition` is requested to <<maybeCreateFutureReplica, maybeCreateFutureReplica>>, <<makeLeader, makeLeader>> and <<makeFollower, makeFollower>>
+* `Partition` is requested to <<maybeCreateFutureReplica, maybeCreateFutureReplica>>, <<makeLeader, makeLeader>>, and <<makeFollower, makeFollower>>
 
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>> and <<kafka-server-ReplicaManager.adoc#makeFollowers, makeFollowers>>
 ====
@@ -439,3 +448,163 @@ apply(
 * <<zkClient, KafkaZkClient>> from the given <<kafka-server-ReplicaManager.adoc#zkClient, ReplicaManager>>
 
 NOTE: `apply` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#allPartitions, add a TopicPartition to allPartitions>>.
+
+=== [[localReplicaOrException]] `localReplicaOrException` Method
+
+[source, scala]
+----
+localReplicaOrException: Replica
+----
+
+`localReplicaOrException` <<localReplica, localReplica>> and returns the local replica if available. Otherwise, `localReplicaOrException` throws a `ReplicaNotAvailableException`:
+
+```
+Replica for partition [topicPartition] is not available on broker [localBrokerId]
+```
+
+[NOTE]
+====
+`localReplicaOrException` is used when:
+
+* `Partition` is requested to <<maybeCreateFutureReplica, maybeCreateFutureReplica>>, <<maybeReplaceCurrentWithFutureReplica, maybeReplaceCurrentWithFutureReplica>>, <<makeLeader, makeLeader>>, <<doAppendRecordsToFollowerOrFutureReplica, doAppendRecordsToFollowerOrFutureReplica>>, <<appendRecordsToFollowerOrFutureReplica, appendRecordsToFollowerOrFutureReplica>>
+
+* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#localReplicaOrException, localReplicaOrException>>, <<kafka-server-ReplicaManager.adoc#alterReplicaLogDirs, alterReplicaLogDirs>>, <<kafka-server-ReplicaManager.adoc#makeFollowers, makeFollowers>>
+====
+
+=== [[localReplica]] `localReplica` Method
+
+[source, scala]
+----
+localReplica: Option[Replica]
+----
+
+`localReplica` simply <<getReplica, gets the partition replica>> for the <<localBrokerId, local broker ID>>.
+
+[NOTE]
+====
+`localReplica` is used when:
+
+* `Partition` is requested to <<localReplicaOrException, localReplicaOrException>> and <<leaderReplicaIfLocal, leaderReplicaIfLocal>>
+
+* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#localReplica, localReplica>>, <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>>, <<kafka-server-ReplicaManager.adoc#checkpointHighWatermarks, checkpointHighWatermarks>>, and <<kafka-server-ReplicaManager.adoc#handleLogDirFailure, handleLogDirFailure>>
+====
+
+=== [[getReplica]] `getReplica` Method
+
+[source, scala]
+----
+getReplica(replicaId: Int): Option[Replica]
+----
+
+`getReplica` returns the <<kafka-cluster-Replica.adoc#, replica>> by the given `replicaId` (in the <<allReplicasMap, allReplicasMap>> registry) or `None`.
+
+[NOTE]
+====
+`getReplica` is used when:
+
+* `Partition` is requested to <<localReplica, localReplica>>, <<futureLocalReplica, futureLocalReplica>>, and <<maybeExpandIsr, maybeExpandIsr>>
+
+* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#shouldLeaderThrottle, shouldLeaderThrottle>> and <<kafka-server-ReplicaManager.adoc#updateFollowerLogReadResults, updateFollowerLogReadResults>>
+====
+
+=== [[getLocalReplica]] `getLocalReplica` Internal Method
+
+[source, scala]
+----
+getLocalReplica(
+  replicaId: Int,
+  currentLeaderEpoch: Optional[Integer],
+  requireLeader: Boolean): Either[Replica, Errors]
+----
+
+`getLocalReplica`...FIXME
+
+NOTE: `getLocalReplica` is used when...FIXME
+
+=== [[addReplicaIfNotExists]] `addReplicaIfNotExists` Method
+
+[source, scala]
+----
+addReplicaIfNotExists(replica: Replica): Replica
+----
+
+`addReplicaIfNotExists`...FIXME
+
+NOTE: `addReplicaIfNotExists` is used when...FIXME
+
+=== [[assignedReplicas]] `assignedReplicas` Method
+
+[source, scala]
+----
+assignedReplicas: Set[Replica]
+----
+
+`assignedReplicas`...FIXME
+
+NOTE: `assignedReplicas` is used when...FIXME
+
+=== [[allReplicas]] `allReplicas` Method
+
+[source, scala]
+----
+allReplicas: Set[Replica]
+----
+
+`allReplicas`...FIXME
+
+NOTE: `allReplicas` is used when...FIXME
+
+=== [[removeReplica]] `removeReplica` Internal Method
+
+[source, scala]
+----
+removeReplica(replicaId: Int): Unit
+----
+
+`removeReplica`...FIXME
+
+NOTE: `removeReplica` is used when...FIXME
+
+=== [[removeFutureLocalReplica]] `removeFutureLocalReplica` Method
+
+[source, scala]
+----
+removeFutureLocalReplica(deleteFromLogDir: Boolean = true): Unit
+----
+
+`removeFutureLocalReplica`...FIXME
+
+NOTE: `removeFutureLocalReplica` is used when...FIXME
+
+=== [[maybeReplaceCurrentWithFutureReplica]] `maybeReplaceCurrentWithFutureReplica` Method
+
+[source, scala]
+----
+maybeReplaceCurrentWithFutureReplica(): Boolean
+----
+
+`maybeReplaceCurrentWithFutureReplica`...FIXME
+
+NOTE: `maybeReplaceCurrentWithFutureReplica` is used when...FIXME
+
+=== [[delete]] `delete` Method
+
+[source, scala]
+----
+delete(): Unit
+----
+
+`delete`...FIXME
+
+NOTE: `delete` is used when...FIXME
+
+=== [[toString]] `toString` Method
+
+[source, scala]
+----
+toString(): String
+----
+
+NOTE: `toString` is part of the link:++https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#toString()++[java.lang.Object] Contract for a string representation of the object.
+
+`toString`...FIXME

@@ -81,3 +81,14 @@ truncateFullyAndStartAt(topicPartition: TopicPartition, offset: Long): Unit
 NOTE: `truncateFullyAndStartAt` is a part of link:kafka-server-AbstractFetcherThread.adoc#truncateFullyAndStartAt[AbstractFetcherThread Contract].
 
 `truncateFullyAndStartAt`...FIXME
+
+=== [[latestEpoch]] `latestEpoch` Method
+
+[source, scala]
+----
+latestEpoch(topicPartition: TopicPartition): Option[Int]
+----
+
+NOTE: `latestEpoch` is a part of <<kafka-server-AbstractFetcherThread.adoc#latestEpoch, AbstractFetcherThread Contract>> to get the latest (current) leader epoch for the given `TopicPartition`.
+
+`latestEpoch` requests the <<replicaMgr, ReplicaManager>> for the <<kafka-server-ReplicaManager.adoc#localReplicaOrException, local partition replica (or throw an exception)>> for the given `TopicPartition` and requests the replica for the <<kafka-cluster-Replica.adoc#latestEpoch, latest (current) leader epoch>>.
