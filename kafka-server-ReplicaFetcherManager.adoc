@@ -13,9 +13,9 @@ createFetcherThread(
   sourceBroker: BrokerEndPoint): ReplicaFetcherThread
 ----
 
-`createFetcherThread`...FIXME
+NOTE: `createFetcherThread` is part of the <<kafka-server-AbstractFetcherManager.adoc#createFetcherThread, AbstractFetcherManager Contract>> to...FIXME.
 
-NOTE: `createFetcherThread` is used exclusively when `AbstractFetcherManager` is requested to  link:kafka-server-AbstractFetcherManager.adoc#addFetcherForPartitions[addFetcherForPartitions]
+`createFetcherThread`...FIXME
 
 === [[creating-instance]] Creating ReplicaFetcherManager Instance
 

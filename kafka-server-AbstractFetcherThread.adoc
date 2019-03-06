@@ -173,12 +173,37 @@ Used exclusively when `AbstractFetcherThread` is requested to <<fetchOffsetAndTr
 
 |===
 
+`AbstractFetcherThread` registers <<metrics, performance metrics>>.
+
+[[metrics]]
+.AbstractFetcherThread's Performance Metrics
+[cols="1m,2",options="header",width="100%"]
+|===
+| Metric Name
+| Description
+
+| BytesPerSec
+| [[BytesPerSec]][[byteRate]]
+
+| RequestsPerSec
+| [[RequestsPerSec]][[requestRate]]
+
+|===
+
+The <<metrics, performance metrics>> are registered in *kafka.server:type=FetcherStats* group.
+
+.AbstractFetcherThread in jconsole
+image::images/AbstractFetcherThread-jconsole.png[align="center"]
+
 [[internal-registries]]
 .AbstractFetcherThread's Internal Properties (e.g. Registries, Counters and Flags)
 [cols="1m,3",options="header",width="100%"]
 |===
 | Name
 | Description
+
+| fetcherStats
+a| [[fetcherStats]] <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> (with two <<metrics, performance metrics>>)
 
 | partitionStates
 a| [[partitionStates]] `TopicPartitions` with their `PartitionFetchState` (`PartitionStates[PartitionFetchState]`)
@@ -236,7 +261,19 @@ NOTE: `maybeTruncate` is used exclusively when `AbstractFetcherThread` is reques
 maybeFetch(): Unit
 ----
 
-`maybeFetch`...FIXME
+`maybeFetch` <<buildFetch, buildFetch>> (with the <<partitionStates, partitionStates>>).
+
+NOTE: <<buildFetch, buildFetch>> is <<implementations, implementation>>-specific.
+
+`maybeFetch` then <<handlePartitionsWithErrors, handlePartitionsWithErrors>> with partitions that <<buildFetch, buildFetch>> could not handle.
+
+In the end, `maybeFetch` <<processFetchRequest, processes>> the `FetchRequest` (if created).
+
+`maybeFetch` blocks the thread (_waits_) until the <<fetchBackOffMs, fetchBackOffMs>> elapses when the `FetchRequest` was not created (when <<buildFetch, buildFetch>>). `maybeFetch` prints out the following TRACE message to the logs:
+
+```
+There are no active partitions. Back off for [fetchBackOffMs] ms before sending a fetch request
+```
 
 NOTE: `maybeFetch` is used exclusively when `AbstractFetcherThread` is requested to <<doWork, do the work>>.
 
@@ -253,7 +290,7 @@ Internally, for every truncating `TopicPartition`, `fetchTruncatingPartitions` <
 
 If the latest epoch is available and <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>, `fetchTruncatingPartitions` registers the `TopicPartition` as "with epoch" whereas the others as "without epoch".
 
-NOTE: Both actions (<<latestEpoch, getting the latest epoch>> and <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>) are <<implementations, implementation>>-specific).
+NOTE: Both actions (<<latestEpoch, getting the latest epoch>> and <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>) are <<implementations, implementation>>-specific.
 
 NOTE: `fetchTruncatingPartitions` is used exclusively when `AbstractFetcherThread` is requested to <<maybeTruncate, maybeTruncate>>.
 
@@ -290,7 +327,17 @@ processFetchRequest(
   fetchRequest: FetchRequest.Builder): Unit
 ----
 
-`processFetchRequest`...FIXME
+`processFetchRequest` prints out the following TRACE message to the logs:
+
+```
+Sending fetch request [fetchRequest]
+```
+
+`processFetchRequest` then <<fetchFromLeader, fetchFromLeader>>.
+
+NOTE: <<fetchFromLeader, fetchFromLeader>> is <<implementations, implementation>>-specific.
+
+`processFetchRequest` requests the <<fetcherStats, FetcherStats>> to...FIXME
 
 NOTE: `processFetchRequest` is used exclusively when `AbstractFetcherThread` is requested to <<maybeFetch, maybeFetch>>.
 
@@ -406,3 +453,14 @@ fetchOffsetAndTruncate(
 `fetchOffsetAndTruncate`...FIXME
 
 NOTE: `fetchOffsetAndTruncate` is used exclusively when `AbstractFetcherThread` is requested to <<addPartitions, addPartitions>> and <<handleOutOfRangeError, handleOutOfRangeError>>.
+
+=== [[handlePartitionsWithErrors]] `handlePartitionsWithErrors` Method
+
+[source, scala]
+----
+handlePartitionsWithErrors(partitions: Iterable[TopicPartition]): Unit
+----
+
+`handlePartitionsWithErrors`...FIXME
+
+NOTE: `handlePartitionsWithErrors` is used when `AbstractFetcherThread` is requested to <<maybeFetch, maybeFetch>>, <<truncateToEpochEndOffsets, truncateToEpochEndOffsets>>, <<truncateToHighWatermark, truncateToHighWatermark>>, and <<processFetchRequest, processFetchRequest>>.

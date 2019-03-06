@@ -1,3 +1,16 @@
 == [[ReplicaAlterLogDirsManager]] ReplicaAlterLogDirsManager
 
 `ReplicaAlterLogDirsManager` is...FIXME
+
+=== [[createFetcherThread]] `createFetcherThread` Method
+
+[source, scala]
+----
+createFetcherThread(
+  fetcherId: Int,
+  sourceBroker: BrokerEndPoint): ReplicaAlterLogDirsThread
+----
+
+NOTE: `createFetcherThread` is part of the <<kafka-server-AbstractFetcherManager.adoc#createFetcherThread, AbstractFetcherManager Contract>> to...FIXME.
+
+`createFetcherThread`...FIXME

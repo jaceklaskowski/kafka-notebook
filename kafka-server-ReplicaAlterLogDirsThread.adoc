@@ -1,6 +1,10 @@
 == [[ReplicaAlterLogDirsThread]] ReplicaAlterLogDirsThread
 
-`ReplicaAlterLogDirsThread` is...FIXME
+`ReplicaAlterLogDirsThread` is an uninterruptible <<kafka-server-AbstractFetcherThread.adoc#, AbstractFetcherThread>> that...FIXME
+
+`ReplicaAlterLogDirsThread` uses <<kafka-properties.adoc#replica.fetch.backoff.ms, replica.fetch.backoff.ms>> configuration property for the <<kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs, fetchBackOffMs>>.
+
+`ReplicaAlterLogDirsThread` is <<creating-instance, created>> exclusively when `ReplicaAlterLogDirsManager` is requested to <<kafka-server-ReplicaAlterLogDirsManager.adoc#createFetcherThread, create a fetcher thread>> (when...FIXME).
 
 [[isOffsetForLeaderEpochSupported]]
 `ReplicaAlterLogDirsThread` has <<kafka-server-AbstractFetcherThread.adoc#isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>> flag always enabled (`true`).
@@ -56,3 +60,29 @@ truncate(
 NOTE: `truncate` is part of the <<kafka-server-AbstractFetcherThread.adoc#truncate, AbstractFetcherThread Contract>> to...FIXME.
 
 `truncate`...FIXME
+
+=== [[buildFetch]] `buildFetch` Method
+
+[source, scala]
+----
+buildFetch(
+  partitionMap: Map[TopicPartition, PartitionFetchState]
+): ResultWithPartitions[Option[FetchRequest.Builder]]
+----
+
+NOTE: `buildFetch` is part of the <<kafka-server-AbstractFetcherThread.adoc#buildFetch, AbstractFetcherThread Contract>> to...FIXME
+
+`buildFetch`...FIXME
+
+=== [[creating-instance]] Creating ReplicaAlterLogDirsThread Instance
+
+`ReplicaAlterLogDirsThread` takes the following to be created:
+
+* [[name]] Thread Name
+* [[sourceBroker]] Source `BrokerEndPoint`
+* [[brokerConfig]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
+* [[replicaMgr]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
+* [[quota]] <<kafka-server-ReplicationQuotaManager.adoc#, ReplicationQuotaManager>>
+* [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
+
+`ReplicaAlterLogDirsThread` initializes the <<internal-registries, internal registries and counters>>.
