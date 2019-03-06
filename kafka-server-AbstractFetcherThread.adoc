@@ -91,7 +91,11 @@ a| [[isOffsetForLeaderEpochSupported]]
 isOffsetForLeaderEpochSupported: Boolean
 ----
 
+Controls whether an `OffsetsForLeaderEpochRequest` is supported (that was added in Kafka 0.11.0.0)
+
 Used exclusively when `AbstractFetcherThread` is requested to <<fetchTruncatingPartitions, fetchTruncatingPartitions>>.
+
+TIP: Consult https://cwiki.apache.org/confluence/display/KAFKA/KIP-101+-+Alter+Replication+Protocol+to+use+Leader+Epoch+rather+than+High+Watermark+for+Truncation[KIP-101: Alter Replication Protocol to use Leader Epoch rather than High Watermark for Truncation].
 
 | latestEpoch
 a| [[latestEpoch]]
@@ -245,9 +249,9 @@ fetchTruncatingPartitions(): (Map[TopicPartition, EpochData], Set[TopicPartition
 
 `fetchTruncatingPartitions` finds the `TopicPartitions` (in the <<partitionStates, partitionStates>> registry) that are in `Truncating` state (and are not delayed) and splits them into two groups: with and without epochs.
 
-Internally, for every truncating `TopicPartition`, `fetchTruncatingPartitions` gets the <<latestEpoch, latest epoch>>.
+Internally, for every truncating `TopicPartition`, `fetchTruncatingPartitions` <<latestEpoch, gets the latest epoch>>.
 
-If the latest epoch is available and <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>, `fetchTruncatingPartitions` registers the `TopicPartition` as with epoch while the others are without an epoch.
+If the latest epoch is available and <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>, `fetchTruncatingPartitions` registers the `TopicPartition` as "with epoch" whereas the others as "without epoch".
 
 NOTE: Both actions (<<latestEpoch, getting the latest epoch>> and <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>) are <<implementations, implementation>>-specific).
 

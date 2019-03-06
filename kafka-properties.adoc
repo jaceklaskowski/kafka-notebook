@@ -175,7 +175,15 @@ Default: <<security.inter.broker.protocol, security.inter.broker.protocol>>
 It is not allowed to set `inter.broker.listener.name` and <<security.inter.broker.protocol, security.inter.broker.protocol>> properties at the same time.
 
 | inter.broker.protocol.version
-| [[inter.broker.protocol.version]]
+a| [[inter.broker.protocol.version]] Version of the inter-broker protocol
+
+Default: the latest `ApiVersion` (e.g. `2.1-IV2`)
+
+Typically bumped up after all brokers were upgraded to a new version
+
+* Use <<kafka-server-KafkaConfig.adoc#InterBrokerProtocolVersionProp, KafkaConfig.InterBrokerProtocolVersionProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#interBrokerProtocolVersionString, KafkaConfig.interBrokerProtocolVersionString>> to access the current value
 
 | interceptor.classes
 a| [[interceptor.classes]] Comma-separated list of link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor] class names.

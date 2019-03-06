@@ -72,6 +72,9 @@ Used exclusively when `SocketServer` is requested to <<kafka-network-SocketServe
 | interBrokerListenerName
 a| [[interBrokerListenerName]]
 
+| interBrokerProtocolVersion
+a| [[interBrokerProtocolVersion]][[interBrokerProtocolVersionString]][[InterBrokerProtocolVersionProp]] <<kafka-properties.adoc#inter.broker.protocol.version, inter.broker.protocol.version>>
+
 | interBrokerSecurityProtocol
 a| [[interBrokerSecurityProtocol]]
 

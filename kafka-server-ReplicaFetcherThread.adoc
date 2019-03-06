@@ -8,6 +8,20 @@
 
 `ReplicaFetcherThread` is <<creating-instance, created>> exclusively when `ReplicaFetcherManager` is requested to <<kafka-server-ReplicaFetcherManager.adoc#createFetcherThread, create one>> (when...FIXME).
 
+[[internal-registries]]
+.ReplicaFetcherThread's Internal Properties (e.g. Registries, Counters and Flags)
+[cols="1m,3",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| brokerSupportsLeaderEpochRequest
+a| [[brokerSupportsLeaderEpochRequest]] Flag that says whether the <<kafka-server-KafkaConfig.adoc#interBrokerProtocolVersion, inter.broker.protocol.version>> is `0.11.0-IV2` or above
+
+Used exclusively in <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>
+
+|===
+
 === [[creating-instance]] Creating ReplicaFetcherThread Instance
 
 `ReplicaFetcherThread` takes the following when created:
@@ -92,3 +106,14 @@ latestEpoch(topicPartition: TopicPartition): Option[Int]
 NOTE: `latestEpoch` is a part of <<kafka-server-AbstractFetcherThread.adoc#latestEpoch, AbstractFetcherThread Contract>> to get the latest (current) leader epoch for the given `TopicPartition`.
 
 `latestEpoch` requests the <<replicaMgr, ReplicaManager>> for the <<kafka-server-ReplicaManager.adoc#localReplicaOrException, local partition replica (or throw an exception)>> for the given `TopicPartition` and requests the replica for the <<kafka-cluster-Replica.adoc#latestEpoch, latest (current) leader epoch>>.
+
+=== [[isOffsetForLeaderEpochSupported]] `isOffsetForLeaderEpochSupported` Method
+
+[source, scala]
+----
+isOffsetForLeaderEpochSupported: Boolean
+----
+
+NOTE: `isOffsetForLeaderEpochSupported` is part of the <<kafka-server-AbstractFetcherThread.adoc#isOffsetForLeaderEpochSupported, AbstractFetcherThread Contract>> to control whether a `OffsetsForLeaderEpochRequest` is supported (that was added in Kafka 0.11.0.0).
+
+`isOffsetForLeaderEpochSupported` simply returns the <<brokerSupportsLeaderEpochRequest, brokerSupportsLeaderEpochRequest>> flag.

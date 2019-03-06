@@ -2,6 +2,9 @@
 
 `ReplicaAlterLogDirsThread` is...FIXME
 
+[[isOffsetForLeaderEpochSupported]]
+`ReplicaAlterLogDirsThread` has <<kafka-server-AbstractFetcherThread.adoc#isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>> flag always enabled (`true`).
+
 === [[fetchFromLeader]] `fetchFromLeader` Method
 
 [source, scala]
