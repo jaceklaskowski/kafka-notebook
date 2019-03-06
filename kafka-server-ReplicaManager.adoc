@@ -65,7 +65,17 @@ image::images/ReplicaManager-jconsole.png[align="center"]
 | Description
 
 | replicaFetcherManager
-a| [[replicaFetcherManager]] link:kafka-server-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
+a| [[replicaFetcherManager]] <<kafka-server-ReplicaFetcherManager.adoc#, ReplicaFetcherManager>>
+
+<<createReplicaFetcherManager, Created>> immediately with `ReplicaManager`
+
+Used when:
+
+* `ReplicaManager` is requested to <<stopReplicas, stopReplicas>>, <<becomeLeaderOrFollower, becomeLeaderOrFollower>>, <<makeLeaders, makeLeaders>>, <<makeFollowers, makeFollowers>>, <<handleLogDirFailure, handleLogDirFailure>>, <<shutdown, shutdown>>
+
+* `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure (resize) the thread pool>>
+
+* `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleStopReplicaRequest, handle a StopReplica request>>
 
 | allPartitions
 a| [[allPartitions]] <<kafka-cluster-Partition.adoc#, Partitions>> by `TopicPartition`
@@ -80,6 +90,9 @@ Used in <<getPartition, getPartition>>, <<nonOfflinePartitionsIterator, nonOffli
 
 | highWatermarkCheckpoints
 a| [[highWatermarkCheckpoints]] `OffsetCheckpointFiles` per live log data directory
+
+| stateChangeLogger
+a| [[stateChangeLogger]] `StateChangeLogger` with the broker ID and `inControllerContext` flag off (that sets `Broker` log prefix)
 
 | isrChangeSet
 a| [[isrChangeSet]] Collection of `TopicPartition` that...FIXME
@@ -107,9 +120,27 @@ log4j.logger.kafka.server.ReplicaManager=TRACE
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
+
+---
+
+Please note that `ReplicaManager` also uses a preconfigured <<stateChangeLogger, state.change.logger>> logger in `config/log4j.properties`:
+
+```
+log4j.appender.stateChangeAppender=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.stateChangeAppender.DatePattern='.'yyyy-MM-dd-HH
+log4j.appender.stateChangeAppender.File=${kafka.logs.dir}/state-change.log
+log4j.appender.stateChangeAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.stateChangeAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
+
+log4j.logger.state.change.logger=TRACE, stateChangeAppender
+log4j.additivity.state.change.logger=false
+```
+
+That means that the logs of `ReplicaManager` go to `logs/state-change.log` file at `TRACE` logging level and are not added to the main logs (per `log4j.additivity` being off).
+
 ====
 
-=== [[createReplicaFetcherManager]] `createReplicaFetcherManager` Internal Method
+=== [[createReplicaFetcherManager]] Creating ReplicaFetcherManager -- `createReplicaFetcherManager` Internal Factory Method
 
 [source, scala]
 ----
@@ -120,9 +151,9 @@ createReplicaFetcherManager(
   quotaManager: ReplicationQuotaManager): ReplicaFetcherManager
 ----
 
-`createReplicaFetcherManager`...FIXME
+`createReplicaFetcherManager` simply creates a <<kafka-server-ReplicaFetcherManager.adoc#, ReplicaFetcherManager>>.
 
-NOTE: `createReplicaFetcherManager` is used when...FIXME
+NOTE: `createReplicaFetcherManager` is used exclusively when `ReplicaManager` is <<replicaFetcherManager, created>>.
 
 === [[shutdown]] `shutdown` Method
 
