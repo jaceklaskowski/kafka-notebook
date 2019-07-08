@@ -5,160 +5,7 @@
 .KafkaServer's Startup and Auxiliary Services
 image::images/KafkaServer-startup.png[align="center"]
 
-`KafkaServer` <<creating-instance, registers itself in the JMX system>> under *kafka.server*.
-
-[[internal-registries]]
-.KafkaServer's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| adminManager
-| [[adminManager]] link:kafka-server-AdminManager.adoc[AdminManager]
-
-| apis
-a| [[apis]] <<kafka-server-KafkaApis.adoc#, KafkaApis>>
-
-| authorizer
-| [[authorizer]] Optional link:kafka-Authorizer.adoc[Authorizer]
-
-| brokerMetadataCheckpoints
-| [[brokerMetadataCheckpoints]]
-
-| brokerState
-| [[brokerState]] `BrokerState`
-
-| _brokerTopicStats
-a| [[_brokerTopicStats]][[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
-
-Created when `KafkaServer` is requested to <<startup, startup>>
-
-Used when `KafkaServer` is requested to <<startup, startup>> and creates the <<apis, KafkaApis>>, the <<replicaManager, ReplicaManager>>, the <<logManager, LogManager>>
-
-| _clusterId
-| [[_clusterId]] Cluster ID
-
-| credentialProvider
-| [[credentialProvider]] `CredentialProvider`
-
-| dynamicConfigHandlers
-a| [[dynamicConfigHandlers]] <<kafka-server-ConfigHandler.adoc#, ConfigHandlers>> by name:
-
-* <<kafka-server-TopicConfigHandler.adoc#, TopicConfigHandler>> as *topics*
-
-* <<kafka-server-ClientIdConfigHandler.adoc#, ClientIdConfigHandler>> as *clients*
-
-* <<kafka-server-UserConfigHandler.adoc#, UserConfigHandler>> as *users*
-
-* <<kafka-server-BrokerConfigHandler.adoc#, BrokerConfigHandler>> as *brokers*
-
-Initialized when `KafkaServer` is requested to <<startup, start up>> for the only purpose of creating the <<dynamicConfigManager, DynamicConfigManager>>.
-
-| dynamicConfigManager
-| [[dynamicConfigManager]] <<kafka-server-DynamicConfigManager.adoc#, DynamicConfigManager>>
-
-| groupCoordinator
-a| [[groupCoordinator]] <<kafka-coordinator-group-GroupCoordinator.adoc#, GroupCoordinator>> (for the only purpose of creating the <<apis, KafkaApis>>)
-
-<<kafka-coordinator-group-GroupCoordinator.adoc#apply, Created>> and immediately <<kafka-coordinator-group-GroupCoordinator.adoc#startup, started up>> when `KafkaServer` is requested to <<startup, start up>>
-
-<<kafka-coordinator-group-GroupCoordinator.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>
-
-| isStartingUp
-| [[isStartingUp]] Flag for...FIXME
-
-| kafkaController
-| [[kafkaController]] link:kafka-controller-KafkaController.adoc[KafkaController]
-
-| kafkaHealthcheck
-| [[kafkaHealthcheck]] link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
-
-| kafkaScheduler
-| [[kafkaScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with the number of daemon threads as configured using <<kafka-properties.adoc#backgroundThreads, background.threads>> configuration property (default: `10`)
-
-| logContext
-| [[logContext]] `LogContext`
-
-| logDirFailureChannel
-| [[logDirFailureChannel]] `LogDirFailureChannel`
-
-| logManager
-a| [[logManager]][[getLogManager]] <<kafka-log-LogManager.adoc#, LogManager>>
-
-Used when:
-
-* <<checkpointBrokerId, checkpointBrokerId>> (when `KafkaServer` is requested to <<startup, start up>>)
-
-* `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#addReconfigurables, addReconfigurables>>
-
-* `KafkaServer` is requested to <<startup, start up>> (and creates a `TopicConfigHandler` for topics for <<dynamicConfigHandlers, dynamicConfigHandlers>> and a <<createReplicaManager, ReplicaManager>>)
-
----
-
-<<kafka-log-LogManager.adoc#apply, Created>> and immediately <<kafka-log-LogManager.adoc#startup, started>> when `KafkaServer` is requested to <<startup, start up>>.
-
-<<kafka-log-LogManager.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>.
-
-| metadataCache
-a| [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>> that is created for the sake of creating the following services (at <<startup, startup>>):
-
-* <<adminManager, AdminManager>>
-* <<apis, KafkaApis>>
-* <<replicaManager, ReplicaManager>>
-* <<transactionCoordinator, TransactionCoordinator>>
-
-| replicaManager
-a| [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> used to create:
-
-* <<apis, KafkaApis>>
-* <<groupCoordinator, GroupCoordinator>>
-* <<transactionCoordinator, TransactionCoordinator>>
-
----
-
-* link:kafka-server-ReplicaManager.adoc#creating-instance[Created] (and link:kafka-server-ReplicaManager.adoc#startup[started] immmediately) when `KafkaServer` is requested to <<startup, start up>>
-
-* link:kafka-server-ReplicaManager.adoc#shutdown[Shut down] when `KafkaServer` <<shutdown, shuts down>>
-
-| reporters
-| [[reporters]] Collection of link:kafka-MetricsReporter.adoc[MetricsReporter]
-
-Used when...FIXME
-
-| requestHandlerPool
-| [[requestHandlerPool]] link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool]
-
-| socketServer
-a| [[socketServer]] <<kafka-network-SocketServer.adoc#, SocketServer>>
-
-| transactionCoordinator
-| [[transactionCoordinator]] link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
-
-| quotaManagers
-a| [[quotaManagers]] <<kafka-server-QuotaManagers.adoc#, QuotaManagers>>
-
-| shutdownLatch
-| [[shutdownLatch]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/CountDownLatch.html[java.util.concurrent.CountDownLatch]
-
-| startupComplete
-| [[startupComplete]] Flag for...FIXME
-
-| zkUtils
-| [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
-
-|===
-
-=== [[getOrGenerateClusterId]] `getOrGenerateClusterId` Internal Method
-
-[source, scala]
-----
-getOrGenerateClusterId(zkClient: KafkaZkClient): String
-----
-
-`getOrGenerateClusterId`...FIXME
-
-NOTE: `getOrGenerateClusterId` is used when...FIXME
+When <<creating-instance, created>>, `KafkaServer` registers itself in the JMX system under the *kafka.server* node.
 
 === [[creating-instance]] Creating KafkaServer Instance
 
@@ -296,6 +143,17 @@ createReplicaManager(isShuttingDown: AtomicBoolean): ReplicaManager
 
 NOTE: `createReplicaManager` is used exclusively when `KafkaServer` is requested to <<startup, start up>>.
 
+=== [[getOrGenerateClusterId]] `getOrGenerateClusterId` Internal Method
+
+[source, scala]
+----
+getOrGenerateClusterId(zkClient: KafkaZkClient): String
+----
+
+`getOrGenerateClusterId` simply requests the given <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getClusterId, cluster ID>> or <<kafka-zk-KafkaZkClient.adoc#createOrGetClusterId, createOrGetClusterId>> with a random UUID (as Base64).
+
+NOTE: `getOrGenerateClusterId` is used exclusively when `KafkaServer` is requested to <<startup, start up>> (and initializes the internal <<_clusterId, _clusterId>>).
+
 === [[shutdown]] Shutting Down -- `shutdown` Method
 
 [source, scala]
@@ -400,3 +258,145 @@ createBrokerInfo: BrokerInfo
 
 * `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#reconfigure, reconfigure>>
 ====
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| adminManager
+| [[adminManager]] link:kafka-server-AdminManager.adoc[AdminManager]
+
+| apis
+a| [[apis]] <<kafka-server-KafkaApis.adoc#, KafkaApis>>
+
+| authorizer
+| [[authorizer]] <<kafka-Authorizer.adoc#, Authorizer>>
+
+| brokerMetadataCheckpoints
+| [[brokerMetadataCheckpoints]]
+
+| brokerState
+| [[brokerState]] `BrokerState`
+
+| _brokerTopicStats
+a| [[_brokerTopicStats]][[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
+
+Created when `KafkaServer` is requested to <<startup, startup>>
+
+Used when `KafkaServer` is requested to <<startup, startup>> and creates the <<apis, KafkaApis>>, the <<replicaManager, ReplicaManager>>, the <<logManager, LogManager>>
+
+| _clusterId
+a| [[_clusterId]] Cluster ID
+
+| credentialProvider
+| [[credentialProvider]] `CredentialProvider`
+
+| dynamicConfigHandlers
+a| [[dynamicConfigHandlers]] <<kafka-server-ConfigHandler.adoc#, ConfigHandlers>> by name:
+
+* <<kafka-server-TopicConfigHandler.adoc#, TopicConfigHandler>> as *topics*
+
+* <<kafka-server-ClientIdConfigHandler.adoc#, ClientIdConfigHandler>> as *clients*
+
+* <<kafka-server-UserConfigHandler.adoc#, UserConfigHandler>> as *users*
+
+* <<kafka-server-BrokerConfigHandler.adoc#, BrokerConfigHandler>> as *brokers*
+
+Initialized when `KafkaServer` is requested to <<startup, start up>> for the only purpose of creating the <<dynamicConfigManager, DynamicConfigManager>>.
+
+| dynamicConfigManager
+| [[dynamicConfigManager]] <<kafka-server-DynamicConfigManager.adoc#, DynamicConfigManager>>
+
+| groupCoordinator
+a| [[groupCoordinator]] <<kafka-coordinator-group-GroupCoordinator.adoc#, GroupCoordinator>> (for the only purpose of creating the <<apis, KafkaApis>>)
+
+<<kafka-coordinator-group-GroupCoordinator.adoc#apply, Created>> and immediately <<kafka-coordinator-group-GroupCoordinator.adoc#startup, started up>> when `KafkaServer` is requested to <<startup, start up>>
+
+<<kafka-coordinator-group-GroupCoordinator.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>
+
+| isStartingUp
+| [[isStartingUp]] Flag for...FIXME
+
+| kafkaController
+| [[kafkaController]] link:kafka-controller-KafkaController.adoc[KafkaController]
+
+| kafkaHealthcheck
+| [[kafkaHealthcheck]] link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
+
+| kafkaScheduler
+| [[kafkaScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with the number of daemon threads as configured using <<kafka-properties.adoc#backgroundThreads, background.threads>> configuration property (default: `10`)
+
+| logContext
+| [[logContext]] `LogContext`
+
+| logDirFailureChannel
+| [[logDirFailureChannel]] `LogDirFailureChannel`
+
+| logManager
+a| [[logManager]][[getLogManager]] <<kafka-log-LogManager.adoc#, LogManager>>
+
+Used when:
+
+* <<checkpointBrokerId, checkpointBrokerId>> (when `KafkaServer` is requested to <<startup, start up>>)
+
+* `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#addReconfigurables, addReconfigurables>>
+
+* `KafkaServer` is requested to <<startup, start up>> (and creates a `TopicConfigHandler` for topics for <<dynamicConfigHandlers, dynamicConfigHandlers>> and a <<createReplicaManager, ReplicaManager>>)
+
+---
+
+<<kafka-log-LogManager.adoc#apply, Created>> and immediately <<kafka-log-LogManager.adoc#startup, started>> when `KafkaServer` is requested to <<startup, start up>>.
+
+<<kafka-log-LogManager.adoc#shutdown, Shut down>> when `KafkaServer` is requested to <<shutdown, shut down>>.
+
+| metadataCache
+a| [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>> that is created for the sake of creating the following services (at <<startup, startup>>):
+
+* <<adminManager, AdminManager>>
+* <<apis, KafkaApis>>
+* <<replicaManager, ReplicaManager>>
+* <<transactionCoordinator, TransactionCoordinator>>
+
+| replicaManager
+a| [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> used to create:
+
+* <<apis, KafkaApis>>
+* <<groupCoordinator, GroupCoordinator>>
+* <<transactionCoordinator, TransactionCoordinator>>
+
+---
+
+* link:kafka-server-ReplicaManager.adoc#creating-instance[Created] (and link:kafka-server-ReplicaManager.adoc#startup[started] immmediately) when `KafkaServer` is requested to <<startup, start up>>
+
+* link:kafka-server-ReplicaManager.adoc#shutdown[Shut down] when `KafkaServer` <<shutdown, shuts down>>
+
+| reporters
+| [[reporters]] Collection of link:kafka-MetricsReporter.adoc[MetricsReporter]
+
+Used when...FIXME
+
+| requestHandlerPool
+| [[requestHandlerPool]] link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool]
+
+| socketServer
+a| [[socketServer]] <<kafka-network-SocketServer.adoc#, SocketServer>>
+
+| transactionCoordinator
+| [[transactionCoordinator]] link:kafka-TransactionCoordinator.adoc[TransactionCoordinator]
+
+| quotaManagers
+a| [[quotaManagers]] <<kafka-server-QuotaManagers.adoc#, QuotaManagers>>
+
+| shutdownLatch
+| [[shutdownLatch]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/CountDownLatch.html[java.util.concurrent.CountDownLatch]
+
+| startupComplete
+| [[startupComplete]] Flag for...FIXME
+
+| zkUtils
+| [[zkUtils]] link:kafka-ZkUtils.adoc[ZkUtils]
+
+|===

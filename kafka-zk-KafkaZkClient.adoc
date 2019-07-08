@@ -492,3 +492,25 @@ getChildren(path : String): Seq[String]
 `getChildren`...FIXME
 
 NOTE: `getChildren` is used when...FIXME
+
+=== [[getClusterId]] `getClusterId` Method
+
+[source, scala]
+----
+getClusterId: Option[String]
+----
+
+`getClusterId`...FIXME
+
+NOTE: `getClusterId` is used when...FIXME
+
+=== [[createOrGetClusterId]] `createOrGetClusterId` Method
+
+[source, scala]
+----
+createOrGetClusterId(proposedClusterId: String): String
+----
+
+`createOrGetClusterId`...FIXME
+
+NOTE: `createOrGetClusterId` is used when...FIXME
