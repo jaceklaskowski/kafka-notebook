@@ -2,15 +2,48 @@
 
 `DynamicMetricsReporters` is...FIXME
 
-[[internal-registries]]
-.DynamicMetricsReporters's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,2",options="header",width="100%"]
+=== [[creating-instance]] Creating DynamicMetricsReporters Instance
+
+`DynamicMetricsReporters` takes the following to be created:
+
+* [[brokerId]] Broker ID
+* [[server]] <<kafka-server-KafkaServer.adoc#, KafkaServer>>
+
+`DynamicMetricsReporters` initializes the <<internal-properties, internal properties>>.
+
+=== [[reconfigure]] `reconfigure` Method
+
+[source, scala]
+----
+reconfigure(configs: util.Map[String, _]): Unit
+----
+
+NOTE: `reconfigure` is part of the <<kafka-common-Reconfigurable.adoc#reconfigure, Reconfigurable Contract>> to reconfigure the <<kafka-common-Reconfigurable.adoc#, Reconfigurable>>.
+
+`reconfigure`...FIXME
+
+=== [[createReporters]] `createReporters` Internal Method
+
+[source, scala]
+----
+createReporters(
+  reporterClasses: util.List[String],
+  updatedConfigs: util.Map[String, _]): Unit
+----
+
+`createReporters`...FIXME
+
+NOTE: `createReporters` is used when `DynamicMetricsReporters` is <<creating-instance, created>> and <<reconfigure, reconfigure>>.
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
 |===
 | Name
 | Description
 
 | dynamicConfig
-| [[dynamicConfig]] <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>>
+a| [[dynamicConfig]] <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>>
 
 Used when...FIXME
 |===

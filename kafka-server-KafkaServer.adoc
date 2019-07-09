@@ -5,7 +5,22 @@
 .KafkaServer's Startup and Auxiliary Services
 image::images/KafkaServer-startup.png[align="center"]
 
+[[kafka.server]]
 When <<creating-instance, created>>, `KafkaServer` registers itself in the JMX system under the *kafka.server* node.
+
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `kafka.server.KafkaServer` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.server.KafkaServer=DEBUG
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
 
 === [[creating-instance]] Creating KafkaServer Instance
 
@@ -130,7 +145,14 @@ notifyClusterListeners(clusterListeners: Seq[AnyRef]): Unit
 
 `notifyClusterListeners` creates a link:kafka-ClusterResourceListener.adoc#ClusterResourceListeners[ClusterResourceListeners] (with the objects from the input `clusterListeners` of type `ClusterResourceListener`) and link:kafka-ClusterResourceListener.adoc#onUpdate[sends the updated cluster metadata] to them.
 
-NOTE: `notifyClusterListeners` is used exclusively when `KafkaServer` <<startup, starts up>> (with `clusterListeners` as <<kafkaMetricsReporters, kafkaMetricsReporters>> and the `MetricsReporter` reporters from link:kafka-properties.adoc#metric_reporters[metric.reporters] Kafka property).
+[NOTE]
+====
+`notifyClusterListeners` is used when:
+
+* `KafkaServer` is requested to <<startup, start up>> (with `clusterListeners` as <<kafkaMetricsReporters, kafkaMetricsReporters>> and the `MetricsReporter` reporters from link:kafka-properties.adoc#metric_reporters[metric.reporters] Kafka property)
+
+* `DynamicMetricsReporters` is requested to <<kafka-server-DynamicMetricsReporters.adoc#createReporters, createReporters>> (when <<kafka-server-DynamicMetricsReporters.adoc#creating-instance, created>> and requested to <<kafka-server-DynamicMetricsReporters.adoc#reconfigure, reconfigure>>)
+====
 
 === [[createReplicaManager]] Creating ReplicaManager -- `createReplicaManager` Internal Method
 
@@ -152,7 +174,7 @@ getOrGenerateClusterId(zkClient: KafkaZkClient): String
 
 `getOrGenerateClusterId` simply requests the given <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getClusterId, cluster ID>> or <<kafka-zk-KafkaZkClient.adoc#createOrGetClusterId, createOrGetClusterId>> with a random UUID (as Base64).
 
-NOTE: `getOrGenerateClusterId` is used exclusively when `KafkaServer` is requested to <<startup, start up>> (and initializes the internal <<_clusterId, _clusterId>>).
+NOTE: `getOrGenerateClusterId` is used exclusively when `KafkaServer` is requested to <<startup, start up>> (and initializes the internal <<_clusterId, cluster ID>>).
 
 === [[shutdown]] Shutting Down -- `shutdown` Method
 
@@ -259,6 +281,31 @@ createBrokerInfo: BrokerInfo
 * `DynamicListenerConfig` is requested to <<kafka-server-DynamicListenerConfig.adoc#reconfigure, reconfigure>>
 ====
 
+=== [[_clusterId]][[clusterId]] Cluster ID -- `_clusterId` Internal Property
+
+[source, scala]
+----
+_clusterId: String
+----
+
+`KafkaServer` uses *Cluster ID* that is a random UUID (encoded to Base64).
+
+When requested to <<startup, start up>>, `KafkaServer` initializes the internal `_clusterId` which is immediately printed out as an INFO message to the logs:
+
+```
+Cluster ID = [clusterId]
+```
+
+Cluster ID is persisted in Zookeeper in */cluster/id* znode (in JSON format).
+
+Cluster ID is registered as *kafka.server:type=KafkaServer,name=ClusterId* MBean in the JMX system.
+
+Cluster ID is used for the following:
+
+* Creating <<kafka-server-KafkaApis.adoc#, KafkaApis>> (for `dataPlaneRequestProcessor` and `controlPlaneRequestChannelOpt`) at <<startup, startup>>
+
+* <<notifyClusterListeners, Sending an updated cluster metadata to ClusterResourceListeners>>
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -287,9 +334,6 @@ a| [[_brokerTopicStats]][[brokerTopicStats]] <<kafka-server-BrokerTopicStats.ado
 Created when `KafkaServer` is requested to <<startup, startup>>
 
 Used when `KafkaServer` is requested to <<startup, startup>> and creates the <<apis, KafkaApis>>, the <<replicaManager, ReplicaManager>>, the <<logManager, LogManager>>
-
-| _clusterId
-a| [[_clusterId]] Cluster ID
 
 | credentialProvider
 | [[credentialProvider]] `CredentialProvider`

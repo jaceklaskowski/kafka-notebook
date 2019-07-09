@@ -27,6 +27,8 @@ a| [[reconfigure]]
 void reconfigure(Map<String, ?> configs)
 ----
 
+Reconfigures the <<kafka-common-Reconfigurable.adoc#, Reconfigurable>>
+
 Used when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#maybeReconfigure, maybeReconfigure>> and <<kafka-server-DynamicBrokerConfig.adoc#processReconfigurable, processReconfigurable>>.
 
 | validateReconfiguration

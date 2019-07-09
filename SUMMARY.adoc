@@ -79,6 +79,8 @@
 
 === Kafka Broker Services
 
+. link:kafka-server-KafkaServer.adoc[KafkaServer -- Kafka Broker]
+
 . link:kafka-server-scheduled-tasks.adoc[Kafka Server and Periodic Tasks]
 
 . link:kafka-server-AdminManager.adoc[AdminManager]
@@ -113,7 +115,6 @@
 
 . link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
 . link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer over KafkaServer]
-. link:kafka-server-KafkaServer.adoc[KafkaServer -- Kafka Broker]
 
 . link:kafka-server-KafkaConfig.adoc[KafkaConfig]
 
