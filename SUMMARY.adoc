@@ -14,15 +14,15 @@
 
 . link:kafka-server-DelegationTokenManager.adoc[DelegationTokenManager]
 
-. link:kafka-server-DynamicConfigManager.adoc[DynamicConfigManager -- Dynamic Configuration Management]
-.. link:kafka-server-ConfigHandler.adoc[ConfigHandler Contract -- Configuration Change Handlers]
+. link:kafka-server-DynamicConfigManager.adoc[DynamicConfigManager]
+.. link:kafka-server-ConfigHandler.adoc[ConfigHandler]
 .. link:kafka-server-BrokerConfigHandler.adoc[BrokerConfigHandler]
 .. link:kafka-server-ClientIdConfigHandler.adoc[ClientIdConfigHandler]
 .. link:kafka-server-TopicConfigHandler.adoc[TopicConfigHandler]
 .. link:kafka-server-UserConfigHandler.adoc[UserConfigHandler]
 
 . link:kafka-server-DynamicBrokerConfig.adoc[DynamicBrokerConfig]
-.. link:kafka-server-BrokerReconfigurable.adoc[BrokerReconfigurable Contract -- Reconfigurable Broker Services]
+.. link:kafka-server-BrokerReconfigurable.adoc[BrokerReconfigurable]
 ... link:kafka-server-DynamicConnectionQuota.adoc[DynamicConnectionQuota]
 ... link:kafka-server-DynamicListenerConfig.adoc[DynamicListenerConfig]
 ... link:kafka-server-DynamicThreadPool.adoc[DynamicThreadPool]
@@ -32,21 +32,22 @@
 
 . link:kafka-coordinator-group-GroupCoordinator.adoc[GroupCoordinator]
 .. link:kafka-coordinator-group-GroupMetadataManager.adoc[GroupMetadataManager]
-.. link:kafka-coordinator-group-GroupMetadata.adoc[GroupMetadata -- Metadata of Consumer Group]
+.. link:kafka-coordinator-group-GroupMetadata.adoc[GroupMetadata]
 
 . link:kafka-Kafka.adoc[Kafka]
-. link:kafka-server-KafkaApis.adoc[KafkaApis -- API Request Handler]
+. link:kafka-server-KafkaApis.adoc[KafkaApis]
 
 . link:kafka-controller-KafkaController.adoc[KafkaController]
 
 . link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
-. link:kafka-KafkaServerStartable.adoc[KafkaServerStartable -- Thin Management Layer over KafkaServer]
+. link:kafka-KafkaServerStartable.adoc[KafkaServerStartable]
 
 . link:kafka-server-KafkaConfig.adoc[KafkaConfig]
 
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
-. link:kafka-server-KafkaRequestHandler.adoc[KafkaRequestHandler]
-. link:kafka-server-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads]
+
+. link:kafka-server-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool]
+.. link:kafka-server-KafkaRequestHandler.adoc[KafkaRequestHandler]
 
 . link:kafka-log-LogManager.adoc[LogManager]
 .. link:kafka-log-Log.adoc[Log]
@@ -72,12 +73,12 @@
 .. link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 .. link:kafka-server-ReplicaManager-LogDirFailureHandler.adoc[LogDirFailureHandler]
 
-. link:kafka-Selector.adoc[Selector -- Selectable on Socket Channels (from Java's New IO API)]
+. link:kafka-Selector.adoc[Selector]
 .. link:kafka-Selectable.adoc[Selectable]
 
 . link:kafka-ShutdownableThread.adoc[ShutdownableThread]
 . link:kafka-network-SocketServer.adoc[SocketServer]
-.. link:kafka-network-SocketServer-Processor.adoc[Network Processor Thread (Socket Server Request Processor)]
+.. link:kafka-network-SocketServer-Processor.adoc[Network Processor Thread]
 . link:kafka-network-RequestChannel.adoc[RequestChannel]
 .. link:kafka-network-RequestChannel-Request.adoc[RequestChannel.Request]
 

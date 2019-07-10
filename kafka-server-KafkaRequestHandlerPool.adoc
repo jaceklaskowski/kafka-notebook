@@ -74,7 +74,7 @@ createHandler(id: Int): Unit
 
 NOTE: `createHandler` is used when...FIXME
 
-=== [[resizeThreadPool]] `resizeThreadPool` Method
+=== [[resizeThreadPool]] Resizing Thread Pool (of KafkaRequestHandlers) -- `resizeThreadPool` Method
 
 [source, scala]
 ----
