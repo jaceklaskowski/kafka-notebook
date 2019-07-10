@@ -16,7 +16,7 @@ Enable `ALL` logging level for `kafka.server.KafkaServer` logger to see what hap
 Add the following line to `config/log4j.properties`:
 
 ```
-log4j.logger.kafka.server.KafkaServer=DEBUG
+log4j.logger.kafka.server.KafkaServer=ALL
 ```
 
 Refer to <<kafka-logging.adoc#, Logging>>.
@@ -335,14 +335,20 @@ Created when `KafkaServer` is requested to <<startup, startup>>
 
 Used when `KafkaServer` is requested to <<startup, startup>> and creates the <<apis, KafkaApis>>, the <<replicaManager, ReplicaManager>>, the <<logManager, LogManager>>
 
+| controlPlaneRequestHandlerPool
+a| [[controlPlaneRequestHandlerPool]] Control-plane <<kafka-server-KafkaRequestHandlerPool.adoc#, KafkaRequestHandlerPool>> for the <<controlPlaneRequestProcessor, control-plane KafkaApis>>
+
+| controlPlaneRequestProcessor
+a| [[controlPlaneRequestProcessor]] Control-plane <<kafka-server-KafkaApis.adoc#, KafkaApis>> request handler for the optional <<kafka-network-SocketServer.adoc#controlPlaneRequestChannelOpt, control-plane KafkaRequestHandlerPool>> of the <<socketServer, SocketServer>>
+
 | credentialProvider
 | [[credentialProvider]] `CredentialProvider`
 
 | dataPlaneRequestProcessor
-a| [[dataPlaneRequestProcessor]] Data-plane <<kafka-server-KafkaApis.adoc#, KafkaApis>> request handler for the <<kafka-network-SocketServer.adoc#dataPlaneRequestChannel, dataPlaneRequestChannel>> of the <<socketServer, SocketServer>>
+a| [[dataPlaneRequestProcessor]] Data-plane <<kafka-server-KafkaApis.adoc#, KafkaApis>> request handler for the <<kafka-network-SocketServer.adoc#dataPlaneRequestChannel, data-plane RequestChannel>> of the <<socketServer, SocketServer>>
 
 | dataPlaneRequestHandlerPool
-a| [[dataPlaneRequestHandlerPool]] <<kafka-server-KafkaRequestHandlerPool.adoc#, KafkaRequestHandlerPool>> for the <<dataPlaneRequestProcessor, data-plane KafkaApis>>
+a| [[dataPlaneRequestHandlerPool]] Data-plane <<kafka-server-KafkaRequestHandlerPool.adoc#, KafkaRequestHandlerPool>> for the <<dataPlaneRequestProcessor, data-plane KafkaApis>>
 
 | dynamicConfigHandlers
 a| [[dynamicConfigHandlers]] <<kafka-server-ConfigHandler.adoc#, ConfigHandlers>> by name:

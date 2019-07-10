@@ -30,6 +30,9 @@ image::images/SocketServer-startup.png[align="center"]
 [[DataPlaneMetricPrefix]]
 `SocketServer` uses an empty metric prefix for...FIXME
 
+[[ControlPlaneMetricPrefix]]
+`SocketServer` uses *ControlPlane* metric prefix for...FIXME
+
 === [[creating-instance]] Creating SocketServer Instance
 
 `SocketServer` takes the following to be created:
@@ -245,6 +248,9 @@ NOTE: `createDataPlaneAcceptorsAndProcessors` is used when `SocketServer` is req
 
 | connectionQuotas
 | [[connectionQuotas]] `ConnectionQuotas`
+
+| controlPlaneRequestChannelOpt
+a| [[controlPlaneRequestChannelOpt]] Optional <<kafka-network-RequestChannel.adoc#, RequestChannel>> (with the queue size of `20` and the <<ControlPlaneMetricPrefix, ControlPlaneMetricPrefix>> metric name prefix)
 
 | dataPlaneRequestChannel
 a| [[dataPlaneRequestChannel]] <<kafka-network-RequestChannel.adoc#, RequestChannel>> (with the queue size of <<maxQueuedRequests, maxQueuedRequests>> and the <<DataPlaneMetricPrefix, DataPlaneMetricPrefix>> metric name prefix)

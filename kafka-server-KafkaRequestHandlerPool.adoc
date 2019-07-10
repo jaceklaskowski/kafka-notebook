@@ -1,34 +1,32 @@
-== [[KafkaRequestHandlerPool]] KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads
+== [[KafkaRequestHandlerPool]] KafkaRequestHandlerPool -- Pool of KafkaRequestHandler Daemon Threads
 
-`KafkaRequestHandlerPool` is a <<runnables, pool>> of daemon *kafka-request-handler* threads that are started immediately when `KafkaRequestHandlerPool` is <<creating-instance, created>>.
+`KafkaRequestHandlerPool` is a <<runnables, pool>> of *kafka-request-handler* daemon threads.
+
+`KafkaRequestHandlerPool` is <<creating-instance, created>> exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>> (and creates the <<kafka-server-KafkaServer.adoc#dataPlaneRequestHandlerPool, data-plane>> and <<kafka-server-KafkaServer.adoc#controlPlaneRequestHandlerPool, control-plane>> request handler pools).
 
 .KafkaRequestHandlerPool and KafkaRequestHandler Threads
 image::images/KafkaRequestHandlerPool.png[align="center"]
 
-NOTE: The number of *kafka-request-handler* threads is controlled by link:kafka-properties.adoc#num.network.threads[num.network.threads] Kafka property and defaults to `3`.
+When <<creating-instance, created>>, `KafkaRequestHandlerPool` requests all the daemon threads to start.
 
-`KafkaRequestHandlerPool` is <<creating-instance, created>> exclusively when `KafkaServer` is link:kafka-server-KafkaServer.adoc#startup[started].
-
-[[internal-registries]]
-.KafkaRequestHandlerPool's Internal Properties (e.g. Registries and Counters)
-[frame="topbot",cols="1,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| [[aggregateIdleMeter]] `aggregateIdleMeter`
-|
-
-| [[runnables]] `runnables`
-| Collection of link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
-|===
+NOTE: The number of *kafka-request-handler* threads is controlled by <<kafka-properties.adoc#num.network.threads, num.network.threads>> configuration property (default: `3`).
 
 [[logIdent]]
 `KafkaRequestHandlerPool` uses *[Kafka Request Handler on Broker [brokerId]]* as the logging prefix (aka `logIdent`).
 
-=== [[shutdown]] `shutdown` Method
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `kafka.server.KafkaRequestHandlerPool` logger to see what happens inside.
 
-CAUTION: FIXME
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.server.KafkaRequestHandlerPool=ALL
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
 
 === [[creating-instance]] Creating KafkaRequestHandlerPool Instance
 
@@ -39,5 +37,72 @@ CAUTION: FIXME
 * [[apis]] link:kafka-server-KafkaApis.adoc[KafkaApis]
 * [[time]] `Time`
 * [[numThreads]] Number of threads (i.e. instances of <<runnables, KafkaRequestHandlers>> as defined by link:kafka-server-KafkaConfig.adoc#numNetworkThreads[numNetworkThreads] property)
+* [[requestHandlerAvgIdleMetricName]] `requestHandlerAvgIdleMetricName`
+* [[logAndThreadNamePrefix]] `logAndThreadNamePrefix`
 
-`KafkaRequestHandlerPool` initializes the <<internal-registries, internal registries and counters>> and starts <<numThreads, numThreads>>  daemon *kafka-request-handler* threads (as registered in <<runnables, runnables>>).
+`KafkaRequestHandlerPool` initializes the <<internal-properties, internal properties>>.
+
+`KafkaRequestHandlerPool` starts <<numThreads, numThreads>>  daemon *kafka-request-handler* threads (as registered in the <<runnables, runnables>> internal registry).
+
+=== [[KafkaMetricsGroup]][[metrics]] Performance Metrics
+
+`KafkaRequestHandlerPool` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with the following performance metrics.
+
+.KafkaRequestHandlerPool's Performance Metrics
+[cols="30m,70",options="header",width="100%"]
+|===
+| Metric Name
+| Description
+
+| <<requestHandlerAvgIdleMetricName, requestHandlerAvgIdleMetricName>>
+| [[aggregateIdleMeter]] Average free capacity of the request handlers (_idle handlers_)
+|===
+
+The performance metrics are registered in *kafka.server:type=KafkaRequestHandlerPool* group.
+
+.KafkaMetricsGroup in jconsole
+image::images/KafkaMetricsGroup-jconsole.png[align="center"]
+
+=== [[createHandler]] Creating and Starting KafkaRequestHandler Daemon Thread -- `createHandler` Method
+
+[source, scala]
+----
+createHandler(id: Int): Unit
+----
+
+`createHandler`...FIXME
+
+NOTE: `createHandler` is used when...FIXME
+
+=== [[resizeThreadPool]] `resizeThreadPool` Method
+
+[source, scala]
+----
+resizeThreadPool(newSize: Int): Unit
+----
+
+`resizeThreadPool`...FIXME
+
+NOTE: `resizeThreadPool` is used when...FIXME
+
+=== [[shutdown]] Shutting Down -- `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown`...FIXME
+
+NOTE: `shutdown` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| runnables
+| [[runnables]] <<kafka-KafkaRequestHandler.adoc#, KafkaRequestHandlers>>
+|===
