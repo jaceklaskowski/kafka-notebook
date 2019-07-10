@@ -3,80 +3,6 @@
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
 
-=== Kafka Clients / Consumer API
-
-. link:kafka-consumer-Consumer.adoc[Consumer Contract -- Kafka Clients for Consuming Records]
-.. link:kafka-consumer-KafkaConsumer.adoc[KafkaConsumer]
-.. link:kafka-consumer-MockConsumer.adoc[MockConsumer]
-
-. link:kafka-consumer-ConsumerRecord.adoc[ConsumerRecord]
-. link:kafka-consumer-OffsetAndMetadata.adoc[OffsetAndMetadata]
-. link:kafka-consumer-OffsetAndTimestamp.adoc[OffsetAndTimestamp]
-. link:kafka-consumer-OffsetCommitCallback.adoc[OffsetCommitCallback]
-. link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener]
-
-. link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig -- Configuration Properties for KafkaConsumer]
-
-. link:kafka-consumer-CommitFailedException.adoc[CommitFailedException]
-. link:kafka-consumer-InvalidOffsetException.adoc[InvalidOffsetException]
-. link:kafka-consumer-NoOffsetForPartitionException.adoc[NoOffsetForPartitionException]
-. link:kafka-consumer-OffsetOutOfRangeException.adoc[OffsetOutOfRangeException]
-. link:kafka-consumer-RetriableCommitFailedException.adoc[RetriableCommitFailedException]
-
-. link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor]
-
-. link:kafka-consumer-internals-PartitionAssignor.adoc[PartitionAssignor Contract]
-.. link:kafka-consumer-RangeAssignor.adoc[RangeAssignor]
-.. link:kafka-consumer-RoundRobinAssignor.adoc[RoundRobinAssignor]
-.. link:kafka-consumer-StickyAssignor.adoc[StickyAssignor]
-.. link:kafka-consumer-internals-AbstractPartitionAssignor.adoc[AbstractPartitionAssignor]
-
-. link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
-.. link:kafka-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator Contract]
-.. link:kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc[HeartbeatThread]
-.. link:kafka-consumer-internals-AbstractCoordinator-GroupCoordinatorMetrics.adoc[GroupCoordinatorMetrics]
-
-. link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
-. link:kafka-consumer-internals-ConsumerMetrics.adoc[ConsumerMetrics]
-. link:kafka-consumer-internals-Fetcher.adoc[Fetcher]
-. link:kafka-consumer-internals-RequestFutureListener.adoc[RequestFutureListener]
-. link:kafka-consumer-internals-SubscriptionState.adoc[SubscriptionState]
-
-. link:kafka-consumer-internals-RequestFuture.adoc[RequestFuture]
-. link:kafka-consumer-internals-RequestFutureAdapter.adoc[RequestFutureAdapter Contract]
-.. link:kafka-consumer-internals-CoordinatorResponseHandler.adoc[CoordinatorResponseHandler Contract]
-.. link:kafka-consumer-internals-FindCoordinatorResponseHandler.adoc[FindCoordinatorResponseHandler]
-.. link:kafka-consumer-internals-HeartbeatResponseHandler.adoc[HeartbeatResponseHandler]
-.. link:kafka-consumer-internals-JoinGroupResponseHandler.adoc[JoinGroupResponseHandler]
-.. link:kafka-consumer-internals-OffsetCommitResponseHandler.adoc[OffsetCommitResponseHandler]
-.. link:kafka-consumer-internals-SyncGroupResponseHandler.adoc[SyncGroupResponseHandler]
-
-=== Kafka Operations and Administration
-
-. link:kafka-admin-ConfigCommand.adoc[ConfigCommand]
-. link:kafka-admin-ReassignPartitionsCommand.adoc[ReassignPartitionsCommand -- Partition Reassignment on Command Line]
-. link:kafka-admin-TopicCommand.adoc[TopicCommand -- Topic Management on Command Line]
-
-. link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
-.. link:kafka-ConsumerGroupCommand.adoc[ConsumerGroupCommand]
-.. link:kafka-KafkaConsumerGroupService.adoc[KafkaConsumerGroupService]
-... link:kafka-ConsumerGroupService.adoc[ConsumerGroupService]
-
-. link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
-.. link:kafka-AdminClient.adoc[AdminClient]
-.. link:kafka-clients-admin-internals-AdminMetadataManager.adoc[AdminMetadataManager]
-.. link:kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc[AdminClientRunnable]
-
-. link:kafka-admin-AdminUtils.adoc[AdminUtils]
-
-=== Kafka Features
-
-. link:kafka-controller-election.adoc[Kafka Controller Election]
-. link:kafka-topic-replication.adoc[Topic Replication]
-. link:kafka-topic-deletion.adoc[Topic Deletion]
-. link:kafka-transactional-producer.adoc[Transactional Producer]
-. link:kafka-idempotent-producer.adoc[Idempotent Producer]
-
 === Kafka Broker Services
 
 . link:kafka-server-KafkaServer.adoc[KafkaServer -- Kafka Broker]
@@ -120,7 +46,7 @@
 
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
 . link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
-. link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads]
+. link:kafka-server-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads]
 
 . link:kafka-log-LogManager.adoc[LogManager]
 .. link:kafka-log-Log.adoc[Log]
@@ -199,6 +125,80 @@
 . link:kafka-metrics-KafkaMetricsGroup.adoc[KafkaMetricsGroup]
 . link:kafka-server-BrokerTopicStats.adoc[BrokerTopicStats]
 . link:kafka-server-BrokerTopicMetrics.adoc[BrokerTopicMetrics]
+
+=== Kafka Operations and Administration
+
+. link:kafka-admin-ConfigCommand.adoc[ConfigCommand]
+. link:kafka-admin-ReassignPartitionsCommand.adoc[ReassignPartitionsCommand -- Partition Reassignment on Command Line]
+. link:kafka-admin-TopicCommand.adoc[TopicCommand -- Topic Management on Command Line]
+
+. link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
+.. link:kafka-ConsumerGroupCommand.adoc[ConsumerGroupCommand]
+.. link:kafka-KafkaConsumerGroupService.adoc[KafkaConsumerGroupService]
+... link:kafka-ConsumerGroupService.adoc[ConsumerGroupService]
+
+. link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
+.. link:kafka-AdminClient.adoc[AdminClient]
+.. link:kafka-clients-admin-internals-AdminMetadataManager.adoc[AdminMetadataManager]
+.. link:kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc[AdminClientRunnable]
+
+. link:kafka-admin-AdminUtils.adoc[AdminUtils]
+
+=== Kafka Features
+
+. link:kafka-controller-election.adoc[Kafka Controller Election]
+. link:kafka-topic-replication.adoc[Topic Replication]
+. link:kafka-topic-deletion.adoc[Topic Deletion]
+. link:kafka-transactional-producer.adoc[Transactional Producer]
+. link:kafka-idempotent-producer.adoc[Idempotent Producer]
+
+=== Kafka Clients / Consumer API
+
+. link:kafka-consumer-Consumer.adoc[Consumer Contract -- Kafka Clients for Consuming Records]
+.. link:kafka-consumer-KafkaConsumer.adoc[KafkaConsumer]
+.. link:kafka-consumer-MockConsumer.adoc[MockConsumer]
+
+. link:kafka-consumer-ConsumerRecord.adoc[ConsumerRecord]
+. link:kafka-consumer-OffsetAndMetadata.adoc[OffsetAndMetadata]
+. link:kafka-consumer-OffsetAndTimestamp.adoc[OffsetAndTimestamp]
+. link:kafka-consumer-OffsetCommitCallback.adoc[OffsetCommitCallback]
+. link:kafka-consumer-ConsumerRebalanceListener.adoc[ConsumerRebalanceListener]
+
+. link:kafka-consumer-ConsumerConfig.adoc[ConsumerConfig -- Configuration Properties for KafkaConsumer]
+
+. link:kafka-consumer-CommitFailedException.adoc[CommitFailedException]
+. link:kafka-consumer-InvalidOffsetException.adoc[InvalidOffsetException]
+. link:kafka-consumer-NoOffsetForPartitionException.adoc[NoOffsetForPartitionException]
+. link:kafka-consumer-OffsetOutOfRangeException.adoc[OffsetOutOfRangeException]
+. link:kafka-consumer-RetriableCommitFailedException.adoc[RetriableCommitFailedException]
+
+. link:kafka-consumer-ConsumerInterceptor.adoc[ConsumerInterceptor]
+
+. link:kafka-consumer-internals-PartitionAssignor.adoc[PartitionAssignor Contract]
+.. link:kafka-consumer-RangeAssignor.adoc[RangeAssignor]
+.. link:kafka-consumer-RoundRobinAssignor.adoc[RoundRobinAssignor]
+.. link:kafka-consumer-StickyAssignor.adoc[StickyAssignor]
+.. link:kafka-consumer-internals-AbstractPartitionAssignor.adoc[AbstractPartitionAssignor]
+
+. link:kafka-consumer-internals-ConsumerCoordinator.adoc[ConsumerCoordinator]
+.. link:kafka-consumer-internals-AbstractCoordinator.adoc[AbstractCoordinator Contract]
+.. link:kafka-consumer-internals-AbstractCoordinator-HeartbeatThread.adoc[HeartbeatThread]
+.. link:kafka-consumer-internals-AbstractCoordinator-GroupCoordinatorMetrics.adoc[GroupCoordinatorMetrics]
+
+. link:kafka-consumer-internals-ConsumerNetworkClient.adoc[ConsumerNetworkClient]
+. link:kafka-consumer-internals-ConsumerMetrics.adoc[ConsumerMetrics]
+. link:kafka-consumer-internals-Fetcher.adoc[Fetcher]
+. link:kafka-consumer-internals-RequestFutureListener.adoc[RequestFutureListener]
+. link:kafka-consumer-internals-SubscriptionState.adoc[SubscriptionState]
+
+. link:kafka-consumer-internals-RequestFuture.adoc[RequestFuture]
+. link:kafka-consumer-internals-RequestFutureAdapter.adoc[RequestFutureAdapter Contract]
+.. link:kafka-consumer-internals-CoordinatorResponseHandler.adoc[CoordinatorResponseHandler Contract]
+.. link:kafka-consumer-internals-FindCoordinatorResponseHandler.adoc[FindCoordinatorResponseHandler]
+.. link:kafka-consumer-internals-HeartbeatResponseHandler.adoc[HeartbeatResponseHandler]
+.. link:kafka-consumer-internals-JoinGroupResponseHandler.adoc[JoinGroupResponseHandler]
+.. link:kafka-consumer-internals-OffsetCommitResponseHandler.adoc[OffsetCommitResponseHandler]
+.. link:kafka-consumer-internals-SyncGroupResponseHandler.adoc[SyncGroupResponseHandler]
 
 === Kafka Clients / Producer API
 

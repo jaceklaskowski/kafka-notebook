@@ -2,7 +2,7 @@
 
 `KafkaRequestHandler` is a thread of execution (i.e. Java's https://docs.oracle.com/javase/9/docs/api/java/lang/Runnable.html[Runnable]) that is responsible for relaying client requests (from <<requestChannel, RequestChannel>>) to <<apis, KafkaApis>> (except `ShutdownRequest` requests that are handled directly).
 
-`KafkaRequestHandler` is <<creating-instance, created>> exclusively when `KafkaRequestHandlerPool` is link:kafka-KafkaRequestHandlerPool.adoc#runnables[created] (and starts the internal `runnables` threads).
+`KafkaRequestHandler` is <<creating-instance, created>> exclusively when `KafkaRequestHandlerPool` is link:kafka-server-KafkaRequestHandlerPool.adoc#runnables[created] (and starts the internal `runnables` threads).
 
 .KafkaRequestHandler's Startup and Request Relay
 image::images/KafkaRequestHandler-start.png[align="center"]
@@ -33,7 +33,7 @@ run(): Unit
 
 CAUTION: FIXME
 
-NOTE: `run` is used when `KafkaRequestHandlerPool` is link:kafka-KafkaRequestHandlerPool.adoc#creating-instance[created].
+NOTE: `run` is used when `KafkaRequestHandlerPool` is link:kafka-server-KafkaRequestHandlerPool.adoc#creating-instance[created].
 
 === [[creating-instance]] Creating KafkaRequestHandler Instance
 

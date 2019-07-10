@@ -4,7 +4,7 @@
 
 `RequestChannel` is also a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> that...FIXME
 
-`RequestChannel` is <<creating-instance, created>> exclusively when `SocketServer` is <<kafka-network-SocketServer.adoc#requestChannel, created>> (and is then used to create a <<kafka-network-SocketServer-Processor.adoc#requestChannel, Processor>>, <<kafka-server-KafkaApis.adoc#requestChannel, KafkaApis>>, <<kafka-KafkaRequestHandler.adoc#requestChannel, KafkaRequestHandler>> and <<kafka-KafkaRequestHandlerPool.adoc#requestChannel, KafkaRequestHandlerPool>>).
+`RequestChannel` is <<creating-instance, created>> exclusively when `SocketServer` is <<kafka-network-SocketServer.adoc#requestChannel, created>> (and is then used to create a <<kafka-network-SocketServer-Processor.adoc#requestChannel, Processor>>, <<kafka-server-KafkaApis.adoc#requestChannel, KafkaApis>>, <<kafka-KafkaRequestHandler.adoc#requestChannel, KafkaRequestHandler>> and <<kafka-server-KafkaRequestHandlerPool.adoc#requestChannel, KafkaRequestHandlerPool>>).
 
 [[creating-instance]]
 [[queueSize]]

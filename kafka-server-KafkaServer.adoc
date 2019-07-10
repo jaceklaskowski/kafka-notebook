@@ -110,7 +110,7 @@ INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
 
 NOTE: At this point `KafkaServer` may start processing requests.
 
-`startup` link:kafka-KafkaRequestHandlerPool.adoc#creating-instance[creates] the <<requestHandlerPool, KafkaRequestHandlerPool>> (for <<brokerId, broker ID>>, <<socketServer, SocketServer>>, <<apis, KafkaApis>> and link:kafka-properties.adoc#num.io.threads[num.io.threads]).
+`startup` link:kafka-server-KafkaRequestHandlerPool.adoc#creating-instance[creates] the <<requestHandlerPool, KafkaRequestHandlerPool>> (for <<brokerId, broker ID>>, <<socketServer, SocketServer>>, <<apis, KafkaApis>> and link:kafka-properties.adoc#num.io.threads[num.io.threads]).
 
 `startup` starts the HTTP interface of mx4j (if configured).
 
@@ -342,7 +342,7 @@ Used when `KafkaServer` is requested to <<startup, startup>> and creates the <<a
 a| [[dataPlaneRequestProcessor]] Data-plane <<kafka-server-KafkaApis.adoc#, KafkaApis>> request handler for the <<kafka-network-SocketServer.adoc#dataPlaneRequestChannel, dataPlaneRequestChannel>> of the <<socketServer, SocketServer>>
 
 | dataPlaneRequestHandlerPool
-a| [[dataPlaneRequestHandlerPool]] <<kafka-KafkaRequestHandlerPool.adoc#, KafkaRequestHandlerPool>> for the <<dataPlaneRequestProcessor, data-plane KafkaApis>>
+a| [[dataPlaneRequestHandlerPool]] <<kafka-server-KafkaRequestHandlerPool.adoc#, KafkaRequestHandlerPool>> for the <<dataPlaneRequestProcessor, data-plane KafkaApis>>
 
 | dynamicConfigHandlers
 a| [[dynamicConfigHandlers]] <<kafka-server-ConfigHandler.adoc#, ConfigHandlers>> by name:
@@ -429,7 +429,7 @@ a| [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> used
 Used when...FIXME
 
 | requestHandlerPool
-| [[requestHandlerPool]] link:kafka-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool]
+| [[requestHandlerPool]] link:kafka-server-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool]
 
 | socketServer
 a| [[socketServer]] <<kafka-network-SocketServer.adoc#, SocketServer>>
