@@ -302,7 +302,7 @@ Cluster ID is registered as *kafka.server:type=KafkaServer,name=ClusterId* MBean
 
 Cluster ID is used for the following:
 
-* Creating <<kafka-server-KafkaApis.adoc#, KafkaApis>> (for `dataPlaneRequestProcessor` and `controlPlaneRequestChannelOpt`) at <<startup, startup>>
+* Creating <<kafka-server-KafkaApis.adoc#, KafkaApis>> (for <<dataPlaneRequestProcessor, dataPlaneRequestProcessor>> and `controlPlaneRequestChannelOpt`) at <<startup, startup>>
 
 * <<notifyClusterListeners, Sending an updated cluster metadata to ClusterResourceListeners>>
 
@@ -337,6 +337,12 @@ Used when `KafkaServer` is requested to <<startup, startup>> and creates the <<a
 
 | credentialProvider
 | [[credentialProvider]] `CredentialProvider`
+
+| dataPlaneRequestProcessor
+a| [[dataPlaneRequestProcessor]] Data-plane <<kafka-server-KafkaApis.adoc#, KafkaApis>> request handler for the <<kafka-network-SocketServer.adoc#dataPlaneRequestChannel, dataPlaneRequestChannel>> of the <<socketServer, SocketServer>>
+
+| dataPlaneRequestHandlerPool
+a| [[dataPlaneRequestHandlerPool]] <<kafka-KafkaRequestHandlerPool.adoc#, KafkaRequestHandlerPool>> for the <<dataPlaneRequestProcessor, data-plane KafkaApis>>
 
 | dynamicConfigHandlers
 a| [[dynamicConfigHandlers]] <<kafka-server-ConfigHandler.adoc#, ConfigHandlers>> by name:
