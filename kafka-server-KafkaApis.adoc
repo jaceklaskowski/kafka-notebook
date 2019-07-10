@@ -165,7 +165,7 @@ Handling request:[request] from connection [id];securityProtocol:[protocol],prin
 
 `handle` then relays the input <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>> to the corresponding <<handlers, handler>> per the <<keys, apiKey>> (from the header of the input `request`).
 
-NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is requested to <<kafka-KafkaRequestHandler.adoc#run, run>>.
+NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is requested to <<kafka-server-KafkaRequestHandler.adoc#run, run>>.
 
 === [[handleLeaderAndIsrRequest]] Handling LeaderAndIsr Request -- `handleLeaderAndIsrRequest` Handler
 

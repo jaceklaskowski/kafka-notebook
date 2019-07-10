@@ -45,7 +45,7 @@
 . link:kafka-server-KafkaConfig.adoc[KafkaConfig]
 
 . link:kafka-KafkaMetricsReporter.adoc[KafkaMetricsReporter]
-. link:kafka-KafkaRequestHandler.adoc[KafkaRequestHandler]
+. link:kafka-server-KafkaRequestHandler.adoc[KafkaRequestHandler]
 . link:kafka-server-KafkaRequestHandlerPool.adoc[KafkaRequestHandlerPool -- Pool of Daemon KafkaRequestHandler Threads]
 
 . link:kafka-log-LogManager.adoc[LogManager]

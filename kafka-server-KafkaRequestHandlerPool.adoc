@@ -104,5 +104,5 @@ NOTE: `shutdown` is used when...FIXME
 | Description
 
 | runnables
-| [[runnables]] <<kafka-KafkaRequestHandler.adoc#, KafkaRequestHandlers>>
+| [[runnables]] <<kafka-server-KafkaRequestHandler.adoc#, KafkaRequestHandlers>>
 |===
