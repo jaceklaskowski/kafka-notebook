@@ -1,13 +1,13 @@
 == [[KafkaRequestHandlerPool]] KafkaRequestHandlerPool -- Pool of KafkaRequestHandler Daemon Threads
 
-`KafkaRequestHandlerPool` is a <<runnables, pool>> of *kafka-request-handler* daemon threads.
+`KafkaRequestHandlerPool` is a <<runnables, pool of KafkaRequestHandler daemon threads>>.
 
 `KafkaRequestHandlerPool` is <<creating-instance, created>> exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>> (and creates the <<kafka-server-KafkaServer.adoc#dataPlaneRequestHandlerPool, data-plane>> and <<kafka-server-KafkaServer.adoc#controlPlaneRequestHandlerPool, control-plane>> request handler pools).
 
 .KafkaRequestHandlerPool and KafkaRequestHandler Threads
 image::images/KafkaRequestHandlerPool.png[align="center"]
 
-When <<creating-instance, created>>, `KafkaRequestHandlerPool` requests all the daemon threads to start.
+When <<creating-instance, created>>, `KafkaRequestHandlerPool` requests all <<runnables, KafkaRequestHandler daemon threads>> to start.
 
 NOTE: The number of *kafka-request-handler* threads is controlled by <<kafka-properties.adoc#num.network.threads, num.network.threads>> configuration property (default: `3`).
 
@@ -55,7 +55,7 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 | Description
 
 | <<requestHandlerAvgIdleMetricName, requestHandlerAvgIdleMetricName>>
-| [[aggregateIdleMeter]] Average free capacity of the request handlers (_idle handlers_)
+| [[aggregateIdleMeter]] *Aggregare idle meter* - average free capacity of the request handlers (_idle handlers_)
 |===
 
 The performance metrics are registered in *kafka.server:type=KafkaRequestHandlerPool* group.
@@ -70,9 +70,17 @@ image::images/KafkaMetricsGroup-jconsole.png[align="center"]
 createHandler(id: Int): Unit
 ----
 
-`createHandler`...FIXME
+`createHandler` creates a new <<kafka-server-KafkaRequestHandler.adoc#, KafkaRequestHandler>> for the given id (and the <<brokerId, broker ID>>, the <<aggregateIdleMeter, aggregare idle meter>>, the <<threadPoolSize, threadPoolSize>>, the <<requestChannel, RequestChannel>> and the <<apis, KafkaApis>>).
 
-NOTE: `createHandler` is used when...FIXME
+`createHandler` adds the `KafkaRequestHandler` to the <<runnables, runnables>> internal registry.
+
+In the end, `createHandler` starts the `KafkaRequestHandler` as a daemon thread with the name with the format:
+
+```
+[logAndThreadNamePrefix]-kafka-request-handler-[id]
+```
+
+NOTE: `createHandler` is used when `KafkaRequestHandlerPool` is <<creating-instance, created>> (to create the <<numThreads, numThreads>> handlers) and requested to <<resizeThreadPool, resize the thread pool>> (with new handlers).
 
 === [[resizeThreadPool]] Resizing Thread Pool (of KafkaRequestHandlers) -- `resizeThreadPool` Method
 
@@ -81,9 +89,19 @@ NOTE: `createHandler` is used when...FIXME
 resizeThreadPool(newSize: Int): Unit
 ----
 
-`resizeThreadPool`...FIXME
+`resizeThreadPool` prints out the following INFO message to the logs:
 
-NOTE: `resizeThreadPool` is used when...FIXME
+```
+Resizing request handler thread pool size from [currentSize] to [newSize]
+```
+
+When the given `newSize` is greater than the current <<threadPoolSize, threadPoolSize>>, `resizeThreadPool` <<createHandler, creates and starts new KafkaRequestHandler daemon threads>>.
+
+When the given `newSize` is smaller than the current <<threadPoolSize, threadPoolSize>>, `resizeThreadPool` removes `KafkaRequestHandlers` from the <<runnables, runnables>> internal registry and requests them to <<kafka-server-KafkaRequestHandler.adoc#stop, stop>>.
+
+In the end, `resizeThreadPool` sets the <<threadPoolSize, threadPoolSize>> internal registry to the given `newSize`.
+
+NOTE: `resizeThreadPool` is used exclusively when `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure>> (the <<kafka-properties.adoc#num.io.threads, num.io.threads>> configuration property).
 
 === [[shutdown]] Shutting Down -- `shutdown` Method
 
@@ -104,5 +122,9 @@ NOTE: `shutdown` is used when...FIXME
 | Description
 
 | runnables
-| [[runnables]] <<kafka-server-KafkaRequestHandler.adoc#, KafkaRequestHandlers>>
+a| [[runnables]] Pool of <<kafka-server-KafkaRequestHandler.adoc#, KafkaRequestHandlers>> daemon threads
+
+| threadPoolSize
+a| [[threadPoolSize]]
+
 |===
