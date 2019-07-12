@@ -1,6 +1,6 @@
 == [[LogCleaner]] LogCleaner
 
-`LogCleaner` is <<creating-instance, created>> exclusively when `LogManager` is <<kafka-log-LogManager.adoc#cleaner, created>> (with `enableCleaner` enabled which is the default).
+`LogCleaner` is <<creating-instance, created>> exclusively when `LogManager` is <<kafka-log-LogManager.adoc#cleaner, created>> (with `enableCleaner` flag enabled which is the default).
 
 When <<creating-instance, created>>, `LogCleaner` is given a <<config, CleanerConfig>> that `LogManager` <<cleanerConfig, builds>> when <<kafka-log-LogManager.adoc#apply, created>> (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>).
 

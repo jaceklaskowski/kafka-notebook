@@ -7,11 +7,58 @@ image::images/LogManager.png[align="center"]
 
 While being <<creating-instance, created>>, `LogManager` is given the <<logDirs, log directories>> that are configured using <<kafka-server-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>). The log directories are immediately <<createAndValidateLogDirs, validated>> and <<loadLogs, loaded>>.
 
-`LogManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
+`LogManager` uses the <<kafka-properties.adoc#num.recovery.threads.per.data.dir, num.recovery.threads.per.data.dir>> dynamic configuration (default: `1`) for the number of threads per log data directory for <<loadLogs, log recovery at startup>> and <<shutdown, flushing at shutdown>>.
 
-[[metrics]]
+`LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a <<kafka-server-DynamicLogConfig.adoc#logManager, DynamicLogConfig>>, a <<kafka-server-TopicConfigHandler.adoc#logManager, TopicConfigHandler>>.
+
+[[InitialTaskDelayMs]]
+`LogManager` defaults to `30000ms` for the *initial task delay*.
+
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `kafka.log.LogManager` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.log.LogManager=ALL
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
+
+=== [[creating-instance]] Creating LogManager Instance
+
+`LogManager` takes the following to be created:
+
+* [[logDirs]] Absolute paths to log directories (`Seq[File]`)
+* [[initialOfflineDirs]] Initial offline directories (`Seq[File]`)
+* [[topicConfigs]] Topic configurations (`Map[String, LogConfig]`)
+* [[initialDefaultConfig]] Initial <<kafka-log-LogConfig.adoc#, LogConfig>>
+* [[cleanerConfig]] <<kafka-log-LogCleaner.adoc#CleanerConfig, CleanerConfig>>
+* [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir` (based on the <<kafka-server-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, num.recovery.threads.per.data.dir>> dynamic configuration property)
+* [[flushCheckMs]] `flushCheckMs`
+* [[flushRecoveryOffsetCheckpointMs]] `flushRecoveryOffsetCheckpointMs`
+* [[flushStartOffsetCheckpointMs]] `flushStartOffsetCheckpointMs`
+* [[retentionCheckMs]] `retentionCheckMs`
+* [[maxPidExpirationMs]] `maxPidExpirationMs`
+* [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
+* [[brokerState]] `BrokerState`
+* [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
+* [[logDirFailureChannel]] `LogDirFailureChannel`
+* [[time]] `Time`
+
+`LogManager` initializes the <<internal-properties, internal properties>>.
+
+While being created, `LogManager` <<loadLogs, loads logs>>.
+
+=== [[KafkaMetricsGroup]][[metrics]] Performance Metrics
+
+`LogManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with the following performance metrics.
+
 .LogManager's Performance Metrics
-[cols="1m,2",options="header",width="100%"]
+[cols="30m,70",options="header",width="100%"]
 |===
 | Metric Name
 | Description
@@ -32,53 +79,10 @@ The path of the directory is the tag of the metric.
 
 |===
 
-The <<metrics, performance metrics>> are registered in *kafka.log:type=LogManager* group.
+The performance metrics are registered in *kafka.log:type=LogManager* group.
 
 .LogManager in jconsole
 image::images/LogManager-jconsole.png[align="center"]
-
-`LogManager` uses the <<kafka-properties.adoc#num.recovery.threads.per.data.dir, num.recovery.threads.per.data.dir>> dynamic configuration (default: `1`) for the number of threads per log data directory for <<loadLogs, log recovery at startup>> and <<shutdown, flushing at shutdown>>.
-
-`LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a <<kafka-server-DynamicLogConfig.adoc#logManager, DynamicLogConfig>>, a <<kafka-server-TopicConfigHandler.adoc#logManager, TopicConfigHandler>>.
-
-[[InitialTaskDelayMs]]
-`LogManager` defaults to 30000ms for the *initial task delay*.
-
-[[internal-registries]]
-.LogManager's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| _liveLogDirs
-a| [[_liveLogDirs]] Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentLinkedQueue.html[ConcurrentLinkedQueue] of live log directories (after <<createAndValidateLogDirs, createAndValidateLogDirs>> was executed with the <<logDirs, logDirs>> and the <<initialOfflineDirs, initialOfflineDirs>> directories).
-
-Used when...FIXME
-
-| cleaner
-a| [[cleaner]]
-
-| numRecoveryThreadsPerDataDir
-a| [[numRecoveryThreadsPerDataDir]] Number of recovery threads per log data directory
-
-Starts as the <<recoveryThreadsPerDataDir, recoveryThreadsPerDataDir>> and can then be <<resizeRecoveryThreadPool, dynamically changed>>.
-
-|===
-
-[[logging]]
-[TIP]
-====
-Enable `INFO` or `DEBUG` logging level for `kafka.log.LogManager` logger to see what happens inside.
-
-Add the following line to `config/log4j.properties`:
-
-```
-log4j.logger.kafka.log.LogManager=DEBUG
-```
-
-Refer to link:kafka-logging.adoc[Logging].
-====
 
 === [[startup]] Starting Up -- `startup` Method
 
@@ -95,7 +99,7 @@ Internally, `startup` prints out the following INFO message to the logs:
 Starting log cleanup with a period of [retentionCheckMs] ms.
 ```
 
-`startup` requests the <<scheduler, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule a task>> with the name `kafka-log-retention` that <<cleanupLogs, cleanupLogs>> with the <<InitialTaskDelayMs, InitialTaskDelayMs>> delay, the <<retentionCheckMs, retentionCheckMs>> execution period.
+`startup` requests the <<scheduler, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule a task>> with the name *kafka-log-retention* that <<cleanupLogs, cleanupLogs>> with the <<InitialTaskDelayMs, InitialTaskDelayMs>> delay and the <<retentionCheckMs, retentionCheckMs>> execution period.
 
 `startup` prints out the following INFO message to the logs:
 
@@ -103,9 +107,17 @@ Starting log cleanup with a period of [retentionCheckMs] ms.
 Starting log flusher with a default period of [flushCheckMs] ms.
 ```
 
-`startup` requests the <<scheduler, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule a task>> with...FIXME
+`startup` requests the <<scheduler, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule a task>> with the name *kafka-log-flusher* that <<flushDirtyLogs, flushDirtyLogs>> with the <<InitialTaskDelayMs, InitialTaskDelayMs>> delay and the <<flushCheckMs, flushCheckMs>> execution period.
 
-NOTE: `startup` is used when...FIXME
+`startup` requests the <<scheduler, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule a task>> with the name *kafka-recovery-point-checkpoint* that <<checkpointLogRecoveryOffsets, checkpointLogRecoveryOffsets>> with the <<InitialTaskDelayMs, InitialTaskDelayMs>> delay and the <<flushRecoveryOffsetCheckpointMs, flushRecoveryOffsetCheckpointMs>> execution period.
+
+`startup` requests the <<scheduler, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule a task>> with the name *kafka-log-start-offset-checkpoint* that <<checkpointLogStartOffsets, checkpointLogStartOffsets>> with the <<InitialTaskDelayMs, InitialTaskDelayMs>> delay and the <<flushStartOffsetCheckpointMs, flushStartOffsetCheckpointMs>> execution period.
+
+`startup` requests the <<scheduler, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule a task>> with the name *kafka-delete-logs* that <<deleteLogs, deleteLogs>> with the <<InitialTaskDelayMs, InitialTaskDelayMs>> delay.
+
+(only when the <<cleanerConfig, CleanerConfig>> has the <<kafka-log-LogCleaner.adoc#enableCleaner, enableCleaner>> flag enabled) `startup` requests the <<cleaner, LogCleaner>> to <<kafka-log-LogCleaner.adoc#startup, start up>>.
+
+NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 === [[cleanupLogs]] `cleanupLogs` Method
 
@@ -205,31 +217,6 @@ Loading logs.
 For every <<liveLogDirs, live log directory>>, `loadLogs`...FIXME
 
 NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, created>>.
-
-=== [[creating-instance]] Creating LogManager Instance
-
-`LogManager` takes the following when created:
-
-* [[logDirs]] Absolute paths to log directories
-* [[initialOfflineDirs]] Initial offline directories
-* [[topicConfigs]] Topic configurations (`Map[String, LogConfig]`)
-* [[initialDefaultConfig]] Initial <<kafka-log-LogConfig.adoc#, LogConfig>>
-* [[cleanerConfig]] <<kafka-log-LogCleaner.adoc#CleanerConfig, CleanerConfig>>
-* [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir` (based on the <<kafka-server-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, num.recovery.threads.per.data.dir>> dynamic configuration property)
-* [[flushCheckMs]] `flushCheckMs`
-* [[flushRecoveryOffsetCheckpointMs]] `flushRecoveryOffsetCheckpointMs`
-* [[flushStartOffsetCheckpointMs]] `flushStartOffsetCheckpointMs`
-* [[retentionCheckMs]] `retentionCheckMs`
-* [[maxPidExpirationMs]] `maxPidExpirationMs`
-* [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
-* [[brokerState]] `BrokerState`
-* [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
-* [[logDirFailureChannel]] `LogDirFailureChannel`
-* [[time]] `Time`
-
-`LogManager` initializes the <<internal-registries, internal registries and counters>>.
-
-While being created, `LogManager` <<loadLogs, load logs>>.
 
 === [[apply]] Creating LogManager -- `apply` Factory Method
 
@@ -419,3 +406,25 @@ handleLogDirFailure(dir: String): Unit
 `handleLogDirFailure`...FIXME
 
 NOTE: `handleLogDirFailure` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#handleLogDirFailure, handleLogDirFailure>>.
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| _liveLogDirs
+a| [[_liveLogDirs]] Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentLinkedQueue.html[ConcurrentLinkedQueue] of live log directories (after <<createAndValidateLogDirs, createAndValidateLogDirs>> was executed with the <<logDirs, logDirs>> and the <<initialOfflineDirs, initialOfflineDirs>> directories).
+
+Used when...FIXME
+
+| cleaner
+a| [[cleaner]]
+
+| numRecoveryThreadsPerDataDir
+a| [[numRecoveryThreadsPerDataDir]] Number of recovery threads per log data directory
+
+Starts as the <<recoveryThreadsPerDataDir, recoveryThreadsPerDataDir>> and can then be <<resizeRecoveryThreadPool, dynamically changed>>.
+
+|===

@@ -30,7 +30,7 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 
 === [[creating-instance]] Creating KafkaRequestHandlerPool Instance
 
-`KafkaRequestHandlerPool` takes the following when created:
+`KafkaRequestHandlerPool` takes the following to be created:
 
 * [[brokerId]] Broker ID
 * [[requestChannel]] <<kafka-network-RequestChannel.adoc#, RequestChannel>>
