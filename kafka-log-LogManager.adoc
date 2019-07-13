@@ -5,7 +5,7 @@
 .LogManager and KafkaServer
 image::images/LogManager.png[align="center"]
 
-While being <<creating-instance, created>>, `LogManager` is given the <<logDirs, log directories>> that are configured using <<kafka-server-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>). The log directories are immediately <<createAndValidateLogDirs, validated>> and <<loadLogs, loaded>>.
+While being <<creating-instance, created>>, `LogManager` is given the <<logDirs, log directories>> that are configured using <<kafka-server-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>). The log directories are immediately <<createAndValidateLogDirs, validated>> and <<loadLogs, loaded>> (on a fixed thread pool with <<numRecoveryThreadsPerDataDir, numRecoveryThreadsPerDataDir>> recovery threads).
 
 `LogManager` uses the <<kafka-properties.adoc#num.recovery.threads.per.data.dir, num.recovery.threads.per.data.dir>> dynamic configuration (default: `1`) for the number of threads per log data directory for <<loadLogs, log recovery at startup>> and <<shutdown, flushing at shutdown>>.
 
@@ -27,31 +27,6 @@ log4j.logger.kafka.log.LogManager=ALL
 
 Refer to <<kafka-logging.adoc#, Logging>>.
 ====
-
-=== [[creating-instance]] Creating LogManager Instance
-
-`LogManager` takes the following to be created:
-
-* [[logDirs]] Absolute paths to log directories (`Seq[File]`)
-* [[initialOfflineDirs]] Initial offline directories (`Seq[File]`)
-* [[topicConfigs]] Topic configurations (`Map[String, LogConfig]`)
-* [[initialDefaultConfig]] Initial <<kafka-log-LogConfig.adoc#, LogConfig>>
-* [[cleanerConfig]] <<kafka-log-LogCleaner.adoc#CleanerConfig, CleanerConfig>>
-* [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir` (based on the <<kafka-server-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, num.recovery.threads.per.data.dir>> dynamic configuration property)
-* [[flushCheckMs]] `flushCheckMs`
-* [[flushRecoveryOffsetCheckpointMs]] `flushRecoveryOffsetCheckpointMs`
-* [[flushStartOffsetCheckpointMs]] `flushStartOffsetCheckpointMs`
-* [[retentionCheckMs]] `retentionCheckMs`
-* [[maxPidExpirationMs]] `maxPidExpirationMs`
-* [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
-* [[brokerState]] `BrokerState`
-* [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
-* [[logDirFailureChannel]] `LogDirFailureChannel`
-* [[time]] `Time`
-
-`LogManager` initializes the <<internal-properties, internal properties>>.
-
-While being created, `LogManager` <<loadLogs, loads logs>>.
 
 === [[KafkaMetricsGroup]][[metrics]] Performance Metrics
 
@@ -83,6 +58,124 @@ The performance metrics are registered in *kafka.log:type=LogManager* group.
 
 .LogManager in jconsole
 image::images/LogManager-jconsole.png[align="center"]
+
+=== [[apply]] Creating LogManager -- `apply` Factory Method
+
+[source, scala]
+----
+apply(
+  config: KafkaConfig,
+  initialOfflineDirs: Seq[String],
+  zkClient: KafkaZkClient,
+  brokerState: BrokerState,
+  kafkaScheduler: KafkaScheduler,
+  time: Time,
+  brokerTopicStats: BrokerTopicStats,
+  logDirFailureChannel: LogDirFailureChannel): LogManager
+----
+
+`apply`...FIXME
+
+NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
+
+=== [[creating-instance]] Creating LogManager Instance
+
+`LogManager` takes the following to be created:
+
+* [[logDirs]] Absolute paths to log directories (`Seq[File]`)
+* [[initialOfflineDirs]] Initial offline directories (`Seq[File]`)
+* [[topicConfigs]] Topic configurations (`Map[String, LogConfig]`)
+* [[initialDefaultConfig]] Initial <<kafka-log-LogConfig.adoc#, LogConfig>>
+* [[cleanerConfig]] <<kafka-log-LogCleaner.adoc#CleanerConfig, CleanerConfig>>
+* [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir` (based on the <<kafka-server-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, num.recovery.threads.per.data.dir>> dynamic configuration property)
+* [[flushCheckMs]] `flushCheckMs`
+* [[flushRecoveryOffsetCheckpointMs]] `flushRecoveryOffsetCheckpointMs`
+* [[flushStartOffsetCheckpointMs]] `flushStartOffsetCheckpointMs`
+* [[retentionCheckMs]] `retentionCheckMs`
+* [[maxPidExpirationMs]] `maxPidExpirationMs`
+* [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
+* [[brokerState]] `BrokerState`
+* [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
+* [[logDirFailureChannel]] `LogDirFailureChannel`
+* [[time]] `Time`
+
+`LogManager` initializes the <<internal-properties, internal properties>>.
+
+While being created, `LogManager` <<loadLogs, loads logs>>.
+
+=== [[loadLogs]] Loading Log Directories -- `loadLogs` Internal Method
+
+[source, scala]
+----
+loadLogs(): Unit
+----
+
+`loadLogs` prints out the following INFO message to the logs:
+
+```
+Loading logs.
+```
+
+For every <<liveLogDirs, live log directory>>, `loadLogs` first creates a fixed thread pool (with <<numRecoveryThreadsPerDataDir, numRecoveryThreadsPerDataDir>> threads).
+
+`loadLogs` then checks whether <<kafka-log-Log.adoc#CleanShutdownFile, .kafka_cleanshutdown>> file exists in the log directory. If so, `loadLogs` prints out the following DEBUG message to the logs:
+
+```
+Found clean shutdown file. Skipping recovery for all logs in data directory: [dir]
+```
+
+`loadLogs` uses the <<recoveryPointCheckpoints, recoveryPointCheckpoints>> to look up the `OffsetCheckpointFile` for the log directory (*recovery-point-offset-checkpoint* file) and then loads it.
+
+`loadLogs` uses the <<logStartOffsetCheckpoints, logStartOffsetCheckpoints>> to look up the `OffsetCheckpointFile` for the log directory (*recovery-point-offset-checkpoint* file) and then loads it.
+
+For every directory in the log directory, `loadLogs` creates a new thread to <<loadLog, load the log directory>> with the recovery points and log start offsets (that have just been loaded).
+
+`loadLogs` submits the new threads to <<loadLog, load the log directory>> for execution on the fixed thread pool.
+
+`loadLogs` then...FIXME (finish me)
+
+In the end, after <<loadLog, having loaded the log directories>> successfully, `loadLogs` prints out the following INFO message to the logs:
+
+```
+Logs loading complete in [duration] ms.
+```
+
+In case <<kafka-log-Log.adoc#CleanShutdownFile, .kafka_cleanshutdown>> file does not exist, `loadLogs` transitions the <<brokerState, BrokerState>> to `RecoveringFromUncleanShutdown`.
+
+In case of an exception while loading the `OffsetCheckpointFile` of a log directory (*recovery-point-offset-checkpoint* file), `loadLogs` simply prints out the following WARN messages to the logs:
+
+```
+Error occurred while reading recovery-point-offset-checkpoint file of directory [dir]
+Resetting the recovery checkpoint to 0
+```
+
+In case of an exception while loading the `OffsetCheckpointFile` of a log directory (*log-start-offset-checkpoint* file), `loadLogs` simply prints out the following WARN messages to the logs:
+
+```
+Error occurred while reading log-start-offset-checkpoint file of directory [dir]
+```
+
+In case of an exception while <<loadLog, load the log directory>> or any other task, `loadLogs` adds the log directory to a *offlineDirs* internal registry with the exception and prints out the following ERROR message to the logs:
+
+```
+Error while loading log dir [dir]
+```
+
+NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, created>>.
+
+==== [[loadLog]] `loadLog` Internal Method
+
+[source, scala]
+----
+loadLog(
+  logDir: File,
+  recoveryPoints: Map[TopicPartition, Long],
+  logStartOffsets: Map[TopicPartition, Long]): Unit
+----
+
+`loadLog`...FIXME
+
+NOTE: `loadLog` is used exclusively when `LogManager` is requested to <<loadLogs, loadLogs>>.
 
 === [[startup]] Starting Up -- `startup` Method
 
@@ -186,56 +279,6 @@ getOrCreateLog(
 `getOrCreateLog`...FIXME
 
 NOTE: `getOrCreateLog` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#getOrCreateReplica, getOrCreateReplica>>.
-
-=== [[loadLog]] `loadLog` Internal Method
-
-[source, scala]
-----
-loadLog(
-  logDir: File,
-  recoveryPoints: Map[TopicPartition, Long],
-  logStartOffsets: Map[TopicPartition, Long]): Unit
-----
-
-`loadLog`...FIXME
-
-NOTE: `loadLog` is used exclusively when `LogManager` is requested to <<loadLogs, loadLogs>>.
-
-=== [[loadLogs]] Loading Logs -- `loadLogs` Internal Method
-
-[source, scala]
-----
-loadLogs(): Unit
-----
-
-`loadLogs` prints out the following INFO message to the logs:
-
-```
-Loading logs.
-```
-
-For every <<liveLogDirs, live log directory>>, `loadLogs`...FIXME
-
-NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, created>>.
-
-=== [[apply]] Creating LogManager -- `apply` Factory Method
-
-[source, scala]
-----
-apply(
-  config: KafkaConfig,
-  initialOfflineDirs: Seq[String],
-  zkClient: KafkaZkClient,
-  brokerState: BrokerState,
-  kafkaScheduler: KafkaScheduler,
-  time: Time,
-  brokerTopicStats: BrokerTopicStats,
-  logDirFailureChannel: LogDirFailureChannel): LogManager
-----
-
-`apply`...FIXME
-
-NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 === [[liveLogDirs]] `liveLogDirs` Method
 
@@ -422,9 +465,15 @@ Used when...FIXME
 | cleaner
 a| [[cleaner]]
 
+| logStartOffsetCheckpoints
+a| [[logStartOffsetCheckpoints]]
+
 | numRecoveryThreadsPerDataDir
 a| [[numRecoveryThreadsPerDataDir]] Number of recovery threads per log data directory
 
 Starts as the <<recoveryThreadsPerDataDir, recoveryThreadsPerDataDir>> and can then be <<resizeRecoveryThreadPool, dynamically changed>>.
+
+| recoveryPointCheckpoints
+a| [[recoveryPointCheckpoints]]
 
 |===
