@@ -84,7 +84,7 @@ NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-ser
 
 * [[logDirs]] Absolute paths to log directories (`Seq[File]`)
 * [[initialOfflineDirs]] Initial offline directories (`Seq[File]`)
-* [[topicConfigs]] Topic configurations (`Map[String, LogConfig]`)
+* [[topicConfigs]] Topic configurations - <<kafka-log-LogConfig.adoc#, LogConfigs>> per topic name (`Map[String, LogConfig]`)
 * [[initialDefaultConfig]] Initial <<kafka-log-LogConfig.adoc#, LogConfig>>
 * [[cleanerConfig]] <<kafka-log-LogCleaner.adoc#CleanerConfig, CleanerConfig>>
 * [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir` (based on the <<kafka-server-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, num.recovery.threads.per.data.dir>> dynamic configuration property)
@@ -103,7 +103,7 @@ NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-ser
 
 While being created, `LogManager` <<loadLogs, loads logs>>.
 
-=== [[loadLogs]] Loading Log Directories -- `loadLogs` Internal Method
+=== [[loadLogs]] Recovering And Loading Logs In Log Data Directories -- `loadLogs` Internal Method
 
 [source, scala]
 ----
@@ -163,7 +163,7 @@ Error while loading log dir [dir]
 
 NOTE: `loadLogs` is used exclusively when `LogManager` is <<creating-instance, created>>.
 
-==== [[loadLog]] `loadLog` Internal Method
+==== [[loadLog]] Loading Partition Log Directory -- `loadLog` Internal Method
 
 [source, scala]
 ----
@@ -173,9 +173,33 @@ loadLog(
   logStartOffsets: Map[TopicPartition, Long]): Unit
 ----
 
-`loadLog`...FIXME
+`loadLog` first prints out the following DEBUG message to the logs:
 
-NOTE: `loadLog` is used exclusively when `LogManager` is requested to <<loadLogs, loadLogs>>.
+```
+Loading log '[logDir]'
+```
+
+`loadLog` then <<kafka-log-Log.adoc#parseTopicPartitionName, parses the topic and partition out of the directory name of the log>> (by the given `logDir`).
+
+`loadLog` gets the <<kafka-log-LogConfig.adoc#, LogConfig>> for the topic (from the <<topicConfigs, LogConfigs per topic>>) or defaults to the <<currentDefaultConfig, currentDefaultConfig>>.
+
+`loadLog` gets `logRecoveryPoint` for the partition (from the given `recoveryPoints`) or defaults to `0`.
+
+`loadLog` gets `logStartOffset` for the partition (from the given `logStartOffsets`) or defaults to `0`.
+
+`loadLog` creates a <<kafka-log-Log.adoc#, Log>>.
+
+In case the name of the given `logDir` ends with <<DeleteDirSuffix, -delete>> suffix, `loadLog` <<addLogToBeDeleted, addLogToBeDeleted>>.
+
+Otherwise, `loadLog` adds the `Log` to the <<futureLogs, futureLogs>> or <<currentLogs, currentLogs>> internal registry whether it is <<kafka-log-Log.adoc#isFuture, isFuture>> or not, respectively.
+
+In case there was `Log` already registered (the <<futureLogs, futureLogs>> or <<currentLogs, currentLogs>> internal registry) `loadLog` throws an `IllegalStateException`:
+
+```
+FIXME
+```
+
+NOTE: `loadLog` is used exclusively when `LogManager` is requested to <<loadLogs, recover and load the logs in log data directories>>.
 
 === [[startup]] Starting Up -- `startup` Method
 
@@ -464,6 +488,17 @@ Used when...FIXME
 
 | cleaner
 a| [[cleaner]]
+
+| currentDefaultConfig
+a| [[_currentDefaultConfig]][[currentDefaultConfig]] Default <<kafka-log-LogConfig.adoc#, LogConfig>>
+
+Used when a custom `LogConfig` is not available in the <<topicConfigs, topicConfigs>>
+
+| currentLogs
+a| [[currentLogs]] Pool of <<kafka-log-Log.adoc#, Logs>> per `TopicPartition` (`Pool[TopicPartition, Log]`)
+
+| futureLogs
+a| [[futureLogs]] Pool of <<kafka-log-Log.adoc#, Logs>> per `TopicPartition` (`Pool[TopicPartition, Log]`)
 
 | logStartOffsetCheckpoints
 a| [[logStartOffsetCheckpoints]]

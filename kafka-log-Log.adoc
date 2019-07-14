@@ -7,6 +7,12 @@
 [[CleanShutdownFile]]
 `Log` uses *.kafka_cleanshutdown* for...FIXME
 
+[[DeleteDirSuffix]]
+`Log` uses *-delete* suffix for...FIXME
+
+[[isFuture]]
+`Log` is *isFuture* when...FIXME
+
 [[metrics]]
 .Log's Performance Metrics
 [cols="1m,2",options="header",width="100%"]
@@ -392,3 +398,14 @@ onHighWatermarkIncremented(highWatermark: Long): Unit
 `onHighWatermarkIncremented`...FIXME
 
 NOTE: `onHighWatermarkIncremented` is used when...FIXME
+
+=== [[parseTopicPartitionName]] `parseTopicPartitionName` Object Method
+
+[source, scala]
+----
+parseTopicPartitionName(dir: File): TopicPartition
+----
+
+`parseTopicPartitionName`...FIXME
+
+NOTE: `parseTopicPartitionName` is used when...FIXME
