@@ -235,6 +235,19 @@ append(
 
 NOTE: `append` is used when `Log` is requested to <<appendAsLeader, appendAsLeader>> and <<appendAsFollower, appendAsFollower>>.
 
+==== [[analyzeAndValidateRecords]] `analyzeAndValidateRecords` Internal Method
+
+[source, scala]
+----
+analyzeAndValidateRecords(
+  records: MemoryRecords,
+  isFromClient: Boolean): LogAppendInfo
+----
+
+`analyzeAndValidateRecords`...FIXME
+
+NOTE: `analyzeAndValidateRecords` is used exclusively when `Log` is requested to <<append, append>>.
+
 === [[deleteSegment]] `deleteSegment` Internal Method
 
 [source, scala]

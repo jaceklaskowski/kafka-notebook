@@ -42,12 +42,12 @@ NOTE: `KafkaServer` is created when link:kafka-KafkaServerStartable.adoc#creatin
 startup(): Unit
 ----
 
-`startup` starts a single Kafka server.
+`startup` starts the Kafka broker.
 
 Internally, `startup` first prints out the following INFO message to the logs:
 
 ```
-INFO starting (kafka.server.KafkaServer)
+starting
 ```
 
 `startup` sets <<brokerState, BrokerState>> as `Starting`.
@@ -61,22 +61,22 @@ INFO starting (kafka.server.KafkaServer)
 You should see the following INFO message in the logs:
 
 ```
-INFO Cluster ID = [clusterId] (kafka.server.KafkaServer)
+Cluster ID = [clusterId]
 ```
 
-`startup` <<getBrokerIdAndOfflineDirs, gets broker id and initial offline directories>>.
+`startup` <<getBrokerIdAndOfflineDirs, gets the broker ID and initial offline directories>>.
+
+`startup` requests the <<config, KafkaConfig>> to <<kafka-server-KafkaConfig.adoc#brokerId, set the brokerId>> to the broker ID.
 
 `startup` creates the `LogContext` with *[KafkaServer id=[brokerId]]* prefix.
 
+`startup` requests the <<config, KafkaConfig>> for the <<kafka-server-KafkaConfig.adoc#dynamicConfig, DynamicBrokerConfig>> that is in turn requested to <<kafka-server-DynamicBrokerConfig.adoc#initialize, initialize (fetching broker configuration from Zookeeper)>>.
+
+`startup` creates a new <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> (with the number of threads as specified by <<kafka-properties.adoc#background.threads, background.threads>> configuration property) and immediately requests it to <<kafka-KafkaScheduler.adoc#startup, start up>>.
+
 `startup` creates and configures metrics.
 
-1. Requests <<config, KafkaConfig>> for link:kafka-server-KafkaConfig.adoc#getConfiguredInstances[configured instances] of metric reporters
-
-1. Adds a `JmxReporter` (with *kafka.server* prefix)
-
-1. Creates the `MetricConfig`
-
-1. Initializes <<metrics, Metrics>> internal registry
+CAUTION: FIXME
 
 `startup` registers broker topic metrics (by initializing <<_brokerTopicStats, BrokerTopicStats>>).
 
@@ -189,9 +189,9 @@ shutdown(): Unit
 ====
 `shutdown` is used when:
 
-* `KafkaServer` is requested to <<startup, startup>> (and there was an exception)
+* `KafkaServer` is requested to <<startup, start up>> (and there was an exception)
 
-* `KafkaServerStartable` is requested to <<kafka-KafkaServerStartable.adoc#shutdown, shutdown>>
+* `KafkaServerStartable` is requested to <<kafka-KafkaServerStartable.adoc#shutdown, shut down>>
 ====
 
 === [[initZkClient]] `initZkClient` Internal Method
@@ -331,9 +331,9 @@ a| [[apis]] <<kafka-server-KafkaApis.adoc#, KafkaApis>>
 | _brokerTopicStats
 a| [[_brokerTopicStats]][[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
 
-Created when `KafkaServer` is requested to <<startup, startup>>
+Created when `KafkaServer` is requested to <<startup, start up>>
 
-Used when `KafkaServer` is requested to <<startup, startup>> and creates the <<apis, KafkaApis>>, the <<replicaManager, ReplicaManager>>, the <<logManager, LogManager>>
+Used (as `brokerTopicStats` method) to create the <<dataPlaneRequestProcessor, data-plane KafkaApis>>, the <<dataPlaneRequestProcessor, control-plane KafkaApis>>, the <<replicaManager, ReplicaManager>>, the <<logManager, LogManager>> when `KafkaServer` is requested to <<startup, start up>>
 
 | controlPlaneRequestHandlerPool
 a| [[controlPlaneRequestHandlerPool]] Control-plane <<kafka-server-KafkaRequestHandlerPool.adoc#, KafkaRequestHandlerPool>> for the <<controlPlaneRequestProcessor, control-plane KafkaApis>>

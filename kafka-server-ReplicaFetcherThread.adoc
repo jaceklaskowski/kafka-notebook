@@ -8,20 +8,6 @@
 
 `ReplicaFetcherThread` is <<creating-instance, created>> exclusively when `ReplicaFetcherManager` is requested to <<kafka-server-ReplicaFetcherManager.adoc#createFetcherThread, create a fetcher thread>> (when...FIXME).
 
-[[internal-registries]]
-.ReplicaFetcherThread's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| brokerSupportsLeaderEpochRequest
-a| [[brokerSupportsLeaderEpochRequest]] Flag that says whether the <<kafka-server-KafkaConfig.adoc#interBrokerProtocolVersion, inter.broker.protocol.version>> is `0.11.0-IV2` or above
-
-Used exclusively in <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>
-
-|===
-
 === [[creating-instance]] Creating ReplicaFetcherThread Instance
 
 `ReplicaFetcherThread` takes the following when created:
@@ -130,3 +116,17 @@ buildFetch(
 NOTE: `buildFetch` is part of the <<kafka-server-AbstractFetcherThread.adoc#buildFetch, AbstractFetcherThread Contract>> to...FIXME
 
 `buildFetch`...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| brokerSupportsLeaderEpochRequest
+a| [[brokerSupportsLeaderEpochRequest]] Flag that says whether the <<kafka-server-KafkaConfig.adoc#interBrokerProtocolVersion, inter.broker.protocol.version>> is `0.11.0-IV2` or above
+
+Used exclusively in <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>
+
+|===

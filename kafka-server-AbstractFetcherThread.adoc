@@ -239,7 +239,7 @@ NOTE: `doWork` is part of the <<kafka-ShutdownableThread.adoc#doWork, Shutdownab
 
 `doWork` simply <<maybeTruncate, maybeTruncate>> followed by <<maybeFetch, maybeFetch>>.
 
-=== [[maybeTruncate]] `maybeTruncate` Internal Method
+==== [[maybeTruncate]] `maybeTruncate` Internal Method
 
 [source, scala]
 ----
@@ -254,7 +254,7 @@ For partitions without epochs, `maybeTruncate` <<truncateToHighWatermark, trunca
 
 NOTE: `maybeTruncate` is used exclusively when `AbstractFetcherThread` is requested to <<doWork, do the work>>.
 
-=== [[maybeFetch]] `maybeFetch` Internal Method
+==== [[maybeFetch]] `maybeFetch` Internal Method
 
 [source, scala]
 ----

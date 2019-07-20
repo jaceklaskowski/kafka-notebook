@@ -95,7 +95,7 @@ NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-ser
 * [[maxPidExpirationMs]] `maxPidExpirationMs`
 * [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
 * [[brokerState]] `BrokerState`
-* [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
+* <<brokerTopicStats, BrokerTopicStats>>
 * [[logDirFailureChannel]] `LogDirFailureChannel`
 * [[time]] `Time`
 
@@ -236,6 +236,10 @@ Starting log flusher with a default period of [flushCheckMs] ms.
 
 NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
+=== [[brokerTopicStats]] BrokerTopicStats
+
+When <<creating-instance, created>>, `LogManager` is given a <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>> that is used exclusively to create <<kafka-log-Log.adoc#, Logs>> when <<loadLog, recovering and loading logs in log data directories>> and <<getOrCreateLog, looking up or creating a Log>>.
+
 === [[cleanupLogs]] `cleanupLogs` Method
 
 [source, scala]
@@ -289,7 +293,7 @@ asyncDelete(
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#stopReplica, stopReplica>>
 ====
 
-=== [[getOrCreateLog]] `getOrCreateLog` Method
+=== [[getOrCreateLog]] Looking Up Or Creating Log -- `getOrCreateLog` Method
 
 [source, scala]
 ----

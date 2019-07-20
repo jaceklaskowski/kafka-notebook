@@ -736,3 +736,17 @@ isAuthorizedClusterAction(request: RequestChannel.Request): Boolean
 `isAuthorizedClusterAction` simply <<authorize, authorize>> with `ClusterAction` operation and `ClusterResource` resource.
 
 NOTE: `isAuthorizedClusterAction` is used when...FIXME
+
+=== [[updateRecordConversionStats]] `updateRecordConversionStats` Internal Method
+
+[source, scala]
+----
+updateRecordConversionStats(
+  request: RequestChannel.Request,
+  tp: TopicPartition,
+  conversionStats: RecordConversionStats): Unit
+----
+
+`updateRecordConversionStats`...FIXME
+
+NOTE: `updateRecordConversionStats` is used when...FIXME

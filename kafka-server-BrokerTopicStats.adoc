@@ -1,12 +1,20 @@
 == [[BrokerTopicStats]] BrokerTopicStats
 
-`BrokerTopicStats` is topic-related metrics:
+`BrokerTopicStats` holds topic-related metrics:
 
-* [[stats]] <<kafka-server-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>> stats per topic
+* [[stats]] <<kafka-server-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>> stats per topic (by topic name)
 
 * [[allTopicsStats]] Accumulated <<kafka-server-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>> for all topics
 
-`BrokerTopicStats` is created exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, startup>> and used to create the <<kafka-server-KafkaApis.adoc#brokerTopicStats, KafkaApis>>, the <<kafka-server-ReplicaManager.adoc#brokerTopicStats, ReplicaManager>>, the <<kafka-log-LogManager.adoc#brokerTopicStats, LogManager>>.
+`BrokerTopicStats` is created exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>> (and is used to create the <<kafka-server-KafkaApis.adoc#brokerTopicStats, KafkaApis>>, the <<kafka-server-ReplicaManager.adoc#brokerTopicStats, ReplicaManager>>, the <<kafka-log-LogManager.adoc#brokerTopicStats, LogManager>>).
+
+=== BrokerTopicStats, BrokerTopicMetrics and KafkaMetricsGroup
+
+`BrokerTopicStats` holds <<allTopicsStats, one>> or <<stats, more BrokerTopicMetrics>>.
+
+<<kafka-server-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>> is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> that registers topic-related metrics in *kafka.server:type=BrokerTopicMetrics* group.
+
+Every time `BrokerTopicStats` is updated so are the `BrokerTopicMetrics` of topics. In other words, every update of `BrokerTopicStats` changes *kafka.server:type=BrokerTopicMetrics* group.
 
 === [[topicStats]] Looking Up or Creating New BrokerTopicMetrics -- `topicStats` Method
 
@@ -15,6 +23,75 @@
 topicStats(topic: String): BrokerTopicMetrics
 ----
 
-`topicStats` gets or creates a new <<kafka-server-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>> for the given topic name.
+`topicStats` looks up or creates a new <<kafka-server-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>> for the given topic name.
 
-NOTE: `topicStats` is used when...FIXME
+[NOTE]
+====
+`topicStats` is used when:
+
+* `Log` is requested to <<kafka-log-Log.adoc#append, append>> and <<kafka-log-Log.adoc#analyzeAndValidateRecords, analyzeAndValidateRecords>>
+
+* `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#updateRecordConversionStats, updateRecordConversionStats>> (for `Produce` and `Fetch` requests)
+
+* `BrokerTopicStats` is requested to <<updateBytesOut, updateBytesOut>>
+
+* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#appendToLocalLog, appendToLocalLog>> and <<kafka-server-ReplicaManager.adoc#readFromLocalLog, readFromLocalLog>>
+====
+
+=== [[updateBytesOut]] `updateBytesOut` Method
+
+[source, scala]
+----
+updateBytesOut(
+  topic: String,
+  isFollower: Boolean,
+  value: Long): Unit
+----
+
+`updateBytesOut`...FIXME
+
+NOTE: `updateBytesOut` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleFetchRequest, handle a Fetch request>>.
+
+==== [[updateReplicationBytesOut]] `updateReplicationBytesOut` Internal Method
+
+[source, scala]
+----
+updateReplicationBytesOut(value: Long): Unit
+----
+
+`updateReplicationBytesOut`...FIXME
+
+NOTE: `updateReplicationBytesOut` is used exclusively when `BrokerTopicStats` is requested to <<updateBytesOut, updateBytesOut>>.
+
+=== [[updateReplicationBytesIn]] `updateReplicationBytesIn` Method
+
+[source, scala]
+----
+updateReplicationBytesIn(value: Long): Unit
+----
+
+`updateReplicationBytesIn`...FIXME
+
+NOTE: `updateReplicationBytesIn` is used exclusively when `ReplicaFetcherThread` is requested to <<kafka-server-ReplicaFetcherThread.adoc#processPartitionData, processPartitionData>>.
+
+=== [[removeMetrics]] `removeMetrics` Method
+
+[source, scala]
+----
+removeMetrics(topic: String): Unit
+----
+
+`removeMetrics`...FIXME
+
+NOTE: `removeMetrics` is used when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#stopReplica, stopReplica>> and <<kafka-server-ReplicaManager.adoc#handleLogDirFailure, handleLogDirFailure>>.
+
+=== [[close]] `close` Method
+
+[source, scala]
+----
+close(): Unit
+----
+
+`close`...FIXME
+
+NOTE: `close` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#shutdown, shut down>>.
