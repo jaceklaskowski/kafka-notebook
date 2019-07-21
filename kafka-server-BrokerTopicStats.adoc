@@ -1,6 +1,6 @@
 == [[BrokerTopicStats]] BrokerTopicStats
 
-`BrokerTopicStats` holds topic-related metrics:
+`BrokerTopicStats` holds a set of topic-related metrics:
 
 * [[stats]] <<kafka-server-BrokerTopicMetrics.adoc#, BrokerTopicMetrics>> stats per topic (by topic name)
 

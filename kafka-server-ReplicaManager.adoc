@@ -412,21 +412,33 @@ appendToLocalLog(
   requiredAcks: Short): Map[TopicPartition, LogAppendResult]
 ----
 
-`appendToLocalLog` prints out the following TRACE message to the logs:
+`appendToLocalLog` processes (_maps over_) the given `Map[TopicPartition, MemoryRecords]` (`entriesPerPartition`), so that the leader partition (of every `TopicPartition`) is requested to <<kafka-cluster-Partition.adoc#appendRecordsToLeader, appendRecordsToLeader>>.
+
+Internally, `appendToLocalLog` prints out the following TRACE message to the logs:
 
 ```
 Append [[entriesPerPartition]] to local log
 ```
 
-For every partition in the given `entriesPerPartition`, `appendToLocalLog` <<getPartitionOrException, gets the partition (or throws an exception)>> (with `expectLeader` flag enabled) and then request the `Partition` to <<kafka-cluster-Partition.adoc#appendRecordsToLeader, appendRecordsToLeader>>.
+For every tuple in the given `entriesPerPartition` (`Map[TopicPartition, MemoryRecords]`), `appendToLocalLog` does the following steps:
 
-`appendToLocalLog`...FIXME
+. Requests the <<brokerTopicStats, BrokerTopicStats>> to mark the occurrence of an event for the <<kafka-server-BrokerTopicMetrics.adoc#totalProduceRequestRate, totalProduceRequestRate>> for the topic (of the `TopicPartition`) in the <<kafka-server-BrokerTopicStats.adoc#topicStats, topicStats>> and for <<kafka-server-BrokerTopicStats.adoc#allTopicsStats, all topics>>
 
-In the end, `appendToLocalLog` prints out the following TRACE message to the logs:
+. <<getPartitionOrException, Gets the partition (or throws an exception)>> (with `expectLeader` flag enabled)
 
+. Requests the `Partition` to <<kafka-cluster-Partition.adoc#appendRecordsToLeader, appendRecordsToLeader>> (with the `MemoryRecords`, the `isFromClient` flag, and the `requiredAcks` bit map)
+
+. Requests the <<brokerTopicStats, BrokerTopicStats>> to mark the `sizeInBytes` of the `MemoryRecords` for the <<kafka-server-BrokerTopicMetrics.adoc#bytesInRate, bytesInRate>> for the topic (of the `TopicPartition`) in the <<kafka-server-BrokerTopicStats.adoc#bytesInRate, bytesInRate>> and for <<kafka-server-BrokerTopicStats.adoc#allTopicsStats, all topics>>
+
+. Requests the <<brokerTopicStats, BrokerTopicStats>> to mark the number of messages appended for the <<kafka-server-BrokerTopicMetrics.adoc#messagesInRate, messagesInRate>> for the topic (of the `TopicPartition`) in the <<kafka-server-BrokerTopicStats.adoc#bytesInRate, bytesInRate>> and for <<kafka-server-BrokerTopicStats.adoc#allTopicsStats, all topics>>
+
+. Prints out the following TRACE message to the logs:
++
 ```
 [sizeInBytes] written to log [topicPartition] beginning at offset [firstOffset] and ending at offset [lastOffset]
 ```
+
+In case `Topic.isInternal(topicPartition.topic) && !internalTopicsAllowed`, `appendToLocalLog`...FIXME
 
 In case of exceptions, `appendToLocalLog`...FIXME
 

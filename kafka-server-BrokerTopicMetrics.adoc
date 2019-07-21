@@ -56,7 +56,7 @@ image::images/BrokerTopicMetrics-jconsole.png[align="center"]
 
 [[name]]
 [[creating-instance]]
-`BrokerTopicMetrics` takes an optional *topic name* to be created.
+`BrokerTopicMetrics` takes an optional *topic name* to be created. When not specified, `BrokerTopicMetrics` is assumed to be used for <<kafka-server-BrokerTopicStats.adoc#allTopicsStats, all topics>>.
 
 [[tags]]
 `BrokerTopicMetrics` uses metric tags of `topic` and the <<name, topic name>> (if defined).
