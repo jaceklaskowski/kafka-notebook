@@ -248,7 +248,7 @@ Starting the Kafka producer
 
 `KafkaProducer` creates a new `ApiVersions` for the <<apiVersions, apiVersions>>.
 
-`KafkaProducer` creates a new `RecordAccumulator` for the <<accumulator, accumulator>> with the following configuration properties:
+`KafkaProducer` creates a new <<kafka-producer-internals-RecordAccumulator.adoc#, RecordAccumulator>> for the <<accumulator, accumulator>> with the following configuration properties:
 
 * <<kafka-producer-ProducerConfig.adoc#BATCH_SIZE_CONFIG, ProducerConfig.BATCH_SIZE_CONFIG>>
 
@@ -446,7 +446,7 @@ NOTE: `abortTransaction` is a part of <<kafka-producer-Producer.adoc#abortTransa
 | Description
 
 | accumulator
-a| [[accumulator]] `RecordAccumulator`
+a| [[accumulator]] <<kafka-producer-internals-RecordAccumulator.adoc#, RecordAccumulator>>
 
 | clientId
 a| [[clientId]] Client ID per <<kafka-producer-ProducerConfig.adoc#CLIENT_ID_CONFIG, CLIENT_ID_CONFIG>> (if defined) or `producer-[number]`

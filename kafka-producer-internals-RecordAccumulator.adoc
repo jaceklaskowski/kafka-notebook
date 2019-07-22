@@ -1,0 +1,14 @@
+== [[RecordAccumulator]] RecordAccumulator
+
+`RecordAccumulator` is...FIXME
+
+=== [[close]] `close` Method
+
+[source, java]
+----
+void close()
+----
+
+`close`...FIXME
+
+NOTE: `close` is used when...FIXME

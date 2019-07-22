@@ -1,11 +1,13 @@
 == [[Sender]] Sender -- Kafka Producer I/O Thread
 
-`Sender` is a *Kafka producer I/O thread* (of execution) that <<run, sends ProduceRequests to a Kafka cluster>>.
+`Sender` is a *Kafka producer I/O thread* (of execution) that <<run, runs indefinitely and sends ProduceRequests to a Kafka cluster>>.
 
 .Sender and KafkaProducer
 image::images/Sender.png[align="center"]
 
 `Sender` is <<creating-instance, created>> exclusively when `KafkaProducer` is <<kafka-producer-KafkaProducer.adoc#sender, created>> and immediatelly <<run, started>> under the name **kafka-producer-network-thread | [clientId]** (as a <<kafka-producer-KafkaProducer.adoc#ioThread, daemon thread>>).
+
+Every <<runOnce, runOnce>>, `Sender` takes (_drains_) up to <<kafka-producer-ProducerConfig.adoc#max.request.size, max.request.size>> messages from the <<accumulator, record accumulator>> (that batches records) and eventually <<sendProduceRequests, sendProduceRequests>> to every active Kafka broker for which there is at least one `ProducerBatch`.
 
 `KafkaProducer` uses the following configuration properties to create a `Sender`:
 
@@ -28,7 +30,7 @@ image::images/Sender.png[align="center"]
 * [[logContext]] `LogContext`
 * [[client]] <<kafka-clients-KafkaClient.adoc#, KafkaClient>>
 * [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
-* [[accumulator]] `RecordAccumulator`
+* [[accumulator]] <<kafka-producer-internals-RecordAccumulator.adoc#, RecordAccumulator>>
 * [[guaranteeMessageOrder]] `guaranteeMessageOrder` flag
 * [[maxRequestSize]] `maxRequestSize`
 * [[acks]] `acks`
@@ -80,9 +82,9 @@ Shutdown of Kafka producer I/O thread has completed.
 void runOnce()
 ----
 
-`runOnce` does...FIXME...when the <<transactionManager, transactionManager>> is available.
+`runOnce` simply <<sendProducerData, sendProducerData>> followed by requesting the <<client, KafkaClient>> to <<kafka-clients-KafkaClient.adoc#poll, poll>>.
 
-`runOnce` <<sendProducerData, sendProducerData>> and then requests the <<client, KafkaClient>> to <<kafka-clients-KafkaClient.adoc#poll, poll>>.
+With a <<transactionManager, transactionManager>> assigned, `runOnce`...FIXME
 
 NOTE: `run` is used exclusively when `Sender` is requested to <<run, run>> (as a thread of execution).
 
@@ -106,7 +108,7 @@ void sendProduceRequests(
   long now)
 ----
 
-`sendProduceRequests`...FIXME
+`sendProduceRequests` simply goes over the given `collated` collection and <<sendProduceRequest, sendProduceRequest>> for every pair (`(Integer, List<ProducerBatch>)`).
 
 NOTE: `sendProduceRequests` is used exclusively when `Sender` is requested to <<sendProducerData, sendProducerData>>.
 
@@ -196,7 +198,7 @@ NOTE: `awaitLeastLoadedNodeReady` is used when `Sender` is requsted to <<maybeSe
 void initiateClose()
 ----
 
-`initiateClose` requests the <<accumulator, RecordAccumulator>> to `close`.
+`initiateClose` requests the <<accumulator, RecordAccumulator>> to <<kafka-producer-internals-RecordAccumulator.adoc#close, close>>.
 
 In the end, `initiateClose` turns the <<running, running>> internal flag off followed by <<wakeup, waking up the Kafka client>>.
 
