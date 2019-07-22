@@ -36,6 +36,9 @@ Internally, `KafkaProducer` uses the <<sender, Kafka producer I/O thread>> that 
 .KafkaProducer
 image::images/KafkaProducer.png[align="center"]
 
+[[PRODUCER_METRIC_GROUP_NAME]]
+`KafkaProducer` uses *producer-metrics* for...FIXME
+
 [[logging]]
 [TIP]
 ====
@@ -378,7 +381,7 @@ NOTE: `close` is a part of <<kafka-producer-Producer.adoc#close, Producer Contra
 
 `close`...FIXME
 
-=== [[flush]] `flush` Method
+=== [[flush]] Flushing Accumulated Records -- `flush` Method
 
 [source, java]
 ----
@@ -447,6 +450,14 @@ NOTE: `abortTransaction` is a part of <<kafka-producer-Producer.adoc#abortTransa
 
 | accumulator
 a| [[accumulator]] <<kafka-producer-internals-RecordAccumulator.adoc#, RecordAccumulator>>
+
+Used when:
+
+* <<doSend, doSend>>
+
+* <<newSender, Creating a new Sender>>
+
+* <<flush, Flushing accumulated records>>
 
 | clientId
 a| [[clientId]] Client ID per <<kafka-producer-ProducerConfig.adoc#CLIENT_ID_CONFIG, CLIENT_ID_CONFIG>> (if defined) or `producer-[number]`

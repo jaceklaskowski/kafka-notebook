@@ -1,6 +1,46 @@
 == [[RecordAccumulator]] RecordAccumulator
 
-`RecordAccumulator` is...FIXME
+`RecordAccumulator` is <<creating-instance, created>> exclusively when `KafkaProducer` is <<kafka-producer-KafkaProducer.adoc#accumulator, created>>.
+
+`KafkaProducer` uses the following configuration properties to create a `RecordAccumulator`:
+
+* <<kafka-producer-ProducerConfig.adoc#batch.size, batch.size>> for the <<batchSize, batchSize>>
+
+* <<kafka-producer-ProducerConfig.adoc#linger.ms, linger.ms>> for the <<batchSize, batchSize>>
+
+* <<kafka-producer-ProducerConfig.adoc#retry.backoff.ms, retry.backoff.ms>> for the <<retryBackoffMs, retryBackoffMs>>
+
+=== [[creating-instance]] Creating RecordAccumulator Instance
+
+`RecordAccumulator` takes the following to be created:
+
+* [[logContext]] `LogContext`
+* [[batchSize]] `batchSize`
+* [[compression]] `CompressionType`
+* [[lingerMs]] `lingerMs`
+* [[retryBackoffMs]] `retryBackoffMs`
+* [[deliveryTimeoutMs]] `deliveryTimeoutMs`
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
+* [[metricGrpName]] Metric group name (e.g. <<kafka-producer-KafkaProducer.adoc#PRODUCER_METRIC_GROUP_NAME, producer-metrics>>)
+* [[time]] `Time`
+* [[apiVersions]] `ApiVersions`
+* [[transactionManager]] <<kafka-producer-internals-TransactionManager.adoc#, TransactionManager>>
+* [[bufferPool]] `BufferPool`
+
+`RecordAccumulator` initializes the <<internal-properties, internal properties>>.
+
+When created, `RecordAccumulator` <<registerMetrics, registerMetrics>> (with the <<metrics, Metrics>> and the <<metricGrpName, metric group name>>).
+
+==== [[registerMetrics]] `registerMetrics` Method
+
+[source, java]
+----
+void registerMetrics()
+----
+
+`registerMetrics`...FIXME
+
+NOTE: `registerMetrics` is used exclusively when `RecordAccumulator` is <<creating-instance, created>>.
 
 === [[close]] `close` Method
 
