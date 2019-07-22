@@ -5,72 +5,42 @@
 .Sender and KafkaProducer
 image::images/Sender.png[align="center"]
 
-`Sender` is <<creating-instance, created>> exclusively when `KafkaProducer` is link:kafka-producer-KafkaProducer.adoc#sender[created].
+`Sender` is <<creating-instance, created>> exclusively when `KafkaProducer` is <<kafka-producer-KafkaProducer.adoc#sender, created>> and immediatelly <<run, started>> under the name **kafka-producer-network-thread | [clientId]** (as a <<kafka-producer-KafkaProducer.adoc#ioThread, daemon thread>>).
 
-`Sender` is started under the name *kafka-producer-network-thread | [clientId]* when `KafkaProducer` is link:kafka-producer-KafkaProducer.adoc#ioThread[created].
+`KafkaProducer` uses the following configuration properties to create a `Sender`:
 
-[[internal-registries]]
-.Sender's Internal Properties (e.g. Registries and Counters)
-[cols="1m,2",options="header",width="100%"]
-|===
-| Name
-| Description
+* <<kafka-producer-ProducerConfig.adoc#max.in.flight.requests.per.connection, max.in.flight.requests.per.connection>> for the <<guaranteeMessageOrder, guaranteeMessageOrder>>
 
-| running
-| [[running]] Flag that controls whether <<run, run>> should finish or not
+* <<kafka-producer-ProducerConfig.adoc#max.request.size, max.request.size>> for the <<maxRequestSize, maxRequestSize>>
 
-|===
+* <<kafka-producer-ProducerConfig.adoc#acks, acks>> for the <<acks, acks>>
 
-=== [[sendProduceRequests]] Sending ProduceRequests -- `sendProduceRequests` Internal Method
+* <<kafka-producer-ProducerConfig.adoc#retries, retries>> for the <<retries, retries>>
 
-[source, java]
-----
-void sendProduceRequests(Map<Integer, List<ProducerBatch>> collated, long now)
-----
+* <<kafka-producer-ProducerConfig.adoc#request.timeout.ms, request.timeout.ms>> for the <<requestTimeoutMs, requestTimeoutMs>>
 
-`sendProduceRequests`...FIXME
+* <<kafka-producer-ProducerConfig.adoc#retry.backoff.ms, retry.backoff.ms>> for the <<retryBackoffMs, retryBackoffMs>>
 
-NOTE: `sendProduceRequests` is used exclusively when `Sender` is requested to <<sendProducerData, sendProducerData>>.
+=== [[creating-instance]] Creating Sender Instance
 
-=== [[sendProduceRequest]] Sending ProduceRequest -- `sendProduceRequest` Internal Method
+`Sender` takes the following to be created:
 
-[source, java]
-----
-void sendProduceRequest(
-  long now,
-  int destination,
-  short acks,
-  int timeout,
-  List<ProducerBatch> batches)
-----
+* [[logContext]] `LogContext`
+* [[client]] <<kafka-clients-KafkaClient.adoc#, KafkaClient>>
+* [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
+* [[accumulator]] `RecordAccumulator`
+* [[guaranteeMessageOrder]] `guaranteeMessageOrder` flag
+* [[maxRequestSize]] `maxRequestSize`
+* [[acks]] `acks`
+* [[retries]] The number of retries
+* [[metricsRegistry]] `SenderMetricsRegistry`
+* [[time]] `Time`
+* [[requestTimeout]] `requestTimeout`
+* [[retryBackoffMs]] `retryBackoffMs`
+* [[transactionManager]] <<kafka-producer-internals-TransactionManager.adoc#, TransactionManager>>
+* [[apiVersions]] `ApiVersions`
 
-`sendProduceRequest`...FIXME
-
-NOTE: `sendProduceRequest` is used exclusively when `Sender` is requested to <<sendProduceRequests, sendProduceRequests>>.
-
-=== [[sendProducerData]] `sendProducerData` Internal Method
-
-[source, java]
-----
-long sendProducerData(long now)
-----
-
-`sendProducerData`...FIXME
-
-NOTE: `sendProducerData` is used exclusively when `Sender` is requested to <<run-millis, run a single iteration of sending>>.
-
-=== [[run-millis]] Running Single Iteration of Sending -- `run` Method
-
-[source, java]
-----
-void run(long now)
-----
-
-`run` does...FIXME...when the <<transactionManager, transactionManager>> is available.
-
-`run` <<sendProducerData, sendProducerData>> and then requests the <<client, KafkaClient>> to <<kafka-clients-KafkaClient.adoc#poll, poll>>.
-
-NOTE: `run` is used exclusively when `Sender` is requested to <<run, start>> (as a thread of execution).
+`Sender` initializes the <<internal-properties, internal properties>>.
 
 === [[run]] Starting Thread of Execution -- `run` Method (of Java's `Runnable`)
 
@@ -87,30 +57,74 @@ NOTE: `run` is a part of link:++https://docs.oracle.com/en/java/javase/11/docs/a
 Starting Kafka producer I/O thread.
 ```
 
-`run` keeps <<run-millis, running>> until the <<running, running>> flag is off.
+`run` keeps <<runOnce, running>> until the <<running, running>> internal flag is off.
 
-`run`...FIXME
+Once the <<running, running>> internal flag is off, `run` prints out the following DEBUG message to the logs:
 
-=== [[creating-instance]] Creating Sender Instance
+```
+Beginning shutdown of Kafka producer I/O thread, sending remaining records.
+```
 
-`Sender` takes the following when created:
+`run` may wait until...FIXME (`(!forceClose...`)
 
-* [[logContext]] `LogContext`
-* [[client]] link:kafka-clients-KafkaClient.adoc[KafkaClient]
-* [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
-* [[accumulator]] `RecordAccumulator`
-* [[guaranteeMessageOrder]] `guaranteeMessageOrder` flag
-* [[maxRequestSize]] `maxRequestSize`
-* [[acks]] `acks`
-* [[retries]] The number of retries
-* [[metricsRegistry]] `SenderMetricsRegistry`
-* [[time]] `Time`
-* [[requestTimeout]] `requestTimeout`
-* [[retryBackoffMs]] `retryBackoffMs`
-* [[transactionManager]] <<kafka-producer-internals-TransactionManager.adoc#, TransactionManager>>
-* [[apiVersions]] `ApiVersions`
+In the end, `run` requests the <<client, KafkaClient>> to <<kafka-clients-KafkaClient.adoc#close, close>> and prints out the following DEBUG message to the logs:
 
-`Sender` initializes the <<internal-registries, internal registries and counters>>.
+```
+Shutdown of Kafka producer I/O thread has completed.
+```
+
+==== [[runOnce]] Running Single Iteration of Sending -- `runOnce` Method
+
+[source, java]
+----
+void runOnce()
+----
+
+`runOnce` does...FIXME...when the <<transactionManager, transactionManager>> is available.
+
+`runOnce` <<sendProducerData, sendProducerData>> and then requests the <<client, KafkaClient>> to <<kafka-clients-KafkaClient.adoc#poll, poll>>.
+
+NOTE: `run` is used exclusively when `Sender` is requested to <<run, run>> (as a thread of execution).
+
+==== [[sendProducerData]] `sendProducerData` Internal Method
+
+[source, java]
+----
+long sendProducerData(long now)
+----
+
+`sendProducerData`...FIXME
+
+NOTE: `sendProducerData` is used exclusively when `Sender` is requested to <<runOnce, run a single iteration of sending>>.
+
+==== [[sendProduceRequests]] Sending ProduceRequests -- `sendProduceRequests` Internal Method
+
+[source, java]
+----
+void sendProduceRequests(
+  Map<Integer, List<ProducerBatch>> collated,
+  long now)
+----
+
+`sendProduceRequests`...FIXME
+
+NOTE: `sendProduceRequests` is used exclusively when `Sender` is requested to <<sendProducerData, sendProducerData>>.
+
+==== [[sendProduceRequest]] Sending ProduceRequest -- `sendProduceRequest` Internal Method
+
+[source, java]
+----
+void sendProduceRequest(
+  long now,
+  int destination,
+  short acks,
+  int timeout,
+  List<ProducerBatch> batches)
+----
+
+`sendProduceRequest`...FIXME
+
+NOTE: `sendProduceRequest` is used exclusively when `Sender` is requested to <<sendProduceRequests, sendProduceRequests>>.
 
 === [[maybeSendTransactionalRequest]] `maybeSendTransactionalRequest` Internal Method
 
@@ -174,3 +188,15 @@ Node awaitLeastLoadedNodeReady(long remainingTimeMs)
 `awaitLeastLoadedNodeReady`...FIXME
 
 NOTE: `awaitLeastLoadedNodeReady` is used when `Sender` is requsted to <<maybeSendTransactionalRequest, maybeSendTransactionalRequest>> and <<maybeWaitForProducerId, maybeWaitForProducerId>>.
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| running
+| [[running]] Flag that controls whether <<run, run>> should finish or not
+
+|===

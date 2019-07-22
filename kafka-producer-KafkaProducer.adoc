@@ -1,6 +1,6 @@
 == [[KafkaProducer]] KafkaProducer -- Main Class For Kafka Producers
 
-`KafkaProducer` is the <<kafka-producer-Producer.adoc#, Producer>> in Apache Kafka.
+`KafkaProducer` is the default <<kafka-producer-Producer.adoc#, Producer>> client in Apache Kafka.
 
 `KafkaProducer` is the class that a Kafka developer use to <<send, send messages>> to a Kafka cluster.
 
@@ -36,9 +36,24 @@ Internally, `KafkaProducer` uses the <<sender, Kafka producer I/O thread>> that 
 .KafkaProducer
 image::images/KafkaProducer.png[align="center"]
 
-`KafkaProducer` exposes <<metrics, performance metrics>>.
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging levels for `org.apache.kafka.clients.producer.KafkaProducer` logger to see what happens inside.
 
-[[metrics]]
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.producer.KafkaProducer=ALL
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
+
+=== [[metrics]] Performance Metrics
+
+`KafkaProducer` exposes performance metrics.
+
 .KafkaProducer's Metrics
 [cols="1m,1m,2",options="header",width="100%"]
 |===
@@ -63,97 +78,13 @@ image::images/KafkaProducer.png[align="center"]
 | [[produce-throttle-time-max]] Recorded when `NetworkClient` is requested to <<kafka-clients-NetworkClient.adoc#parseStructMaybeUpdateThrottleTimeMetrics, parseStructMaybeUpdateThrottleTimeMetrics>> (and a request was throttled due to quota violation)
 |===
 
-[[internal-registries]]
-.KafkaProducer's Internal Properties (e.g. Registries and Counters)
-[cols="1m,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| accumulator
-a| [[accumulator]] `RecordAccumulator`
-
-| clientId
-a| [[clientId]] Client ID per <<kafka-producer-ProducerConfig.adoc#CLIENT_ID_CONFIG, CLIENT_ID_CONFIG>> (if defined) or `producer-[number]`
-
-Used when:
-
-* `KafkaProducer` is requested for <<logging, logging>>
-
-* <<kafka-clients-NetworkClient.adoc#, NetworkClient>> is created
-
-| interceptors
-a| [[interceptors]] <<kafka-ProducerInterceptor.adoc#, ProducerInterceptors>> that are notified (about successes and failures) when `KafkaProducer` is requested to <<send, send a record to a topic>>
-
-The `ProducerInterceptors` are initialized when the `KafkaProducer` is <<creating-instance, created>> using <<kafka-producer-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>> configuration property.
-
-| ioThread
-a| [[ioThread]] *kafka-producer-network-thread* daemon thread of execution for the <<sender, sender>>
-
-| maxBlockTimeMs
-a| [[maxBlockTimeMs]] Time `KafkaProducer` uses to block when requesting <<partitionsFor, partitions for a topic>>.
-
-NOTE: Use link:kafka-properties.adoc#max.block.ms[max.block.ms] Kafka property to set the value.
-
-| metadata
-a| [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
-
-* Created when `KafkaProducer` is <<creating-instance, created>> with the following properties:
-** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for link:kafka-clients-Metadata.adoc#refreshBackoffMs[refreshBackoffMs]
-** link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms] for link:kafka-clients-Metadata.adoc#metadataExpireMs[metadataExpireMs]
-** link:kafka-clients-Metadata.adoc#allowAutoTopicCreation[allowAutoTopicCreation] flag enabled
-** link:kafka-clients-Metadata.adoc#topicExpiryEnabled[topicExpiryEnabled] flag enabled
-
-* link:kafka-clients-Metadata.adoc#update[Updated] with a bootstrap cluster when `KafkaProducer` is <<creating-instance, created>>
-
-* Used in <<waitOnMetadata, waitOnMetadata>>
-
-| partitioner
-a| [[partitioner]] <<kafka-producer-Partitioner.adoc#, Partitioner>> that is used (to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>>) when `KafkaProducer` is requested to <<partition, partition>> (when requested to <<doSend, send a record to topic asynchronously>>)
-
-The `Partitioner` is initialized when the `KafkaProducer` is <<creating-instance, created>> using <<kafka-producer-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property.
-
-| producerConfig
-a| [[producerConfig]] <<kafka-producer-ProducerConfig.adoc#, ProducerConfig>>
-
-| sender
-a| [[sender]] <<kafka-Sender.adoc#, Kafka producer I/O thread>> (aka `Sender`) that is <<kafka-Sender.adoc#run, started>> when `KafkaProducer` is <<creating-instance, created>>.
-
-| time
-a| [[time]] Time abstraction (with `SYSTEM` being the default).
-
-| transactionManager
-a| [[transactionManager]] <<kafka-producer-internals-TransactionManager.adoc#, TransactionManager>>
-
-Used when:
-
-* `KafkaProducer` is created (and creates a <<accumulator, RecordAccumulator>> and a <<newSender, Sender>>)
-
-* For transactional public methods: <<initTransactions, initTransactions>>, <<beginTransaction, beginTransaction>>, <<sendOffsetsToTransaction, sendOffsetsToTransaction>>, <<commitTransaction, commitTransaction>>, <<abortTransaction, abortTransaction>>
-
-* <<doSend, doSend>>
-
-|===
-
-[[logging]]
-[TIP]
-====
-Enable `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.producer.KafkaProducer` logger to see what happens inside.
-
-Add the following line to `config/log4j.properties`:
-
-```
-log4j.logger.org.apache.kafka.clients.producer.KafkaProducer=TRACE
-```
-
-Refer to link:kafka-logging.adoc[Logging].
-====
-
 === [[send]] (Asynchronously) Sending Record to Topic and Notifying Producer Interceptors -- `send` Method
 
 [source, java]
 ----
-Future<RecordMetadata> send(ProducerRecord<K, V> record, Callback callback)
+Future<RecordMetadata> send(
+  ProducerRecord<K, V> record,
+  Callback callback)
 ----
 
 NOTE: `send` is a part of link:kafka-producer-Producer.adoc#send[Producer Contract].
@@ -164,7 +95,9 @@ NOTE: `send` is a part of link:kafka-producer-Producer.adoc#send[Producer Contra
 
 [source, java]
 ----
-Future<RecordMetadata> doSend(ProducerRecord<K, V> record, Callback callback)
+Future<RecordMetadata> doSend(
+  ProducerRecord<K, V> record,
+  Callback callback)
 ----
 
 `doSend`...FIXME
@@ -196,7 +129,7 @@ ClusterResourceListeners configureClusterResourceListeners(
 
 === [[partitionsFor]] Requesting Partitions for Topic -- `partitionsFor` Method
 
-[source, scala]
+[source, java]
 ----
 List<PartitionInfo> partitionsFor(String topic)
 ----
@@ -428,3 +361,75 @@ TransactionManager configureTransactionState(
 `configureTransactionState`...FIXME
 
 NOTE: `configureTransactionState` is used exclusively when `KafkaProducer` is created (and initializes a <<transactionManager, TransactionManager>>).
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| accumulator
+a| [[accumulator]] `RecordAccumulator`
+
+| clientId
+a| [[clientId]] Client ID per <<kafka-producer-ProducerConfig.adoc#CLIENT_ID_CONFIG, CLIENT_ID_CONFIG>> (if defined) or `producer-[number]`
+
+Used when:
+
+* `KafkaProducer` is requested for <<logging, logging>>
+
+* <<kafka-clients-NetworkClient.adoc#, NetworkClient>> is created
+
+| interceptors
+a| [[interceptors]] <<kafka-ProducerInterceptor.adoc#, ProducerInterceptors>> that are notified (about successes and failures) when `KafkaProducer` is requested to <<send, send a record to a topic>>
+
+The `ProducerInterceptors` are initialized when the `KafkaProducer` is <<creating-instance, created>> using <<kafka-producer-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>> configuration property.
+
+| ioThread
+a| [[ioThread]] *kafka-producer-network-thread* daemon thread of execution for the <<sender, sender>>
+
+| maxBlockTimeMs
+a| [[maxBlockTimeMs]] Time `KafkaProducer` uses to block when requesting <<partitionsFor, partitions for a topic>>.
+
+NOTE: Use link:kafka-properties.adoc#max.block.ms[max.block.ms] Kafka property to set the value.
+
+| metadata
+a| [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
+
+* Created when `KafkaProducer` is <<creating-instance, created>> with the following properties:
+** link:kafka-properties-retry-backoff-ms.adoc[retry.backoff.ms] for link:kafka-clients-Metadata.adoc#refreshBackoffMs[refreshBackoffMs]
+** link:kafka-properties.adoc#metadata.max.age.ms[metadata.max.age.ms] for link:kafka-clients-Metadata.adoc#metadataExpireMs[metadataExpireMs]
+** link:kafka-clients-Metadata.adoc#allowAutoTopicCreation[allowAutoTopicCreation] flag enabled
+** link:kafka-clients-Metadata.adoc#topicExpiryEnabled[topicExpiryEnabled] flag enabled
+
+* link:kafka-clients-Metadata.adoc#update[Updated] with a bootstrap cluster when `KafkaProducer` is <<creating-instance, created>>
+
+* Used in <<waitOnMetadata, waitOnMetadata>>
+
+| partitioner
+a| [[partitioner]] <<kafka-producer-Partitioner.adoc#, Partitioner>> that is used (to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>>) when `KafkaProducer` is requested to <<partition, partition>> (when requested to <<doSend, send a record to topic asynchronously>>)
+
+The `Partitioner` is initialized when the `KafkaProducer` is <<creating-instance, created>> using <<kafka-producer-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property.
+
+| producerConfig
+a| [[producerConfig]] <<kafka-producer-ProducerConfig.adoc#, ProducerConfig>>
+
+| sender
+a| [[sender]] <<kafka-Sender.adoc#, Kafka producer I/O thread>> (aka `Sender`) that is <<kafka-Sender.adoc#run, started>> when `KafkaProducer` is <<creating-instance, created>>.
+
+| time
+a| [[time]] Time abstraction (with `SYSTEM` being the default).
+
+| transactionManager
+a| [[transactionManager]] <<kafka-producer-internals-TransactionManager.adoc#, TransactionManager>>
+
+Used when:
+
+* `KafkaProducer` is created (and creates a <<accumulator, RecordAccumulator>> and a <<newSender, Sender>>)
+
+* For transactional public methods: <<initTransactions, initTransactions>>, <<beginTransaction, beginTransaction>>, <<sendOffsetsToTransaction, sendOffsetsToTransaction>>, <<commitTransaction, commitTransaction>>, <<abortTransaction, abortTransaction>>
+
+* <<doSend, doSend>>
+
+|===

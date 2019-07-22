@@ -30,6 +30,8 @@ a| [[close]]
 void close(String nodeId)
 ----
 
+Closing the Kafka client (releasing resources)
+
 Used when:
 
 * `RequestSendThread` is requested to `doWork` and `brokerReady`
