@@ -160,7 +160,7 @@ If the cluster metadata is not current enough (i.e. the number of partitions is 
 Requesting metadata update for topic [topic].
 ```
 
-`waitOnMetadata` requests <<metadata, Metadata>> for link:kafka-clients-Metadata.adoc#requestUpdate[update] and requests <<sender, Sender>> to link:kafka-Sender.adoc#wakeup[wake up].
+`waitOnMetadata` requests <<metadata, Metadata>> for link:kafka-clients-Metadata.adoc#requestUpdate[update] and requests <<sender, Sender>> to link:kafka-producer-internals-Sender.adoc#wakeup[wake up].
 
 `waitOnMetadata` then requests <<metadata, Metadata>> to link:kafka-clients-Metadata.adoc#awaitUpdate[wait for a metadata update] and then <<metadata, Metadata>> for the link:kafka-clients-Metadata.adoc#fetch[current cluster information].
 
@@ -280,7 +280,7 @@ Starting the Kafka producer
 
 * <<kafka-producer-ProducerConfig.adoc#REQUEST_TIMEOUT_MS_CONFIG, ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG>>
 
-`KafkaProducer` creates a new <<kafka-Sender.adoc#, Sender>> as the <<sender, sender>> with the following configuration properties:
+`KafkaProducer` creates a new <<kafka-producer-internals-Sender.adoc#, Sender>> as the <<sender, sender>> with the following configuration properties:
 
 * <<kafka-producer-ProducerConfig.adoc#MAX_REQUEST_SIZE_CONFIG, ProducerConfig.MAX_REQUEST_SIZE_CONFIG>>
 
@@ -416,7 +416,7 @@ The `Partitioner` is initialized when the `KafkaProducer` is <<creating-instance
 a| [[producerConfig]] <<kafka-producer-ProducerConfig.adoc#, ProducerConfig>>
 
 | sender
-a| [[sender]] <<kafka-Sender.adoc#, Kafka producer I/O thread>> (aka `Sender`) that is <<kafka-Sender.adoc#run, started>> when `KafkaProducer` is <<creating-instance, created>>.
+a| [[sender]] <<kafka-producer-internals-Sender.adoc#, Kafka producer I/O thread>> (aka `Sender`) that is <<kafka-producer-internals-Sender.adoc#run, started>> when `KafkaProducer` is <<creating-instance, created>>.
 
 | time
 a| [[time]] Time abstraction (with `SYSTEM` being the default).

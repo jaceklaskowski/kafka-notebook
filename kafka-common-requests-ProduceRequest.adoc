@@ -9,7 +9,7 @@
 * [[partitionRecords]] Partition records (`Map<TopicPartition, MemoryRecords>`)
 * [[transactionalId]] Transactional ID
 
-`ProduceRequest` is used by a Kafka producer (<<kafka-Sender.adoc#, Kafka Producer I/O Thread>> actually) to send <<partitionRecords, partition records>> (with a given <<acks, acks>>).
+`ProduceRequest` is used by a Kafka producer (<<kafka-producer-internals-Sender.adoc#, Kafka Producer I/O Thread>> actually) to send <<partitionRecords, partition records>> (with a given <<acks, acks>>).
 
 `ProduceRequest` is <<creating-instance, created>> when:
 
@@ -44,7 +44,7 @@ Builder forMagic(
 
 `forMagic`...FIXME
 
-NOTE: `forMagic` is used excusively when `Sender` is requested to <<kafka-Sender.adoc#sendProduceRequest, send a ProduceRequest>>.
+NOTE: `forMagic` is used excusively when `Sender` is requested to <<kafka-producer-internals-Sender.adoc#sendProduceRequest, send a ProduceRequest>>.
 
 === [[parse]] Creating ProduceRequest from Byte Buffer -- `parse` Factory Method
 

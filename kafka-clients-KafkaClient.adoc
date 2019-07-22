@@ -134,7 +134,7 @@ Used when:
 
 * `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#leastLoadedNode, leastLoadedNode>>
 
-* `Sender` is requested to <<kafka-Sender.adoc#awaitLeastLoadedNodeReady, awaitLeastLoadedNodeReady>>
+* `Sender` is requested to <<kafka-producer-internals-Sender.adoc#awaitLeastLoadedNodeReady, awaitLeastLoadedNodeReady>>
 
 * `LeastLoadedNodeProvider` and `MetadataUpdateNodeIdProvider` are requested to provide the least-loaded node
 
@@ -177,7 +177,7 @@ Used when:
 
 * `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#poll, poll>>
 
-* `Sender` is requested to <<kafka-Sender.adoc#run, start>> (as a thread of execution)
+* `Sender` is requested to <<kafka-producer-internals-Sender.adoc#run, start>> (as a thread of execution)
 
 | pollDelayMs
 a| [[pollDelayMs]]
@@ -207,7 +207,7 @@ Used when:
 
 * `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#trySend, trySend>> and <<kafka-consumer-internals-ConsumerNetworkClient.adoc#tryConnect, tryConnect>>
 
-* `Sender` is requested to <<kafka-Sender.adoc#sendProducerData, sendProducerData>> (when requested to <<kafka-Sender.adoc#run-millis, run a single iteration of sending>>)
+* `Sender` is requested to <<kafka-producer-internals-Sender.adoc#sendProducerData, sendProducerData>> (when requested to <<kafka-producer-internals-Sender.adoc#run-millis, run a single iteration of sending>>)
 
 * `InterBrokerSendThread` is requested to <<kafka-InterBrokerSendThread.adoc#sendRequests, sendRequests>>
 
@@ -231,7 +231,7 @@ Used when:
 
 * `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#trySend, trySend>>
 
-* `Sender` is requested to <<kafka-Sender.adoc#maybeSendTransactionalRequest, maybeSendTransactionalRequest>> and <<kafka-Sender.adoc#sendProduceRequest, sendProduceRequest>>
+* `Sender` is requested to <<kafka-producer-internals-Sender.adoc#maybeSendTransactionalRequest, maybeSendTransactionalRequest>> and <<kafka-producer-internals-Sender.adoc#sendProduceRequest, sendProduceRequest>>
 
 | wakeup
 a| [[wakeup]]

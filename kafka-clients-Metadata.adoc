@@ -205,7 +205,7 @@ int requestUpdate()
 
 * `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#waitOnMetadata, wait for cluster metadata>>
 
-* `Sender` is requested to <<kafka-Sender.adoc#sendProducerData, sendProducerData>>, <<kafka-Sender.adoc#maybeSendTransactionalRequest, maybeSendTransactionalRequest>>, <<kafka-Sender.adoc#maybeWaitForProducerId, maybeWaitForProducerId>>, and <<kafka-Sender.adoc#completeBatch, completeBatch>>
+* `Sender` is requested to <<kafka-producer-internals-Sender.adoc#sendProducerData, sendProducerData>>, <<kafka-producer-internals-Sender.adoc#maybeSendTransactionalRequest, maybeSendTransactionalRequest>>, <<kafka-producer-internals-Sender.adoc#maybeWaitForProducerId, maybeWaitForProducerId>>, and <<kafka-producer-internals-Sender.adoc#completeBatch, completeBatch>>
 ====
 
 === [[awaitUpdate]] Waiting for Metadata Update (i.e. Metadata Version Change) -- `awaitUpdate` Method
