@@ -7,7 +7,7 @@ NOTE: <<kafka-clients-NetworkClient.adoc#, NetworkClient>> is the one and only k
 
 [[contract]]
 .KafkaClient Contract
-[cols="1m,2",options="header",width="100%"]
+[cols="30m,70",options="header",width="100%"]
 |===
 | Method
 | Description

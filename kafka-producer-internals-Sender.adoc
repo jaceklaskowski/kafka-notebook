@@ -189,6 +189,55 @@ Node awaitLeastLoadedNodeReady(long remainingTimeMs)
 
 NOTE: `awaitLeastLoadedNodeReady` is used when `Sender` is requsted to <<maybeSendTransactionalRequest, maybeSendTransactionalRequest>> and <<maybeWaitForProducerId, maybeWaitForProducerId>>.
 
+=== [[initiateClose]] `initiateClose` Method
+
+[source, java]
+----
+void initiateClose()
+----
+
+`initiateClose` requests the <<accumulator, RecordAccumulator>> to `close`.
+
+In the end, `initiateClose` turns the <<running, running>> internal flag off followed by <<wakeup, waking up the Kafka client>>.
+
+[NOTE]
+====
+`initiateClose` is used when:
+
+* `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#close, close>>
+
+* `Sender` is requested to <<forceClose, forceClose>>
+====
+
+=== [[wakeup]] `wakeup` Method
+
+[source, java]
+----
+void wakeup()
+----
+
+`wakeup` merely requests the <<client, KafkaClient>> to <<kafka-clients-KafkaClient.adoc#wakeup, wakeup>>.
+
+[NOTE]
+====
+`wakeup` is used when:
+
+* `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#initTransactions, initTransactions>>, <<kafka-producer-KafkaProducer.adoc#sendOffsetsToTransaction, sendOffsetsToTransaction>>, <<kafka-producer-KafkaProducer.adoc#commitTransaction, commitTransaction>>, <<kafka-producer-KafkaProducer.adoc#abortTransaction, abortTransaction>>, <<kafka-producer-KafkaProducer.adoc#doSend, doSend>>, <<kafka-producer-KafkaProducer.adoc#waitOnMetadata, waitOnMetadata>>, and <<kafka-producer-KafkaProducer.adoc#flush, flush>>
+
+* `Sender` is requested to <<initiateClose, initiateClose>>
+====
+
+=== [[forceClose]] `forceClose` Method
+
+[source, java]
+----
+void forceClose()
+----
+
+`forceClose`...FIXME
+
+NOTE: `forceClose` is used exclusively when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#close, close>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -197,6 +246,10 @@ NOTE: `awaitLeastLoadedNodeReady` is used when `Sender` is requsted to <<maybeSe
 | Description
 
 | running
-| [[running]] Flag that controls whether <<run, run>> should finish or not
+a| [[running]] Flag that controls whether <<run, run>> should stop (`false`) or not (`true`)
+
+* Enabled (`true`) by default when `Sender` is <<creating-instance, created>>
+
+* Disabled (`false`) when `Sender` is requested to <<initiateClose, initiateClose>>
 
 |===

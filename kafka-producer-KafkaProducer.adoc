@@ -2,7 +2,7 @@
 
 `KafkaProducer` is the default <<kafka-producer-Producer.adoc#, Producer>> client in Apache Kafka.
 
-`KafkaProducer` is the class that a Kafka developer use to <<send, send messages>> to a Kafka cluster.
+`KafkaProducer` is the class that a Kafka developer uses to <<send, send messages>> to a Kafka cluster.
 
 [source, scala]
 ----
@@ -140,7 +140,7 @@ NOTE: `partitionsFor` is a part of link:kafka-producer-Producer.adoc#partitionsF
 
 === [[waitOnMetadata]] Waiting for Cluster Metadata (with Partitions for Topic) -- `waitOnMetadata` Internal Recursive Method
 
-[source, scala]
+[source, java]
 ----
 ClusterAndWaitTime waitOnMetadata(
   String topic,
@@ -361,6 +361,82 @@ TransactionManager configureTransactionState(
 `configureTransactionState`...FIXME
 
 NOTE: `configureTransactionState` is used exclusively when `KafkaProducer` is created (and initializes a <<transactionManager, TransactionManager>>).
+
+=== [[close]] Closing Kafka Producer -- `close` Method
+
+[source, java]
+----
+void close() // <1>
+void close(Duration timeout) // <2>
+// private API
+void close(Duration timeout, boolean swallowException)
+----
+<1> Uses the maximum timeout (`Long.MAX_VALUE`)
+<2> Disables `swallowException` flag (`false`)
+
+NOTE: `close` is a part of <<kafka-producer-Producer.adoc#close, Producer Contract>>.
+
+`close`...FIXME
+
+=== [[flush]] `flush` Method
+
+[source, java]
+----
+void flush()
+----
+
+NOTE: `flush` is a part of <<kafka-producer-Producer.adoc#flush, Producer Contract>>.
+
+`flush`...FIXME
+
+=== [[initTransactions]] `initTransactions` Method
+
+[source, java]
+----
+void initTransactions()
+----
+
+NOTE: `initTransactions` is a part of <<kafka-producer-Producer.adoc#initTransactions, Producer Contract>>.
+
+`initTransactions`...FIXME
+
+=== [[sendOffsetsToTransaction]] `sendOffsetsToTransaction` Method
+
+[source, java]
+----
+void sendOffsetsToTransaction(
+  Map<TopicPartition, OffsetAndMetadata> offsets,
+  String consumerGroupId)
+throws ProducerFencedException
+----
+
+NOTE: `sendOffsetsToTransaction` is a part of <<kafka-producer-Producer.adoc#sendOffsetsToTransaction, Producer Contract>>.
+
+`sendOffsetsToTransaction`...FIXME
+
+=== [[commitTransaction]] `commitTransaction` Method
+
+[source, java]
+----
+void commitTransaction()
+throws ProducerFencedException
+----
+
+NOTE: `commitTransaction` is a part of <<kafka-producer-Producer.adoc#commitTransaction, Producer Contract>>.
+
+`commitTransaction`...FIXME
+
+=== [[abortTransaction]] `abortTransaction` Method
+
+[source, java]
+----
+void abortTransaction()
+throws ProducerFencedException
+----
+
+NOTE: `abortTransaction` is a part of <<kafka-producer-Producer.adoc#abortTransaction, Producer Contract>>.
+
+`abortTransaction`...FIXME
 
 === [[internal-properties]] Internal Properties
 

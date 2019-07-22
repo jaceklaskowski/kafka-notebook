@@ -17,7 +17,8 @@ a| [[abortTransaction]]
 
 [source, java]
 ----
-void abortTransaction() throws ProducerFencedException
+void abortTransaction()
+throws ProducerFencedException
 ----
 
 Used when...FIXME
@@ -27,7 +28,8 @@ a| [[beginTransaction]]
 
 [source, java]
 ----
-void beginTransaction() throws ProducerFencedException
+void beginTransaction()
+throws ProducerFencedException
 ----
 
 Used when...FIXME
@@ -48,7 +50,8 @@ a| [[commitTransaction]]
 
 [source, java]
 ----
-void commitTransaction() throws ProducerFencedException
+void commitTransaction()
+throws ProducerFencedException
 ----
 
 Used when...FIXME
@@ -100,8 +103,11 @@ a| [[send]]
 
 [source, java]
 ----
-Future<RecordMetadata> send(ProducerRecord<K, V> record)
-Future<RecordMetadata> send(ProducerRecord<K, V> record, Callback callback)
+Future<RecordMetadata> send(
+  ProducerRecord<K, V> record)
+Future<RecordMetadata> send(
+  ProducerRecord<K, V> record,
+  Callback callback)
 ----
 
 Used when...FIXME
@@ -113,8 +119,10 @@ a| [[sendOffsetsToTransaction]]
 ----
 void sendOffsetsToTransaction(
   Map<TopicPartition, OffsetAndMetadata> offsets,
-  String consumerGroupId) throws ProducerFencedException
+  String consumerGroupId)
+throws ProducerFencedException
 ----
 
 Used when...FIXME
+
 |===
