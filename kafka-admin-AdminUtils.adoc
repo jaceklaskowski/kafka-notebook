@@ -1,6 +1,6 @@
 == [[AdminUtils]] AdminUtils Helper Object
 
-`AdminUtils` is a Scala object with <<methods, methods>> for...FIXME
+`AdminUtils` is an utility (a Scala object) with <<methods, methods>> for...FIXME
 
 [[methods]]
 .AdminUtils API
@@ -22,6 +22,9 @@ assignReplicasToBrokers(
   startPartitionId: Int = -1): Map[Int, Seq[Int]]
 ----
 |===
+
+[[AdminClientId]]
+`AdminUtils` uses **__admin_client** for...FIXME
 
 === [[assignReplicasToBrokers-internals]] `assignReplicasToBrokers` Method
 

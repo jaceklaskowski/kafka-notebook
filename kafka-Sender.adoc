@@ -1,6 +1,6 @@
 == [[Sender]] Sender -- Kafka Producer I/O Thread
 
-`Sender` is a *Kafka producer I/O thread* (of execution) that <<run, sends produce requests to a Kafka cluster>>.
+`Sender` is a *Kafka producer I/O thread* (of execution) that <<run, sends ProduceRequests to a Kafka cluster>>.
 
 .Sender and KafkaProducer
 image::images/Sender.png[align="center"]

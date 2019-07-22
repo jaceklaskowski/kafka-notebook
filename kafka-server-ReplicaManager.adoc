@@ -401,6 +401,25 @@ appendRecords(
 * `KafkaApis` is requested to handle <<kafka-server-KafkaApis.adoc#handleProduceRequest, Produce>> and <<kafka-server-KafkaApis.adoc#handleWriteTxnMarkersRequest, WriteTxnMarkers>> requests
 ====
 
+==== [[isValidRequiredAcks]] Validating requiredAcks -- `isValidRequiredAcks` Internal Method
+
+[source, scala]
+----
+isValidRequiredAcks(requiredAcks: Short): Boolean
+----
+
+`isValidRequiredAcks` is positive (`true`) when the given `requiredAcks` is one of the following:
+
+* `-1`
+
+* `1`
+
+* `0`
+
+Otherwise, `isValidRequiredAcks` is negative (`false`).
+
+NOTE: `isValidRequiredAcks` is used exclusively when `ReplicaManager` is requested to <<appendRecords, appendRecords>>.
+
 ==== [[appendToLocalLog]] `appendToLocalLog` Internal Method
 
 [source, scala]

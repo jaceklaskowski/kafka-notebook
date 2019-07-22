@@ -322,6 +322,8 @@
 
 . link:kafka-common-requests-OffsetCommitRequest.adoc[OffsetCommitRequest]
 
+. link:kafka-common-requests-ProduceRequest.adoc[ProduceRequest]
+
 . link:kafka-common-requests-SyncGroupRequest.adoc[SyncGroupRequest]
 
 . link:kafka-common-requests-UpdateMetadataRequest.adoc[UpdateMetadataRequest]

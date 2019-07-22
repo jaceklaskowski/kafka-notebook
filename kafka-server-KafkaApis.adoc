@@ -122,15 +122,15 @@ image::images/KafkaApis.png[align="center"]
 [[logging]]
 [TIP]
 ====
-Enable `INFO`, `DEBUG` or `TRACE` logging levels for `kafka.server.KafkaApis` logger to see what happens inside.
+Enable `ALL` logging levels for `kafka.server.KafkaApis` logger to see what happens inside.
 
 Add the following line to `config/log4j.properties`:
 
 ```
-log4j.logger.kafka.server.KafkaApis=TRACE
+log4j.logger.kafka.server.KafkaApis=ALL
 ```
 
-Refer to link:kafka-logging.adoc[Logging].
+Refer to <<kafka-logging.adoc#, Logging>>.
 
 ---
 
@@ -661,14 +661,16 @@ handleAddOffsetsToTxnRequest(request: RequestChannel.Request): Unit
 
 NOTE: `handleAddOffsetsToTxnRequest` is used exclusively when `KafkaApis` is requested to handle a <<AddOffsetsToTxn, AddOffsetsToTxn>> request.
 
-=== [[handleProduceRequest]] `handleProduceRequest` Handler
+=== [[handleProduceRequest]] Handling Produce Request -- `handleProduceRequest` Handler
 
 [source, scala]
 ----
 handleProduceRequest(request: RequestChannel.Request): Unit
 ----
 
-In summary, `handleProduceRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#appendRecords, appendRecords>> (with `isFromClient` flag enabled).
+In summary, `handleProduceRequest` takes the <<kafka-common-requests-ProduceRequest.adoc#, ProduceRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>) and requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#appendRecords, appendRecords>> (with `isFromClient` flag enabled).
+
+NOTE: `internalTopicsAllowed` flag (when the <<replicaManager, ReplicaManager>> is requested to <<kafka-server-ReplicaManager.adoc#appendRecords, appendRecords>>) is enabled (`true`) only when the client ID is <<kafka-admin-AdminUtils.adoc#AdminClientId, __admin_client>>.
 
 `handleProduceRequest`...FIXME
 

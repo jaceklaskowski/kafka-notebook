@@ -1,7 +1,6 @@
 == [[LeaderAndIsrRequest]] LeaderAndIsrRequest
 
-[[LEADER_AND_ISR]]
-[[creating-instance]]
+[[LEADER_AND_ISR]][[creating-instance]]
 `LeaderAndIsrRequest` is a concrete <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>> with *LeaderAndIsr* API key and the following properties:
 
 * [[controllerId]] Controller ID

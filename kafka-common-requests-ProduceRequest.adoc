@@ -1,0 +1,58 @@
+== [[ProduceRequest]] ProduceRequest
+
+[[PRODUCE]][[creating-instance]]
+`ProduceRequest` is a concrete <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>> with *Produce* API key and the following properties:
+
+* [[version]] Version
+* [[acks]] acks
+* [[timeout]] timeout
+* [[partitionRecords]] Partition records (`Map<TopicPartition, MemoryRecords>`)
+* [[transactionalId]] Transactional ID
+
+`ProduceRequest` is used by a Kafka producer (<<kafka-Sender.adoc#, Kafka Producer I/O Thread>> actually) to send <<partitionRecords, partition records>> (with a given <<acks, acks>>).
+
+`ProduceRequest` is <<creating-instance, created>> when:
+
+* `ProduceRequest.Builder` is requested to <<build, build a ProduceRequest>>
+
+* `ProduceRequest` is requested to <<parse, parse a byte buffer>>
+
+* `AbstractRequest` is requested to <<kafka-common-requests-AbstractRequest.adoc#parseRequest, parse a request>> (with the <<PRODUCE, Produce>> API key)
+
+=== [[ProduceRequest.Builder]][[Builder]][[build]] `ProduceRequest.Builder` Factory Object
+
+`ProduceRequest` comes with a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a <<ProduceRequest, ProduceRequest>>.
+
+[source, java]
+----
+ProduceRequest build(short version, boolean validate)
+----
+
+`ProduceRequest.Builder` is used when...FIXME
+
+==== [[forMagic]] `forMagic` Factory Method
+
+[source, java]
+----
+Builder forMagic(
+  byte magic,
+  short acks,
+  int timeout,
+  Map<TopicPartition, MemoryRecords> partitionRecords,
+  String transactionalId)
+----
+
+`forMagic`...FIXME
+
+NOTE: `forMagic` is used excusively when `Sender` is requested to <<kafka-Sender.adoc#sendProduceRequest, send a ProduceRequest>>.
+
+=== [[parse]] Creating ProduceRequest from Byte Buffer -- `parse` Factory Method
+
+[source, java]
+----
+ProduceRequest parse(ByteBuffer buffer, short version)
+----
+
+`parse`...FIXME
+
+NOTE: `parse` is used when...FIXME
