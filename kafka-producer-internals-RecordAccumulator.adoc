@@ -6,7 +6,7 @@
 
 * <<kafka-producer-ProducerConfig.adoc#batch.size, batch.size>> for the <<batchSize, batchSize>>
 
-* <<kafka-producer-ProducerConfig.adoc#linger.ms, linger.ms>> for the <<batchSize, batchSize>>
+* <<kafka-producer-ProducerConfig.adoc#linger.ms, linger.ms>> for the <<lingerMs, lingerMs>>
 
 * <<kafka-producer-ProducerConfig.adoc#retry.backoff.ms, retry.backoff.ms>> for the <<retryBackoffMs, retryBackoffMs>>
 
@@ -52,3 +52,21 @@ void close()
 `close`...FIXME
 
 NOTE: `close` is used when...FIXME
+
+=== [[append]] `append` Method
+
+[source, java]
+----
+RecordAppendResult append(
+  TopicPartition tp,
+  long timestamp,
+  byte[] key,
+  byte[] value,
+  Header[] headers,
+  Callback callback,
+  long maxTimeToBlock) throws InterruptedException
+----
+
+`append`...FIXME
+
+NOTE: `append` is used when...FIXME

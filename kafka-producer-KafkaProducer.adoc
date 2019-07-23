@@ -31,7 +31,7 @@ val metadataF: Future[RecordMetadata] = producer.send(r)
 
 `KafkaProducer` uses the <<kafka-producer-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>> configuration property to define <<interceptors, ProducerInterceptors>> that are notified (about successes and failures) every time `KafkaProducer` is requested to <<send, send a record to a topic>>.
 
-`KafkaProducer` uses the <<kafka-producer-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property to define the <<partitioner, Partitioner>> that is used (to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>>) when `KafkaProducer` is requested to <<partition, partition>> (when requested to <<doSend, send a record to topic asynchronously>>).
+`KafkaProducer` uses the <<kafka-producer-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property to define the <<partitioner, Partitioner>> that is used (to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>>) when `KafkaProducer` is requested to <<partition, partition>> (when requested to <<doSend, send a ProducerRecord to a Kafka cluster asynchronously>>).
 
 Internally, `KafkaProducer` uses the <<sender, Kafka producer I/O thread>> that is responsible for sending produce requests to a Kafka cluster (on <<ioThread, kafka-producer-network-thread>> daemon thread of execution). The thread is started right when `KafkaProducer` is <<creating-instance, created>>.
 
@@ -68,11 +68,11 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 
 | buffer-exhausted-records
 | INFO
-| [[buffer-exhausted-records]] Recorded when `KafkaProducer` is requested to <<doSend, doSend>> and `BufferExhaustedException` is reported.
+| [[buffer-exhausted-records]] Recorded when `KafkaProducer` is requested to <<doSend, send a ProducerRecord to a Kafka cluster asynchronously>> and `BufferExhaustedException` is reported.
 
 | errors
 |
-| [[errors]] Recorded when `KafkaProducer` is requested to <<doSend, doSend>> and there were exceptions reported (e.g. `ApiException`, `InterruptedException`, `BufferExhaustedException` and `KafkaException`)
+| [[errors]] Recorded when `KafkaProducer` is requested to <<doSend, send a ProducerRecord to a Kafka cluster asynchronously>> and there were exceptions reported (e.g. `ApiException`, `InterruptedException`, `BufferExhaustedException` and `KafkaException`)
 
 | produce-throttle-time-avg
 |
@@ -99,9 +99,9 @@ NOTE: `send` is a part of <<kafka-producer-Producer.adoc#send, Producer Contract
 
 `send` requests the <<interceptors, ProducerInterceptors>> to <<kafka-producer-internals-ProducerInterceptors.adoc#onSend, pass the ProducerRecord through a chain of registered producer interceptors>>.
 
-In the end, `send` <<doSend, doSend>> (with the intercepted <<kafka-producer-ProducerRecord.adoc#, ProducerRecord>> and the <<kafka-producer-Callback.adoc#, Callback>>).
+In the end, `send` <<doSend, sends a ProducerRecord to a Kafka cluster asynchronously>> (with the intercepted <<kafka-producer-ProducerRecord.adoc#, ProducerRecord>> and the <<kafka-producer-Callback.adoc#, Callback>>).
 
-==== [[doSend]] Asynchronously Sending Record to Topic -- `doSend` Internal Method
+==== [[doSend]] `doSend` Internal Method
 
 [source, java]
 ----
@@ -112,7 +112,11 @@ Future<RecordMetadata> doSend(
 
 `doSend`...FIXME
 
-NOTE: `doSend` is used exclusively when `KafkaProducer` is requested to <<send, asynchronously send a record to a topic and notifies producer interceptors>>.
+`doSend` requests the <<accumulator, RecordAccumulator>> to <<kafka-producer-internals-RecordAccumulator.adoc#append, append the serialized key and value>>.
+
+`doSend`...FIXME
+
+NOTE: `doSend` is used exclusively when `KafkaProducer` is requested to <<send, send a ProducerRecord to a Kafka cluster asynchronously with producer interceptors>>.
 
 === [[configureClusterResourceListeners]] Configuring ClusterResourceListeners -- `configureClusterResourceListeners` Internal Method
 
@@ -190,7 +194,7 @@ Failed to update metadata after [maxWaitMs] ms.
 Invalid partition given with record: [partition] is not in the range [0...[partitionsCount]).
 ```
 
-NOTE: `waitOnMetadata` is used when `KafkaProducer` is requested for <<partitionsFor, the partitions of a topic>> and <<doSend, asynchronously sending a record to a topic>>.
+NOTE: `waitOnMetadata` is used when `KafkaProducer` is requested for the <<partitionsFor, partitions of a topic>> and to <<doSend, send a ProducerRecord to a Kafka cluster asynchronously>>.
 
 === [[creating-instance]] Creating KafkaProducer Instance
 
@@ -337,9 +341,9 @@ int partition(
   Cluster cluster)
 ----
 
-`partition`...FIXME
+`partition` requests the `ProducerRecord` for the <<kafka-producer-ProducerRecord.adoc#partition, partition>> and return it when specified. Otherwise, `partition` requests the <<partitioner, Partitioner>> for the <<kafka-producer-Partitioner.adoc#partition, partition>>.
 
-NOTE: `partition` is used exclusively when `KafkaProducer` is requested to <<doSend, send a record to topic asynchronously>>.
+NOTE: `partition` is used exclusively when `KafkaProducer` is requested to <<doSend, send a ProducerRecord to a Kafka cluster asynchronously>>.
 
 === [[beginTransaction]] `beginTransaction` Method
 
@@ -460,7 +464,7 @@ a| [[accumulator]] <<kafka-producer-internals-RecordAccumulator.adoc#, RecordAcc
 
 Used when:
 
-* <<doSend, doSend>>
+* <<doSend, Sending a ProducerRecord to a Kafka cluster asynchronously>>
 
 * <<newSender, Creating a new Sender>>
 
@@ -502,7 +506,7 @@ a| [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
 * Used in <<waitOnMetadata, waitOnMetadata>>
 
 | partitioner
-a| [[partitioner]] <<kafka-producer-Partitioner.adoc#, Partitioner>> that is used (to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>>) when `KafkaProducer` is requested to <<partition, partition>> (when requested to <<doSend, send a record to topic asynchronously>>)
+a| [[partitioner]] <<kafka-producer-Partitioner.adoc#, Partitioner>> that is used (to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>>) when `KafkaProducer` is requested to <<partition, partition>> (when requested to <<doSend, send a ProducerRecord to a Kafka cluster asynchronously>>)
 
 The `Partitioner` is initialized when the `KafkaProducer` is <<creating-instance, created>> using <<kafka-producer-ProducerConfig.adoc#PARTITIONER_CLASS_CONFIG, ProducerConfig.PARTITIONER_CLASS_CONFIG>> configuration property.
 
@@ -524,6 +528,6 @@ Used when:
 
 * For transactional public methods: <<initTransactions, initTransactions>>, <<beginTransaction, beginTransaction>>, <<sendOffsetsToTransaction, sendOffsetsToTransaction>>, <<commitTransaction, commitTransaction>>, <<abortTransaction, abortTransaction>>
 
-* <<doSend, doSend>>
+* <<doSend, Sending a ProducerRecord to a Kafka cluster asynchronously>>
 
 |===

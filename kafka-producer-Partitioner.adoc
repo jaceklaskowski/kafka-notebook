@@ -38,7 +38,8 @@ int partition(
   Cluster cluster)
 ----
 
-Computes the partition for a record
+Computes the partition ID for a record (described by a topic, a key, a value, the serialized key and value, and the <<kafka-common-Cluster.adoc#, Cluster metadata>>)
 
-Used exclusively when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#partition, compute the partition for a ProducerRecord>>
+Used when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#partition, compute the partition for a ProducerRecord>>
+
 |===
