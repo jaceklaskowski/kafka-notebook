@@ -23,8 +23,10 @@ val producer = new KafkaProducer[String, String](props)
 import org.apache.kafka.clients.producer.ProducerRecord
 val r = new ProducerRecord[String, String]("0", "this is a message")
 
-// Sending the record
-producer.send(r)
+// Sending the record (with no Callback)
+import java.util.concurrent.Future
+import org.apache.kafka.clients.producer.RecordMetadata
+val metadataF: Future[RecordMetadata] = producer.send(r)
 ----
 
 `KafkaProducer` uses the <<kafka-producer-ProducerConfig.adoc#INTERCEPTOR_CLASSES_CONFIG, ProducerConfig.INTERCEPTOR_CLASSES_CONFIG>> configuration property to define <<interceptors, ProducerInterceptors>> that are notified (about successes and failures) every time `KafkaProducer` is requested to <<send, send a record to a topic>>.
@@ -81,20 +83,25 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 | [[produce-throttle-time-max]] Recorded when `NetworkClient` is requested to <<kafka-clients-NetworkClient.adoc#parseStructMaybeUpdateThrottleTimeMetrics, parseStructMaybeUpdateThrottleTimeMetrics>> (and a request was throttled due to quota violation)
 |===
 
-=== [[send]] (Asynchronously) Sending Record to Topic and Notifying Producer Interceptors -- `send` Method
+=== [[send]] Sending ProducerRecord to Kafka Cluster Asynchronously With Producer Interceptors -- `send` Method
 
 [source, java]
 ----
 Future<RecordMetadata> send(
+  ProducerRecord<K, V> record) // <1>
+Future<RecordMetadata> send(
   ProducerRecord<K, V> record,
   Callback callback)
 ----
+<1> Uses no callback (`null`)
 
-NOTE: `send` is a part of link:kafka-producer-Producer.adoc#send[Producer Contract].
+NOTE: `send` is a part of <<kafka-producer-Producer.adoc#send, Producer Contract>> to send a <<kafka-ProducerRecord.adoc#, ProducerRecord>> to a Kafka cluster asynchronously.
 
-`send`...FIXME
+`send` requests the <<interceptors, ProducerInterceptors>> to <<kafka-producer-internals-ProducerInterceptors.adoc#onSend, pass the ProducerRecord through a chain of registered producer interceptors>>.
 
-=== [[doSend]] Asynchronously Sending Record to Topic -- `doSend` Internal Method
+In the end, `send` <<doSend, doSend>> (with the intercepted <<kafka-ProducerRecord.adoc#, ProducerRecord>> and the <<kafka-producer-Callback.adoc#, Callback>>).
+
+==== [[doSend]] Asynchronously Sending Record to Topic -- `doSend` Internal Method
 
 [source, java]
 ----

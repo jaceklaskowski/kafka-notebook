@@ -218,6 +218,7 @@
 . link:kafka-producer-KafkaProducer.adoc[KafkaProducer]
 .. link:kafka-producer-internals-Sender.adoc[Sender -- Kafka Producer I/O Thread]
 .. link:kafka-producer-internals-RecordAccumulator.adoc[RecordAccumulator]
+.. link:kafka-producer-internals-ProducerInterceptors.adoc[ProducerInterceptors]
 
 . link:kafka-producer-internals-TransactionManager.adoc[TransactionManager]
 

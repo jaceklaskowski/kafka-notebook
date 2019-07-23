@@ -1,0 +1,14 @@
+== [[ProducerInterceptors]] ProducerInterceptors
+
+`ProducerInterceptors` is...FIXME
+
+=== [[onSend]] Passing ProducerRecord Through Chain Of Registered Producer Interceptors -- `onSend` Method
+
+[source, java]
+----
+ProducerRecord<K, V> onSend(ProducerRecord<K, V> record)
+----
+
+`onSend`...FIXME
+
+NOTE: `onSend` is used when...FIXME
