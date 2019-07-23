@@ -75,7 +75,7 @@ List<PartitionInfo> partitionsForTopic(String topic)
 * `KafkaAdminClient` link:kafka-KafkaAdminClient.adoc#describeTopics[describeTopics]
 * `KafkaConsumer` link:kafka-consumer-KafkaConsumer.adoc#partitionsFor[partitionsFor]
 * `KafkaProducer` link:kafka-producer-KafkaProducer.adoc#partitionsFor[requests partitions for a topic]
-* `DefaultPartitioner` link:kafka-producer-DefaultPartitioner.adoc#partition[assigns the partition for a record]
+* `DefaultPartitioner` link:kafka-producer-internals-DefaultPartitioner.adoc#partition[assigns the partition for a record]
 ====
 
 === [[availablePartitionsForTopic]] `availablePartitionsForTopic` Method

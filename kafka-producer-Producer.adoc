@@ -110,7 +110,7 @@ Future<RecordMetadata> send(
   Callback callback)
 ----
 
-Sending a <<kafka-ProducerRecord.adoc#, ProducerRecord>> to a Kafka cluster asynchronously
+Sending a <<kafka-producer-ProducerRecord.adoc#, ProducerRecord>> to a Kafka cluster asynchronously
 
 Used when...FIXME
 

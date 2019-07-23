@@ -5,7 +5,7 @@
 `Partitioner` is also a <<kafka-common-Configurable.adoc#, Configurable>> that can be created by reflection and need to take configuration parameters.
 
 [[implementations]]
-NOTE: <<kafka-producer-DefaultPartitioner.adoc#, DefaultPartitioner>> is the one and only known implementation of the <<contract, Partitioner Contract>> in Apache Kafka.
+NOTE: <<kafka-producer-internals-DefaultPartitioner.adoc#, DefaultPartitioner>> is the one and only known implementation of the <<contract, Partitioner Contract>> in Apache Kafka.
 
 [[contract]]
 .Partitioner Contract

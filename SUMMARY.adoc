@@ -3,6 +3,29 @@
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
 
+=== Kafka Clients / Producer API
+
+. link:kafka-producer-KafkaProducer.adoc[KafkaProducer]
+.. link:kafka-producer-Producer.adoc[Producer]
+
+. link:kafka-producer-ProducerConfig.adoc[ProducerConfig]
+
+. link:kafka-producer-ProducerRecord.adoc[ProducerRecord]
+. link:kafka-producer-Callback.adoc[Callback]
+
+. link:kafka-producer-Partitioner.adoc[Partitioner]
+
+. link:kafka-producer-ProducerInterceptor.adoc[ProducerInterceptor]
+
+==== Internals of Kafka Producer
+
+. link:kafka-producer-internals-Sender.adoc[Sender -- Kafka Producer I/O Thread]
+. link:kafka-producer-internals-RecordAccumulator.adoc[RecordAccumulator]
+. link:kafka-producer-internals-ProducerInterceptors.adoc[ProducerInterceptors]
+. link:kafka-producer-internals-DefaultPartitioner.adoc[DefaultPartitioner]
+
+. link:kafka-producer-internals-TransactionManager.adoc[TransactionManager]
+
 === Kafka Broker Services
 
 . link:kafka-server-KafkaServer.adoc[KafkaServer -- Kafka Broker]
@@ -200,27 +223,6 @@
 .. link:kafka-consumer-internals-JoinGroupResponseHandler.adoc[JoinGroupResponseHandler]
 .. link:kafka-consumer-internals-OffsetCommitResponseHandler.adoc[OffsetCommitResponseHandler]
 .. link:kafka-consumer-internals-SyncGroupResponseHandler.adoc[SyncGroupResponseHandler]
-
-=== Kafka Clients / Producer API
-
-. link:kafka-producer-Producer.adoc[Producer]
-
-. link:kafka-ProducerRecord.adoc[ProducerRecord]
-. link:kafka-producer-Callback.adoc[Callback]
-
-. link:kafka-producer-ProducerConfig.adoc[ProducerConfig]
-
-. link:kafka-producer-Partitioner.adoc[Partitioner]
-.. link:kafka-producer-DefaultPartitioner.adoc[DefaultPartitioner]
-
-. link:kafka-ProducerInterceptor.adoc[ProducerInterceptor]
-
-. link:kafka-producer-KafkaProducer.adoc[KafkaProducer]
-.. link:kafka-producer-internals-Sender.adoc[Sender -- Kafka Producer I/O Thread]
-.. link:kafka-producer-internals-RecordAccumulator.adoc[RecordAccumulator]
-.. link:kafka-producer-internals-ProducerInterceptors.adoc[ProducerInterceptors]
-
-. link:kafka-producer-internals-TransactionManager.adoc[TransactionManager]
 
 === Kafka Architecture
 

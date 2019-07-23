@@ -131,7 +131,7 @@ If these values are not explicitly set, suitable values will be chosen. If incom
 Default: (empty)
 
 Property: `interceptor.classes`
-a| [[interceptor.classes]][[INTERCEPTOR_CLASSES_CONFIG]] <<kafka-ProducerInterceptor.adoc#, ProducerInterceptors>> to use to intercept (and possibly mutate) the records sent out by the producer before they are published to the Kafka cluster.
+a| [[interceptor.classes]][[INTERCEPTOR_CLASSES_CONFIG]] <<kafka-producer-ProducerInterceptor.adoc#, ProducerInterceptors>> to use to intercept (and possibly mutate) the records sent out by the producer before they are published to the Kafka cluster.
 
 | KEY_SERIALIZER_CLASS_CONFIG
 
@@ -239,7 +239,7 @@ a| [[metrics.sample.window.ms]][[METRICS_SAMPLE_WINDOW_MS_CONFIG]] The window of
 
 | PARTITIONER_CLASS_CONFIG
 
-Default: <<kafka-producer-DefaultPartitioner.adoc#, DefaultPartitioner>>
+Default: <<kafka-producer-internals-DefaultPartitioner.adoc#, DefaultPartitioner>>
 
 Property: `partitioner.class`
 a| [[partitioner.class]][[PARTITIONER_CLASS_CONFIG]] The <<kafka-producer-Partitioner.adoc#, Partitioner>> to <<kafka-producer-Partitioner.adoc#partition, compute the partition for a record>> when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#send, send a record to topic>>.
