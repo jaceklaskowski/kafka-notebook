@@ -178,7 +178,7 @@ void handleProduceResponse(
 
 `handleProduceResponse`...FIXME
 
-NOTE: `handleProduceResponse` is used exclusively when `Sender` is requested to <<sendProduceRequest, sendProduceRequest>>.
+NOTE: `handleProduceResponse` is used exclusively when `Sender` is requested to <<sendProduceRequest, send a ProduceRequest>>.
 
 === [[awaitLeastLoadedNodeReady]] `awaitLeastLoadedNodeReady` Internal Method
 
@@ -239,6 +239,35 @@ void forceClose()
 `forceClose`...FIXME
 
 NOTE: `forceClose` is used exclusively when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#close, close>>.
+
+=== [[reenqueueBatch]] `reenqueueBatch` Internal Method
+
+[source, java]
+----
+void reenqueueBatch(
+  ProducerBatch batch,
+  long currentTimeMs)
+----
+
+`reenqueueBatch`...FIXME
+
+NOTE: `reenqueueBatch` is used when...FIXME
+
+=== [[completeBatch]] `completeBatch` Internal Method
+
+[source, java]
+----
+void completeBatch(
+  ProducerBatch batch,
+  ProduceResponse.PartitionResponse response,
+  long correlationId,
+  long now,
+  long throttleUntilTimeMs)
+----
+
+`completeBatch`...FIXME
+
+NOTE: `completeBatch` is used exclusively when `Sender` is requested to <<handleProduceResponse, handle a ProduceResponse>>.
 
 === [[internal-properties]] Internal Properties
 

@@ -101,7 +101,7 @@ NOTE: `send` is a part of <<kafka-producer-Producer.adoc#send, Producer Contract
 
 In the end, `send` <<doSend, sends a ProducerRecord to a Kafka cluster asynchronously>> (with the intercepted <<kafka-producer-ProducerRecord.adoc#, ProducerRecord>> and the <<kafka-producer-Callback.adoc#, Callback>>).
 
-==== [[doSend]] `doSend` Internal Method
+==== [[doSend]] Sending ProducerRecord to Kafka Cluster Asynchronously -- `doSend` Internal Method
 
 [source, java]
 ----

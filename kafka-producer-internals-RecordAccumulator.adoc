@@ -69,4 +69,89 @@ RecordAppendResult append(
 
 `append`...FIXME
 
-NOTE: `append` is used when...FIXME
+`append` <<tryAppend, tryAppend>>.
+
+`append`...FIXME
+
+NOTE: `append` is used exclusively when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#doSend, send a ProducerRecord to a Kafka Cluster asynchronously>>.
+
+==== [[tryAppend]] `tryAppend` Internal Method
+
+[source, java]
+----
+RecordAppendResult tryAppend(
+  long timestamp,
+  byte[] key,
+  byte[] value,
+  Header[] headers,
+  Callback callback,
+  Deque<ProducerBatch> deque)
+----
+
+`tryAppend`...FIXME
+
+NOTE: `tryAppend` is used exclusively when `RecordAccumulator` is requested to <<append, append>>.
+
+=== [[abortIncompleteBatches]] Aborting Incomplete Batches -- `abortIncompleteBatches` Method
+
+[source, java]
+----
+void abortIncompleteBatches()
+----
+
+`abortIncompleteBatches`...FIXME
+
+NOTE: `abortIncompleteBatches` is used exclusively when `Sender` is requested to <<kafka-producer-internals-Sender.adoc#run, run>> (and forced to close while shutting down).
+
+=== [[reenqueue]] `reenqueue` Method
+
+[source, java]
+----
+void reenqueue(
+  ProducerBatch batch,
+  long now)
+----
+
+`reenqueue`...FIXME
+
+NOTE: `reenqueue` is used exclusively when `Sender` is requested to <<kafka-producer-internals-Sender.adoc#reenqueueBatch, reenqueueBatch>>.
+
+=== [[splitAndReenqueue]] `splitAndReenqueue` Method
+
+[source, java]
+----
+int splitAndReenqueue(ProducerBatch bigBatch)
+----
+
+`splitAndReenqueue`...FIXME
+
+NOTE: `splitAndReenqueue` is used exclusively when `Sender` is requested to <<kafka-producer-internals-Sender.adoc#completeBatch, completeBatch>>.
+
+=== [[getOrCreateDeque]] Looking Up Or Creating New Deque For TopicPartition -- `getOrCreateDeque` Internal Method
+
+[source, java]
+----
+Deque<ProducerBatch> getOrCreateDeque(TopicPartition tp)
+----
+
+`getOrCreateDeque`...FIXME
+
+NOTE: `getOrCreateDeque` is used when `RecordAccumulator` is requested to <<append, append>>, <<reenqueue, reenqueue>>, and <<splitAndReenqueue, splitAndReenqueue>>.
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| appendsInProgress
+a| [[appendsInProgress]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html[java.util.concurrent.atomic.AtomicInteger] to keep track of the number of <<append, appending threads>>
+
+* Starts at `0` when `RecordAccumulator` is <<creating-instance, created>>
+
+* Increments and decrements when `RecordAccumulator` is requested to <<append, append>> (just after it is requested and right before it finishes)
+
+Used exclusively when `RecordAccumulator` is requested to <<abortIncompleteBatches, abort incomplete batches>>
+
+|===
