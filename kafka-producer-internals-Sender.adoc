@@ -23,6 +23,20 @@ Every <<runOnce, runOnce>>, `Sender` takes (_drains_) up to <<kafka-producer-Pro
 
 * <<kafka-producer-ProducerConfig.adoc#retry.backoff.ms, retry.backoff.ms>> for the <<retryBackoffMs, retryBackoffMs>>
 
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `org.apache.kafka.clients.producer.internals.Sender` logger to see what happens inside.
+
+Add the following line to `config/tools-log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.producer.internals.Sender=ALL
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
+
 === [[creating-instance]] Creating Sender Instance
 
 `Sender` takes the following to be created:
@@ -126,7 +140,7 @@ void sendProduceRequests(
 
 NOTE: `sendProduceRequests` is used exclusively when `Sender` is requested to <<sendProducerData, sendProducerData>>.
 
-==== [[sendProduceRequest]] Sending ProduceRequest -- `sendProduceRequest` Internal Method
+==== [[sendProduceRequest]] Sending ProduceRequest to Broker -- `sendProduceRequest` Internal Method
 
 [source, java]
 ----
@@ -139,6 +153,22 @@ void sendProduceRequest(
 ----
 
 `sendProduceRequest`...FIXME
+
+`sendProduceRequest` requests the `ProduceRequest.Builder` to <<kafka-common-requests-ProduceRequest.adoc#forMagic, create a ProduceRequest.Builder instance (for a given magic number)>>.
+
+`sendProduceRequest` creates a new <<kafka-clients-RequestCompletionHandler.adoc#, RequestCompletionHandler>> that <<handleProduceResponse, handleProduceResponse>> when a <<kafka-clients-RequestCompletionHandler.adoc#onComplete, request is complete>>.
+
+`sendProduceRequest` requests the <<client, KafkaClient>> to <<kafka-clients-KafkaClient.adoc#newClientRequest, create a new ClientRequest>> (for the <<kafka-common-requests-ProduceRequest.adoc#ProduceRequest.Builder, ProduceRequest.Builder>> and <<kafka-clients-RequestCompletionHandler.adoc#, RequestCompletionHandler>>).
+
+NOTE: `sendProduceRequest` creates a new <<kafka-clients-ClientRequest.adoc#, ClientRequest>> with the `expectResponse` flag on when `acks` argument is non-``0``.
+
+`sendProduceRequest` requests the <<client, KafkaClient>> to <<kafka-clients-KafkaClient.adoc#send, send the ClientRequest>>.
+
+In the end, `sendProduceRequest` prints out the following TRACE message to the logs:
+
+```
+Sent produce request to [nodeId]: [requestBuilder]
+```
 
 NOTE: `sendProduceRequest` is used exclusively when `Sender` is requested to <<sendProduceRequests, sendProduceRequests>>.
 

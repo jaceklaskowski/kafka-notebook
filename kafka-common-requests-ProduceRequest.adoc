@@ -30,7 +30,7 @@ ProduceRequest build(short version, boolean validate)
 
 `ProduceRequest.Builder` is used when...FIXME
 
-==== [[forMagic]] `forMagic` Factory Method
+==== [[forMagic]] Creating ProduceRequest.Builder Instance (For Given Magic Number) -- `forMagic` Factory Method
 
 [source, java]
 ----

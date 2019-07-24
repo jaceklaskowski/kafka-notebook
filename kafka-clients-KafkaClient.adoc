@@ -157,6 +157,8 @@ ClientRequest newClientRequest(
   RequestCompletionHandler callback)
 ----
 
+Creates a new <<kafka-clients-ClientRequest.adoc#, ClientRequest>> for a given <<kafka-common-requests-AbstractRequest-Builder.adoc#, AbstractRequest.Builder>> and <<kafka-clients-RequestCompletionHandler.adoc#, RequestCompletionHandler>>
+
 Used when...FIXME
 
 | poll

@@ -18,12 +18,12 @@
 [[logging]]
 [TIP]
 ====
-Enable `DEBUG` logging level for `kafka.admin.AdminClient` logger to see what happens inside.
+Enable `ALL` logging level for `kafka.admin.AdminClient` logger to see what happens inside.
 
 Add the following line to `config/tools-log4j.properties`:
 
 ```
-log4j.logger.kafka.admin.AdminClient=DEBUG
+log4j.logger.kafka.admin.AdminClient=ALL
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
