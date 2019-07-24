@@ -10,6 +10,20 @@
 
 * <<kafka-producer-ProducerConfig.adoc#retry.backoff.ms, retry.backoff.ms>> for the <<retryBackoffMs, retryBackoffMs>>
 
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `org.apache.kafka.clients.producer.internals.RecordAccumulator` logger to see what happens inside.
+
+Add the following line to `config/tools-log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.producer.internals.RecordAccumulator=ALL
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
+
 === [[creating-instance]] Creating RecordAccumulator Instance
 
 `RecordAccumulator` takes the following to be created:
@@ -69,9 +83,25 @@ RecordAppendResult append(
 
 `append` <<getOrCreateDeque, looks up or creates a new Deque of ProducerBatches for a given TopicPartition>>.
 
-`append` <<tryAppend, tryAppend>>.
+`append` <<tryAppend, tryAppend>> and returns the `RecordAppendResult` if available (not `null`).
 
-`append`...FIXME
+`append` prints out the following TRACE message to the logs:
+
+```
+Allocating a new [size] byte message buffer for topic [topic] partition [partition]
+```
+
+NOTE: The `size` in the above TRACE message is controlled by <<kafka-producer-ProducerConfig.adoc#batch.size, batch.size>> producer configuration property (default: `16384` which is `16 * 1024`).
+
+`append` once again <<tryAppend, tryAppend>> and returns the `RecordAppendResult` if available (which they say _"should not happen often"_).
+
+`append` <<recordsBuilder, creates a new MemoryRecordsBuilder>> and a new <<kafka-producer-internals-ProducerBatch.adoc#, ProducerBatch>> (for the given `TopicPartition` and the new `MemoryRecordsBuilder`).
+
+`append` requests the `ProducerBatch` to <<kafka-producer-internals-ProducerBatch.adoc#tryAppend, tryAppend>> (that gives a `FutureRecordMetadata`).
+
+`append` adds the `ProducerBatch` to the `Deque<ProducerBatch>` and the <<incomplete, IncompleteBatches>> internal registry.
+
+In the end, `append` creates a new `RecordAppendResult` (with the `FutureRecordMetadata`).
 
 NOTE: `append` is used exclusively when `KafkaProducer` is requested to <<kafka-producer-KafkaProducer.adoc#doSend, send a ProducerRecord to a Kafka Cluster asynchronously>>.
 
@@ -91,6 +121,25 @@ RecordAppendResult tryAppend(
 `tryAppend`...FIXME
 
 NOTE: `tryAppend` is used exclusively when `RecordAccumulator` is requested to <<append, append>>.
+
+==== [[recordsBuilder]] Creating MemoryRecordsBuilder Instance (With TimestampType.CREATE_TIME) -- `recordsBuilder` Internal Method
+
+[source, java]
+----
+MemoryRecordsBuilder recordsBuilder(
+  ByteBuffer buffer,
+  byte maxUsableMagic)
+----
+
+`recordsBuilder` simply builds a new <<kafka-common-record-MemoryRecordsBuilder.adoc#, MemoryRecordsBuilder>> (with `TimestampType.CREATE_TIME`).
+
+`recordsBuilder` throws an `UnsupportedVersionException` when the <<transactionManager, TransactionManager>> is defined and the `maxUsableMagic` magic number is lower than `2`:
+
+```
+Attempting to use idempotence with a broker which does not support the required message format (v2). The broker must be version 0.11 or later.
+```
+
+NOTE: `recordsBuilder` is used exclusively when `RecordAccumulator` is requested to <<append, append>>.
 
 === [[abortIncompleteBatches]] Aborting Incomplete Batches -- `abortIncompleteBatches` Method
 
@@ -210,5 +259,8 @@ Used exclusively when `RecordAccumulator` is requested to <<abortIncompleteBatch
 
 | batches
 a| [[batches]] <<kafka-producer-internals-ProducerBatch.adoc#, ProducerBatches>> per `TopicPartition` (`ConcurrentMap<TopicPartition, Deque<ProducerBatch>>`)
+
+| incomplete
+a| [[incomplete]] `IncompleteBatches`
 
 |===

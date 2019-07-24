@@ -8,12 +8,26 @@
 
 * `ProducerBatch` is requested to <<split, split>>
 
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `org.apache.kafka.clients.producer.internals.ProducerBatch` logger to see what happens inside.
+
+Add the following line to `config/tools-log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.producer.internals.ProducerBatch=ALL
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
+
 === [[creating-instance]] Creating ProducerBatch Instance
 
 `ProducerBatch` takes the following to be created:
 
 * [[tp]] `TopicPartition`
-* [[recordsBuilder]] `MemoryRecordsBuilder`
+* [[recordsBuilder]] <<kafka-common-record-MemoryRecordsBuilder.adoc#, MemoryRecordsBuilder>>
 * [[createdMs]] `createdMs`
 * [[isSplitBatch]] `isSplitBatch` flag (default: `false`)
 

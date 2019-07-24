@@ -304,6 +304,8 @@
 . link:kafka-common-Configurable.adoc[Configurable Contract]
 . link:kafka-common-Reconfigurable.adoc[Reconfigurable]
 
+. link:kafka-common-record-MemoryRecordsBuilder.adoc[MemoryRecordsBuilder]
+
 === Kafka Common / Requests
 
 . link:kafka-common-requests-AbstractRequestResponse.adoc[AbstractRequestResponse Contract]
