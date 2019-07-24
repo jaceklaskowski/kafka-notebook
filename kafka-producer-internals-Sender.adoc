@@ -7,7 +7,7 @@ image::images/Sender.png[align="center"]
 
 `Sender` is <<creating-instance, created>> exclusively when `KafkaProducer` is <<kafka-producer-KafkaProducer.adoc#sender, created>> and immediatelly <<run, started>> under the name **kafka-producer-network-thread | [clientId]** (as a <<kafka-producer-KafkaProducer.adoc#ioThread, daemon thread>>).
 
-Every <<runOnce, runOnce>>, `Sender` takes (_drains_) up to <<kafka-producer-ProducerConfig.adoc#max.request.size, max.request.size>> messages from the <<accumulator, record accumulator>> (that batches records) and eventually <<sendProduceRequests, sendProduceRequests>> to every active Kafka broker for which there is at least one `ProducerBatch`.
+Every <<runOnce, runOnce>>, `Sender` takes (_drains_) up to <<kafka-producer-ProducerConfig.adoc#max.request.size, max.request.size>> messages from the <<accumulator, record accumulator>> (that batches records) and eventually <<sendProduceRequests, sendProduceRequests>> to every active Kafka broker for which there is at least one <<kafka-producer-internals-ProducerBatch.adoc#, ProducerBatch>>.
 
 `KafkaProducer` uses the following configuration properties to create a `Sender`:
 
@@ -95,7 +95,21 @@ NOTE: `run` is used exclusively when `Sender` is requested to <<run, run>> (as a
 long sendProducerData(long now)
 ----
 
+`sendProducerData` requests the <<metadata, ProducerMetadata>> to <<kafka-clients-Metadata.adoc#fetch, get the current cluster metadata (without blocking)>>.
+
+`sendProducerData` requests the <<accumulator, RecordAccumulator>> to <<kafka-producer-internals-RecordAccumulator.adoc#ready, get the current cluster metadata (without blocking)>>.
+
+`sendProducerData` requests the <<accumulator, RecordAccumulator>> to <<kafka-producer-internals-RecordAccumulator.adoc#drain, drain (create ProducerBatches per TopicPartition for ready brokers)>>.
+
+`sendProducerData` <<addToInflightBatches, adds the batches to inflight batches>>.
+
+`sendProducerData`...FIXME (`guaranteeMessageOrder`)
+
+`sendProducerData` requests the <<sensors, SenderMetrics>> to <<kafka-SenderMetrics.adoc#updateProduceRequestMetrics, updateProduceRequestMetrics>>.
+
 `sendProducerData`...FIXME
+
+In the end, `sendProducerData` <<sendProduceRequests, sendProduceRequests>> (for the batches).
 
 NOTE: `sendProducerData` is used exclusively when `Sender` is requested to <<runOnce, run a single iteration of sending>>.
 
@@ -108,7 +122,7 @@ void sendProduceRequests(
   long now)
 ----
 
-`sendProduceRequests` simply goes over the given `collated` collection and <<sendProduceRequest, sendProduceRequest>> for every pair (`(Integer, List<ProducerBatch>)`).
+`sendProduceRequests` simply goes over the given `collated` collection (of <<kafka-producer-internals-ProducerBatch.adoc#, ProducerBatches>> per partition ID) and <<sendProduceRequest, sendProduceRequest>> for every pair.
 
 NOTE: `sendProduceRequests` is used exclusively when `Sender` is requested to <<sendProducerData, sendProducerData>>.
 
@@ -127,6 +141,47 @@ void sendProduceRequest(
 `sendProduceRequest`...FIXME
 
 NOTE: `sendProduceRequest` is used exclusively when `Sender` is requested to <<sendProduceRequests, sendProduceRequests>>.
+
+==== [[handleProduceResponse]] Handling ProduceResponse -- `handleProduceResponse` Internal Method
+
+[source, java]
+----
+void handleProduceResponse(
+  ClientResponse response,
+  Map<TopicPartition, ProducerBatch> batches,
+  long now)
+----
+
+`handleProduceResponse`...FIXME
+
+NOTE: `handleProduceResponse` is used exclusively when `Sender` is requested to <<sendProduceRequest, send a ProduceRequest>>.
+
+==== [[completeBatch]] `completeBatch` Internal Method
+
+[source, java]
+----
+void completeBatch(
+  ProducerBatch batch,
+  ProduceResponse.PartitionResponse response,
+  long correlationId,
+  long now,
+  long throttleUntilTimeMs)
+----
+
+`completeBatch`...FIXME
+
+NOTE: `completeBatch` is used exclusively when `Sender` is requested to <<handleProduceResponse, handle a ProduceResponse>>.
+
+=== [[addToInflightBatches]] `addToInflightBatches` Method
+
+[source, java]
+----
+void addToInflightBatches(Map<Integer, List<ProducerBatch>> batches)
+----
+
+`addToInflightBatches`...FIXME
+
+NOTE: `addToInflightBatches` is used exclusively when `Sender` is requested to <<sendProducerData, sendProducerData>>.
 
 === [[maybeSendTransactionalRequest]] `maybeSendTransactionalRequest` Internal Method
 
@@ -149,36 +204,6 @@ void maybeWaitForProducerId()
 `maybeWaitForProducerId`...FIXME
 
 NOTE: `maybeWaitForProducerId` is used exclusively when `Sender` is <<run, running>>.
-
-=== [[completeBatch]] `completeBatch` Internal Method
-
-[source, java]
-----
-void completeBatch(
-  ProducerBatch batch,
-  ProduceResponse.PartitionResponse response,
-  long correlationId,
-  long now,
-  long throttleUntilTimeMs)
-----
-
-`completeBatch`...FIXME
-
-NOTE: `completeBatch` is used exclusively when `Sender` is requested to <<handleProduceResponse, handle a ProduceResponse>>.
-
-=== [[handleProduceResponse]] Handling ProduceResponse -- `handleProduceResponse` Internal Method
-
-[source, java]
-----
-void handleProduceResponse(
-  ClientResponse response,
-  Map<TopicPartition, ProducerBatch> batches,
-  long now)
-----
-
-`handleProduceResponse`...FIXME
-
-NOTE: `handleProduceResponse` is used exclusively when `Sender` is requested to <<sendProduceRequest, send a ProduceRequest>>.
 
 === [[awaitLeastLoadedNodeReady]] `awaitLeastLoadedNodeReady` Internal Method
 
@@ -252,22 +277,6 @@ void reenqueueBatch(
 `reenqueueBatch`...FIXME
 
 NOTE: `reenqueueBatch` is used when...FIXME
-
-=== [[completeBatch]] `completeBatch` Internal Method
-
-[source, java]
-----
-void completeBatch(
-  ProducerBatch batch,
-  ProduceResponse.PartitionResponse response,
-  long correlationId,
-  long now,
-  long throttleUntilTimeMs)
-----
-
-`completeBatch`...FIXME
-
-NOTE: `completeBatch` is used exclusively when `Sender` is requested to <<handleProduceResponse, handle a ProduceResponse>>.
 
 === [[internal-properties]] Internal Properties
 

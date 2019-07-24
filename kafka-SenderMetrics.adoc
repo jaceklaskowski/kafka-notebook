@@ -1,3 +1,14 @@
 == [[SenderMetrics]] SenderMetrics
 
 `SenderMetrics` is...FIXME
+
+=== [[updateProduceRequestMetrics]] `updateProduceRequestMetrics` Method
+
+[source, java]
+----
+void updateProduceRequestMetrics(Map<Integer, List<ProducerBatch>> batches)
+----
+
+`updateProduceRequestMetrics`...FIXME
+
+NOTE: `updateProduceRequestMetrics` is used exclusively when `Sender` is <<kafka-producer-internals-Sender.adoc#sendProducerData, sendProducerData>>.

@@ -67,7 +67,7 @@ RecordAppendResult append(
   long maxTimeToBlock) throws InterruptedException
 ----
 
-`append`...FIXME
+`append` <<getOrCreateDeque, looks up or creates a new Deque of ProducerBatches for a given TopicPartition>>.
 
 `append` <<tryAppend, tryAppend>>.
 
@@ -127,7 +127,7 @@ int splitAndReenqueue(ProducerBatch bigBatch)
 
 NOTE: `splitAndReenqueue` is used exclusively when `Sender` is requested to <<kafka-producer-internals-Sender.adoc#completeBatch, completeBatch>>.
 
-=== [[getOrCreateDeque]] Looking Up Or Creating New Deque For TopicPartition -- `getOrCreateDeque` Internal Method
+=== [[getOrCreateDeque]] Looking Up Or Creating New Deque Of ProducerBatches For TopicPartition -- `getOrCreateDeque` Internal Method
 
 [source, java]
 ----
@@ -137,6 +137,60 @@ Deque<ProducerBatch> getOrCreateDeque(TopicPartition tp)
 `getOrCreateDeque`...FIXME
 
 NOTE: `getOrCreateDeque` is used when `RecordAccumulator` is requested to <<append, append>>, <<reenqueue, reenqueue>>, and <<splitAndReenqueue, splitAndReenqueue>>.
+
+=== [[expiredBatches]] `expiredBatches` Method
+
+[source, java]
+----
+List<ProducerBatch> expiredBatches(long now)
+----
+
+`expiredBatches`...FIXME
+
+NOTE: `expiredBatches` is used exclusively when `Sender` is requested to <<kafka-producer-internals-Sender.adoc#sendProducerData, sendProducerData>>.
+
+=== [[ready]] `ready` Method
+
+[source, java]
+----
+ReadyCheckResult ready(
+  Cluster cluster,
+  long nowMs)
+----
+
+`ready`...FIXME
+
+NOTE: `ready` is used exclusively when `Sender` is requested to <<kafka-producer-internals-Sender.adoc#sendProducerData, sendProducerData>> (when requested to <<kafka-producer-internals-Sender.adoc#runOnce, run a single iteration of sending>>).
+
+=== [[drain]] `drain` Method
+
+[source, java]
+----
+Map<Integer, List<ProducerBatch>> drain(
+  Cluster cluster,
+  Set<Node> nodes,
+  int maxSize,
+  long now)
+----
+
+`drain`...FIXME
+
+NOTE: `drain` is used exclusively when `Sender` is requested to <<kafka-producer-internals-Sender.adoc#sendProducerData, sendProducerData>> (when requested to <<kafka-producer-internals-Sender.adoc#runOnce, run a single iteration of sending>>).
+
+==== [[drainBatchesForOneNode]] `drainBatchesForOneNode` Internal Method
+
+[source, java]
+----
+List<ProducerBatch> drainBatchesForOneNode(
+  Cluster cluster,
+  Node node,
+  int maxSize,
+  long now)
+----
+
+`drainBatchesForOneNode`...FIXME
+
+NOTE: `drainBatchesForOneNode` is used exclusively when `RecordAccumulator` is requested to <<drain, drain>>.
 
 === [[internal-properties]] Internal Properties
 
@@ -153,5 +207,8 @@ a| [[appendsInProgress]] https://docs.oracle.com/en/java/javase/11/docs/api/java
 * Increments and decrements when `RecordAccumulator` is requested to <<append, append>> (just after it is requested and right before it finishes)
 
 Used exclusively when `RecordAccumulator` is requested to <<abortIncompleteBatches, abort incomplete batches>>
+
+| batches
+a| [[batches]] <<kafka-producer-internals-ProducerBatch.adoc#, ProducerBatches>> per `TopicPartition` (`ConcurrentMap<TopicPartition, Deque<ProducerBatch>>`)
 
 |===

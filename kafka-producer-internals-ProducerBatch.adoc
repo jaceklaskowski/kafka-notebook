@@ -1,0 +1,44 @@
+== [[ProducerBatch]] ProducerBatch
+
+`ProducerBatch` is...FIXME
+
+`ProducerBatch` is <<creating-instance, created>> when:
+
+* `RecordAccumulator` is requested to <<kafka-producer-internals-RecordAccumulator.adoc#append, append>>
+
+* `ProducerBatch` is requested to <<split, split>>
+
+=== [[creating-instance]] Creating ProducerBatch Instance
+
+`ProducerBatch` takes the following to be created:
+
+* [[tp]] `TopicPartition`
+* [[recordsBuilder]] `MemoryRecordsBuilder`
+* [[createdMs]] `createdMs`
+* [[isSplitBatch]] `isSplitBatch` flag (default: `false`)
+
+`ProducerBatch` initializes the <<internal-properties, internal properties>>.
+
+=== [[split]] `split` Method
+
+[source, java]
+----
+Deque<ProducerBatch> split(int splitBatchSize)
+----
+
+`split`...FIXME
+
+NOTE: `split` is used exclusively when `RecordAccumulator` is requested to <<kafka-producer-internals-RecordAccumulator.adoc#splitAndReenqueue, splitAndReenqueue>>.
+
+==== [[createBatchOffAccumulatorForRecord]] `createBatchOffAccumulatorForRecord` Internal Method
+
+[source, java]
+----
+ProducerBatch createBatchOffAccumulatorForRecord(
+  Record record,
+  int batchSize)
+----
+
+`createBatchOffAccumulatorForRecord`...FIXME
+
+NOTE: `createBatchOffAccumulatorForRecord` is used exclusively when `ProducerBatch` is requested to <<split, split>>.
