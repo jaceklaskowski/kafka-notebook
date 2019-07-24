@@ -119,7 +119,7 @@ long sendProducerData(long now)
 
 `sendProducerData`...FIXME (`guaranteeMessageOrder`)
 
-`sendProducerData` requests the <<sensors, SenderMetrics>> to <<kafka-SenderMetrics.adoc#updateProduceRequestMetrics, updateProduceRequestMetrics>>.
+`sendProducerData` requests the <<sensors, SenderMetrics>> to <<kafka-producer-internals-SenderMetrics.adoc#updateProduceRequestMetrics, updateProduceRequestMetrics>>.
 
 `sendProducerData`...FIXME
 

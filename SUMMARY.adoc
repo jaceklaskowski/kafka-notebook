@@ -246,7 +246,7 @@
 . link:kafka-Sensor.adoc[Sensor]
 . link:kafka-MetricsReporter.adoc[MetricsReporter]
 . link:kafka-ProducerMetrics.adoc[ProducerMetrics]
-. link:kafka-SenderMetrics.adoc[SenderMetrics]
+. link:kafka-producer-internals-SenderMetrics.adoc[SenderMetrics]
 
 === Kafka Tools
 
