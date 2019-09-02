@@ -3,6 +3,14 @@
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
 
+=== Kafka Tools (Utilities)
+
+. link:kafka-tools.adoc[Kafka Tools]
+. link:kafka-tools-kafka-configs.adoc[kafka-configs.sh]
+. link:kafka-tools-kafka-topics.adoc[kafka-topics.sh]
+
+. link:kafka-tools-JmxTool.adoc[JmxTool]
+
 === Kafka Clients / Producer API
 
 . link:kafka-producer-KafkaProducer.adoc[KafkaProducer]
@@ -247,12 +255,6 @@
 . link:kafka-MetricsReporter.adoc[MetricsReporter]
 . link:kafka-ProducerMetrics.adoc[ProducerMetrics]
 . link:kafka-producer-internals-SenderMetrics.adoc[SenderMetrics]
-
-=== Kafka Tools
-
-. link:kafka-tools.adoc[Kafka Tools]
-.. link:kafka-tools-kafka-configs.adoc[kafka-configs.sh]
-.. link:kafka-tools-kafka-topics.adoc[kafka-topics.sh]
 
 === Kafka Configuration
 

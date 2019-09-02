@@ -1,0 +1,120 @@
+== [[JmxTool]] JmxTool Standalone Application
+
+`kafka.tools.JmxTool` is a <<main, standalone application>> to print JMX metrics of a given <<jmx-url, endpoint>> (e.g. Kafka broker) to standard output every <<reporting-interval, reporting-interval>> (unless <<one-time, one-time>> option is specified).
+
+`JmxTool` can be executed using `kafka-run-class` shell script.
+
+```
+./bin/kafka-run-class.sh kafka.tools.JmxTool \
+  --object-name kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec
+Trying to connect to JMX url: service:jmx:rmi:///jndi/rmi://:9999/jmxrmi.
+"time","kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec:Count","kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec:EventType","kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec:FifteenMinuteRate","kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec:FiveMinuteRate","kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec:MeanRate","kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec:OneMinuteRate","kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec:RateUnit"
+1567588157489,0,messages,0.0,0.0,0.0,0.0,SECONDS
+1567588159492,0,messages,0.0,0.0,0.0,0.0,SECONDS
+1567588161494,0,messages,0.0,0.0,0.0,0.0,SECONDS
+^C
+```
+
+[TIP]
+====
+Enable remote JMX of a Kafka broker using `JMX_PORT` environment variable when starting it with `./bin/kafka-server-start.sh`, e.g.
+
+```
+JMX_PORT=9999 ./bin/kafka-server-start.sh config/server.properties
+```
+====
+
+When executed with no <<options, options>>, it is equivalent to <<help, --help>>.
+
+[[options]]
+.Options
+[cols="30m,70",options="header",width="100%"]
+|===
+| Option
+| Description
+
+| attributes
+a| [[attributes]] The comma-separated whitelist of attributes to query.
+
+If no attributes are specified all objects will be queried.
+
+| date-format
+a| [[date-format]] Date format to use for formatting the time field.
+
+See https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/text/SimpleDateFormat.html[java.text.SimpleDateFormat] for options.
+
+| help
+a| [[help]] Prints usage information
+
+| jmx-auth-prop
+a| [[jmx-auth-prop]] Mechanism to pass property in the form 'username=password' when enabling remote JMX with password authentication
+
+| jmx-ssl-enable
+a| [[jmx-ssl-enable]] Flag to enable remote JMX with SSL
+
+Default: `false`
+
+| jmx-url
+a| [[jmx-url]] URL to connect to poll JMX data
+
+Default: `service:jmx:rmi:///jndi/rmi://:9999/jmxrmi`
+
+See https://docs.oracle.com/en/java/javase/12/docs/api/java.management/javax/management/remote/JMXServiceURL.html[javax.management.remote.JMXServiceURL] for details.
+
+| object-name
+a| [[object-name]] A JMX object name to use as a query.
+
+This can contain wildcards, and can be given multiple times to specify more than one query.
+
+If no objects are specified all objects will be queried.
+
+| one-time
+a| [[one-time]] Flag to indicate run once only
+
+Default: `false`
+
+| report-format
+a| [[report-format]] Output format name.
+
+Default: `original`
+
+One of the following:
+
+* original
+
+* properties
+
+* csv
+
+* tsv
+
+| reporting-interval
+a| [[reporting-interval]] Interval (in millis) to poll jmx stats with
+
+Default: `2000` (2 seconds)
+
+`-1` is equivalent to <<one-time, one-time>>
+
+| wait
+a| [[wait]] Wait for requested JMX objects to become available before starting output. Only supported when the list of objects is non-empty and contains no object name patterns.
+
+|===
+
+=== [[main]] Executing Standalone Application -- `main` Method
+
+[source, scala]
+----
+main(args: Array[String]): Unit
+----
+
+`main` is the entry point of the <<JmxTool, JmxTool>> standalone application when launched on command line (e.g. from `bin/kafka-configs.sh`).
+
+Internally, `main` reads the <<options, options>> from the command line.
+
+`main` prints out the following to standard error:
+
+```
+Trying to connect to JMX url: [url].
+```
+
+`main`...FIXME
