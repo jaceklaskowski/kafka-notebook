@@ -1,0 +1,66 @@
+== [[GetOffsetShell]] GetOffsetShell Utility
+
+`kafka.tools.GetOffsetShell` is a <<main, standalone application>> that is used to get offsets of the <<partitions, partitions>> of a <<topic, topic>>.
+
+`GetOffsetShell` can be executed using `kafka-run-class` shell script.
+
+```
+./bin/kafka-run-class.sh kafka.tools.GetOffsetShell \
+  --broker-list :9092 \
+  --topic t1
+// topicName:partitionID:offset
+t1:0:0
+```
+
+When executed with no <<options, options>>, it is equivalent to <<help, --help>>.
+
+[[options]]
+.Options
+[cols="30m,70",options="header",width="100%"]
+|===
+| Option
+| Description
+
+| broker-list
+a| [[broker-list]] *(required)* The comma-separated list of brokers to connect to (e.g. hostname:port,...,hostname:port)
+
+| partitions
+a| [[partitions]] The comma-separated list of partition IDs
+
+If not specified (empty), it will find offsets for all partitions
+
+Default: `(empty)`
+
+| time
+a| [[time]] Timestamp of the offsets before that.
+
+No offset is returned, if the timestamp is greater than recently commited record timestamp
+
+Possible values:
+
+* a timestamp
+
+* `-1` (*LATEST_TIMESTAMP*) for the first offsets
+
+* `-2` (*EARLIEST_TIMESTAMP*) for the end offsets
+
+Default: `-1`
+
+| topic
+a| [[topic]] *(required)* Topic to get offsets from
+
+|===
+
+[[CLIENT_ID_CONFIG]][[clientId]]
+`GetOffsetShell` is a Kafka consumer with *GetOffsetShell* client ID.
+
+=== [[main]] Executing Standalone Application -- `main` Method
+
+[source, scala]
+----
+main(args: Array[String]): Unit
+----
+
+`main` is the entry point of the <<GetOffsetShell, GetOffsetShell>> standalone application when launched on command line (e.g. from `bin/kafka-configs.sh`).
+
+Internally, `main`...FIXME

@@ -10,6 +10,7 @@
 . link:kafka-tools-kafka-topics.adoc[kafka-topics.sh]
 
 . link:kafka-tools-JmxTool.adoc[JmxTool]
+. link:kafka-tools-GetOffsetShell.adoc[GetOffsetShell]
 
 === Kafka Clients / Producer API
 
