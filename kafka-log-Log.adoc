@@ -2,8 +2,6 @@
 
 `Log` is a *partition log* that is <<apply, created>> when `LogManager` is requested to <<kafka-log-LogManager.adoc#loadLog, loadLog>> (when `LogManager` is <<kafka-log-LogManager.adoc#creating-instance, created>>) and <<kafka-log-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
 
-`Log` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
-
 [[CleanShutdownFile]]
 `Log` uses *.kafka_cleanshutdown* for...FIXME
 
@@ -12,32 +10,6 @@
 
 [[isFuture]]
 `Log` is *isFuture* when...FIXME
-
-[[metrics]]
-.Log's Performance Metrics
-[cols="1m,2",options="header",width="100%"]
-|===
-| Metric Name
-| Description
-
-| NumLogSegments
-| [[NumLogSegments]]
-
-| LogEndOffset
-| [[LogEndOffset]]
-
-| LogStartOffset
-| [[LogStartOffset]]
-
-| Size
-| [[Size]]
-
-|===
-
-The <<metrics, performance metrics>> are registered in *kafka.log:type=Log* group.
-
-.Log in jconsole
-image::images/Log-jconsole.png[align="center"]
 
 `Log` uses a <<scheduler, Scheduler>> to schedule the <<background-tasks, background tasks>>.
 
@@ -76,42 +48,52 @@ Scheduled when `Log` is requested to <<asyncDeleteSegment, asyncDeleteSegment>>.
 [[logIdent]]
 `Log` uses *[Log partition=[topicPartition], dir=[parent]]* as the logging prefix (aka `logIdent`).
 
-[[internal-registries]]
-.Log's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| nextOffsetMetadata
-| [[nextOffsetMetadata]] `LogOffsetMetadata`
-
-Used when...FIXME
-
-| segments
-| [[segments]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html[java.util.concurrent.ConcurrentSkipListMap] of `Longs` and their <<kafka-log-LogSegment.adoc#, LogSegments>>
-
-Used when...FIXME
-
-|===
-
 [[logging]]
 [TIP]
 ====
-Enable `WARN`, `INFO`, `DEBUG` or `TRACE` logging levels for `kafka.log.Log` logger to see what happens inside.
+Enable `ALL` logging levels for `kafka.log.Log` logger to see what happens inside.
 
 Add the following line to `log4j.properties`:
 
 ```
-log4j.logger.kafka.log.Log=TRACE
+log4j.logger.kafka.log.Log=ALL
 ```
 
-Refer to link:kafka-logging.adoc[Logging].
+Refer to <<kafka-logging.adoc#, Logging>>.
 ====
+
+=== [[KafkaMetricsGroup]][[metrics]] Performance Metrics
+
+`Log` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with the following performance metrics.
+
+.Log's Performance Metrics
+[cols="30m,70",options="header",width="100%"]
+|===
+| Metric Name
+| Description
+
+| NumLogSegments
+| [[NumLogSegments]]
+
+| LogEndOffset
+| [[LogEndOffset-metrics]]
+
+| LogStartOffset
+| [[LogStartOffset]]
+
+| Size
+| [[Size]]
+
+|===
+
+The performance metrics are registered in *kafka.log:type=Log* group.
+
+.Log in jconsole
+image::images/Log-jconsole.png[align="center"]
 
 === [[creating-instance]] Creating Log Instance
 
-`Log` takes the following when created:
+`Log` takes the following to be created:
 
 * [[dir]] Log directory
 * [[config]] <<kafka-log-LogConfig.adoc#, LogConfig>>
@@ -126,8 +108,9 @@ Refer to link:kafka-logging.adoc[Logging].
 * [[producerStateManager]] `ProducerStateManager`
 * [[logDirFailureChannel]] `LogDirFailureChannel`
 
-`Log` initializes the <<internal-registries, internal registries and counters>>.
+`Log` initializes the <<internal-properties, internal properties>>.
 
+[[creating-instance-nextOffsetMetadata]]
 While being created, `Log`...FIXME
 
 === [[apply]] Creating Log Instance -- `apply` Factory Method
@@ -155,12 +138,26 @@ NOTE: `apply` is used when `LogManager` is requested to <<kafka-log-LogManager.a
 
 [source, scala]
 ----
-roll(expectedNextOffset: Long = 0): LogSegment
+roll(
+  expectedNextOffset: Option[Long] = None): LogSegment
 ----
 
 `roll`...FIXME
 
-NOTE: `roll` is used when...FIXME
+NOTE: `roll` is used when `Log` is requested to <<deleteSegments, deleteSegments>> and <<maybeRoll, maybeRoll>>.
+
+=== [[maybeRoll]] `maybeRoll` Internal Method
+
+[source, scala]
+----
+maybeRoll(
+  messagesSize: Int,
+  appendInfo: LogAppendInfo): LogSegment
+----
+
+`maybeRoll`...FIXME
+
+NOTE: `maybeRoll` is used exclusively when `Log` is requested to <<append, append>>.
 
 === [[asyncDeleteSegment]] `asyncDeleteSegment` Internal Method
 
@@ -216,7 +213,7 @@ NOTE: `appendAsLeader` is used exclusively when `Partition` is requested to <<ka
 appendAsFollower(records: MemoryRecords): LogAppendInfo
 ----
 
-`appendAsFollower` simply <<append, append>> with the `isFromClient` and `assignOffsets` flags off.
+`appendAsFollower` simply <<append, append>> (with the `isFromClient` and `assignOffsets` flags off, and the `leaderEpoch` being `-1`).
 
 NOTE: `appendAsFollower` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#doAppendRecordsToFollowerOrFutureReplica, doAppendRecordsToFollowerOrFutureReplica>>.
 
@@ -227,13 +224,14 @@ NOTE: `appendAsFollower` is used exclusively when `Partition` is requested to <<
 append(
   records: MemoryRecords,
   isFromClient: Boolean,
+  interBrokerProtocolVersion: ApiVersion,
   assignOffsets: Boolean,
   leaderEpoch: Int): LogAppendInfo
 ----
 
 `append`...FIXME
 
-NOTE: `append` is used when `Log` is requested to <<appendAsLeader, appendAsLeader>> and <<appendAsFollower, appendAsFollower>>.
+NOTE: `append` is used when `Log` is requested to <<appendAsLeader, appendAsLeader>> (with `assignOffsets` flag on) and <<appendAsFollower, appendAsFollower>> (with `assignOffsets` and `isFromClient` flags off).
 
 ==== [[analyzeAndValidateRecords]] `analyzeAndValidateRecords` Internal Method
 
@@ -331,17 +329,6 @@ truncateFullyAndStartAt(newOffset: Long): Unit
 * `LogManager` is requested to <<kafka-log-LogManager.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
 ====
 
-=== [[loadSegments]] `loadSegments` Internal Method
-
-[source, scala]
-----
-loadSegments(): Long
-----
-
-`loadSegments`...FIXME
-
-NOTE: `loadSegments` is used exclusively when `Log` is <<creating-instance, created>> (to create a <<nextOffsetMetadata, LogOffsetMetadata>>).
-
 === [[deleteOldSegments]] `deleteOldSegments` Method
 
 [source, scala]
@@ -390,17 +377,6 @@ loadProducerState(lastOffset: Long, reloadFromCleanShutdown: Boolean): Unit
 
 NOTE: `loadProducerState` is used when `Log` is <<creating-instance, created>> and requested to <<truncateTo, truncateTo>>.
 
-=== [[loadSegmentFiles]] `loadSegmentFiles` Internal Method
-
-[source, scala]
-----
-loadSegmentFiles(): Unit
-----
-
-`loadSegmentFiles`...FIXME
-
-NOTE: `loadSegmentFiles` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>> (when <<creating-instance, created>>).
-
 === [[onHighWatermarkIncremented]] `onHighWatermarkIncremented` Method
 
 [source, scala]
@@ -422,3 +398,123 @@ parseTopicPartitionName(dir: File): TopicPartition
 `parseTopicPartitionName`...FIXME
 
 NOTE: `parseTopicPartitionName` is used when...FIXME
+
+=== [[offsetFromFileName]] `offsetFromFileName` Object Method
+
+[source, scala]
+----
+offsetFromFileName(filename: String): Long
+----
+
+`offsetFromFileName`...FIXME
+
+NOTE: `offsetFromFileName` is used when `Log` is requested to <<removeTempFilesAndCollectSwapFiles, removeTempFilesAndCollectSwapFiles>> (right when <<creating-instance, created>>) and <<offsetFromFile, offsetFromFile>>.
+
+=== [[offsetFromFile]] `offsetFromFile` Object Method
+
+[source, scala]
+----
+offsetFromFile(file: File): Long
+----
+
+`offsetFromFile`...FIXME
+
+NOTE: `offsetFromFile` is used when...FIXME
+
+=== [[read]] `read` Method
+
+[source, scala]
+----
+read(
+  startOffset: Long,
+  maxLength: Int,
+  maxOffset: Option[Long],
+  minOneMessage: Boolean,
+  includeAbortedTxns: Boolean): FetchDataInfo
+----
+
+`read`...FIXME
+
+NOTE: `read` is used when...FIXME
+
+=== [[updateLogEndOffset]] `updateLogEndOffset` Internal Method
+
+[source, scala]
+----
+updateLogEndOffset(messageOffset: Long): Unit
+----
+
+`updateLogEndOffset`...FIXME
+
+NOTE: `updateLogEndOffset` is used when...FIXME
+
+=== [[logEndOffset]] `logEndOffset` Method
+
+[source, scala]
+----
+logEndOffset: Long
+----
+
+`logEndOffset`...FIXME
+
+NOTE: `logEndOffset` is used when...FIXME
+
+=== [[loadSegments]] `loadSegments` Internal Method
+
+[source, scala]
+----
+loadSegments(): Long
+----
+
+`loadSegments`...FIXME
+
+NOTE: `loadSegments` is used exclusively when `Log` is <<creating-instance, created>> (to create a <<nextOffsetMetadata, LogOffsetMetadata>>).
+
+=== [[removeTempFilesAndCollectSwapFiles]] `removeTempFilesAndCollectSwapFiles` Internal Method
+
+[source, scala]
+----
+removeTempFilesAndCollectSwapFiles(): Set[File]
+----
+
+`removeTempFilesAndCollectSwapFiles`...FIXME
+
+NOTE: `removeTempFilesAndCollectSwapFiles` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>> (right when <<creating-instance, created>>).
+
+=== [[loadSegmentFiles]] `loadSegmentFiles` Internal Method
+
+[source, scala]
+----
+loadSegmentFiles(): Unit
+----
+
+`loadSegmentFiles`...FIXME
+
+NOTE: `loadSegmentFiles` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>> (right when <<creating-instance, created>>).
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| nextOffsetMetadata
+| [[nextOffsetMetadata]][[logEndOffsetMetadata]] `LogOffsetMetadata` (_log end offset_) of the next message that will be <<append, appended>> to the log
+
+* Initialized right when `Log` is <<creating-instance, created>>
+
+* Updated when <<updateLogEndOffset, updateLogEndOffset>>
+
+Used when:
+
+* `Log` is <<creating-instance, created>> and then requested to <<append, append>>, <<read, read>>, <<roll, roll>>, and for the <<logEndOffset, logEndOffset>>
+
+* `Replica` is requested for <<kafka-cluster-Replica.adoc#logEndOffsetMetadata, logEndOffsetMetadata>>
+
+| segments
+| [[segments]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html[java.util.concurrent.ConcurrentSkipListMap] of `Longs` and their <<kafka-log-LogSegment.adoc#, LogSegments>>
+
+Used when...FIXME
+
+|===

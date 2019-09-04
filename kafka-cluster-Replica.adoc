@@ -36,6 +36,17 @@ latestEpoch: Option[Int]
 
 NOTE: `latestEpoch` is used when...FIXME
 
+=== [[logEndOffsetMetadata]] `logEndOffsetMetadata` Method
+
+[source, scala]
+----
+logEndOffsetMetadata: LogOffsetMetadata
+----
+
+`logEndOffsetMetadata`...FIXME
+
+NOTE: `logEndOffsetMetadata` is used when...FIXME
+
 === [[creating-instance]] Creating Replica Instance
 
 `Replica` takes the following to be created:
