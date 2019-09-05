@@ -608,3 +608,20 @@ toString(): String
 NOTE: `toString` is part of the link:++https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/Object.html#toString()++[java.lang.Object] Contract for a string representation of the object.
 
 `toString`...FIXME
+
+=== [[readRecords]] `readRecords` Method
+
+[source, scala]
+----
+readRecords(
+  fetchOffset: Long,
+  currentLeaderEpoch: Optional[Integer],
+  maxBytes: Int,
+  fetchIsolation: FetchIsolation,
+  fetchOnlyFromLeader: Boolean,
+  minOneMessage: Boolean): LogReadInfo
+----
+
+`readRecords`...FIXME
+
+NOTE: `readRecords` is used when...FIXME

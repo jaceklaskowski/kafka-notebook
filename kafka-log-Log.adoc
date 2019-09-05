@@ -19,16 +19,16 @@
 a| [[DeleteDirSuffix]]
 
 | .txnindex
-a| [[TxnIndexFileSuffix]]
+a| [[TxnIndexFileSuffix]] <<isIndexFile, Index file>>
 
 | .timeindex
-a| [[TimeIndexFileSuffix]]
+a| [[TimeIndexFileSuffix]] <<isIndexFile, Index file>>
 
 | .index
-a| [[IndexFileSuffix]]
+a| [[IndexFileSuffix]] <<isIndexFile, Index file>>
 
 | .log
-a| [[LogFileSuffix]]
+a| [[LogFileSuffix]] <<isLogFile, Log file>>
 
 |===
 
@@ -205,12 +205,21 @@ NOTE: `asyncDeleteSegment` is used when `Log` is requested to <<deleteSegment, d
 
 [source, scala]
 ----
+flush(): Unit // <1>
 flush(offset: Long): Unit
 ----
+<1> Uses <<logEndOffset, logEndOffset>> for the offset
 
 `flush`...FIXME
 
-NOTE: `flush` is used when...FIXME
+[NOTE]
+====
+`flush` is used when:
+
+* `Log` is requested to <<append, append records>> and for the <<flush-log, flush-log Background Task>>
+
+* `LogManager` is requested to <<kafka-log-LogManager.adoc#shutdown, shut down>> and <<kafka-log-LogManager.adoc#flushDirtyLogs, flushDirtyLogs>>
+====
 
 === [[deleteSeg]] `deleteSeg` Internal Method
 
@@ -221,7 +230,7 @@ deleteSeg(): Unit
 
 `deleteSeg`...FIXME
 
-NOTE: `deleteSeg` is used when...FIXME
+NOTE: `deleteSeg` is used exclusively for the <<delete-file, delete-file Background Task>>.
 
 === [[appendAsLeader]] `appendAsLeader` Method
 
@@ -327,9 +336,9 @@ NOTE: `recoverLog` is used exclusively when `Log` is requested to <<loadSegments
 hasCleanShutdownFile: Boolean
 ----
 
-`hasCleanShutdownFile` returns `true` if <<CleanShutdownFile, .kafka_cleanshutdown>> file is in the parent directory of the <<dir, log directory>>. Otherwise, `hasCleanShutdownFile` is `false`.
+`hasCleanShutdownFile` is `true` when <<CleanShutdownFile, .kafka_cleanshutdown>> file is in the parent directory of the <<dir, log directory>>. Otherwise, `hasCleanShutdownFile` is `false`.
 
-NOTE: `hasCleanShutdownFile` is used exclusively when `Log` is <<creating-instance, created>> (to <<loadProducerState, loadProducerState>>) and requested to
+NOTE: `hasCleanShutdownFile` is used exclusively when `Log` is <<creating-instance, created>> (to <<loadProducerState, loadProducerState>>) and requested to <<recoverLog, recoverLog>>.
 
 === [[deleteSegments]] `deleteSegments` Internal Method
 
@@ -384,18 +393,49 @@ deleteOldSegments(
 
 `deleteOldSegments`...FIXME
 
-NOTE: `deleteOldSegments` is used when...FIXME
+[NOTE]
+====
+`deleteOldSegments` is used when:
 
-=== [[completeSwapOperations]] `completeSwapOperations` Internal Method
+* `CleanerThread` (of <<kafka-log-LogCleaner.adoc#, LogCleaner>>) is requested to <<kafka-log-CleanerThread.adoc#cleanFilthiestLog, cleanFilthiestLog>>
+
+* `LogManager` is requested to <<kafka-log-LogManager.adoc#cleanupLogs, cleanupLogs>>
+
+* `Log` is requested to <<deleteRetentionMsBreachedSegments, deleteRetentionMsBreachedSegments>>, <<deleteRetentionSizeBreachedSegments, deleteRetentionSizeBreachedSegments>>, and <<deleteLogStartOffsetBreachedSegments, deleteLogStartOffsetBreachedSegments>>
+====
+
+=== [[deleteRetentionMsBreachedSegments]] `deleteRetentionMsBreachedSegments` Internal Method
 
 [source, scala]
 ----
-completeSwapOperations(swapFiles: Set[File]): Unit
+deleteRetentionMsBreachedSegments(): Int
 ----
 
-`completeSwapOperations`...FIXME
+`deleteRetentionMsBreachedSegments`...FIXME
 
-NOTE: `completeSwapOperations` is used when...FIXME
+NOTE: `deleteRetentionMsBreachedSegments` is used when...FIXME
+
+=== [[deleteRetentionSizeBreachedSegments]] `deleteRetentionSizeBreachedSegments` Internal Method
+
+[source, scala]
+----
+deleteRetentionSizeBreachedSegments(): Int
+----
+
+`deleteRetentionSizeBreachedSegments`...FIXME
+
+NOTE: `deleteRetentionSizeBreachedSegments` is used when...FIXME
+
+=== [[deleteLogStartOffsetBreachedSegments]] `deleteLogStartOffsetBreachedSegments` Internal Method
+
+[source, scala]
+----
+deleteLogStartOffsetBreachedSegments(): Int
+----
+
+`deleteLogStartOffsetBreachedSegments`...FIXME
+
+NOTE: `deleteLogStartOffsetBreachedSegments` is used when...FIXME
 
 === [[splitOverflowedSegment]] `splitOverflowedSegment` Internal Method
 
@@ -406,18 +446,14 @@ splitOverflowedSegment(segment: LogSegment): List[LogSegment]
 
 `splitOverflowedSegment`...FIXME
 
-NOTE: `splitOverflowedSegment` is used when...FIXME
+[NOTE]
+====
+`splitOverflowedSegment` is used when:
 
-=== [[loadProducerState]] `loadProducerState` Internal Method
+* `Log` is requested to <<retryOnOffsetOverflow, retryOnOffsetOverflow>>
 
-[source, scala]
-----
-loadProducerState(lastOffset: Long, reloadFromCleanShutdown: Boolean): Unit
-----
-
-`loadProducerState`...FIXME
-
-NOTE: `loadProducerState` is used when `Log` is <<creating-instance, created>> and requested to <<truncateTo, truncateTo>>.
+* `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#cleanSegments, cleanSegments>>
+====
 
 === [[onHighWatermarkIncremented]] `onHighWatermarkIncremented` Method
 
@@ -428,7 +464,7 @@ onHighWatermarkIncremented(highWatermark: Long): Unit
 
 `onHighWatermarkIncremented`...FIXME
 
-NOTE: `onHighWatermarkIncremented` is used when...FIXME
+NOTE: `onHighWatermarkIncremented` is used when `Replica` is <<kafka-cluster-Replica.adoc#, created>> and <<kafka-cluster-Replica.adoc#highWatermark_, highWatermark_=>>.
 
 === [[parseTopicPartitionName]] `parseTopicPartitionName` Object Method
 
@@ -439,7 +475,14 @@ parseTopicPartitionName(dir: File): TopicPartition
 
 `parseTopicPartitionName`...FIXME
 
-NOTE: `parseTopicPartitionName` is used when...FIXME
+[NOTE]
+====
+`parseTopicPartitionName` is used when:
+
+* `Log` is <<apply, created>>
+
+* `LogManager` is requested to <<kafka-log-LogManager.adoc#loadLog, load a partition log directory>>
+====
 
 === [[offsetFromFileName]] `offsetFromFileName` Object Method
 
@@ -477,7 +520,30 @@ read(
 
 `read`...FIXME
 
-NOTE: `read` is used when...FIXME
+[NOTE]
+====
+`read` is used when:
+
+* `Partition` is requested to <<kafka-cluster-Partition.adoc#readRecords, readRecords>>
+
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#doLoadGroupsAndOffsets, doLoadGroupsAndOffsets>>
+
+* `TransactionStateManager` is requested to <<kafka-TransactionStateManager.adoc#loadTransactionMetadata, loadTransactionMetadata>>
+
+* `Log` is requested to <<convertToOffsetMetadata, convertToOffsetMetadata>>
+====
+
+=== [[convertToOffsetMetadata]] `convertToOffsetMetadata` Method
+
+[source, scala]
+----
+convertToOffsetMetadata(
+  offset: Long): Option[LogOffsetMetadata]
+----
+
+`convertToOffsetMetadata`...FIXME
+
+NOTE: `convertToOffsetMetadata` is used exclusively when `Replica` is requested to <<kafka-cluster-Replica.adoc#convertHWToLocalOffsetMetadata, convertHWToLocalOffsetMetadata>>
 
 === [[logEndOffset]] `logEndOffset` Method
 
@@ -486,7 +552,7 @@ NOTE: `read` is used when...FIXME
 logEndOffset: Long
 ----
 
-`logEndOffset`...FIXME
+`logEndOffset` is the offset of the next message that will be appended to the log (based on the <<nextOffsetMetadata, nextOffsetMetadata>> internal registry).
 
 NOTE: `logEndOffset` is used when...FIXME
 
@@ -508,9 +574,20 @@ NOTE: `addSegment` is used when `Log` is requested to <<replaceSegments, replace
 updateLogEndOffset(messageOffset: Long): Unit
 ----
 
-`updateLogEndOffset`...FIXME
+`updateLogEndOffset` simply creates a new `LogOffsetMetadata` (with the `messageOffset`, <<activeSegment, active segment>>) and becomes the <<nextOffsetMetadata, nextOffsetMetadata>> internal registry.
 
-NOTE: `updateLogEndOffset` is used when...FIXME
+NOTE: `updateLogEndOffset` is used when `Log` is requested to <<append, append records>>, <<roll, roll log segment>>, <<truncateTo, truncateTo>>, and <<truncateFullyAndStartAt, truncateFullyAndStartAt>>.
+
+=== [[activeSegment]] `activeSegment` Method
+
+[source, scala]
+----
+activeSegment: LogSegment
+----
+
+`activeSegment` gives the active <<kafka-log-LogSegment.adoc#, LogSegment>> that is currently taking appends (that is the greatest key in the <<segments, segments>> internal registry).
+
+NOTE: `activeSegment` is used exclusively when `Log` is <<creating-instance, created>> (to create a <<nextOffsetMetadata, LogOffsetMetadata>>).
 
 === [[loadSegments]] `loadSegments` Internal Method
 
@@ -594,7 +671,7 @@ isIndexFile(file: File): Boolean
 
 Otherwise, `isIndexFile` is `false`.
 
-NOTE: `isIndexFile` is used when...FIXME
+NOTE: `isIndexFile` is used when `Log` is requested to <<removeTempFilesAndCollectSwapFiles, removeTempFilesAndCollectSwapFiles>> and <<loadSegmentFiles, loadSegmentFiles>>.
 
 === [[isLogFile]] `isLogFile` Internal Object Method
 
@@ -605,7 +682,7 @@ isLogFile(file: File): Boolean
 
 `isLogFile` returns `true` when the given file has <<LogFileSuffix, .log>> file suffix. Otherwise, `isLogFile` is `false`.
 
-NOTE: `isLogFile` is used when...FIXME
+NOTE: `isLogFile` is used when `Log` is requested to <<removeTempFilesAndCollectSwapFiles, removeTempFilesAndCollectSwapFiles>>, <<loadSegmentFiles, loadSegmentFiles>>, and <<splitOverflowedSegment, splitOverflowedSegment>>.
 
 === [[recoverSegment]] Recovering Log Segment -- `recoverSegment` Internal Method
 
@@ -616,9 +693,81 @@ recoverSegment(
   leaderEpochCache: Option[LeaderEpochFileCache] = None): Int
 ----
 
-`recoverSegment`...FIXME
+`recoverSegment` creates a new <<kafka-log-ProducerStateManager.adoc#, ProducerStateManager>> (for the <<topicPartition, TopicPartition>>, <<dir, log directory>> and <<maxProducerIdExpirationMs, maxProducerIdExpirationMs>>).
 
-NOTE: `recoverSegment` is used when...FIXME
+NOTE: Why does `recoverSegment` create a new <<kafka-log-ProducerStateManager.adoc#, ProducerStateManager>> rather than using the <<producerStateManager, ProducerStateManager>>?
+
+`recoverSegment` then <<rebuildProducerState, rebuildProducerState>> (with the <<kafka-log-LogSegment.adoc#baseOffset, baseOffset>> of the <<kafka-log-LogSegment.adoc#, LogSegment>>, the `reloadFromCleanShutdown` flag off, and the new `ProducerStateManager`).
+
+`recoverSegment` requests the given `LogSegment` to <<kafka-log-LogSegment.adoc#recover, recover>> (with the new `ProducerStateManager` and the optional `LeaderEpochFileCache`).
+
+`recoverSegment` requests the `ProducerStateManager` to <<kafka-log-ProducerStateManager.adoc#takeSnapshot, takeSnapshot>>.
+
+`recoverSegment` returns the number of bytes truncated from the log (while doing <<kafka-log-LogSegment.adoc#recover, segment recovery>>).
+
+NOTE: `recoverSegment` is used when `Log` is requested to <<loadSegmentFiles, loadSegmentFiles>>, <<completeSwapOperations, completeSwapOperations>>, and <<recoverLog, recoverLog>>.
+
+=== [[loadProducerState]] `loadProducerState` Internal Method
+
+[source, scala]
+----
+loadProducerState(
+  lastOffset: Long,
+  reloadFromCleanShutdown: Boolean): Unit
+----
+
+`loadProducerState` <<rebuildProducerState, rebuildProducerState>> (with the `lastOffset`, `reloadFromCleanShutdown` and the <<producerStateManager, ProducerStateManager>>).
+
+In the end, `loadProducerState` <<updateFirstUnstableOffset, updateFirstUnstableOffset>>.
+
+NOTE: `loadProducerState` is used when `Log` is <<creating-instance-loadProducerState, created>> and requested to <<truncateTo, truncateTo>>.
+
+=== [[rebuildProducerState]] `rebuildProducerState` Internal Method
+
+[source, scala]
+----
+rebuildProducerState(
+  lastOffset: Long,
+  reloadFromCleanShutdown: Boolean,
+  producerStateManager: ProducerStateManager): Unit
+----
+
+`rebuildProducerState`...FIXME
+
+NOTE: `rebuildProducerState` is used when `Log` is requested to <<recoverSegment, recoverSegment>> and <<loadProducerState, loadProducerState>>.
+
+=== [[updateFirstUnstableOffset]] `updateFirstUnstableOffset` Internal Method
+
+[source, scala]
+----
+updateFirstUnstableOffset(): Unit
+----
+
+`updateFirstUnstableOffset`...FIXME
+
+NOTE: `updateFirstUnstableOffset` is used when `Log` is requested to <<loadProducerState, loadProducerState>>, <<append, append>>, <<onHighWatermarkIncremented, onHighWatermarkIncremented>>, <<maybeIncrementLogStartOffset, maybeIncrementLogStartOffset>>, and <<truncateFullyAndStartAt, truncateFullyAndStartAt>>.
+
+=== [[retryOnOffsetOverflow]] `retryOnOffsetOverflow` Internal Method
+
+[source, scala]
+----
+retryOnOffsetOverflow[T](fn: => T): T
+----
+
+`retryOnOffsetOverflow`...FIXME
+
+NOTE: `retryOnOffsetOverflow` is used when...FIXME
+
+=== [[completeSwapOperations]] `completeSwapOperations` Internal Method
+
+[source, scala]
+----
+completeSwapOperations(swapFiles: Set[File]): Unit
+----
+
+`completeSwapOperations`...FIXME
+
+NOTE: `completeSwapOperations` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>>.
 
 === [[internal-properties]] Internal Properties
 

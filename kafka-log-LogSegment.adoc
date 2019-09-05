@@ -2,6 +2,19 @@
 
 `LogSegment` is...FIXME
 
+=== [[recover]] `recover` Method
+
+[source, scala]
+----
+recover(
+  producerStateManager: ProducerStateManager,
+  leaderEpochCache: Option[LeaderEpochFileCache] = None): Int
+----
+
+`recover`...FIXME
+
+NOTE: `recover` is used when...FIXME
+
 === [[sanityCheck]] `sanityCheck` Method
 
 [source, scala]

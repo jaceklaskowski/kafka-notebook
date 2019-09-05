@@ -12,3 +12,14 @@ removeExpiredProducers(currentTimeMs: Long): Unit
 `removeExpiredProducers`...FIXME
 
 NOTE: `removeExpiredProducers` is used when...FIXME
+
+=== [[takeSnapshot]] `takeSnapshot` Method
+
+[source, scala]
+----
+takeSnapshot(): Unit
+----
+
+`takeSnapshot`...FIXME
+
+NOTE: `takeSnapshot` is used when...FIXME

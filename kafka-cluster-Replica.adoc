@@ -64,3 +64,25 @@ While being created, `Replica` prints out the following INFO message to the logs
 ```
 Replica loaded for partition [topicPartition] with initial high watermark [initialHighWatermarkValue]
 ```
+
+=== [[convertHWToLocalOffsetMetadata]] `convertHWToLocalOffsetMetadata` Method
+
+[source, scala]
+----
+convertHWToLocalOffsetMetadata(): Unit
+----
+
+`convertHWToLocalOffsetMetadata`...FIXME
+
+NOTE: `convertHWToLocalOffsetMetadata` is used when...FIXME
+
+=== [[highWatermark_]] `highWatermark_=` Method
+
+[source, scala]
+----
+highWatermark_=(): Unit
+----
+
+`highWatermark_=`...FIXME
+
+NOTE: `highWatermark_=` is used when...FIXME
