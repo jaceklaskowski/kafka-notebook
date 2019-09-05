@@ -223,12 +223,13 @@ Used when...FIXME
 * [[name]] Thread Name
 * [[clientId]] Client ID
 * [[sourceBroker]] `BrokerEndPoint`
+* [[failedPartitions]] `FailedPartitions`
 * [[fetchBackOffMs]] `fetchBackOffMs` (default: `0`)
 * [[isInterruptible]] `isInterruptible` flag (default: `true`)
 
 `AbstractFetcherThread` initializes the <<internal-registries, internal registries and counters>>.
 
-=== [[doWork]] `doWork` Method
+=== [[doWork]] Doing Work -- `doWork` Method
 
 [source, scala]
 ----

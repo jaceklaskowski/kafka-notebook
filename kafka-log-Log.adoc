@@ -3,13 +3,34 @@
 `Log` is a *partition log* that is <<apply, created>> when `LogManager` is requested to <<kafka-log-LogManager.adoc#loadLog, loadLog>> (when `LogManager` is <<kafka-log-LogManager.adoc#creating-instance, created>>) and <<kafka-log-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
 
 [[CleanShutdownFile]]
-`Log` uses *.kafka_cleanshutdown* for...FIXME
-
-[[DeleteDirSuffix]]
-`Log` uses *-delete* suffix for...FIXME
+`Log` uses *.kafka_cleanshutdown* file to indicate...FIXME
 
 [[isFuture]]
 `Log` is *isFuture* when...FIXME
+
+[[suffixes]]
+.File Suffixes
+[cols="30m,70",options="header",width="100%"]
+|===
+| Suffix
+| Description
+
+| -delete
+a| [[DeleteDirSuffix]]
+
+| .txnindex
+a| [[TxnIndexFileSuffix]]
+
+| .timeindex
+a| [[TimeIndexFileSuffix]]
+
+| .index
+a| [[IndexFileSuffix]]
+
+| .log
+a| [[LogFileSuffix]]
+
+|===
 
 `Log` uses a <<scheduler, Scheduler>> to schedule the <<background-tasks, background tasks>>.
 
@@ -112,6 +133,16 @@ image::images/Log-jconsole.png[align="center"]
 
 [[creating-instance-nextOffsetMetadata]]
 While being created, `Log`...FIXME
+
+[[creating-instance-loadProducerState]]
+`Log` <<loadProducerState, loadProducerState>> (with the `logEndOffset` and the `reloadFromCleanShutdown` based on <<hasCleanShutdownFile, hasCleanShutdownFile>>).
+
+In the end, `Log` prints out the following INFO message to the logs:
+
+[options="wrap"]
+----
+Completed load of log with [size] segments, log start offset [logStartOffset] and log end offset [logEndOffset] in [time] ms
+----
 
 === [[apply]] Creating Log Instance -- `apply` Factory Method
 
@@ -289,6 +320,17 @@ recoverLog(): Long
 
 NOTE: `recoverLog` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>>.
 
+=== [[hasCleanShutdownFile]] Checking Whether .kafka_cleanshutdown Is In Parent Directory of Log Directory -- `hasCleanShutdownFile` Internal Method
+
+[source, scala]
+----
+hasCleanShutdownFile: Boolean
+----
+
+`hasCleanShutdownFile` returns `true` if <<CleanShutdownFile, .kafka_cleanshutdown>> file is in the parent directory of the <<dir, log directory>>. Otherwise, `hasCleanShutdownFile` is `false`.
+
+NOTE: `hasCleanShutdownFile` is used exclusively when `Log` is <<creating-instance, created>> (to <<loadProducerState, loadProducerState>>) and requested to
+
 === [[deleteSegments]] `deleteSegments` Internal Method
 
 [source, scala]
@@ -437,17 +479,6 @@ read(
 
 NOTE: `read` is used when...FIXME
 
-=== [[updateLogEndOffset]] `updateLogEndOffset` Internal Method
-
-[source, scala]
-----
-updateLogEndOffset(messageOffset: Long): Unit
-----
-
-`updateLogEndOffset`...FIXME
-
-NOTE: `updateLogEndOffset` is used when...FIXME
-
 === [[logEndOffset]] `logEndOffset` Method
 
 [source, scala]
@@ -458,6 +489,28 @@ logEndOffset: Long
 `logEndOffset`...FIXME
 
 NOTE: `logEndOffset` is used when...FIXME
+
+=== [[addSegment]] `addSegment` Method
+
+[source, scala]
+----
+addSegment(segment: LogSegment): LogSegment
+----
+
+`addSegment` simply associates the given <<kafka-log-LogSegment.adoc#, LogSegment>> with the <<kafka-log-LogSegment.adoc#baseOffset, baseOffset>> in the <<segments, segments>> internal registry.
+
+NOTE: `addSegment` is used when `Log` is requested to <<replaceSegments, replaceSegments>>, <<loadSegmentFiles, loadSegmentFiles>>, <<loadSegments, loadSegments>>, <<recoverLog, recoverLog>>, <<roll, roll>>, and <<truncateFullyAndStartAt, truncateFullyAndStartAt>>.
+
+=== [[updateLogEndOffset]] `updateLogEndOffset` Internal Method
+
+[source, scala]
+----
+updateLogEndOffset(messageOffset: Long): Unit
+----
+
+`updateLogEndOffset`...FIXME
+
+NOTE: `updateLogEndOffset` is used when...FIXME
 
 === [[loadSegments]] `loadSegments` Internal Method
 
@@ -488,9 +541,84 @@ NOTE: `removeTempFilesAndCollectSwapFiles` is used exclusively when `Log` is req
 loadSegmentFiles(): Unit
 ----
 
-`loadSegmentFiles`...FIXME
+`loadSegmentFiles` processes <<loadSegmentFiles-isIndexFile, index>> and <<isLogFile, log>> files in the <<dir, log directory>>.
+
+Internally, `loadSegmentFiles` finds all the files (sorted by name) in the <<dir, log directory>> and branches off per whether a file is an <<loadSegmentFiles-isIndexFile, index>> or a <<isLogFile, log>> file.
 
 NOTE: `loadSegmentFiles` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>> (right when <<creating-instance, created>>).
+
+==== [[loadSegmentFiles-isIndexFile]] `loadSegmentFiles` Internal Method and Index Files
+
+For an <<isIndexFile, index file>>, `loadSegmentFiles` simply makes sure that it has a corresponding <<LogFileSuffix, .log>> file (in the same <<dir, log directory>>).
+
+If the file is an orphaned index file, `loadSegmentFiles` simply prints out the following WARN message and deletes the file:
+
+```
+Found an orphaned index file [path], with no corresponding log file.
+```
+
+==== [[loadSegmentFiles-isLogFile]] `loadSegmentFiles` Internal Method and Log Files
+
+For an <<isLogFile, log file>>, `loadSegmentFiles` <<kafka-log-LogSegment.adoc#open, opens it>> and requests <<kafka-log-LogSegment.adoc#sanityCheck, sanityCheck>>.
+
+In case of `NoSuchFileException`, `loadSegmentFiles` prints out the following ERROR to the logs and <<recoverSegment, recovers the segment>>.
+
+[options="wrap"]
+----
+Could not find offset index file corresponding to log file [path], recovering segment and rebuilding index files...
+----
+
+In case of `CorruptIndexException`, `loadSegmentFiles` prints out the following ERROR to the logs and <<recoverSegment, recovers the segment>>.
+
+[options="wrap"]
+----
+Found a corrupted index file corresponding to log file [path] due to [message], recovering segment and rebuilding index files...
+----
+
+In the end, `loadSegmentFiles` <<addSegment, addSegment>>.
+
+=== [[isIndexFile]] `isIndexFile` Internal Object Method
+
+[source, scala]
+----
+isIndexFile(file: File): Boolean
+----
+
+`isIndexFile` is `true` for files with the following file suffices:
+
+* <<IndexFileSuffix, .index>>
+
+* <<TimeIndexFileSuffix, .timeindex>>
+
+* <<TxnIndexFileSuffix, .txnindex>>
+
+Otherwise, `isIndexFile` is `false`.
+
+NOTE: `isIndexFile` is used when...FIXME
+
+=== [[isLogFile]] `isLogFile` Internal Object Method
+
+[source, scala]
+----
+isLogFile(file: File): Boolean
+----
+
+`isLogFile` returns `true` when the given file has <<LogFileSuffix, .log>> file suffix. Otherwise, `isLogFile` is `false`.
+
+NOTE: `isLogFile` is used when...FIXME
+
+=== [[recoverSegment]] Recovering Log Segment -- `recoverSegment` Internal Method
+
+[source, scala]
+----
+recoverSegment(
+  segment: LogSegment,
+  leaderEpochCache: Option[LeaderEpochFileCache] = None): Int
+----
+
+`recoverSegment`...FIXME
+
+NOTE: `recoverSegment` is used when...FIXME
 
 === [[internal-properties]] Internal Properties
 
@@ -514,6 +642,8 @@ Used when:
 
 | segments
 | [[segments]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html[java.util.concurrent.ConcurrentSkipListMap] of `Longs` and their <<kafka-log-LogSegment.adoc#, LogSegments>>
+
+* Cleared in <<loadSegments, loadSegments>> just before <<loadSegmentFiles, loadSegmentFiles>>
 
 Used when...FIXME
 

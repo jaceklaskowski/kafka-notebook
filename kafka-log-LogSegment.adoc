@@ -1,3 +1,33 @@
 == [[LogSegment]] LogSegment
 
 `LogSegment` is...FIXME
+
+=== [[sanityCheck]] `sanityCheck` Method
+
+[source, scala]
+----
+sanityCheck(timeIndexFileNewlyCreated: Boolean): Unit
+----
+
+`sanityCheck`...FIXME
+
+NOTE: `sanityCheck` is used when...FIXME
+
+=== [[open]] `open` Object Method
+
+[source, scala]
+----
+open(
+  dir: File,
+  baseOffset: Long,
+  config: LogConfig,
+  time: Time,
+  fileAlreadyExists: Boolean = false,
+  initFileSize: Int = 0,
+  preallocate: Boolean = false,
+  fileSuffix: String = ""): LogSegment
+----
+
+`open`...FIXME
+
+NOTE: `open` is used when...FIXME
