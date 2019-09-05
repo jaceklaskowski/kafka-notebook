@@ -37,7 +37,9 @@ $ ./bin/kafka-configs.sh \
 
 [source, scala]
 ----
-reconfigure(oldConfig: KafkaConfig, newConfig: KafkaConfig): Unit
+reconfigure(
+  oldConfig: KafkaConfig,
+  newConfig: KafkaConfig): Unit
 ----
 
 NOTE: `reconfigure` is part of the <<kafka-server-BrokerReconfigurable.adoc#reconfigure, BrokerReconfigurable Contract>> to change (_reconfigure_) the value of a Kafka dynamic configuration.

@@ -16,7 +16,9 @@ When requested to <<processConfigChanges, process configuration changes>> (for a
 
 [source, scala]
 ----
-processConfigChanges(brokerId: String, properties: Properties): Unit
+processConfigChanges(
+  brokerId: String,
+  properties: Properties): Unit
 ----
 
 NOTE: `processConfigChanges` is part of the <<kafka-server-ConfigHandler.adoc#processConfigChanges, ConfigHandler Contract>> to process configuration changes.

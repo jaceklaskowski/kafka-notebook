@@ -13,3 +13,16 @@
 * [[quotas]] <<kafka-server-QuotaManagers.adoc#, QuotaManagers>>
 
 `TopicConfigHandler` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[processConfigChanges]] Processing Configuration Changes -- `processConfigChanges` Method
+
+[source, scala]
+----
+processConfigChanges(
+  topic: String,
+  topicConfig: Properties): Unit
+----
+
+NOTE: `processConfigChanges` is part of the <<kafka-server-ConfigHandler.adoc#processConfigChanges, ConfigHandler Contract>> to process configuration changes.
+
+`processConfigChanges`...FIXME

@@ -2,13 +2,15 @@
 
 `UserConfigHandler` is...FIXME
 
-=== [[processConfigChanges]] `processConfigChanges` Method
+=== [[processConfigChanges]] Processing Configuration Changes -- `processConfigChanges` Method
 
 [source, scala]
 ----
-processConfigChanges(brokerId: String, properties: Properties): Unit
+processConfigChanges(
+  brokerId: String,
+  properties: Properties): Unit
 ----
 
-NOTE: `processConfigChanges` is part of the <<kafka-server-ConfigHandler.adoc#processConfigChanges, ConfigHandler Contract>> to...FIXME.
+NOTE: `processConfigChanges` is part of the <<kafka-server-ConfigHandler.adoc#processConfigChanges, ConfigHandler Contract>> to process configuration changes.
 
 `processConfigChanges`...FIXME

@@ -1,6 +1,6 @@
 == [[Partition]] Partition
 
-A Kafka topic is spread across a Kafka cluster as a virtual group of one or more *partitions*.
+A Kafka topic is spread across a Kafka cluster as a logical group of one or more *partitions*.
 
 A single partition of a topic (*topic partition*) can be replicated across a Kafka cluster to one or more Kafka brokers.
 
@@ -575,17 +575,6 @@ removeFutureLocalReplica(deleteFromLogDir: Boolean = true): Unit
 `removeFutureLocalReplica`...FIXME
 
 NOTE: `removeFutureLocalReplica` is used when...FIXME
-
-=== [[maybeReplaceCurrentWithFutureReplica]] `maybeReplaceCurrentWithFutureReplica` Method
-
-[source, scala]
-----
-maybeReplaceCurrentWithFutureReplica(): Boolean
-----
-
-`maybeReplaceCurrentWithFutureReplica`...FIXME
-
-NOTE: `maybeReplaceCurrentWithFutureReplica` is used when...FIXME
 
 === [[delete]] `delete` Method
 

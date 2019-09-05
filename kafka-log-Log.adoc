@@ -610,7 +610,7 @@ activeSegment: LogSegment
 
 NOTE: `activeSegment` is used exclusively when `Log` is <<creating-instance, created>> (to create a <<nextOffsetMetadata, LogOffsetMetadata>>).
 
-=== [[updateConfig]] `updateConfig` Method
+=== [[updateConfig]] Updating Config -- `updateConfig` Method
 
 [source, scala]
 ----
@@ -619,9 +619,18 @@ updateConfig(
   newConfig: LogConfig): Unit
 ----
 
-`updateConfig`...FIXME
+`updateConfig` replaces the current <<config, LogConfig>> with the given <<kafka-log-LogConfig.adoc#, LogConfig>>.
 
-NOTE: `updateConfig` is used when...FIXME
+If `message.format.version` is among the updated keys, `updateConfig`...FIXME
+
+[NOTE]
+====
+`updateConfig` is used when:
+
+* `TopicConfigHandler` is requested to <<kafka-server-TopicConfigHandler.adoc#processConfigChanges, process configuration changes>>
+
+* `DynamicLogConfig` is requested to <<kafka-server-DynamicLogConfig.adoc#reconfigure, reconfigure>>
+====
 
 === [[renameDir]] `renameDir` Method
 
@@ -632,7 +641,7 @@ renameDir(name: String): Unit
 
 `renameDir`...FIXME
 
-NOTE: `renameDir` is used when...FIXME
+NOTE: `renameDir` is used when `LogManager` is requested to <<kafka-log-LogManager.adoc#replaceCurrentWithFutureLog, replaceCurrentWithFutureLog>> and <<kafka-log-LogManager.adoc#asyncDelete, asyncDelete>>.
 
 === [[loadSegments]] `loadSegments` Internal Method
 
