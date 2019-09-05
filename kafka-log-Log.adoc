@@ -126,13 +126,34 @@ image::images/Log-jconsole.png[align="center"]
 * [[maxProducerIdExpirationMs]] `maxProducerIdExpirationMs`
 * [[producerIdExpirationCheckIntervalMs]] `producerIdExpirationCheckIntervalMs`
 * [[topicPartition]] `TopicPartition`
-* [[producerStateManager]] `ProducerStateManager`
+* [[producerStateManager]] <<kafka-log-ProducerStateManager.adoc#, ProducerStateManager>>
 * [[logDirFailureChannel]] `LogDirFailureChannel`
 
 `Log` initializes the <<internal-properties, internal properties>>.
 
-[[creating-instance-nextOffsetMetadata]]
-While being created, `Log`...FIXME
+While being created, `Log` creates the <<dir, log directory>> unless already available.
+
+[[creating-instance-initializeLeaderEpochCache]]
+`Log` <<initializeLeaderEpochCache, initializeLeaderEpochCache>>.
+
+[[creating-instance-loadSegments]]
+`Log` <<loadSegments, loadSegments>>.
+
+[[creating-instance-nextOffsetMetadata]][[creating-instance-updateLogEndOffset]]
+`Log` <<updateLogEndOffset, updateLogEndOffset>>.
+
+`Log` requests the <<leaderEpochCache, LeaderEpochFileCache>> to remove epoch entries from the store with start offsets greater than or equal to the `nextOffset` (`LeaderEpochFileCache.truncateFromEnd`).
+
+[[creating-instance-logStartOffset]]
+`Log` computes the new start offset to be the maximum of the <<logStartOffset, logStartOffset>> and the `baseOffset` of the first <<kafka-log-LogSegment.adoc#, LogSegment>> in the <<segments, segments>> internal registry.
+
+`Log` requests the <<leaderEpochCache, LeaderEpochFileCache>> to remove epoch entries from the store with offsets less than or equal to the new start offset (`LeaderEpochFileCache.truncateFromStart`).
+
+`Log` throws a `IllegalStateException` when the <<producerStateManager, ProducerStateManager>> is not <<kafka-log-ProducerStateManager.adoc#isEmpty, empty>>:
+
+```
+Producer state must be empty during log initialization
+```
 
 [[creating-instance-loadProducerState]]
 `Log` <<loadProducerState, loadProducerState>> (with the `logEndOffset` and the `reloadFromCleanShutdown` based on <<hasCleanShutdownFile, hasCleanShutdownFile>>).
@@ -589,6 +610,30 @@ activeSegment: LogSegment
 
 NOTE: `activeSegment` is used exclusively when `Log` is <<creating-instance, created>> (to create a <<nextOffsetMetadata, LogOffsetMetadata>>).
 
+=== [[updateConfig]] `updateConfig` Method
+
+[source, scala]
+----
+updateConfig(
+  updatedKeys: Set[String],
+  newConfig: LogConfig): Unit
+----
+
+`updateConfig`...FIXME
+
+NOTE: `updateConfig` is used when...FIXME
+
+=== [[renameDir]] `renameDir` Method
+
+[source, scala]
+----
+renameDir(name: String): Unit
+----
+
+`renameDir`...FIXME
+
+NOTE: `renameDir` is used when...FIXME
+
 === [[loadSegments]] `loadSegments` Internal Method
 
 [source, scala]
@@ -604,7 +649,7 @@ loadSegments(): Long
 
 `loadSegments` branches off per whether the <<loadSegments-dir-to-be-deleted, log directory is scheduled to be deleted>> or <<loadSegments-dir-not-to-be-deleted, not>>.
 
-NOTE: `loadSegments` is used exclusively when `Log` is <<creating-instance, created>> (to create a <<nextOffsetMetadata, LogOffsetMetadata>>).
+NOTE: `loadSegments` is used exclusively when `Log` is <<creating-instance-loadSegments, created>> (to create a <<nextOffsetMetadata, LogOffsetMetadata>>).
 
 ==== [[loadSegments-dir-not-to-be-deleted]] `loadSegments` Internal Method and Log Directory Not Scheduled For Deletion
 
@@ -794,6 +839,17 @@ Caught segment overflow error: [message]. Split segment and retry.
 ```
 
 NOTE: `retryOnOffsetOverflow` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>>.
+
+=== [[initializeLeaderEpochCache]] `initializeLeaderEpochCache` Internal Method
+
+[source, scala]
+----
+initializeLeaderEpochCache(): Unit
+----
+
+`initializeLeaderEpochCache`...FIXME
+
+NOTE: `initializeLeaderEpochCache` is used when `Log` is <<creating-instance-initializeLeaderEpochCache, created>> and later requested to <<updateConfig, updateConfig>> and <<renameDir, renameDir>>.
 
 === [[internal-properties]] Internal Properties
 

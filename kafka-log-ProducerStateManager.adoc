@@ -23,3 +23,14 @@ takeSnapshot(): Unit
 `takeSnapshot`...FIXME
 
 NOTE: `takeSnapshot` is used when...FIXME
+
+=== [[isEmpty]] `isEmpty` Method
+
+[source, scala]
+----
+isEmpty: Boolean
+----
+
+`isEmpty`...FIXME
+
+NOTE: `isEmpty` is used when...FIXME
