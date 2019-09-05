@@ -101,16 +101,25 @@ log4j.additivity.kafka.log.LogCleaner=false
 That means that the logs of `LogCleaner` go to `logs/log-cleaner.log` file at `INFO` logging level and are not added to the main logs (per `log4j.additivity` being off).
 ====
 
-=== [[createNewCleanedSegment]] `createNewCleanedSegment` Method
+=== [[createNewCleanedSegment]] `createNewCleanedSegment` Object Method
 
 [source, scala]
 ----
-createNewCleanedSegment(log: Log, baseOffset: Long): LogSegment
+createNewCleanedSegment(
+  log: Log,
+  baseOffset: Long): LogSegment
 ----
 
 `createNewCleanedSegment`...FIXME
 
-NOTE: `createNewCleanedSegment` is used when...FIXME
+[NOTE]
+====
+`createNewCleanedSegment` is used when:
+
+* `Log` is requested to <<kafka-log-Log.adoc#splitOverflowedSegment, splitOverflowedSegment>>
+
+* `LogCleaner` is requested to <<cleanSegments, cleanSegments>>
+====
 
 === [[cleanSegments]] `cleanSegments` Internal Method
 

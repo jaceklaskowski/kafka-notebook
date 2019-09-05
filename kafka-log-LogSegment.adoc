@@ -1,6 +1,29 @@
 == [[LogSegment]] LogSegment
 
-`LogSegment` is...FIXME
+`LogSegment` is a segment of a <<kafka-log-Log.adoc#, log>>.
+
+`LogSegment` has two components: a log and an index (and with the <<baseOffset, base offset>> it would be stored in two files, a [base offset].index and a [base offset].log file).
+
+`LogSegment` is <<creating-instance, created>> (indirectly using <<open, open>>) when:
+
+* `Log` is requested to <<kafka-log-Log.adoc#loadSegmentFiles, loadSegmentFiles>> (for every log file), <<kafka-log-Log.adoc#completeSwapOperations, completeSwapOperations>>, <<kafka-log-Log.adoc#loadSegments, loadSegments>>, <<kafka-log-Log.adoc#recoverLog, recoverLog>>, <<kafka-log-Log.adoc#roll, roll>>, and <<kafka-log-Log.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
+
+* `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#createNewCleanedSegment, createNewCleanedSegment>>
+
+=== [[creating-instance]] Creating LogSegment Instance
+
+`LogSegment` takes the following to be created:
+
+* [[log]] `FileRecords`
+* [[lazyOffsetIndex]] `LazyOffsetIndex`
+* [[lazyTimeIndex]] `LazyTimeIndex`
+* [[txnIndex]] `TransactionIndex`
+* [[baseOffset]] Base offset
+* [[indexIntervalBytes]] `indexIntervalBytes`
+* [[rollJitterMs]] `rollJitterMs`
+* [[time]] `Time`
+
+`LogSegment` initializes the <<internal-properties, internal properties>>.
 
 === [[recover]] `recover` Method
 
@@ -26,7 +49,7 @@ sanityCheck(timeIndexFileNewlyCreated: Boolean): Unit
 
 NOTE: `sanityCheck` is used when...FIXME
 
-=== [[open]] `open` Object Method
+=== [[open]] Creating LogSegment Instance -- `open` Factory Method
 
 [source, scala]
 ----
@@ -43,7 +66,14 @@ open(
 
 `open`...FIXME
 
-NOTE: `open` is used when...FIXME
+[NOTE]
+====
+`open` is used when:
+
+* `Log` is requested to <<kafka-log-Log.adoc#loadSegmentFiles, loadSegmentFiles>> (for every log file), <<kafka-log-Log.adoc#completeSwapOperations, completeSwapOperations>>, <<kafka-log-Log.adoc#loadSegments, loadSegments>>, <<kafka-log-Log.adoc#recoverLog, recoverLog>>, <<kafka-log-Log.adoc#roll, roll>>, and <<kafka-log-Log.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
+
+* `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#createNewCleanedSegment, createNewCleanedSegment>>
+====
 
 === [[resizeIndexes]] `resizeIndexes` Method
 
@@ -55,3 +85,37 @@ resizeIndexes(size: Int): Unit
 `resizeIndexes`...FIXME
 
 NOTE: `resizeIndexes` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| created
+a| [[created]] Time(stamp) when the `LogSegment` was created
+
+Used when...FIXME
+
+| bytesSinceLastIndexEntry
+a| [[bytesSinceLastIndexEntry]]
+
+Used when...FIXME
+
+| rollingBasedTimestamp
+a| [[rollingBasedTimestamp]]
+
+Used when...FIXME
+
+| _maxTimestampSoFar
+a| [[_maxTimestampSoFar]]
+
+Used when...FIXME
+
+| _offsetOfMaxTimestampSoFar
+a| [[_offsetOfMaxTimestampSoFar]]
+
+Used when...FIXME
+
+|===
