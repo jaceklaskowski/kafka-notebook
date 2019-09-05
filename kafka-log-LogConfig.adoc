@@ -19,4 +19,16 @@ a| [[file.delete.delay.ms]][[FileDeleteDelayMsProp]][[fileDeleteDelayMs]] The ti
 
 Must be at least `0`
 
+| SegmentIndexBytesProp
+
+Default: `10 * 1024 * 1024`
+
+Property: `segment.index.bytes`
+
+a| [[segment.index.bytes]][[maxIndexSize]][[SegmentIndexBytesProp]] Size of the index that maps offsets to file positions. We preallocate this index file and shrink it only after log rolls.
+
+You generally should not need to change this setting.
+
+Must be at least `0`
+
 |===

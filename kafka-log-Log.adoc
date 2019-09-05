@@ -271,7 +271,7 @@ append(
 
 `append`...FIXME
 
-NOTE: `append` is used when `Log` is requested to <<appendAsLeader, appendAsLeader>> (with `assignOffsets` flag on) and <<appendAsFollower, appendAsFollower>> (with `assignOffsets` and `isFromClient` flags off).
+NOTE: `append` is used when `Log` is requested to <<appendAsLeader, appendAsLeader>> (with `assignOffsets` enabled) and <<appendAsFollower, appendAsFollower>> (with `assignOffsets` and `isFromClient` disabled).
 
 ==== [[analyzeAndValidateRecords]] `analyzeAndValidateRecords` Internal Method
 
@@ -596,9 +596,29 @@ NOTE: `activeSegment` is used exclusively when `Log` is <<creating-instance, cre
 loadSegments(): Long
 ----
 
-`loadSegments`...FIXME
+`loadSegments` <<removeTempFilesAndCollectSwapFiles, removeTempFilesAndCollectSwapFiles>>.
+
+`loadSegments` <<loadSegmentFiles, loadSegmentFiles>> (with retries when there are <<retryOnOffsetOverflow, log segments with offset overflow>>).
+
+`loadSegments` <<completeSwapOperations, completeSwapOperations>>.
+
+`loadSegments` branches off per whether the <<loadSegments-dir-to-be-deleted, log directory is scheduled to be deleted>> or <<loadSegments-dir-not-to-be-deleted, not>>.
 
 NOTE: `loadSegments` is used exclusively when `Log` is <<creating-instance, created>> (to create a <<nextOffsetMetadata, LogOffsetMetadata>>).
+
+==== [[loadSegments-dir-not-to-be-deleted]] `loadSegments` Internal Method and Log Directory Not Scheduled For Deletion
+
+For the <<dir, log directory>> that is not <<DeleteDirSuffix, scheduled to be deleted>>, `loadSegments` <<recoverLog, recoverLog>>.
+
+`loadSegments` requests the <<activeSegment, active segment>> to <<kafka-log-LogSegment.adoc#resizeIndexes, resizeIndexes>> (to the value of <<kafka-log-LogConfig.adoc#segment.index.bytes, segment.index.bytes>> configuration property).
+
+In the end, `loadSegments` returns the next offset after recovery.
+
+==== [[loadSegments-dir-to-be-deleted]] `loadSegments` Internal Method and Log Directory Scheduled For Deletion
+
+For the <<dir, log directory>> that is <<DeleteDirSuffix, scheduled to be deleted>>, `loadSegments` <<addSegment, adds a new log segment>> (with base offset `0` and <<initFileSize, initFileSize>>).
+
+In the end, `loadSegments` returns `0`.
 
 === [[removeTempFilesAndCollectSwapFiles]] `removeTempFilesAndCollectSwapFiles` Internal Method
 
@@ -747,17 +767,6 @@ updateFirstUnstableOffset(): Unit
 
 NOTE: `updateFirstUnstableOffset` is used when `Log` is requested to <<loadProducerState, loadProducerState>>, <<append, append>>, <<onHighWatermarkIncremented, onHighWatermarkIncremented>>, <<maybeIncrementLogStartOffset, maybeIncrementLogStartOffset>>, and <<truncateFullyAndStartAt, truncateFullyAndStartAt>>.
 
-=== [[retryOnOffsetOverflow]] `retryOnOffsetOverflow` Internal Method
-
-[source, scala]
-----
-retryOnOffsetOverflow[T](fn: => T): T
-----
-
-`retryOnOffsetOverflow`...FIXME
-
-NOTE: `retryOnOffsetOverflow` is used when...FIXME
-
 === [[completeSwapOperations]] `completeSwapOperations` Internal Method
 
 [source, scala]
@@ -769,6 +778,23 @@ completeSwapOperations(swapFiles: Set[File]): Unit
 
 NOTE: `completeSwapOperations` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>>.
 
+=== [[retryOnOffsetOverflow]] `retryOnOffsetOverflow` Internal Method
+
+[source, scala]
+----
+retryOnOffsetOverflow[T](fn: => T): T
+----
+
+`retryOnOffsetOverflow` executes the `fn` block and returns the result.
+
+In case of `LogSegmentOffsetOverflowException`, `retryOnOffsetOverflow` prints out the following INFO message to the logs, <<splitOverflowedSegment, splitOverflowedSegment>> and retries.
+
+```
+Caught segment overflow error: [message]. Split segment and retry.
+```
+
+NOTE: `retryOnOffsetOverflow` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -777,7 +803,7 @@ NOTE: `completeSwapOperations` is used exclusively when `Log` is requested to <<
 | Description
 
 | nextOffsetMetadata
-| [[nextOffsetMetadata]][[logEndOffsetMetadata]] `LogOffsetMetadata` (_log end offset_) of the next message that will be <<append, appended>> to the log
+a| [[nextOffsetMetadata]][[logEndOffsetMetadata]] `LogOffsetMetadata` (_log end offset_) of the next message that will be <<append, appended>> to the log
 
 * Initialized right when `Log` is <<creating-instance, created>>
 
@@ -790,7 +816,7 @@ Used when:
 * `Replica` is requested for <<kafka-cluster-Replica.adoc#logEndOffsetMetadata, logEndOffsetMetadata>>
 
 | segments
-| [[segments]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html[java.util.concurrent.ConcurrentSkipListMap] of `Longs` and their <<kafka-log-LogSegment.adoc#, LogSegments>>
+a| [[segments]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html[java.util.concurrent.ConcurrentSkipListMap] of `Longs` and their <<kafka-log-LogSegment.adoc#, LogSegments>>
 
 * Cleared in <<loadSegments, loadSegments>> just before <<loadSegmentFiles, loadSegmentFiles>>
 

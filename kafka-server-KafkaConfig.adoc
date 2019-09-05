@@ -127,6 +127,9 @@ Used when:
 
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#describeLogDirs, describeLogDirs>>
 
+| logIndexSizeMaxBytes
+a| [[logIndexSizeMaxBytes]][[LogIndexSizeMaxBytesProp]] <<kafka-properties.adoc#log.index.size.max.bytes, log.index.size.max.bytes>>
+
 | maxConnectionsPerIp
 a| [[maxConnectionsPerIp]][[MaxConnectionsPerIpProp]] <<kafka-properties.adoc#max.connections.per.ip, max.connections.per.ip>>
 

@@ -263,6 +263,13 @@ Default: <<log.dir, log.dir>>
 
 Use <<kafka-server-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> to access the current value.
 
+| log.index.size.max.bytes
+a| [[log.index.size.max.bytes]] Maximum size in bytes of the offset index
+
+Default: `10 * 1024 * 1024` (at least `4`)
+
+Use <<kafka-server-KafkaConfig.adoc#logIndexSizeMaxBytes, KafkaConfig.logIndexSizeMaxBytes>> to access the current value.
+
 | max.block.ms
 | [[max.block.ms]]
 

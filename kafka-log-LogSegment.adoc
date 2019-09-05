@@ -44,3 +44,14 @@ open(
 `open`...FIXME
 
 NOTE: `open` is used when...FIXME
+
+=== [[resizeIndexes]] `resizeIndexes` Method
+
+[source, scala]
+----
+resizeIndexes(size: Int): Unit
+----
+
+`resizeIndexes`...FIXME
+
+NOTE: `resizeIndexes` is used when...FIXME
