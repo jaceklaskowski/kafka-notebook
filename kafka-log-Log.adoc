@@ -1,6 +1,14 @@
 == [[Log]] Partition Log
 
-`Log` is a *partition log* that is <<apply, created>> when `LogManager` is requested to <<kafka-log-LogManager.adoc#loadLog, loadLog>> (when `LogManager` is <<kafka-log-LogManager.adoc#creating-instance, created>>) and <<kafka-log-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
+`Log` is a *partition log*.
+
+`Log` is stored on disk in a <<dir, log directory>> with the <<parseTopicPartitionName, name>> of the form *topic-partition* or *topic-partition.uniqueId-delete* (if marked for deletion).
+
+`Log` is <<apply, created>> when `LogManager` is requested to:
+
+* <<kafka-log-LogManager.adoc#loadLog, Load a partition log directory>> (while being <<kafka-log-LogManager.adoc#creating-instance, created>> which is when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>)
+
+* <<kafka-log-LogManager.adoc#getOrCreateLog, Look up or create a log>> (when `Partition` is requested to <<kafka-cluster-Partition.adoc#getOrCreateReplica, getOrCreateReplica>>)
 
 [[CleanShutdownFile]]
 `Log` uses *.kafka_cleanshutdown* file to indicate...FIXME
@@ -182,7 +190,11 @@ apply(
   logDirFailureChannel: LogDirFailureChannel): Log
 ----
 
-`apply`...FIXME
+`apply` <<parseTopicPartitionName, parseTopicPartitionName>> from the <<dir, log directory>>.
+
+`apply` creates a new <<kafka-log-ProducerStateManager.adoc#, ProducerStateManager>>.
+
+In the end, `apply` creates a <<creating-instance, Log>>.
 
 NOTE: `apply` is used when `LogManager` is requested to <<kafka-log-LogManager.adoc#loadLog, loadLog>> and <<kafka-log-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
 
@@ -494,7 +506,11 @@ NOTE: `onHighWatermarkIncremented` is used when `Replica` is <<kafka-cluster-Rep
 parseTopicPartitionName(dir: File): TopicPartition
 ----
 
-`parseTopicPartitionName`...FIXME
+`parseTopicPartitionName` parses the name of the given directory and creates a `TopicPartition`.
+
+`parseTopicPartitionName` assumes that the name is of the form *topic-partition* or *topic-partition.uniqueId-delete* (if marked for deletion).
+
+`parseTopicPartitionName` uses all characters up to the last `-` for the topic name and the rest as the partition ID.
 
 [NOTE]
 ====

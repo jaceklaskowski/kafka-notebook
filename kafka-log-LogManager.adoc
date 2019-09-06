@@ -304,9 +304,24 @@ getOrCreateLog(
   isFuture: Boolean = false): Log
 ----
 
-`getOrCreateLog`...FIXME
+`getOrCreateLog` <<getLog, looks up the partition log>> and returns if found.
+
+Otherwise, `getOrCreateLog`...FIXME
 
 NOTE: `getOrCreateLog` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#getOrCreateReplica, getOrCreateReplica>>.
+
+=== [[getLog]] `getLog` Method
+
+[source, scala]
+----
+getLog(
+  topicPartition: TopicPartition,
+  isFuture: Boolean = false): Option[Log]
+----
+
+`getLog`...FIXME
+
+NOTE: `getLog` is used when...FIXME
 
 === [[liveLogDirs]] `liveLogDirs` Method
 
