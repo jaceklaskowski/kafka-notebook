@@ -248,9 +248,9 @@ getOrCreateReplica(
   isNew: Boolean = false): Replica
 ----
 
-`getOrCreateReplica` finds the <<kafka-cluster-Replica.adoc#, Replica>> in the <<allReplicasMap, allReplicasMap>> internal registry (by the given `replicaId`).
+`getOrCreateReplica` simply looks up the <<kafka-cluster-Replica.adoc#, Replica>> in the <<allReplicasMap, allReplicasMap>> internal registry (by the given `replicaId`).
 
-When the replica is not in the <<allReplicasMap, allReplicasMap>> internal registry, `getOrCreateReplica`...FIXME
+If not found, `getOrCreateReplica`...FIXME
 
 [NOTE]
 ====

@@ -13,6 +13,8 @@ NOTE: `KafkaServer` creates a `ReplicaManager` for the only purpose of creating 
 
 When <<startup, started>>, `ReplicaManager` schedules <<kafka-server-scheduled-tasks.adoc#isr-expiration, isr-expiration>> and <<kafka-server-scheduled-tasks.adoc#isr-change-propagation, isr-change-propagation>> recurring tasks (every half of link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms] property and 2500 ms, respectively).
 
+`ReplicaManager` manages a <<allPartitions, registry of Partitions by TopicPartition>>.
+
 `ReplicaManager` uses the <<metadataCache, MetadataCache>> for the following:
 
 * ...FIXME
@@ -89,6 +91,23 @@ The performance metrics are registered in *kafka.server:type=ReplicaManager* gro
 
 .ReplicaManager in jconsole
 image::images/ReplicaManager-jconsole.png[align="center"]
+
+=== [[allPartitions]] Registry of Partitions by TopicPartition -- `allPartitions` Internal Property
+
+[source, scala]
+----
+allPartitions: Pool[TopicPartition, Partition]
+----
+
+`allPartitions` is a registry of <<kafka-cluster-Partition.adoc#, Partitions>> by `TopicPartition`
+
+The number of partitions in `allPartitions` is available as the <<partitionCount, PartitionCount>> performance metric.
+
+A new `TopicPartition` is added exclusively when <<getOrCreatePartition, looking up a Partition by a TopicPartition that is not registered yet>>.
+
+A `TopicPartition` is removed when <<stopReplica, stopping a replica>> (and marked as the <<OfflinePartition, OfflinePartition>>).
+
+NOTE: `allPartitions` is used when <<getPartition, getPartition>>, <<nonOfflinePartitionsIterator, nonOfflinePartitionsIterator>>, <<offlinePartitionsIterator, offlinePartitionsIterator>>, <<becomeLeaderOrFollower, becomeLeaderOrFollower>>, <<maybeShrinkIsr, maybeShrinkIsr>>, <<handleLogDirFailure, handleLogDirFailure>>
 
 === [[createReplicaFetcherManager]] Creating ReplicaFetcherManager -- `createReplicaFetcherManager` Internal Factory Method
 
@@ -525,7 +544,7 @@ getPartition(topicPartition: TopicPartition): Option[Partition]
 
 ====
 
-=== [[stopReplica]] `stopReplica` Method
+=== [[stopReplica]] Stopping Partition Replica -- `stopReplica` Method
 
 [source, scala]
 ----
@@ -571,14 +590,14 @@ nonOfflinePartitionsIterator: Iterator[Partition]
 
 NOTE: `nonOfflinePartitionsIterator` is used when `ReplicaManager` is requested to <<leaderPartitionsIterator, leaderPartitionsIterator>>, <<checkpointHighWatermarks, checkpointHighWatermarks>>, and <<handleLogDirFailure, handleLogDirFailure>>.
 
-=== [[getOrCreatePartition]] `getOrCreatePartition` Method
+=== [[getOrCreatePartition]] Looking Up Partition or Creating New One (by TopicPartition) -- `getOrCreatePartition` Method
 
 [source, scala]
 ----
 getOrCreatePartition(topicPartition: TopicPartition): Partition
 ----
 
-`getOrCreatePartition`...FIXME
+`getOrCreatePartition` simply looks up a <<kafka-cluster-Partition.adoc#, Partition>> by the `TopicPartition` (in the <<allPartitions, allPartitions>> internal registry). If not found, `getOrCreatePartition` adds a new `Partition`.
 
 NOTE: `getOrCreatePartition` is used exclusively when `ReplicaManager` is requested to <<becomeLeaderOrFollower, becomeLeaderOrFollower>>.
 
@@ -752,17 +771,6 @@ Used when:
 * `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure (resize) the thread pool>>
 
 * `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleStopReplicaRequest, handle a StopReplica request>>
-
-| allPartitions
-a| [[allPartitions]] <<kafka-cluster-Partition.adoc#, Partitions>> by `TopicPartition`
-
-Available as <<partitionCount, PartitionCount>> performance metric
-
-* `TopicPartition` removed in <<stopReplica, stopReplica>> (and marked as the <<OfflinePartition, OfflinePartition>>)
-
-* `TopicPartition` added in <<getOrCreatePartition, getOrCreatePartition>> and <<markPartitionOffline, markPartitionOffline>>
-
-Used in <<getPartition, getPartition>>, <<nonOfflinePartitionsIterator, nonOfflinePartitionsIterator>>, <<offlinePartitionsIterator, offlinePartitionsIterator>>, <<becomeLeaderOrFollower, becomeLeaderOrFollower>>, <<maybeShrinkIsr, maybeShrinkIsr>>, <<handleLogDirFailure, handleLogDirFailure>>
 
 | highWatermarkCheckpoints
 a| [[highWatermarkCheckpoints]] `OffsetCheckpointFiles` per live log data directory
