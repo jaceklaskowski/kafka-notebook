@@ -1,49 +1,20 @@
 == [[ControllerBrokerRequestBatch]] ControllerBrokerRequestBatch
 
-`ControllerBrokerRequestBatch` is <<creating-instance, created>> exclusively for a <<kafka-controller-KafkaController.adoc#brokerRequestBatch, KafkaController>> that uses it for the following:
+`ControllerBrokerRequestBatch` is a concrete <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#, AbstractControllerBrokerRequestBatch>>.
 
-* <<addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>>
-
-* <<addUpdateMetadataRequestForBrokers, addUpdateMetadataRequestForBrokers>>
-
-* <<addStopReplicaRequestForBrokers, addStopReplicaRequestForBrokers>>
+`ControllerBrokerRequestBatch` is <<creating-instance, created>> exclusively for <<kafka-controller-KafkaController.adoc#, KafkaController>> (for <<kafka-controller-KafkaController.adoc#brokerRequestBatch, brokerRequestBatch>>, <<kafka-controller-KafkaController.adoc#replicaStateMachine, ReplicaStateMachine>>, and <<kafka-controller-KafkaController.adoc#partitionStateMachine, PartitionStateMachine>>).
 
 Every time `ControllerBrokerRequestBatch` is used it is first <<newBatch, newBatch>> that is then <<sendRequestsToBrokers, sendRequestsToBrokers>>.
 
-[[creating-instance]]
+=== [[creating-instance]] Creating ControllerBrokerRequestBatch Instance
+
 `ControllerBrokerRequestBatch` takes the following to be created:
 
-* [[controller]] <<kafka-controller-KafkaController.adoc#, KafkaController>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
+* [[controllerChannelManager]] <<kafka-controller-ControllerChannelManager.adoc#, ControllerChannelManager>>
+* [[controllerEventManager]] <<kafka-controller-ControllerEventManager.adoc#, ControllerEventManager>>
+* [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
 * [[stateChangeLogger]] `StateChangeLogger`
-
-[[internal-registries]]
-.ControllerBrokerRequestBatch's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| leaderAndIsrRequestMap
-a| [[leaderAndIsrRequestMap]] `Map[Int, mutable.Map[TopicPartition, LeaderAndIsrRequest.PartitionState]]`
-
-* A new entry added in <<addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>>
-
-* Cleared in <<clear, clear>> and <<sendRequestsToBrokers, sendRequestsToBrokers>>
-
-Used when `ControllerBrokerRequestBatch` is requested to <<sendRequestsToBrokers, sendRequestsToBrokers>>
-
-| stopReplicaRequestMap
-a| [[stopReplicaRequestMap]] `Map[Int, Seq[StopReplicaRequestInfo]]`
-
-| updateMetadataRequestBrokerSet
-| [[updateMetadataRequestBrokerSet]] Broker IDs to <<sendRequestsToBrokers, send UPDATE_METADATA requests to>> (and to be removed right after a successful sending)
-
-New broker IDs added in <<addUpdateMetadataRequestForBrokers, addUpdateMetadataRequestForBrokers>>
-
-| updateMetadataRequestPartitionInfoMap
-| [[updateMetadataRequestPartitionInfoMap]] `TopicPartitions` with their `PartitionState`
-
-|===
 
 === [[newBatch]] `newBatch` Method
 

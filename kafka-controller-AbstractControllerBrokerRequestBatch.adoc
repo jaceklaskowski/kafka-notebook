@@ -1,6 +1,54 @@
 == [[AbstractControllerBrokerRequestBatch]] AbstractControllerBrokerRequestBatch
 
-`AbstractControllerBrokerRequestBatch` is...FIXME
+`AbstractControllerBrokerRequestBatch` is the <<contract, base>> of <<extensions, ControllerBrokerRequestBatches>> that <<sendRequestsToBrokers, sendRequestsToBrokers>>.
+
+[[implementations]]
+NOTE: <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>> is the default and only known implementation of the <<contract, AbstractControllerBrokerRequestBatch Contract>> in Apache Kafka.
+
+[[contract]]
+.AbstractControllerBrokerRequestBatch Contract (Abstract Methods Only)
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| sendEvent
+a| [[sendEvent]]
+
+[source, scala]
+----
+sendEvent(
+  event: ControllerEvent): Unit
+----
+
+Used when `AbstractControllerBrokerRequestBatch` is requested to <<sendLeaderAndIsrRequest, sendLeaderAndIsrRequest>> and <<sendStopReplicaRequests, sendStopReplicaRequests>>
+
+| sendRequest
+a| [[sendRequest]]
+
+[source, scala]
+----
+sendRequest(
+  brokerId: Int,
+  request: AbstractControlRequest.Builder[_ <: AbstractControlRequest],
+  callback: AbstractResponse => Unit = null): Unit
+----
+
+Used when `AbstractControllerBrokerRequestBatch` is requested to <<sendLeaderAndIsrRequest, sendLeaderAndIsrRequest>>, <<sendUpdateMetadataRequests, sendUpdateMetadataRequests>>, and <<sendStopReplicaRequests, sendStopReplicaRequests>>
+
+|===
+
+=== [[creating-instance]] Creating AbstractControllerBrokerRequestBatch Instance
+
+`AbstractControllerBrokerRequestBatch` takes the following to be created:
+
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
+* [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
+* [[stateChangeLogger]] `StateChangeLogger`
+
+`AbstractControllerBrokerRequestBatch` initializes the <<internal-properties, internal properties>>.
+
+NOTE: `AbstractControllerBrokerRequestBatch` is a Scala abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractControllerBrokerRequestBatches>>.
 
 === [[sendRequestsToBrokers]] `sendRequestsToBrokers` Method
 
@@ -9,7 +57,13 @@
 sendRequestsToBrokers(controllerEpoch: Int): Unit
 ----
 
-`sendRequestsToBrokers`...FIXME
+`sendRequestsToBrokers` <<sendLeaderAndIsrRequest, sendLeaderAndIsrRequest>>.
+
+`sendRequestsToBrokers` <<sendUpdateMetadataRequests, sendUpdateMetadataRequests>>.
+
+`sendRequestsToBrokers` <<sendStopReplicaRequests, sendStopReplicaRequests>>.
+
+In case of any error (`Throwable`), `sendRequestsToBrokers`...FIXME
 
 [NOTE]
 ====
@@ -34,3 +88,42 @@ sendLeaderAndIsrRequest(
 `sendLeaderAndIsrRequest`...FIXME
 
 NOTE: `sendLeaderAndIsrRequest` is used exclusively when `AbstractControllerBrokerRequestBatch` is requested to <<sendRequestsToBrokers, sendRequestsToBrokers>>.
+
+==== [[sendUpdateMetadataRequests]] `sendUpdateMetadataRequests` Internal Method
+
+[source, scala]
+----
+sendUpdateMetadataRequests(
+  controllerEpoch: Int,
+  stateChangeLog: StateChangeLogger): Unit
+----
+
+`sendUpdateMetadataRequests`...FIXME
+
+NOTE: `sendUpdateMetadataRequests` is used exclusively when `AbstractControllerBrokerRequestBatch` is requested to <<sendRequestsToBrokers, sendRequestsToBrokers>>.
+
+==== [[sendStopReplicaRequests]] `sendStopReplicaRequests` Internal Method
+
+[source, scala]
+----
+sendStopReplicaRequests(
+  controllerEpoch: Int): Unit
+----
+
+`sendStopReplicaRequests`...FIXME
+
+NOTE: `sendStopReplicaRequests` is used exclusively when `AbstractControllerBrokerRequestBatch` is requested to <<sendRequestsToBrokers, sendRequestsToBrokers>>.
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| leaderAndIsrRequestMap
+a| [[leaderAndIsrRequestMap]] (`Map[Int, Map[TopicPartition, LeaderAndIsrRequest.PartitionState]]`)
+
+Used when...FIXME
+
+|===
