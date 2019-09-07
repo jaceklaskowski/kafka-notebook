@@ -16,7 +16,7 @@
 
 * `LeaderAndIsrRequest` is requested to <<parse, parse a byte buffer>>
 
-* `LeaderAndIsrRequest.Builder` is requested to <<build, build a LeaderAndIsrRequest>>
+* `LeaderAndIsrRequest.Builder` is requested to <<build, build a LeaderAndIsrRequest>> (when `ControllerBrokerRequestBatch` is requested to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, sendRequestsToBrokers>>)
 
 === [[LeaderAndIsrRequest.Builder]][[Builder]][[build]] `LeaderAndIsrRequest.Builder` Factory Object
 

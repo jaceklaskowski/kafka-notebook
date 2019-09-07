@@ -173,11 +173,11 @@ NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is requeste
 handleLeaderAndIsrRequest(request: RequestChannel.Request): Unit
 ----
 
-In summary, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>>.
+In summary, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, become the leader or a follower (of partitions)>>.
 
 Internally, `handleLeaderAndIsrRequest` takes the <<kafka-common-requests-LeaderAndIsrRequest.adoc#, LeaderAndIsrRequest>> from (the body of) the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>.
 
-When <<authorizeClusterAction, authorized for cluster action>> and not <<isBrokerEpochStale, isBrokerEpochStale>>, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>> (with the <<handleLeaderAndIsrRequest-onLeadershipChange, onLeadershipChange>> callback that gets the <<kafka-cluster-Partition.adoc#, Partitions>> for which leaders and followers have changed).
+When <<authorizeClusterAction, authorized for cluster action>> and not <<isBrokerEpochStale, isBrokerEpochStale>>, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, become the leader or a follower (of partitions)>> (with the <<handleLeaderAndIsrRequest-onLeadershipChange, onLeadershipChange>> callback that gets the <<kafka-cluster-Partition.adoc#, Partitions>> of which the broker is a new leader or a follower).
 
 `handleLeaderAndIsrRequest` <<isBrokerEpochStale, isBrokerEpochStale>> and...FIXME
 

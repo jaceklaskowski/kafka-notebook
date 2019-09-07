@@ -15,6 +15,8 @@ When <<startup, started>>, `ReplicaManager` schedules <<kafka-server-scheduled-t
 
 `ReplicaManager` manages a <<allPartitions, registry of Partitions by TopicPartition>>.
 
+`ReplicaManager` <<becomeLeaderOrFollower, can be the leader or a follower>> of partitions which happens when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleLeaderAndIsrRequest, handle a LeaderAndIsr request>> (mostly, if not always, from the <<kafka-controller-KafkaController.adoc#, KafkaController>>).
+
 `ReplicaManager` uses the <<metadataCache, MetadataCache>> for the following:
 
 * ...FIXME
@@ -146,7 +148,7 @@ alterReplicaLogDirs(partitionDirs: Map[TopicPartition, String]): Map[TopicPartit
 
 NOTE: `alterReplicaLogDirs` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleAlterReplicaLogDirsRequest, handle an AlterReplicaLogDirs request>>.
 
-=== [[becomeLeaderOrFollower]] `becomeLeaderOrFollower` Method
+=== [[becomeLeaderOrFollower]] Becoming Leader or Follower of Partitions -- `becomeLeaderOrFollower` Method
 
 [source, scala]
 ----
@@ -156,7 +158,34 @@ becomeLeaderOrFollower(
   onLeadershipChange: (Iterable[Partition], Iterable[Partition]) => Unit): LeaderAndIsrResponse
 ----
 
+`becomeLeaderOrFollower` prints out the following TRACE message to the logs:
+
+```
+Received LeaderAndIsr request [stateInfo] correlation id [correlationId] from controller [controllerId] epoch [controllerEpoch] for partition [topicPartition]
+```
+
+`becomeLeaderOrFollower` records the current controller epoch (of the <<kafka-common-requests-LeaderAndIsrRequest.adoc#, LeaderAndIsrRequest>>) in the <<controllerEpoch, controllerEpoch>> internal registry.
+
+[[becomeLeaderOrFollower-partitionsTobeLeader]][[becomeLeaderOrFollower-partitionsToBeFollower]]
+For all _valid partition states_, `becomeLeaderOrFollower` finds the partition states with the leader being the <<localBrokerId, (local) broker>> and that are the partitions for which the broker becomes the leader. All other partition states are for partitions for which the broker becomes a follower.
+
+[[becomeLeaderOrFollower-partitionsBecomeLeader]]
+For all partitions for which the broker becomes the leader, `becomeLeaderOrFollower` <<makeLeaders, makeLeaders>>.
+
+[[becomeLeaderOrFollower-partitionsBecomeFollower]]
+For all partitions for which the broker becomes a follower, `becomeLeaderOrFollower` <<makeFollowers, makeFollowers>>.
+
+[[becomeLeaderOrFollower-hwThreadInitialized]]
+With the <<hwThreadInitialized, hwThreadInitialized>> internal flag disabled (`false`), `becomeLeaderOrFollower` <<startHighWaterMarksCheckPointThread, startHighWaterMarksCheckPointThread>> and turns the flag on (`true`).
+
+[[becomeLeaderOrFollower-newPartitions]]
+For every new partitions, `becomeLeaderOrFollower`...FIXME
+
 `becomeLeaderOrFollower`...FIXME
+
+`becomeLeaderOrFollower` calls the given `onLeadershipChange` callback with the partitions for the broker to be the leader and a follower.
+
+In the end, `becomeLeaderOrFollower` creates a new `LeaderAndIsrResponse` to "announce" a successful request processing.
 
 NOTE: `becomeLeaderOrFollower` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleLeaderAndIsrRequest, handle a LeaderAndIsr request>>.
 
@@ -759,6 +788,9 @@ readFromLocalLog(
 | Name
 | Description
 
+| controllerEpoch
+a| [[controllerEpoch]]
+
 | replicaFetcherManager
 a| [[replicaFetcherManager]] <<kafka-server-ReplicaFetcherManager.adoc#, ReplicaFetcherManager>>
 
@@ -777,6 +809,9 @@ a| [[highWatermarkCheckpoints]] `OffsetCheckpointFiles` per live log data direct
 
 | stateChangeLogger
 a| [[stateChangeLogger]] `StateChangeLogger` with the broker ID and `inControllerContext` flag off (that sets `Broker` log prefix)
+
+| hwThreadInitialized
+a| [[hwThreadInitialized]]
 
 | isrChangeSet
 a| [[isrChangeSet]] Collection of `TopicPartition` that...FIXME
