@@ -3,6 +3,32 @@
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
 
+=== Kafka Controller
+
+. link:kafka-controller-ControllerContext.adoc[ControllerContext]
+
+. link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
+.. link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
+
+. link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
+.. link:kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
+.. link:kafka-controller-ControllerEvent-Startup.adoc[Startup]
+.. link:kafka-controller-ControllerEvent-Reelect.adoc[Reelect]
+.. link:kafka-controller-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
+
+. link:kafka-controller-ControllerState.adoc[ControllerState]
+
+. link:kafka-controller-ControllerChannelManager.adoc[ControllerChannelManager]
+
+. link:kafka-controller-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
+.. link:kafka-controller-AbstractControllerBrokerRequestBatch.adoc[AbstractControllerBrokerRequestBatch]
+
+. link:kafka-controller-ZkPartitionStateMachine.adoc[ZkPartitionStateMachine]
+.. link:kafka-controller-PartitionStateMachine.adoc[PartitionStateMachine]
+
+. link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
+. link:kafka-controller-ReplicaStateMachine.adoc[ReplicaStateMachine]
+
 === Kafka Tools (Utilities)
 
 . link:kafka-tools.adoc[Kafka Tools]
@@ -124,29 +150,6 @@
 
 . link:kafka-ZkUtils.adoc[ZkUtils]
 . link:kafka-ZKRebalancerListener.adoc[ZKRebalancerListener]
-
-=== Kafka Controller
-
-. link:kafka-controller-ControllerContext.adoc[ControllerContext]
-
-. link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
-.. link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
-
-. link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
-.. link:kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
-.. link:kafka-controller-ControllerEvent-Startup.adoc[Startup]
-.. link:kafka-controller-ControllerEvent-Reelect.adoc[Reelect]
-.. link:kafka-controller-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
-
-. link:kafka-controller-ControllerState.adoc[ControllerState]
-
-. link:kafka-controller-ControllerChannelManager.adoc[ControllerChannelManager]
-
-. link:kafka-controller-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
-
-. link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
-. link:kafka-controller-ReplicaStateMachine.adoc[ReplicaStateMachine]
-. link:kafka-controller-PartitionStateMachine.adoc[PartitionStateMachine]
 
 === Kafka Cluster
 

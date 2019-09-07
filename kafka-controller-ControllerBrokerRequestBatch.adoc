@@ -45,26 +45,6 @@ New broker IDs added in <<addUpdateMetadataRequestForBrokers, addUpdateMetadataR
 
 |===
 
-=== [[sendRequestsToBrokers]] `sendRequestsToBrokers` Method
-
-[source, scala]
-----
-sendRequestsToBrokers(controllerEpoch: Int): Unit
-----
-
-`sendRequestsToBrokers`...FIXME
-
-[NOTE]
-====
-`sendRequestsToBrokers` is used when:
-
-* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>> and at <<kafka-controller-KafkaController.adoc#ControlledShutdown, ControlledShutdown>> controller event
-
-* `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#handleStateChanges, handleStateChanges>> and <<kafka-controller-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>>
-
-* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
-====
-
 === [[newBatch]] `newBatch` Method
 
 [source, scala]

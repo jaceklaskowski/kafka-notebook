@@ -2,10 +2,9 @@
 
 `KafkaApis` is responsible for <<handle, handling API requests>> (by means of <<handlers, handlers>>) to a <<kafka-server-KafkaServer.adoc#apis, KafkaServer>> and orchestrating interactions between the services.
 
-[[keys]]
-[[handlers]]
+[[keys]][[handlers]]
 .KafkaApis's API Keys and Handlers
-[cols="1m,1",options="header",width="100%"]
+[cols="30m,70",options="header",width="100%"]
 |===
 | API Key
 | Handler
@@ -50,7 +49,7 @@
 | [[JoinGroup]][[JOIN_GROUP]] <<handleJoinGroupRequest, handleJoinGroupRequest>>
 
 | LeaderAndIsr
-| [[LeaderAndIsr]][[LEADER_AND_ISR]] <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
+| [[LeaderAndIsr]][[LEADER_AND_ISR]] Cluster action / <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
 
 | ListOffsets
 | [[ListOffsets]][[LIST_OFFSETS]] <<handleListOffsetRequest, handleListOffsetRequest>>
@@ -71,10 +70,10 @@
 | [[Produce]][[PRODUCE]] <<handleProduceRequest, handleProduceRequest>>
 
 | StopReplica
-| [[StopReplica]][[STOP_REPLICA]] <<handleStopReplicaRequest, handleStopReplicaRequest>>
+| [[StopReplica]][[STOP_REPLICA]] Cluster action / <<handleStopReplicaRequest, handleStopReplicaRequest>>
 
 | UpdateMetadata
-| [[UpdateMetadata]][[UPDATE_METADATA]] <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
+| [[UpdateMetadata]][[UPDATE_METADATA]] Cluster action / <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
 
 | WriteTxnMarkers
 | [[WriteTxnMarkers]][[WRITE_TXN_MARKERS]] <<handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>>
@@ -176,11 +175,11 @@ handleLeaderAndIsrRequest(request: RequestChannel.Request): Unit
 
 In summary, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>>.
 
-`handleLeaderAndIsrRequest` takes the <<kafka-common-requests-LeaderAndIsrRequest.adoc#, LeaderAndIsrRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>).
+Internally, `handleLeaderAndIsrRequest` takes the <<kafka-common-requests-LeaderAndIsrRequest.adoc#, LeaderAndIsrRequest>> from (the body of) the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>.
 
-When <<isAuthorizedClusterAction, authorized cluster action>>, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>> (with the <<handleLeaderAndIsrRequest-onLeadershipChange, onLeadershipChange>> callback).
+When <<authorizeClusterAction, authorized for cluster action>> and not <<isBrokerEpochStale, isBrokerEpochStale>>, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>> (with the <<handleLeaderAndIsrRequest-onLeadershipChange, onLeadershipChange>> callback that gets the <<kafka-cluster-Partition.adoc#, Partitions>> for which leaders and followers have changed).
 
-When <<isAuthorizedClusterAction, unauthorized>>, `handleLeaderAndIsrRequest`...FIXME
+`handleLeaderAndIsrRequest` <<isBrokerEpochStale, isBrokerEpochStale>> and...FIXME
 
 NOTE: `handleLeaderAndIsrRequest` is used exclusively when `KafkaApis` is requested to handle a <<LeaderAndIsr, LeaderAndIsr>> request.
 
@@ -752,3 +751,31 @@ updateRecordConversionStats(
 `updateRecordConversionStats`...FIXME
 
 NOTE: `updateRecordConversionStats` is used when...FIXME
+
+=== [[authorizeClusterAction]] Asserting Permissions for Cluster Action -- `authorizeClusterAction` Method
+
+[source, scala]
+----
+authorizeClusterAction(request: RequestChannel.Request): Unit
+----
+
+`authorizeClusterAction` simply asserts that the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>> is <<isAuthorizedClusterAction, authorized>> to execute `ClusterAction` on a `ClusterResource`. If so, `authorizeClusterAction` does nothing and returns.
+
+If not <<isAuthorizedClusterAction, authorized>>, `authorizeClusterAction` throws a `ClusterAuthorizationException`:
+
+```
+Request [request] is not authorized.
+```
+
+NOTE: `authorizeClusterAction` is used when `KafkaApis` is requested to <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>, <<handleStopReplicaRequest, handleStopReplicaRequest>>, <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>, <<handleControlledShutdownRequest, handleControlledShutdownRequest>>, and <<handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>>.
+
+=== [[isBrokerEpochStale]] `isBrokerEpochStale` Internal Method
+
+[source, scala]
+----
+isBrokerEpochStale(brokerEpochInRequest: Long): Boolean
+----
+
+`isBrokerEpochStale`...FIXME
+
+NOTE: `isBrokerEpochStale` is used when `KafkaApis` is requested to <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>, <<handleStopReplicaRequest, handleStopReplicaRequest>>, and <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>.

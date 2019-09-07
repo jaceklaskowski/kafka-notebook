@@ -1,0 +1,36 @@
+== [[AbstractControllerBrokerRequestBatch]] AbstractControllerBrokerRequestBatch
+
+`AbstractControllerBrokerRequestBatch` is...FIXME
+
+=== [[sendRequestsToBrokers]] `sendRequestsToBrokers` Method
+
+[source, scala]
+----
+sendRequestsToBrokers(controllerEpoch: Int): Unit
+----
+
+`sendRequestsToBrokers`...FIXME
+
+[NOTE]
+====
+`sendRequestsToBrokers` is used when:
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>> and at <<kafka-controller-KafkaController.adoc#ControlledShutdown, ControlledShutdown>> controller event
+
+* `ZkPartitionStateMachine` is requested to <<kafka-controller-ZkPartitionStateMachine.adoc#handleStateChanges, handleStateChanges>>
+
+* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
+====
+
+==== [[sendLeaderAndIsrRequest]] `sendLeaderAndIsrRequest` Internal Method
+
+[source, scala]
+----
+sendLeaderAndIsrRequest(
+  controllerEpoch: Int,
+  stateChangeLog: StateChangeLogger): Unit
+----
+
+`sendLeaderAndIsrRequest`...FIXME
+
+NOTE: `sendLeaderAndIsrRequest` is used exclusively when `AbstractControllerBrokerRequestBatch` is requested to <<sendRequestsToBrokers, sendRequestsToBrokers>>.

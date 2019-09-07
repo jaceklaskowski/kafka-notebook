@@ -1,0 +1,18 @@
+== [[ZkPartitionStateMachine]] ZkPartitionStateMachine
+
+`ZkPartitionStateMachine` is a concrete <<kafka-controller-PartitionStateMachine.adoc#, PartitionStateMachine>>.
+
+=== [[handleStateChanges]] `handleStateChanges` Method
+
+[source, scala]
+----
+handleStateChanges(
+  partitions: Seq[TopicPartition],
+  targetState: PartitionState,
+  partitionLeaderElectionStrategyOpt: Option[PartitionLeaderElectionStrategy]
+): Map[TopicPartition, Throwable]
+----
+
+NOTE: `handleStateChanges` is part of the <<kafka-controller-PartitionStateMachine.adoc#handleStateChanges, PartitionStateMachine Contract>> to...FIXME.
+
+`handleStateChanges`...FIXME

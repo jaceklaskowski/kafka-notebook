@@ -5,8 +5,9 @@
 
 * [[controllerId]] Controller ID
 * [[controllerEpoch]] Controller Epoch
+* [[brokerEpoch]] Broker Epoch
 * [[partitionStates]] `PartitionStates` by `TopicPartition` (`Map<TopicPartition, PartitionState>`)
-* [[liveLeaders]] Live broker nodes
+* [[liveLeaders]] *Live leaders* (brokers with leaders)
 * [[version]] Version
 
 `LeaderAndIsrRequest` is <<creating-instance, created>> when:
@@ -26,15 +27,17 @@
 LeaderAndIsrRequest build(short version)
 ----
 
-`LeaderAndIsrRequest.Builder` is used exclusively when `ControllerBrokerRequestBatch` is requested to <<kafka-controller-ControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, sendRequestsToBrokers>>.
+`LeaderAndIsrRequest.Builder` is used exclusively when `ControllerBrokerRequestBatch` is requested to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendLeaderAndIsrRequest, sendLeaderAndIsrRequest>>.
 
 === [[parse]] Creating LeaderAndIsrRequest from Byte Buffer -- `parse` Factory Method
 
 [source, java]
 ----
-LeaderAndIsrRequest parse(ByteBuffer buffer, short version)
+LeaderAndIsrRequest parse(
+  ByteBuffer buffer,
+  short version)
 ----
 
-`parse`...FIXME
+`parse` simply creates a <<LeaderAndIsrRequest, LeaderAndIsrRequest>>.
 
 NOTE: `parse` is used when...FIXME
