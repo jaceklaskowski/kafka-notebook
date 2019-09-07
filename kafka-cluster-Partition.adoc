@@ -20,11 +20,15 @@ Kafka producers publish messages to topic leaders as do Kafka consumers consume 
 
 * `ReplicaManager` is requested for the <<kafka-server-ReplicaManager.adoc#OfflinePartition, OfflinePartition>>
 
-`Partition` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
+[[logIdent]]
+`Partition` uses *[Partition [topicPartition] broker=[localBrokerId]]* as the logging prefix (aka `logIdent`).
 
-[[metrics]]
+=== [[KafkaMetricsGroup]][[metrics]] Performance Metrics
+
+`Partition` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with the following performance metrics.
+
 .Partition's Performance Metrics
-[cols="1m,2",options="header",width="100%"]
+[cols="30m,70",options="header",width="100%"]
 |===
 | Metric Name
 | Description
@@ -70,49 +74,52 @@ One of the two possible values:
 
 |===
 
-The <<metrics, performance metrics>> are registered in *kafka.cluster:type=Partition* group (only when the partition is not <<isOffline, offline>>).
+The performance metrics are registered in *kafka.cluster:type=Partition* group (only when the partition is not <<isOffline, offline>>).
 
 .Partition in jconsole
 image::images/Partition-jconsole.png[align="center"]
 
-`Partition` is given the <<localBrokerId, localBrokerId>> that is one of the following:
+=== [[creating-instance]] Creating Partition Instance
 
-* `broker.id` configuration property (from the <<replicaManager, ReplicaManager>>) if not <<isOffline, offline>>
+`Partition` takes the following to be created:
 
-* `-1` if <<isOffline, offline>>
+* [[topicPartition]] `TopicPartition`
+* [[isOffline]] `isOffline` flag
+* [[replicaLagTimeMaxMs]] `replicaLagTimeMaxMs`
+* [[interBrokerProtocolVersion]] `ApiVersion`
+* [[localBrokerId]] Broker ID
+* [[time]] `Time`
+* [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
+* [[logManager]] <<kafka-log-LogManager.adoc#, LogManager>>
+* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 
-[[logIdent]]
-`Partition` uses *[Partition [topicPartition] broker=[localBrokerId]]* as the logging prefix (aka `logIdent`).
+`Partition` initializes the <<internal-properties, internal properties>>.
 
-[[internal-registries]]
-.Partition's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
+=== [[apply]] Creating Partition -- `apply` Factory Method
 
-| inSyncReplicas
-a| [[inSyncReplicas]] In-sync <<kafka-cluster-Replica.adoc#, Replicas>>
+[source, scala]
+----
+apply(
+  topicPartition: TopicPartition,
+  time: Time,
+  replicaManager: ReplicaManager): Partition
+----
 
-| leaderReplicaIdOpt
-a| [[leaderReplicaIdOpt]] Broker ID of the broker that manages the leader replica
+`apply` simply creates a new <<creating-instance, Partition>> for the given `TopicPartition`, `Time`, and <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> and the following:
 
-Default: `None` / undefined
+* <<isOffline, isOffline>> is disabled (`false`)
 
-* Assigned a broker ID when <<makeLeader, makeLeader>> and <<makeFollower, makeFollower>>
+* <<replicaLagTimeMaxMs, replicaLagTimeMaxMs>> is <<kafka-properties.adoc#replica.lag.time.max.ms, replica.lag.time.max.ms>> configuration property
 
-* `None` when <<delete, delete>>
+* <<interBrokerProtocolVersion, interBrokerProtocolVersion>> is <<kafka-properties.adoc#inter.broker.protocol.version, inter.broker.protocol.version>> configuration property
 
-| allReplicasMap
-a| [[allReplicasMap]] <<kafka-cluster-Replica.adoc#, Replicas>> by ID
+* <<localBrokerId, localBrokerId>> as <<kafka-properties.adoc#broker.id, broker.id>> configuration property
 
-* A new entry added in <<getOrCreateReplica, getOrCreateReplica>>, <<addReplicaIfNotExists, addReplicaIfNotExists>>
+* <<logManager, LogManager>> from the given <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>
 
-* An entry removed in <<removeReplica, removeReplica>>, <<removeFutureLocalReplica, removeFutureLocalReplica>>, <<maybeReplaceCurrentWithFutureReplica, maybeReplaceCurrentWithFutureReplica>>, and <<delete, delete>>
+* <<zkClient, KafkaZkClient>> from the given <<kafka-server-ReplicaManager.adoc#zkClient, ReplicaManager>>
 
-Used in <<getReplica, getReplica>>, <<getLocalReplica, getLocalReplica>>, <<assignedReplicas, assignedReplicas>>, <<allReplicas, allReplicas>>, <<toString, toString>>
-
-|===
+NOTE: `apply` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#allPartitions, add a TopicPartition to allPartitions>>.
 
 === [[maybeExpandIsr]] `maybeExpandIsr` Method
 
@@ -183,32 +190,6 @@ leaderReplicaIfLocal: Option[Replica]
 
 NOTE: `leaderReplicaIfLocal` is used...FIXME
 
-=== [[maybeShrinkIsr]] `maybeShrinkIsr` Method
-
-[source, scala]
-----
-maybeShrinkIsr(replicaMaxLagTimeMs: Long): Unit
-----
-
-`maybeShrinkIsr`...FIXME
-
-NOTE: `maybeShrinkIsr` is used when...FIXME
-
-=== [[creating-instance]] Creating Partition Instance
-
-`Partition` takes the following when created:
-
-* [[topicPartition]] `TopicPartition`
-* [[isOffline]] `isOffline` flag
-* [[replicaLagTimeMaxMs]] `replicaLagTimeMaxMs`
-* [[localBrokerId]] Local broker ID
-* [[time]] `Time`
-* [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
-* [[logManager]] <<kafka-log-LogManager.adoc#, LogManager>>
-* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
-
-`Partition` initializes the <<internal-registries, internal registries and counters>>.
-
 === [[isUnderReplicated]] `isUnderReplicated` Predicate
 
 [source, scala]
@@ -253,6 +234,8 @@ makeLeader(
 ----
 
 `makeLeader`...FIXME
+
+With `leaderHWIncremented`, `makeLeader` <<tryCompleteDelayedRequests, tryCompleteDelayedRequests>>.
 
 NOTE: `makeLeader` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#makeLeaders, makeLeaders>>.
 
@@ -427,30 +410,6 @@ isLeaderReplicaLocal: Boolean
 
 NOTE: `isLeaderReplicaLocal` is used when `ReplicaManager` is requested for the performance metrics (<<InSyncReplicasCount, InSyncReplicasCount>> and <<ReplicasCount, ReplicasCount>>), <<isUnderReplicated, isUnderReplicated>>, and <<lowWatermarkIfLeader, lowWatermarkIfLeader>>.
 
-=== [[apply]] Creating Partition -- `apply` Factory Method
-
-[source, scala]
-----
-apply(
-  topicPartition: TopicPartition,
-  time: Time,
-  replicaManager: ReplicaManager): Partition
-----
-
-`apply` simply <<creating-instance, creates a Partition>> with the given `TopicPartition`, `Time`, and <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> and the following:
-
-* <<isOffline, isOffline>> is negative (`false`)
-
-* <<replicaLagTimeMaxMs, replicaLagTimeMaxMs>> is <<kafka-properties.adoc#replica.lag.time.max.ms, replica.lag.time.max.ms>> configuration property
-
-* <<localBrokerId, localBrokerId>> as <<kafka-properties.adoc#broker.id, broker.id>> configuration property
-
-* <<logManager, LogManager>> from the given <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>
-
-* <<zkClient, KafkaZkClient>> from the given <<kafka-server-ReplicaManager.adoc#zkClient, ReplicaManager>>
-
-NOTE: `apply` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#allPartitions, add a TopicPartition to allPartitions>>.
-
 === [[localReplicaOrException]] `localReplicaOrException` Method
 
 [source, scala]
@@ -616,3 +575,44 @@ readRecords(
 `readRecords`...FIXME
 
 NOTE: `readRecords` is used when...FIXME
+
+=== [[tryCompleteDelayedRequests]] `tryCompleteDelayedRequests` Internal Method
+
+[source, scala]
+----
+tryCompleteDelayedRequests(): Unit
+----
+
+`tryCompleteDelayedRequests`...FIXME
+
+NOTE: `tryCompleteDelayedRequests` is used when `Partition` is requested to <<makeLeader, makeLeader>>, <<updateReplicaLogReadResult, updateReplicaLogReadResult>>, <<maybeShrinkIsr, maybeShrinkIsr>>, and <<appendRecordsToLeader, appendRecordsToLeader>> (when `leaderHWIncremented`).
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| inSyncReplicas
+a| [[inSyncReplicas]] In-sync <<kafka-cluster-Replica.adoc#, Replicas>>
+
+| leaderReplicaIdOpt
+a| [[leaderReplicaIdOpt]] Broker ID of the broker that manages the leader replica
+
+Default: `None` / undefined
+
+* Assigned a broker ID when <<makeLeader, makeLeader>> and <<makeFollower, makeFollower>>
+
+* `None` when <<delete, delete>>
+
+| allReplicasMap
+a| [[allReplicasMap]] <<kafka-cluster-Replica.adoc#, Replicas>> by ID
+
+* A new entry added in <<getOrCreateReplica, getOrCreateReplica>>, <<addReplicaIfNotExists, addReplicaIfNotExists>>
+
+* An entry removed in <<removeReplica, removeReplica>>, <<removeFutureLocalReplica, removeFutureLocalReplica>>, <<maybeReplaceCurrentWithFutureReplica, maybeReplaceCurrentWithFutureReplica>>, and <<delete, delete>>
+
+Used in <<getReplica, getReplica>>, <<getLocalReplica, getLocalReplica>>, <<assignedReplicas, assignedReplicas>>, <<allReplicas, allReplicas>>, <<toString, toString>>
+
+|===
