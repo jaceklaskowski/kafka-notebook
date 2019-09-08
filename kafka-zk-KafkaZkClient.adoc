@@ -288,14 +288,15 @@ NOTE: `getTopicDeletions` is used when...FIXME
 
 [source, scala]
 ----
-getTopicPartitionStates(partitions: Seq[TopicPartition]): Map[TopicPartition, LeaderIsrAndControllerEpoch]
+getTopicPartitionStates(
+  partitions: Seq[TopicPartition]): Map[TopicPartition, LeaderIsrAndControllerEpoch]
 ----
 
 `getTopicPartitionStates` <<getTopicPartitionStatesRaw, getTopicPartitionStatesRaw>> for the given `TopicPartitions`.
 
 For every response, `getTopicPartitionStates` decodes the JSON-encoded partition state data (for the partitions that were found in ZooKeeper).
 
-NOTE: `getTopicPartitionStates` is used when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderAndIsrCache, updateLeaderAndIsrCache>>, <<kafka-controller-KafkaController.adoc#areReplicasInIsr, areReplicasInIsr>>, <<kafka-controller-KafkaController.adoc#updateLeaderEpoch, updateLeaderEpoch>> and process a <<kafka-controller-ControllerEvent.adoc#PartitionReassignmentIsrChange, PartitionReassignmentIsrChange>> controller event.
+NOTE: `getTopicPartitionStates` is used when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderAndIsrCache, updateLeaderAndIsrCache>>, <<kafka-controller-KafkaController.adoc#areReplicasInIsr, areReplicasInIsr>>, <<kafka-controller-KafkaController.adoc#updateLeaderEpoch, updateLeaderEpoch>> and <<kafka-controller-KafkaController.adoc#processPartitionReassignmentIsrChange, process a PartitionReassignmentIsrChange controller event>>.
 
 === [[registerZNodeChangeHandler]] `registerZNodeChangeHandler` Method
 
@@ -438,7 +439,9 @@ NOTE: `propagateIsrChanges` is used exclusively when `ReplicaManager` is request
 getTopicPartitionStatesRaw(partitions: Seq[TopicPartition]): Seq[GetDataResponse]
 ----
 
-`getTopicPartitionStatesRaw` creates a ZooKeeper `GetDataRequest` for the path `/brokers/topics/[topic]/partitions/[partition]/state` for every partition in the given partitions.
+`getTopicPartitionStatesRaw` gets the topic partition states (from the path `/brokers/topics/[topic]/partitions/[partition]/state` in Zookeeper) for the given partitions.
+
+Internally, `getTopicPartitionStatesRaw` creates a ZooKeeper `GetDataRequest` for the path `/brokers/topics/[topic]/partitions/[partition]/state` for every partition (in the given `partitions`).
 
 In the end, `getTopicPartitionStatesRaw` <<retryRequestsUntilConnected, retryRequestsUntilConnected>> the `GetDataRequests`.
 
@@ -448,9 +451,9 @@ In the end, `getTopicPartitionStatesRaw` <<retryRequestsUntilConnected, retryReq
 
 * `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#doElectLeaderForPartitions, doElectLeaderForPartitions>>
 
-* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#getTopicPartitionStatesFromZk, getTopicPartitionStatesFromZk>>
+* `ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#getTopicPartitionStatesFromZk, getTopicPartitionStatesFromZk>>
 
-* `KafkaZkClient` is requested to <<getTopicPartitionStates, getTopicPartitionStates>> and <<getTopicPartitionState, getTopicPartitionState>>
+* `KafkaZkClient` is requested to <<getTopicPartitionStates, getTopicPartitionStates>> (and <<getTopicPartitionState, getTopicPartitionState>>)
 ====
 
 === [[getTopicPartitionState]] `getTopicPartitionState` Method

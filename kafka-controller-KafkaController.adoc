@@ -1,6 +1,6 @@
 == [[KafkaController]] KafkaController
 
-`KafkaController` is a Kafka service that runs on every Kafka broker in a Kafka cluster, but only one `KafkaController` can be <<isActive, active>> (_elected_).
+`KafkaController` is a Kafka service that runs on every broker in a Kafka cluster, but only one `KafkaController` can be <<isActive, active>> (_elected_).
 
 The process of promoting a `KafkaController` to be active among brokers is <<kafka-controller-election.adoc#, Kafka Controller Election>>.
 
@@ -16,7 +16,7 @@ Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Inter
 [[state]]
 `KafkaController` is in one of the <<kafka-controller-ControllerState.adoc#, ControllerStates>> (that is the <<kafka-controller-ControllerEventManager.adoc#state, state>> of the <<eventManager, ControllerEventManager>>).
 
-`KafkaController` uses the <<zkClient, KafkaZkClient>> to be notified about changes in the state of a Kafka cluster (that are reflected in changes in znodes of Apache Zookeeper).
+`KafkaController` uses the <<zkClient, KafkaZkClient>> to be notified about changes in the state of a Kafka cluster (that are reflected in changes in znodes of Apache Zookeeper) and propagate the state changes to other brokers.
 
 `KafkaController` uses <<listeners, listeners>> as a notification system to monitor znodes in Zookeeper and react accordingly.
 
@@ -235,6 +235,12 @@ That means that the logs of `KafkaController` go to `logs/controller.log` file a
 * [[threadNamePrefix]] Thread name prefix (default: undefined)
 
 `KafkaController` initializes the <<internal-properties, internal properties>>.
+
+=== [[lifecycle]] Lifecycle of KafkaController
+
+When <<startup, started>>, `KafkaController` emits `Startup` controller event (to the <<eventManager, ControllerEventManager>>) that <<processStartup, processStartup>> and then starts <<elect, controller election>>. During <<elect, controller election>>, one `KafkaController` becomes <<isActive, active>> (_elected_) and <<onControllerFailover, onControllerFailover>>. The current state (as the <<controllerContext, ControllerContext>>) is built based on what is available in Zookeeper.
+
+While in <<initializeControllerContext, initializeControllerContext>>, `KafkaController` <<updateLeaderAndIsrCache, updateLeaderAndIsrCache>> (and <<kafka-zk-KafkaZkClient.adoc#getTopicPartitionStates, reads partition state>> from `/brokers/topics/[topic]/partitions/[partition]/state` paths in Zookeeper that is then stored as <<kafka-controller-ControllerContext.adoc#partitionLeadershipInfo, partitionLeadershipInfo>> of the <<controllerContext, ControllerContext>>).
 
 === [[controllerContext]] KafkaController and ControllerContext
 

@@ -42,29 +42,6 @@ log4j.additivity.kafka.controller=false
 That means that the logs of `ReplicaStateMachine` go to `logs/controller.log` file at `TRACE` logging level and are not added to the main logs (per `log4j.additivity` being off).
 ====
 
-=== [[handleStateChanges]] `handleStateChanges` Method
-
-[source, scala]
-----
-handleStateChanges(
-  replicas: Seq[PartitionAndReplica],
-  targetState: ReplicaState,
-  callbacks: Callbacks = new Callbacks()): Unit
-----
-
-`handleStateChanges`...FIXME
-
-[NOTE]
-====
-`handleStateChanges` is used when:
-
-* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onBrokerLogDirFailure, onBrokerLogDirFailure>>, <<kafka-controller-KafkaController.adoc#onBrokerStartup, onBrokerStartup>>, <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, <<kafka-controller-KafkaController.adoc#onNewPartitionCreation, onNewPartitionCreation>>, <<kafka-controller-KafkaController.adoc#onPartitionReassignment, onPartitionReassignment>>, <<kafka-controller-KafkaController.adoc#stopOldReplicasOfReassignedPartition, stopOldReplicasOfReassignedPartition>>, <<kafka-controller-KafkaController.adoc#startNewReplicasForReassignedPartition, startNewReplicasForReassignedPartition>>, and process a <<kafka-controller-KafkaController.adoc#ControlledShutdown, ControlledShutdown>> controller event
-
-* `ReplicaStateMachine` is requested to <<startup, start up>>
-
-* `TopicDeletionManager` is requested to <<kafka-controller-TopicDeletionManager.adoc#failReplicaDeletion, failReplicaDeletion>>, <<kafka-controller-TopicDeletionManager.adoc#completeReplicaDeletion, completeReplicaDeletion>>, <<kafka-controller-TopicDeletionManager.adoc#markTopicForDeletionRetry, markTopicForDeletionRetry>>, <<kafka-controller-TopicDeletionManager.adoc#completeDeleteTopic, completeDeleteTopic>>, and <<kafka-controller-TopicDeletionManager.adoc#startReplicaDeletion, startReplicaDeletion>>
-====
-
 === [[shutdown]] `shutdown` Method
 
 [source, scala]
@@ -107,18 +84,6 @@ Started replica state machine with initial state -> [replicaState]
 
 NOTE: `startup` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when a `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#elect, elect>> and a broker is successfully elected as the controller).
 
-=== [[getTopicPartitionStatesFromZk]] `getTopicPartitionStatesFromZk` Internal Method
-
-[source, scala]
-----
-getTopicPartitionStatesFromZk(partitions: Seq[TopicPartition])
-: (Map[TopicPartition, LeaderAndIsr], Seq[TopicPartition], Map[TopicPartition, Exception])
-----
-
-`getTopicPartitionStatesFromZk`...FIXME
-
-NOTE: `getTopicPartitionStatesFromZk` is used when...FIXME
-
 === [[initializeReplicaState]] `initializeReplicaState` Internal Method
 
 [source, scala]
@@ -129,21 +94,6 @@ initializeReplicaState(): Unit
 `initializeReplicaState`...FIXME
 
 NOTE: `initializeReplicaState` is used exclusively when `ReplicaStateMachine` is requested to <<startup, start up>>.
-
-=== [[doHandleStateChanges]] `doHandleStateChanges` Internal Method
-
-[source, scala]
-----
-doHandleStateChanges(
-  replicaId: Int,
-  partitions: Seq[TopicPartition],
-  targetState: ReplicaState,
-  callbacks: Callbacks): Unit
-----
-
-`doHandleStateChanges`...FIXME
-
-NOTE: `doHandleStateChanges` is used exclusively when `ReplicaStateMachine` is requested to <<handleStateChanges, handleStateChanges>>.
 
 === [[creating-instance]] Creating ReplicaStateMachine Instance
 
