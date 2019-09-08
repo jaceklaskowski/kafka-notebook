@@ -194,11 +194,11 @@ Default: `(empty)`
 | [[key.deserializer]] How to deserialize message keys.
 
 | leader.imbalance.check.interval.seconds
-a| [[leader.imbalance.check.interval.seconds]] How often the active <<kafka-controller-KafkaController.adoc#, KafkaController>> schedules the <<kafka-controller-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, partition rebalance check>> (aka _AutoLeaderRebalance_ or _AutoPreferredReplicaLeaderElection_ or _auto leader balancing_)
+a| [[leader.imbalance.check.interval.seconds]] How often the active <<kafka-controller-KafkaController.adoc#, KafkaController>> schedules the <<kafka-controller-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, auto-leader-rebalance-task>> (aka _AutoLeaderRebalance_ or _AutoPreferredReplicaLeaderElection_ or _auto leader balancing_)
 
 Default: `300`
 
-* Use `KafkaConfig.LeaderImbalanceCheckIntervalSecondsProp` to reference the property
+* Use <<kafka-server-KafkaConfig.adoc#LeaderImbalanceCheckIntervalSecondsProp, KafkaConfig.LeaderImbalanceCheckIntervalSecondsProp>> to reference the property
 
 * Use <<kafka-server-KafkaConfig.adoc#leaderImbalanceCheckIntervalSeconds, KafkaConfig.leaderImbalanceCheckIntervalSeconds>> to access the current value
 

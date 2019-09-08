@@ -79,9 +79,9 @@ a| [[interBrokerProtocolVersion]][[interBrokerProtocolVersionString]][[InterBrok
 a| [[interBrokerSecurityProtocol]]
 
 | leaderImbalanceCheckIntervalSeconds
-a| [[leaderImbalanceCheckIntervalSeconds]] <<kafka-properties.adoc#leader.imbalance.check.interval.seconds, leader.imbalance.check.interval.seconds>>
+a| [[leaderImbalanceCheckIntervalSeconds]][[LeaderImbalanceCheckIntervalSecondsProp]] <<kafka-properties.adoc#leader.imbalance.check.interval.seconds, leader.imbalance.check.interval.seconds>>
 
-Used exclusively when `ControllerEventThread` is requested to process a <<kafka-controller-ControllerEvent.adoc#AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>> event (while <<kafka-controller-ControllerEventThread.adoc#doWork, processing controller events>>)
+Used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#processAutoPreferredReplicaLeaderElection, processAutoPreferredReplicaLeaderElection>>
 
 | listeners
 a| [[listeners]][[ListenersProp]] <<kafka-properties.adoc#listeners, listeners>> (see <<getListeners, getListeners>>)

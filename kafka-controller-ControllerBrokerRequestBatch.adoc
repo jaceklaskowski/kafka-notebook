@@ -16,63 +16,6 @@ Every time `ControllerBrokerRequestBatch` is used it is first <<newBatch, newBat
 * [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
 * [[stateChangeLogger]] `StateChangeLogger`
 
-=== [[newBatch]] `newBatch` Method
-
-[source, scala]
-----
-newBatch(): Unit
-----
-
-`newBatch` simply throws a `IllegalStateException` if one of the <<leaderAndIsrRequestMap, leaderAndIsrRequestMap>>, <<stopReplicaRequestMap, stopReplicaRequestMap>> and <<updateMetadataRequestBrokerSet, updateMetadataRequestBrokerSet>> internal registries are not empty.
-
-```
-Controller to broker state change requests batch is not empty while creating a new one. Some LeaderAndIsr state changes [leaderAndIsrRequestMap] might be lost
-```
-
-```
-Controller to broker state change requests batch is not empty while creating a new one. Some StopReplica state changes [stopReplicaRequestMap] might be lost
-```
-
-```
-Controller to broker state change requests batch is not empty while creating a new one. Some UpdateMetadata state changes to brokers [updateMetadataRequestBrokerSet] with partition info [updateMetadataRequestPartitionInfoMap] might be lost
-```
-
-[NOTE]
-====
-`newBatch` is used when:
-
-* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>>, and process a <<kafka-controller-KafkaController.adoc#ControlledShutdown, ControlledShutdown>> controller event
-
-* `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#handleStateChanges, handleStateChanges>>
-
-* `PartitionStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
-====
-
-=== [[addLeaderAndIsrRequestForBrokers]] `addLeaderAndIsrRequestForBrokers` Method
-
-[source, scala]
-----
-addLeaderAndIsrRequestForBrokers(
-  brokerIds: Seq[Int],
-  topicPartition: TopicPartition,
-  leaderIsrAndControllerEpoch: LeaderIsrAndControllerEpoch,
-  replicas: Seq[Int],
-  isNew: Boolean): Unit
-----
-
-`addLeaderAndIsrRequestForBrokers`...FIXME
-
-[NOTE]
-====
-`addLeaderAndIsrRequestForBrokers` is used when:
-
-* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>
-
-* `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#initializeLeaderAndIsrForPartitions, initializeLeaderAndIsrForPartitions>> and <<kafka-controller-PartitionStateMachine.adoc#doElectLeaderForPartitions, doElectLeaderForPartitions>>
-
-* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#doHandleStateChanges, doHandleStateChanges>>
-====
-
 === [[addUpdateMetadataRequestForBrokers]] `addUpdateMetadataRequestForBrokers` Method
 
 [source, scala]

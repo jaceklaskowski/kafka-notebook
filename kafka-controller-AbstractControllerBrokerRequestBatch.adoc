@@ -114,6 +114,63 @@ sendStopReplicaRequests(
 
 NOTE: `sendStopReplicaRequests` is used exclusively when `AbstractControllerBrokerRequestBatch` is requested to <<sendRequestsToBrokers, sendRequestsToBrokers>>.
 
+=== [[newBatch]] Preparing New Batch -- `newBatch` Method
+
+[source, scala]
+----
+newBatch(): Unit
+----
+
+`newBatch` simply throws an `IllegalStateException` when any of the following internal registries are not empty: <<leaderAndIsrRequestMap, leaderAndIsrRequestMap>>, <<stopReplicaRequestMap, stopReplicaRequestMap>> and <<updateMetadataRequestBrokerSet, updateMetadataRequestBrokerSet>>.
+
+```
+Controller to broker state change requests batch is not empty while creating a new one. Some LeaderAndIsr state changes [leaderAndIsrRequestMap] might be lost
+```
+
+```
+Controller to broker state change requests batch is not empty while creating a new one. Some StopReplica state changes [stopReplicaRequestMap] might be lost
+```
+
+```
+Controller to broker state change requests batch is not empty while creating a new one. Some UpdateMetadata state changes to brokers [updateMetadataRequestBrokerSet] with partition info [updateMetadataRequestPartitionInfoMap] might be lost
+```
+
+[NOTE]
+====
+`newBatch` is used when:
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>, <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>>, and process a <<kafka-controller-KafkaController.adoc#ControlledShutdown, ControlledShutdown>> controller event
+
+* `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#handleStateChanges, handleStateChanges>>
+
+* `PartitionStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
+====
+
+=== [[addLeaderAndIsrRequestForBrokers]] `addLeaderAndIsrRequestForBrokers` Method
+
+[source, scala]
+----
+addLeaderAndIsrRequestForBrokers(
+  brokerIds: Seq[Int],
+  topicPartition: TopicPartition,
+  leaderIsrAndControllerEpoch: LeaderIsrAndControllerEpoch,
+  replicas: Seq[Int],
+  isNew: Boolean): Unit
+----
+
+`addLeaderAndIsrRequestForBrokers`...FIXME
+
+[NOTE]
+====
+`addLeaderAndIsrRequestForBrokers` is used when:
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>
+
+* `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#initializeLeaderAndIsrForPartitions, initializeLeaderAndIsrForPartitions>> and <<kafka-controller-PartitionStateMachine.adoc#doElectLeaderForPartitions, doElectLeaderForPartitions>>
+
+* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#doHandleStateChanges, doHandleStateChanges>>
+====
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -123,6 +180,16 @@ NOTE: `sendStopReplicaRequests` is used exclusively when `AbstractControllerBrok
 
 | leaderAndIsrRequestMap
 a| [[leaderAndIsrRequestMap]] (`Map[Int, Map[TopicPartition, LeaderAndIsrRequest.PartitionState]]`)
+
+Used when...FIXME
+
+| stopReplicaRequestMap
+a| [[stopReplicaRequestMap]] (`Map[Int, ListBuffer[StopReplicaRequestInfo]]`)
+
+Used when...FIXME
+
+| updateMetadataRequestBrokerSet
+a| [[updateMetadataRequestBrokerSet]] (`Set[Int]`)
 
 Used when...FIXME
 

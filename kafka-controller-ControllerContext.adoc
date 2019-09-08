@@ -1,6 +1,6 @@
 == [[ControllerContext]] ControllerContext
 
-`ControllerContext` is the context of a <<kafka-controller-KafkaController.adoc#controllerContext, KafkaController>> (and is <<creating-instance, created>> exclusively when `KafkaController` is <<kafka-controller-KafkaController.adoc#controllerContext, created>>).
+`ControllerContext` is the context of an active <<kafka-controller-KafkaController.adoc#, KafkaController>> (and is <<creating-instance, created>> right when `KafkaController` is <<kafka-controller-KafkaController.adoc#controllerContext, created>>).
 
 [[registries]]
 .ControllerContext's Registries
@@ -12,35 +12,23 @@
 | allTopics
 a| [[allTopics]]
 
-| controllerChannelManager
-a| [[controllerChannelManager]] <<kafka-controller-ControllerChannelManager.adoc#, ControllerChannelManager>>
-
 | epoch
-a| [[epoch]]
+a| [[epoch]] Current controller epoch
 
 | epochZkVersion
 a| [[epochZkVersion]]
 
+| liveBrokerEpochs
+a| [[liveBrokerEpochs]]
+
 | liveBrokers
 a| [[liveBrokers]]
 
-| liveBrokerIds
-a| [[liveBrokerIds]]
+| offlinePartitionCount
+a| [[offlinePartitionCount]]
 
-| liveBrokersUnderlying
-a| [[liveBrokersUnderlying]]
-
-| liveBrokerIdsUnderlying
-a| [[liveBrokerIdsUnderlying]]
-
-| liveOrShuttingDownBrokerIds
-a| [[liveOrShuttingDownBrokerIds]]
-
-| liveOrShuttingDownBrokers
-a| [[liveOrShuttingDownBrokers]]
-
-| partitionsBeingReassigned
-a| [[partitionsBeingReassigned]]
+| partitionAssignments
+a| [[partitionAssignments]]
 
 | partitionLeadershipInfo
 a| [[partitionLeadershipInfo]]
@@ -50,19 +38,17 @@ a| [[partitionLeadershipInfo]]
 partitionLeadershipInfo: mutable.Map[TopicPartition, LeaderIsrAndControllerEpoch]
 ----
 
-| partitionReplicaAssignmentUnderlying
-a| [[partitionReplicaAssignmentUnderlying]]
+| partitionsBeingReassigned
+a| [[partitionsBeingReassigned]]
 
-[source, scala]
-----
-// topic -> (partition -> replica broker IDs)
-partitionReplicaAssignmentUnderlying: mutable.Map[String, mutable.Map[Int, Seq[Int]]]
-----
-
-`partitionReplicaAssignmentUnderlying` is updated exclusively when `ControllerContext` is requested to <<updatePartitionReplicaAssignment, updatePartitionReplicaAssignment>>
+| partitionStates
+a| [[partitionStates]]
 
 | replicasOnOfflineDirs
 a| [[replicasOnOfflineDirs]]
+
+| replicaStates
+a| [[replicaStates]]
 
 | shuttingDownBrokerIds
 a| [[shuttingDownBrokerIds]]
@@ -75,6 +61,15 @@ a| [[stats]][[rateAndTimeMetrics]][[ControllerStats]] `ControllerStats` with `Un
 * Every `ControllerState` has the <<kafka-controller-ControllerState.adoc#rateAndTimeMetricName, RateAndTimeMs>> metric defined (except <<kafka-controller-ControllerState.adoc#Idle, Idle>> state)
 
 The timer metric name pattern is *kafka.controller:type=ControllerStats,name=*.
+
+| topicsIneligibleForDeletion
+a| [[topicsIneligibleForDeletion]]
+
+| topicsToBeDeleted
+a| [[topicsToBeDeleted]]
+
+| topicsWithDeletionStarted
+a| [[topicsWithDeletionStarted]]
 
 |===
 
