@@ -32,6 +32,7 @@
 . link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
 
 . link:kafka-controller-ControllerEventProcessor.adoc[ControllerEventProcessor]
+. link:kafka-controller-QueuedEvent.adoc[QueuedEvent]
 
 === Kafka Tools (Utilities)
 

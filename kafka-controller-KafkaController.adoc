@@ -13,6 +13,8 @@ Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Inter
 
 > In a Kafka cluster, one of the brokers serves as the controller, which is responsible for managing the states of partitions and replicas and for performing administrative tasks like reassigning partitions.
 
+`KafkaController` is the default and only known <<kafka-controller-ControllerEventProcessor.adoc#, ControllerEventProcessor>> to <<process, process>> and <<preempt, preempt>> controller events.
+
 [[state]]
 `KafkaController` is in one of the <<kafka-controller-ControllerState.adoc#, ControllerStates>> (that is the <<kafka-controller-ControllerEventManager.adoc#state, state>> of the <<eventManager, ControllerEventManager>>).
 
@@ -281,6 +283,17 @@ When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-con
 * <<doControlledShutdown, doControlledShutdown>> to transition replicas to `OfflineReplica` state
 
 `KafkaController` uses the `ZkReplicaStateMachine` to create the <<topicDeletionManager, TopicDeletionManager>>.
+
+=== [[preempt]] Preempting Controller Events -- `preempt` Method
+
+[source, scala]
+----
+preempt(event: ControllerEvent): Unit
+----
+
+NOTE: `preempt` is part of the <<kafka-controller-ControllerEventProcessor.adoc#preempt, ControllerEventProcessor Contract>> to preempt <<kafka-controller-ControllerEvent.adoc#, controller events>>.
+
+`preempt`...FIXME
 
 === [[process]] Processing Controller Events -- `process` Method
 
