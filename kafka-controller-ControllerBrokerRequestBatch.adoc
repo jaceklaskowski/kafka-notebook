@@ -68,3 +68,14 @@ clear(): Unit
 `clear` simply removes all bindings in the <<leaderAndIsrRequestMap, leaderAndIsrRequestMap>>, <<stopReplicaRequestMap, stopReplicaRequestMap>> and <<updateMetadataRequestBrokerSet, updateMetadataRequestBrokerSet>> internal registries.
 
 NOTE: `clear` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#handleIllegalState, handleIllegalState>>.
+
+=== [[sendEvent]] `sendEvent` Method
+
+[source, scala]
+----
+sendEvent(event: ControllerEvent): Unit
+----
+
+NOTE: `sendEvent` is part of the <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendEvent, AbstractControllerBrokerRequestBatch Contract>> to send a <<kafka-controller-ControllerEvent.adoc#, ControllerEvent>>.
+
+`sendEvent`...FIXME

@@ -21,6 +21,8 @@ sendEvent(
   event: ControllerEvent): Unit
 ----
 
+Sends a <<kafka-controller-ControllerEvent.adoc#, ControllerEvent>>
+
 Used when `AbstractControllerBrokerRequestBatch` is requested to <<sendLeaderAndIsrRequest, sendLeaderAndIsrRequest>> and <<sendStopReplicaRequests, sendStopReplicaRequests>>
 
 | sendRequest
