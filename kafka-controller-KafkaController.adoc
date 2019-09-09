@@ -291,7 +291,93 @@ process(event: ControllerEvent): Unit
 
 NOTE: `process` is part of the <<kafka-controller-ControllerEventProcessor.adoc#process, ControllerEventProcessor Contract>> to process <<kafka-controller-ControllerEvent.adoc#, controller events>>.
 
-`process`...FIXME
+`process` handles the <<kafka-controller-ControllerEvent.adoc#, ControllerEvent>> using <<handlers, ControllerEvent handlers>>.
+
+[[handlers]]
+.ControllerEvent Handlers
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| AutoPreferredReplicaLeaderElection
+| [[AutoPreferredReplicaLeaderElection]] <<processAutoPreferredReplicaLeaderElection, processAutoPreferredReplicaLeaderElection>>
+
+| PreferredReplicaLeaderElection
+| [[PreferredReplicaLeaderElection]] <<processPreferredReplicaLeaderElection, processPreferredReplicaLeaderElection>>
+
+| UncleanLeaderElectionEnable
+| [[UncleanLeaderElectionEnable]] <<processUncleanLeaderElectionEnable, processUncleanLeaderElectionEnable>>
+
+| TopicUncleanLeaderElectionEnable
+| [[TopicUncleanLeaderElectionEnable]] <<processTopicUncleanLeaderElectionEnable, processTopicUncleanLeaderElectionEnable>>
+
+| ControlledShutdown
+| [[ControlledShutdown]] <<processControlledShutdown, processControlledShutdown>>
+
+| LeaderAndIsrResponseReceived
+| [[LeaderAndIsrResponseReceived]] <<processLeaderAndIsrResponseReceived, processLeaderAndIsrResponseReceived>>
+
+| TopicDeletionStopReplicaResponseReceived
+| [[TopicDeletionStopReplicaResponseReceived]] <<processTopicDeletionStopReplicaResponseReceived, processTopicDeletionStopReplicaResponseReceived>>
+
+| BrokerChange
+| [[BrokerChange]] <<processBrokerChange, processBrokerChange>>
+
+| BrokerModifications
+| [[BrokerModifications]] <<processBrokerModification, processBrokerModification>>
+
+| ControllerChange
+| [[ControllerChange]] <<processControllerChange, processControllerChange>>
+
+| Reelect
+| [[Reelect]] <<processReelect, processReelect>>
+
+| RegisterBrokerAndReelect
+| [[RegisterBrokerAndReelect]] <<processRegisterBrokerAndReelect, processRegisterBrokerAndReelect>>
+
+| Expire
+| [[Expire]] <<processExpire, processExpire>>
+
+| TopicChange
+| [[TopicChange]] <<processTopicChange, processTopicChange>>
+
+| LogDirEventNotification
+| [[LogDirEventNotification]] <<processLogDirEventNotification, processLogDirEventNotification>>
+
+| PartitionModifications
+| [[PartitionModifications]] <<processPartitionModifications, processPartitionModifications>>
+
+| TopicDeletion
+| [[TopicDeletion]] <<processTopicDeletion, processTopicDeletion>>
+
+| PartitionReassignment
+| [[PartitionReassignment]] <<processPartitionReassignment, processPartitionReassignment>>
+
+| PartitionReassignmentIsrChange
+| [[PartitionReassignmentIsrChange]] <<processPartitionReassignmentIsrChange, processPartitionReassignmentIsrChange>>
+
+| IsrChangeNotification
+| [[IsrChangeNotification]] <<processIsrChangeNotification, processIsrChangeNotification>>
+
+| Startup
+| [[Startup]] <<processStartup, processStartup>>
+
+|===
+
+In the end, `process` <<updateMetrics, updateMetrics>>.
+
+In case of a `ControllerMovedException`, `process` prints out the following INFO message to the logs and <<maybeResign, maybeResign>>.
+
+```
+Controller moved to another broker when processing [event].
+```
+
+In case of any error (`Throwable`), `process` simply prints out the following ERROR message to the logs:
+
+```
+Error processing event [event]
+```
 
 === [[initiateReassignReplicasForTopicPartition]] `initiateReassignReplicasForTopicPartition` Method
 
@@ -1405,6 +1491,223 @@ doControlledShutdown(
 `doControlledShutdown`...FIXME
 
 NOTE: `doControlledShutdown` is used exclusively when `KafkaController` is requested to <<processControlledShutdown, processControlledShutdown>>.
+
+=== [[processPreferredReplicaLeaderElection]] `processPreferredReplicaLeaderElection` Internal Method
+
+[source, scala]
+----
+processPreferredReplicaLeaderElection(
+  partitionsFromAdminClientOpt: Option[Set[TopicPartition]],
+  electionType: ElectionType = ZkTriggered,
+  callback: ElectPreferredLeadersCallback = (_, _) => {} ): Unit
+----
+
+`processPreferredReplicaLeaderElection`...FIXME
+
+NOTE: `processPreferredReplicaLeaderElection` is used exclusively when `KafkaController` is requested to <<process, process a PreferredReplicaLeaderElection controller event>>.
+
+=== [[processUncleanLeaderElectionEnable]] `processUncleanLeaderElectionEnable` Internal Method
+
+[source, scala]
+----
+processUncleanLeaderElectionEnable(): Unit
+----
+
+`processUncleanLeaderElectionEnable`...FIXME
+
+NOTE: `processUncleanLeaderElectionEnable` is used exclusively when `KafkaController` is requested to <<process, process a UncleanLeaderElectionEnable controller event>>.
+
+=== [[processTopicUncleanLeaderElectionEnable]] `processTopicUncleanLeaderElectionEnable` Internal Method
+
+[source, scala]
+----
+processTopicUncleanLeaderElectionEnable(topic: String): Unit
+----
+
+`processTopicUncleanLeaderElectionEnable`...FIXME
+
+NOTE: `processTopicUncleanLeaderElectionEnable` is used exclusively when `KafkaController` is requested to <<process, process a TopicUncleanLeaderElectionEnable controller event>>.
+
+=== [[processLeaderAndIsrResponseReceived]] `processLeaderAndIsrResponseReceived` Internal Method
+
+[source, scala]
+----
+processLeaderAndIsrResponseReceived(
+  leaderAndIsrResponseObj: AbstractResponse,
+  brokerId: Int): Unit
+----
+
+`processLeaderAndIsrResponseReceived`...FIXME
+
+NOTE: `processLeaderAndIsrResponseReceived` is used exclusively when `KafkaController` is requested to <<process, process a LeaderAndIsrResponseReceived controller event>>.
+
+=== [[processTopicDeletionStopReplicaResponseReceived]] `processTopicDeletionStopReplicaResponseReceived` Internal Method
+
+[source, scala]
+----
+processTopicDeletionStopReplicaResponseReceived(
+  replicaId: Int,
+  requestError: Errors,
+  partitionErrors: Map[TopicPartition, Errors]): Unit
+----
+
+`processTopicDeletionStopReplicaResponseReceived`...FIXME
+
+NOTE: `processTopicDeletionStopReplicaResponseReceived` is used exclusively when `KafkaController` is requested to <<process, process a TopicDeletionStopReplicaResponseReceived controller event>>.
+
+=== [[processBrokerChange]] `processBrokerChange` Internal Method
+
+[source, scala]
+----
+processBrokerChange(): Unit
+----
+
+`processBrokerChange`...FIXME
+
+NOTE: `processBrokerChange` is used exclusively when `KafkaController` is requested to <<process, process a BrokerChange controller event>>.
+
+=== [[processBrokerModification]] `processBrokerModification` Internal Method
+
+[source, scala]
+----
+processBrokerModification(brokerId: Int): Unit
+----
+
+`processBrokerModification`...FIXME
+
+NOTE: `processBrokerModification` is used exclusively when `KafkaController` is requested to <<process, process a BrokerModifications controller event>>.
+
+=== [[processControllerChange]] `processControllerChange` Internal Method
+
+[source, scala]
+----
+processControllerChange(): Unit
+----
+
+`processControllerChange`...FIXME
+
+NOTE: `processControllerChange` is used exclusively when `KafkaController` is requested to <<process, process a ControllerChange controller event>>.
+
+=== [[processReelect]] `processReelect` Internal Method
+
+[source, scala]
+----
+processReelect(): Unit
+----
+
+`processReelect`...FIXME
+
+NOTE: `processReelect` is used when `KafkaController` is requested to <<processRegisterBrokerAndReelect, processRegisterBrokerAndReelect>> and <<process, process a Reelect controller event>>.
+
+=== [[processRegisterBrokerAndReelect]] `processRegisterBrokerAndReelect` Internal Method
+
+[source, scala]
+----
+processRegisterBrokerAndReelect(): Unit
+----
+
+`processRegisterBrokerAndReelect`...FIXME
+
+NOTE: `processRegisterBrokerAndReelect` is used exclusively when `KafkaController` is requested to <<process, process a RegisterBrokerAndReelect controller event>>.
+
+=== [[processExpire]] `processExpire` Internal Method
+
+[source, scala]
+----
+processExpire(): Unit
+----
+
+`processExpire`...FIXME
+
+NOTE: `processExpire` is used exclusively when `KafkaController` is requested to <<process, process a Expire controller event>>.
+
+=== [[processTopicChange]] `processTopicChange` Internal Method
+
+[source, scala]
+----
+processTopicChange(): Unit
+----
+
+`processTopicChange`...FIXME
+
+NOTE: `processTopicChange` is used exclusively when `KafkaController` is requested to <<process, process a TopicChange controller event>>.
+
+=== [[processLogDirEventNotification]] `processLogDirEventNotification` Internal Method
+
+[source, scala]
+----
+processLogDirEventNotification(): Unit
+----
+
+`processLogDirEventNotification`...FIXME
+
+NOTE: `processLogDirEventNotification` is used exclusively when `KafkaController` is requested to <<process, process a LogDirEventNotification controller event>>.
+
+=== [[processPartitionModifications]] `processPartitionModifications` Internal Method
+
+[source, scala]
+----
+processPartitionModifications(topic: String): Unit
+----
+
+`processPartitionModifications`...FIXME
+
+NOTE: `processPartitionModifications` is used exclusively when `KafkaController` is requested to <<process, process a PartitionModifications controller event>>.
+
+=== [[processTopicDeletion]] `processTopicDeletion` Internal Method
+
+[source, scala]
+----
+processTopicDeletion(): Unit
+----
+
+`processTopicDeletion`...FIXME
+
+NOTE: `processTopicDeletion` is used exclusively when `KafkaController` is requested to <<process, process a TopicDeletion controller event>>.
+
+=== [[processPartitionReassignment]] `processPartitionReassignment` Internal Method
+
+[source, scala]
+----
+processPartitionReassignment(): Unit
+----
+
+`processPartitionReassignment`...FIXME
+
+NOTE: `processPartitionReassignment` is used exclusively when `KafkaController` is requested to <<process, process a PartitionReassignment controller event>>.
+
+=== [[processPartitionReassignmentIsrChange]] `processPartitionReassignmentIsrChange` Internal Method
+
+[source, scala]
+----
+processPartitionReassignmentIsrChange(partition: TopicPartition): Unit
+----
+
+`processPartitionReassignmentIsrChange`...FIXME
+
+NOTE: `processPartitionReassignmentIsrChange` is used exclusively when `KafkaController` is requested to <<process, process a PartitionReassignmentIsrChange controller event>>.
+
+=== [[processIsrChangeNotification]] `processIsrChangeNotification` Internal Method
+
+[source, scala]
+----
+processIsrChangeNotification(): Unit
+----
+
+`processIsrChangeNotification`...FIXME
+
+NOTE: `processIsrChangeNotification` is used exclusively when `KafkaController` is requested to <<process, process a IsrChangeNotification controller event>>.
+
+=== [[processStartup]] `processStartup` Internal Method
+
+[source, scala]
+----
+processStartup(): Unit
+----
+
+`processStartup`...FIXME
+
+NOTE: `processStartup` is used exclusively when `KafkaController` is requested to <<process, process a Startup controller event>>.
 
 === [[internal-properties]] Internal Properties
 
