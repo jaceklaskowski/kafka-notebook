@@ -260,7 +260,7 @@ replicaStateMachine: ReplicaStateMachine
 
 When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-controller-ZkReplicaStateMachine.adoc#, ZkReplicaStateMachine>>.
 
-`ZkReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#startup, startup>> at <<onControllerFailover, onControllerFailover>> and <<kafka-controller-ReplicaStateMachine.adoc#shutdown, shutdown>> at <<onControllerResignation, onControllerResignation>>.
+`ZkReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#startup, startup>> at <<onControllerFailover, onControllerFailover>> (when a broker is successfully <<elect, elected as the controller>>) and <<kafka-controller-ReplicaStateMachine.adoc#shutdown, shutdown>> at <<onControllerResignation, controller resignation>>.
 
 `ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>> at the following events:
 

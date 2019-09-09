@@ -1,59 +1,58 @@
 == [[ReplicaStateMachine]] ReplicaStateMachine
 
-`ReplicaStateMachine` is <<creating-instance, created>> exclusively for a <<kafka-controller-KafkaController.adoc#replicaStateMachine, KafkaController>> that uses it for the following:
+`ReplicaStateMachine` is the <<contract, base>> of <<extensions, Replica State Machines>> that can <<handleStateChanges, handleStateChanges>>, be <<startup, started up>> and <<shutdown, shut down>> in the end.
 
-* FIXME
+[[contract]]
+.ReplicaStateMachine Contract (Abstract Methods Only)
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
 
-`ReplicaStateMachine` is <<startup, started>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when `KafkaController` is requested for <<elect, controller election>> and a broker is successfully elected as the controller).
+| handleStateChanges
+a| [[handleStateChanges]]
 
-`ReplicaStateMachine` is <<shutdown, shut down>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, resign as the active controller>>.
+[source, scala]
+----
+handleStateChanges(
+  replicas: Seq[PartitionAndReplica],
+  targetState: ReplicaState): Unit
+----
 
-[[logIdent]]
-`ReplicaStateMachine` uses *[ReplicaStateMachine controllerId=[brokerID]]* as the logging prefix (aka `logIdent`).
+Used when:
 
-[[logging]]
-[TIP]
-====
-Enable `INFO` or `ERROR` logging levels for `kafka.controller.ReplicaStateMachine` logger to see what happens inside.
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onBrokerLogDirFailure, onBrokerLogDirFailure>>, <<kafka-controller-KafkaController.adoc#onBrokerStartup, onBrokerStartup>>, <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, <<kafka-controller-KafkaController.adoc#onNewPartitionCreation, onNewPartitionCreation>>, <<kafka-controller-KafkaController.adoc#onPartitionReassignment, onPartitionReassignment>>, <<kafka-controller-KafkaController.adoc#stopOldReplicasOfReassignedPartition, stopOldReplicasOfReassignedPartition>>, <<kafka-controller-KafkaController.adoc#startNewReplicasForReassignedPartition, startNewReplicasForReassignedPartition>>, and <<kafka-controller-KafkaController.adoc#doControlledShutdown, doControlledShutdown>>
 
-Add the following line to `log4j.properties`:
+* `ReplicaStateMachine` is requested to <<startup, start up>> (when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> on a broker elected as the controller)
 
-```
-log4j.logger.kafka.controller.ReplicaStateMachine=INFO
-```
+* `TopicDeletionManager` is requested to <<kafka-controller-TopicDeletionManager.adoc#failReplicaDeletion, failReplicaDeletion>>, <<kafka-controller-TopicDeletionManager.adoc#completeReplicaDeletion, completeReplicaDeletion>>, <<kafka-controller-TopicDeletionManager.adoc#retryDeletionForIneligibleReplicas, retryDeletionForIneligibleReplicas>>, <<kafka-controller-TopicDeletionManager.adoc#completeDeleteTopic, completeDeleteTopic>>, and <<kafka-controller-TopicDeletionManager.adoc#startReplicaDeletion, startReplicaDeletion>>
 
-Refer to link:kafka-logging.adoc[Logging].
+|===
 
----
+[[implementations]]
+NOTE: <<kafka-controller-ZkReplicaStateMachine.adoc#, ZkReplicaStateMachine>> is the default and only known implementation of the <<contract, ReplicaStateMachine Contract>> in Apache Kafka.
 
-Please note that Kafka comes with a preconfigured `kafka.controller` logger in `config/log4j.properties`:
+[[creating-instance]][[controllerContext]]
+`ReplicaStateMachine` takes a single <<kafka-controller-ControllerContext.adoc#, ControllerContext>> to be created.
 
-```
-log4j.appender.controllerAppender=org.apache.log4j.DailyRollingFileAppender
-log4j.appender.controllerAppender.DatePattern='.'yyyy-MM-dd-HH
-log4j.appender.controllerAppender.File=${kafka.logs.dir}/controller.log
-log4j.appender.controllerAppender.layout=org.apache.log4j.PatternLayout
-log4j.appender.controllerAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
+NOTE: `ReplicaStateMachine` is a Scala abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete ReplicaStateMachines>>.
 
-log4j.logger.kafka.controller=TRACE, controllerAppender
-log4j.additivity.kafka.controller=false
-```
-
-That means that the logs of `ReplicaStateMachine` go to `logs/controller.log` file at `TRACE` logging level and are not added to the main logs (per `log4j.additivity` being off).
-====
-
-=== [[shutdown]] `shutdown` Method
+=== [[shutdown]] Shutting Down -- `shutdown` Method
 
 [source, scala]
 ----
 shutdown(): Unit
 ----
 
-`shutdown`...FIXME
+`shutdown` simply prints out the following INFO message to the logs:
 
-NOTE: `shutdown` is used when...FIXME
+```
+Stopped replica state machine
+```
 
-=== [[startup]] `startup` Method
+NOTE: `shutdown` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, onControllerResignation>> (when a broker resigns as the controller).
+
+=== [[startup]] Starting Up -- `startup` Method
 
 [source, scala]
 ----
@@ -74,15 +73,25 @@ Initializing replica state
 Triggering online replica state changes
 ```
 
-`startup` <<handleStateChanges, handleStateChanges>> with the <<kafka-controller-ControllerContext.adoc#allLiveReplicas, live replicas>> (from the <<controllerContext, ControllerContext>>) and `OnlineReplica` target state.
+`startup` requests the <<kafka-controller-ControllerContext.adoc#, ControllerContext>> for <<kafka-controller-ControllerContext.adoc#onlineAndOfflineReplicas, online and offline replicas>>.
 
-In the end, `startup` prints out the following INFO message to the logs:
+`startup` <<handleStateChanges, handleStateChanges>> (with the online replicas and `OnlineReplica` target state).
+
+`startup` prints out the following INFO message to the logs:
+
+```
+Triggering offline replica state changes
+```
+
+`startup` <<handleStateChanges, handleStateChanges>> (with the offline replicas and `OfflineReplica` target state).
+
+In the end, `startup` prints out the following DEBUG message to the logs:
 
 ```
 Started replica state machine with initial state -> [replicaState]
 ```
 
-NOTE: `startup` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when a `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#elect, elect>> and a broker is successfully elected as the controller).
+NOTE: `startup` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when a broker is successfully elected as the controller).
 
 === [[initializeReplicaState]] `initializeReplicaState` Internal Method
 
@@ -94,15 +103,3 @@ initializeReplicaState(): Unit
 `initializeReplicaState`...FIXME
 
 NOTE: `initializeReplicaState` is used exclusively when `ReplicaStateMachine` is requested to <<startup, start up>>.
-
-=== [[creating-instance]] Creating ReplicaStateMachine Instance
-
-`ReplicaStateMachine` takes the following to be created:
-
-* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
-* [[stateChangeLogger]] `StateChangeLogger`
-* [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
-* [[topicDeletionManager]] <<kafka-controller-TopicDeletionManager.adoc#, TopicDeletionManager>>
-* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
-* [[replicaState]] `PartitionAndReplica` with `ReplicaState` (`mutable.Map[PartitionAndReplica, ReplicaState]`)
-* [[controllerBrokerRequestBatch]] <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>>

@@ -193,3 +193,14 @@ allLiveReplicas(): Set[PartitionAndReplica]
 `allLiveReplicas`...FIXME
 
 NOTE: `allLiveReplicas` is used when...FIXME
+
+=== [[onlineAndOfflineReplicas]] `onlineAndOfflineReplicas` Method
+
+[source, scala]
+----
+onlineAndOfflineReplicas: (Set[PartitionAndReplica], Set[PartitionAndReplica])
+----
+
+`onlineAndOfflineReplicas`...FIXME
+
+NOTE: `onlineAndOfflineReplicas` is used exclusively when `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#startup, start up>>.

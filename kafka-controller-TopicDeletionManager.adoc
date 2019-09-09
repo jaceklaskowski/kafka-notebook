@@ -56,7 +56,14 @@ NOTE: `startReplicaDeletion` is used when...FIXME
 
 === [[enqueueTopicsForDeletion]] `enqueueTopicsForDeletion` Method
 
-CAUTION: FIXME
+[source, scala]
+----
+enqueueTopicsForDeletion(topics: Set[String]): Unit
+----
+
+`enqueueTopicsForDeletion`...FIXME
+
+NOTE: `enqueueTopicsForDeletion` is used when...FIXME
 
 === [[failReplicaDeletion]] `failReplicaDeletion` Method
 
@@ -210,3 +217,14 @@ markTopicForDeletionRetry(topic: String): Unit
 `markTopicForDeletionRetry`...FIXME
 
 NOTE: `markTopicForDeletionRetry` is used when...FIXME
+
+=== [[retryDeletionForIneligibleReplicas]] `retryDeletionForIneligibleReplicas` Internal Method
+
+[source, scala]
+----
+retryDeletionForIneligibleReplicas(topic: String): Unit
+----
+
+`retryDeletionForIneligibleReplicas`...FIXME
+
+NOTE: `retryDeletionForIneligibleReplicas` is used when...FIXME
