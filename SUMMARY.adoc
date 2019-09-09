@@ -26,10 +26,12 @@
 . link:kafka-controller-ZkPartitionStateMachine.adoc[ZkPartitionStateMachine]
 .. link:kafka-controller-PartitionStateMachine.adoc[PartitionStateMachine]
 
-. link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
-
 . link:kafka-controller-ZkReplicaStateMachine.adoc[ZkReplicaStateMachine]
 .. link:kafka-controller-ReplicaStateMachine.adoc[ReplicaStateMachine]
+
+. link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
+
+. link:kafka-controller-ControllerEventProcessor.adoc[ControllerEventProcessor]
 
 === Kafka Tools (Utilities)
 

@@ -251,6 +251,48 @@ controllerContext: ControllerContext
 
 When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-controller-ControllerContext.adoc#, ControllerContext>>.
 
+=== [[replicaStateMachine]] KafkaController and ReplicaStateMachine (ZkReplicaStateMachine)
+
+[source, scala]
+----
+replicaStateMachine: ReplicaStateMachine
+----
+
+When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-controller-ZkReplicaStateMachine.adoc#, ZkReplicaStateMachine>>.
+
+`ZkReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#startup, startup>> at <<onControllerFailover, onControllerFailover>> and <<kafka-controller-ReplicaStateMachine.adoc#shutdown, shutdown>> at <<onControllerResignation, onControllerResignation>>.
+
+`ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>> at the following events:
+
+* <<onBrokerLogDirFailure, onBrokerLogDirFailure>> to transition replicas to `OnlineReplica` state
+
+* <<onBrokerStartup, onBrokerStartup>> to transition replicas to `OnlineReplica` state
+
+* <<onReplicasBecomeOffline, onReplicasBecomeOffline>> to transition replicas to `OfflineReplica` state
+
+* <<onNewPartitionCreation, onNewPartitionCreation>> to transition replicas to `NewReplica` state first and then to `OnlineReplica`
+
+* <<onPartitionReassignment, onPartitionReassignment>> to transition replicas to `OnlineReplica` state
+
+* <<stopOldReplicasOfReassignedPartition, stopOldReplicasOfReassignedPartition>> to transition replicas to `OfflineReplica` state first and then to `ReplicaDeletionStarted`, `ReplicaDeletionSuccessful`, and `NonExistentReplica` in the end
+
+* <<startNewReplicasForReassignedPartition, startNewReplicasForReassignedPartition>> to transition replicas to `NewReplica` state
+
+* <<doControlledShutdown, doControlledShutdown>> to transition replicas to `OfflineReplica` state
+
+`KafkaController` uses the `ZkReplicaStateMachine` to create the <<topicDeletionManager, TopicDeletionManager>>.
+
+=== [[process]] Processing Controller Events -- `process` Method
+
+[source, scala]
+----
+process(event: ControllerEvent): Unit
+----
+
+NOTE: `process` is part of the <<kafka-controller-ControllerEventProcessor.adoc#process, ControllerEventProcessor Contract>> to process <<kafka-controller-ControllerEvent.adoc#, controller events>>.
+
+`process`...FIXME
+
 === [[initiateReassignReplicasForTopicPartition]] `initiateReassignReplicasForTopicPartition` Method
 
 [source, scala]
@@ -1337,6 +1379,33 @@ maybeResign(): Unit
 
 NOTE: `maybeResign` is used when `KafkaController` is requested to...FIXME
 
+=== [[processControlledShutdown]] `processControlledShutdown` Internal Method
+
+[source, scala]
+----
+processControlledShutdown(
+  id: Int,
+  brokerEpoch: Long,
+  controlledShutdownCallback: Try[Set[TopicPartition]] => Unit): Unit
+----
+
+`processControlledShutdown`...FIXME
+
+NOTE: `processControlledShutdown` is used exclusively when `KafkaController` is requested to <<process, process a ControlledShutdown controller event>>.
+
+=== [[doControlledShutdown]] `doControlledShutdown` Internal Method
+
+[source, scala]
+----
+doControlledShutdown(
+  id: Int,
+  brokerEpoch: Long): Set[TopicPartition]
+----
+
+`doControlledShutdown`...FIXME
+
+NOTE: `doControlledShutdown` is used exclusively when `KafkaController` is requested to <<processControlledShutdown, processControlledShutdown>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -1389,9 +1458,6 @@ a| [[eventManager]] <<kafka-controller-ControllerEventManager.adoc#, ControllerE
 
 | partitionStateMachine
 a| [[partitionStateMachine]] <<kafka-controller-PartitionStateMachine.adoc#, PartitionStateMachine>>
-
-| replicaStateMachine
-a| [[replicaStateMachine]] <<kafka-controller-ReplicaStateMachine.adoc#, ReplicaStateMachine>>
 
 | stateChangeLogger
 | [[stateChangeLogger]] `StateChangeLogger` with the <<brokerId, broker ID>> and `inControllerContext` flag enabled
