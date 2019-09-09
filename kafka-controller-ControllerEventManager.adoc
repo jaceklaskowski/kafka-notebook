@@ -56,7 +56,7 @@ a| [[_state]] <<kafka-controller-ControllerState.adoc#, ControllerState>>:
 
 [source, scala]
 ----
-put(event: ControllerEvent): Unit
+put(event: ControllerEvent): QueuedEvent
 ----
 
 `put` simply inserts the <<kafka-controller-ControllerEvent.adoc#, ControllerEvent>> at the end of the <<queue, controller event queue>>.
@@ -90,7 +90,7 @@ NOTE: `start` is used exclusively when `KafkaController` is requested to <<kafka
 clearAndPut(event: ControllerEvent): Unit
 ----
 
-`clearAndPut` simply clears the <<queue, controller event queue>> and <<put, enqueues the controller event>>.
+`clearAndPut`...FIXME
 
 [NOTE]
 ====

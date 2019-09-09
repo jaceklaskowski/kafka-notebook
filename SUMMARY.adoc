@@ -7,14 +7,16 @@
 
 . link:kafka-controller-ControllerContext.adoc[ControllerContext]
 
-. link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
-.. link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
-
 . link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
 .. link:kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
 .. link:kafka-controller-ControllerEvent-Startup.adoc[Startup]
 .. link:kafka-controller-ControllerEvent-Reelect.adoc[Reelect]
 .. link:kafka-controller-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
+. link:kafka-controller-ControllerEventProcessor.adoc[ControllerEventProcessor]
+
+. link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
+.. link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
+.. link:kafka-controller-QueuedEvent.adoc[QueuedEvent]
 
 . link:kafka-controller-ControllerState.adoc[ControllerState]
 
@@ -30,9 +32,6 @@
 .. link:kafka-controller-ReplicaStateMachine.adoc[ReplicaStateMachine]
 
 . link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
-
-. link:kafka-controller-ControllerEventProcessor.adoc[ControllerEventProcessor]
-. link:kafka-controller-QueuedEvent.adoc[QueuedEvent]
 
 === Kafka Tools (Utilities)
 

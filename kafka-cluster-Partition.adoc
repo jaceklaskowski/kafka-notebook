@@ -548,7 +548,7 @@ delete(): Unit
 
 NOTE: `delete` is used when...FIXME
 
-=== [[toString]] `toString` Method
+=== [[toString]] String (Textual) Representation -- `toString` Method
 
 [source, scala]
 ----
