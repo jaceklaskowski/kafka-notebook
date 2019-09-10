@@ -1,0 +1,16 @@
+== [[LeaderAndIsrResponseReceived]] LeaderAndIsrResponseReceived Controller Event
+
+[[state]]
+`LeaderAndIsrResponseReceived` is a <<kafka-controller-ControllerEvent.adoc#, controller event>> that <<kafka-controller-ControllerEvent.adoc#state, transition>> the <<kafka-controller-KafkaController.adoc#, KafkaController>> to <<kafka-controller-ControllerState.adoc#LeaderAndIsrResponseReceived, LeaderAndIsrResponseReceived>> state.
+
+[[creating-instance]]
+`LeaderAndIsrResponseReceived` takes the following to be created:
+
+* [[LeaderAndIsrResponseObj]] `AbstractResponse` (which is assumed to be `LeaderAndIsrResponse`)
+* [[brokerId]] Broker ID
+
+`LeaderAndIsrResponseReceived` is <<kafka-controller-ControllerEventManager.adoc#put, enqueued>> exclusively when `AbstractControllerBrokerRequestBatch` (<<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>> actually) is requested to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendLeaderAndIsrRequest, sendLeaderAndIsrRequest>> (and a response has arrived).
+
+=== [[process]] Processing LeaderAndIsrResponseReceived
+
+When <<kafka-controller-KafkaController.adoc#process, processed>> (on the <<kafka-controller-ControllerEventThread.adoc#, controller-event-thread>>), `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#processLeaderAndIsrResponseReceived, processLeaderAndIsrResponseReceived>>.

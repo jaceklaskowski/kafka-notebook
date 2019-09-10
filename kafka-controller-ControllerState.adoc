@@ -92,7 +92,7 @@ ControllerEvents: BrokerChange, BrokerModifications
 | [[LogDirChange]] ControllerEvents: LogDirEventNotification
 
 | ManualLeaderBalance
-| [[ManualLeaderBalance]] ControllerEvents: PreferredReplicaLeaderElection
+| [[ManualLeaderBalance]] ControllerEvents: <<kafka-controller-ControllerEvent.adoc#PreferredReplicaLeaderElection, PreferredReplicaLeaderElection>>
 
 | PartitionReassignment
 | [[PartitionReassignment]] ControllerEvents: PartitionReassignment, PartitionReassignmentIsrChange

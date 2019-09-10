@@ -2,13 +2,13 @@
 
 *Kafka Controller* (<<kafka-controller-KafkaController.adoc#, KafkaController>>) is a Kafka service that runs on every broker in a Kafka cluster, but only one can be <<isActive, active>> (_elected_) at any point in time.
 
-The process of promoting a `KafkaController` to be active among brokers is <<kafka-controller-election.adoc#, Kafka Controller Election>>.
+The process of promoting a broker to be the active controller is called <<kafka-controller-election.adoc#, Kafka Controller Election>>.
 
 Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Internals[Kafka Controller Internals]:
 
 > In a Kafka cluster, one of the brokers serves as the controller, which is responsible for managing the states of partitions and replicas and for performing administrative tasks like reassigning partitions.
 
-Kafka Controller uses <<kafka-controller-KafkaController.adoc#znode-change-handlers, ZNodeChangeHandlers and ZNodeChildChangeHandlers>> to be notified about changes in Zookeeper.
+Kafka Controller registers <<kafka-controller-KafkaController.adoc#znode-change-handlers, handlers>> to be notified about changes in Zookeeper and propagate them across brokers in a Kafka cluster.
 
 === [[lifecycle]] Lifecycle
 

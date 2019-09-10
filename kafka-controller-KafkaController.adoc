@@ -314,7 +314,7 @@ NOTE: `process` is part of the <<kafka-controller-ControllerEventProcessor.adoc#
 | ControlledShutdown
 | [[ControlledShutdown]] <<processControlledShutdown, processControlledShutdown>>
 
-| LeaderAndIsrResponseReceived
+| <<kafka-controller-ControllerEvent-LeaderAndIsrResponseReceived.adoc#, LeaderAndIsrResponseReceived>>
 | [[LeaderAndIsrResponseReceived]] <<processLeaderAndIsrResponseReceived, processLeaderAndIsrResponseReceived>>
 
 | TopicDeletionStopReplicaResponseReceived
@@ -1549,7 +1549,7 @@ processTopicUncleanLeaderElectionEnable(topic: String): Unit
 
 NOTE: `processTopicUncleanLeaderElectionEnable` is used exclusively when `KafkaController` is requested to <<process, process a TopicUncleanLeaderElectionEnable controller event>>.
 
-=== [[processLeaderAndIsrResponseReceived]] `processLeaderAndIsrResponseReceived` Internal Method
+=== [[processLeaderAndIsrResponseReceived]] Processing LeaderAndIsrResponseReceived Controller Event (On controller-event-thread) -- `processLeaderAndIsrResponseReceived` Internal Method
 
 [source, scala]
 ----
@@ -1560,7 +1560,7 @@ processLeaderAndIsrResponseReceived(
 
 `processLeaderAndIsrResponseReceived`...FIXME
 
-NOTE: `processLeaderAndIsrResponseReceived` is used exclusively when `KafkaController` is requested to <<process, process a LeaderAndIsrResponseReceived controller event>>.
+NOTE: `processLeaderAndIsrResponseReceived` is used exclusively when `KafkaController` is requested to <<process, process a LeaderAndIsrResponseReceived controller event>> (on the <<kafka-controller-ControllerEventThread.adoc#, controller-event-thread>>).
 
 === [[processTopicDeletionStopReplicaResponseReceived]] `processTopicDeletionStopReplicaResponseReceived` Internal Method
 

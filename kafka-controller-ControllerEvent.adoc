@@ -59,7 +59,7 @@ Requested <<kafka-controller-ControllerEventManager.adoc#_state, ControllerState
 | <<kafka-controller-ControllerState.adoc#IsrChange, IsrChange>>
 a| [[IsrChangeNotification]] Emitted when the <<kafka-controller-KafkaController.adoc#isrChangeNotificationHandler, ZNodeChildChangeHandler>> has been notified about the znode child change
 
-| LeaderAndIsrResponseReceived
+| <<kafka-controller-ControllerEvent-LeaderAndIsrResponseReceived.adoc#, LeaderAndIsrResponseReceived>>
 | <<kafka-controller-ControllerState.adoc#LeaderAndIsrResponseReceived, LeaderAndIsrResponseReceived>>
 | [[LeaderAndIsrResponseReceived]]
 

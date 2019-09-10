@@ -1,7 +1,7 @@
 == [[PreferredReplicaLeaderElection]] PreferredReplicaLeaderElection Controller Event
 
 [[state]]
-`PreferredReplicaLeaderElection` is a <<kafka-controller-ControllerEvent.adoc#, controller event>> that <<kafka-controller-ControllerEvent.adoc#state, transition>> the <<kafka-controller-KafkaController.adoc#, KafkaController>> to <<kafka-controller-ControllerEvent.adoc#ManualLeaderBalance, ManualLeaderBalance>> state.
+`PreferredReplicaLeaderElection` is a <<kafka-controller-ControllerEvent.adoc#, controller event>> that <<kafka-controller-ControllerEvent.adoc#state, transition>> the <<kafka-controller-KafkaController.adoc#, KafkaController>> to <<kafka-controller-ControllerState.adoc#ManualLeaderBalance, ManualLeaderBalance>> state.
 
 [[creating-instance]]
 `PreferredReplicaLeaderElection` takes the following to be created:
