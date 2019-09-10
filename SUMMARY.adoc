@@ -19,6 +19,7 @@
 . link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
 .. link:kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
 .. link:kafka-controller-ControllerEvent-BrokerChange.adoc[BrokerChange]
+.. link:kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc[PreferredReplicaLeaderElection]
 .. link:kafka-controller-ControllerEvent-Startup.adoc[Startup]
 .. link:kafka-controller-ControllerEvent-Reelect.adoc[Reelect]
 .. link:kafka-controller-ControllerEvent-TopicDeletion.adoc[TopicDeletion]

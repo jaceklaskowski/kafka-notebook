@@ -128,7 +128,7 @@ On `handleDataChange`, `partitionModificationsHandlers` simply send <<PartitionM
 On `handleCreation`, `partitionReassignmentHandler` simply sends <<PartitionReassignment, PartitionReassignment>> event to the <<eventManager, ControllerEventManager>>.
 
 | preferredReplicaElectionHandler
-| [[preferredReplicaElectionHandler]] `ZNodeChangeHandler` of `/admin/preferred_replica_election` path
+| [[preferredReplicaElectionHandler]][[PreferredReplicaElectionHandler]] `ZNodeChangeHandler` of `/admin/preferred_replica_election` path
 
 On `handleCreation`, `preferredReplicaElectionHandler` simply sends <<PreferredReplicaLeaderElection, PreferredReplicaLeaderElection>> event to the <<eventManager, ControllerEventManager>>.
 
@@ -1179,7 +1179,7 @@ removePartitionsFromPreferredReplicaElection(
 
 `removePartitionsFromPreferredReplicaElection`...FIXME
 
-NOTE: `removePartitionsFromPreferredReplicaElection` is used exclusively when `KafkaController` is requested to <<onPreferredReplicaElection, onPreferredReplicaElection>>.
+NOTE: `removePartitionsFromPreferredReplicaElection` is used exclusively when `KafkaController` is requested to <<onPreferredReplicaElection, onPreferredReplicaElection>> (and the election type is not <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#AdminClientTriggered, AdminClientTriggered>>).
 
 === [[onPreferredReplicaElection]] `onPreferredReplicaElection` Internal Method
 
@@ -1192,7 +1192,16 @@ onPreferredReplicaElection(
 
 `onPreferredReplicaElection`...FIXME
 
-NOTE: `onPreferredReplicaElection` is used when `KafkaController` is requested to <<onControllerFailover, onControllerFailover>>, <<checkAndTriggerAutoLeaderRebalance, checkAndTriggerAutoLeaderRebalance>> and process a <<PreferredReplicaLeaderElection, PreferredReplicaLeaderElection>> controller event.
+[NOTE]
+====
+`onPreferredReplicaElection` is used when `KafkaController` is requested for the following:
+
+* <<onControllerFailover, onControllerFailover>> (with <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#ZkTriggered, ZkTriggered>> election type)
+
+* <<checkAndTriggerAutoLeaderRebalance, checkAndTriggerAutoLeaderRebalance>> (with <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#AutoTriggered, AutoTriggered>> election type)
+
+* <<processPreferredReplicaLeaderElection, Process a PreferredReplicaLeaderElection controller event>> (any election type with <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#ZkTriggered, ZkTriggered>> the default)
+====
 
 === [[updateLeaderEpoch]] `updateLeaderEpoch` Internal Method
 
@@ -1453,6 +1462,19 @@ enableDefaultUncleanLeaderElection(): Unit
 
 NOTE: `enableDefaultUncleanLeaderElection` is used exclusively when `DynamicLogConfig` is requested to <<kafka-server-DynamicLogConfig.adoc#reconfigure, reconfigure>>.
 
+=== [[electPreferredLeaders]] `electPreferredLeaders` Method
+
+[source, scala]
+----
+electPreferredLeaders(
+  partitions: Set[TopicPartition],
+  callback: ElectPreferredLeadersCallback = { (_,_) => }): Unit
+----
+
+`electPreferredLeaders` simply requests the <<eventManager, ControllerEventManager>> to <<kafka-controller-ControllerEventManager.adoc#put, enqueue an PreferredReplicaLeaderElection event>> (with <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#AdminClientTriggered, AdminClientTriggered>> election type)
+
+NOTE: `electPreferredLeaders` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#electPreferredLeaders, electPreferredLeaders>>.
+
 === [[maybeResign]] `maybeResign` Internal Method
 
 [source, scala]
@@ -1491,7 +1513,7 @@ doControlledShutdown(
 
 NOTE: `doControlledShutdown` is used exclusively when `KafkaController` is requested to <<processControlledShutdown, processControlledShutdown>>.
 
-=== [[processPreferredReplicaLeaderElection]] `processPreferredReplicaLeaderElection` Internal Method
+=== [[processPreferredReplicaLeaderElection]] Processing PreferredReplicaLeaderElection Controller Event (On controller-event-thread) -- `processPreferredReplicaLeaderElection` Internal Method
 
 [source, scala]
 ----
@@ -1503,7 +1525,7 @@ processPreferredReplicaLeaderElection(
 
 `processPreferredReplicaLeaderElection`...FIXME
 
-NOTE: `processPreferredReplicaLeaderElection` is used exclusively when `KafkaController` is requested to <<process, process a PreferredReplicaLeaderElection controller event>>.
+NOTE: `processPreferredReplicaLeaderElection` is used exclusively when `KafkaController` is requested to <<process, process a PreferredReplicaLeaderElection controller event>> (on the <<kafka-controller-ControllerEventThread.adoc#, controller-event-thread>>).
 
 === [[processUncleanLeaderElectionEnable]] `processUncleanLeaderElectionEnable` Internal Method
 
@@ -1742,6 +1764,19 @@ processStartup(): Unit
 In the end, `processStartup` starts <<elect, controller election>>.
 
 NOTE: `processStartup` is used exclusively when `KafkaController` is requested to <<process, process a Startup controller event>> (on the <<kafka-controller-ControllerEventThread.adoc#, controller-event-thread>>).
+
+=== [[preemptPreferredReplicaLeaderElection]] Preempting PreferredReplicaLeaderElection -- `preemptPreferredReplicaLeaderElection` Internal Method
+
+[source, scala]
+----
+preemptPreferredReplicaLeaderElection(
+  partitionsFromAdminClientOpt: Option[Set[TopicPartition]],
+  callback: ElectPreferredLeadersCallback = (_, _) => {}): Unit
+----
+
+`preemptPreferredReplicaLeaderElection`...FIXME
+
+NOTE: `preemptPreferredReplicaLeaderElection` is used exclusively when `KafkaController` is requested to <<preempt, preempt a PreferredReplicaLeaderElection controller event>>.
 
 === [[internal-properties]] Internal Properties
 

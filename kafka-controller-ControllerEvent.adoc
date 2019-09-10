@@ -79,7 +79,7 @@ a| [[IsrChangeNotification]] Emitted when the <<kafka-controller-KafkaController
 | <<kafka-controller-ControllerState.adoc#PartitionReassignment, PartitionReassignment>>
 | [[PartitionReassignmentIsrChange]]
 
-| PreferredReplicaLeaderElection
+| <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#, PreferredReplicaLeaderElection>>
 | <<kafka-controller-ControllerState.adoc#ManualLeaderBalance, ManualLeaderBalance>>
 | [[PreferredReplicaLeaderElection]]
 

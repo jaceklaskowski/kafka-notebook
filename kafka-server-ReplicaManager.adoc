@@ -781,6 +781,21 @@ readFromLocalLog(
 * `ReplicaManager` is requested to <<fetchMessages, fetchMessages>> (when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleFetchRequest, handle a Fetch request>>)
 ====
 
+=== [[electPreferredLeaders]] `electPreferredLeaders` Method
+
+[source, scala]
+----
+electPreferredLeaders(
+  controller: KafkaController,
+  partitions: Set[TopicPartition],
+  responseCallback: Map[TopicPartition, ApiError] => Unit,
+  requestTimeout: Long): Unit
+----
+
+`electPreferredLeaders`...FIXME
+
+NOTE: `electPreferredLeaders` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleElectPreferredReplicaLeader, handle an ElectPreferredLeaders request>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

@@ -1,0 +1,47 @@
+== [[PreferredReplicaLeaderElection]] PreferredReplicaLeaderElection Controller Event
+
+[[state]]
+`PreferredReplicaLeaderElection` is a <<kafka-controller-ControllerEvent.adoc#, controller event>> that <<kafka-controller-ControllerEvent.adoc#state, transition>> the <<kafka-controller-KafkaController.adoc#, KafkaController>> to <<kafka-controller-ControllerEvent.adoc#ManualLeaderBalance, ManualLeaderBalance>> state.
+
+[[creating-instance]]
+`PreferredReplicaLeaderElection` takes the following to be created:
+
+* [[partitionsFromAdminClientOpt]] Partitions (`Option[Set[TopicPartition]]`)
+* [[electionType]] <<election-type, Election type>> (default: <<ZkTriggered, ZkTriggered>>)
+* [[callback]] Elect Preferred Leaders Callback (default: `(_, _) => {}`)
+
+`PreferredReplicaLeaderElection` is <<kafka-controller-ControllerEventManager.adoc#put, enqueued>> when `KafkaController` is requested for the following:
+
+* <<kafka-controller-KafkaController.adoc#removePartitionsFromPreferredReplicaElection, removePartitionsFromPreferredReplicaElection>> and `isTriggeredByAutoRebalance` flag is off
+
+* <<kafka-controller-KafkaController.adoc#electPreferredLeaders, electPreferredLeaders>>
+
+NOTE: FIXME When <<kafka-controller-KafkaController.adoc#removePartitionsFromPreferredReplicaElection, removePartitionsFromPreferredReplicaElection>> and `isTriggeredByAutoRebalance` flag is off?
+
+When <<creating-instance, created>>, `PreferredReplicaLeaderElection` is given the optional <<partitionsFromAdminClientOpt, partitions>> and the <<electionType, electionType>> as follows:
+
+* No partitions (`None`) and the default `ZkTriggered` when:
+
+** `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#removePartitionsFromPreferredReplicaElection, removePartitionsFromPreferredReplicaElection>> and `isTriggeredByAutoRebalance` flag is off
+
+** <<kafka-controller-KafkaController.adoc#PreferredReplicaElectionHandler, PreferredReplicaElectionHandler>> is notified about a new node under `/admin/preferred_replica_election` path in Zookeeper (`handleCreation`).
+
+* Some partitions, `AdminClientTriggered` election type and a custom callback when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#electPreferredLeaders, electPreferredLeaders>>
+
+=== [[process]] Processing PreferredReplicaLeaderElection
+
+When <<kafka-controller-KafkaController.adoc#process, processed>> (on the <<kafka-controller-ControllerEventThread.adoc#, controller-event-thread>>), `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#processPreferredReplicaLeaderElection, processPreferredReplicaLeaderElection>>.
+
+=== [[preempt]] Preempting PreferredReplicaLeaderElection
+
+When <<kafka-controller-KafkaController.adoc#preempt, preempted>>, `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#preemptPreferredReplicaLeaderElection, preemptPreferredReplicaLeaderElection>>.
+
+=== [[election-type]] Election Type
+
+<<electionType, Election type>> can be one of the following:
+
+* [[AutoTriggered]] `AutoTriggered`
+
+* [[ZkTriggered]] `ZkTriggered`
+
+* [[AdminClientTriggered]] `AdminClientTriggered`

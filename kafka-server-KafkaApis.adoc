@@ -39,6 +39,9 @@
 | DeleteRecords
 | [[DeleteRecords]][[DELETE_RECORDS]] <<handleDeleteRecordsRequest, handleDeleteRecordsRequest>>
 
+| DeleteRecords
+| [[ElectPreferredLeaders]][[ELECT_PREFERRED_LEADERS]] <<handleElectPreferredReplicaLeader, handleElectPreferredReplicaLeader>>
+
 | Fetch
 | [[Fetch]][[FETCH]] <<handleFetchRequest, handleFetchRequest>>
 
@@ -165,6 +168,20 @@ Handling request:[request] from connection [id];securityProtocol:[protocol],prin
 `handle` then relays the input <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>> to the corresponding <<handlers, handler>> per the <<keys, apiKey>> (from the header of the input `request`).
 
 NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is requested to <<kafka-server-KafkaRequestHandler.adoc#run, run>>.
+
+=== [[handleElectPreferredReplicaLeader]] Handling ElectPreferredLeaders Request -- `handleElectPreferredReplicaLeader` Handler
+
+[source, scala]
+----
+handleElectPreferredReplicaLeader(
+  request: RequestChannel.Request): Unit
+----
+
+In summary, `handleElectPreferredReplicaLeader` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#electPreferredLeaders, electPreferredLeaders>>.
+
+Internally, `handleElectPreferredReplicaLeader`...FIXME
+
+NOTE: `handleElectPreferredReplicaLeader` is used exclusively when `KafkaApis` is requested to handle a <<ElectPreferredLeaders, ElectPreferredLeaders>> request.
 
 === [[handleLeaderAndIsrRequest]] Handling LeaderAndIsr Request -- `handleLeaderAndIsrRequest` Handler
 
