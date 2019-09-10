@@ -2,9 +2,13 @@
 
 `ControllerBrokerRequestBatch` is a concrete <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#, AbstractControllerBrokerRequestBatch>>.
 
+`ControllerBrokerRequestBatch` uses a <<controllerChannelManager, ControllerChannelManager>> to <<sendRequest, send an controller request out to a broker>>.
+
+`ControllerBrokerRequestBatch` uses a <<controllerEventManager, ControllerEventManager>> to <<sendEvent, enqueue a ControllerEvent (to ControllerEventManager)>>.
+
 `ControllerBrokerRequestBatch` is <<creating-instance, created>> exclusively for <<kafka-controller-KafkaController.adoc#, KafkaController>> (for <<kafka-controller-KafkaController.adoc#brokerRequestBatch, brokerRequestBatch>>, <<kafka-controller-KafkaController.adoc#replicaStateMachine, ReplicaStateMachine>>, and <<kafka-controller-KafkaController.adoc#partitionStateMachine, PartitionStateMachine>>).
 
-Every time `ControllerBrokerRequestBatch` is used it is first <<newBatch, newBatch>> that is then <<sendRequestsToBrokers, sendRequestsToBrokers>>.
+Every time `ControllerBrokerRequestBatch` is used it is first requested to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#newBatch, prepare a new batch>> (of controller requests) that is then <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, send out to selected brokers>>.
 
 === [[creating-instance]] Creating ControllerBrokerRequestBatch Instance
 
@@ -16,60 +20,7 @@ Every time `ControllerBrokerRequestBatch` is used it is first <<newBatch, newBat
 * [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
 * [[stateChangeLogger]] `StateChangeLogger`
 
-=== [[addUpdateMetadataRequestForBrokers]] `addUpdateMetadataRequestForBrokers` Method
-
-[source, scala]
-----
-addUpdateMetadataRequestForBrokers(
-  brokerIds: Seq[Int],
-  partitions: collection.Set[TopicPartition]): Unit
-----
-
-`addUpdateMetadataRequestForBrokers`...FIXME
-
-[NOTE]
-====
-`addUpdateMetadataRequestForBrokers` is used when:
-
-* `ControllerBrokerRequestBatch` is requested to <<addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>>
-
-* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>>
-====
-
-=== [[addStopReplicaRequestForBrokers]] `addStopReplicaRequestForBrokers` Method
-
-[source, scala]
-----
-addStopReplicaRequestForBrokers(
-  brokerIds: Seq[Int],
-  topicPartition: TopicPartition,
-  deletePartition: Boolean,
-  callback: (AbstractResponse, Int) => Unit): Unit
-----
-
-`addStopReplicaRequestForBrokers`...FIXME
-
-[NOTE]
-====
-`addStopReplicaRequestForBrokers` is used when:
-
-* `KafkaController` is requested to process a <<kafka-controller-KafkaController.adoc#ControlledShutdown, ControlledShutdown>> controller event
-
-* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#doHandleStateChanges, doHandleStateChanges>>
-====
-
-=== [[clear]] `clear` Method
-
-[source, scala]
-----
-clear(): Unit
-----
-
-`clear` simply removes all bindings in the <<leaderAndIsrRequestMap, leaderAndIsrRequestMap>>, <<stopReplicaRequestMap, stopReplicaRequestMap>> and <<updateMetadataRequestBrokerSet, updateMetadataRequestBrokerSet>> internal registries.
-
-NOTE: `clear` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#handleIllegalState, handleIllegalState>>.
-
-=== [[sendEvent]] `sendEvent` Method
+=== [[sendEvent]] Emitting (Enqueuing) ControllerEvent -- `sendEvent` Method
 
 [source, scala]
 ----
@@ -78,4 +29,18 @@ sendEvent(event: ControllerEvent): Unit
 
 NOTE: `sendEvent` is part of the <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendEvent, AbstractControllerBrokerRequestBatch Contract>> to send a <<kafka-controller-ControllerEvent.adoc#, ControllerEvent>>.
 
-`sendEvent`...FIXME
+`sendEvent` simply requests the <<controllerEventManager, ControllerEventManager>> to <<kafka-controller-ControllerEventManager.adoc#put, enqueue the controller event>>.
+
+=== [[sendRequest]] Sending AbstractControlRequest Out to Broker -- `sendRequest` Method
+
+[source, scala]
+----
+sendRequest(
+  brokerId: Int,
+  request: AbstractControlRequest.Builder[_ <: AbstractControlRequest],
+  callback: AbstractResponse => Unit = null): Unit
+----
+
+NOTE: `sendRequest` is part of the <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequest, AbstractControllerBrokerRequestBatch Contract>> to send a `AbstractControlRequest` to a broker.
+
+`sendRequest` simply requests the <<controllerChannelManager, ControllerChannelManager>> to <<kafka-controller-ControllerChannelManager.adoc#sendRequest, send the request to the broker>>.

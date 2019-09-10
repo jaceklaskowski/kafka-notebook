@@ -19,7 +19,7 @@ a| [[state]]
 state: ControllerState
 ----
 
-Requested <<kafka-controller-ControllerEventManager.adoc#_state, ControllerState>> of the <<kafka-controller-ControllerEventManager.adoc#, ControllerEventManager>> (that `ControllerEventThread` sets while <<kafka-controller-ControllerEventThread.adoc#doWork, processing the controller event>>)
+Requested <<kafka-controller-ControllerState.adoc#, ControllerState>> of the <<kafka-controller-ControllerEventManager.adoc#, ControllerEventManager>> (while <<kafka-controller-ControllerEventThread.adoc#doWork, processing a controller event>>)
 
 |===
 

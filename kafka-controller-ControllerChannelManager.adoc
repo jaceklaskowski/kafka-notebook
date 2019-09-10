@@ -4,40 +4,51 @@
 
 `ControllerChannelManager` is <<creating-instance, created>> exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#startChannelManager, startChannelManager>>.
 
-[[kafka-metrics]]
-.ControllerChannelManager's Metrics
-[cols="1m,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| TotalQueueSize
-| [[TotalQueueSize]]
-
-|===
-
-[[internal-registries]]
-.ControllerChannelManager's Internal Properties
-[cols="1m,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| brokerStateInfo
-| [[brokerStateInfo]]
-
-Used when...FIXME
-
-| brokerLock
-| [[brokerLock]]
-
-Used when...FIXME
-|===
-
 [[logIdent]]
 `ControllerChannelManager` uses *[Channel manager on controller [brokerId]]* as the logging prefix (aka `logIdent`).
 
-=== [[addNewBroker]] `addNewBroker` Internal Method
+=== [[KafkaMetricsGroup]][[metrics]] Performance Metrics
+
+`ControllerChannelManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with the following performance metrics.
+
+.ControllerChannelManager's Performance Metrics
+[cols="30m,70",options="header",width="100%"]
+|===
+| Metric Name
+| Description
+
+| QueueSize
+a| [[QueueSize]] Controller requests (`AbstractControlRequests`) queue size (per broker)
+
+| RequestRateAndQueueTimeMs
+a| [[RequestRateAndQueueTimeMs]][[requestRateAndQueueTimeMetrics]] For every broker
+
+| TotalQueueSize
+a| [[TotalQueueSize]] Total number of controller requests (`AbstractControlRequests`) to be sent out to brokers
+
+|===
+
+The performance metrics are registered in *kafka.controller:type=ControllerChannelManager* group.
+
+.ControllerChannelManager in jconsole
+image::images/ControllerChannelManager-jconsole.png[align="center"]
+
+=== [[creating-instance]] Creating ControllerChannelManager Instance
+
+`ControllerChannelManager` takes the following to be created:
+
+* [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
+* [[time]] `Time`
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
+* [[stateChangeLogger]] `StateChangeLogger`
+* [[threadNamePrefix]] Thread name prefix (default: `(empty)`)
+
+`ControllerChannelManager` initializes the <<internal-properties, internal properties>>.
+
+In the end, `ControllerChannelManager` requests the <<controllerContext, ControllerContext>> for the `liveBrokers` that it <<addNewBroker, addNewBroker>> each.
+
+=== [[addNewBroker]] Registering New Broker -- `addNewBroker` Internal Method
 
 [source, scala]
 ----
@@ -70,17 +81,80 @@ removeBroker(brokerId: Int): Unit
 
 NOTE: `removeBroker` is used when...FIXME
 
-=== [[creating-instance]] Creating ControllerChannelManager Instance
+=== [[startup]] Starting Up -- `startup` Method
 
-`ControllerChannelManager` takes the following when created:
+[source, scala]
+----
+startup(): Unit
+----
 
-* [[controllerContext]] `ControllerContext`
-* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
-* [[time]] `Time`
-* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
-* [[stateChangeLogger]] `StateChangeLogger`
-* [[threadNamePrefix]] Optional thread name prefix (default: `None`)
+`startup`...FIXME
 
-`ControllerChannelManager` initializes the <<internal-registries, internal registries and counters>>.
+NOTE: `startup` is used when...FIXME
 
-In the end, `ControllerChannelManager` requests the <<controllerContext, ControllerContext>> for the `liveBrokers` that it <<addNewBroker, addNewBroker>> each.
+=== [[shutdown]] Shutting Down -- `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown`...FIXME
+
+NOTE: `shutdown` is used when...FIXME
+
+=== [[sendRequest]] Sending AbstractControlRequest Out to Broker -- `sendRequest` Method
+
+[source, scala]
+----
+sendRequest(
+  brokerId: Int,
+  request: AbstractControlRequest.Builder[_ <: AbstractControlRequest],
+  callback: AbstractResponse => Unit = null)
+----
+
+`sendRequest`...FIXME
+
+NOTE: `sendRequest` is used exclusively when `ControllerBrokerRequestBatch` is requested to <<kafka-controller-ControllerBrokerRequestBatch.adoc#sendRequest, send a controller request to a broker>>.
+
+=== [[removeExistingBroker]] `removeExistingBroker` Internal Method
+
+[source, scala]
+----
+removeExistingBroker(
+  brokerState: ControllerBrokerStateInfo): Unit
+----
+
+`removeExistingBroker`...FIXME
+
+NOTE: `removeExistingBroker` is used when...FIXME
+
+=== [[startRequestSendThread]] `startRequestSendThread` Internal Method
+
+[source, scala]
+----
+startRequestSendThread(
+  brokerId: Int): Unit
+----
+
+`startRequestSendThread`...FIXME
+
+NOTE: `startRequestSendThread` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| brokerStateInfo
+a| [[brokerStateInfo]] Broker metadata by broker ID (`HashMap[Int, ControllerBrokerStateInfo]`)
+
+Used when...FIXME
+
+| brokerLock
+| [[brokerLock]]
+
+Used when...FIXME
+|===
