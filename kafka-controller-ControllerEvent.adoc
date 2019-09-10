@@ -35,7 +35,7 @@ Requested <<kafka-controller-ControllerEventManager.adoc#_state, ControllerState
 | <<kafka-controller-ControllerState.adoc#AutoLeaderBalance, AutoLeaderBalance>>
 | [[AutoPreferredReplicaLeaderElection]]
 
-| BrokerChange
+| <<kafka-controller-ControllerEvent-BrokerChange.adoc#, BrokerChange>>
 | <<kafka-controller-ControllerState.adoc#BrokerChange, BrokerChange>>
 | [[BrokerChange]]
 

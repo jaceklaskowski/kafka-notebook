@@ -5,6 +5,10 @@
 
 === Kafka Controller
 
+. link:kafka-controller.adoc[Kafka Controller]
+
+. link:kafka-controller-KafkaController.adoc[KafkaController]
+
 . link:kafka-controller-ControllerContext.adoc[ControllerContext]
 . link:kafka-controller-ControllerState.adoc[ControllerState]
 
@@ -14,6 +18,7 @@
 
 . link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
 .. link:kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
+.. link:kafka-controller-ControllerEvent-BrokerChange.adoc[BrokerChange]
 .. link:kafka-controller-ControllerEvent-Startup.adoc[Startup]
 .. link:kafka-controller-ControllerEvent-Reelect.adoc[Reelect]
 .. link:kafka-controller-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
@@ -98,8 +103,6 @@
 
 . link:kafka-Kafka.adoc[Kafka]
 . link:kafka-server-KafkaApis.adoc[KafkaApis]
-
-. link:kafka-controller-KafkaController.adoc[KafkaController]
 
 . link:kafka-KafkaHealthcheck.adoc[KafkaHealthcheck]
 . link:kafka-KafkaServerStartable.adoc[KafkaServerStartable]

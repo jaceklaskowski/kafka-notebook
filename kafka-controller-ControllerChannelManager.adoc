@@ -48,7 +48,7 @@ addNewBroker(broker: Broker): Unit
 
 NOTE: `addNewBroker` is used when `ControllerChannelManager` is <<creating-instance, created>> (to connect to live brokers) and is requested to <<addBroker, addBroker>>.
 
-=== [[addBroker]] `addBroker` Method
+=== [[addBroker]] Registering Newly-Added Broker -- `addBroker` Method
 
 [source, scala]
 ----
@@ -58,6 +58,17 @@ addBroker(broker: Broker): Unit
 `addBroker`...FIXME
 
 NOTE: `addBroker` is used exclusively when <<kafka-controller-KafkaController.adoc#BrokerChange, BrokerChange>> controller event is processed.
+
+=== [[removeBroker]] Deregistering Broker -- `removeBroker` Method
+
+[source, scala]
+----
+removeBroker(brokerId: Int): Unit
+----
+
+`removeBroker`...FIXME
+
+NOTE: `removeBroker` is used when...FIXME
 
 === [[creating-instance]] Creating ControllerChannelManager Instance
 

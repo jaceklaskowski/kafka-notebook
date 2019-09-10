@@ -1,17 +1,9 @@
 == [[KafkaController]] KafkaController
 
-`KafkaController` is a Kafka service that runs on every broker in a Kafka cluster, but only one `KafkaController` can be <<isActive, active>> (_elected_).
-
-The process of promoting a `KafkaController` to be active among brokers is <<kafka-controller-election.adoc#, Kafka Controller Election>>.
-
 `KafkaController` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 .KafkaController
 image::images/KafkaController.png[align="center"]
-
-Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Internals[Kafka Controller Internals]:
-
-> In a Kafka cluster, one of the brokers serves as the controller, which is responsible for managing the states of partitions and replicas and for performing administrative tasks like reassigning partitions.
 
 `KafkaController` is the default and only known <<kafka-controller-ControllerEventProcessor.adoc#, ControllerEventProcessor>> to <<process, process>> and <<preempt, preempt>> controller events.
 
@@ -111,7 +103,7 @@ a| [[Startup]]
 | Description
 
 | brokerChangeHandler
-| [[brokerChangeHandler]] `ZNodeChildChangeHandler` of `/brokers/ids` path
+| [[brokerChangeHandler]][[BrokerChangeHandler]] `ZNodeChildChangeHandler` of `/brokers/ids` path
 
 On `handleChildChange`, `brokerChangeHandler` simply sends <<BrokerChange, BrokerChange>> event to the <<eventManager, ControllerEventManager>>.
 
@@ -237,12 +229,6 @@ That means that the logs of `KafkaController` go to `logs/controller.log` file a
 * [[threadNamePrefix]] Thread name prefix (default: undefined)
 
 `KafkaController` initializes the <<internal-properties, internal properties>>.
-
-=== [[lifecycle]] Lifecycle of KafkaController
-
-When <<startup, started>>, `KafkaController` emits `Startup` controller event (to the <<eventManager, ControllerEventManager>>) that <<processStartup, processStartup>> and then starts <<elect, controller election>>. During <<elect, controller election>>, one `KafkaController` becomes <<isActive, active>> (_elected_) and <<onControllerFailover, onControllerFailover>>. The current state (as the <<controllerContext, ControllerContext>>) is built based on what is available in Zookeeper.
-
-While in <<initializeControllerContext, initializeControllerContext>>, `KafkaController` <<updateLeaderAndIsrCache, updateLeaderAndIsrCache>> (and <<kafka-zk-KafkaZkClient.adoc#getTopicPartitionStates, reads partition state>> from `/brokers/topics/[topic]/partitions/[partition]/state` paths in Zookeeper that is then stored as <<kafka-controller-ControllerContext.adoc#partitionLeadershipInfo, partitionLeadershipInfo>> of the <<controllerContext, ControllerContext>>).
 
 === [[controllerContext]] KafkaController and ControllerContext
 
@@ -767,7 +753,7 @@ Error while electing or becoming controller on broker [brokerId]. Trigger contro
 isActive: Boolean
 ----
 
-`isActive` flag says whether the current broker (by the ID) is the active controller (given the <<activeControllerId, activeControllerId>>).
+`isActive` indicates whether the current broker (by the broker ID) hosts the active `KafkaController` (given the <<activeControllerId, activeControllerId>>) or not.
 
 NOTE: `isActive` is on (`true`) after the `KafkaController` of a Kafka broker has been <<elect, elected>>.
 
@@ -1568,16 +1554,49 @@ processTopicDeletionStopReplicaResponseReceived(
 
 NOTE: `processTopicDeletionStopReplicaResponseReceived` is used exclusively when `KafkaController` is requested to <<process, process a TopicDeletionStopReplicaResponseReceived controller event>>.
 
-=== [[processBrokerChange]] `processBrokerChange` Internal Method
+=== [[processBrokerChange]] Processing BrokerChange Controller Event (On controller-event-thread) -- `processBrokerChange` Internal Method
 
 [source, scala]
 ----
 processBrokerChange(): Unit
 ----
 
-`processBrokerChange`...FIXME
+`processBrokerChange` simply returns when the `KafkaController` is not <<isActive, active>> (the broker is not the active controller).
 
-NOTE: `processBrokerChange` is used exclusively when `KafkaController` is requested to <<process, process a BrokerChange controller event>>.
+`processBrokerChange` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getAllBrokerAndEpochsInCluster, brokers in a Kafka cluster>> and compares the broker list with the <<kafka-controller-ControllerContext.adoc#liveOrShuttingDownBrokerIds, current brokers>> (of the <<controllerContext, ControllerContext>>).
+
+At this point in time, `processBrokerChange` knows what brokers are new, dead or bounced.
+
+`processBrokerChange` prints out the following INFO message to the logs:
+
+[options="wrap"]
+----
+Newly added brokers: [ids], deleted brokers: [ids], bounced brokers: [ids], all live brokers: [ids]
+----
+
+`processBrokerChange` notifies (_updates_) the <<controllerChannelManager, ControllerChannelManager>>:
+
+* For every newly-added broker, `processBrokerChange` requests to <<kafka-controller-ControllerChannelManager.adoc#addBroker, register it>>
+
+* For bounced brokers, `processBrokerChange` requests to <<kafka-controller-ControllerChannelManager.adoc#removeBroker, deregister them all>> first followed by <<kafka-controller-ControllerChannelManager.adoc#addBroker, registering them>>
+
+* For every deleted broker, `processBrokerChange` requests to <<kafka-controller-ControllerChannelManager.adoc#removeBroker, deregister it>>
+
+`processBrokerChange` updates the <<controllerContext, ControllerContext>>:
+
+* For newly-added brokers (if there were any), `processBrokerChange` requests to <<kafka-controller-ControllerContext.adoc#addLiveBrokersAndEpochs, addLiveBrokersAndEpochs>> followed by <<onBrokerStartup, onBrokerStartup>>
+
+* For bounced brokers (if there were any), `processBrokerChange` first requests to <<kafka-controller-ControllerContext.adoc#removeLiveBrokers, remove them>> followed by <<onBrokerFailure, onBrokerFailure>> and then requests to <<kafka-controller-ControllerContext.adoc#addLiveBrokersAndEpochs, addLiveBrokersAndEpochs>> followed by <<onBrokerStartup, onBrokerStartup>>
+
+* For deleted brokers (if there were any), `processBrokerChange` requests to <<kafka-controller-ControllerContext.adoc#removeLiveBrokers, remove them>> followed by <<onBrokerFailure, onBrokerFailure>>
+
+In the end, only when they were any updates (new, dead or bounced brokers), `processBrokerChange` prints out the following INFO message to the logs:
+
+```
+Updated broker epochs cache: [liveBrokerIdAndEpochs]
+```
+
+NOTE: `processBrokerChange` is used exclusively when `KafkaController` is requested to <<process, process a BrokerChange controller event>> (on the <<kafka-controller-ControllerEventThread.adoc#, controller-event-thread>>).
 
 === [[processBrokerModification]] `processBrokerModification` Internal Method
 

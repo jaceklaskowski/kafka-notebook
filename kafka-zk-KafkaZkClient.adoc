@@ -517,3 +517,14 @@ createOrGetClusterId(proposedClusterId: String): String
 `createOrGetClusterId`...FIXME
 
 NOTE: `createOrGetClusterId` is used when...FIXME
+
+=== [[getAllBrokerAndEpochsInCluster]] All Brokers In Kafka Cluster -- `getAllBrokerAndEpochsInCluster` Method
+
+[source, scala]
+----
+getAllBrokerAndEpochsInCluster: Map[Broker, Long]
+----
+
+`getAllBrokerAndEpochsInCluster`...FIXME
+
+NOTE: `getAllBrokerAndEpochsInCluster` is used when...FIXME

@@ -19,7 +19,7 @@ a| [[epoch]] Current controller epoch
 a| [[epochZkVersion]]
 
 | liveBrokerEpochs
-a| [[liveBrokerEpochs]]
+a| [[liveBrokerEpochs]][[liveOrShuttingDownBrokerIds]] Broker IDs and the current epoch (`Map[Int, Long]`)
 
 | liveBrokers
 a| [[liveBrokers]]
@@ -204,3 +204,27 @@ onlineAndOfflineReplicas: (Set[PartitionAndReplica], Set[PartitionAndReplica])
 `onlineAndOfflineReplicas`...FIXME
 
 NOTE: `onlineAndOfflineReplicas` is used exclusively when `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#startup, start up>>.
+
+=== [[addLiveBrokersAndEpochs]] `addLiveBrokersAndEpochs` Method
+
+[source, scala]
+----
+addLiveBrokersAndEpochs(
+  brokerAndEpochs: Map[Broker, Long]): Unit
+----
+
+`addLiveBrokersAndEpochs`...FIXME
+
+NOTE: `addLiveBrokersAndEpochs` is used when...FIXME
+
+=== [[removeLiveBrokers]] `removeLiveBrokers` Method
+
+[source, scala]
+----
+removeLiveBrokers(
+  brokerIds: Set[Int]): Unit
+----
+
+`removeLiveBrokers`...FIXME
+
+NOTE: `removeLiveBrokers` is used when...FIXME
