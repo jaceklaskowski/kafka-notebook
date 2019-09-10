@@ -6,6 +6,11 @@
 === Kafka Controller
 
 . link:kafka-controller-ControllerContext.adoc[ControllerContext]
+. link:kafka-controller-ControllerState.adoc[ControllerState]
+
+. link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
+.. link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
+.. link:kafka-controller-QueuedEvent.adoc[QueuedEvent]
 
 . link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
 .. link:kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
@@ -13,12 +18,6 @@
 .. link:kafka-controller-ControllerEvent-Reelect.adoc[Reelect]
 .. link:kafka-controller-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
 . link:kafka-controller-ControllerEventProcessor.adoc[ControllerEventProcessor]
-
-. link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
-.. link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
-.. link:kafka-controller-QueuedEvent.adoc[QueuedEvent]
-
-. link:kafka-controller-ControllerState.adoc[ControllerState]
 
 . link:kafka-controller-ControllerChannelManager.adoc[ControllerChannelManager]
 

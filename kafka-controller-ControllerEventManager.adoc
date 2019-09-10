@@ -59,7 +59,7 @@ image::images/ControllerEventManager-jconsole.png[align="center"]
 put(event: ControllerEvent): QueuedEvent
 ----
 
-`put` creates a new <<kafka-controller-QueuedEvent.adoc#, QueuedEvent>> with the <<kafka-controller-ControllerEvent.adoc#, ControllerEvent>> and adds the it at the end of the <<queue, event queue>>.
+`put` creates a new <<kafka-controller-QueuedEvent.adoc#, QueuedEvent>> with the <<kafka-controller-ControllerEvent.adoc#, ControllerEvent>> and adds it at the end of the <<queue, event queue>>.
 
 [NOTE]
 ====

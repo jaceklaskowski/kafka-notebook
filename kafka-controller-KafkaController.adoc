@@ -1718,9 +1718,11 @@ NOTE: `processIsrChangeNotification` is used exclusively when `KafkaController` 
 processStartup(): Unit
 ----
 
-`processStartup`...FIXME
+`processStartup` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#registerZNodeChangeHandlerAndCheckExistence, registerZNodeChangeHandlerAndCheckExistence>> (with the <<controllerChangeHandler, ControllerChangeHandler>>).
 
-NOTE: `processStartup` is used exclusively when `KafkaController` is requested to <<process, process a Startup controller event>>.
+In the end, `processStartup` starts <<elect, controller election>>.
+
+NOTE: `processStartup` is used exclusively when `KafkaController` is requested to <<process, process a Startup controller event>> (on the <<kafka-controller-ControllerEventThread.adoc#, controller-event-thread>>).
 
 === [[internal-properties]] Internal Properties
 
