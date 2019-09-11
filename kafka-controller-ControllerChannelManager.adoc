@@ -1,11 +1,28 @@
 == [[ControllerChannelManager]] ControllerChannelManager
 
-`ControllerChannelManager` is...FIXME
+[[brokerStateInfo]]
+`ControllerChannelManager` manages <<ControllerBrokerStateInfo, connection metadata>> of all brokers in a Kafka cluster.
 
-`ControllerChannelManager` is <<creating-instance, created>> exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#startChannelManager, startChannelManager>>.
+`ControllerChannelManager` is <<creating-instance, created>> exclusively when <<kafka-controller-KafkaController.adoc#controllerChannelManager, KafkaController>> is created (to <<addBroker, add>> or <<removeBroker, remove>> brokers as they "announce" themselves in Zookeeper) for <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatches>> of the <<kafka-controller-KafkaController.adoc#brokerRequestBatch, KafkaController>> itself, the <<kafka-controller-KafkaController.adoc#replicaStateMachine, ZkReplicaStateMachine>> and <<kafka-controller-KafkaController.adoc#partitionStateMachine, ZkPartitionStateMachine>> (so they can send broker and partition changes out to all brokers in a Kafka cluster).
+
+When <<startup, started>>, `ControllerChannelManager` establishes connection to every broker and starts a corresponding <<RequestSendThread, RequestSendThread>> to keep sending queued controller requests.
 
 [[logIdent]]
 `ControllerChannelManager` uses *[Channel manager on controller [brokerId]]* as the logging prefix (aka `logIdent`).
+
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging levels for `kafka.controller.ControllerChannelManager` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.controller.ControllerChannelManager=ALL
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
 
 === [[KafkaMetricsGroup]][[metrics]] Performance Metrics
 
@@ -44,10 +61,6 @@ image::images/ControllerChannelManager-jconsole.png[align="center"]
 * [[stateChangeLogger]] `StateChangeLogger`
 * [[threadNamePrefix]] Thread name prefix (default: `(empty)`)
 
-`ControllerChannelManager` initializes the <<internal-properties, internal properties>>.
-
-In the end, `ControllerChannelManager` requests the <<controllerContext, ControllerContext>> for the `liveBrokers` that it <<addNewBroker, addNewBroker>> each.
-
 === [[addNewBroker]] Registering New Broker -- `addNewBroker` Internal Method
 
 [source, scala]
@@ -57,7 +70,7 @@ addNewBroker(broker: Broker): Unit
 
 `addNewBroker`...FIXME
 
-NOTE: `addNewBroker` is used when `ControllerChannelManager` is <<creating-instance, created>> (to connect to live brokers) and is requested to <<addBroker, addBroker>>.
+NOTE: `addNewBroker` is used when `ControllerChannelManager` is <<creating-instance, created>> (to connect to live brokers) and is requested to <<addBroker, add a broker>>.
 
 === [[addBroker]] Registering Newly-Added Broker -- `addBroker` Method
 
@@ -77,9 +90,9 @@ NOTE: `addBroker` is used exclusively when <<kafka-controller-KafkaController.ad
 removeBroker(brokerId: Int): Unit
 ----
 
-`removeBroker`...FIXME
+`removeBroker` finds the broker metadata in the <<brokerStateInfo, brokerStateInfo>> internal registry that is then used to <<removeExistingBroker, removeExistingBroker>>.
 
-NOTE: `removeBroker` is used when...FIXME
+NOTE: `removeBroker` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#processBrokerChange, process a BrokerChange controller event>>.
 
 === [[startup]] Starting Up -- `startup` Method
 
@@ -129,7 +142,7 @@ removeExistingBroker(
 
 NOTE: `removeExistingBroker` is used when...FIXME
 
-=== [[startRequestSendThread]] `startRequestSendThread` Internal Method
+=== [[startRequestSendThread]] Starting RequestSendThread -- `startRequestSendThread` Internal Method
 
 [source, scala]
 ----
@@ -137,24 +150,18 @@ startRequestSendThread(
   brokerId: Int): Unit
 ----
 
-`startRequestSendThread`...FIXME
+`startRequestSendThread` finds the `RequestSendThread` in the broker metadata in the <<brokerStateInfo, brokerStateInfo>> internal registry and, if the thread has not started yet, `startRequestSendThread` <<start, starts it>>.
 
-NOTE: `startRequestSendThread` is used when...FIXME
+NOTE: `startRequestSendThread` is used when `ControllerChannelManager` is requested to <<startup, start up>> and <<addBroker, addBroker>>.
 
-=== [[internal-properties]] Internal Properties
+=== [[ControllerBrokerStateInfo]] ControllerBrokerStateInfo
 
-[cols="30m,70",options="header",width="100%"]
-|===
-| Name
-| Description
+`ControllerBrokerStateInfo` is a broker metadata that holds the following:
 
-| brokerStateInfo
-a| [[brokerStateInfo]] Broker metadata by broker ID (`HashMap[Int, ControllerBrokerStateInfo]`)
-
-Used when...FIXME
-
-| brokerLock
-| [[brokerLock]]
-
-Used when...FIXME
-|===
+* [[networkClient]] <<kafka-clients-NetworkClient.adoc#, Non-Blocking Network KafkaClient>>
+* [[brokerNode]] Broker Node
+* [[messageQueue]] Message Queue (`BlockingQueue[QueueItem]`)
+* [[requestSendThread]] `RequestSendThread`
+* [[queueSizeGauge]] Queue Size (`Gauge[Int]`)
+* [[requestRateAndTimeMetrics]] RequestRateAndTime Metrics
+* [[reconfigurableChannelBuilder]] <<kafka-common-Reconfigurable.adoc#, Reconfigurable>>

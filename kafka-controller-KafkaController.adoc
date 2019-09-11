@@ -239,6 +239,23 @@ controllerContext: ControllerContext
 
 When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-controller-ControllerContext.adoc#, ControllerContext>>.
 
+=== [[controllerChannelManager]] KafkaController and ControllerChannelManager
+
+[source, scala]
+----
+controllerChannelManager: ControllerChannelManager
+----
+
+When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-controller-ControllerChannelManager.adoc#, ControllerChannelManager>>.
+
+`ControllerChannelManager` is used to create separate <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatches>> of the <<brokerRequestBatch, KafkaController>> itself, the <<replicaStateMachine, ZkReplicaStateMachine>> and <<partitionStateMachine, ZkPartitionStateMachine>>.
+
+`ControllerChannelManager` is requested to <<kafka-controller-ControllerChannelManager.adoc#startup, start up>> when `KafkaController` is requested to start <<elect, controller election>> (and a broker is successfully elected as the active controller).
+
+`KafkaController` uses the `ControllerChannelManager` to <<kafka-controller-ControllerChannelManager.adoc#addBroker, add>> or <<kafka-controller-ControllerChannelManager.adoc#removeBroker, remove>> brokers when <<processBrokerChange, processing broker changes in Zookeeper>> (a new or updated znode under `/brokers/ids` path).
+
+`ControllerChannelManager` is requested to <<kafka-controller-ControllerChannelManager.adoc#shutdown, shut down>> when `KafkaController` is requested to <<onControllerResignation, resign as the active controller>>.
+
 === [[replicaStateMachine]] KafkaController and ReplicaStateMachine (ZkReplicaStateMachine)
 
 [source, scala]
@@ -1389,17 +1406,6 @@ Checking need to trigger auto leader balancing
 `checkAndTriggerAutoLeaderRebalance`...FIXME
 
 NOTE: `checkAndTriggerAutoLeaderRebalance` is used exclusively when `KafkaController` is requested to <<processAutoPreferredReplicaLeaderElection, processAutoPreferredReplicaLeaderElection>>.
-
-=== [[startChannelManager]] `startChannelManager` Internal Method
-
-[source, scala]
-----
-startChannelManager(): Unit
-----
-
-`startChannelManager`...FIXME
-
-NOTE: `startChannelManager` is used exclusively when `KafkaController` is requested to <<initializeControllerContext, initializeControllerContext>>.
 
 === [[onNewPartitionCreation]] `onNewPartitionCreation` Internal Method
 
