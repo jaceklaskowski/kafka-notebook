@@ -41,6 +41,6 @@ sendRequest(
   callback: AbstractResponse => Unit = null): Unit
 ----
 
-NOTE: `sendRequest` is part of the <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequest, AbstractControllerBrokerRequestBatch Contract>> to send a `AbstractControlRequest` to a broker.
+NOTE: `sendRequest` is part of the <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequest, AbstractControllerBrokerRequestBatch Contract>> to send a <<kafka-controller-AbstractControlRequest.adoc#, AbstractControlRequest>> to a broker.
 
 `sendRequest` simply requests the <<controllerChannelManager, ControllerChannelManager>> to <<kafka-controller-ControllerChannelManager.adoc#sendRequest, send the request to the broker>>.

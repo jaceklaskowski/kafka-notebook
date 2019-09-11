@@ -35,13 +35,13 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 | Description
 
 | QueueSize
-a| [[QueueSize]] Controller requests (`AbstractControlRequests`) queue size (per broker)
+a| [[QueueSize]] Controller requests (<<kafka-controller-AbstractControlRequest.adoc#, AbstractControlRequests>>) queue size (per broker)
 
 | RequestRateAndQueueTimeMs
 a| [[RequestRateAndQueueTimeMs]][[requestRateAndQueueTimeMetrics]] For every broker
 
 | TotalQueueSize
-a| [[TotalQueueSize]] Total number of controller requests (`AbstractControlRequests`) to be sent out to brokers
+a| [[TotalQueueSize]] Total number of controller requests (<<kafka-controller-AbstractControlRequest.adoc#, AbstractControlRequests>>) to be sent out to brokers
 
 |===
 

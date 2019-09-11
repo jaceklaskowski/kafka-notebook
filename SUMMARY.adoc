@@ -40,6 +40,8 @@
 
 . link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
 
+. link:kafka-controller-AbstractControlRequest.adoc[AbstractControlRequest]
+
 === Kafka Tools (Utilities)
 
 . link:kafka-tools.adoc[Kafka Tools]

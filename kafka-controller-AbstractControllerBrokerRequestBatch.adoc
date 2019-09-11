@@ -36,6 +36,8 @@ sendRequest(
   callback: AbstractResponse => Unit = null): Unit
 ----
 
+Sends an <<kafka-controller-AbstractControlRequest.adoc#, AbstractControlRequest>> out to the given broker with optional callback to handle a response
+
 Used when `AbstractControllerBrokerRequestBatch` is requested to <<sendLeaderAndIsrRequest, sendLeaderAndIsrRequest>>, <<sendUpdateMetadataRequests, sendUpdateMetadataRequests>>, and <<sendStopReplicaRequests, sendStopReplicaRequests>>
 
 |===
