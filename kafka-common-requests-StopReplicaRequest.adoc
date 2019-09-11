@@ -1,0 +1,26 @@
+== [[StopReplicaRequest]] StopReplicaRequest
+
+[[STOP_REPLICA]][[creating-instance]]
+`StopReplicaRequest` is a <<kafka-controller-AbstractControlRequest.adoc#, controller request>> with *STOP_REPLICA* API key and the following properties:
+
+* [[controllerId]] Controller ID
+* [[controllerEpoch]] Controller Epoch
+* [[brokerEpoch]] Broker Epoch
+* [[deletePartitions]] `deletePartitions` Flag
+* [[partitions]] Partitions (`Collection<TopicPartition>`)
+* [[version]] Version
+
+`StopReplicaRequest` is <<creating-instance, created>> (indirectly via <<build, build>> factory method) when:
+
+* FIXME
+
+=== [[StopReplicaRequest.Builder]][[Builder]][[build]] `StopReplicaRequest.Builder` Factory Object
+
+`StopReplicaRequest` comes with a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a <<StopReplicaRequest, StopReplicaRequest>>.
+
+[source, java]
+----
+StopReplicaRequest build(short version)
+----
+
+`StopReplicaRequest.Builder` is used exclusively when `AbstractControllerBrokerRequestBatch` is requested to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendStopReplicaRequests, send UpdateMetadata requests out to all brokers>>.

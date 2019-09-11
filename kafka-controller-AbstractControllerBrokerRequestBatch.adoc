@@ -80,7 +80,7 @@ In case of any error (`Throwable`), `sendRequestsToBrokers`...FIXME
 * `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>>
 ====
 
-==== [[sendLeaderAndIsrRequest]] `sendLeaderAndIsrRequest` Internal Method
+==== [[sendLeaderAndIsrRequest]] Sending LeaderAndIsr Requests Out to All Brokers -- `sendLeaderAndIsrRequest` Internal Method
 
 [source, scala]
 ----
@@ -93,7 +93,7 @@ sendLeaderAndIsrRequest(
 
 NOTE: `sendLeaderAndIsrRequest` is used exclusively when `AbstractControllerBrokerRequestBatch` is requested to <<sendRequestsToBrokers, sendRequestsToBrokers>>.
 
-==== [[sendUpdateMetadataRequests]] `sendUpdateMetadataRequests` Internal Method
+==== [[sendUpdateMetadataRequests]] Sending UpdateMetadata Requests Out to All Brokers -- `sendUpdateMetadataRequests` Internal Method
 
 [source, scala]
 ----
@@ -102,11 +102,17 @@ sendUpdateMetadataRequests(
   stateChangeLog: StateChangeLogger): Unit
 ----
 
+`sendUpdateMetadataRequests` prints out the following TRACE message to the logs for every pair in the <<updateMetadataRequestPartitionInfoMap, updateMetadataRequestPartitionInfoMap>> internal registry:
+
+```
+Sending UpdateMetadata request [partitionState] to brokers [updateMetadataRequestBrokerSet] for partition [tp]
+```
+
 `sendUpdateMetadataRequests`...FIXME
 
 NOTE: `sendUpdateMetadataRequests` is used exclusively when `AbstractControllerBrokerRequestBatch` is requested to <<sendRequestsToBrokers, sendRequestsToBrokers>>.
 
-==== [[sendStopReplicaRequests]] `sendStopReplicaRequests` Internal Method
+==== [[sendStopReplicaRequests]] Sending StopReplica Requests Out to All Brokers -- `sendStopReplicaRequests` Internal Method
 
 [source, scala]
 ----
@@ -175,6 +181,28 @@ addLeaderAndIsrRequestForBrokers(
 * `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#doHandleStateChanges, doHandleStateChanges>>
 ====
 
+=== [[addUpdateMetadataRequestForBrokers]] `addUpdateMetadataRequestForBrokers` Method
+
+[source, scala]
+----
+addUpdateMetadataRequestForBrokers(
+  brokerIds: Seq[Int],
+  partitions: collection.Set[TopicPartition]): Unit
+----
+
+`addUpdateMetadataRequestForBrokers`...FIXME
+
+[NOTE]
+====
+`addUpdateMetadataRequestForBrokers` is used when:
+
+* `AbstractControllerBrokerRequestBatch` is requested to <<addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>>
+
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>>
+
+* `ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#doHandleStateChanges, doHandleStateChanges>>
+====
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -193,8 +221,10 @@ a| [[stopReplicaRequestMap]] (`Map[Int, ListBuffer[StopReplicaRequestInfo]]`)
 Used when...FIXME
 
 | updateMetadataRequestBrokerSet
-a| [[updateMetadataRequestBrokerSet]] (`Set[Int]`)
+a| [[updateMetadataRequestBrokerSet]] Broker IDs to <<sendUpdateMetadataRequests, send UpdateMetadata requests out to>>
 
-Used when...FIXME
+* Broker IDs added in <<addUpdateMetadataRequestForBrokers, addUpdateMetadataRequestForBrokers>>
+
+* Cleared (_emptied_) in <<clear, clear>> and after successful <<sendUpdateMetadataRequests, sendUpdateMetadataRequests>>
 
 |===

@@ -1,6 +1,26 @@
 == [[UpdateMetadataRequest]] UpdateMetadataRequest
 
-[[apiKey]]
-`UpdateMetadataRequest` is an `AbstractRequest` with `UpdateMetadata` API key that is used (and <<creating-instance, created>>) when:
+[[UPDATE_METADATA]][[creating-instance]]
+`UpdateMetadataRequest` is a <<kafka-controller-AbstractControlRequest.adoc#, controller request>> with *UPDATE_METADATA* API key and the following properties:
 
-* `AdminClientRunnable` is requested to `makeMetadataCall`
+* [[version]] Version
+* [[controllerId]] Controller ID
+* [[controllerEpoch]] Controller Epoch
+* [[brokerEpoch]] Broker Epoch
+* [[partitionStates]] `PartitionStates` by `TopicPartition` (`Map<TopicPartition, PartitionState>`)
+* [[liveBrokers]] *Live leaders* (brokers with leaders)
+
+`UpdateMetadataRequest` is <<creating-instance, created>> (indirectly via <<build, build>> factory method) when:
+
+* FIXME
+
+=== [[UpdateMetadataRequest.Builder]][[Builder]][[build]] `UpdateMetadataRequest.Builder` Factory Object
+
+`UpdateMetadataRequest` comes with a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a <<UpdateMetadataRequest, UpdateMetadataRequest>>.
+
+[source, java]
+----
+UpdateMetadataRequest build(short version)
+----
+
+`UpdateMetadataRequest.Builder` is used exclusively when `AbstractControllerBrokerRequestBatch` is requested to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendUpdateMetadataRequests, send UpdateMetadata requests out to all brokers>>.

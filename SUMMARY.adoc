@@ -41,6 +41,9 @@
 . link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
 
 . link:kafka-controller-AbstractControlRequest.adoc[AbstractControlRequest]
+.. link:kafka-common-requests-LeaderAndIsrRequest.adoc[LeaderAndIsrRequest]
+.. link:kafka-common-requests-StopReplicaRequest.adoc[StopReplicaRequest]
+.. link:kafka-common-requests-UpdateMetadataRequest.adoc[UpdateMetadataRequest]
 
 === Kafka Tools (Utilities)
 
@@ -340,8 +343,6 @@
 . link:kafka-common-requests-JoinGroupRequest.adoc[JoinGroupRequest]
 . link:kafka-common-requests-JoinGroupResponse.adoc[JoinGroupResponse]
 
-. link:kafka-common-requests-LeaderAndIsrRequest.adoc[LeaderAndIsrRequest]
-
 . link:kafka-common-requests-MetadataRequest.adoc[MetadataRequest]
 . link:kafka-common-requests-MetadataResponse.adoc[MetadataResponse]
 
@@ -350,8 +351,6 @@
 . link:kafka-common-requests-ProduceRequest.adoc[ProduceRequest]
 
 . link:kafka-common-requests-SyncGroupRequest.adoc[SyncGroupRequest]
-
-. link:kafka-common-requests-UpdateMetadataRequest.adoc[UpdateMetadataRequest]
 
 . link:kafka-common-requests-RequestContext.adoc[RequestContext]
 
