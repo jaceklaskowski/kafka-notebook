@@ -796,6 +796,17 @@ electPreferredLeaders(
 
 NOTE: `electPreferredLeaders` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleElectPreferredReplicaLeader, handle an ElectPreferredLeaders request>>.
 
+=== [[tryCompleteElection]] `tryCompleteElection` Method
+
+[source, scala]
+----
+tryCompleteElection(key: DelayedOperationKey): Unit
+----
+
+`tryCompleteElection`...FIXME
+
+NOTE: `tryCompleteElection` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleUpdateMetadataRequest, handle an UpdateMetadata request>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

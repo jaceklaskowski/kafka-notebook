@@ -10,9 +10,9 @@
 * [[partitionStates]] `PartitionStates` by `TopicPartition` (`Map<TopicPartition, PartitionState>`)
 * [[liveBrokers]] *Live leaders* (brokers with leaders)
 
-`UpdateMetadataRequest` is <<creating-instance, created>> (indirectly via <<build, build>> factory method) when:
+=== [[KafkaApis]] KafkaApis and UpdateMetadataRequest
 
-* FIXME
+When received, `UpdateMetadataRequest` is handled by <<kafka-server-KafkaApis.adoc#handleUpdateMetadataRequest, handleUpdateMetadataRequest>>.
 
 === [[UpdateMetadataRequest.Builder]][[Builder]][[build]] `UpdateMetadataRequest.Builder` Factory Object
 

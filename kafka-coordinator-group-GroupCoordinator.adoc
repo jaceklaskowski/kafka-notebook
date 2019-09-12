@@ -209,11 +209,12 @@ handleGroupEmigration(offsetTopicPartitionId: Int): Unit
 
 NOTE: `handleGroupEmigration` is used when `KafkaApis` is requested to handle a <<kafka-server-KafkaApis.adoc#handleLeaderAndIsrRequest, LeaderAndIsrRequest>> and a <<kafka-server-KafkaApis.adoc#handleStopReplicaRequest, StopReplicaRequest>>.
 
-=== [[handleDeletedPartitions]] `handleDeletedPartitions` Method
+=== [[handleDeletedPartitions]] Handling Deleted Partitions -- `handleDeletedPartitions` Method
 
 [source, scala]
 ----
-handleDeletedPartitions(topicPartitions: Seq[TopicPartition]): Unit
+handleDeletedPartitions(
+  topicPartitions: Seq[TopicPartition]): Unit
 ----
 
 `handleDeletedPartitions` simply requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#cleanupGroupMetadata, cleanupGroupMetadata>> and...FIXME

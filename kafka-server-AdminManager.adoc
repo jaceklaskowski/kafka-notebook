@@ -131,3 +131,14 @@ createPartitions(
 `createPartitions`...FIXME
 
 NOTE: `createPartitions` is used when...FIXME
+
+=== [[tryCompleteDelayedTopicOperations]] `tryCompleteDelayedTopicOperations` Method
+
+[source, scala]
+----
+tryCompleteDelayedTopicOperations(topic: String): Unit
+----
+
+`tryCompleteDelayedTopicOperations`...FIXME
+
+NOTE: `tryCompleteDelayedTopicOperations` is used when...FIXME

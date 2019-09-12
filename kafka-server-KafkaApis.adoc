@@ -1,8 +1,9 @@
 == [[KafkaApis]] KafkaApis -- API Request Handler
 
-`KafkaApis` is responsible for <<handle, handling API requests>> (by means of <<handlers, handlers>>) to a <<kafka-server-KafkaServer.adoc#apis, KafkaServer>> and orchestrating interactions between the services.
+`KafkaApis` is responsible for <<handle, handling requests>> to a <<kafka-server-KafkaServer.adoc#apis, Kafka broker>> (by means of <<handlers, handlers>>) and orchestrating interactions between the services.
 
-[[keys]][[handlers]]
+[[keys]]
+[[handlers]]
 .KafkaApis's API Keys and Handlers
 [cols="30m,70",options="header",width="100%"]
 |===
@@ -75,7 +76,7 @@
 | StopReplica
 | [[StopReplica]][[STOP_REPLICA]] Cluster action / <<handleStopReplicaRequest, handleStopReplicaRequest>>
 
-| UpdateMetadata
+| <<kafka-common-requests-UpdateMetadataRequest.adoc#UPDATE_METADATA, UpdateMetadata>>
 | [[UpdateMetadata]][[UPDATE_METADATA]] Cluster action / <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>
 
 | WriteTxnMarkers
@@ -479,16 +480,30 @@ In summary, `handleStopReplicaRequest` requests the <<replicaManager, ReplicaMan
 
 NOTE: `handleStopReplicaRequest` is used exclusively when `KafkaApis` is requested to handle a <<StopReplica, StopReplica>> request.
 
-=== [[handleUpdateMetadataRequest]] Handling UpdateMetadata Request -- `handleUpdateMetadataRequest` Handler
+=== [[handleUpdateMetadataRequest]] Handling UpdateMetadata Request (From Kafka Controller) -- `handleUpdateMetadataRequest` Handler
 
 [source, scala]
 ----
-handleUpdateMetadataRequest(request: RequestChannel.Request): Unit
+handleUpdateMetadataRequest(
+  request: RequestChannel.Request): Unit
 ----
 
-In summary, `handleUpdateMetadataRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#maybeUpdateMetadataCache, maybeUpdateMetadataCache>>.
+`handleUpdateMetadataRequest` takes the <<kafka-common-requests-UpdateMetadataRequest.adoc#, UpdateMetadataRequest>> from (the body of) the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>.
 
-`handleUpdateMetadataRequest`...FIXME
+When <<authorizeClusterAction, authorized for cluster action>> and not <<isBrokerEpochStale, isBrokerEpochStale>>, `handleUpdateMetadataRequest` requests the following:
+
+* <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#maybeUpdateMetadataCache, maybeUpdateMetadataCache>> (that gives deleted partitions)
+
+* <<groupCoordinator, GroupCoordinator>> to <<kafka-coordinator-group-GroupCoordinator.adoc#handleDeletedPartitions, handle the deleted partitions>>
+
+* <<adminManager, AdminManager>> to <<kafka-server-AdminManager.adoc#tryCompleteDelayedTopicOperations, tryCompleteDelayedTopicOperations>> for all the topics (based on the <<kafka-common-requests-UpdateMetadataRequest.adoc#partitionStates, partitionStates>> of the `UpdateMetadataRequest`)
+
+[[handleUpdateMetadataRequest-quotas]]
+`handleUpdateMetadataRequest` updates quotas...FIXME
+
+`handleUpdateMetadataRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#tryCompleteElection, tryCompleteElection>> for every partition (based on the <<kafka-common-requests-UpdateMetadataRequest.adoc#partitionStates, partitionStates>> of the `UpdateMetadataRequest`).
+
+In the end, `handleUpdateMetadataRequest` <<sendResponseExemptThrottle, sendResponseExemptThrottle>> (with a no-error `UpdateMetadataResponse`).
 
 NOTE: `handleUpdateMetadataRequest` is used exclusively when `KafkaApis` is requested to handle a <<UpdateMetadata, UpdateMetadata>> request.
 
@@ -499,7 +514,7 @@ NOTE: `handleUpdateMetadataRequest` is used exclusively when `KafkaApis` is requ
 handleOffsetCommitRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleOffsetCommitRequest` takes the <<kafka-common-requests-OffsetCommitRequest.adoc#, OffsetCommitRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>).
+`handleOffsetCommitRequest` takes the <<kafka-common-requests-OffsetCommitRequest.adoc#, OffsetCommitRequest>> from (the body of) the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>.
 
 If <<authorize, authorized>>, `handleOffsetCommitRequest` simply requests the <<groupCoordinator, GroupCoordinator>> to <<kafka-coordinator-group-GroupCoordinator.adoc#handleCommitOffsets, handleCommitOffsets>> (with the <<handleOffsetCommitRequest-sendResponseCallback, sendResponseCallback>>).
 
@@ -534,6 +549,20 @@ createInternalTopic(topic: String): MetadataResponse.TopicMetadata
 `createInternalTopic`...FIXME
 
 NOTE: `createInternalTopic` is used when `KafkaApis` is requested to <<getOrCreateInternalTopic, getOrCreateInternalTopic>> and <<getTopicMetadata, getTopicMetadata>>.
+
+=== [[sendResponseExemptThrottle]] `sendResponseExemptThrottle` Internal Method
+
+[source, scala]
+----
+sendResponseExemptThrottle(
+  request: RequestChannel.Request,
+  response: AbstractResponse,
+  onComplete: Option[Send => Unit] = None): Unit
+----
+
+`sendResponseExemptThrottle`...FIXME
+
+NOTE: `sendResponseExemptThrottle` is used when `KafkaApis` is requested to...FIXME
 
 === [[getOrCreateInternalTopic]] `getOrCreateInternalTopic` Internal Method
 
