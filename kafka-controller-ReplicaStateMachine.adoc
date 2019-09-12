@@ -93,13 +93,17 @@ Started replica state machine with initial state -> [replicaState]
 
 NOTE: `startup` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when a broker is successfully elected as the controller).
 
-=== [[initializeReplicaState]] `initializeReplicaState` Internal Method
+=== [[initializeReplicaState]] Initializing Partition Replica States using ControllerContext -- `initializeReplicaState` Internal Method
 
 [source, scala]
 ----
 initializeReplicaState(): Unit
 ----
 
-`initializeReplicaState`...FIXME
+`initializeReplicaState` requests the <<controllerContext, ControllerContext>> for <<kafka-controller-ControllerContext.adoc#allPartitions, all partitions>>.
+
+For every partition, `initializeReplicaState` requests the <<controllerContext, ControllerContext>> for the <<kafka-controller-ControllerContext.adoc#partitionReplicaAssignment, partition replica assignment>> (the broker IDs of partition replicas).
+
+For every partition replica, `initializeReplicaState` requests the <<controllerContext, ControllerContext>> to <<putReplicaState, putReplicaState>> to `OnlineReplica` or `ReplicaDeletionIneligible` per <<kafka-controller-ControllerContext.adoc#isReplicaOnline, isReplicaOnline>>.
 
 NOTE: `initializeReplicaState` is used exclusively when `ReplicaStateMachine` is requested to <<startup, start up>>.

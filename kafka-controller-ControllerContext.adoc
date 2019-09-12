@@ -28,7 +28,7 @@ a| [[liveBrokers]]
 a| [[offlinePartitionCount]]
 
 | partitionAssignments
-a| [[partitionAssignments]]
+a| [[partitionAssignments]] Broker IDs of partition replicas (`Map[String, Map[Int, Seq[Int]]]`)
 
 | partitionLeadershipInfo
 a| [[partitionLeadershipInfo]]
@@ -48,7 +48,7 @@ a| [[partitionStates]]
 a| [[replicasOnOfflineDirs]]
 
 | replicaStates
-a| [[replicaStates]]
+a| [[replicaStates]][[putReplicaState]] `ReplicaStates` of `PartitionAndReplica` (`Map[PartitionAndReplica, ReplicaState]`)
 
 | shuttingDownBrokerIds
 a| [[shuttingDownBrokerIds]]
@@ -228,3 +228,17 @@ removeLiveBrokers(
 `removeLiveBrokers`...FIXME
 
 NOTE: `removeLiveBrokers` is used when...FIXME
+
+=== [[partitionReplicaAssignment]] `partitionReplicaAssignment` Method
+
+[source, scala]
+----
+partitionReplicaAssignment(
+  topicPartition: TopicPartition): Seq[Int]
+----
+
+`partitionReplicaAssignment` looks up the broker IDs of the partition replicas of the given partition in <<partitionAssignments, partitionAssignments>> internal registry.
+
+`partitionReplicaAssignment` returns an empty collection when no topic or partition are found.
+
+NOTE: `partitionReplicaAssignment` is used when...FIXME
