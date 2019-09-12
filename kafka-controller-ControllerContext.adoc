@@ -19,7 +19,7 @@ a| [[epoch]] Current controller epoch
 a| [[epochZkVersion]]
 
 | liveBrokerEpochs
-a| [[liveBrokerEpochs]][[liveOrShuttingDownBrokerIds]] Broker IDs and the current epoch (`Map[Int, Long]`)
+a| [[liveBrokerEpochs]][[liveOrShuttingDownBrokerIds]][[liveBrokerIdAndEpochs]] Broker IDs and the current epoch (`Map[Int, Long]`)
 
 | liveBrokers
 a| [[liveBrokers]]

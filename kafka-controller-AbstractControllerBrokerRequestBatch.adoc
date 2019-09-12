@@ -36,7 +36,7 @@ sendRequest(
   callback: AbstractResponse => Unit = null): Unit
 ----
 
-Sends an <<kafka-controller-AbstractControlRequest.adoc#, AbstractControlRequest>> out to the given broker with optional callback to handle a response
+Sends an <<kafka-controller-AbstractControlRequest.adoc#, controller request>> out to the given broker with optional callback to handle a response
 
 Used when `AbstractControllerBrokerRequestBatch` is requested to <<sendLeaderAndIsrRequest, sendLeaderAndIsrRequest>>, <<sendUpdateMetadataRequests, sendUpdateMetadataRequests>>, and <<sendStopReplicaRequests, sendStopReplicaRequests>>
 
@@ -54,18 +54,19 @@ Used when `AbstractControllerBrokerRequestBatch` is requested to <<sendLeaderAnd
 
 NOTE: `AbstractControllerBrokerRequestBatch` is a Scala abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractControllerBrokerRequestBatches>>.
 
-=== [[sendRequestsToBrokers]] Sending Controller Requests To Selected Brokers -- `sendRequestsToBrokers` Method
+=== [[sendRequestsToBrokers]] Sending Controller Requests To All Brokers -- `sendRequestsToBrokers` Method
 
 [source, scala]
 ----
-sendRequestsToBrokers(controllerEpoch: Int): Unit
+sendRequestsToBrokers(
+  controllerEpoch: Int): Unit
 ----
 
-`sendRequestsToBrokers` <<sendLeaderAndIsrRequest, sendLeaderAndIsrRequest>>.
+`sendRequestsToBrokers` <<sendLeaderAndIsrRequest, sends LeaderAndIsr requests out to all brokers>>.
 
-`sendRequestsToBrokers` <<sendUpdateMetadataRequests, sendUpdateMetadataRequests>>.
+`sendRequestsToBrokers` <<sendUpdateMetadataRequests, sends UpdateMetadata requests out to all brokers>>.
 
-`sendRequestsToBrokers` <<sendStopReplicaRequests, sendStopReplicaRequests>>.
+`sendRequestsToBrokers` <<sendStopReplicaRequests, sends StopReplica requests out to all brokers>>.
 
 In case of any error (`Throwable`), `sendRequestsToBrokers`...FIXME
 
@@ -108,9 +109,13 @@ sendUpdateMetadataRequests(
 Sending UpdateMetadata request [partitionState] to brokers [updateMetadataRequestBrokerSet] for partition [tp]
 ```
 
-`sendUpdateMetadataRequests`...FIXME
+`sendUpdateMetadataRequests` prepares metadata for <<kafka-common-requests-UpdateMetadataRequest.adoc#, UpdateMetadataRequests>>.
 
-NOTE: `sendUpdateMetadataRequests` is used exclusively when `AbstractControllerBrokerRequestBatch` is requested to <<sendRequestsToBrokers, sendRequestsToBrokers>>.
+For every broker (in the <<updateMetadataRequestBrokerSet, updateMetadataRequestBrokerSet>> internal registry) that is <<kafka-controller-ControllerContext.adoc#liveOrShuttingDownBrokerIds, live or shutting down>> `sendUpdateMetadataRequests` requests the <<controllerContext, ControllerContext>> for the <<kafka-controller-ControllerContext.adoc#liveBrokerIdAndEpochs, broker epoch>>, creates a new <<kafka-common-requests-UpdateMetadataRequest.adoc#Builder, UpdateMetadataRequest>> (with the <<updateMetadataRequestPartitionInfoMap, updateMetadataRequestPartitionInfoMap>> among others) and then <<sendRequest, sends the request out to the broker>>.
+
+In the end, `sendUpdateMetadataRequests` removes all elements from (_clears_) the <<updateMetadataRequestBrokerSet, updateMetadataRequestBrokerSet>> and <<updateMetadataRequestPartitionInfoMap, updateMetadataRequestPartitionInfoMap>> internal registries.
+
+NOTE: `sendUpdateMetadataRequests` is used exclusively when `AbstractControllerBrokerRequestBatch` is requested to <<sendRequestsToBrokers, send controller requests to all brokers in a cluster>>.
 
 ==== [[sendStopReplicaRequests]] Sending StopReplica Requests Out to All Brokers -- `sendStopReplicaRequests` Internal Method
 
