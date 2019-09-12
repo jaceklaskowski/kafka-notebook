@@ -1,28 +1,23 @@
 == [[MetadataRequest]] MetadataRequest
 
-[[apiKey]]
-`MetadataRequest` is an `AbstractRequest` with `METADATA` API key that is used (and <<creating-instance, created>>) when:
+[[METADATA]][[creating-instance]]
+`MetadataRequest` is a <<kafka-common-requests-AbstractRequest.adoc#, request>> with *METADATA* API key and the following properties:
 
-* `AdminClientRunnable` is requested to `makeMetadataCall`
+* [[data]] `MetadataRequestData`
+* [[version]] Version
 
-* `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>
+`MetadataRequest` is <<creating-instance, created>> when:
 
-* `KafkaAdminClient` is requested to <<kafka-KafkaAdminClient.adoc#describeCluster, describeCluster>>, <<kafka-KafkaAdminClient.adoc#describeTopics, describeTopics>>, <<kafka-KafkaAdminClient.adoc#deleteRecords, deleteRecords>>, <<kafka-KafkaAdminClient.adoc#listConsumerGroups, listConsumerGroups>>, <<kafka-KafkaAdminClient.adoc#listTopics, listTopics>>
+* `MetadataRequest.Builder` is requested to <<build, build a MetadataRequest>>
 
-* `Fetcher` is requested to <<kafka-consumer-internals-Fetcher.adoc#getAllTopicMetadata, getAllTopicMetadata>>
+* `MetadataRequest` is requested to <<parse, a byte buffer>>
 
-* `KafkaConsumer` is requested to <<kafka-consumer-KafkaConsumer.adoc#partitionsFor, partitionsFor>>
-
-[[creating-instance]]
-[[Builder]]
-`MetadataRequest` takes the following when created:
-
-* [[topics]] List of topics to request metadata for (can be empty)
-* [[allowAutoTopicCreation]] `allowAutoTopicCreation` flag (that controls whether to auto-create a topic if unavailable at the time of a request or not)
+* `AbstractRequest` is requested to <<kafka-common-requests-AbstractRequest.adoc#parseRequest, parse a request>> (with the <<METADATA, Metadata>> API key)
 
 `MetadataRequest` can be <<creating-instance, created>> using the following factory methods:
 
 * <<allTopics, MetadataRequest.Builder.allTopics>>
+
 * <<Builder, MetadataRequest.Builder>>
 
 [source, scala]
@@ -41,7 +36,7 @@ scala> println(r)
 (type=MetadataRequest, topics=t1,t2)
 ----
 
-=== [[allTopics]] `allTopics` Factory Method
+=== [[allTopics]] Create MetadataRequest.Builder for All Topics -- `allTopics` Static Factory Method
 
 [source, java]
 ----
@@ -49,4 +44,28 @@ scala> println(r)
 Builder allTopics()
 ----
 
-`allTopics` creates a new `MetadataRequest` for all <<topics, topics>> and <<allowAutoTopicCreation, allowAutoTopicCreation>> flag on.
+`allTopics` creates a new <<MetadataRequest, MetadataRequest>> for all topics and `allowAutoTopicCreation` flag enabled.
+
+[NOTE]
+====
+`allTopics` is used when:
+
+* `Metadata` is requested to <<kafka-clients-Metadata.adoc#newMetadataRequestBuilder, newMetadataRequestBuilder>>
+
+* `KafkaAdminClient` is requested to <<kafka-KafkaAdminClient.adoc#listTopics, listTopics>> and <<kafka-KafkaAdminClient.adoc#describeTopics, describeTopics>>
+
+* `ConsumerMetadata` is requested to `newMetadataRequestBuilder`
+
+* `Fetcher` is requested to <<kafka-consumer-internals-Fetcher.adoc#getAllTopicMetadata, getAllTopicMetadata>>
+====
+
+=== [[MetadataRequest.Builder]][[Builder]][[build]] `MetadataRequest.Builder` Factory Object
+
+`UpdateMetadataRequest` comes with a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a <<MetadataRequest, MetadataRequest>>.
+
+[source, java]
+----
+MetadataRequest build(short version)
+----
+
+`UpdateMetadataRequest.Builder` is used when...FIXME

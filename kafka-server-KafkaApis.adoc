@@ -273,7 +273,7 @@ NOTE: `handleFetchRequest` is used exclusively when `KafkaApis` is requested to 
 handleTopicMetadataRequest(request: RequestChannel.Request): Unit
 ----
 
-`handleTopicMetadataRequest` takes the <<kafka-common-requests-MetadataRequest.adoc#, MetadataRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>).
+`handleTopicMetadataRequest` takes the <<kafka-common-requests-MetadataRequest.adoc#, MetadataRequest>> from (the body of) the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>.
 
 `handleTopicMetadataRequest` requests the <<metadataCache, MetadataCache>> for <<kafka-server-MetadataCache.adoc#getAllTopics, getAllTopics>> or its subset (per <<kafka-common-requests-MetadataRequest.adoc#topics, topics>> attribute of the `MetadataRequest`).
 

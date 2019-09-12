@@ -110,7 +110,7 @@ CAUTION: FIXME Describe the failure path
 
 === [[getAllTopicMetadata]] Finding Metadata for All Topics -- `getAllTopicMetadata` Method
 
-[source, scala]
+[source, java]
 ----
 Map<String, List<PartitionInfo>> getAllTopicMetadata(long timeout)
 ----

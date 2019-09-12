@@ -36,63 +36,6 @@ A (_seemingly_) common usage pattern is as follows:
 
 NOTE: <<kafka-consumer-internals-ConsumerCoordinator.adoc#, ConsumerCoordinator>> is the only entity to register a metadata update listener.
 
-[[internal-registries]]
-.Metadata's Internal Properties (e.g. Registries and Counters)
-[cols="1m,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| cluster
-a| [[cluster]] link:kafka-common-Cluster.adoc[Cluster] with a subset of the nodes and topic partitions in a Kafka cluster.
-
-* Empty (with no nodes and no topic partitions) when `Metadata` is <<creating-instance, created>>
-
-* <<update, Updated>> when:
-** `DefaultMetadataUpdater` link:kafka-clients-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
-** `KafkaConsumer`, `KafkaProducer`, `KafkaAdminClient` and `AdminClient` are created and update the cluster with a "bootstrap" cluster with bootstrap brokers
-
-* Can be accessed using <<fetch, fetch>>
-
-| lastRefreshMs
-a| [[lastRefreshMs]] The time (in millis) of the last successful <<update, update>> (and <<failedUpdate, failed update>>)
-
-* Used in <<timeToNextUpdate, timeToNextUpdate>>
-
-* Starts `0` when `Metadata` is <<creating-instance, created>>
-
-* Reset (to `0`) in <<requestUpdateForNewTopics, requestUpdateForNewTopics>>
-
-| lastSuccessfulRefreshMs
-| [[lastSuccessfulRefreshMs]]
-
-| needMetadataForAllTopics
-a| [[needMetadataForAllTopics-flag]] Flag...FIXME
-
-* Disabled (i.e. `false`) when `Metadata` is <<creating-instance, created>>
-
-* Updated when `Metadata` is requested to <<needMetadataForAllTopics, set state to indicate that metadata for all topics in Kafka cluster is required>>
-
-| needUpdate
-a| [[needUpdate]] Flag that controls whether a metadata update has been requested (enabled) or not (disabled).
-
-* Starts turned off when `Metadata` is <<creating-instance, created>>
-
-* Turned on exclusively when `Metadata` is requested for an <<requestUpdate, update>>
-
-* Turned off when `Metadata` is <<update, updated>>
-
-Use <<updateRequested, updateRequested>> to know the current value.
-
-| version
-a| [[version]] Metadata version
-
-* `0` when `Metadata` is <<creating-instance, created>>
-
-* Incremented every <<update, update>>
-
-|===
-
 [[logging]]
 [TIP]
 ====
@@ -341,3 +284,85 @@ void addListener(Listener listener)
 `addListener` simply adds the given <<kafka-clients-Metadata-Listener.adoc#, Listener>> to the <<listeners, listeners>> internal registry.
 
 NOTE: `addListener` is used exclusively when `ConsumerCoordinator` is requested to <<kafka-consumer-internals-ConsumerCoordinator.adoc#addMetadataListener, addMetadataListener>> (when <<kafka-consumer-internals-ConsumerCoordinator.adoc#, created>>).
+
+=== [[newMetadataRequestBuilder]] `newMetadataRequestBuilder` Method
+
+[source, java]
+----
+MetadataRequest.Builder newMetadataRequestBuilder()
+----
+
+`newMetadataRequestBuilder` simply requests the `MetadataRequest` to <<kafka-common-requests-MetadataRequest.adoc#allTopics, create MetadataRequest.Builder for all topics>>.
+
+NOTE: `newMetadataRequestBuilder` is used exclusively when `Metadata` is requested to <<newMetadataRequestAndVersion, newMetadataRequestAndVersion>>.
+
+=== [[newMetadataRequestAndVersion]] `newMetadataRequestAndVersion` Method
+
+[source, java]
+----
+MetadataRequestAndVersion newMetadataRequestAndVersion()
+----
+
+`newMetadataRequestAndVersion` simply creates a new `MetadataRequestAndVersion` with <<newMetadataRequestBuilder, MetadataRequest.Builder>> and the <<requestVersion, requestVersion>>.
+
+NOTE: `newMetadataRequestAndVersion` is used exclusively when `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>.
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| cluster
+a| [[cluster]] link:kafka-common-Cluster.adoc[Cluster] with a subset of the nodes and topic partitions in a Kafka cluster.
+
+* Empty (with no nodes and no topic partitions) when `Metadata` is <<creating-instance, created>>
+
+* <<update, Updated>> when:
+** `DefaultMetadataUpdater` link:kafka-clients-DefaultMetadataUpdater.adoc#handleCompletedMetadataResponse[handles MetadataResponse]
+** `KafkaConsumer`, `KafkaProducer`, `KafkaAdminClient` and `AdminClient` are created and update the cluster with a "bootstrap" cluster with bootstrap brokers
+
+* Can be accessed using <<fetch, fetch>>
+
+| lastRefreshMs
+a| [[lastRefreshMs]] The time (in millis) of the last successful <<update, update>> (and <<failedUpdate, failed update>>)
+
+* Used in <<timeToNextUpdate, timeToNextUpdate>>
+
+* Starts `0` when `Metadata` is <<creating-instance, created>>
+
+* Reset (to `0`) in <<requestUpdateForNewTopics, requestUpdateForNewTopics>>
+
+| lastSuccessfulRefreshMs
+| [[lastSuccessfulRefreshMs]]
+
+| needMetadataForAllTopics
+a| [[needMetadataForAllTopics-flag]] Flag...FIXME
+
+* Disabled (i.e. `false`) when `Metadata` is <<creating-instance, created>>
+
+* Updated when `Metadata` is requested to <<needMetadataForAllTopics, set state to indicate that metadata for all topics in Kafka cluster is required>>
+
+| needUpdate
+a| [[needUpdate]] Flag that controls whether a metadata update has been requested (enabled) or not (disabled).
+
+* Starts turned off when `Metadata` is <<creating-instance, created>>
+
+* Turned on exclusively when `Metadata` is requested for an <<requestUpdate, update>>
+
+* Turned off when `Metadata` is <<update, updated>>
+
+Use <<updateRequested, updateRequested>> to know the current value.
+
+| requestVersion
+a| [[requestVersion]]
+
+| version
+a| [[version]] Metadata version
+
+* `0` when `Metadata` is <<creating-instance, created>>
+
+* Incremented every <<update, update>>
+
+|===

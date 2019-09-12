@@ -9,7 +9,7 @@
 [source, java]
 ----
 DescribeTopicsResult describeTopics(
-  final Collection<String> topicNames,
+  Collection<String> topicNames,
   DescribeTopicsOptions options)
 ----
 
@@ -104,7 +104,8 @@ NOTE: `listConsumerGroups` is part of the <<kafka-AdminClient.adoc#listConsumerG
 
 [source, java]
 ----
-ListTopicsResult listTopics(final ListTopicsOptions options)
+ListTopicsResult listTopics(
+  ListTopicsOptions options)
 ----
 
 NOTE: `listTopics` is part of the <<kafka-AdminClient.adoc#listTopics, AdminClient Contract>> to...FIXME.
