@@ -129,7 +129,8 @@ NOTE: `partitionsOnBroker` is used when...FIXME
 
 [source, scala]
 ----
-replicasOnBrokers(brokerIds: Set[Int]): Set[PartitionAndReplica]
+replicasOnBrokers(
+  brokerIds: Set[Int]): Set[PartitionAndReplica]
 ----
 
 `replicasOnBrokers`...FIXME

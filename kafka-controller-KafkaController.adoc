@@ -1422,12 +1422,19 @@ NOTE: `onNewPartitionCreation` is used when <<kafka-controller-ControllerEvent.a
 
 [source, scala]
 ----
-onBrokerLogDirFailure(brokerIds: Seq[Int]): Unit
+onBrokerLogDirFailure(
+  brokerIds: Seq[Int]): Unit
 ----
 
-`onBrokerLogDirFailure`...FIXME
+`onBrokerLogDirFailure` prints out the following INFO message to the logs:
 
-NOTE: `onBrokerLogDirFailure` is used when...FIXME
+```
+Handling log directory failure for brokers [brokerIds]
+```
+
+`onBrokerLogDirFailure` requests the <<controllerContext, ControllerContext>> for the <<kafka-controller-ControllerContext.adoc#replicasOnBrokers, replicas on the brokers>> and then requests the <<replicaStateMachine, ReplicaStateMachine>> to <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, handle state changes>> for the replicas to enter `OnlineReplica` state.
+
+NOTE: `onBrokerLogDirFailure` is used exclusively when `KafkaController` is requested to <<processLogDirEventNotification, process a LogDirEventNotification controller event (on controller-event-thread)>>.
 
 === [[stopOldReplicasOfReassignedPartition]] `stopOldReplicasOfReassignedPartition` Internal Method
 
@@ -1692,7 +1699,7 @@ processTopicChange(): Unit
 
 NOTE: `processTopicChange` is used exclusively when `KafkaController` is requested to <<process, process a TopicChange controller event>>.
 
-=== [[processLogDirEventNotification]] `processLogDirEventNotification` Internal Method
+=== [[processLogDirEventNotification]] Processing LogDirEventNotification Controller Event (On controller-event-thread) -- `processLogDirEventNotification` Internal Method
 
 [source, scala]
 ----

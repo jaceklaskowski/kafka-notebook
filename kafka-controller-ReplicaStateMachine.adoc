@@ -19,6 +19,8 @@ handleStateChanges(
   targetState: ReplicaState): Unit
 ----
 
+Handles state changes of partition replicas and their target states
+
 Used when:
 
 * `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onBrokerLogDirFailure, onBrokerLogDirFailure>>, <<kafka-controller-KafkaController.adoc#onBrokerStartup, onBrokerStartup>>, <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, <<kafka-controller-KafkaController.adoc#onNewPartitionCreation, onNewPartitionCreation>>, <<kafka-controller-KafkaController.adoc#onPartitionReassignment, onPartitionReassignment>>, <<kafka-controller-KafkaController.adoc#stopOldReplicasOfReassignedPartition, stopOldReplicasOfReassignedPartition>>, <<kafka-controller-KafkaController.adoc#startNewReplicasForReassignedPartition, startNewReplicasForReassignedPartition>>, and <<kafka-controller-KafkaController.adoc#doControlledShutdown, doControlledShutdown>>
