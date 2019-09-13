@@ -1376,7 +1376,7 @@ NOTE: `scheduleAutoLeaderRebalanceTask` is used when `KafkaController` is reques
 processAutoPreferredReplicaLeaderElection(): Unit
 ----
 
-`processAutoPreferredReplicaLeaderElection` does nothing unless the Kafka broker it runs on is <<isActive, active>>.
+`processAutoPreferredReplicaLeaderElection` does nothing (and simply returns) unless the Kafka broker (`KafkaController`) is an <<isActive, active controller>>.
 
 `processAutoPreferredReplicaLeaderElection` prints out the following INFO message to the logs:
 
@@ -1418,7 +1418,7 @@ onNewPartitionCreation(newPartitions: Set[TopicPartition]): Unit
 
 NOTE: `onNewPartitionCreation` is used when <<kafka-controller-ControllerEvent.adoc#TopicChange, TopicChange>> and <<kafka-controller-ControllerEvent.adoc#PartitionModifications, PartitionModifications>> controller events are processed.
 
-=== [[onBrokerLogDirFailure]] `onBrokerLogDirFailure` Internal Method
+=== [[onBrokerLogDirFailure]] Handling Log Directory Failures for Brokers -- `onBrokerLogDirFailure` Internal Method
 
 [source, scala]
 ----
@@ -1596,7 +1596,7 @@ NOTE: `processTopicDeletionStopReplicaResponseReceived` is used exclusively when
 processBrokerChange(): Unit
 ----
 
-`processBrokerChange` simply returns when the `KafkaController` is not <<isActive, active>> (the broker is not the active controller).
+`processBrokerChange` does nothing (and simply returns) unless the Kafka broker (`KafkaController`) is an <<isActive, active controller>>.
 
 `processBrokerChange` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getAllBrokerAndEpochsInCluster, brokers in a Kafka cluster>> and compares the broker list with the <<kafka-controller-ControllerContext.adoc#liveOrShuttingDownBrokerIds, current brokers>> (of the <<controllerContext, ControllerContext>>).
 
@@ -1706,7 +1706,13 @@ NOTE: `processTopicChange` is used exclusively when `KafkaController` is request
 processLogDirEventNotification(): Unit
 ----
 
-`processLogDirEventNotification`...FIXME
+`processLogDirEventNotification` does nothing (and simply returns) unless the Kafka broker (`KafkaController`) is an <<isActive, active controller>>.
+
+`processLogDirEventNotification` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getAllLogDirEventNotifications, LogDirEvent notifications (from Zookeeper)>> (_sequence numbers_).
+
+`processLogDirEventNotification` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getBrokerIdsFromLogDirEvents, convert the LogDirEvent notifications to broker IDs>> and then <<onBrokerLogDirFailure, handles the log directory failures for the brokers>>.
+
+In the end, `processLogDirEventNotification` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#deleteLogDirEventNotifications, delete LogDirEvent notifications (from Zookeeper)>>.
 
 NOTE: `processLogDirEventNotification` is used exclusively when `KafkaController` is requested to <<process, process a LogDirEventNotification controller event>>.
 

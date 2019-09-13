@@ -528,3 +528,26 @@ getAllBrokerAndEpochsInCluster: Map[Broker, Long]
 `getAllBrokerAndEpochsInCluster`...FIXME
 
 NOTE: `getAllBrokerAndEpochsInCluster` is used when...FIXME
+
+=== [[getAllLogDirEventNotifications]] LogDirEvent Notifications (from Zookeeper) -- `getAllLogDirEventNotifications` Method
+
+[source, scala]
+----
+getAllLogDirEventNotifications: Seq[String]
+----
+
+`getAllLogDirEventNotifications`...FIXME
+
+NOTE: `getAllLogDirEventNotifications` is used when...FIXME
+
+=== [[getBrokerIdsFromLogDirEvents]] Converting LogDirEvent Notifications to Broker IDs -- `getBrokerIdsFromLogDirEvents` Method
+
+[source, scala]
+----
+getBrokerIdsFromLogDirEvents(
+  sequenceNumbers: Seq[String]): Seq[Int]
+----
+
+`getBrokerIdsFromLogDirEvents`...FIXME
+
+NOTE: `getBrokerIdsFromLogDirEvents` is used when...FIXME
