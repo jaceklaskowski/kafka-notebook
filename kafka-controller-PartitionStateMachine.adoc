@@ -21,7 +21,9 @@ handleStateChanges(
 ): Map[TopicPartition, Throwable]
 ----
 
-Handles state changes of partitions (with the `leaderElectionStrategy` as `None`)
+Handles changes of the state of partitions (_partition state changes_)
+
+<<PartitionLeaderElectionStrategy, PartitionLeaderElectionStrategy>> is undefined (`None`) by default
 
 Used when:
 
