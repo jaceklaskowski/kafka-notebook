@@ -1,8 +1,10 @@
 == [[ZkReplicaStateMachine]] ZkReplicaStateMachine
 
-`ZkReplicaStateMachine` is a concrete <<kafka-controller-ReplicaStateMachine.adoc#, ReplicaStateMachine>> to <<handleStateChanges, handleStateChanges>>.
+`ZkReplicaStateMachine` is a concrete <<kafka-controller-ReplicaStateMachine.adoc#, ReplicaStateMachine>> to <<handleStateChanges, handle changes of the state of partition replicas>> (_replica state changes_).
 
-`ZkReplicaStateMachine` is <<creating-instance, created>> exclusively for <<kafka-controller-KafkaController.adoc#, KafkaController>>.
+`ZkReplicaStateMachine` uses <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, propagate the changes to all brokers in a cluster>>.
+
+`ZkReplicaStateMachine` is <<creating-instance, created>> exclusively for <<kafka-controller-KafkaController.adoc#replicaStateMachine, KafkaController>>.
 
 [[logIdent]]
 `ZkReplicaStateMachine` uses *[ReplicaStateMachine controllerId=[brokerId]]* as the logging prefix (aka `logIdent`).
@@ -31,7 +33,7 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[controllerBrokerRequestBatch]] <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>>
 
-=== [[handleStateChanges]] `handleStateChanges` Method
+=== [[handleStateChanges]] Handling State Changes Of Partition Replicas -- `handleStateChanges` Method
 
 [source, scala]
 ----
@@ -40,13 +42,13 @@ handleStateChanges(
   targetState: ReplicaState): Unit
 ----
 
-NOTE: `handleStateChanges` is part of the <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, ReplicaStateMachine Contract>> to...FIXME.
+NOTE: `handleStateChanges` is part of the <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, ReplicaStateMachine Contract>> to handle state changes of partition replicas.
 
 `handleStateChanges` requests the <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#newBatch, prepare a new batch>>.
 
-`handleStateChanges` groups the `PartitionAndReplica` by replica ID and for every group <<doHandleStateChanges, doHandleStateChanges>>.
+`handleStateChanges` groups the replicas (`PartitionAndReplicas`) by ID and for every group <<doHandleStateChanges, doHandleStateChanges>>.
 
-In the end, `handleStateChanges` requests the <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, sendRequestsToBrokers>>.
+In the end, `handleStateChanges` requests the <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, send controller requests to all brokers>>.
 
 In case of a `ControllerMovedException`, `handleStateChanges` prints out the following ERROR message to the logs and re-throws the exception.
 
@@ -72,9 +74,19 @@ doHandleStateChanges(
   targetState: ReplicaState): Unit
 ----
 
-`doHandleStateChanges`...FIXME
+For every replica (in the `replicas`), `doHandleStateChanges` requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#putReplicaStateIfNotExists, putReplicaStateIfNotExists>>.
 
-NOTE: `doHandleStateChanges` is used exclusively when `ZkReplicaStateMachine` is requested to <<handleStateChanges, handleStateChanges>>.
+`doHandleStateChanges` requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#checkValidReplicaStateChange, checkValidReplicaStateChange>> (that gives valid and invalid replicas).
+
+For every invalid replica, `doHandleStateChanges` <<logInvalidTransition, logInvalidTransition>>.
+
+`doHandleStateChanges` branches off per the target state (`ReplicaState`).
+
+NOTE: `doHandleStateChanges` is used exclusively when `ZkReplicaStateMachine` is requested to <<handleStateChanges, handle state changes of partition replicas>>.
+
+==== [[doHandleStateChanges-OfflineReplica]] OfflineReplica
+
+For `OfflineReplica` target state, `doHandleStateChanges`...FIXME
 
 === [[doRemoveReplicasFromIsr]] `doRemoveReplicasFromIsr` Internal Method
 

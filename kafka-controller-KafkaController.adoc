@@ -267,7 +267,7 @@ When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-con
 
 `ZkReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#startup, startup>> at <<onControllerFailover, onControllerFailover>> (when a broker is successfully <<elect, elected as the controller>>) and <<kafka-controller-ReplicaStateMachine.adoc#shutdown, shutdown>> at <<onControllerResignation, controller resignation>>.
 
-`ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#handleStateChanges, handleStateChanges>> at the following events:
+`ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#handleStateChanges, handle state changes of partition replicas>> at the following events:
 
 * <<onBrokerLogDirFailure, onBrokerLogDirFailure>> to transition replicas to `OnlineReplica` state
 

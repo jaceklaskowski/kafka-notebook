@@ -243,3 +243,30 @@ partitionReplicaAssignment(
 `partitionReplicaAssignment` returns an empty collection when no topic or partition are found.
 
 NOTE: `partitionReplicaAssignment` is used when...FIXME
+
+=== [[putReplicaStateIfNotExists]] `putReplicaStateIfNotExists` Method
+
+[source, scala]
+----
+putReplicaStateIfNotExists(
+  replica: PartitionAndReplica,
+  state: ReplicaState): Unit
+----
+
+`putReplicaStateIfNotExists` simply adds the replica to the <<replicaStates, replicaStates>> internal registry unless available already.
+
+NOTE: `putReplicaStateIfNotExists` is used exclusively when `ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#doHandleStateChanges, handle state changes of partition replicas>>.
+
+=== [[checkValidReplicaStateChange]] `checkValidReplicaStateChange` Method
+
+[source, scala]
+----
+checkValidReplicaStateChange(
+  replicas: Seq[PartitionAndReplica],
+  targetState: ReplicaState
+): (Seq[PartitionAndReplica], Seq[PartitionAndReplica])
+----
+
+For every replica (in the given replicas), `checkValidReplicaStateChange` <<isValidReplicaStateTransition, isValidReplicaStateTransition>> with the target state (`ReplicaState`).
+
+NOTE: `checkValidReplicaStateChange` is used exclusively when `ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#doHandleStateChanges, handle state changes of partition replicas>>.
