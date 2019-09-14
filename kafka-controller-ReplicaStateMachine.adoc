@@ -52,9 +52,9 @@ shutdown(): Unit
 Stopped replica state machine
 ```
 
-NOTE: `shutdown` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, onControllerResignation>> (when a broker resigns as the controller).
+NOTE: `shutdown` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, resign as the active controller>>.
 
-=== [[startup]] Starting Up -- `startup` Method
+=== [[startup]] Starting Up (On Active Controller) -- `startup` Method
 
 [source, scala]
 ----

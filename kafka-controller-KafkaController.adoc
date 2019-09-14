@@ -265,7 +265,7 @@ replicaStateMachine: ReplicaStateMachine
 
 When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-controller-ZkReplicaStateMachine.adoc#, ZkReplicaStateMachine>>.
 
-`ZkReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#startup, startup>> at <<onControllerFailover, onControllerFailover>> (when a broker is successfully <<elect, elected as the controller>>) and <<kafka-controller-ReplicaStateMachine.adoc#shutdown, shutdown>> at <<onControllerResignation, controller resignation>>.
+`ZkReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#startup, start up>> at <<onControllerFailover, onControllerFailover>> (when a broker is successfully <<elect, elected as the controller>>) and <<kafka-controller-ReplicaStateMachine.adoc#shutdown, shut down>> at <<onControllerResignation, controller resignation>>.
 
 `ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#handleStateChanges, handle state changes of partition replicas>> at the following events:
 
@@ -286,6 +286,41 @@ When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-con
 * <<doControlledShutdown, doControlledShutdown>> to transition replicas to `OfflineReplica` state
 
 `KafkaController` uses the `ZkReplicaStateMachine` to create the <<topicDeletionManager, TopicDeletionManager>>.
+
+=== [[partitionStateMachine]] KafkaController and PartitionStateMachine (ZkPartitionStateMachine)
+
+[source, scala]
+----
+partitionStateMachine: PartitionStateMachine
+----
+
+When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-controller-ZkPartitionStateMachine.adoc#, ZkPartitionStateMachine>>.
+
+`ZkPartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#startup, start up>> at <<onControllerFailover, onControllerFailover>> (when a broker is successfully <<elect, elected as the controller>>) and <<kafka-controller-PartitionStateMachine.adoc#shutdown, shut down>> at <<onControllerResignation, controller resignation>>.
+
+`ZkPartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>> at the following events:
+
+* <<onBrokerStartup, onBrokerStartup>>
+
+* <<onReplicasBecomeOffline, onReplicasBecomeOffline>>
+
+* <<processUncleanLeaderElectionEnable, processUncleanLeaderElectionEnable>>
+
+* <<processTopicUncleanLeaderElectionEnable, processTopicUncleanLeaderElectionEnable>> (with a topic)
+
+`ZkPartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#handleStateChanges, handleStateChanges>> at the following events:
+
+* <<onReplicasBecomeOffline, onReplicasBecomeOffline>>
+
+* <<onNewPartitionCreation, onNewPartitionCreation>> to transition partitions to `NewPartition` state first and then to `OnlinePartition`
+
+* <<onPreferredReplicaElection, onPreferredReplicaElection>> to transition partitions to `OnlinePartition`
+
+* <<moveReassignedPartitionLeaderIfRequired, moveReassignedPartitionLeaderIfRequired>> to transition partitions to `OnlinePartition`
+
+* <<doControlledShutdown, doControlledShutdown>> to transition partitions to `OnlinePartition` state
+
+`KafkaController` uses the `ZkPartitionStateMachine` to create the <<topicDeletionManager, TopicDeletionManager>>.
 
 === [[preempt]] Preempting Controller Events -- `preempt` Method
 
@@ -1846,9 +1881,6 @@ a| [[eventManager]] <<kafka-controller-ControllerEventManager.adoc#, ControllerE
 
 | kafkaScheduler
 | [[kafkaScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *kafka-scheduler* prefix
-
-| partitionStateMachine
-a| [[partitionStateMachine]] <<kafka-controller-PartitionStateMachine.adoc#, PartitionStateMachine>>
 
 | stateChangeLogger
 | [[stateChangeLogger]] `StateChangeLogger` with the <<brokerId, broker ID>> and `inControllerContext` flag enabled

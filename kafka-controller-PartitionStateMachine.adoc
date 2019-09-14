@@ -1,138 +1,97 @@
 == [[PartitionStateMachine]] PartitionStateMachine
 
-`PartitionStateMachine` is <<creating-instance, created>> exclusively for <<kafka-controller-KafkaController.adoc#partitionStateMachine, KafkaController>> that uses it for the following:
+`PartitionStateMachine` is the <<contract, base>> of <<extensions, Partition State Machines>> that can <<handleStateChanges, handleStateChanges>>, be <<startup, started up>> and <<shutdown, shut down>> in the end.
 
-* FIXME
+[[contract]]
+.PartitionStateMachine Contract (Abstract Methods Only)
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
 
-Immediately after having been <<creating-instance, created>>, `KafkaController` <<setTopicDeletionManager, associates it with a TopicDeletionManager>>.
+| handleStateChanges
+a| [[handleStateChanges]]
 
-`PartitionStateMachine` is <<startup, started>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when `KafkaController` is requested for <<elect, controller election>> and the broker is successfully elected as the active controller).
+[source, scala]
+----
+handleStateChanges(
+  partitions: Seq[TopicPartition],
+  targetState: PartitionState,
+  leaderElectionStrategy: Option[PartitionLeaderElectionStrategy]
+): Map[TopicPartition, Throwable]
+----
 
-`PartitionStateMachine` is <<shutdown, shut down>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, resign as the active controller>>.
+Handles state changes of partitions (with the `leaderElectionStrategy` as `None`)
 
-`PartitionStateMachine` is requested to <<triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>> when `KafkaController` is <<kafka-controller-KafkaController.adoc#onBrokerStartup, onBrokerStartup>> (when requested to process a <<kafka-controller-KafkaController.adoc#BrokerChange, BrokerChange>> controller event).
+Used when:
 
-[[PartitionLeaderElectionStrategy]]
-`PartitionStateMachine` uses a `PartitionLeaderElectionStrategy` when <<handleStateChanges, handleStateChanges>> (with <<doHandleStateChanges, doHandleStateChanges>>) and <<electLeaderForPartitions, electLeaderForPartitions>> (with <<doElectLeaderForPartitions, doElectLeaderForPartitions>>):
+* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, <<kafka-controller-KafkaController.adoc#onNewPartitionCreation, onNewPartitionCreation>>, <<kafka-controller-KafkaController.adoc#onNewPartitionCreation, onNewPartitionCreation>>, <<kafka-controller-KafkaController.adoc#onPreferredReplicaElection, onPreferredReplicaElection>>, <<kafka-controller-KafkaController.adoc#moveReassignedPartitionLeaderIfRequired, moveReassignedPartitionLeaderIfRequired>>, and <<kafka-controller-KafkaController.adoc#doControlledShutdown, doControlledShutdown>>
+
+* `PartitionStateMachine` is requested to <<triggerOnlineStateChangeForPartitions, triggerOnlineStateChangeForPartitions>>
+
+* `TopicDeletionManager` is requested to <<kafka-controller-TopicDeletionManager.adoc#onTopicDeletion, onTopicDeletion>>
+
+|===
+
+[[implementations]]
+NOTE: <<kafka-controller-ZkPartitionStateMachine.adoc#, ZkPartitionStateMachine>> is the default and only known implementation of the <<contract, PartitionStateMachine Contract>> in Apache Kafka.
+
+[[creating-instance]][[controllerContext]]
+`PartitionStateMachine` takes a single <<kafka-controller-ControllerContext.adoc#, ControllerContext>> to be created.
+
+NOTE: `PartitionStateMachine` is a Scala abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete PartitionStateMachines>>.
+
+=== [[PartitionLeaderElectionStrategy]] PartitionLeaderElectionStrategy
+
+`PartitionStateMachine` uses a `PartitionLeaderElectionStrategy` when...FIXME
 
 * [[ControlledShutdownPartitionLeaderElectionStrategy]] `ControlledShutdownPartitionLeaderElectionStrategy`
 * [[OfflinePartitionLeaderElectionStrategy]] `OfflinePartitionLeaderElectionStrategy`
 * [[PreferredReplicaPartitionLeaderElectionStrategy]] `PreferredReplicaPartitionLeaderElectionStrategy`
 * [[ReassignPartitionLeaderElectionStrategy]] `ReassignPartitionLeaderElectionStrategy`
 
-[[internal-registries]]
-.PartitionStateMachine's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| controllerId
-| [[controllerId]]
-
-| topicDeletionManager
-| [[topicDeletionManager]][[setTopicDeletionManager]] <<kafka-controller-TopicDeletionManager.adoc#, TopicDeletionManager>>
-
-| offlinePartitionCount
-| [[offlinePartitionCount]]
-|===
-
-[[logIdent]]
-`PartitionStateMachine` uses *[PartitionStateMachine controllerId=[brokerID]]* as the logging prefix (aka `logIdent`).
-
-[[logging]]
-[TIP]
-====
-Enable `INFO` or `ERROR` logging levels for `kafka.controller.PartitionStateMachine` logger to see what happens inside.
-
-Add the following line to `log4j.properties`:
-
-```
-log4j.logger.kafka.controller.PartitionStateMachine=INFO
-```
-
-Refer to link:kafka-logging.adoc[Logging].
-
----
-
-Please note that Kafka comes with a preconfigured `kafka.controller` logger in `config/log4j.properties`:
-
-```
-log4j.appender.controllerAppender=org.apache.log4j.DailyRollingFileAppender
-log4j.appender.controllerAppender.DatePattern='.'yyyy-MM-dd-HH
-log4j.appender.controllerAppender.File=${kafka.logs.dir}/controller.log
-log4j.appender.controllerAppender.layout=org.apache.log4j.PatternLayout
-log4j.appender.controllerAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
-
-log4j.logger.kafka.controller=TRACE, controllerAppender
-log4j.additivity.kafka.controller=false
-```
-
-That means that the logs of `PartitionStateMachine` go to `logs/controller.log` file at `TRACE` logging level and are not added to the main logs (per `log4j.additivity` being off).
-====
-
 === [[triggerOnlinePartitionStateChange]] `triggerOnlinePartitionStateChange` Method
 
 [source, scala]
 ----
-triggerOnlinePartitionStateChange(): Unit // <1>
-triggerOnlinePartitionStateChange(topic: String): Unit  // <2>
-triggerOnlinePartitionStateChange(partitionState: Map[TopicPartition, PartitionState]): Unit
+triggerOnlinePartitionStateChange(): Unit
+triggerOnlinePartitionStateChange(
+  topic: String): Unit
 ----
-<1> Uses the <<partitionState, partitionState>> for the input `partitionState`
-<2> Takes `TopicPartitions` from the <<partitionState, partitionState>> that match the input `topic` for the input `partitionState`
 
-`triggerOnlinePartitionStateChange` collects the `TopicPartitions` (from the given `PartitionState` per `TopicPartition` collection) that meet the following requirements:
-
-. <<topicDeletionManager, TopicDeletionManager>> is not going to <<kafka-controller-TopicDeletionManager.adoc#isTopicQueuedUpForDeletion, delete their topics>>
-
-. `PartitionState` is neither `OfflinePartition` nor `NewPartition`
-
-`triggerOnlinePartitionStateChange` <<handleStateChanges, handleStateChanges>> for the partitions with `OnlinePartition` target state and the `OfflinePartitionLeaderElectionStrategy`.
+`triggerOnlinePartitionStateChange`...FIXME
 
 [NOTE]
 ====
-`triggerOnlinePartitionStateChange` is used when:
-
-* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onBrokerStartup, onBrokerStartup>>, <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, and process <<kafka-controller-ControllerEvent.adoc#UncleanLeaderElectionEnable, UncleanLeaderElectionEnable>> and <<kafka-controller-ControllerEvent.adoc#TopicUncleanLeaderElectionEnable, TopicUncleanLeaderElectionEnable>> controller events
-
-* `PartitionStateMachine` is requested to <<startup, start up>>
+`triggerOnlinePartitionStateChange` is used when...FIXME
 ====
 
-=== [[handleStateChanges]] `handleStateChanges` Method
+=== [[triggerOnlineStateChangeForPartitions]] `triggerOnlineStateChangeForPartitions` Internal Method
 
 [source, scala]
 ----
-handleStateChanges(
-  partitions: Set[TopicAndPartition],
-  targetState: PartitionState,
-  leaderSelector: PartitionLeaderSelector = noOpPartitionLeaderS...,
-  callbacks: Callbacks): Unit
+triggerOnlineStateChangeForPartitions(
+  partitions: collection.Set[TopicPartition]): Unit
 ----
 
-`handleStateChanges`...FIXME
+`triggerOnlineStateChangeForPartitions`...FIXME
 
-[NOTE]
-====
-`handleStateChanges` is used when:
+NOTE: `triggerOnlineStateChangeForPartitions` is used when...FIXME
 
-* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onReplicasBecomeOffline, onReplicasBecomeOffline>>, <<kafka-controller-KafkaController.adoc#onNewPartitionCreation, onNewPartitionCreation>>, <<kafka-controller-KafkaController.adoc#onPreferredReplicaElection, onPreferredReplicaElection>>, <<kafka-controller-KafkaController.adoc#moveReassignedPartitionLeaderIfRequired, moveReassignedPartitionLeaderIfRequired>> and at <<kafka-controller-ControllerEvent.adoc#ControlledShutdown, ControlledShutdown>> controller event
-
-* `PartitionStateMachine` is requested to <<triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>>
-
-* `TopicDeletionManager` is requested to <<kafka-controller-TopicDeletionManager.adoc#onTopicDeletion, onTopicDeletion>>
-====
-
-=== [[shutdown]] `shutdown` Method
+=== [[shutdown]] Shutting Down -- `shutdown` Method
 
 [source, scala]
 ----
 shutdown(): Unit
 ----
 
-`shutdown`...FIXME
+`shutdown` simply prints out the following INFO message to the logs:
 
-NOTE: `shutdown` is used when...FIXME
+```
+Stopped partition state machine
+```
+
+NOTE: `shutdown` is used exclusively when is requested to <<kafka-controller-KafkaController.adoc#onControllerResignation, resign as the active controller>>
 
 === [[startup]] Starting Up (On Active Controller) -- `startup` Method
 
@@ -160,64 +119,10 @@ Triggering online partition state changes
 In the end, `startup` prints out the following INFO message to the logs:
 
 ```
-Started partition state machine with initial state -> [partitionState]
+Started partition state machine with initial state -> [partitionStates]
 ```
 
-NOTE: `startup` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when `KafkaController` is requested to <<elect, elect>> and a broker is successfully elected as the controller).
-
-=== [[doElectLeaderForPartitions]] `doElectLeaderForPartitions` Internal Method
-
-[source, scala]
-----
-doElectLeaderForPartitions(
-  partitions: Seq[TopicPartition],
-  partitionLeaderElectionStrategy: PartitionLeaderElectionStrategy)
-: (Seq[TopicPartition], Seq[TopicPartition], Map[TopicPartition, Exception])
-----
-
-`doElectLeaderForPartitions`...FIXME
-
-NOTE: `doElectLeaderForPartitions` is used exclusively when `PartitionStateMachine` is requested to <<electLeaderForPartitions, electLeaderForPartitions>>.
-
-=== [[creating-instance]] Creating PartitionStateMachine Instance
-
-`PartitionStateMachine` takes the following when created:
-
-* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
-* [[stateChangeLogger]] `StateChangeLogger`
-* [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
-* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
-* [[partitionState]] `TopicPartitions` and their `PartitionState` (`mutable.Map[TopicPartition, PartitionState]`)
-* [[controllerBrokerRequestBatch]] <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>>
-
-`PartitionStateMachine` initializes the <<internal-registries, internal registries and counters>>.
-
-=== [[electLeaderForPartitions]] `electLeaderForPartitions` Internal Method
-
-[source, scala]
-----
-electLeaderForPartitions(
-  partitions: Seq[TopicPartition],
-  partitionLeaderElectionStrategy: PartitionLeaderElectionStrategy): Seq[TopicPartition]
-----
-
-`electLeaderForPartitions`...FIXME
-
-NOTE: `electLeaderForPartitions` is used exclusively when `PartitionStateMachine` is requested to <<doHandleStateChanges, doHandleStateChanges>>.
-
-=== [[doHandleStateChanges]] `doHandleStateChanges` Internal Method
-
-[source, scala]
-----
-doHandleStateChanges(
-  partitions: Seq[TopicPartition],
-  targetState: PartitionState,
-  partitionLeaderElectionStrategyOpt: Option[PartitionLeaderElectionStrategy]): Unit
-----
-
-`doHandleStateChanges`...FIXME
-
-NOTE: `doHandleStateChanges` is used exclusively when `PartitionStateMachine` is requested to <<handleStateChanges, handleStateChanges>>.
+NOTE: `startup` is used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#onControllerFailover, onControllerFailover>> (when a broker is successfully elected as the controller).
 
 === [[initializePartitionState]] `initializePartitionState` Internal Method
 
@@ -238,29 +143,4 @@ For every `TopicPartition`, `initializePartitionState` requests the <<controller
 
 * `NewPartition` when the <<controllerContext, ControllerContext>> has no metadata about the `TopicPartition`
 
-NOTE: `initializePartitionState` is used exclusively when `PartitionStateMachine` is requested to <<startup, start up on the active Controller>>.
-
-=== [[changeStateTo]] `changeStateTo` Internal Method
-
-[source, scala]
-----
-changeStateTo(
-  partition: TopicPartition,
-  currentState: PartitionState,
-  targetState: PartitionState): Unit
-----
-
-`changeStateTo`...FIXME
-
-NOTE: `changeStateTo` is used when...FIXME
-
-=== [[initializeLeaderAndIsrForPartitions]] `initializeLeaderAndIsrForPartitions` Internal Method
-
-[source, scala]
-----
-initializeLeaderAndIsrForPartitions(partitions: Seq[TopicPartition]): Seq[TopicPartition]
-----
-
-`initializeLeaderAndIsrForPartitions`...FIXME
-
-NOTE: `initializeLeaderAndIsrForPartitions` is used exclusively when `PartitionStateMachine` is requested to <<doHandleStateChanges, doHandleStateChanges>>.
+NOTE: `initializePartitionState` is used exclusively when `PartitionStateMachine` is requested to <<startup, start up on the active controller>>.
