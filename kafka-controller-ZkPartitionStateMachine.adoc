@@ -33,7 +33,7 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[controllerBrokerRequestBatch]] <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>>
 
-=== [[handleStateChanges]] Handling State Changes Of Partitions -- `handleStateChanges` Method
+=== [[handleStateChanges]] Handling State Changes of Partitions -- `handleStateChanges` Method
 
 [source, scala]
 ----
@@ -44,9 +44,25 @@ handleStateChanges(
 ): Map[TopicPartition, Throwable]
 ----
 
-NOTE: `handleStateChanges` is part of the <<kafka-controller-PartitionStateMachine.adoc#handleStateChanges, PartitionStateMachine Contract>> to handle changes of the state of partitions (_partition state changes_).
+NOTE: `handleStateChanges` is part of the <<kafka-controller-PartitionStateMachine.adoc#handleStateChanges, PartitionStateMachine Contract>> to handle state changes of partitions (_partition state changes_).
 
-`handleStateChanges`...FIXME
+`handleStateChanges` requests the <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#newBatch, prepare a new batch>>.
+
+`handleStateChanges` <<doHandleStateChanges, doHandleStateChanges>> (that may give some errors that are returned in the end).
+
+In the end, `handleStateChanges` requests the <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, send controller requests to brokers>> and returns the errors.
+
+In case of `ControllerMovedException`, `handleStateChanges` prints out the following ERROR message to the logs:
+
+```
+Controller moved to another broker when moving some partitions to [targetState] state
+```
+
+In case of any other error (`Throwable`), `handleStateChanges` prints out the following ERROR message to the logs:
+
+```
+Error while moving some partitions to [targetState] state
+```
 
 === [[doHandleStateChanges]] `doHandleStateChanges` Internal Method
 
@@ -59,9 +75,31 @@ doHandleStateChanges(
 ): Map[TopicPartition, Throwable]
 ----
 
-`doHandleStateChanges`...FIXME
+For every partition (in `partitions`), `doHandleStateChanges` requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#putPartitionStateIfNotExists, putPartitionStateIfNotExists>> to `NonExistentPartition`.
+
+`doHandleStateChanges` requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#checkValidPartitionStateChange, checkValidPartitionStateChange>> (that gives valid and invalid partitions).
+
+For every invalid partition, `doHandleStateChanges` <<logInvalidTransition, logInvalidTransition>>.
+
+`doHandleStateChanges` branches off per the target state: <<doHandleStateChanges-NewPartition, NewPartition>>, <<doHandleStateChanges-OnlinePartition, OnlinePartition>>, <<doHandleStateChanges-OfflinePartition, OfflinePartition>>, and <<NonExistentPartition, NonExistentPartition>>.
 
 NOTE: `doHandleStateChanges` is used exclusively when `ZkPartitionStateMachine` is requested to <<handleStateChanges, handle partition state changes>>.
+
+==== [[doHandleStateChanges-NewPartition]] NewPartition
+
+For `NewPartition` target state, `doHandleStateChanges`...FIXME
+
+==== [[doHandleStateChanges-OnlinePartition]] OnlinePartition
+
+For `OnlinePartition` target state, `doHandleStateChanges`...FIXME
+
+==== [[doHandleStateChanges-OfflinePartition]] OfflinePartition
+
+For `OfflinePartition` target state, `doHandleStateChanges`...FIXME
+
+==== [[doHandleStateChanges-NonExistentPartition]] NonExistentPartition
+
+For `NonExistentPartition` target state, `doHandleStateChanges`...FIXME
 
 === [[initializeLeaderAndIsrForPartitions]] `initializeLeaderAndIsrForPartitions` Internal Method
 

@@ -19,7 +19,7 @@ handleStateChanges(
   targetState: ReplicaState): Unit
 ----
 
-Handles state changes of partition replicas
+Handles state changes of replicas (_replica state changes_)
 
 Used when:
 

@@ -269,4 +269,57 @@ checkValidReplicaStateChange(
 
 For every replica (in the given replicas), `checkValidReplicaStateChange` <<isValidReplicaStateTransition, isValidReplicaStateTransition>> with the target state (`ReplicaState`).
 
-NOTE: `checkValidReplicaStateChange` is used exclusively when `ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#doHandleStateChanges, handle state changes of partition replicas>>.
+NOTE: `checkValidReplicaStateChange` is used exclusively when `ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#doHandleStateChanges, handle replica state changes>>.
+
+=== [[checkValidPartitionStateChange]] `checkValidPartitionStateChange` Method
+
+[source, scala]
+----
+checkValidPartitionStateChange(
+  partitions: Seq[TopicPartition],
+  targetState: PartitionState
+): (Seq[TopicPartition], Seq[TopicPartition])
+----
+
+For every replica (in the given replicas), `checkValidPartitionStateChange` <<isValidPartitionStateTransition, isValidPartitionStateTransition>> with the target state (`PartitionState`).
+
+NOTE: `checkValidPartitionStateChange` is used exclusively when `ZkReplicaStateMachine` is requested to <<kafka-controller-ZkPartitionStateMachine.adoc#doHandleStateChanges, handle partition state changes>>.
+
+=== [[putPartitionStateIfNotExists]] `putPartitionStateIfNotExists` Method
+
+[source, scala]
+----
+putPartitionStateIfNotExists(
+  partition: TopicPartition,
+  state: PartitionState): Unit
+----
+
+`putPartitionStateIfNotExists`...FIXME
+
+NOTE: `putPartitionStateIfNotExists` is used when...FIXME
+
+=== [[isValidReplicaStateTransition]] `isValidReplicaStateTransition` Internal Method
+
+[source, scala]
+----
+isValidReplicaStateTransition(
+  replica: PartitionAndReplica,
+  targetState: ReplicaState): Boolean
+----
+
+`isValidReplicaStateTransition`...FIXME
+
+NOTE: `isValidReplicaStateTransition` is used when...FIXME
+
+=== [[isValidPartitionStateTransition]] `isValidPartitionStateTransition` Internal Method
+
+[source, scala]
+----
+isValidPartitionStateTransition(
+  partition: TopicPartition,
+  targetState: PartitionState): Boolean
+----
+
+`isValidPartitionStateTransition`...FIXME
+
+NOTE: `isValidPartitionStateTransition` is used when...FIXME

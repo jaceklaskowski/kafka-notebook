@@ -33,7 +33,7 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
 * [[controllerBrokerRequestBatch]] <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>>
 
-=== [[handleStateChanges]] Handling State Changes Of Partition Replicas -- `handleStateChanges` Method
+=== [[handleStateChanges]] Handling State Changes of Replicas -- `handleStateChanges` Method
 
 [source, scala]
 ----
@@ -42,13 +42,13 @@ handleStateChanges(
   targetState: ReplicaState): Unit
 ----
 
-NOTE: `handleStateChanges` is part of the <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, ReplicaStateMachine Contract>> to handle state changes of partition replicas.
+NOTE: `handleStateChanges` is part of the <<kafka-controller-ReplicaStateMachine.adoc#handleStateChanges, ReplicaStateMachine Contract>> to handle state changes of replicas (_replica state changes_).
 
 `handleStateChanges` requests the <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#newBatch, prepare a new batch>>.
 
 `handleStateChanges` groups the replicas (`PartitionAndReplicas`) by ID and for every group <<doHandleStateChanges, doHandleStateChanges>>.
 
-In the end, `handleStateChanges` requests the <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, send controller requests to all brokers>>.
+In the end, `handleStateChanges` requests the <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, send controller requests to brokers>>.
 
 In case of a `ControllerMovedException`, `handleStateChanges` prints out the following ERROR message to the logs and re-throws the exception.
 
@@ -80,9 +80,9 @@ For every replica (in the `replicas`), `doHandleStateChanges` requests the <<con
 
 For every invalid replica, `doHandleStateChanges` <<logInvalidTransition, logInvalidTransition>>.
 
-`doHandleStateChanges` branches off per the target state (`ReplicaState`).
+`doHandleStateChanges` branches off per the target state (`ReplicaState`): <<doHandleStateChanges-OfflineReplica, OfflineReplica>>,...FIXME
 
-NOTE: `doHandleStateChanges` is used exclusively when `ZkReplicaStateMachine` is requested to <<handleStateChanges, handle state changes of partition replicas>>.
+NOTE: `doHandleStateChanges` is used exclusively when `ZkReplicaStateMachine` is requested to <<handleStateChanges, handle replica state changes>>.
 
 ==== [[doHandleStateChanges-OfflineReplica]] OfflineReplica
 
