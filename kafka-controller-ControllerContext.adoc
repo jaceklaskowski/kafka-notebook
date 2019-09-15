@@ -323,3 +323,16 @@ isValidPartitionStateTransition(
 `isValidPartitionStateTransition`...FIXME
 
 NOTE: `isValidPartitionStateTransition` is used when...FIXME
+
+=== [[putPartitionState]] `putPartitionState` Method
+
+[source, scala]
+----
+putPartitionState(
+  partition: TopicPartition,
+  targetState: PartitionState): Unit
+----
+
+`putPartitionState`...FIXME
+
+NOTE: `putPartitionState` is used when...FIXME

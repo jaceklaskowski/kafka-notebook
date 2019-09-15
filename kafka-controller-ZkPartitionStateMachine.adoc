@@ -87,7 +87,11 @@ NOTE: `doHandleStateChanges` is used exclusively when `ZkPartitionStateMachine` 
 
 ==== [[doHandleStateChanges-NewPartition]] NewPartition
 
-For `NewPartition` target state, `doHandleStateChanges`...FIXME
+For `NewPartition` target state, `doHandleStateChanges` goes over the valid partitions and for every partition prints out the following TRACE message to the logs and requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#putPartitionState, putPartitionState>> to `NewPartition` state.
+
+```
+Changed partition [partition] state from [state] to NewPartition with assigned replicas [partitionReplicaAssignment]
+```
 
 ==== [[doHandleStateChanges-OnlinePartition]] OnlinePartition
 
@@ -95,11 +99,19 @@ For `OnlinePartition` target state, `doHandleStateChanges`...FIXME
 
 ==== [[doHandleStateChanges-OfflinePartition]] OfflinePartition
 
-For `OfflinePartition` target state, `doHandleStateChanges`...FIXME
+For `OfflinePartition` target state, `doHandleStateChanges` goes over the valid partitions and for every partition prints out the following TRACE message to the logs and requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#putPartitionState, putPartitionState>> to `OfflinePartition` state.
+
+```
+Changed partition [partition] state from [state] to OfflinePartition
+```
 
 ==== [[doHandleStateChanges-NonExistentPartition]] NonExistentPartition
 
-For `NonExistentPartition` target state, `doHandleStateChanges`...FIXME
+For `NonExistentPartition` target state, `doHandleStateChanges` goes over the valid partitions and for every partition prints out the following TRACE message to the logs and requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#putPartitionState, putPartitionState>> to `NonExistentPartition` state.
+
+```
+Changed partition [partition] state from [state] to NonExistentPartition
+```
 
 === [[initializeLeaderAndIsrForPartitions]] `initializeLeaderAndIsrForPartitions` Internal Method
 
