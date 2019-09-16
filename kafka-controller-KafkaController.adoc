@@ -1233,7 +1233,7 @@ removePartitionsFromPreferredReplicaElection(
 
 NOTE: `removePartitionsFromPreferredReplicaElection` is used exclusively when `KafkaController` is requested to <<onPreferredReplicaElection, onPreferredReplicaElection>> (and the election type is not <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#AdminClientTriggered, AdminClientTriggered>>).
 
-=== [[onPreferredReplicaElection]] `onPreferredReplicaElection` Internal Method
+=== [[onPreferredReplicaElection]] Preferred Replica Leader Election -- `onPreferredReplicaElection` Internal Method
 
 [source, scala]
 ----

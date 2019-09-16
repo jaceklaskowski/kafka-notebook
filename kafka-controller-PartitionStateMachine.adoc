@@ -45,12 +45,25 @@ NOTE: `PartitionStateMachine` is a Scala abstract class and cannot be <<creating
 
 === [[PartitionLeaderElectionStrategy]] PartitionLeaderElectionStrategy
 
-`PartitionStateMachine` uses a `PartitionLeaderElectionStrategy` when...FIXME
+.PartitionLeaderElectionStrategies
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
 
-* [[ControlledShutdownPartitionLeaderElectionStrategy]] `ControlledShutdownPartitionLeaderElectionStrategy`
-* [[OfflinePartitionLeaderElectionStrategy]] `OfflinePartitionLeaderElectionStrategy`
-* [[PreferredReplicaPartitionLeaderElectionStrategy]] `PreferredReplicaPartitionLeaderElectionStrategy`
-* [[ReassignPartitionLeaderElectionStrategy]] `ReassignPartitionLeaderElectionStrategy`
+| ControlledShutdownPartitionLeaderElectionStrategy
+a| [[ControlledShutdownPartitionLeaderElectionStrategy]]
+
+| OfflinePartitionLeaderElectionStrategy
+a| [[OfflinePartitionLeaderElectionStrategy]]
+
+| PreferredReplicaPartitionLeaderElectionStrategy
+a| [[PreferredReplicaPartitionLeaderElectionStrategy]] `KafkaController` is requested for <<kafka-controller-KafkaController.adoc#onPreferredReplicaElection, preferred replica leader election>> that in turn triggers `ZkPartitionStateMachine` to <<kafka-controller-ZkPartitionStateMachine.adoc#leaderForPreferredReplica, leaderForPreferredReplica>>
+
+| ReassignPartitionLeaderElectionStrategy
+a| [[ReassignPartitionLeaderElectionStrategy]]
+
+|===
 
 === [[triggerOnlinePartitionStateChange]] `triggerOnlinePartitionStateChange` Method
 
