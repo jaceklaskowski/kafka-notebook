@@ -394,7 +394,8 @@ NOTE: `registerControllerAndIncrementControllerEpoch` is used exclusively when `
 
 [source, scala]
 ----
-retryRequestsUntilConnected[Req <: AsyncRequest](requests: Seq[Req]): Seq[Req#Response]
+retryRequestsUntilConnected[Req <: AsyncRequest](
+  requests: Seq[Req]): Seq[Req#Response]
 ----
 
 `retryRequestsUntilConnected`...FIXME
@@ -552,7 +553,7 @@ getBrokerIdsFromLogDirEvents(
 
 NOTE: `getBrokerIdsFromLogDirEvents` is used when...FIXME
 
-=== [[createTopicPartitionStatesRaw]] `createTopicPartitionStatesRaw` Method
+=== [[createTopicPartitionStatesRaw]] Creating State Znodes for Selected Partitions -- `createTopicPartitionStatesRaw` Method
 
 [source, scala]
 ----
@@ -562,6 +563,38 @@ createTopicPartitionStatesRaw(
 ): Seq[CreateResponse]
 ----
 
-`createTopicPartitionStatesRaw`...FIXME
+`createTopicPartitionStatesRaw` <<createTopicPartitions, createTopicPartitions>> with the topics (of the given partitions).
 
-NOTE: `createTopicPartitionStatesRaw` is used when...FIXME
+`createTopicPartitionStatesRaw` <<createTopicPartition, createTopicPartition>> with the partitions.
+
+For every partition (in the given `leaderIsrAndControllerEpochs`), `createTopicPartitionStatesRaw` creates a new `CreateRequest` to create `/brokers/topics/[topic]/partitions/[partition]/state` persistent znode with the associated `LeaderIsrAndControllerEpoch` encoded.
+
+In the end, `createTopicPartitionStatesRaw` <<retryRequestsUntilConnected, retryRequestsUntilConnected>> all the `CreateRequests`.
+
+NOTE: `createTopicPartitionStatesRaw` is used exclusively when `ZkPartitionStateMachine` is requested to <<kafka-controller-ZkPartitionStateMachine.adoc#initializeLeaderAndIsrForPartitions, initializeLeaderAndIsrForPartitions>>.
+
+=== [[createTopicPartitions]] `createTopicPartitions` Internal Method
+
+[source, scala]
+----
+createTopicPartitions(
+  topics: Seq[String],
+  expectedControllerEpochZkVersion: Int):Seq[CreateResponse]
+----
+
+`createTopicPartitions`...FIXME
+
+NOTE: `createTopicPartitions` is used when...FIXME
+
+=== [[createTopicPartition]] `createTopicPartition` Internal Method
+
+[source, scala]
+----
+createTopicPartition(
+  partitions: Seq[TopicPartition],
+  expectedControllerEpochZkVersion: Int): Seq[CreateResponse]
+----
+
+`createTopicPartition`...FIXME
+
+NOTE: `createTopicPartition` is used when...FIXME

@@ -98,7 +98,7 @@ Changed partition [partition] state from [state] to NewPartition with assigned r
 
 ==== [[doHandleStateChanges-OnlinePartition]] OnlinePartition
 
-For `OnlinePartition` target state, `doHandleStateChanges` splits valid partitions into two sets of partitions. One partition set (`uninitializedPartitions`) with partitions in `NewPartition` state while the other with partitions in `OfflinePartition` or `OnlinePartition` states (`partitionsToElectLeader`).
+For `OnlinePartition` target state, `doHandleStateChanges` splits valid partitions into two sets. One partition set (`uninitializedPartitions`) with partitions in `NewPartition` state while the other with partitions in `OfflinePartition` or `OnlinePartition` states (`partitionsToElectLeader`).
 
 For uninitialized partitions (valid partitions in `NewPartition` state), `doHandleStateChanges` <<initializeLeaderAndIsrForPartitions, initializeLeaderAndIsrForPartitions>> (that gives partitions successfully initialized, aka _successfulInitializations_). For every partition successfully initialized, `doHandleStateChanges` prints out the following TRACE message to the logs and requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#putPartitionState, putPartitionState>> to `OnlinePartition` state.
 
@@ -158,11 +158,11 @@ Controller [controllerId] epoch [epoch] failed to change state for partition [pa
 Controller [controllerId] epoch [epoch] encountered error during state change of partition [partition] from New to Online, assigned replicas are [[replicas]], live brokers are [[liveBrokerIds]]. No assigned replica is alive.
 ----
 
-`initializeLeaderAndIsrForPartitions` converts the partitions with live (online) replicas into `leaderIsrAndControllerEpochs` (`LeaderIsrAndControllerEpoch` with `LeaderAndIsr`) and for every pair `initializeLeaderAndIsrForPartitions` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#createTopicPartitionStatesRaw, createTopicPartitionStatesRaw>>.
+`initializeLeaderAndIsrForPartitions` converts the partitions with live (online) replicas into `leaderIsrAndControllerEpochs` (`LeaderIsrAndControllerEpoch` with `LeaderAndIsr`) and for every pair `initializeLeaderAndIsrForPartitions` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#createTopicPartitionStatesRaw, create state znodes for the partitions>>.
 
-For every successful response (while <<kafka-zk-KafkaZkClient.adoc#createTopicPartitionStatesRaw, createTopicPartitionStatesRaw>>), `initializeLeaderAndIsrForPartitions` requests the following:
+For every successful response (from <<kafka-zk-KafkaZkClient.adoc#createTopicPartitionStatesRaw, creating partition state znodes>>), `initializeLeaderAndIsrForPartitions` requests the following:
 
-. The <<controllerContext, ControllerContext>> to save the partition and the `leaderIsrAndControllerEpoch` in the <<kafka-controller-ControllerContext.adoc#partitionLeadershipInfo, partitionLeadershipInfo>> registry
+. The <<controllerContext, ControllerContext>> to record the partition and the `leaderIsrAndControllerEpoch` (in the <<kafka-controller-ControllerContext.adoc#partitionLeadershipInfo, partitionLeadershipInfo>> registry)
 
 . The <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>> (with `isNew` flag on)
 
