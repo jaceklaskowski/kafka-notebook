@@ -184,9 +184,18 @@ electLeaderForPartitions(
 ): (Seq[TopicPartition], Map[TopicPartition, Throwable])
 ----
 
-`electLeaderForPartitions`...FIXME
+`electLeaderForPartitions` simply <<doElectLeaderForPartitions, doElectLeaderForPartitions>> until all the given partitions have partition leaders elected successfully or not.
 
-NOTE: `electLeaderForPartitions` is used exclusively when `ZkPartitionStateMachine` is requested to <<doHandleStateChanges, doHandleStateChanges>>.
+For every failed election, `electLeaderForPartitions` <<logFailedStateChange, prints out the following ERROR message (with an exception) to the logs>>:
+
+[options="wrap"]
+----
+Controller [controllerId] epoch [epoch] failed to change state for partition [partition] from [state] to OnlinePartition
+----
+
+In the end, `electLeaderForPartitions` returns the partitions with leader election successful and failed.
+
+NOTE: `electLeaderForPartitions` is used exclusively when `ZkPartitionStateMachine` is requested to <<doHandleStateChanges, handle partition state changes>>.
 
 === [[doElectLeaderForPartitions]] `doElectLeaderForPartitions` Internal Method
 
