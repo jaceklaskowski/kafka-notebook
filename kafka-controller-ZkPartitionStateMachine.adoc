@@ -162,7 +162,7 @@ Controller [controllerId] epoch [epoch] encountered error during state change of
 
 For every successful response (from <<kafka-zk-KafkaZkClient.adoc#createTopicPartitionStatesRaw, creating partition state znodes>>), `initializeLeaderAndIsrForPartitions` requests the following:
 
-. The <<controllerContext, ControllerContext>> to record the partition and the `leaderIsrAndControllerEpoch` (in the <<kafka-controller-ControllerContext.adoc#partitionLeadershipInfo, partitionLeadershipInfo>> registry)
+. The <<controllerContext, ControllerContext>> to record the `leaderIsrAndControllerEpoch` for the partition (in the <<kafka-controller-ControllerContext.adoc#partitionLeadershipInfo, partitionLeadershipInfo>> registry)
 
 . The <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>> (with `isNew` flag on)
 
@@ -207,7 +207,29 @@ doElectLeaderForPartitions(
 ): (Seq[TopicPartition], Seq[TopicPartition], Map[TopicPartition, Exception])
 ----
 
-`doElectLeaderForPartitions`...FIXME
+`doElectLeaderForPartitions` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getTopicPartitionStatesRaw, partition states>> and converts them to `LeaderIsrAndControllerEpoch` per partition.
+
+`doElectLeaderForPartitions` collects the partitions that are eligible for partition election (that have controller epoch older than the <<kafka-controller-ControllerContext.adoc#epoch, current controller epoch>> per the <<controllerContext, ControllerContext>>).
+
+`doElectLeaderForPartitions` branches off per the <<kafka-controller-PartitionStateMachine.adoc#PartitionLeaderElectionStrategy, PartitionLeaderElectionStrategy>> and ends up with partitions with and without leaders:
+
+* For <<kafka-controller-PartitionStateMachine.adoc#OfflinePartitionLeaderElectionStrategy, OfflinePartitionLeaderElectionStrategy>>, `doElectLeaderForPartitions` first <<collectUncleanLeaderElectionState, collectUncleanLeaderElectionState>> with the valid partitions for election followed by <<leaderForOffline, leaderForOffline>>.
+
+* For <<kafka-controller-PartitionStateMachine.adoc#ReassignPartitionLeaderElectionStrategy, ReassignPartitionLeaderElectionStrategy>>, `doElectLeaderForPartitions` <<leaderForReassign, leaderForReassign>>
+
+* For <<kafka-controller-PartitionStateMachine.adoc#PreferredReplicaPartitionLeaderElectionStrategy, PreferredReplicaPartitionLeaderElectionStrategy>>, `doElectLeaderForPartitions` <<leaderForPreferredReplica, leaderForPreferredReplica>>
+
+* For <<kafka-controller-PartitionStateMachine.adoc#ControlledShutdownPartitionLeaderElectionStrategy, ControlledShutdownPartitionLeaderElectionStrategy>>, `doElectLeaderForPartitions` <<leaderForControlledShutdown, leaderForControlledShutdown>>
+
+`doElectLeaderForPartitions` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#updateLeaderAndIsr, updateLeaderAndIsr>> (with the adjusted leader and ISRs).
+
+For every successfully-updated partition (in <<kafka-zk-KafkaZkClient.adoc#updateLeaderAndIsr, Zookeeper>>), `doElectLeaderForPartitions` requests the following:
+
+. The <<controllerContext, ControllerContext>> to record the `leaderIsrAndControllerEpoch` for the partition (in the <<kafka-controller-ControllerContext.adoc#partitionLeadershipInfo, partitionLeadershipInfo>> registry)
+
+. The <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>> to every live replica broker (with `isNew` flag off)
+
+In the end, `doElectLeaderForPartitions` returns the partitions that were successfully updated, to be updated again and failed (during election and update).
 
 NOTE: `doElectLeaderForPartitions` is used exclusively when `ZkPartitionStateMachine` is requested to <<electLeaderForPartitions, electLeaderForPartitions>>.
 
@@ -274,3 +296,85 @@ partitionState(
 `partitionState`...FIXME
 
 NOTE: `partitionState` is used when...FIXME
+
+=== [[leaderForOffline]] `leaderForOffline` Method
+
+[source, scala]
+----
+leaderForOffline(
+  controllerContext: ControllerContext,
+  partitionsWithUncleanLeaderElectionState: Seq[(TopicPartition, Option[LeaderIsrAndControllerEpoch], Boolean)]
+): Seq[ElectionResult]
+// Private API
+leaderForOffline(
+  partition: TopicPartition,
+  leaderIsrAndControllerEpochOpt: Option[LeaderIsrAndControllerEpoch],
+  uncleanLeaderElectionEnabled: Boolean,
+  controllerContext: ControllerContext
+): ElectionResult
+----
+
+`leaderForOffline`...FIXME
+
+NOTE: `leaderForOffline` is used when...FIXME
+
+=== [[leaderForReassign]] `leaderForReassign` Method
+
+[source, scala]
+----
+leaderForReassign(
+  controllerContext: ControllerContext,
+  leaderIsrAndControllerEpochs: Seq[(TopicPartition, LeaderIsrAndControllerEpoch)]
+): Seq[ElectionResult]
+// Private API
+leaderForReassign(
+  partition: TopicPartition,
+  leaderIsrAndControllerEpoch: LeaderIsrAndControllerEpoch,
+  controllerContext: ControllerContext
+): ElectionResult
+----
+
+`leaderForReassign`...FIXME
+
+NOTE: `leaderForReassign` is used when...FIXME
+
+=== [[leaderForPreferredReplica]] `leaderForPreferredReplica` Method
+
+[source, scala]
+----
+leaderForPreferredReplica(
+  controllerContext: ControllerContext,
+  leaderIsrAndControllerEpochs: Seq[(TopicPartition, LeaderIsrAndControllerEpoch)]
+): Seq[ElectionResult]
+// Private API
+leaderForPreferredReplica(
+  partition: TopicPartition,
+  leaderIsrAndControllerEpoch: LeaderIsrAndControllerEpoch,
+  controllerContext: ControllerContext
+): ElectionResult
+----
+
+`leaderForPreferredReplica`...FIXME
+
+NOTE: `leaderForPreferredReplica` is used when...FIXME
+
+=== [[leaderForControlledShutdown]] `leaderForControlledShutdown` Method
+
+[source, scala]
+----
+leaderForControlledShutdown(
+  controllerContext: ControllerContext,
+  leaderIsrAndControllerEpochs: Seq[(TopicPartition, LeaderIsrAndControllerEpoch)]
+): Seq[ElectionResult]
+// Private API
+leaderForControlledShutdown(
+  partition: TopicPartition,
+  leaderIsrAndControllerEpoch: LeaderIsrAndControllerEpoch,
+  shuttingDownBrokerIds: Set[Int],
+  controllerContext: ControllerContext
+): ElectionResult
+----
+
+`leaderForControlledShutdown`...FIXME
+
+NOTE: `leaderForControlledShutdown` is used when...FIXME

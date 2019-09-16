@@ -437,7 +437,8 @@ NOTE: `propagateIsrChanges` is used exclusively when `ReplicaManager` is request
 
 [source, scala]
 ----
-getTopicPartitionStatesRaw(partitions: Seq[TopicPartition]): Seq[GetDataResponse]
+getTopicPartitionStatesRaw(
+  partitions: Seq[TopicPartition]): Seq[GetDataResponse]
 ----
 
 `getTopicPartitionStatesRaw` gets the topic partition states (from the path `/brokers/topics/[topic]/partitions/[partition]/state` in Zookeeper) for the given partitions.
@@ -567,7 +568,16 @@ createTopicPartitionStatesRaw(
 
 `createTopicPartitionStatesRaw` <<createTopicPartition, createTopicPartition>> with the partitions.
 
-For every partition (in the given `leaderIsrAndControllerEpochs`), `createTopicPartitionStatesRaw` creates a new `CreateRequest` to create `/brokers/topics/[topic]/partitions/[partition]/state` persistent znode with the associated `LeaderIsrAndControllerEpoch` encoded.
+For every partition (in the given `leaderIsrAndControllerEpochs`), `createTopicPartitionStatesRaw` creates a new `CreateRequest` to create `/brokers/topics/[topic]/partitions/[partition]/state` persistent znode with the associated `LeaderIsrAndControllerEpoch` encoded to JSON format.
+
+```
+// zkCli :2181
+$ ./bin/zookeeper-shell.sh :2181 ls /brokers/topics
+[t1]
+
+$ ./bin/zookeeper-shell.sh :2181 get /brokers/topics/t1/partitions/0/state
+{"controller_epoch":1,"leader":0,"version":1,"leader_epoch":0,"isr":[0]}
+```
 
 In the end, `createTopicPartitionStatesRaw` <<retryRequestsUntilConnected, retryRequestsUntilConnected>> all the `CreateRequests`.
 
@@ -598,3 +608,17 @@ createTopicPartition(
 `createTopicPartition`...FIXME
 
 NOTE: `createTopicPartition` is used when...FIXME
+
+=== [[updateLeaderAndIsr]] `updateLeaderAndIsr` Method
+
+[source, scala]
+----
+updateLeaderAndIsr(
+  leaderAndIsrs: Map[TopicPartition, LeaderAndIsr],
+  controllerEpoch: Int,
+  expectedControllerEpochZkVersion: Int): UpdateLeaderAndIsrResult
+----
+
+`updateLeaderAndIsr`...FIXME
+
+NOTE: `updateLeaderAndIsr` is used when...FIXME
