@@ -551,3 +551,17 @@ getBrokerIdsFromLogDirEvents(
 `getBrokerIdsFromLogDirEvents`...FIXME
 
 NOTE: `getBrokerIdsFromLogDirEvents` is used when...FIXME
+
+=== [[createTopicPartitionStatesRaw]] `createTopicPartitionStatesRaw` Method
+
+[source, scala]
+----
+createTopicPartitionStatesRaw(
+  leaderIsrAndControllerEpochs: Map[TopicPartition, LeaderIsrAndControllerEpoch],
+  expectedControllerEpochZkVersion: Int
+): Seq[CreateResponse]
+----
+
+`createTopicPartitionStatesRaw`...FIXME
+
+NOTE: `createTopicPartitionStatesRaw` is used when...FIXME

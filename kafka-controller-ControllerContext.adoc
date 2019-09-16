@@ -238,7 +238,9 @@ partitionReplicaAssignment(
   topicPartition: TopicPartition): Seq[Int]
 ----
 
-`partitionReplicaAssignment` looks up the broker IDs of the partition replicas of the given partition in <<partitionAssignments, partitionAssignments>> internal registry.
+`partitionReplicaAssignment` finds the brokers with the replicas of the given partition (aka _partition replica assignment_).
+
+Internally, `partitionReplicaAssignment` finds broker IDs of the replicas of the given partition (`TopicPartition`) in the <<partitionAssignments, partitionAssignments>> internal registry.
 
 `partitionReplicaAssignment` returns an empty collection when no topic or partition are found.
 

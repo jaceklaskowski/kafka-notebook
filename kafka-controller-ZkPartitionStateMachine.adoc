@@ -64,7 +64,7 @@ In case of any other error (`Throwable`), `handleStateChanges` prints out the fo
 Error while moving some partitions to [targetState] state
 ```
 
-=== [[doHandleStateChanges]] `doHandleStateChanges` Internal Method
+=== [[doHandleStateChanges]] Handling Partition State Changes -- `doHandleStateChanges` Internal Method
 
 [source, scala]
 ----
@@ -140,9 +140,39 @@ initializeLeaderAndIsrForPartitions(
   partitions: Seq[TopicPartition]): Seq[TopicPartition]
 ----
 
-`initializeLeaderAndIsrForPartitions`...FIXME
+`initializeLeaderAndIsrForPartitions` starts by requesting the <<controllerContext, ControllerContext>> for the <<kafka-controller-ControllerContext.adoc#partitionReplicaAssignment, partition replica assignment>> for every partition (in the given `partitions`).
 
-NOTE: `initializeLeaderAndIsrForPartitions` is used exclusively when `ZkPartitionStateMachine` is requested to <<doHandleStateChanges, doHandleStateChanges>>.
+From the partition replica assignments, `initializeLeaderAndIsrForPartitions` makes sure that the replicas are all <<kafka-controller-ControllerContext.adoc#isReplicaOnline, online>> only (per the <<controllerContext, ControllerContext>>) so all other partitions are filtered out (_excluded_).
+
+`initializeLeaderAndIsrForPartitions` splits the partitions (with online replicas only) into two sets with and without replicas (`partitionsWithLiveReplicas` and `partitionsWithoutLiveReplicas`, respectively).
+
+For every partition without live (online) replicas, `initializeLeaderAndIsrForPartitions` <<logFailedStateChange, prints out the following ERROR message and the StateChangeFailedException to the logs>>:
+
+[options="wrap"]
+----
+Controller [controllerId] epoch [epoch] failed to change state for partition [partition] from NewPartition to OnlinePartition
+----
+
+[options="wrap"]
+----
+Controller [controllerId] epoch [epoch] encountered error during state change of partition [partition] from New to Online, assigned replicas are [[replicas]], live brokers are [[liveBrokerIds]]. No assigned replica is alive.
+----
+
+`initializeLeaderAndIsrForPartitions` converts the partitions with live (online) replicas into `leaderIsrAndControllerEpochs` (`LeaderIsrAndControllerEpoch` with `LeaderAndIsr`) and for every pair `initializeLeaderAndIsrForPartitions` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#createTopicPartitionStatesRaw, createTopicPartitionStatesRaw>>.
+
+For every successful response (while <<kafka-zk-KafkaZkClient.adoc#createTopicPartitionStatesRaw, createTopicPartitionStatesRaw>>), `initializeLeaderAndIsrForPartitions` requests the following:
+
+. The <<controllerContext, ControllerContext>> to save the partition and the `leaderIsrAndControllerEpoch` in the <<kafka-controller-ControllerContext.adoc#partitionLeadershipInfo, partitionLeadershipInfo>> registry
+
+. The <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>> (with `isNew` flag on)
+
+In the end, `initializeLeaderAndIsrForPartitions` returns the partitions that were successfully initialized.
+
+In case of `ControllerMovedException` (while...FIXME), `initializeLeaderAndIsrForPartitions`...FIXME
+
+In case of any other error (`Exception`) (while...FIXME), `initializeLeaderAndIsrForPartitions`...FIXME
+
+NOTE: `initializeLeaderAndIsrForPartitions` is used exclusively when `ZkPartitionStateMachine` is requested to <<doHandleStateChanges, handle partition state changes>> (for <<doHandleStateChanges-OnlinePartition, partitions in NewPartition state that are transitioned to OnlinePartition target state>>).
 
 === [[electLeaderForPartitions]] `electLeaderForPartitions` Internal Method
 
