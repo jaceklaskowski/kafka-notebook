@@ -83,19 +83,38 @@ For every invalid partition, `doHandleStateChanges` <<logInvalidTransition, logI
 
 `doHandleStateChanges` branches off per the target state: <<doHandleStateChanges-NewPartition, NewPartition>>, <<doHandleStateChanges-OnlinePartition, OnlinePartition>>, <<doHandleStateChanges-OfflinePartition, OfflinePartition>>, and <<NonExistentPartition, NonExistentPartition>>.
 
+In the end, `doHandleStateChanges` returns the partitions with election failed (for `OnlinePartition` target state and the valid partitions in `OfflinePartition` or `OnlinePartition` states).
+
 NOTE: `doHandleStateChanges` is used exclusively when `ZkPartitionStateMachine` is requested to <<handleStateChanges, handle partition state changes>>.
 
 ==== [[doHandleStateChanges-NewPartition]] NewPartition
 
 For `NewPartition` target state, `doHandleStateChanges` goes over the valid partitions and for every partition prints out the following TRACE message to the logs and requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#putPartitionState, putPartitionState>> to `NewPartition` state.
 
-```
+[options="wrap"]
+----
 Changed partition [partition] state from [state] to NewPartition with assigned replicas [partitionReplicaAssignment]
-```
+----
 
 ==== [[doHandleStateChanges-OnlinePartition]] OnlinePartition
 
-For `OnlinePartition` target state, `doHandleStateChanges`...FIXME
+For `OnlinePartition` target state, `doHandleStateChanges` splits valid partitions into two sets of partitions. One partition set (`uninitializedPartitions`) with partitions in `NewPartition` state while the other with partitions in `OfflinePartition` or `OnlinePartition` states (`partitionsToElectLeader`).
+
+For uninitialized partitions (valid partitions in `NewPartition` state), `doHandleStateChanges` <<initializeLeaderAndIsrForPartitions, initializeLeaderAndIsrForPartitions>> (that gives partitions successfully initialized, aka _successfulInitializations_). For every partition successfully initialized, `doHandleStateChanges` prints out the following TRACE message to the logs and requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#putPartitionState, putPartitionState>> to `OnlinePartition` state.
+
+[options="wrap"]
+----
+Changed partition [partition] from [state] to OnlinePartition with state [leaderAndIsr]
+----
+
+For partitions to elect leader (valid partitions in `OfflinePartition` or `OnlinePartition` states), `doHandleStateChanges` <<electLeaderForPartitions, electLeaderForPartitions>> (with the partitions and the `PartitionLeaderElectionStrategy`). That gives two sets of partitions with election successful and failed. For every partition with election successful, `doHandleStateChanges` prints out the following TRACE message to the logs and requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#putPartitionState, putPartitionState>> to `OnlinePartition` state.
+
+[options="wrap"]
+----
+Changed partition [partition] from [state] to OnlinePartition with state [leaderAndIsr]
+----
+
+In the end, `doHandleStateChanges` returns the partitions with election failed.
 
 ==== [[doHandleStateChanges-OfflinePartition]] OfflinePartition
 
