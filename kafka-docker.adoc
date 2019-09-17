@@ -2,19 +2,22 @@
 
 A very basic installation of Apache Kafka is made up of the following components:
 
-1. An instance of Apache Zookeeper
-1. At least one Kafka broker
+* An instance of Apache Zookeeper
+* At least one Kafka broker
 
 You can use https://docs.docker.com/compose/[Docker Compose] to run such an installation where all the components are _dockerized_ (i.e. run as Docker containers).
 
 There are two projects with the Docker images for the components that seem to have been trusted the most:
 
-1. https://hub.docker.com/r/wurstmeister/kafka/[wurstmeister/kafka]
-1. https://hub.docker.com/r/spotify/kafka/[spotify/kafka]
+* <<wurstmeister-kafka, wurstmeister/kafka>>
+
+* https://hub.docker.com/r/spotify/kafka/[spotify/kafka]
 
 NOTE: https://github.com/ches/docker-kafka[ches/docker-kafka] is another Docker image (that I have not tried myself yet).
 
-`wurstmeister/kafka` gives separate images for Apache Zookeeper and Apache Kafka while `spotify/kafka` runs both Zookeeper and Kafka in the same container.
+https://hub.docker.com/r/wurstmeister/kafka/[wurstmeister/kafka] gives separate images for Apache Zookeeper and Apache Kafka while `spotify/kafka` runs both Zookeeper and Kafka in the same container.
+
+=== [[wurstmeister-kafka]] wurstmeister/kafka
 
 With the separate images for Apache Zookeeper and Apache Kafka in `wurstmeister/kafka` project and a `docker-compose.yml` configuration for Docker Compose that is a very good starting point as well as allows for further customizations.
 
@@ -22,7 +25,8 @@ TIP: Read the http://wurstmeister.github.io/kafka-docker/[official tutorial] on 
 
 Let's start a very basic one-broker Kafka cluster using Docker and `wurstmeister/kafka` project.
 
-```
+[source,cmd,subs="+quotes,+macros"]
+----
 // Clone wurstmeister/kafka repo
 $ git clone https://github.com/wurstmeister/kafka-docker
 
@@ -30,12 +34,12 @@ $ cd kafka-docker
 
 // Edit `docker-compose.yml`
 // 1. Change the docker host IP in `KAFKA_ADVERTISED_HOST_NAME`
-// e.g. KAFKA_ADVERTISED_HOST_NAME: docker.for.mac.localhost on macOS
-// See https://docs.docker.com/docker-for-mac/networking/
-// 2. Expose port `9092` of `kafka` service to the host
-// i.e. change it to `9092:9092`
+// On macOS use the following script to set DOCKERHOST env var
+// DOCKERHOST=$(ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1)
+// https://github.com/wurstmeister/kafka-docker/issues/17#issuecomment-370237590
 
 // Start services from `docker-compose.yml`
+// You may want to use -d to detach from the terminal (daemon mode)
 $ docker-compose up
 
 // Check the connection from the host to the single Kafka broker
@@ -50,4 +54,36 @@ found 1 connections:
 	TCP aux info available
 
 Connection to localhost port 9092 [tcp/XmlIpcRegSvc] succeeded!
-```
+
+// Connect to the container of the Kafka broker
+// NOTE: Asciidoc would try to substitute curly braces
+//       Remove the spaces between curly braces
+$ docker ps --format "{ { .Names } }"
+kafka-docker_zookeeper_1
+kafka-docker_kafka_1
+
+$ docker exec -it kafka-docker_kafka_1 /bin/bash
+
+// Inside the container
+// You should see no topics listed
+bash-4.4# kafka-topics.sh --list --bootstrap-server :9092
+
+// Let's create a topic t1
+bash-4.4# kafkatopics.sh --create --topic t1 --partitions 3 --replication-factor 1 --bootstrap-server :9092
+
+// List the topics
+// t1 should already be created
+bash-4.4# kafka-topics.sh --list --bootstrap-server :9092
+t1
+
+// Connect with the Kafka console producer in one terminal
+bash-4.4# kafka-console-producer.sh --broker-list :9092 --topic t1
+>
+
+// Connect with the Kafka console consumer in another terminal
+bash-4.4# kafka-console-consumer.sh --bootstrap-server :9092 --topic t1
+
+// Type a message in producer window to see the message printed out in consumer's
+// Observe the logs of the running docker-compose up (with no -d)
+// Or use docker logs -f kafka-docker_kafka_1
+----

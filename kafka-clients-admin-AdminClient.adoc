@@ -1,6 +1,6 @@
 == [[AdminClient]] AdminClient
 
-`AdminClient` is...FIXME
+`AdminClient` is the base of administrative clients for Apache Kafka that supports managing and inspecting topics, brokers, configurations and ACLs.
 
 === [[create]] Creating AdminClient Instance -- `create` Object Method
 
