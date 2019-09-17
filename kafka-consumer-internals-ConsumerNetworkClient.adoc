@@ -2,7 +2,7 @@
 
 `ConsumerNetworkClient` is a high-level Kafka consumer that...FIXME
 
-`ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-consumer-KafkaConsumer.adoc#client[KafkaConsumer] and link:kafka-AdminClient.adoc[AdminClient].
+`ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-consumer-KafkaConsumer.adoc#client[KafkaConsumer] and link:kafka-clients-admin-AdminClient.adoc[AdminClient].
 
 [[internal-registries]]
 .ConsumerNetworkClient's Internal Properties (e.g. Registries and Counters)

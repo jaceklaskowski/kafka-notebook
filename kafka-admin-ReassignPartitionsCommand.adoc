@@ -248,7 +248,7 @@ NOTE: `existingAssignment` is used when...FIXME
 `ReassignPartitionsCommand` takes the following when created:
 
 * [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
-* [[adminClientOpt]] Optional <<kafka-AdminClient.adoc#, AdminClient>>
+* [[adminClientOpt]] Optional <<kafka-clients-admin-AdminClient.adoc#, AdminClient>>
 * [[proposedPartitionAssignment]] Proposed partition assignment (`Map[TopicPartition, Seq[Int]]`)
 * [[proposedReplicaAssignment]] Proposed replica assignment (`Map[TopicPartitionReplica, String]`)
 * [[adminZkClient]] <<kafka-zk-AdminZkClient.adoc#, AdminZkClient>>

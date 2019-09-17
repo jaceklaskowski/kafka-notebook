@@ -191,7 +191,7 @@
 ... link:kafka-ConsumerGroupService.adoc[ConsumerGroupService]
 
 . link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
-.. link:kafka-AdminClient.adoc[AdminClient]
+.. link:kafka-clients-admin-AdminClient.adoc[AdminClient]
 .. link:kafka-clients-admin-internals-AdminMetadataManager.adoc[AdminMetadataManager]
 .. link:kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc[AdminClientRunnable]
 

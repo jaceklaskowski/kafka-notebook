@@ -1,6 +1,6 @@
 == [[KafkaAdminClient]] KafkaAdminClient
 
-`KafkaAdminClient` is a link:kafka-AdminClient.adoc[AdminClient] that...FIXME
+`KafkaAdminClient` is a link:kafka-clients-admin-AdminClient.adoc[AdminClient] that...FIXME
 
 `KafkaAdminClient` is <<creating-instance, created>> when...FIXME
 
@@ -61,7 +61,7 @@ Map<ConfigResource, KafkaFutureImpl<Void>> alterConfigs(
   NodeProvider nodeProvider)
 ----
 
-NOTE: `alterConfigs` is part of the <<kafka-AdminClient.adoc#alterConfigs, AdminClient Contract>> to...FIXME.
+NOTE: `alterConfigs` is part of the <<kafka-clients-admin-AdminClient.adoc#alterConfigs, AdminClient Contract>> to...FIXME.
 
 `alterConfigs`...FIXME
 
@@ -72,7 +72,7 @@ NOTE: `alterConfigs` is part of the <<kafka-AdminClient.adoc#alterConfigs, Admin
 DescribeClusterResult describeCluster(DescribeClusterOptions options)
 ----
 
-NOTE: `describeCluster` is part of the <<kafka-AdminClient.adoc#describeCluster, AdminClient Contract>> to...FIXME.
+NOTE: `describeCluster` is part of the <<kafka-clients-admin-AdminClient.adoc#describeCluster, AdminClient Contract>> to...FIXME.
 
 `describeCluster`...FIXME
 
@@ -85,7 +85,7 @@ DeleteRecordsResult deleteRecords(
   final DeleteRecordsOptions options)
 ----
 
-NOTE: `deleteRecords` is part of the <<kafka-AdminClient.adoc#deleteRecords, AdminClient Contract>> to...FIXME.
+NOTE: `deleteRecords` is part of the <<kafka-clients-admin-AdminClient.adoc#deleteRecords, AdminClient Contract>> to...FIXME.
 
 `deleteRecords`...FIXME
 
@@ -96,7 +96,7 @@ NOTE: `deleteRecords` is part of the <<kafka-AdminClient.adoc#deleteRecords, Adm
 ListConsumerGroupsResult listConsumerGroups(ListConsumerGroupsOptions options)
 ----
 
-NOTE: `listConsumerGroups` is part of the <<kafka-AdminClient.adoc#listConsumerGroups, AdminClient Contract>> to...FIXME.
+NOTE: `listConsumerGroups` is part of the <<kafka-clients-admin-AdminClient.adoc#listConsumerGroups, AdminClient Contract>> to...FIXME.
 
 `listConsumerGroups`...FIXME
 
@@ -108,7 +108,7 @@ ListTopicsResult listTopics(
   ListTopicsOptions options)
 ----
 
-NOTE: `listTopics` is part of the <<kafka-AdminClient.adoc#listTopics, AdminClient Contract>> to...FIXME.
+NOTE: `listTopics` is part of the <<kafka-clients-admin-AdminClient.adoc#listTopics, AdminClient Contract>> to...FIXME.
 
 `listTopics`...FIXME
 
@@ -121,7 +121,7 @@ DescribeConsumerGroupsResult describeConsumerGroups(
   final DescribeConsumerGroupsOptions options)
 ----
 
-NOTE: `describeConsumerGroups` is part of the <<kafka-AdminClient.adoc#describeConsumerGroups, AdminClient Contract>> to...FIXME.
+NOTE: `describeConsumerGroups` is part of the <<kafka-clients-admin-AdminClient.adoc#describeConsumerGroups, AdminClient Contract>> to...FIXME.
 
 `describeConsumerGroups`...FIXME
 
@@ -134,7 +134,7 @@ ListConsumerGroupOffsetsResult listConsumerGroupOffsets(
   final ListConsumerGroupOffsetsOptions options)
 ----
 
-NOTE: `listConsumerGroupOffsets` is part of the <<kafka-AdminClient.adoc#listConsumerGroupOffsets, AdminClient Contract>> to...FIXME.
+NOTE: `listConsumerGroupOffsets` is part of the <<kafka-clients-admin-AdminClient.adoc#listConsumerGroupOffsets, AdminClient Contract>> to...FIXME.
 
 `listConsumerGroupOffsets`...FIXME
 
@@ -147,7 +147,7 @@ DeleteConsumerGroupsResult deleteConsumerGroups(
   DeleteConsumerGroupsOptions options)
 ----
 
-NOTE: `deleteConsumerGroups` is part of the <<kafka-AdminClient.adoc#deleteConsumerGroups, AdminClient Contract>> to...FIXME.
+NOTE: `deleteConsumerGroups` is part of the <<kafka-clients-admin-AdminClient.adoc#deleteConsumerGroups, AdminClient Contract>> to...FIXME.
 
 `deleteConsumerGroups`...FIXME
 
@@ -160,7 +160,7 @@ CreateTopicsResult createTopics(
   final CreateTopicsOptions options)
 ----
 
-NOTE: `createTopics` is part of the <<kafka-AdminClient.adoc#createTopics, AdminClient Contract>> to...FIXME.
+NOTE: `createTopics` is part of the <<kafka-clients-admin-AdminClient.adoc#createTopics, AdminClient Contract>> to...FIXME.
 
 `createTopics`...FIXME
 
@@ -173,7 +173,7 @@ DeleteTopicsResult deleteTopics(
   DeleteTopicsOptions options)
 ----
 
-NOTE: `deleteTopics` is part of the <<kafka-AdminClient.adoc#deleteTopics, AdminClient Contract>> to...FIXME.
+NOTE: `deleteTopics` is part of the <<kafka-clients-admin-AdminClient.adoc#deleteTopics, AdminClient Contract>> to...FIXME.
 
 `deleteTopics`...FIXME
 
@@ -186,6 +186,6 @@ CreatePartitionsResult createPartitions(
   final CreatePartitionsOptions options)
 ----
 
-NOTE: `createPartitions` is part of the <<kafka-AdminClient.adoc#createPartitions, AdminClient Contract>> to...FIXME.
+NOTE: `createPartitions` is part of the <<kafka-clients-admin-AdminClient.adoc#createPartitions, AdminClient Contract>> to...FIXME.
 
 `createPartitions`...FIXME

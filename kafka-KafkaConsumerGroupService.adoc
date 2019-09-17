@@ -7,7 +7,7 @@
 `KafkaConsumerGroupService` is used by link:kafka-ConsumerGroupCommand.adoc#main[ConsumerGroupCommand] for consumer groups that use the new Java consumer API (and hence do not use Zookeeper to store information).
 
 [[adminClient]]
-`KafkaConsumerGroupService` uses link:kafka-AdminClient.adoc[AdminClient] for the actions.
+`KafkaConsumerGroupService` uses link:kafka-clients-admin-AdminClient.adoc[AdminClient] for the actions.
 
 === [[listGroups]] Listing All Consumer Groups -- `listGroups` Method
 
@@ -18,7 +18,7 @@ listGroups(): List[String]
 
 NOTE: `listGroups` is a part of link:kafka-ConsumerGroupService.adoc#listGroups[ConsumerGroupService Contract].
 
-`listGroups` requests <<adminClient, AdminClient>> for link:kafka-AdminClient.adoc#listAllConsumerGroupsFlattened[all consumer groups] and takes their group ids.
+`listGroups` requests <<adminClient, AdminClient>> for link:kafka-clients-admin-AdminClient.adoc#listAllConsumerGroupsFlattened[all consumer groups] and takes their group ids.
 
 NOTE: `listGroups` is used exclusively when `ConsumerGroupCommand` is requested for link:kafka-ConsumerGroupCommand.adoc#list[all consumer groups] using `--list` option.
 

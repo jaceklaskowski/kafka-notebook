@@ -2,7 +2,7 @@
 
 `kafka.admin.PreferredReplicaLeaderElectionCommand` is a <<main, standalone application>> to trigger <<electPreferredLeaders, preferred replica leader election>> (given the <<options, options>>).
 
-`PreferredReplicaLeaderElectionCommand` uses <<kafka-AdminClient.adoc#, AdminClient>> internally and is simply a command-line front-end to <<kafka-AdminClient.adoc#electPreferredLeaders, AdminClient.electPreferredLeaders>>.
+`PreferredReplicaLeaderElectionCommand` uses <<kafka-clients-admin-AdminClient.adoc#, AdminClient>> internally and is simply a command-line front-end to <<kafka-clients-admin-AdminClient.adoc#electPreferredLeaders, AdminClient.electPreferredLeaders>>.
 
 `PreferredReplicaLeaderElectionCommand` is usually executed on command line using <<kafka-tools-kafka-preferred-replica-election.adoc#, kafka-preferred-replica-election.sh>> shell script (that simply uses `kafka-run-class` shell script to launch the command).
 
@@ -97,7 +97,7 @@ electPreferredLeaders(
 Calling AdminClient.electPreferredLeaders([partitions])
 ```
 
-`electPreferredLeaders` creates a new <<kafka-AdminClient.adoc#create, AdminClient>> and requests to <<kafka-AdminClient.adoc#electPreferredLeaders, electPreferredLeaders>>.
+`electPreferredLeaders` creates a new <<kafka-clients-admin-AdminClient.adoc#create, AdminClient>> and requests to <<kafka-clients-admin-AdminClient.adoc#electPreferredLeaders, electPreferredLeaders>>.
 
 NOTE: `electPreferredLeaders` is used exclusively when `PreferredReplicaLeaderElectionCommand` is requested to <<run, run>>.
 
@@ -108,7 +108,7 @@ NOTE: `electPreferredLeaders` is used exclusively when `PreferredReplicaLeaderEl
 close(): Unit
 ----
 
-`close` prints out the following DEBUG message to the logs and requests the `AdminClient` to <<kafka-AdminClient.adoc#close, close>>.
+`close` prints out the following DEBUG message to the logs and requests the `AdminClient` to <<kafka-clients-admin-AdminClient.adoc#close, close>>.
 
 ```
 Closing AdminClient
