@@ -24,7 +24,7 @@ JMX_PORT=9999 ./bin/kafka-server-start.sh config/server.properties
 ```
 ====
 
-When executed with no <<options, options>>, it is equivalent to <<help, --help>>.
+When executed with no <<options, options>>, `JmxTool` assumes <<help, --help>>.
 
 [[options]]
 .Options
@@ -107,7 +107,7 @@ a| [[wait]] Wait for requested JMX objects to become available before starting o
 main(args: Array[String]): Unit
 ----
 
-`main` is the entry point of the <<JmxTool, JmxTool>> standalone application when launched on command line (e.g. from `bin/kafka-configs.sh`).
+`main` is the entry point of the `JmxTool` standalone application when launched on command line (e.g. from `bin/kafka-configs.sh`).
 
 Internally, `main` reads the <<options, options>> from the command line.
 

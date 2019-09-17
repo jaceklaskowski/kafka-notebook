@@ -1,214 +1,38 @@
 == [[AdminClient]] AdminClient
 
-`AdminClient`...FIXME
+`AdminClient` is...FIXME
 
-`AdminClient` uses the <<networkThread, admin-client-network-thread>> to poll continuously (using <<client, ConsumerNetworkClient>>).
+=== [[create]] Creating AdminClient Instance -- `create` Object Method
 
-[[internal-registries]]
-.ConsumerNetworkClient's Internal Properties (e.g. Registries and Counters)
-[cols="1,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| [[networkThread]] `networkThread`
-| *admin-client-network-thread*
-|===
-
-[[logging]]
-[TIP]
-====
-Enable `ALL` logging level for `kafka.admin.AdminClient` logger to see what happens inside.
-
-Add the following line to `config/tools-log4j.properties`:
-
-```
-log4j.logger.kafka.admin.AdminClient=ALL
-```
-
-Refer to link:kafka-logging.adoc[Logging].
-====
-
-=== [[create]] Creating AdminClient -- `create` Method
-
-[source, scala]
+[source, java]
 ----
-create(config: AdminConfig): AdminClient
+AdminClient create(Properties props)
+AdminClient create(Map<String, Object> conf)
 ----
 
 `create`...FIXME
 
 NOTE: `create` is used when...FIXME
 
-=== [[send]] Sending Request (Using ConsumerNetworkClient) -- `send` Internal Method
+=== [[electPreferredLeaders]] `electPreferredLeaders` Method
 
-[source, scala]
+[source, java]
 ----
-send(
-  target: Node,
-  api: ApiKeys,
-  request: AbstractRequest.Builder[_ <: AbstractRequest]): AbstractResponse
+ElectPreferredLeadersResult electPreferredLeaders(
+  Collection<TopicPartition> partitions)
 ----
 
-`send` requests <<client, ConsumerNetworkClient>> to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#send[send] the input `request` to the `target`.
+`electPreferredLeaders`...FIXME
 
-.AdminClient Sends Requests Using ConsumerNetworkClient
-image::images/AdminClient-send.png[align="center"]
+NOTE: `electPreferredLeaders` is used when...FIXME
 
-`send` records the future result in <<pendingFutures, pendingFutures>> registry.
+=== [[close]] `close` Method
 
-`send` waits until the future result has come after which it is removed from <<pendingFutures, pendingFutures>> registry.
-
-CAUTION: FIXME Why is the future result registed in `pendingFutures`?
-
-When the future result has completed, `send` takes the response body for a successful result or reports a `RuntimeException`.
-
-NOTE: `send` is used when `AdminClient` does <<sendAnyNode, sendAnyNode>>, <<listGroups, listGroups>>, <<getApiVersions, getApiVersions>>, <<listGroupOffsets, listGroupOffsets>> and <<describeConsumerGroupHandler, describeConsumerGroupHandler>>.
-
-=== [[findAllBrokers]] `findAllBrokers` Method
-
-[source, scala]
+[source, java]
 ----
-findAllBrokers(): List[Node]
+void close()
 ----
 
-`findAllBrokers` creates a `Metadata` API request and <<sendAnyNode, sends it to one of the bootstrap brokers>>.
+`close`...FIXME
 
-`findAllBrokers` returns the nodes from the link:kafka-common-requests-MetadataResponse.adoc#cluster[cluster metadata] of the `MetadataResponse`.
-
-NOTE: `findAllBrokers` is used when `AdminClient` does <<awaitBrokers, awaitBrokers>>, <<listAllGroups, lists all groups per broker>> and <<listAllBrokerVersionInfo, listAllBrokerVersionInfo>>.
-
-=== [[sendAnyNode]] Sending API Request to Bootstrap Broker -- `sendAnyNode` Internal Method
-
-[source, scala]
-----
-sendAnyNode(api: ApiKeys, request: AbstractRequest.Builder[_ <: AbstractRequest]): AbstractResponse
-----
-
-`sendAnyNode` walks over <<bootstrapBrokers, bootstrapBrokers>> and <<send, sends>> the input `request`.
-
-`sendAnyNode` exits in case of `AuthenticationException`.
-
-In case of any other `Exceptions` (but `AuthenticationException`) `sendAnyNode` prints DEBUG message to the logs and tries the remaining brokers.
-
-```
-Request [api] failed against node [broker]
-```
-
-When no brokers succeeded, `sendAnyNode` reports a `RuntimeException` with the following message:
-
-```
-Request [api] failed on brokers [bootstrapBrokers]
-```
-
-NOTE: `sendAnyNode` is used when `AdminClient` is requested to <<findCoordinator, find the coordinator>>, <<findAllBrokers, finds all brokers>> and <<deleteRecordsBefore, deleteRecordsBefore>>.
-
-=== [[findCoordinator]] `findCoordinator` Method
-
-[source, scala]
-----
-FIXME
-----
-
-`findCoordinator`...FIXME
-
-NOTE: `findCoordinator` is used when `KafkaConsumerGroupService`...FIXME
-
-=== [[deleteRecordsBefore]] `deleteRecordsBefore` Method
-
-[source, scala]
-----
-FIXME
-----
-
-`deleteRecordsBefore`...FIXME
-
-NOTE: `deleteRecordsBefore` is used when `KafkaConsumerGroupService`...FIXME
-
-=== [[listGroups]] `listGroups` Method
-
-[source, scala]
-----
-FIXME
-----
-
-`listGroups`...FIXME
-
-NOTE: `listGroups` is used when `KafkaConsumerGroupService`...FIXME
-
-=== [[listAllBrokerVersionInfo]] `listAllBrokerVersionInfo` Method
-
-[source, scala]
-----
-FIXME
-----
-
-`listAllBrokerVersionInfo`...FIXME
-
-NOTE: `listAllBrokerVersionInfo` is used when `KafkaConsumerGroupService`...FIXME
-
-=== [[awaitBrokers]] `awaitBrokers` Method
-
-[source, scala]
-----
-FIXME
-----
-
-`awaitBrokers`...FIXME
-
-NOTE: `awaitBrokers` is used when `KafkaConsumerGroupService`...FIXME
-
-=== [[listAllConsumerGroups]] `listAllConsumerGroups` Method
-
-[source, scala]
-----
-FIXME
-----
-
-`listAllConsumerGroups`...FIXME
-
-NOTE: `listAllConsumerGroups` is used when `KafkaConsumerGroupService`...FIXME
-
-=== [[listAllGroups]] Listing All Groups per Broker -- `listAllGroups` Method
-
-[source, scala]
-----
-listAllGroups(): Map[Node, List[GroupOverview]]
-----
-
-`listAllGroups` <<findAllBrokers, finds all brokers>> (in a cluster) and collects <<listGroups, their groups>>.
-
-NOTE: `listAllGroups` is used when `AdminClient` does <<listAllConsumerGroups, listAllConsumerGroups>> and <<listAllGroupsFlattened, listAllGroupsFlattened>>.
-
-=== [[listAllGroupsFlattened]] `listAllGroupsFlattened` Method
-
-[source, scala]
-----
-listAllGroupsFlattened(): List[GroupOverview]
-----
-
-`listAllGroupsFlattened` simply <<listAllGroups, takes all groups>> (across all brokers in a cluster).
-
-NOTE: `listAllGroupsFlattened` is used excusively when `AdminClient` <<listAllConsumerGroupsFlattened, lists all consumer groups>>.
-
-=== [[listAllConsumerGroupsFlattened]] Listing All Consumer Groups -- `listAllConsumerGroupsFlattened` Method
-
-[source, scala]
-----
-listAllConsumerGroupsFlattened(): List[GroupOverview]
-----
-
-`listAllConsumerGroupsFlattened` takes <<listAllGroupsFlattened, all groups>> with `consumer` protocol type.
-
-NOTE: `listAllConsumerGroupsFlattened` is used exclusively when `KafkaConsumerGroupService` is requested for link:kafka-KafkaConsumerGroupService.adoc#listGroups[all consumer groups].
-
-=== [[listGroupOffsets]] `listGroupOffsets` Method
-
-[source, scala]
-----
-FIXME
-----
-
-`listGroupOffsets`...FIXME
-
-NOTE: `listGroupOffsets` is used when `KafkaConsumerGroupService`...FIXME
+NOTE: `close` is used when...FIXME

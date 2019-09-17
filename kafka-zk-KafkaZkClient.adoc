@@ -622,3 +622,15 @@ updateLeaderAndIsr(
 `updateLeaderAndIsr`...FIXME
 
 NOTE: `updateLeaderAndIsr` is used when...FIXME
+
+=== [[getPartitionsForTopics]] Partition Numbers of Given Topics -- `getPartitionsForTopics` Method
+
+[source, scala]
+----
+getPartitionsForTopics(
+  topics: Set[String]): Map[String, Seq[Int]]
+----
+
+`getPartitionsForTopics`...FIXME
+
+NOTE: `getPartitionsForTopics` is used when...FIXME
