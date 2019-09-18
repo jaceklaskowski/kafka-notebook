@@ -6,7 +6,7 @@ Kafka tools includes the following administration tools:
 
 * <<kafka-admin-ConfigCommand.adoc#, ConfigCommand>>
 
-* <<kafka-ConsumerGroupCommand.adoc#, ConsumerGroupCommand>>
+* <<kafka-admin-ConsumerGroupCommand.adoc#, ConsumerGroupCommand>>
 
 * `DelegationTokenCommand`
 
@@ -16,7 +16,7 @@ Kafka tools includes the following administration tools:
 
 * `LogDirsCommand`
 
-* <<kafka-tools-PreferredReplicaLeaderElectionCommand.adoc#, PreferredReplicaLeaderElectionCommand>>
+* <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#, PreferredReplicaLeaderElectionCommand>>
 
 * <<kafka-admin-ReassignPartitionsCommand.adoc#, ReassignPartitionsCommand>>
 

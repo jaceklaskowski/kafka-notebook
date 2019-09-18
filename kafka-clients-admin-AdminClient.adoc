@@ -3,7 +3,7 @@
 `AdminClient` is the <<contract, base>> of <<extensions, administrative clients>> for Apache Kafka with support for managing and inspecting topics, brokers, configurations and ACLs.
 
 [[implementations]]
-NOTE: <<kafka-KafkaAdminClient.adoc#, KafkaAdminClient>> is the default and only known implementation of the <<contract, AdminClient Contract>> in Apache Kafka.
+NOTE: <<kafka-clients-admin-KafkaAdminClient.adoc#, KafkaAdminClient>> is the default and only known implementation of the <<contract, AdminClient Contract>> in Apache Kafka.
 
 [[contract]]
 .AdminClient Contract (Abstract Methods Only)
@@ -237,7 +237,7 @@ ElectPreferredLeadersResult electPreferredLeaders(
 ----
 <1> Uses the default `ElectPreferredLeadersOptions`
 
-Used when `PreferredReplicaLeaderElectionCommand` utility is requested to <<kafka-tools-PreferredReplicaLeaderElectionCommand.adoc#electPreferredLeaders, electPreferredLeaders>>
+Used when `PreferredReplicaLeaderElectionCommand` utility is requested to <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#electPreferredLeaders, electPreferredLeaders>>
 
 | expireDelegationToken
 a| [[expireDelegationToken]]
@@ -330,6 +330,6 @@ AdminClient create(Properties props)
 AdminClient create(Map<String, Object> conf)
 ----
 
-`create` simply requests the `KafkaAdminClient` object to <<kafka-KafkaAdminClient.adoc#createInternal, create a KafkaAdminClient>>.
+`create` simply requests the `KafkaAdminClient` object to <<kafka-clients-admin-KafkaAdminClient.adoc#createInternal, create a KafkaAdminClient>>.
 
 NOTE: `create` is used in <<kafka-tools.adoc#, Kafka administration utilities>>.

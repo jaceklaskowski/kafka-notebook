@@ -11,4 +11,4 @@ void clearController()
 
 `clearController`...FIXME
 
-NOTE: `clearController` is used when `KafkaAdminClient` is requested to <<kafka-KafkaAdminClient.adoc#createTopics, createTopics>>, <<kafka-KafkaAdminClient.adoc#deleteTopics, deleteTopics>>, and <<kafka-KafkaAdminClient.adoc#createPartitions, createPartitions>> (and `Errors.NOT_CONTROLLER` error is received).
+NOTE: `clearController` is used when `KafkaAdminClient` is requested to <<kafka-clients-admin-KafkaAdminClient.adoc#createTopics, createTopics>>, <<kafka-clients-admin-KafkaAdminClient.adoc#deleteTopics, deleteTopics>>, and <<kafka-clients-admin-KafkaAdminClient.adoc#createPartitions, createPartitions>> (and `Errors.NOT_CONTROLLER` error is received).

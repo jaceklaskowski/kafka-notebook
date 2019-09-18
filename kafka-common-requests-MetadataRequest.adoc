@@ -52,7 +52,7 @@ Builder allTopics()
 
 * `Metadata` is requested to <<kafka-clients-Metadata.adoc#newMetadataRequestBuilder, newMetadataRequestBuilder>>
 
-* `KafkaAdminClient` is requested to <<kafka-KafkaAdminClient.adoc#listTopics, listTopics>> and <<kafka-KafkaAdminClient.adoc#describeTopics, describeTopics>>
+* `KafkaAdminClient` is requested to <<kafka-clients-admin-KafkaAdminClient.adoc#listTopics, listTopics>> and <<kafka-clients-admin-KafkaAdminClient.adoc#describeTopics, describeTopics>>
 
 * `ConsumerMetadata` is requested to `newMetadataRequestBuilder`
 

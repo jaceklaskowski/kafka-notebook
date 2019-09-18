@@ -8,24 +8,22 @@
 . link:kafka-tools.adoc[Kafka Tools]
 . link:kafka-tools-kafka-configs.adoc[kafka-configs.sh]
 . link:kafka-tools-kafka-topics.adoc[kafka-topics.sh]
+
 . link:kafka-tools-kafka-preferred-replica-election.adoc[kafka-preferred-replica-election.sh]
+.. link:kafka-admin-PreferredReplicaLeaderElectionCommand.adoc[PreferredReplicaLeaderElectionCommand]
+
+. link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
+.. link:kafka-admin-ConsumerGroupCommand.adoc[ConsumerGroupCommand]
+.. link:kafka-admin-ConsumerGroupService.adoc[ConsumerGroupService]
 
 . link:kafka-tools-JmxTool.adoc[JmxTool]
 . link:kafka-tools-GetOffsetShell.adoc[GetOffsetShell]
-. link:kafka-tools-PreferredReplicaLeaderElectionCommand.adoc[PreferredReplicaLeaderElectionCommand]
-
-=== Kafka Operations and Administration
 
 . link:kafka-admin-ConfigCommand.adoc[ConfigCommand]
 . link:kafka-admin-ReassignPartitionsCommand.adoc[ReassignPartitionsCommand -- Partition Reassignment on Command Line]
 . link:kafka-admin-TopicCommand.adoc[TopicCommand -- Topic Management on Command Line]
 
-. link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
-.. link:kafka-ConsumerGroupCommand.adoc[ConsumerGroupCommand]
-.. link:kafka-KafkaConsumerGroupService.adoc[KafkaConsumerGroupService]
-... link:kafka-ConsumerGroupService.adoc[ConsumerGroupService]
-
-. link:kafka-KafkaAdminClient.adoc[KafkaAdminClient]
+. link:kafka-clients-admin-KafkaAdminClient.adoc[KafkaAdminClient]
 .. link:kafka-clients-admin-AdminClient.adoc[AdminClient]
 .. link:kafka-clients-admin-internals-AdminMetadataManager.adoc[AdminMetadataManager]
 .. link:kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc[AdminClientRunnable]

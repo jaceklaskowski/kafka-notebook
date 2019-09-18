@@ -1,6 +1,6 @@
 == [[kafka-preferred-replica-election]] kafka-preferred-replica-election.sh Shell Script
 
-`kafka-preferred-replica-election.sh` is a shell script to launch <<kafka-tools-PreferredReplicaLeaderElectionCommand.adoc#, kafka.admin.PreferredReplicaLeaderElectionCommand>> standalone application.
+`kafka-preferred-replica-election.sh` is a shell script to launch <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#, kafka.admin.PreferredReplicaLeaderElectionCommand>> standalone application.
 
 When executed with no <<options, options>>, `kafka-preferred-replica-election.sh` assumes <<help, --help>>.
 

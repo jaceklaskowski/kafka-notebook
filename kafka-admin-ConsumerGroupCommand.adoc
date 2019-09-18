@@ -25,7 +25,7 @@ main(args: Array[String]): Unit
 
 `main` parses and checks the command-line arguments (using `ConsumerGroupCommandOptions`).
 
-`main` creates a link:kafka-KafkaConsumerGroupService.adoc#creating-instance[KafkaConsumerGroupService].
+`main`...FIXME
 
 NOTE: `main` creates the old `ZkConsumerGroupService` when `--zookeeper` option for the old client API is used.
 
@@ -39,4 +39,4 @@ CAUTION: FIXME
 
 ==== [[list]] list Option
 
-`main` simply link:kafka-KafkaConsumerGroupService.adoc#listGroups[request groups] from the consumer group service (e.g. `KafkaConsumerGroupService` for the new consumer API) and prints them out to the console.
+`main` simply...FIXME
