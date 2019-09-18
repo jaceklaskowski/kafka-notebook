@@ -1,6 +1,6 @@
 == [[PreferredReplicaLeaderElectionCommand]] PreferredReplicaLeaderElectionCommand Standalone Application
 
-`kafka.admin.PreferredReplicaLeaderElectionCommand` is a <<main, standalone application>> to trigger <<electPreferredLeaders, preferred replica leader election>> (given the <<options, options>>).
+`kafka.admin.PreferredReplicaLeaderElectionCommand` is a <<main, standalone application>> to trigger <<electPreferredLeaders, preferred replica leader election>> for all or <<path-to-json-file, some partitions>>.
 
 `PreferredReplicaLeaderElectionCommand` uses <<kafka-clients-admin-AdminClient.adoc#, AdminClient>> internally and is simply a command-line front-end to <<kafka-clients-admin-AdminClient.adoc#electPreferredLeaders, AdminClient.electPreferredLeaders>>.
 

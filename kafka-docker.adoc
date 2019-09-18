@@ -19,9 +19,9 @@ https://hub.docker.com/r/wurstmeister/kafka/[wurstmeister/kafka] gives separate 
 
 === [[wurstmeister-kafka]] wurstmeister/kafka
 
-With the separate images for Apache Zookeeper and Apache Kafka in `wurstmeister/kafka` project and a `docker-compose.yml` configuration for Docker Compose that is a very good starting point as well as allows for further customizations.
+With the separate images for Apache Zookeeper and Apache Kafka in `wurstmeister/kafka` project and a `docker-compose.yml` configuration for Docker Compose that is a very good starting point that allows for further customizations.
 
-TIP: Read the http://wurstmeister.github.io/kafka-docker/[official tutorial] on how to use `wurstmeister/kafka` project.
+TIP: Read the https://github.com/wurstmeister/kafka-docker#kafka-docker[official tutorial] on how to use `wurstmeister/kafka` project.
 
 Let's start a very basic one-broker Kafka cluster using Docker and `wurstmeister/kafka` project.
 
@@ -38,22 +38,9 @@ $ cd kafka-docker
 // DOCKERHOST=$(ifconfig | grep -E "([0-9]{1,3}\.){3}[0-9]{1,3}" | grep -v 127.0.0.1 | awk '{ print $2 }' | cut -f2 -d: | head -n1)
 // https://github.com/wurstmeister/kafka-docker/issues/17#issuecomment-370237590
 
-// Start services from `docker-compose.yml`
+// Start services based on the default `docker-compose.yml`
 // You may want to use -d to detach from the terminal (daemon mode)
 $ docker-compose up
-
-// Check the connection from the host to the single Kafka broker
-$ nc -vz localhost 9092
-found 0 associations
-found 1 connections:
-     1:	flags=82<CONNECTED,PREFERRED>
-	outif lo0
-	src ::1 port 60643
-	dst ::1 port 9092
-	rank info not available
-	TCP aux info available
-
-Connection to localhost port 9092 [tcp/XmlIpcRegSvc] succeeded!
 
 // Connect to the container of the Kafka broker
 // NOTE: Asciidoc would try to substitute curly braces
@@ -62,28 +49,71 @@ $ docker ps --format "{ { .Names } }"
 kafka-docker_zookeeper_1
 kafka-docker_kafka_1
 
-$ docker exec -it kafka-docker_kafka_1 /bin/bash
+// NOTE: Asciidoc would try to substitute curly braces
+//       Remove the spaces between curly braces
+$ docker inspect --format='{ {range $k, $v := .NetworkSettings.Ports} }{ {range $v} }{ {$k} } -> { {.HostIp} } { {.HostPort} }{ {end} }{ {end} }' kafka-docker_kafka_1
+9092/tcp -> 0.0.0.0 32778
 
-// Inside the container
+// Check the connection from the host to the single Kafka broker
+$ nc -vz 0.0.0.0 32778
+found 0 associations
+found 1 connections:
+     1:	flags=82<CONNECTED,PREFERRED>
+	outif lo0
+	src 127.0.0.1 port 59000
+	dst 127.0.0.1 port 32778
+	rank info not available
+	TCP aux info available
+
+Connection to 0.0.0.0 port 32778 [tcp/*] succeeded!
+
+// Print out the topics
 // You should see no topics listed
-bash-4.4# kafka-topics.sh --list --bootstrap-server :9092
+$ docker exec -t kafka-docker_kafka_1 \
+  kafka-topics.sh \
+    --bootstrap-server :9092 \
+    --list
 
-// Let's create a topic t1
-bash-4.4# kafkatopics.sh --create --topic t1 --partitions 3 --replication-factor 1 --bootstrap-server :9092
+// Create a topic t1
+$ docker exec -t kafka-docker_kafka_1 \
+  kafka-topics.sh \
+    --bootstrap-server :9092 \
+    --create \
+    --topic t1 \
+    --partitions 3 \
+    --replication-factor 1
 
-// List the topics
-// t1 should already be created
-bash-4.4# kafka-topics.sh --list --bootstrap-server :9092
-t1
-
-// Connect with the Kafka console producer in one terminal
-bash-4.4# kafka-console-producer.sh --broker-list :9092 --topic t1
->
+// Describe topic t1
+$ docker exec -t kafka-docker_kafka_1 \
+  kafka-topics.sh \
+    --bootstrap-server :9092 \
+    --describe \
+    --topic t1
+Topic:t1	PartitionCount:3	ReplicationFactor:1	Configs:segment.bytes=1073741824
+	Topic: t1	Partition: 0	Leader: 1001	Replicas: 1001	Isr: 1001
+	Topic: t1	Partition: 1	Leader: 1001	Replicas: 1001	Isr: 1001
+	Topic: t1	Partition: 2	Leader: 1001	Replicas: 1001	Isr: 1001
 
 // Connect with the Kafka console consumer in another terminal
-bash-4.4# kafka-console-consumer.sh --bootstrap-server :9092 --topic t1
+$ docker exec -t kafka-docker_kafka_1 \
+  kafka-console-consumer.sh \
+    --bootstrap-server :9092 \
+    --group jacek-japila-pl \
+    --topic t1
+
+// Connect with the Kafka console producer in one terminal
+$ docker exec -it kafka-docker_kafka_1 \
+  kafka-console-producer.sh \
+    --broker-list :9092 \
+    --topic t1
 
 // Type a message in producer window to see the message printed out in consumer's
 // Observe the logs of the running docker-compose up (with no -d)
 // Or use docker logs -f kafka-docker_kafka_1
+
+// Ctrl-C to shut down all the processes
+
+// You may also consider removing the containers
+// so you always start afresh
+// docker-compose rm
 ----
