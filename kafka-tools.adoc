@@ -1,5 +1,31 @@
 == Kafka Tools
 
+Kafka tools includes the following administration tools:
+
+* `AclCommand`
+
+* <<kafka-admin-ConfigCommand.adoc#, ConfigCommand>>
+
+* <<kafka-ConsumerGroupCommand.adoc#, ConsumerGroupCommand>>
+
+* `DelegationTokenCommand`
+
+* `DeleteRecordsCommand`
+
+* `EndToEndLatency`
+
+* `LogDirsCommand`
+
+* <<kafka-tools-PreferredReplicaLeaderElectionCommand.adoc#, PreferredReplicaLeaderElectionCommand>>
+
+* <<kafka-admin-ReassignPartitionsCommand.adoc#, ReassignPartitionsCommand>>
+
+* `ReplicaVerificationTool`
+
+* `StreamsResetter`
+
+* <<kafka-admin-TopicCommand.adoc#, TopicCommand>>
+
 === [[ConsoleProducer]] `ConsoleProducer`
 
 `kafka.tools.ConsoleProducer`

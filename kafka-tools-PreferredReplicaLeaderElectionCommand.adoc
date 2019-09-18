@@ -6,6 +6,21 @@
 
 `PreferredReplicaLeaderElectionCommand` is usually executed on command line using <<kafka-tools-kafka-preferred-replica-election.adoc#, kafka-preferred-replica-election.sh>> shell script (that simply uses `kafka-run-class` shell script to launch the command).
 
+```
+$ cat parts.json
+{ "partitions":
+  [
+    { "topic": "t1", "partition": 0 },
+    { "topic": "t1", "partition": 1 }
+  ]
+}
+
+$ kafka-preferred-replica-election.sh \
+  --bootstrap-server :9092 \
+  --path-to-json-file parts.json
+Successfully completed preferred replica election for partitions t1-1, t1-0
+```
+
 [[options]]
 [[PreferredReplicaLeaderElectionCommandOptions]]
 .Options

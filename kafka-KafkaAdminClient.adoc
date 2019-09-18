@@ -1,8 +1,34 @@
 == [[KafkaAdminClient]] KafkaAdminClient
 
-`KafkaAdminClient` is a link:kafka-clients-admin-AdminClient.adoc[AdminClient] that...FIXME
+`KafkaAdminClient` is the default and only known <<kafka-clients-admin-AdminClient.adoc#, AdminClient>> that is used in <<kafka-tools.adoc#, Kafka administration utilities>>.
 
-`KafkaAdminClient` is <<creating-instance, created>> when...FIXME
+=== [[creating-instance]] Creating KafkaAdminClient Instance
+
+`KafkaAdminClient` takes the following to be created:
+
+* [[config]] `AdminClientConfig`
+* [[clientId]] Client ID
+* [[time]] `Time`
+* [[metadataManager]] <<kafka-clients-admin-internals-AdminMetadataManager.adoc#, AdminMetadataManager>>
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
+* [[client]] <<kafka-clients-KafkaClient.adoc#, KafkaClient>>
+* [[timeoutProcessorFactory]] `TimeoutProcessorFactory`
+* [[logContext]] `LogContext`
+
+`KafkaAdminClient` initializes the <<internal-properties, internal properties>>.
+
+=== [[createInternal]] Creating KafkaAdminClient Instance -- `createInternal` Factory Method
+
+[source, java]
+----
+KafkaAdminClient createInternal(
+  AdminClientConfig config,
+  TimeoutProcessorFactory timeoutProcessorFactory)
+----
+
+`createInternal`...FIXME
+
+NOTE: `createInternal` is used exclusively when `AdminClient` object is requested to <<kafka-clients-admin-AdminClient.adoc#create, create a AdminClient>>.
 
 === [[describeTopics]] `describeTopics` Method
 
@@ -23,28 +49,12 @@ NOTE: `describeTopics` is used when...FIXME
 ----
 AlterReplicaLogDirsResult alterReplicaLogDirs(
   Map<TopicPartitionReplica, String> replicaAssignment,
-  final AlterReplicaLogDirsOptions options)
+  AlterReplicaLogDirsOptions options)
 ----
 
 `alterReplicaLogDirs`...FIXME
 
 NOTE: `alterReplicaLogDirs` is used when...FIXME
-
-=== [[creating-instance]] Creating KafkaAdminClient Instance
-
-`KafkaAdminClient` takes the following when created:
-
-* [[config]] `AdminClientConfig`
-* [[clientId]] client ID
-* [[sanitizedClientId]] sanitized client ID
-* [[time]] `Time`
-* [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
-* [[metrics]] `Metrics`
-* [[client]] link:kafka-clients-KafkaClient.adoc[KafkaClient]
-* [[timeoutProcessorFactory]] `TimeoutProcessorFactory`
-* [[logContext]] `LogContext`
-
-`KafkaAdminClient` initializes the <<internal-registries, internal registries and counters>>.
 
 === [[alterConfigs]] `alterConfigs` Method
 
@@ -52,11 +62,11 @@ NOTE: `alterReplicaLogDirs` is used when...FIXME
 ----
 AlterConfigsResult alterConfigs(
   Map<ConfigResource, Config> configs,
-  final AlterConfigsOptions options)
+  AlterConfigsOptions options)
 // Private API
 Map<ConfigResource, KafkaFutureImpl<Void>> alterConfigs(
   Map<ConfigResource, Config> configs,
-  final AlterConfigsOptions options,
+  AlterConfigsOptions options,
   Collection<ConfigResource> resources,
   NodeProvider nodeProvider)
 ----
@@ -69,7 +79,8 @@ NOTE: `alterConfigs` is part of the <<kafka-clients-admin-AdminClient.adoc#alter
 
 [source, java]
 ----
-DescribeClusterResult describeCluster(DescribeClusterOptions options)
+DescribeClusterResult describeCluster(
+  DescribeClusterOptions options)
 ----
 
 NOTE: `describeCluster` is part of the <<kafka-clients-admin-AdminClient.adoc#describeCluster, AdminClient Contract>> to...FIXME.
@@ -81,8 +92,8 @@ NOTE: `describeCluster` is part of the <<kafka-clients-admin-AdminClient.adoc#de
 [source, java]
 ----
 DeleteRecordsResult deleteRecords(
-  final Map<TopicPartition, RecordsToDelete> recordsToDelete,
-  final DeleteRecordsOptions options)
+  Map<TopicPartition, RecordsToDelete> recordsToDelete,
+  DeleteRecordsOptions options)
 ----
 
 NOTE: `deleteRecords` is part of the <<kafka-clients-admin-AdminClient.adoc#deleteRecords, AdminClient Contract>> to...FIXME.
@@ -93,7 +104,8 @@ NOTE: `deleteRecords` is part of the <<kafka-clients-admin-AdminClient.adoc#dele
 
 [source, java]
 ----
-ListConsumerGroupsResult listConsumerGroups(ListConsumerGroupsOptions options)
+ListConsumerGroupsResult listConsumerGroups(
+  ListConsumerGroupsOptions options)
 ----
 
 NOTE: `listConsumerGroups` is part of the <<kafka-clients-admin-AdminClient.adoc#listConsumerGroups, AdminClient Contract>> to...FIXME.
@@ -117,8 +129,8 @@ NOTE: `listTopics` is part of the <<kafka-clients-admin-AdminClient.adoc#listTop
 [source, java]
 ----
 DescribeConsumerGroupsResult describeConsumerGroups(
-  final Collection<String> groupIds,
-  final DescribeConsumerGroupsOptions options)
+  Collection<String> groupIds,
+  DescribeConsumerGroupsOptions options)
 ----
 
 NOTE: `describeConsumerGroups` is part of the <<kafka-clients-admin-AdminClient.adoc#describeConsumerGroups, AdminClient Contract>> to...FIXME.
@@ -130,8 +142,8 @@ NOTE: `describeConsumerGroups` is part of the <<kafka-clients-admin-AdminClient.
 [source, java]
 ----
 ListConsumerGroupOffsetsResult listConsumerGroupOffsets(
-  final String groupId,
-  final ListConsumerGroupOffsetsOptions options)
+  String groupId,
+  ListConsumerGroupOffsetsOptions options)
 ----
 
 NOTE: `listConsumerGroupOffsets` is part of the <<kafka-clients-admin-AdminClient.adoc#listConsumerGroupOffsets, AdminClient Contract>> to...FIXME.
@@ -156,8 +168,8 @@ NOTE: `deleteConsumerGroups` is part of the <<kafka-clients-admin-AdminClient.ad
 [source, java]
 ----
 CreateTopicsResult createTopics(
-  final Collection<NewTopic> newTopics,
-  final CreateTopicsOptions options)
+  Collection<NewTopic> newTopics,
+  CreateTopicsOptions options)
 ----
 
 NOTE: `createTopics` is part of the <<kafka-clients-admin-AdminClient.adoc#createTopics, AdminClient Contract>> to...FIXME.
@@ -183,9 +195,23 @@ NOTE: `deleteTopics` is part of the <<kafka-clients-admin-AdminClient.adoc#delet
 ----
 CreatePartitionsResult createPartitions(
   Map<String, NewPartitions> newPartitions,
-  final CreatePartitionsOptions options)
+  CreatePartitionsOptions options)
 ----
 
 NOTE: `createPartitions` is part of the <<kafka-clients-admin-AdminClient.adoc#createPartitions, AdminClient Contract>> to...FIXME.
 
 `createPartitions`...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| thread
+a| [[thread]] Java's Thread
+
+Used when...FIXME
+
+|===
