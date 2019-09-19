@@ -34,6 +34,8 @@ Option                                   Description
 
 `kafka-acls.sh` <<kafka-admin-AclCommand.adoc#main, uses>> `AdminClientService` when <<kafka-admin-AclCommand.adoc#bootstrap-server, --bootstrap-server>> is used and `AuthorizerService` otherwise.
 
+=== [[list]] Listing ACLs
+
 ```
 // Use AuthorizerService / --authorizer-properties
 $ kafka-acls.sh --list --authorizer-properties zookeeper.connect=zookeeper:2181
@@ -57,4 +59,22 @@ java.util.concurrent.ExecutionException: org.apache.kafka.common.errors.Security
 	at kafka.admin.AclCommand$.main(AclCommand.scala:66)
 	at kafka.admin.AclCommand.main(AclCommand.scala)
 Caused by: org.apache.kafka.common.errors.SecurityDisabledException: No Authorizer is configured on the broker
+```
+
+=== [[add]] Adding ACLs
+
+```
+// authorize(request.session, Alter, Resource.ClusterResource)
+// The principal type is always User for the simple authorizer
+$ kafka-acls.sh \
+    --authorizer-properties zookeeper.connect=zookeeper:2181 \
+    --add \
+    --cluster \
+    --deny-principal User:ANONYMOUS
+
+$ kafka-acls.sh \
+    --authorizer-properties zookeeper.connect=zookeeper:2181 \
+    --list
+Current ACLs for resource `Cluster:LITERAL:kafka-cluster`:
+ 	User:ANONYMOUS has Deny permission for operations: All from hosts: *
 ```

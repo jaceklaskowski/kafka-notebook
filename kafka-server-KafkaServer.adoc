@@ -136,6 +136,17 @@ NOTE: The INFO message above uses so-called *log ident* with the value of `broke
 
 NOTE: `startup` is used exclusively when `KafkaServerStartable` is requested to <<kafka-KafkaServerStartable.adoc#startup, starts up>>.
 
+=== [[authorizer]] Authorizer
+
+[source, scala]
+----
+authorizer: Option[Authorizer] = None
+----
+
+`KafkaServer` can be configured to use a <<kafka-Authorizer.adoc#, Authorizer>> based on <<kafka-properties.adoc#authorizer.class.name, authorizer.class.name>> configuration property (default: `(empty)`).
+
+`Authorizer` is used exclusively for the <<dataPlaneRequestProcessor, data-plane>> and <<controlPlaneRequestProcessor, control-plane>> `KafkaApis` (that use it for <<kafka-server-KafkaApis.adoc#authorize, authorizing operations>>).
+
 === [[notifyClusterListeners]] Sending Updated Cluster Metadata to ClusterResourceListeners -- `notifyClusterListeners` Internal Method
 
 [source, scala]
@@ -318,9 +329,6 @@ Cluster ID is used for the following:
 
 | apis
 a| [[apis]] <<kafka-server-KafkaApis.adoc#, KafkaApis>>
-
-| authorizer
-| [[authorizer]] <<kafka-Authorizer.adoc#, Authorizer>>
 
 | brokerMetadataCheckpoints
 | [[brokerMetadataCheckpoints]]

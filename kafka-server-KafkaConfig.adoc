@@ -26,6 +26,11 @@ Used when:
 
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#createBrokerInfo, createBrokerInfo>> (when <<kafka-server-KafkaServer.adoc#startup, started>>)
 
+| authorizerClassName
+a| [[authorizerClassName]][[AuthorizerClassNameProp]] <<kafka-properties.adoc#authorizer.class.name, authorizer.class.name>>
+
+Used exclusively for <<kafka-server-KafkaServer.adoc#authorizer, KafkaServer>>
+
 | autoCreateTopicsEnable
 a| [[autoCreateTopicsEnable]] <<kafka-properties.adoc#auto.create.topics.enable, auto.create.topics.enable>>
 

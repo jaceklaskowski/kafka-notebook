@@ -16,8 +16,8 @@ $ cat parts.json
 }
 
 $ kafka-preferred-replica-election.sh \
-  --bootstrap-server :9092 \
-  --path-to-json-file parts.json
+    --bootstrap-server :9092 \
+    --path-to-json-file parts.json
 Successfully completed preferred replica election for partitions t1-1, t1-0
 ```
 

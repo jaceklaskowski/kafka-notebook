@@ -295,7 +295,7 @@ In the end, `handleTopicMetadataRequest` <<sendResponseMaybeThrottle, sendRespon
 
 NOTE: `handleTopicMetadataRequest` is used exclusively when `KafkaApis` is requested to handle a <<Metadata, Metadata>> request.
 
-=== [[authorize]] Authorizing Operation on Resource -- `authorize` Internal Method
+=== [[authorize]] Authorizing Principal for Operation on Resource -- `authorize` Internal Method
 
 [source, scala]
 ----
@@ -306,6 +306,8 @@ authorize(
 ----
 
 `authorize` simply requests the <<authorizer, Authorizer>> to <<kafka-Authorizer.adoc#authorize, authorize>> the given `Operation` on the given `Resource` in the `RequestChannel.Session`.
+
+NOTE: The <<authorizer, Authorizer>> is created in <<kafka-server-KafkaServer.adoc#authorizer, KafkaServer>> (when the `KafkaApis` is created). It is configured using <<kafka-properties.adoc#authorizer.class.name, authorizer.class.name>> configuration property which is empty by default and so all operations are authorized.
 
 NOTE: `authorize` is used when...FIXME
 
