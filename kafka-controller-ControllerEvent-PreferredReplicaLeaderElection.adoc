@@ -14,7 +14,7 @@
 
 * <<kafka-controller-KafkaController.adoc#removePartitionsFromPreferredReplicaElection, removePartitionsFromPreferredReplicaElection>> and `isTriggeredByAutoRebalance` flag is off
 
-* <<kafka-controller-KafkaController.adoc#electPreferredLeaders, electPreferredLeaders>>
+* <<kafka-controller-KafkaController.adoc#electPreferredLeaders, Preferred Replica Leader Election>>
 
 NOTE: FIXME When <<kafka-controller-KafkaController.adoc#removePartitionsFromPreferredReplicaElection, removePartitionsFromPreferredReplicaElection>> and `isTriggeredByAutoRebalance` flag is off?
 

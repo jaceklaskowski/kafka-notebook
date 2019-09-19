@@ -781,7 +781,7 @@ readFromLocalLog(
 * `ReplicaManager` is requested to <<fetchMessages, fetchMessages>> (when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleFetchRequest, handle a Fetch request>>)
 ====
 
-=== [[electPreferredLeaders]] `electPreferredLeaders` Method
+=== [[electPreferredLeaders]] Triggerring Preferred Replica Leader Election -- `electPreferredLeaders` Method
 
 [source, scala]
 ----
@@ -792,7 +792,7 @@ electPreferredLeaders(
   requestTimeout: Long): Unit
 ----
 
-`electPreferredLeaders`...FIXME
+`electPreferredLeaders` simply requests the `KafkaController` to <<kafka-controller-KafkaController.adoc#electPreferredLeaders, electPreferredLeaders>> for the partitions.
 
 NOTE: `electPreferredLeaders` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleElectPreferredReplicaLeader, handle an ElectPreferredLeaders request>>.
 

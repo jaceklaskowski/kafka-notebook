@@ -1,8 +1,25 @@
 == [[kafka-preferred-replica-election]] kafka-preferred-replica-election.sh Shell Script
 
-`kafka-preferred-replica-election.sh` is a shell script to launch <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#, kafka.admin.PreferredReplicaLeaderElectionCommand>> standalone application.
+`kafka-preferred-replica-election.sh` is a shell script to launch <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#, kafka.admin.PreferredReplicaLeaderElectionCommand>> standalone application for <<kafka-feature-preferred-replica-election.adoc#, Preferred Replica Leader Election>>.
 
-When executed with no <<options, options>>, `kafka-preferred-replica-election.sh` assumes <<help, --help>>.
+Among the <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#options, supported options>>, `kafka-preferred-replica-election.sh` accepts a JSON file with partitions to include in election.
+
+```
+$ cat parts.json
+{ "partitions":
+  [
+    { "topic": "t1", "partition": 0 },
+    { "topic": "t1", "partition": 1 }
+  ]
+}
+
+$ kafka-preferred-replica-election.sh \
+  --bootstrap-server :9092 \
+  --path-to-json-file parts.json
+Successfully completed preferred replica election for partitions t1-1, t1-0
+```
+
+When executed with no <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#options, options>>, `kafka-preferred-replica-election.sh` assumes <<help, --help>>.
 
 ```
 $ kafka-preferred-replica-election.sh

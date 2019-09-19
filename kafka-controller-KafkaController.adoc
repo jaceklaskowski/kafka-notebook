@@ -1239,10 +1239,20 @@ NOTE: `removePartitionsFromPreferredReplicaElection` is used exclusively when `K
 ----
 onPreferredReplicaElection(
   partitions: Set[TopicPartition],
-  isTriggeredByAutoRebalance: Boolean = false): Unit
+  electionType: ElectionType): Map[TopicPartition, Throwable]
 ----
 
-`onPreferredReplicaElection`...FIXME
+`onPreferredReplicaElection` prints out the following INFO message to the logs:
+
+```
+Starting preferred replica leader election for partitions [partitions]
+```
+
+`onPreferredReplicaElection` requests the <<partitionStateMachine, PartitionStateMachine>> to <<kafka-controller-PartitionStateMachine.adoc#handleStateChanges, handle partition state changes>> for the partitions (with `OnlinePartition` target state and <<kafka-controller-PartitionStateMachine.adoc#PreferredReplicaPartitionLeaderElectionStrategy, PreferredReplicaPartitionLeaderElectionStrategy>>).
+
+(only for <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#election-type, election types>> that are not <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#AdminClientTriggered, AdminClientTriggered>>) In the end, `onPreferredReplicaElection` <<removePartitionsFromPreferredReplicaElection, removePartitionsFromPreferredReplicaElection>>.
+
+(only for <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#election-type, election types>> that are not <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#AdminClientTriggered, AdminClientTriggered>>) In case of an error
 
 [NOTE]
 ====
@@ -1510,18 +1520,18 @@ enableDefaultUncleanLeaderElection(): Unit
 
 NOTE: `enableDefaultUncleanLeaderElection` is used exclusively when `DynamicLogConfig` is requested to <<kafka-server-DynamicLogConfig.adoc#reconfigure, reconfigure>>.
 
-=== [[electPreferredLeaders]] `electPreferredLeaders` Method
+=== [[electPreferredLeaders]] Preferred Replica Leader Election -- `electPreferredLeaders` Method
 
 [source, scala]
 ----
 electPreferredLeaders(
   partitions: Set[TopicPartition],
-  callback: ElectPreferredLeadersCallback = { (_,_) => }): Unit
+  callback: ElectPreferredLeadersCallback = { (_, _) => }): Unit
 ----
 
-`electPreferredLeaders` simply requests the <<eventManager, ControllerEventManager>> to <<kafka-controller-ControllerEventManager.adoc#put, enqueue an PreferredReplicaLeaderElection event>> (with <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#AdminClientTriggered, AdminClientTriggered>> election type)
+`electPreferredLeaders` simply requests the <<eventManager, ControllerEventManager>> to <<kafka-controller-ControllerEventManager.adoc#put, enqueue>> an <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#, PreferredReplicaLeaderElection>> event (with <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#AdminClientTriggered, AdminClientTriggered>> election type)
 
-NOTE: `electPreferredLeaders` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#electPreferredLeaders, electPreferredLeaders>>.
+NOTE: `electPreferredLeaders` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#electPreferredLeaders, trigger preferred replica leader election>>.
 
 === [[maybeResign]] `maybeResign` Internal Method
 

@@ -1,5 +1,40 @@
-== Preferred Replica Election
+== Preferred Replica Election (Preferred Replica Leader Election)
 
-*Preferred Replica Election* is...FIXME
+*Preferred Replica Election* (_Preferred Replica Leader Election_) is a process...FIXME
 
 TIP: Read up on https://cwiki.apache.org/confluence/display/KAFKA/Replication+tools#Replicationtools-1.PreferredReplicaLeaderElectionTool[Preferred Replica Leader Election] in the official documentation.
+
+Preferred Replica Election is triggered using <<kafka-tools-kafka-preferred-replica-election.adoc#, kafka-preferred-replica-election.sh>> shell script for partitions as defined in a JSON file.
+
+```
+$ cat parts.json
+{ "partitions":
+  [
+    { "topic": "t1", "partition": 0 },
+    { "topic": "t1", "partition": 1 }
+  ]
+}
+
+$ kafka-preferred-replica-election.sh \
+  --bootstrap-server :9092 \
+  --path-to-json-file parts.json
+Successfully completed preferred replica election for partitions t1-1, t1-0
+```
+
+Preferred Replica Election can also be triggered using <<kafka-clients-admin-AdminClient.adoc#electPreferredLeaders, AdminClient>> that sends out the request to the <<kafka-server-KafkaApis.adoc#ElectPreferredLeaders, controller broker>> (that simply requests the `ReplicaManager` to <<kafka-server-ReplicaManager.adoc#electPreferredLeaders, trigger the election>>)
+
+[TIP]
+====
+Use <<kafka-controller-KafkaController.adoc#logging, KafkaController logging>> to monitor the process.
+====
+
+```
+INFO [Controller id=1001] Starting preferred replica leader election for partitions  (kafka.controller.KafkaController)
+DEBUG [Controller id=1001] PreferredReplicaLeaderElection waiting: Set(), results: Map(t1-0 -> ApiError(error=NONE, message=null), t1-1 -> ApiError(error=NONE, message=null)) (kafka.controller.KafkaController)
+```
+
+In the very end, it is one of the many responsibilities of the <<kafka-controller-KafkaController.adoc#, controller broker>> to actually <<kafka-controller-KafkaController.adoc#onPreferredReplicaElection, perform Preferred Replica Leader Election>>.
+
+=== [[acl]] ACL
+
+Either tool requires `authorize(request.session, Alter, Resource.ClusterResource)` permission to be authorized to trigger the process.
