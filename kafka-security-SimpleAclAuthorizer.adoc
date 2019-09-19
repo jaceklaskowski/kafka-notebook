@@ -1,6 +1,8 @@
 == [[SimpleAclAuthorizer]] SimpleAclAuthorizer
 
-`SimpleAclAuthorizer` is...FIXME
+`SimpleAclAuthorizer` (`kafka.security.auth.SimpleAclAuthorizer`) is an <<kafka-security-Authorizer.adoc#, Authorizer>> that can be used for <<authorize, authorization>> (per <<kafka-properties.adoc#authorizer.class.name, authorizer.class.name>> configuration property).
+
+`SimpleAclAuthorizer` is used as the authorization service for <<kafka-admin-AclCommand.adoc#, AclCommand>> utility (when executed with no explicit <<kafka-admin-AclCommand.adoc#authorizer, authorizer>>).
 
 === [[startZkChangeListeners]] `startZkChangeListeners` Method
 
@@ -23,3 +25,17 @@ configure(javaConfigs: util.Map[String, _]): Unit
 NOTE: `configure` is part of the <<kafka-common-Configurable.adoc#configure, Configurable Contract>> to...FIXME.
 
 `configure`...FIXME
+
+=== [[authorize]] Authorizing Principal for Operation on Resource -- `authorize` Method
+
+[source, scala]
+----
+authorize(
+  session: Session,
+  operation: Operation,
+  resource: Resource): Boolean
+----
+
+NOTE: `authorize` is part of the <<kafka-security-Authorizer.adoc#authorize, Authorizer Contract>> to authorize a principal to perform an operation on a resource.
+
+`authorize`...FIXME

@@ -37,4 +37,60 @@ In the very end, it is one of the many responsibilities of the <<kafka-controlle
 
 === [[acl]] ACL
 
-Either tool requires `authorize(request.session, Alter, Resource.ClusterResource)` permission to be authorized to trigger the process.
+Either tool requires a principal to be authorized to perform `Alter` operation on `cluster` resource.
+
+```
+$ kafka-acls.sh \
+    --authorizer-properties zookeeper.connect=zookeeper:2181 \
+    --list
+
+// Disable Alter on cluster resource
+// The principal type is always User for the simple authorizer
+$ kafka-acls.sh \
+    --authorizer-properties zookeeper.connect=zookeeper:2181 \
+    --add \
+    --cluster \
+    --operation Alter \
+    --deny-principal User:ANONYMOUS
+Adding ACLs for resource `Cluster:LITERAL:kafka-cluster`:
+ 	User:ANONYMOUS has Deny permission for operations: Alter from hosts: *
+
+Current ACLs for resource `Cluster:LITERAL:kafka-cluster`:
+ 	User:ANONYMOUS has Deny permission for operations: Alter from hosts: *
+
+$ kafka-acls.sh \
+    --authorizer-properties zookeeper.connect=zookeeper:2181 \
+    --list
+Current ACLs for resource `Cluster:LITERAL:kafka-cluster`:
+ 	User:ANONYMOUS has Deny permission for operations: Alter from hosts: *
+
+$ kafka-preferred-replica-election.sh \
+    --bootstrap-server :9092 \
+    --path-to-json-file parts.json
+Error completing preferred replica election for partition t1-1: org.apache.kafka.common.errors.ClusterAuthorizationException: Cluster authorization failed.
+Error completing preferred replica election for partition t1-0: org.apache.kafka.common.errors.ClusterAuthorizationException: Cluster authorization failed.
+Exception in thread "main" kafka.common.AdminCommandFailedException: 2 preferred replica(s) could not be elected
+	at kafka.admin.PreferredReplicaLeaderElectionCommand$AdminClientCommand.electPreferredLeaders(PreferredReplicaLeaderElectionCommand.scala:263)
+	at kafka.admin.PreferredReplicaLeaderElectionCommand$.run(PreferredReplicaLeaderElectionCommand.scala:78)
+	at kafka.admin.PreferredReplicaLeaderElectionCommand$.main(PreferredReplicaLeaderElectionCommand.scala:42)
+	at kafka.admin.PreferredReplicaLeaderElectionCommand.main(PreferredReplicaLeaderElectionCommand.scala)
+	Suppressed: org.apache.kafka.common.errors.ClusterAuthorizationException: Cluster authorization failed.
+	[CIRCULAR REFERENCE:org.apache.kafka.common.errors.ClusterAuthorizationException: Cluster authorization failed.]
+
+$ kafka-acls.sh \
+    --authorizer-properties zookeeper.connect=zookeeper:2181 \
+    --remove \
+    --cluster \
+    --operation Alter \
+    --deny-principal User:ANONYMOUS \
+    --force
+
+$ kafka-acls.sh \
+    --authorizer-properties zookeeper.connect=zookeeper:2181 \
+    --list
+
+$ kafka-preferred-replica-election.sh \
+    --bootstrap-server :9092 \
+    --path-to-json-file parts.json
+Successfully completed preferred replica election for partitions t1-1, t1-0
+```

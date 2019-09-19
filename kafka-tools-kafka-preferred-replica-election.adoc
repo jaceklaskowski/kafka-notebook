@@ -5,6 +5,13 @@
 Among the <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#options, supported options>>, `kafka-preferred-replica-election.sh` accepts a JSON file with partitions to include in election.
 
 ```
+$ kafka-topics.sh \
+    --bootstrap-server kafka:9092 \
+    --create \
+    --topic t1 \
+    --partitions 3 \
+    --replication-factor 1
+
 $ cat parts.json
 { "partitions":
   [

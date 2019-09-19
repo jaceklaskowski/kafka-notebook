@@ -70,11 +70,24 @@ $ kafka-acls.sh \
     --authorizer-properties zookeeper.connect=zookeeper:2181 \
     --add \
     --cluster \
+    --operation Alter \
     --deny-principal User:ANONYMOUS
+Adding ACLs for resource `Cluster:LITERAL:kafka-cluster`:
+ 	User:ANONYMOUS has Deny permission for operations: Alter from hosts: *
+
+Current ACLs for resource `Cluster:LITERAL:kafka-cluster`:
+ 	User:ANONYMOUS has Deny permission for operations: Alter from hosts: *
 
 $ kafka-acls.sh \
     --authorizer-properties zookeeper.connect=zookeeper:2181 \
     --list
 Current ACLs for resource `Cluster:LITERAL:kafka-cluster`:
- 	User:ANONYMOUS has Deny permission for operations: All from hosts: *
+ 	User:ANONYMOUS has Deny permission for operations: Alter from hosts: *
+```
+
+```
+// With authorizer.class.name=kafka.security.auth.SimpleAclAuthorizer
+$ kafka-acls.sh \
+    --bootstrap-server kafka:9092 \
+    --list
 ```

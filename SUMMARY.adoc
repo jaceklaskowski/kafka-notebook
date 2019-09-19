@@ -3,6 +3,11 @@
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
 
+=== Kafka Security
+
+. link:kafka-security-Authorizer.adoc[Authorizer]
+. link:kafka-security-SimpleAclAuthorizer.adoc[SimpleAclAuthorizer]
+
 === Kafka Tools (Utilities)
 
 . link:kafka-tools.adoc[Kafka Tools]
@@ -106,7 +111,6 @@
 . link:kafka-server-scheduled-tasks.adoc[Kafka Server and Periodic Tasks]
 
 . link:kafka-server-AdminManager.adoc[AdminManager]
-. link:kafka-security-Authorizer.adoc[Authorizer]
 
 . link:kafka-server-DelegationTokenManager.adoc[DelegationTokenManager]
 
@@ -367,10 +371,6 @@
 . link:kafka-common-serialization-Serde.adoc[Serde Contract]
 
 . link:kafka-common-serialization-Serdes.adoc[Serdes Factory Object]
-
-=== Kafka Security
-
-. link:kafka-security-SimpleAclAuthorizer.adoc[SimpleAclAuthorizer]
 
 === Varia / Misc
 

@@ -1,7 +1,80 @@
 == [[Authorizer]] Authorizer
 
-`Authorizer` is...FIXME
+`Authorizer` is the <<contract, abstraction>> of <<implementations, authorizers>> that can <<authorize, authorize a principal to perform an operation on a resource>>.
 
-=== [[configure]] `configure` Method
+[[implementations]]
+NOTE: <<kafka-security-SimpleAclAuthorizer.adoc#, SimpleAclAuthorizer>> is the only known implementation of the <<contract, Authorizer Contract>> in Apache Kafka.
 
-CAUTION: FIXME
+[[contract]]
+.Authorizer Contract
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| addAcls
+a| [[addAcls]]
+
+[source, scala]
+----
+addAcls(
+  acls: Set[Acl],
+  resource: Resource): Unit
+----
+
+Used when...FIXME
+
+| authorize
+a| [[authorize]]
+
+[source, scala]
+----
+authorize(
+  session: Session,
+  operation: Operation,
+  resource: Resource): Boolean
+----
+
+Authorizes a principal to perform an operation on a resource
+
+Used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#authorize, authorize a principal for an operation on a resource>>
+
+| close
+a| [[close]]
+
+[source, scala]
+----
+close(): Unit
+----
+
+Used when...FIXME
+
+| getAcls
+a| [[getAcls]]
+
+[source, scala]
+----
+getAcls(): Map[Resource, Set[Acl]]
+getAcls(
+  principal: KafkaPrincipal): Map[Resource, Set[Acl]]
+getAcls(
+  resource: Resource): Set[Acl]
+----
+
+Used when...FIXME
+
+| removeAcls
+a| [[removeAcls]]
+
+[source, scala]
+----
+removeAcls(
+  resource: Resource): Boolean
+removeAcls(
+  acls: Set[Acl],
+  resource: Resource): Boolean
+----
+
+Used when...FIXME
+
+|===
