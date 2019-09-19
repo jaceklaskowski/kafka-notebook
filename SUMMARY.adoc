@@ -197,7 +197,7 @@
 
 === Kafka Features
 
-. link:kafka-feature-preferred-replica-election.adoc[Preferred Replica Election]
+. link:kafka-feature-preferred-replica-leader-election.adoc[Preferred Replica Election]
 . link:kafka-controller-election.adoc[Kafka Controller Election]
 . link:kafka-topic-replication.adoc[Topic Replication]
 . link:kafka-topic-deletion.adoc[Topic Deletion]

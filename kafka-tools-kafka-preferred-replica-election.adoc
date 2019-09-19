@@ -1,6 +1,6 @@
 == [[kafka-preferred-replica-election]] kafka-preferred-replica-election.sh Shell Script
 
-`kafka-preferred-replica-election.sh` is a shell script to launch <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#, kafka.admin.PreferredReplicaLeaderElectionCommand>> standalone application for <<kafka-feature-preferred-replica-election.adoc#, Preferred Replica Leader Election>>.
+`kafka-preferred-replica-election.sh` is a shell script to launch <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#, kafka.admin.PreferredReplicaLeaderElectionCommand>> standalone application for <<kafka-feature-preferred-replica-leader-election.adoc#, Preferred Replica Leader Election>>.
 
 Among the <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#options, supported options>>, `kafka-preferred-replica-election.sh` accepts a JSON file with partitions to include in election.
 

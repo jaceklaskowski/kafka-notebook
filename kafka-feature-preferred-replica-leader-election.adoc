@@ -1,6 +1,6 @@
-== Preferred Replica Election (Preferred Replica Leader Election)
+== Preferred Replica Leader Election (Preferred Replica Election)
 
-*Preferred Replica Election* (_Preferred Replica Leader Election_) is a process...FIXME
+*Preferred Replica Leader Election* (_Preferred Replica Election_) is a process...FIXME
 
 TIP: Read up on https://cwiki.apache.org/confluence/display/KAFKA/Replication+tools#Replicationtools-1.PreferredReplicaLeaderElectionTool[Preferred Replica Leader Election] in the official documentation.
 

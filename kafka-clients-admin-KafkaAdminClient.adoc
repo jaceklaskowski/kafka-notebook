@@ -53,7 +53,7 @@ ElectPreferredLeadersResult electPreferredLeaders(
   ElectPreferredLeadersOptions options)
 ----
 
-NOTE: `electPreferredLeaders` is part of the <<kafka-clients-admin-AdminClient.adoc#electPreferredLeaders, AdminClient Contract>> to trigger <<kafka-feature-preferred-replica-election.adoc#, preferred replica leader election>>.
+NOTE: `electPreferredLeaders` is part of the <<kafka-clients-admin-AdminClient.adoc#electPreferredLeaders, AdminClient Contract>> to trigger <<kafka-feature-preferred-replica-leader-election.adoc#, preferred replica leader election>>.
 
 `electPreferredLeaders` creates a *electPreferredLeaders* call that simply uses <<kafka-common-requests-ElectPreferredLeadersRequest.adoc#Builder, ElectPreferredLeadersRequest.Builder>> to <<kafka-common-requests-ElectPreferredLeadersRequest.adoc#toRequestData, serialize partitions into a ElectPreferredLeadersRequest>> and, when a response comes in, requests the `ElectPreferredLeadersRequest` to <<kafka-common-requests-ElectPreferredLeadersRequest.adoc#fromResponseData, deserialize it>>.
 
