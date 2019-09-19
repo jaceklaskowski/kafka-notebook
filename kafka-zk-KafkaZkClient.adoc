@@ -6,7 +6,7 @@
 
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>> (right after `kafka.Kafka` command-line application is <<kafka-Kafka.adoc#main, executed>>)
 
-* `AclCommand`, `ConfigCommand`, `PreferredReplicaLeaderElectionCommand`, `ReassignPartitionsCommand`, `TopicCommand` commands are executed
+* <<kafka-admin-AclCommand.adoc#, AclCommand>>, `ConfigCommand`, `PreferredReplicaLeaderElectionCommand`, `ReassignPartitionsCommand`, `TopicCommand` commands are executed
 
 `KafkaZkClient` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
 
@@ -97,7 +97,7 @@ apply(
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>> (right after `kafka.Kafka` command-line application is <<kafka-Kafka.adoc#main, executed>>)
 
 * The following commands are executed (`main`):
-** `AclCommand` (when `SimpleAclAuthorizer` is used and requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>)
+** <<kafka-admin-AclCommand.adoc#, AclCommand>> (when `SimpleAclAuthorizer` is used and requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>)
 ** `ConfigCommand`
 ** `PreferredReplicaLeaderElectionCommand`
 ** `ReassignPartitionsCommand`

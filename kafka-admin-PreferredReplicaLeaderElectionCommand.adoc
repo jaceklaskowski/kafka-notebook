@@ -48,14 +48,14 @@ a| [[version]] Displays Kafka version
 
 TIP: Read https://cwiki.apache.org/confluence/display/KAFKA/KIP-183+-+Change+PreferredReplicaLeaderElectionCommand+to+use+AdminClient[KIP-183 - Change PreferredReplicaLeaderElectionCommand to use AdminClient].
 
-=== [[main]] Executing Standalone Application -- `main` Method
+=== [[main]] Executing Standalone Application -- `main` Object Method
 
 [source, scala]
 ----
 main(args: Array[String]): Unit
 ----
 
-`main` is the entry point of the `PreferredReplicaLeaderElectionCommand` standalone application when launched on command line (e.g. using <<kafka-tools-kafka-preferred-replica-election.adoc#, kafka-preferred-replica-election.sh>> shell script).
+`main` is the entry point of the `PreferredReplicaLeaderElectionCommand` when launched on command line (e.g. using <<kafka-tools-kafka-preferred-replica-election.adoc#, kafka-preferred-replica-election.sh>> shell script).
 
 Internally, `main` simply <<run, run>> (with the default timeout of `30000`).
 

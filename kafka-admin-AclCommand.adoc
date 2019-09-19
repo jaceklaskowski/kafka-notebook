@@ -1,0 +1,154 @@
+== [[AclCommand]] AclCommand Administration Utility
+
+`AclCommand` is an administration utility for ACL management using AdminClient API.
+
+[[options]]
+[[AclCommandOptions]]
+.Options
+[cols="30m,70",options="header",width="100%"]
+|===
+| Option
+| Description
+
+| add
+a| [[add]] Adding ACLs
+
+| allow-host
+a| [[allow-host]] Host from which principals listed in --allow-principal will have access
+
+`*` indicates access allowed from all hosts
+
+| deny-host
+a| [[deny-host]] Host from which principals listed in --deny-principal will be denied access
+
+`*` indicates access denied from all hosts
+
+| allow-principal
+a| [[allow-principal]] Principal is in principalType:name format
+
+| authorizer
+a| [[authorizer]] Fully-qualified name of the authorizer class
+
+Default: <<kafka-security-SimpleAclAuthorizer.adoc#, kafka.security.auth.SimpleAclAuthorizer>>
+
+| authorizer-properties
+a| [[authorizer-properties]] *(required)* `key=val` pairs to configure the <<authorizer, authorizer>>
+
+| bootstrap-server
+a| [[bootstrap-server]] *(required)* Brokers to connect to as a comma-separated list of `host:port` URLs
+
+| cluster
+a| [[cluster]] Add/Remove cluster ACLs
+
+| command-config
+a| [[command-config]] Property file with configs to be passed to Admin Client
+
+| consumer
+a| [[consumer]] Convenience option to add/remove ACLs for consumer role that generates ACLs that allow READ,DESCRIBE on topic and READ on group
+
+| delegation-token
+a| [[delegation-token]] Delegation token to which ACLs should be added or removed
+
+`*` indicates all tokens
+
+| deny-principal
+a| [[deny-principal]] Principal is in principalType:name format
+
+| force
+a| [[force]] Assume Yes to all queries and do not prompt
+
+| group
+a| [[group]] Consumer Group to which the ACLs should be added or removed
+
+`*` indicates all groups
+
+| help
+a| [[help]] Prints usage information
+
+| idempotent
+a| [[idempotent]] Enables idempotence for the producer
+
+Used in combination with the `--producer` option
+
+Idempotence is enabled automatically if the producer is authorized to a particular transactional-id
+
+| list
+a| [[list]] List ACLs for the specified resource
+
+Use <<topic, --topic>>, <<group, --group>> or <<cluster, --cluster>> to specify a resource
+
+| operation
+a| [[operation]] Operation that is being allowed or denied
+
+Default: <<All, All>>
+
+Supported operations:
+
+* [[All]] `All`
+* [[Alter]] `Alter`
+* [[AlterConfigs]] `AlterConfigs`
+* [[ClusterAction]] `ClusterAction`
+* [[Create]] `Create`
+* [[Delete]] `Delete`
+* [[Describe]] `Describe`
+* [[DescribeConfigs]] `DescribeConfigs`
+* [[IdempotentWrite]] `IdempotentWrite`
+* [[Read]] `Read`
+* [[Write]] `Write`
+
+| principal
+a| [[principal]] List ACLs for the specified principal (in principalType:name format)
+
+| producer
+a| [[producer]] Convenience option to add/remove ACLs for producer role that generates ACLs that allow WRITE,DESCRIBE and CREATE on topic
+
+| remove
+a| [[remove]] Removing ACLs
+
+| resource-pattern-type
+a| [[resource-pattern-type]] Type of the resource pattern or pattern filter
+
+Default: `literal`
+
+* When adding acls, this should be a specific pattern type, e.g. 'literal' or 'prefixed'.
+
+* When listing or removing acls, a specific pattern type can be used to list or remove acls from specific resource patterns, or use the filter values of 'any' or 'match', where 'any' will match any pattern type, but will match the resource name exactly, where as 'match' will perform pattern matching to list or remove all acls that affect the supplied resource(s).
+
+WARNING: 'match', when used in combination with the '--remove' switch, should be used with care.
+
+| topic
+a| [[topic]] Topic to which ACLs should be added or removed
+
+`*` indicates all topics
+
+| transactional-id
+a| [[transactional-id]] The transactionalId to which ACLs should be added or removed
+
+`*` indicates all transactionalIds
+
+| version
+a| [[version]] Displays Kafka version
+
+|===
+
+=== [[main]] Executing Standalone Application -- `main` Object Method
+
+[source, scala]
+----
+main(args: Array[String]): Unit
+----
+
+`main` is the entry point of the `AclCommand` when launched on command line (e.g. using <<kafka-tools-kafka-acls.adoc#, kafka-acls.sh>> shell script).
+
+Internally, `main` reads the <<AclCommandOptions, options>> from the command line.
+
+`main` prints out the following for no <<options, command-line options>>, <<help, --help>> or <<version, --version>>:
+
+[options="wrap"]
+----
+This tool helps to manage acls on kafka
+----
+
+`main` selects the command service between `AdminClientService` when <<bootstrap-server, --bootstrap-server>> is used and `AuthorizerService` otherwise.
+
+In the end, `main` requests the command service to <<addAcls, add>>, <<removeAcls, remove>> or <<listAcls, list>> ACLs based on <<add, --add>>, <<remove, --remove>> or <<list, --list>> command-line options, respectively.

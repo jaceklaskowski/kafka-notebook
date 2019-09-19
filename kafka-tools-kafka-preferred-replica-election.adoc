@@ -19,7 +19,7 @@ $ kafka-preferred-replica-election.sh \
 Successfully completed preferred replica election for partitions t1-1, t1-0
 ```
 
-When executed with no <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#options, options>>, `kafka-preferred-replica-election.sh` assumes <<help, --help>>.
+When executed with no <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#options, options>>, `kafka-preferred-replica-election.sh` assumes <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#help, --help>>.
 
 ```
 $ kafka-preferred-replica-election.sh

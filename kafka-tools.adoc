@@ -2,7 +2,7 @@
 
 Kafka tools includes the following administration tools:
 
-* `AclCommand`
+* <<kafka-admin-AclCommand.adoc#, AclCommand>>
 
 * <<kafka-admin-ConfigCommand.adoc#, ConfigCommand>>
 
