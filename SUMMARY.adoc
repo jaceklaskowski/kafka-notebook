@@ -106,7 +106,7 @@
 . link:kafka-server-scheduled-tasks.adoc[Kafka Server and Periodic Tasks]
 
 . link:kafka-server-AdminManager.adoc[AdminManager]
-. link:kafka-Authorizer.adoc[Authorizer]
+. link:kafka-security-Authorizer.adoc[Authorizer]
 
 . link:kafka-server-DelegationTokenManager.adoc[DelegationTokenManager]
 

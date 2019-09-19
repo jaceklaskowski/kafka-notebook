@@ -104,7 +104,7 @@ CAUTION: FIXME
 
 `startup` link:kafka-TransactionCoordinator.adoc#creating-instance[creates] the <<transactionCoordinator, TransactionCoordinator>> (for <<config, KafkaConfig>>, <<replicaManager, ReplicaManager>>, a new dedicated link:kafka-KafkaScheduler.adoc[KafkaScheduler] with `transaction-log-manager-` thread name prefix, <<zkUtils, ZkUtils>>, <<metrics, Metrics>> and <<metadataCache, MetadataCache>>) and requests it to link:kafka-TransactionCoordinator.adoc#startup[start up].
 
-`startup` creates a <<authorizer, Authorizer>> (if defined using link:kafka-properties.adoc#authorizer.class.name[authorizer.class.name] property) and link:kafka-Authorizer.adoc#configure[configures] it.
+`startup` creates a <<authorizer, Authorizer>> (if defined using link:kafka-properties.adoc#authorizer.class.name[authorizer.class.name] property) and link:kafka-security-Authorizer.adoc#configure[configures] it.
 
 `startup` link:kafka-server-KafkaApis.adoc#creating-instance[creates] the <<apis, KafkaApis>> (for <<socketServer, SocketServer>>, <<replicaManager, ReplicaManager>>, <<adminManager, AdminManager>>, <<groupCoordinator, GroupCoordinator>>, <<transactionCoordinator, TransactionCoordinator>>, <<kafkaController, KafkaController>>, <<zkUtils, ZkUtils>>, <<brokerId, broker ID>>, <<config, KafkaConfig>>, <<metadataCache, MetadataCache>>, <<metrics, Metrics>>, <<authorizer, Authorizer>>, <<quotaManagers, QuotaManagers>>, <<_brokerTopicStats, BrokerTopicStats>>, <<clusterId, cluster ID>>).
 
@@ -143,7 +143,7 @@ NOTE: `startup` is used exclusively when `KafkaServerStartable` is requested to 
 authorizer: Option[Authorizer] = None
 ----
 
-`KafkaServer` can be configured to use a <<kafka-Authorizer.adoc#, Authorizer>> based on <<kafka-properties.adoc#authorizer.class.name, authorizer.class.name>> configuration property (default: `(empty)`).
+`KafkaServer` can be configured to use a <<kafka-security-Authorizer.adoc#, Authorizer>> based on <<kafka-properties.adoc#authorizer.class.name, authorizer.class.name>> configuration property (default: `(empty)`).
 
 `Authorizer` is used exclusively for the <<dataPlaneRequestProcessor, data-plane>> and <<controlPlaneRequestProcessor, control-plane>> `KafkaApis` (that use it for <<kafka-server-KafkaApis.adoc#authorize, authorizing operations>>).
 

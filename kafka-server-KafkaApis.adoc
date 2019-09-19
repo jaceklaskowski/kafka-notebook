@@ -305,7 +305,7 @@ authorize(
   resource: Resource): Boolean
 ----
 
-`authorize` simply requests the <<authorizer, Authorizer>> to <<kafka-Authorizer.adoc#authorize, authorize>> the given `Operation` on the given `Resource` in the `RequestChannel.Session`.
+`authorize` simply requests the <<authorizer, Authorizer>> to <<kafka-security-Authorizer.adoc#authorize, authorize>> the given `Operation` on the given `Resource` in the `RequestChannel.Session`.
 
 NOTE: The <<authorizer, Authorizer>> is created in <<kafka-server-KafkaServer.adoc#authorizer, KafkaServer>> (when the `KafkaApis` is created). It is configured using <<kafka-properties.adoc#authorizer.class.name, authorizer.class.name>> configuration property which is empty by default and so all operations are authorized.
 
@@ -359,7 +359,7 @@ NOTE: `handleControlledShutdownRequest` is used when...FIXME
 * [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
-* [[authorizer]] <<kafka-Authorizer.adoc#, Authorizer>>
+* [[authorizer]] <<kafka-security-Authorizer.adoc#, Authorizer>>
 * [[quotas]] <<kafka-server-QuotaManagers.adoc#, QuotaManagers>>
 * [[fetchManager]] `FetchManager`
 * [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>

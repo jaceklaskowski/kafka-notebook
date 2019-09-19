@@ -23,7 +23,7 @@ Unlike <<listeners, listeners>> it is invalid to advertise the `0.0.0.0` non-rou
 <<kafka-server-DynamicListenerConfig.adoc#, Dynamic reconfigurable configuration>>
 
 | authorizer.class.name
-a| [[authorizer.class.name]] Fully-qualified class name of the <<kafka-Authorizer.adoc#, Authorizer>>
+a| [[authorizer.class.name]] Fully-qualified class name of the <<kafka-security-Authorizer.adoc#, Authorizer>>
 
 Default: `(empty)`
 
