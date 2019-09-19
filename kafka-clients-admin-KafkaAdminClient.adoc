@@ -2,6 +2,20 @@
 
 `KafkaAdminClient` is the default and only known <<kafka-clients-admin-AdminClient.adoc#, AdminClient>> that is used in <<kafka-tools.adoc#, Kafka administration utilities>>.
 
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `org.apache.kafka.clients.admin.KafkaAdminClient` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.clients.admin.KafkaAdminClient=ALL
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
+
 === [[creating-instance]] Creating KafkaAdminClient Instance
 
 `KafkaAdminClient` takes the following to be created:
@@ -29,6 +43,21 @@ KafkaAdminClient createInternal(
 `createInternal`...FIXME
 
 NOTE: `createInternal` is used exclusively when `AdminClient` object is requested to <<kafka-clients-admin-AdminClient.adoc#create, create a AdminClient>>.
+
+=== [[electPreferredLeaders]] Electing Preferred Partition Leaders -- `electPreferredLeaders` Method
+
+[source, java]
+----
+ElectPreferredLeadersResult electPreferredLeaders(
+  Collection<TopicPartition> partitions,
+  ElectPreferredLeadersOptions options)
+----
+
+NOTE: `electPreferredLeaders` is part of the <<kafka-clients-admin-AdminClient.adoc#electPreferredLeaders, AdminClient Contract>> to elect the preferred partition leaders.
+
+`electPreferredLeaders` creates a *electPreferredLeaders* call that simply uses <<kafka-common-requests-ElectPreferredLeadersRequest.adoc#Builder, ElectPreferredLeadersRequest.Builder>> to <<kafka-common-requests-ElectPreferredLeadersRequest.adoc#toRequestData, serialize partitions into a ElectPreferredLeadersRequest>> and, when a response comes in, requests the `ElectPreferredLeadersRequest` to <<kafka-common-requests-ElectPreferredLeadersRequest.adoc#fromResponseData, deserialize it>>.
+
+In the end, `electPreferredLeaders` requests the <<runnable, AdminClientRunnable>> to <<kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc#call, enqueue>> the `electPreferredLeaders` call.
 
 === [[describeTopics]] `describeTopics` Method
 
@@ -208,6 +237,11 @@ NOTE: `createPartitions` is part of the <<kafka-clients-admin-AdminClient.adoc#c
 |===
 | Name
 | Description
+
+| runnable
+a| [[runnable]] <<kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc#, AdminClientRunnable>>
+
+Used to create the daemon <<thread, KafkaThread>>
 
 | thread
 a| [[thread]] Java's Thread

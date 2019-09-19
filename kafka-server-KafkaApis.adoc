@@ -40,7 +40,7 @@
 | DeleteRecords
 | [[DeleteRecords]][[DELETE_RECORDS]] <<handleDeleteRecordsRequest, handleDeleteRecordsRequest>>
 
-| DeleteRecords
+| ElectPreferredLeaders
 | [[ElectPreferredLeaders]][[ELECT_PREFERRED_LEADERS]] <<handleElectPreferredReplicaLeader, handleElectPreferredReplicaLeader>>
 
 | Fetch

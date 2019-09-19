@@ -237,6 +237,8 @@ ElectPreferredLeadersResult electPreferredLeaders(
 ----
 <1> Uses the default `ElectPreferredLeadersOptions`
 
+Elects the preferred partition leaders
+
 Used when `PreferredReplicaLeaderElectionCommand` utility is requested to <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#electPreferredLeaders, electPreferredLeaders>>
 
 | expireDelegationToken

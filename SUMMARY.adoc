@@ -197,6 +197,7 @@
 
 === Kafka Features
 
+. link:kafka-feature-preferred-replica-election.adoc[Preferred Replica Election]
 . link:kafka-controller-election.adoc[Kafka Controller Election]
 . link:kafka-topic-replication.adoc[Topic Replication]
 . link:kafka-topic-deletion.adoc[Topic Deletion]
@@ -334,6 +335,8 @@
 .. link:kafka-common-requests-AbstractResponse.adoc[AbstractResponse]
 
 . link:kafka-common-requests-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
+
+. link:kafka-common-requests-ElectPreferredLeadersRequest.adoc[ElectPreferredLeadersRequest]
 
 . link:kafka-common-requests-FindCoordinatorRequest.adoc[FindCoordinatorRequest]
 . link:kafka-common-requests-FindCoordinatorResponse.adoc[FindCoordinatorResponse]

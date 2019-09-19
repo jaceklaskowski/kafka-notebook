@@ -1,0 +1,71 @@
+== [[ElectPreferredLeadersRequest]] ElectPreferredLeadersRequest
+
+`ElectPreferredLeadersRequest` is a <<kafka-common-requests-AbstractRequest.adoc#, message request>> that is sent out from <<kafka-clients-admin-KafkaAdminClient.adoc#, KafkaAdminClient>> when requested to <<kafka-clients-admin-KafkaAdminClient.adoc#electPreferredLeaders, elect preferred partition leaders>> (e.g. using <<kafka-tools-kafka-preferred-replica-election.adoc#, kafka-preferred-replica-election.sh>> shell script) to the <<kafka-server-KafkaApis.adoc#ElectPreferredLeaders, controller broker>>.
+
+[[ELECT_PREFERRED_LEADERS]][[creating-instance]]
+`ElectPreferredLeadersRequest` uses *ElectPreferredLeaders* API key and the following properties:
+
+* [[data]] <<ElectPreferredLeadersRequestData, ElectPreferredLeadersRequestData>>
+* [[version]] Version
+
+`ElectPreferredLeadersRequest` is <<creating-instance, created>> when:
+
+* `AbstractRequest` is requested to <<kafka-common-requests-AbstractRequest.adoc#parseRequest, parse a request>> (with the <<ELECT_PREFERRED_LEADERS, ElectPreferredLeaders>> API key)
+
+* `ElectPreferredLeadersRequest` is requested to <<parse, parse a byte buffer>>
+
+* `ElectPreferredLeadersRequest.Builder` is requested to <<build, build a ElectPreferredLeadersRequest>>
+
+=== [[ElectPreferredLeadersRequestData]] ElectPreferredLeadersRequestData
+
+`ElectPreferredLeadersRequestData` is an API message with the following properties:
+
+* [[topicPartitions]] Topic partitions (a topic and partition IDs) to elect the preferred leader of
+* [[timeoutMs]] Time (ms) to wait for the election to complete
+
+=== [[ElectPreferredLeadersRequest.Builder]][[Builder]][[build]] `ElectPreferredLeadersRequest.Builder` Factory Object
+
+`ElectPreferredLeadersRequest.Builder` is a <<kafka-common-requests-AbstractRequest-Builder.adoc#, request builder>> to <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a `ElectPreferredLeadersRequest`.
+
+[source, java]
+----
+ElectPreferredLeadersRequest build(short version)
+----
+
+=== [[toRequestData]] `toRequestData` Object Method
+
+[source, java]
+----
+ElectPreferredLeadersRequestData toRequestData(
+  Collection<TopicPartition> partitions,
+  int timeoutMs)
+----
+
+`toRequestData`...FIXME
+
+NOTE: `toRequestData` is used when...FIXME
+
+=== [[fromResponseData]] `fromResponseData` Object Method
+
+[source, java]
+----
+Map<TopicPartition, ApiError> fromResponseData(
+  ElectPreferredLeadersResponseData data)
+----
+
+`fromResponseData`...FIXME
+
+NOTE: `fromResponseData` is used when...FIXME
+
+=== [[parse]] Creating ElectPreferredLeadersRequest from Byte Buffer -- `parse` Object Method
+
+[source, java]
+----
+ElectPreferredLeadersRequest parse(
+  ByteBuffer buffer,
+  short version)
+----
+
+`parse`...FIXME
+
+NOTE: `parse` is used when...FIXME

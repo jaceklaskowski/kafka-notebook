@@ -1,6 +1,14 @@
 == [[AdminClientRunnable]] AdminClientRunnable
 
-`AdminClientRunnable` is...FIXME
+`AdminClientRunnable` is a https://docs.oracle.com/en/java/javase/12/docs/api/java.base/java/lang/Runnable.html[java.lang.Runnable] that is used exclusively by <<kafka-clients-admin-KafkaAdminClient.adoc#, KafkaAdminClient>> for...FIXME
+
+NOTE: `AdminClientRunnable` is an internal part of and with full access to the internals of <<kafka-clients-admin-KafkaAdminClient.adoc#, KafkaAdminClient>> (`private final class`).
+
+[[logging]]
+[TIP]
+====
+`AdminClientRunnable` uses the <<kafka-clients-admin-KafkaAdminClient.adoc#logging, org.apache.kafka.clients.admin.KafkaAdminClient>> logger so you should configure it properly to see what happens inside.
+====
 
 === [[sendEligibleCalls]] `sendEligibleCalls` Internal Method
 
@@ -45,3 +53,35 @@ void handleResponses(long now, List<ClientResponse> responses)
 `handleResponses`...FIXME
 
 NOTE: `handleResponses` is used when...FIXME
+
+=== [[call]] `call` Method
+
+[source, java]
+----
+void call(
+  Call call,
+  long now)
+----
+
+`call`...FIXME
+
+NOTE: `call` is used when...FIXME
+
+=== [[enqueue]] Enqueueing Call -- `enqueue` Method
+
+[source, java]
+----
+void enqueue(
+  Call call,
+  long now)
+----
+
+`enqueue` prints out the following DEBUG message to the logs:
+
+```
+Queueing [call] with a timeout [timeout] ms from now.
+```
+
+`enqueue`...FIXME
+
+NOTE: `enqueue` is used when...FIXME

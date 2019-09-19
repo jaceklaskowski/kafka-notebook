@@ -1,4 +1,4 @@
-== [[Builder]][[AbstractRequest.Builder]] AbstractRequest.Builder Contract
+== [[Builder]][[AbstractRequest.Builder]] AbstractRequest.Builder Contract -- Request Builders
 
 `AbstractRequest.Builder` is the <<contract, abstraction>> of <<implementations, request builders>> that can <<build, build a request>>.
 
@@ -18,7 +18,7 @@ a| [[build]]
 T build(short version)
 ----
 
-Builds a <<kafka-common-requests-AbstractRequest.adoc#implementations, concrete AbstractRequest>> (of type `T`)
+Builds a <<kafka-common-requests-AbstractRequest.adoc#, message request>> (of type `T`)
 
 Used when:
 

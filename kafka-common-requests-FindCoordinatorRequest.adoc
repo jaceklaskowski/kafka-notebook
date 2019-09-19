@@ -1,8 +1,7 @@
 == [[FindCoordinatorRequest]] FindCoordinatorRequest
 
-[[FIND_COORDINATOR]]
-[[creating-instance]]
-`FindCoordinatorRequest` is a concrete <<kafka-common-requests-AbstractRequest.adoc#, AbstractRequest>> with *FindCoordinator* API key and the following:
+[[FIND_COORDINATOR]][[creating-instance]]
+`FindCoordinatorRequest` is a <<kafka-common-requests-AbstractRequest.adoc#, message requests>> with *FindCoordinator* API key and the following properties:
 
 * [[coordinatorType]] Coordinator type (i.e. `GROUP` or `TRANSACTION`)
 * [[coordinatorKey]] Coordinator key
@@ -18,7 +17,7 @@
 
 === [[FindCoordinatorRequest.Builder]][[Builder]][[build]] `FindCoordinatorRequest.Builder` Factory Object
 
-`FindCoordinatorRequest.Builder` is a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest.adoc#build, build>> a <<FindCoordinatorRequest, FindCoordinatorRequest>>.
+`FindCoordinatorRequest.Builder` is a <<kafka-common-requests-AbstractRequest-Builder.adoc#, request builder>> to <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a `FindCoordinatorRequest`.
 
 [source, java]
 ----
