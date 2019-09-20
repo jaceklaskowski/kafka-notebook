@@ -2,6 +2,8 @@
 
 `Authorizer` is the <<contract, abstraction>> of <<implementations, authorizers>> that can <<authorize, authorize a principal to perform an operation on a resource>>.
 
+`Authorizer` is a <<kafka-common-Configurable.adoc#, Configurable>> for implementations that are instantiated by reflection and need to <<configure, take configuration parameters>>.
+
 [[implementations]]
 NOTE: <<kafka-security-SimpleAclAuthorizer.adoc#, SimpleAclAuthorizer>> is the only known implementation of the <<contract, Authorizer Contract>> in Apache Kafka.
 
@@ -22,7 +24,13 @@ addAcls(
   resource: Resource): Unit
 ----
 
-Used when...FIXME
+Adds ACLs for a resource
+
+Used when:
+
+* `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleCreateAcls, handle a CreateAcls request>>
+
+* `AclCommand` administration utility is requested to <<kafka-admin-AclCommand.adoc#add, add an ACL>>
 
 | authorize
 a| [[authorize]]
@@ -45,6 +53,17 @@ a| [[close]]
 [source, scala]
 ----
 close(): Unit
+----
+
+Used when...FIXME
+
+| configure
+a| [[configure]]
+
+[source, java]
+----
+void configure(
+  Map<String, ?> configs)
 ----
 
 Used when...FIXME

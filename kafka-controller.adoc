@@ -1,4 +1,4 @@
-== Kafka Controller
+== Kafka Controller (Controller Broker)
 
 *Kafka Controller* or *Controller Broker* (<<kafka-controller-KafkaController.adoc#, KafkaController>>) is a Kafka service that runs on every broker in a Kafka cluster, but only one can be <<isActive, active>> (_elected_) at any point in time.
 

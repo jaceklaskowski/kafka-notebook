@@ -130,6 +130,8 @@
 .. link:kafka-server-DynamicLogConfig.adoc[DynamicLogConfig]
 .. link:kafka-server-DynamicMetricsReporters.adoc[DynamicMetricsReporters]
 
+. link:kafka-server-FetchManager.adoc[FetchManager]
+
 . link:kafka-coordinator-group-GroupCoordinator.adoc[GroupCoordinator]
 .. link:kafka-coordinator-group-GroupMetadataManager.adoc[GroupMetadataManager]
 .. link:kafka-coordinator-group-GroupMetadata.adoc[GroupMetadata]
