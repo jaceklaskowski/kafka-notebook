@@ -3,8 +3,9 @@
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
 
-=== Kafka Security
+=== Kafka Security / Authorization
 
+. link:kafka-security-authorization.adoc[Kafka Security / Authorization]
 . link:kafka-security-Authorizer.adoc[Authorizer]
 . link:kafka-security-SimpleAclAuthorizer.adoc[SimpleAclAuthorizer]
 

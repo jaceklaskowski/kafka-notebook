@@ -504,17 +504,17 @@ handleCreateTokenRequest(
 
 NOTE: `handleCreateTokenRequest` is used when...FIXME
 
-=== [[handleDeleteAclsRequest]] Handling DeleteAcls Request -- `handleDeleteAclsRequest` Handler
+=== [[handleDeleteAcls]] Handling DeleteAcls Request -- `handleDeleteAcls` Handler
 
 [source, scala]
 ----
-handleDeleteAclsRequest(
+handleDeleteAcls(
   request: RequestChannel.Request): Unit
 ----
 
-`handleDeleteAclsRequest`...FIXME
+`handleDeleteAcls`...FIXME
 
-NOTE: `handleDeleteAclsRequest` is used when...FIXME
+NOTE: `handleDeleteAcls` is used when...FIXME
 
 === [[handleDeleteGroupsRequest]] Handling DeleteGroups Request -- `handleDeleteGroupsRequest` Handler
 
@@ -540,17 +540,17 @@ handleDescribeConfigsRequest(
 
 NOTE: `handleDescribeConfigsRequest` is used when...FIXME
 
-=== [[handleDescribeAclsRequest]] Handling DescribeAcls Request -- `handleDescribeAclsRequest` Handler
+=== [[handleDescribeAcls]] Handling DescribeAcls Request -- `handleDescribeAcls` Handler
 
 [source, scala]
 ----
-handleDescribeAclsRequest(
+handleDescribeAcls(
   request: RequestChannel.Request): Unit
 ----
 
-`handleDescribeAclsRequest`...FIXME
+`handleDescribeAcls`...FIXME
 
-NOTE: `handleDescribeAclsRequest` is used when...FIXME
+NOTE: `handleDescribeAcls` is used when...FIXME
 
 === [[handleDescribeTokensRequest]] Handling DescribeTokens Request -- `handleDescribeTokensRequest` Handler
 

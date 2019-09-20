@@ -152,3 +152,32 @@ This tool helps to manage acls on kafka
 `main` selects the command service between `AdminClientService` when <<bootstrap-server, --bootstrap-server>> is used and `AuthorizerService` otherwise.
 
 In the end, `main` requests the command service to <<addAcls, add>>, <<removeAcls, remove>> or <<listAcls, list>> ACLs based on <<add, --add>>, <<remove, --remove>> or <<list, --list>> command-line options, respectively.
+
+=== [[getFilteredResourceToAcls]] `getFilteredResourceToAcls` Internal Method
+
+[source, scala]
+----
+getFilteredResourceToAcls(
+  authorizer: Authorizer,
+  filters: Set[ResourcePatternFilter],
+  listPrincipal: Option[KafkaPrincipal] = None
+): Iterable[(Resource, Set[Acl])]
+----
+
+`getFilteredResourceToAcls`...FIXME
+
+NOTE: `getFilteredResourceToAcls` is used when...FIXME
+
+=== [[removeAcls]] `removeAcls` Internal Method
+
+[source, scala]
+----
+removeAcls(
+  authorizer: Authorizer,
+  acls: Set[Acl],
+  filter: ResourcePatternFilter): Unit
+----
+
+`removeAcls`...FIXME
+
+NOTE: `removeAcls` is used when...FIXME

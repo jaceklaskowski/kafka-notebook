@@ -2,10 +2,12 @@
 
 `Authorizer` is the <<contract, abstraction>> of <<implementations, authorizers>> that can <<authorize, authorize a principal to perform an operation on a resource>>.
 
-`Authorizer` is a <<kafka-common-Configurable.adoc#, Configurable>> for implementations that are instantiated by reflection and need to <<configure, take configuration parameters>>.
+`Authorizer` is a <<kafka-common-Configurable.adoc#, Configurable>> and can <<kafka-common-Configurable.adoc#configure, take configuration parameters>> when instantiated (by reflection).
+
+A concrete <<implementations, authorizer>> is used for authorization (in <<kafka-server-KafkaApis.adoc#authorize, KafkaApis>>) per <<kafka-properties.adoc#authorizer.class.name, authorizer.class.name>> configuration property.
 
 [[implementations]]
-NOTE: <<kafka-security-SimpleAclAuthorizer.adoc#, SimpleAclAuthorizer>> is the only known implementation of the <<contract, Authorizer Contract>> in Apache Kafka.
+NOTE: <<kafka-security-SimpleAclAuthorizer.adoc#, SimpleAclAuthorizer>> is the only known `Authorizer` in Apache Kafka.
 
 [[contract]]
 .Authorizer Contract
@@ -45,7 +47,7 @@ authorize(
 
 Authorizes a principal to perform an operation on a resource
 
-Used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#authorize, authorize a principal for an operation on a resource>>
+Used when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#authorize, authorize a principal for an operation on a resource>>
 
 | close
 a| [[close]]
@@ -55,18 +57,13 @@ a| [[close]]
 close(): Unit
 ----
 
-Used when...FIXME
+Closes the authorizer
 
-| configure
-a| [[configure]]
+Used when:
 
-[source, java]
-----
-void configure(
-  Map<String, ?> configs)
-----
+* `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#shutdown, shut down>>
 
-Used when...FIXME
+* `AclCommand` administration utility is requested to <<kafka-admin-AclCommand.adoc#add, add>>, <<kafka-admin-AclCommand.adoc#remove, remove>>, and <<kafka-admin-AclCommand.adoc#list, list>> ACLs
 
 | getAcls
 a| [[getAcls]]
@@ -80,7 +77,13 @@ getAcls(
   resource: Resource): Set[Acl]
 ----
 
-Used when...FIXME
+Gets ACLs (all, for a principal or a resource)
+
+Used when:
+
+* `AclCommand` administration utility is executed
+
+* `KafkaApis` is requested to handle <<kafka-server-KafkaApis.adoc#handleDescribeAcls, DescribeAcls>> and <<handleDeleteAcls, DeleteAcls>> requests
 
 | removeAcls
 a| [[removeAcls]]
@@ -94,6 +97,12 @@ removeAcls(
   resource: Resource): Boolean
 ----
 
-Used when...FIXME
+Removes ACLs on a resource
+
+Used when:
+
+* `AclCommand` administration utility is requested to <<kafka-admin-AclCommand.adoc#remove, remove ACLs>>
+
+* `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleDeleteAcls, handle a DeleteAcls request>>
 
 |===
