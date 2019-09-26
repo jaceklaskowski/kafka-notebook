@@ -10,14 +10,14 @@ The page describes the <<tasks, tasks>> (that should further improve comprehensi
 |===
 | Kafka Service
 | Task Name
-| Task Method
+| Task
 
 .2+^.^| <<kafka-controller-KafkaController.adoc#, KafkaController>>
 m| delete-expired-tokens
 | <<kafka-server-DelegationTokenManager.adoc#expireTokens, expireTokens>>
 
 m| auto-leader-rebalance-task
-| Sends `AutoPreferredReplicaLeaderElection` controller event to <<kafka-controller-ControllerEventManager.adoc#, ControllerEventManager>>
+| [[auto-leader-rebalance-task]] Enqueues <<kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc#, AutoPreferredReplicaLeaderElection>> controller event to <<kafka-controller-ControllerEventManager.adoc#, ControllerEventManager>> (when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, scheduleAutoLeaderRebalanceTask>>)
 
 .4+^.^| <<kafka-coordinator-group-GroupMetadataManager.adoc#, GroupMetadataManager>>
 m| delete-expired-group-metadata

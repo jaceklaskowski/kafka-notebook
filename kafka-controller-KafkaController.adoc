@@ -1410,7 +1410,7 @@ scheduleAutoLeaderRebalanceTask(
 
 `scheduleAutoLeaderRebalanceTask` simply requests the <<kafkaScheduler, KafkaScheduler>> to <<kafka-KafkaScheduler.adoc#schedule, schedule a task>> called *auto-leader-rebalance-task* with the given initial delay.
 
-The `auto-leader-rebalance-task` simply requests the <<eventManager, ControllerEventManager>> to <<kafka-controller-ControllerEventManager.adoc#put, enqueue an AutoPreferredReplicaLeaderElection event>>.
+The `auto-leader-rebalance-task` simply requests the <<eventManager, ControllerEventManager>> to <<kafka-controller-ControllerEventManager.adoc#put, enqueue>> an <<kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc#, AutoPreferredReplicaLeaderElection>> controller event.
 
 NOTE: `scheduleAutoLeaderRebalanceTask` is used when `KafkaController` is requested to <<onControllerFailover, onControllerFailover>> and <<processAutoPreferredReplicaLeaderElection, processAutoPreferredReplicaLeaderElection>>
 
@@ -1421,7 +1421,7 @@ NOTE: `scheduleAutoLeaderRebalanceTask` is used when `KafkaController` is reques
 processAutoPreferredReplicaLeaderElection(): Unit
 ----
 
-`processAutoPreferredReplicaLeaderElection` does nothing (and simply returns) unless the Kafka broker (`KafkaController`) is an <<isActive, active controller>>.
+NOTE: `processAutoPreferredReplicaLeaderElection` does nothing (and simply returns) unless the Kafka broker (`KafkaController`) is an <<isActive, active controller>>.
 
 `processAutoPreferredReplicaLeaderElection` prints out the following INFO message to the logs:
 
@@ -1448,7 +1448,34 @@ checkAndTriggerAutoLeaderRebalance(): Unit
 Checking need to trigger auto leader balancing
 ```
 
+[[checkAndTriggerAutoLeaderRebalance-preferredReplicasForTopicsByBrokers]]
 `checkAndTriggerAutoLeaderRebalance`...FIXME
+
+`checkAndTriggerAutoLeaderRebalance` prints out the following DEBUG message to the logs:
+
+```
+Preferred replicas by broker [preferredReplicasForTopicsByBrokers]
+```
+
+For every broker with one or more partition leaders, `checkAndTriggerAutoLeaderRebalance`...FIXME
+
+`checkAndTriggerAutoLeaderRebalance` prints out the following DEBUG message to the logs:
+
+```
+Topics not in preferred replica for broker [leaderBroker] [topicsNotInPreferredReplica]
+```
+
+[[checkAndTriggerAutoLeaderRebalance-imbalanceRatio]]
+`checkAndTriggerAutoLeaderRebalance` calculates an imbalance ratio of the broker which is the number of `topicsNotInPreferredReplica` divided by the total number of partitions (`topicPartitionsForBroker`).
+
+`checkAndTriggerAutoLeaderRebalance` prints out the following TRACE message to the logs:
+
+```
+Leader imbalance ratio for broker [leaderBroker] is [imbalanceRatio]
+```
+
+[[checkAndTriggerAutoLeaderRebalance-candidatePartitions]]
+With the imbalance ratio greater than the desired ratio (per <<kafka-properties.adoc#leader.imbalance.per.broker.percentage, leader.imbalance.per.broker.percentage>> configuration property with the default: `10%`), `checkAndTriggerAutoLeaderRebalance` <<onPreferredReplicaElection, onPreferredReplicaElection>> for...FIXME (with <<kafka-controller-ControllerEvent-PreferredReplicaLeaderElection.adoc#AutoTriggered, AutoTriggered>> election type).
 
 NOTE: `checkAndTriggerAutoLeaderRebalance` is used exclusively when `KafkaController` is requested to <<processAutoPreferredReplicaLeaderElection, processAutoPreferredReplicaLeaderElection>>.
 
@@ -1641,7 +1668,7 @@ NOTE: `processTopicDeletionStopReplicaResponseReceived` is used exclusively when
 processBrokerChange(): Unit
 ----
 
-`processBrokerChange` does nothing (and simply returns) unless the Kafka broker (`KafkaController`) is an <<isActive, active controller>>.
+NOTE: `processBrokerChange` does nothing (and simply returns) unless the Kafka broker (`KafkaController`) is an <<isActive, active controller>>.
 
 `processBrokerChange` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getAllBrokerAndEpochsInCluster, brokers in a Kafka cluster>> and compares the broker list with the <<kafka-controller-ControllerContext.adoc#liveOrShuttingDownBrokerIds, current brokers>> (of the <<controllerContext, ControllerContext>>).
 
@@ -1751,7 +1778,7 @@ NOTE: `processTopicChange` is used exclusively when `KafkaController` is request
 processLogDirEventNotification(): Unit
 ----
 
-`processLogDirEventNotification` does nothing (and simply returns) unless the Kafka broker (`KafkaController`) is an <<isActive, active controller>>.
+NOTE: `processLogDirEventNotification` does nothing (and simply returns) unless the Kafka broker (`KafkaController`) is an <<isActive, active controller>>.
 
 `processLogDirEventNotification` requests the <<zkClient, KafkaZkClient>> for the <<kafka-zk-KafkaZkClient.adoc#getAllLogDirEventNotifications, LogDirEvent notifications (from Zookeeper)>> (_sequence numbers_).
 

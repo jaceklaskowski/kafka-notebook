@@ -88,6 +88,11 @@ a| [[leaderImbalanceCheckIntervalSeconds]][[LeaderImbalanceCheckIntervalSecondsP
 
 Used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#processAutoPreferredReplicaLeaderElection, processAutoPreferredReplicaLeaderElection>>
 
+| leaderImbalancePerBrokerPercentage
+a| [[leaderImbalancePerBrokerPercentage]][[LeaderImbalancePerBrokerPercentageProp]] <<kafka-properties.adoc#leader.imbalance.per.broker.percentage, leader.imbalance.per.broker.percentage>>
+
+Used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, checkAndTriggerAutoLeaderRebalance>>
+
 | listeners
 a| [[listeners]][[ListenersProp]] <<kafka-properties.adoc#listeners, listeners>> (see <<getListeners, getListeners>>)
 

@@ -3,7 +3,9 @@
 [[state]]
 `AutoPreferredReplicaLeaderElection` is a <<kafka-controller-ControllerEvent.adoc#, controller event>> that <<kafka-controller-ControllerEvent.adoc#state, transition>> the <<kafka-controller-KafkaController.adoc#, KafkaController>> to `AutoLeaderBalance` state.
 
-[[process]]
-`AutoPreferredReplicaLeaderElection` event is ignored (skipped) when processed on an <<kafka-controller-KafkaController.adoc#isActive, inactive controller>>.
+`AutoPreferredReplicaLeaderElection` is <<kafka-controller-ControllerEventManager.adoc#put, enqueued>> (to the <<kafka-controller-KafkaController.adoc#eventManager, ControllerEventManager>>) exclusively from the <<kafka-server-scheduled-tasks.adoc#auto-leader-rebalance-task, auto-leader-rebalance-task>>.
 
-When <<kafka-controller-ControllerEvent.adoc#process, processed>> on an <<kafka-controller-KafkaController.adoc#isActive, active controller>>, `AutoPreferredReplicaLeaderElection` event <<kafka-controller-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, checkAndTriggerAutoLeaderRebalance>> and in the end <<kafka-controller-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, scheduleAutoLeaderRebalanceTask>> with the delay as configured using the <<kafka-properties.adoc#leader.imbalance.check.interval.seconds, leader.imbalance.check.interval.seconds>> property.
+[[process]]
+When <<kafka-controller-ControllerEvent.adoc#process, processed>> on a <<kafka-controller-KafkaController.adoc#isActive, controller broker>>, `AutoPreferredReplicaLeaderElection` event <<kafka-controller-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, checkAndTriggerAutoLeaderRebalance>> and in the end <<kafka-controller-KafkaController.adoc#scheduleAutoLeaderRebalanceTask, scheduleAutoLeaderRebalanceTask>> with the delay as configured using the <<kafka-properties.adoc#leader.imbalance.check.interval.seconds, leader.imbalance.check.interval.seconds>> property.
+
+NOTE: `AutoPreferredReplicaLeaderElection` event is ignored (skipped) when processed on any broker but <<kafka-controller-KafkaController.adoc#isActive, controller broker>>.

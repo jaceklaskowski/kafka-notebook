@@ -208,6 +208,15 @@ Default: `300`
 
 * Use <<kafka-server-KafkaConfig.adoc#leaderImbalanceCheckIntervalSeconds, KafkaConfig.leaderImbalanceCheckIntervalSeconds>> to access the current value
 
+| leader.imbalance.per.broker.percentage
+a| [[leader.imbalance.per.broker.percentage]] Allowed ratio of leader imbalance per broker. The controller would trigger a leader balance if it goes above this value per broker. The value is specified in percentage.
+
+Default: `10`
+
+* Use <<kafka-server-KafkaConfig.adoc#LeaderImbalancePerBrokerPercentageProp, KafkaConfig.LeaderImbalancePerBrokerPercentageProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#leaderImbalancePerBrokerPercentage, KafkaConfig.leaderImbalancePerBrokerPercentage>> to access the current value
+
 | listeners
 a| [[listeners]] Comma-separated list of URIs and listener names that a Kafka broker will listen on
 
