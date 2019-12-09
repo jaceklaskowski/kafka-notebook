@@ -4,9 +4,23 @@
 
 `KafkaConfig` is <<creating-instance, created>> when:
 
+* `KafkaConfig` is requested to <<fromProps, fromProps>> and <<apply, apply>>
+
 * `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#initialize, initialize>> and <<kafka-server-DynamicBrokerConfig.adoc#processReconfiguration, processReconfiguration>>
 
-* `KafkaConfig` is requested to <<fromProps, fromProps>> and <<apply, apply>>
+[source, scala]
+----
+import kafka.server.KafkaConfig
+assert(KafkaConfig.LogCleanupPolicyProp == "log.cleanup.policy")
+
+import java.util.Properties
+val props = new Properties()
+props.put(KafkaConfig.ZkConnectProp, ":9092") // required property
+val kafkaConfig = KafkaConfig.fromProps(props, doLog = false)
+
+import scala.collection.JavaConverters._
+assert(kafkaConfig.logCleanupPolicy.asScala.head == "delete")
+----
 
 [[configuration-values]]
 .KafkaConfig's Configuration Values
@@ -119,6 +133,11 @@ a| [[logCleanerBackoffMs]][[LogCleanerBackoffMsProp]] <<kafka-properties.adoc#lo
 
 | logCleanerEnable
 a| [[logCleanerEnable]][[LogCleanerEnableProp]] <<kafka-properties.adoc#log.cleaner.enable, log.cleaner.enable>>
+
+| logCleanupPolicy
+a| [[logCleanupPolicy]][[LogCleanupPolicyProp]] <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>>
+
+Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>>
 
 | logDirs
 a| [[logDirs]] <<kafka-properties.adoc#log.dirs, log.dirs>> or <<kafka-properties.adoc#log.dir, log.dir>>

@@ -481,3 +481,14 @@ onExpireHeartbeat(
 `onExpireHeartbeat`...FIXME
 
 NOTE: `onExpireHeartbeat` is used exclusively when `DelayedHeartbeat` is requested to `onExpiration`.
+
+=== [[offsetsTopicConfigs]] `offsetsTopicConfigs` Method
+
+[source, scala]
+----
+offsetsTopicConfigs: Properties
+----
+
+`offsetsTopicConfigs`...FIXME
+
+NOTE: `offsetsTopicConfigs` is used when...FIXME

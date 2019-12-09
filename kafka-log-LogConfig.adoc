@@ -9,6 +9,26 @@
 | Name / Default Value / Property
 | Description
 
+| CleanupPolicyProp
+
+Default: `delete`
+
+Property: <<kafka-common-TopicConfig.adoc#CLEANUP_POLICY_CONFIG, cleanup.policy>>
+
+a| [[CleanupPolicyProp]][[cleanup.policy]] Refer to <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>>
+
+Synonym of <<kafka-server-KafkaConfig.adoc#LogCleanupPolicyProp, log.cleanup.policy>>
+
+Used when:
+
+* `GroupCoordinator` is requested for the <<kafka-coordinator-group-GroupCoordinator.adoc#offsetsTopicConfigs, offsetsTopicConfigs>>
+
+* `TransactionStateManager` is requested for the <<kafka-TransactionStateManager.adoc#transactionTopicConfigs, transactionTopicConfigs>>
+
+* `LogConfig` is requested for the <<compact, compact>> and <<delete, delete>> flags
+
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>>
+
 | FileDeleteDelayMsProp
 
 Default: `60000`
@@ -32,3 +52,25 @@ You generally should not need to change this setting.
 Must be at least `0`
 
 |===
+
+=== [[compact]] Checking Out Whether Compact Cleanup Policy Is Enabled -- `compact` Flag
+
+[source, scala]
+----
+compact: Boolean
+----
+
+`compact`...FIXME
+
+NOTE: `compact` is used when...FIXME
+
+=== [[delete]] Checking Out Whether Delete Cleanup Policy Is Enabled -- `delete` Flag
+
+[source, scala]
+----
+delete: Boolean
+----
+
+`delete`...FIXME
+
+NOTE: `delete` is used when...FIXME

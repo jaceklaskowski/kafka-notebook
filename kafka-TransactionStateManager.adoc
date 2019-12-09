@@ -87,6 +87,17 @@ appendTransactionToLog(
 
 NOTE: `appendTransactionToLog` is used when...FIXME
 
+=== [[transactionTopicConfigs]] `transactionTopicConfigs` Method
+
+[source, scala]
+----
+transactionTopicConfigs: Properties
+----
+
+`transactionTopicConfigs`...FIXME
+
+NOTE: `transactionTopicConfigs` is used when...FIXME
+
 === [[loadTransactionMetadata]] `loadTransactionMetadata` Internal Method
 
 [source, scala]

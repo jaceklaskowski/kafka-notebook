@@ -337,6 +337,8 @@
 
 . link:kafka-common-record-MemoryRecordsBuilder.adoc[MemoryRecordsBuilder]
 
+. link:kafka-common-TopicConfig.adoc[TopicConfig]
+
 === Kafka Common / Requests
 
 . link:kafka-common-requests-AbstractRequestResponse.adoc[AbstractRequestResponse Contract]

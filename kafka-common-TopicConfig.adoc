@@ -1,0 +1,31 @@
+== [[TopicConfig]] TopicConfig
+
+`TopicConfig` are the <<keys, keys>> to configure a topic.
+
+[source, scala]
+----
+import org.apache.kafka.common.config.TopicConfig
+assert(TopicConfig.CLEANUP_POLICY_CONFIG == "cleanup.policy")
+----
+
+[[keys]]
+.Keys
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| cleanup.policy
+a| [[cleanup.policy]][[CLEANUP_POLICY_CONFIG]] Equivalent to <<kafka-log-LogConfig.adoc#CleanupPolicyProp, LogConfig.CleanupPolicyProp>>
+
+Used when:
+
+* `LogConfig` is requested for <<kafka-log-LogConfig.adoc#CleanupPolicyProp, LogConfig.CleanupPolicyProp>>
+
+* (Kafka Streams) `RepartitionTopicConfig` is requested for `REPARTITION_TOPIC_DEFAULT_OVERRIDES`
+
+* (Kafka Streams) `UnwindowedChangelogTopicConfig` is requested for `UNWINDOWED_STORE_CHANGELOG_TOPIC_DEFAULT_OVERRIDES`
+
+* (Kafka Streams) `WindowedChangelogTopicConfig` is requested for `WINDOWED_STORE_CHANGELOG_TOPIC_DEFAULT_OVERRIDES`
+
+|===

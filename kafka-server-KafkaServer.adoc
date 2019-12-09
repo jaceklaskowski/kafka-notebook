@@ -317,6 +317,18 @@ Cluster ID is used for the following:
 
 * <<notifyClusterListeners, Sending an updated cluster metadata to ClusterResourceListeners>>
 
+=== [[copyKafkaConfigToLog]] `copyKafkaConfigToLog` Internal Utility
+
+[source, scala]
+----
+copyKafkaConfigToLog(
+  kafkaConfig: KafkaConfig): java.util.Map[String, Object]
+----
+
+`copyKafkaConfigToLog`...FIXME
+
+NOTE: `copyKafkaConfigToLog` is used when...FIXME
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
