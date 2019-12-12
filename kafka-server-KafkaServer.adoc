@@ -424,7 +424,7 @@ copyKafkaConfigToLog(
 | Description
 
 | adminManager
-| [[adminManager]] link:kafka-server-AdminManager.adoc[AdminManager]
+| [[adminManager]] <<kafka-server-AdminManager.adoc#, AdminManager>>
 
 | apis
 a| [[apis]] <<kafka-server-KafkaApis.adoc#, KafkaApis>>

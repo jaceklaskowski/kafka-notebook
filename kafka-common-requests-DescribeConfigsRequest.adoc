@@ -7,7 +7,7 @@
 * [[includeSynonyms]] `includeSynonyms` flag
 * [[version]] Version
 
-`DescribeConfigsRequest` is used exclusively by `KafkaAdminClient` to <<kafka-clients-admin-KafkaAdminClient.adoc#describeConfigs, describeConfigs>> which is handled by <<kafka-server-KafkaApis.adoc#handleDescribeConfigsRequest, KafkaApis>>.
+`DescribeConfigsRequest` is used exclusively by <<kafka-tools.adoc#, Kafka administration utilities>> (via `KafkaAdminClient`) to <<kafka-clients-admin-KafkaAdminClient.adoc#describeConfigs, describe the configuration of specified resources>> which is handled by <<kafka-server-KafkaApis.adoc#handleDescribeConfigsRequest, KafkaApis>> (on the broker).
 
 `DescribeConfigsRequest` is <<creating-instance, created>> when:
 

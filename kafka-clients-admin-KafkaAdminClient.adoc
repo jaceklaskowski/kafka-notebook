@@ -231,7 +231,7 @@ NOTE: `createPartitions` is part of the <<kafka-clients-admin-AdminClient.adoc#c
 
 `createPartitions`...FIXME
 
-=== [[describeConfigs]] `describeConfigs` Method
+=== [[describeConfigs]] Describing Configuration Of Specified Resources (Topics and Brokers) -- `describeConfigs` Method
 
 [source, java]
 ----

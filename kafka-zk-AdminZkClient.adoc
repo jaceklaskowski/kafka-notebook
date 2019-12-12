@@ -22,7 +22,9 @@
 
 [source, scala]
 ----
-fetchEntityConfig(rootEntityType: String, sanitizedEntityName: String): Properties
+fetchEntityConfig(
+  rootEntityType: String,
+  sanitizedEntityName: String): Properties
 ----
 
 `fetchEntityConfig`...FIXME

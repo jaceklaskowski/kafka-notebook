@@ -1,6 +1,6 @@
 == [[AdminManager]] AdminManager
 
-`AdminManager` is...FIXME
+`AdminManager` is the administration interface of <<kafka-server-KafkaServer.adoc#adminManager, KafkaServer>>.
 
 `AdminManager` is <<creating-instance, created>> exclusively when `KafkaServer` is <<kafka-server-KafkaServer.adoc#startup, started>>.
 
@@ -11,27 +11,7 @@ image::images/AdminManager.png[align="center"]
 
 * <<createTopics, createTopics>> (to get the <<kafka-server-MetadataCache.adoc#getAliveBrokers, getAliveBrokers>>)
 
-* <<describeConfigs, describeConfigs>> for `TOPIC` resource type (to <<kafka-server-MetadataCache.adoc#contains, check whether a topic is available or not>>)
-
-[[internal-registries]]
-.AdminManager's Internal Properties (e.g. Registries and Counters)
-[cols="1m,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| adminZkClient
-a| [[adminZkClient]]
-
-| alterConfigPolicy
-| [[alterConfigPolicy]]
-
-| createTopicPolicy
-| [[createTopicPolicy]]
-
-| topicPurgatory
-| [[topicPurgatory]]
-|===
+* <<describeConfigs, Describing the configuration of topic resources>> (to <<kafka-server-MetadataCache.adoc#contains, check whether a topic is available or not>>)
 
 [[logIdent]]
 `AdminManager` uses *[Admin Manager on Broker [brokerId]]* as the logging prefix (aka `logIdent`).
@@ -39,16 +19,27 @@ a| [[adminZkClient]]
 [[logging]]
 [TIP]
 ====
-Enable `INFO`, `DEBUG`, `TRACE` logging levels for `kafka.server.AdminManager` logger to see what happens inside.
+Enable `ALL` logging levels for `kafka.server.AdminManager` logger to see what happens inside.
 
 Add the following line to `config/log4j.properties`:
 
 ```
-log4j.logger.kafka.server.AdminManager=TRACE
+log4j.logger.kafka.server.AdminManager=ALL
 ```
 
-Refer to link:kafka-logging.adoc[Logging].
+Refer to <<kafka-logging.adoc#, Logging>>.
 ====
+
+=== [[creating-instance]] Creating AdminManager Instance
+
+`AdminManager` takes the following when created:
+
+* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
+* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
+* [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
+* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
+
+`AdminManager` initializes the <<internal-registries, internal registries and counters>>.
 
 === [[createTopics]] Creating Topics -- `createTopics` Method
 
@@ -65,18 +56,7 @@ createTopics(
 
 NOTE: `createTopics` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleCreateTopicsRequest, handle a CREATE_TOPICS request>>.
 
-=== [[creating-instance]] Creating AdminManager Instance
-
-`AdminManager` takes the following when created:
-
-* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
-* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
-* [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
-* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
-
-`AdminManager` initializes the <<internal-registries, internal registries and counters>>.
-
-=== [[describeConfigs]] `describeConfigs` Method
+=== [[describeConfigs]] Describing Configuration Of Specified Resources (Topics and Brokers) -- `describeConfigs` Method
 
 [source, scala]
 ----
@@ -85,7 +65,17 @@ describeConfigs(
   includeSynonyms: Boolean): Map[ConfigResource, DescribeConfigsResponse.Config]
 ----
 
-`describeConfigs`...FIXME
+[[describeConfigs-TOPIC]]
+For `TOPIC` resources, `describeConfigs` does the following:
+
+. Requests the <<adminZkClient, AdminZkClient>> to <<kafka-zk-AdminZkClient.adoc#fetchEntityConfig, fetch configuration>> of the given topics (from Zookeeper)
+
+. Uses `KafkaServer` utility to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, create the default log properties>> based on the <<config, KafkaConfig>>
+
+. Uses `LogConfig` utility to <<kafka-log-LogConfig.adoc#fromProps, fromProps>> with the default log properties and the topic configuration (from Zookeeper)
+
+[[describeConfigs-BROKER]]
+For `BROKER` resources, `describeConfigs` does the following...FIXME
 
 NOTE: `describeConfigs` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleDescribeConfigsRequest, handle a DescribeConfigs request>>.
 
@@ -142,3 +132,23 @@ tryCompleteDelayedTopicOperations(topic: String): Unit
 `tryCompleteDelayedTopicOperations`...FIXME
 
 NOTE: `tryCompleteDelayedTopicOperations` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| adminZkClient
+a| [[adminZkClient]]
+
+| alterConfigPolicy
+| [[alterConfigPolicy]]
+
+| createTopicPolicy
+| [[createTopicPolicy]]
+
+| topicPurgatory
+| [[topicPurgatory]]
+|===
