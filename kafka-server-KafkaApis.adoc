@@ -536,7 +536,13 @@ handleDescribeConfigsRequest(
   request: RequestChannel.Request): Unit
 ----
 
-`handleDescribeConfigsRequest`...FIXME
+`handleDescribeConfigsRequest` takes the <<kafka-common-requests-DescribeConfigsRequest.adoc#, DescribeConfigsRequest>> from (the body of) the given <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>.
+
+`handleDescribeConfigsRequest` <<authorize, authorizes the DescribeConfigs operation on the broker and topic resources>> (of the <<kafka-common-requests-DescribeConfigsRequest.adoc#resources, DescribeConfigsRequest>>).
+
+For every authorized operation, `handleDescribeConfigsRequest` requests the <<adminManager, AdminManager>> to <<kafka-server-AdminManager.adoc#describeConfigs, describeConfigs>>.
+
+In the end, `handleDescribeConfigsRequest` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with a new `DescribeConfigsResponse`.
 
 NOTE: `handleDescribeConfigsRequest` is used exclusively when `KafkaApis` is requested to handle a <<DescribeConfigs, DescribeConfigs>> request.
 

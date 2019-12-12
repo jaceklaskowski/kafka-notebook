@@ -3,7 +3,7 @@
 [[DESCRIBE_CONFIGS]][[creating-instance]]
 `DescribeConfigsRequest` is a <<kafka-common-requests-AbstractRequest.adoc#, message request>> with *DescribeConfigs* API key and the following properties:
 
-* [[resourceToConfigNames]] Config resources with names (`Map<ConfigResource, Collection<String>>`)
+* [[resourceToConfigNames]][[resources]] Config resources with names (`Map<ConfigResource, Collection<String>>`)
 * [[includeSynonyms]] `includeSynonyms` flag
 * [[version]] Version
 
