@@ -348,6 +348,8 @@
 
 . link:kafka-common-requests-DescribeLogDirsRequest.adoc[DescribeLogDirsRequest]
 
+. link:kafka-common-requests-DescribeConfigsRequest.adoc[DescribeConfigsRequest]
+
 . link:kafka-common-requests-ElectPreferredLeadersRequest.adoc[ElectPreferredLeadersRequest]
 
 . link:kafka-common-requests-FindCoordinatorRequest.adoc[FindCoordinatorRequest]

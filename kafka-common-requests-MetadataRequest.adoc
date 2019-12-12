@@ -1,7 +1,7 @@
 == [[MetadataRequest]] MetadataRequest
 
 [[METADATA]][[creating-instance]]
-`MetadataRequest` is a <<kafka-common-requests-AbstractRequest.adoc#, request>> with *METADATA* API key and the following properties:
+`MetadataRequest` is a <<kafka-common-requests-AbstractRequest.adoc#, request>> with *Metadata* API key and the following properties:
 
 * [[data]] `MetadataRequestData`
 * [[version]] Version
@@ -10,7 +10,7 @@
 
 * `MetadataRequest.Builder` is requested to <<build, build a MetadataRequest>>
 
-* `MetadataRequest` is requested to <<parse, a byte buffer>>
+* `MetadataRequest` is requested to <<parse, parse a byte buffer>>
 
 * `AbstractRequest` is requested to <<kafka-common-requests-AbstractRequest.adoc#parseRequest, parse a request>> (with the <<METADATA, Metadata>> API key)
 
@@ -59,9 +59,9 @@ Builder allTopics()
 * `Fetcher` is requested to <<kafka-consumer-internals-Fetcher.adoc#getAllTopicMetadata, getAllTopicMetadata>>
 ====
 
-=== [[MetadataRequest.Builder]][[Builder]][[build]] `MetadataRequest.Builder` Factory Object
+=== [[MetadataRequest.Builder]][[Builder]][[build]] `MetadataRequest.Builder` Utility
 
-`UpdateMetadataRequest` comes with a concrete <<kafka-common-requests-AbstractRequest.adoc#Builder, AbstractRequest.Builder>> factory object that can <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a <<MetadataRequest, MetadataRequest>>.
+`MetadataRequest.Builder` is a <<kafka-common-requests-AbstractRequest-Builder.adoc#, AbstractRequest.Builder>> to <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a <<MetadataRequest, MetadataRequest>>.
 
 [source, java]
 ----
@@ -69,3 +69,14 @@ MetadataRequest build(short version)
 ----
 
 `UpdateMetadataRequest.Builder` is used when...FIXME
+
+=== [[parse]] Creating MetadataRequest from Byte Buffer -- `parse` Utility
+
+[source, java]
+----
+MetadataRequest parse(ByteBuffer buffer, short version)
+----
+
+`parse`...FIXME
+
+NOTE: `parse` is used when...FIXME

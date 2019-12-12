@@ -1,0 +1,40 @@
+== [[DescribeConfigsRequest]] DescribeConfigsRequest
+
+[[DESCRIBE_CONFIGS]][[creating-instance]]
+`DescribeConfigsRequest` is a <<kafka-common-requests-AbstractRequest.adoc#, message request>> with *DescribeConfigs* API key and the following properties:
+
+* [[resourceToConfigNames]] Config resources with names (`Map<ConfigResource, Collection<String>>`)
+* [[includeSynonyms]] `includeSynonyms` flag
+* [[version]] Version
+
+`DescribeConfigsRequest` is used exclusively by `KafkaAdminClient` to <<kafka-clients-admin-KafkaAdminClient.adoc#describeConfigs, describeConfigs>> which is handled by <<kafka-server-KafkaApis.adoc#handleDescribeConfigsRequest, KafkaApis>>.
+
+`DescribeConfigsRequest` is <<creating-instance, created>> when:
+
+* `DescribeConfigsRequest` is requested to <<parse, parse a byte buffer>>
+
+* `AbstractRequest` is requested to <<kafka-common-requests-AbstractRequest.adoc#parseRequest, parse a request>> (with the <<DESCRIBE_CONFIGS, DescribeConfigs>> API key)
+
+* `DescribeConfigsRequest.Builder` is requested to <<build, build a DescribeConfigsRequest>>
+
+=== [[DescribeConfigsRequest.Builder]][[Builder]][[build]] `DescribeConfigsRequest.Builder` Utility
+
+`DescribeConfigsRequest.Builder` is a <<kafka-common-requests-AbstractRequest-Builder.adoc#, request builder>> to <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a <<DescribeConfigsRequest, DescribeConfigsRequest>>.
+
+[source, java]
+----
+DescribeConfigsRequest build(short version)
+----
+
+`DescribeConfigsRequest.Builder` is used when...FIXME
+
+=== [[parse]] Creating DescribeConfigsRequest from Byte Buffer -- `parse` Utility
+
+[source, java]
+----
+DescribeConfigsRequest parse(ByteBuffer buffer, short version)
+----
+
+`parse`...FIXME
+
+NOTE: `parse` is used when...FIXME

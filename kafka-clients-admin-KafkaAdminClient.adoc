@@ -231,6 +231,19 @@ NOTE: `createPartitions` is part of the <<kafka-clients-admin-AdminClient.adoc#c
 
 `createPartitions`...FIXME
 
+=== [[describeConfigs]] `describeConfigs` Method
+
+[source, java]
+----
+DescribeConfigsResult describeConfigs(
+  Collection<ConfigResource> configResources,
+  DescribeConfigsOptions options)
+----
+
+NOTE: `describeConfigs` is part of the <<kafka-clients-admin-AdminClient.adoc#describeConfigs, AdminClient Contract>> to...FIXME.
+
+`describeConfigs`...FIXME
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

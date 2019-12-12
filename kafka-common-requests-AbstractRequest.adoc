@@ -96,7 +96,7 @@ Used when...FIXME
 | DescribeAclsRequest
 | [[DescribeAclsRequest]]
 
-| DescribeConfigsRequest
+| <<kafka-common-requests-DescribeConfigsRequest.adoc#, DescribeConfigsRequest>>
 | [[DescribeConfigsRequest]]
 
 | DescribeDelegationTokenRequest

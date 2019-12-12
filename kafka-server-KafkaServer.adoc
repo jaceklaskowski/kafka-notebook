@@ -322,7 +322,7 @@ Cluster ID is used for the following:
 [source, scala]
 ----
 copyKafkaConfigToLog(
-  kafkaConfig: KafkaConfig): java.util.Map[String, Object]
+  kafkaConfig: KafkaConfig): Map[String, Object]
 ----
 
 `copyKafkaConfigToLog` creates a new <<copyKafkaConfigToLog-log-properties, log properties>> based on the values in given <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>.
@@ -405,7 +405,6 @@ copyKafkaConfigToLog(
 
 | <<kafka-log-LogConfig.adoc#MessageDownConversionEnableProp, MessageDownConversionEnableProp>>
 | <<kafka-server-KafkaConfig.adoc#logMessageDownConversionEnable, logMessageDownConversionEnable>>
-
 |===
 
 [NOTE]

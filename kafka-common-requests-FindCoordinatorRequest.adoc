@@ -1,7 +1,7 @@
 == [[FindCoordinatorRequest]] FindCoordinatorRequest
 
 [[FIND_COORDINATOR]][[creating-instance]]
-`FindCoordinatorRequest` is a <<kafka-common-requests-AbstractRequest.adoc#, message requests>> with *FindCoordinator* API key and the following properties:
+`FindCoordinatorRequest` is a <<kafka-common-requests-AbstractRequest.adoc#, message request>> with *FindCoordinator* API key and the following properties:
 
 * [[coordinatorType]] Coordinator type (i.e. `GROUP` or `TRANSACTION`)
 * [[coordinatorKey]] Coordinator key
@@ -15,16 +15,18 @@
 
 * `FindCoordinatorRequest.Builder` is requested to <<build, build a FindCoordinatorRequest>>
 
-=== [[FindCoordinatorRequest.Builder]][[Builder]][[build]] `FindCoordinatorRequest.Builder` Factory Object
+=== [[FindCoordinatorRequest.Builder]][[Builder]][[build]] `FindCoordinatorRequest.Builder` Utility
 
-`FindCoordinatorRequest.Builder` is a <<kafka-common-requests-AbstractRequest-Builder.adoc#, request builder>> to <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a `FindCoordinatorRequest`.
+`FindCoordinatorRequest.Builder` is a <<kafka-common-requests-AbstractRequest-Builder.adoc#, request builder>> to <<kafka-common-requests-AbstractRequest-Builder.adoc#build, build>> a <<FindCoordinatorRequest, FindCoordinatorRequest>>.
 
 [source, java]
 ----
 FindCoordinatorRequest build(short version)
 ----
 
-=== [[parse]] Creating FindCoordinatorRequest from Byte Buffer -- `parse` Factory Method
+`FindCoordinatorRequest.Builder` is used when...FIXME
+
+=== [[parse]] Creating FindCoordinatorRequest from Byte Buffer -- `parse` Utility
 
 [source, java]
 ----
