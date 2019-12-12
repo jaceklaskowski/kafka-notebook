@@ -59,7 +59,7 @@ The performance metrics are registered in *kafka.log:type=LogManager* group.
 .LogManager in jconsole
 image::images/LogManager-jconsole.png[align="center"]
 
-=== [[apply]] Creating LogManager -- `apply` Factory Method
+=== [[apply]] Creating LogManager -- `apply` Utility
 
 [source, scala]
 ----

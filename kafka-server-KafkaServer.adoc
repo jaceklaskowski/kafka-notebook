@@ -317,7 +317,7 @@ Cluster ID is used for the following:
 
 * <<notifyClusterListeners, Sending an updated cluster metadata to ClusterResourceListeners>>
 
-=== [[copyKafkaConfigToLog]] `copyKafkaConfigToLog` Internal Utility
+=== [[copyKafkaConfigToLog]] Creating Default Log Properties (for LogManager and AdminManager) -- `copyKafkaConfigToLog` Internal Utility
 
 [source, scala]
 ----
@@ -325,9 +325,97 @@ copyKafkaConfigToLog(
   kafkaConfig: KafkaConfig): java.util.Map[String, Object]
 ----
 
-`copyKafkaConfigToLog`...FIXME
+`copyKafkaConfigToLog` creates a new <<copyKafkaConfigToLog-log-properties, log properties>> based on the values in given <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>.
 
-NOTE: `copyKafkaConfigToLog` is used when...FIXME
+[[copyKafkaConfigToLog-log-properties]]
+.Names of LogConfig and Corresponding KafkaConfig Properties
+[cols="30m,70",options="header",width="100%"]
+|===
+| LogConfig
+| KafkaConfig
+
+| <<kafka-log-LogConfig.adoc#SegmentBytesProp, SegmentBytesProp>>
+| <<kafka-server-KafkaConfig.adoc#logSegmentBytes, logSegmentBytes>>
+
+| <<kafka-log-LogConfig.adoc#SegmentMsProp, SegmentMsProp>>
+| <<kafka-server-KafkaConfig.adoc#logRollTimeMillis, logRollTimeMillis>>
+
+| <<kafka-log-LogConfig.adoc#SegmentJitterMsProp, SegmentJitterMsProp>>
+| <<kafka-server-KafkaConfig.adoc#logRollTimeJitterMillis, logRollTimeJitterMillis>>
+
+| <<kafka-log-LogConfig.adoc#SegmentIndexBytesProp, SegmentIndexBytesProp>>
+| <<kafka-server-KafkaConfig.adoc#logIndexSizeMaxBytes, logIndexSizeMaxBytes>>
+
+| <<kafka-log-LogConfig.adoc#FlushMessagesProp, FlushMessagesProp>>
+| <<kafka-server-KafkaConfig.adoc#logFlushIntervalMessages, logFlushIntervalMessages>>
+
+| <<kafka-log-LogConfig.adoc#FlushMsProp, FlushMsProp>>
+| <<kafka-server-KafkaConfig.adoc#logFlushIntervalMs, logFlushIntervalMs>>
+
+| <<kafka-log-LogConfig.adoc#RetentionBytesProp, RetentionBytesProp>>
+| <<kafka-server-KafkaConfig.adoc#logRetentionBytes, logRetentionBytes>>
+
+| <<kafka-log-LogConfig.adoc#RetentionMsProp, RetentionMsProp>>
+| <<kafka-server-KafkaConfig.adoc#logRetentionTimeMillis, logRetentionTimeMillis>>
+
+| <<kafka-log-LogConfig.adoc#MaxMessageBytesProp, MaxMessageBytesProp>>
+| <<kafka-server-KafkaConfig.adoc#messageMaxBytes, messageMaxBytes>>
+
+| <<kafka-log-LogConfig.adoc#IndexIntervalBytesProp, IndexIntervalBytesProp>>
+| <<kafka-server-KafkaConfig.adoc#logIndexIntervalBytes, logIndexIntervalBytes>>
+
+| <<kafka-log-LogConfig.adoc#DeleteRetentionMsProp, DeleteRetentionMsProp>>
+| <<kafka-server-KafkaConfig.adoc#logCleanerDeleteRetentionMs, logCleanerDeleteRetentionMs>>
+
+| <<kafka-log-LogConfig.adoc#MinCompactionLagMsProp, MinCompactionLagMsProp>>
+| <<kafka-server-KafkaConfig.adoc#logCleanerMinCompactionLagMs, logCleanerMinCompactionLagMs>>
+
+| <<kafka-log-LogConfig.adoc#MaxCompactionLagMsProp, MaxCompactionLagMsProp>>
+| <<kafka-server-KafkaConfig.adoc#logCleanerMaxCompactionLagMs, logCleanerMaxCompactionLagMs>>
+
+| <<kafka-log-LogConfig.adoc#FileDeleteDelayMsProp, FileDeleteDelayMsProp>>
+| <<kafka-server-KafkaConfig.adoc#logDeleteDelayMs, logDeleteDelayMs>>
+
+| <<kafka-log-LogConfig.adoc#MinCleanableDirtyRatioProp, MinCleanableDirtyRatioProp>>
+| <<kafka-server-KafkaConfig.adoc#logCleanerMinCleanRatio, logCleanerMinCleanRatio>>
+
+| <<kafka-log-LogConfig.adoc#CleanupPolicyProp, CleanupPolicyProp>>
+| <<kafka-server-KafkaConfig.adoc#logCleanupPolicy, logCleanupPolicy>>
+
+| <<kafka-log-LogConfig.adoc#MinInSyncReplicasProp, MinInSyncReplicasProp>>
+| <<kafka-server-KafkaConfig.adoc#minInSyncReplicas, minInSyncReplicas>>
+
+| <<kafka-log-LogConfig.adoc#CompressionTypeProp, CompressionTypeProp>>
+| <<kafka-server-KafkaConfig.adoc#compressionType, compressionType>>
+
+| <<kafka-log-LogConfig.adoc#UncleanLeaderElectionEnableProp, UncleanLeaderElectionEnableProp>>
+| <<kafka-server-KafkaConfig.adoc#uncleanLeaderElectionEnable, uncleanLeaderElectionEnable>>
+
+| <<kafka-log-LogConfig.adoc#PreAllocateEnableProp, PreAllocateEnableProp>>
+| <<kafka-server-KafkaConfig.adoc#logPreAllocateEnable, logPreAllocateEnable>>
+
+| <<kafka-log-LogConfig.adoc#MessageFormatVersionProp, MessageFormatVersionProp>>
+| <<kafka-server-KafkaConfig.adoc#logMessageFormatVersion, logMessageFormatVersion>>
+
+| <<kafka-log-LogConfig.adoc#MessageTimestampTypeProp, MessageTimestampTypeProp>>
+| <<kafka-server-KafkaConfig.adoc#logMessageTimestampType, logMessageTimestampType>>
+
+| <<kafka-log-LogConfig.adoc#MessageTimestampDifferenceMaxMsProp, MessageTimestampDifferenceMaxMsProp>>
+| <<kafka-server-KafkaConfig.adoc#logMessageTimestampDifferenceMaxMs, logMessageTimestampDifferenceMaxMs>>
+
+| <<kafka-log-LogConfig.adoc#MessageDownConversionEnableProp, MessageDownConversionEnableProp>>
+| <<kafka-server-KafkaConfig.adoc#logMessageDownConversionEnable, logMessageDownConversionEnable>>
+
+|===
+
+[NOTE]
+====
+`copyKafkaConfigToLog` is used when:
+
+* `LogManager` utility is requested to <<kafka-log-LogManager.adoc#apply, create an instance of LogManager>> (for `KafkaServer` when requested to <<kafka-server-KafkaServer.adoc#startup, start up>>)
+
+* `AdminManager` is requested to <<kafka-server-AdminManager.adoc#describeConfigs, describe the configs>> (of topics)
+====
 
 === [[internal-properties]] Internal Properties
 

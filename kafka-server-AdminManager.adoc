@@ -87,7 +87,7 @@ describeConfigs(
 
 `describeConfigs`...FIXME
 
-NOTE: `describeConfigs` is used when...FIXME
+NOTE: `describeConfigs` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleDescribeConfigsRequest, handle a DescribeConfigs request>>.
 
 === [[alterConfigs]] `alterConfigs` Method
 

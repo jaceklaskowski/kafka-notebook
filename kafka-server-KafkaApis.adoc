@@ -538,7 +538,7 @@ handleDescribeConfigsRequest(
 
 `handleDescribeConfigsRequest`...FIXME
 
-NOTE: `handleDescribeConfigsRequest` is used when...FIXME
+NOTE: `handleDescribeConfigsRequest` is used exclusively when `KafkaApis` is requested to handle a <<DescribeConfigs, DescribeConfigs>> request.
 
 === [[handleDescribeAcls]] Handling DescribeAcls Request -- `handleDescribeAcls` Handler
 
