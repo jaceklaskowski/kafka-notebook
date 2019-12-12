@@ -159,11 +159,28 @@ a| [[describeConfigs]]
 [source, java]
 ----
 DescribeConfigsResult describeConfigs(
+  Collection<ConfigResource> resources) // <1>
+DescribeConfigsResult describeConfigs(
   Collection<ConfigResource> resources,
   DescribeConfigsOptions options)
 ----
+<1> Uses the default options
 
-Used when...FIXME
+Describes the configuration of the specified resources
+
+Supported resources are `topics` and `brokers`
+
+Supported options are:
+
+* `includeSynonyms` (default: `false`)
+
+* `timeoutMs` (default: undefined)
+
+Used when:
+
+* `TopicCommand` tool is used to <<kafka-admin-TopicCommand.adoc#, describe a topic>> (with `bootstrap-server` option)
+
+* `ConfigCommand` tool is used to <<kafka-admin-ConfigCommand.adoc#brokerConfig, brokerConfig>>
 
 | describeConsumerGroups
 a| [[describeConsumerGroups]]

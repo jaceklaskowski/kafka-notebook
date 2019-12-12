@@ -1,6 +1,6 @@
 == [[ConfigCommand]] ConfigCommand Standalone Application
 
-`kafka.admin.ConfigCommand` is a <<main, standalone application>> that...FIXME
+`kafka.admin.ConfigCommand` is a <<main, command-line application>> that...FIXME
 
 `ConfigCommand` can be executed using `kafka-configs` shell script (i.e. `bin/kafka-configs.sh` or `bin\windows\kafka-configs.bat`).
 
@@ -83,3 +83,31 @@ alterConfig(
 `alterConfig`...FIXME
 
 NOTE: `alterConfig` is used when...FIXME
+
+=== [[describeBrokerConfig]] `describeBrokerConfig` Internal Method
+
+[source, scala]
+----
+describeBrokerConfig(
+  adminClient: JAdminClient,
+  opts: ConfigCommandOptions,
+  entityName: String): Unit
+----
+
+`describeBrokerConfig`...FIXME
+
+NOTE: `describeBrokerConfig` is used exclusively when `ConfigCommand` is requested to <<processBrokerConfig, processBrokerConfig>> (with `describe` action).
+
+=== [[brokerConfig]] `brokerConfig` Internal Method
+
+[source, scala]
+----
+brokerConfig(
+  adminClient: JAdminClient,
+  entityName: String,
+  includeSynonyms: Boolean): Seq[ConfigEntry]
+----
+
+`brokerConfig`...FIXME
+
+NOTE: `brokerConfig` is used when `ConfigCommand` is requested to <<alterBrokerConfig, alterBrokerConfig>> and <<describeBrokerConfig, describeBrokerConfig>>.

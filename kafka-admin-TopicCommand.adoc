@@ -133,7 +133,9 @@ NOTE: `deleteTopic` is used when...FIXME
 
 [source, scala]
 ----
-describeTopic(zkClient: KafkaZkClient, opts: TopicCommandOptions): Unit
+describeTopic(
+  zkClient: KafkaZkClient,
+  opts: TopicCommandOptions): Unit
 ----
 
 `describeTopic`...FIXME

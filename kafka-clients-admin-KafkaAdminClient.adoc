@@ -240,7 +240,7 @@ DescribeConfigsResult describeConfigs(
   DescribeConfigsOptions options)
 ----
 
-NOTE: `describeConfigs` is part of the <<kafka-clients-admin-AdminClient.adoc#describeConfigs, AdminClient Contract>> to...FIXME.
+NOTE: `describeConfigs` is part of the <<kafka-clients-admin-AdminClient.adoc#describeConfigs, AdminClient Contract>> to describe the configuration of the specified resources.
 
 `describeConfigs`...FIXME
 
