@@ -133,6 +133,20 @@ tryCompleteDelayedTopicOperations(topic: String): Unit
 
 NOTE: `tryCompleteDelayedTopicOperations` is used when...FIXME
 
+=== [[incrementalAlterConfigs]] `incrementalAlterConfigs` Method
+
+[source, scala]
+----
+incrementalAlterConfigs(
+  configs: Map[ConfigResource,
+  List[AlterConfigOp]],
+  validateOnly: Boolean): Map[ConfigResource, ApiError]
+----
+
+`incrementalAlterConfigs`...FIXME
+
+NOTE: `incrementalAlterConfigs` is used when...FIXME
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

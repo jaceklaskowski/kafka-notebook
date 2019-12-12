@@ -18,7 +18,7 @@
 [[zkClient]]
 `AdminZkClient` takes a single <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>> when created.
 
-=== [[fetchEntityConfig]] `fetchEntityConfig` Method
+=== [[fetchEntityConfig]] Reading Entity Configuration From Zookeeper (Under /config Node) -- `fetchEntityConfig` Method
 
 [source, scala]
 ----
@@ -27,9 +27,63 @@ fetchEntityConfig(
   sanitizedEntityName: String): Properties
 ----
 
-`fetchEntityConfig`...FIXME
+`fetchEntityConfig` requests the <<zkClient, KafkaZkClient>> to <<kafka-zk-KafkaZkClient.adoc#getEntityConfigs, get the configuration from Zookeeper (under /config node)>> for the given `rootEntityType` and `sanitizedEntityName`.
 
-NOTE: `fetchEntityConfig` is used when...FIXME
+[NOTE]
+====
+`fetchEntityConfig` is used when:
+
+* `ConfigCommand` command-line tool is requested to <<kafka-admin-ConfigCommand.adoc#alterConfig, alterConfig>> and <<kafka-admin-ConfigCommand.adoc#describeConfig, describeConfig>>
+
+* `ReassignPartitionsCommand` command-line tool is requested to <<kafka-admin-ReassignPartitionsCommand.adoc#removeThrottle, removeThrottle>>, <<kafka-admin-ReassignPartitionsCommand.adoc#maybeLimit, maybeLimit>> and <<kafka-admin-ReassignPartitionsCommand.adoc#assignThrottledReplicas, assignThrottledReplicas>>
+
+* `TopicCommand` command-line tool is requested to <<kafka-admin-TopicCommand.adoc#alterTopic, alterTopic>> and <<kafka-admin-TopicCommand.adoc#describeTopic, describeTopic>>
+
+* `Partition` is requested to <<kafka-cluster-Partition.adoc#getOrCreateReplica, look up or create a replica>>
+
+* `AdminManager` is requested to <<kafka-server-AdminManager.adoc#describeConfigs, describe the configuration of the specified resources (topics and brokers)>> and <<kafka-server-AdminManager.adoc#incrementalAlterConfigs, incrementalAlterConfigs>>
+
+* `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#initialize, initialize>>
+
+* `ConfigChangedNotificationHandler` (of `DynamicConfigManager`) is requested to <<kafka-server-DynamicConfigManager.adoc#processEntityConfigChangeVersion1, processEntityConfigChangeVersion1>> and <<kafka-server-DynamicConfigManager.adoc#processEntityConfigChangeVersion2, processEntityConfigChangeVersion2>>
+
+* `AdminZkClient` is requested to <<getAllTopicConfigs, getAllTopicConfigs>>, <<fetchAllEntityConfigs, fetchAllEntityConfigs>>, and <<fetchAllChildEntityConfigs, fetchAllChildEntityConfigs>>
+====
+
+=== [[getAllTopicConfigs]] `getAllTopicConfigs` Method
+
+[source, scala]
+----
+getAllTopicConfigs(): Map[String, Properties]
+----
+
+`getAllTopicConfigs`...FIXME
+
+NOTE: `getAllTopicConfigs` is used when...FIXME
+
+=== [[fetchAllEntityConfigs]] `fetchAllEntityConfigs` Method
+
+[source, scala]
+----
+fetchAllEntityConfigs(entityType: String): Map[String, Properties]
+----
+
+`fetchAllEntityConfigs`...FIXME
+
+NOTE: `fetchAllEntityConfigs` is used when...FIXME
+
+=== [[fetchAllChildEntityConfigs]] `fetchAllChildEntityConfigs` Method
+
+[source, scala]
+----
+fetchAllChildEntityConfigs(
+  rootEntityType: String,
+  childEntityType: String): Map[String, Properties]
+----
+
+`fetchAllChildEntityConfigs`...FIXME
+
+NOTE: `fetchAllChildEntityConfigs` is used when...FIXME
 
 === [[writeTopicPartitionAssignment]] `writeTopicPartitionAssignment` Internal Method
 

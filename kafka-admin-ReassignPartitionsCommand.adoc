@@ -1,6 +1,6 @@
-== [[ReassignPartitionsCommand]] ReassignPartitionsCommand -- Partition Reassignment on Command Line
+== [[ReassignPartitionsCommand]] ReassignPartitionsCommand Command-Line Tool -- Partition Reassignment on Command Line
 
-`kafka.admin.ReassignPartitionsCommand` is a <<main, command-line application>> that allows for <<generate, generating>>, <<execute, executing>> and <<verify, verifying>> a custom partition (re)assignment configuration (as specified using a <<reassignment-json-file, reassignment JSON file>>).
+`kafka.admin.ReassignPartitionsCommand` is a <<main, command-line tool>> that allows for <<generate, generating>>, <<execute, executing>> and <<verify, verifying>> a custom partition (re)assignment configuration (as specified using a <<reassignment-json-file, reassignment JSON file>>).
 
 [[actions]]
 .ReassignPartitionsCommand's Actions
@@ -231,6 +231,31 @@ removeThrottle(
 `removeThrottle`...FIXME
 
 NOTE: `removeThrottle` is used when...FIXME
+
+=== [[maybeLimit]] `maybeLimit` Method
+
+[source, scala]
+----
+maybeLimit(throttle: Throttle): Unit
+----
+
+`maybeLimit`...FIXME
+
+NOTE: `maybeLimit` is used when...FIXME
+
+=== [[assignThrottledReplicas]] `assignThrottledReplicas` Method
+
+[source, scala]
+----
+assignThrottledReplicas(
+  existingPartitionAssignment: Map[TopicPartition, Seq[Int]],
+  proposedPartitionAssignment: Map[TopicPartition, Seq[Int]],
+  adminZkClient: AdminZkClient): Unit
+----
+
+`assignThrottledReplicas`...FIXME
+
+NOTE: `assignThrottledReplicas` is used when...FIXME
 
 === [[existingAssignment]] `existingAssignment` Method
 

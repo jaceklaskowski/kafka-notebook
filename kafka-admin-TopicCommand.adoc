@@ -1,6 +1,6 @@
-== [[TopicCommand]] TopicCommand -- Topic Management on Command Line
+== [[TopicCommand]] TopicCommand Command-Line Tool -- Topic Management on Command Line
 
-`kafka.admin.TopicCommand` is a <<main, command-line application>> that can <<alter, alter>>, <<create, create>>, <<delete, delete>>, <<describe, describe>> and <<list, list>> topics in a Kafka cluster.
+`kafka.admin.TopicCommand` is a <<main, command-line tool>> that can <<alter, alter>>, <<create, create>>, <<delete, delete>>, <<describe, describe>> and <<list, list>> topics in a Kafka cluster.
 
 [[actions]]
 .TopicCommand's Actions

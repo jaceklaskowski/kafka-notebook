@@ -634,3 +634,18 @@ getPartitionsForTopics(
 `getPartitionsForTopics`...FIXME
 
 NOTE: `getPartitionsForTopics` is used when...FIXME
+
+=== [[getEntityConfigs]] Reading Entity Config From Zookeeper (Under /config Node) -- `getEntityConfigs` Method
+
+[source, scala]
+----
+getEntityConfigs(
+  rootEntityType: String,
+  sanitizedEntityName: String): Properties
+----
+
+`getEntityConfigs` reads the `/config/[rootEntityType]/[sanitizedEntityName]`.
+
+`getEntityConfigs`...FIXME
+
+NOTE: `getEntityConfigs` is used exclusively when `AdminZkClient` is requested to <<kafka-zk-AdminZkClient.adoc#fetchEntityConfig, fetchEntityConfig>>.

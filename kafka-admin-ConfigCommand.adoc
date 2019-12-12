@@ -1,6 +1,6 @@
-== [[ConfigCommand]] ConfigCommand Standalone Application
+== [[ConfigCommand]] ConfigCommand Command-Line Tool
 
-`kafka.admin.ConfigCommand` is a <<main, command-line application>> that...FIXME
+`kafka.admin.ConfigCommand` is a <<main, command-line tool>> that...FIXME
 
 `ConfigCommand` can be executed using `kafka-configs` shell script (i.e. `bin/kafka-configs.sh` or `bin\windows\kafka-configs.bat`).
 
@@ -83,6 +83,20 @@ alterConfig(
 `alterConfig`...FIXME
 
 NOTE: `alterConfig` is used when...FIXME
+
+=== [[describeConfig]] `describeConfig` Internal Method
+
+[source, scala]
+----
+describeConfig(
+  zkClient: KafkaZkClient,
+  opts: ConfigCommandOptions,
+  adminZkClient: AdminZkClient): Unit
+----
+
+`describeConfig`...FIXME
+
+NOTE: `describeConfig` is used when...FIXME
 
 === [[describeBrokerConfig]] `describeBrokerConfig` Internal Method
 
