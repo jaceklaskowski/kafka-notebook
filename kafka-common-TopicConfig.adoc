@@ -16,7 +16,7 @@ assert(TopicConfig.CLEANUP_POLICY_CONFIG == "cleanup.policy")
 | Description
 
 | cleanup.policy
-a| [[cleanup.policy]][[CLEANUP_POLICY_CONFIG]] Equivalent to <<kafka-log-LogConfig.adoc#CleanupPolicyProp, LogConfig.CleanupPolicyProp>>
+a| [[cleanup.policy]][[CLEANUP_POLICY_CONFIG]] <<kafka-log-LogConfig.adoc#CleanupPolicyProp, LogConfig.CleanupPolicyProp>>
 
 Used when:
 
@@ -27,5 +27,14 @@ Used when:
 * (Kafka Streams) `UnwindowedChangelogTopicConfig` is requested for `UNWINDOWED_STORE_CHANGELOG_TOPIC_DEFAULT_OVERRIDES`
 
 * (Kafka Streams) `WindowedChangelogTopicConfig` is requested for `WINDOWED_STORE_CHANGELOG_TOPIC_DEFAULT_OVERRIDES`
+
+| segment.bytes
+a| [[segment.bytes]][[SEGMENT_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>
+
+Used when:
+
+* (Kafka Streams) `StreamsConfig` is requested to `getMainConsumerConfigs`
+
+* (Kafka Streams) `RepartitionTopicConfig` is requested for `REPARTITION_TOPIC_DEFAULT_OVERRIDES`
 
 |===

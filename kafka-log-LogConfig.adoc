@@ -10,7 +10,6 @@
 | Description
 
 | CleanupPolicyProp
-
 a| [[CleanupPolicyProp]][[cleanup.policy]] <<kafka-common-TopicConfig.adoc#CLEANUP_POLICY_CONFIG, cleanup.policy>>
 
 Default: `delete`
@@ -34,7 +33,6 @@ a| [[CompressionTypeProp]]
 a| [[DeleteRetentionMsProp]]
 
 | FileDeleteDelayMsProp
-
 a| [[file.delete.delay.ms]][[FileDeleteDelayMsProp]][[fileDeleteDelayMs]] The time (in millis) to wait before deleting a file from the filesystem. Must be at least `0`
 
 Property: `file.delete.delay.ms`
@@ -87,10 +85,21 @@ a| [[RetentionBytesProp]]
 a| [[RetentionMsProp]]
 
 | SegmentBytesProp
-a| [[SegmentBytesProp]]
+a| [[SegmentBytesProp]] <<kafka-common-TopicConfig.adoc#SEGMENT_BYTES_CONFIG, segment.bytes>>
+
+Server-wide default (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.segment.bytes, log.segment.bytes>>
+
+Used when:
+
+* `GroupCoordinator` is requested for the <<kafka-coordinator-group-GroupCoordinator.adoc#offsetsTopicConfigs, offsetsTopicConfigs>>
+
+* `TransactionStateManager` is requested for the <<kafka-TransactionStateManager.adoc#transactionTopicConfigs, transactionTopicConfigs>>
+
+* `LogConfig` is requested for the <<segmentSize, segmentSize>>
+
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>>
 
 | SegmentIndexBytesProp
-
 a| [[segment.index.bytes]][[maxIndexSize]][[SegmentIndexBytesProp]] Size of the index that maps offsets to file positions. We preallocate this index file and shrink it only after log rolls.
 
 Property: `segment.index.bytes`

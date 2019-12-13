@@ -298,12 +298,23 @@ Use <<kafka-server-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> to access the
 | log.index.size.max.bytes
 a| [[log.index.size.max.bytes]] Maximum size in bytes of the offset index
 
-Default: `10 * 1024 * 1024` (at least `4`)
+Default: `10 * 1024 * 1024`
+
+Must be at least `4`
 
 Use <<kafka-server-KafkaConfig.adoc#logIndexSizeMaxBytes, KafkaConfig.logIndexSizeMaxBytes>> to access the current value.
 
+| log.segment.bytes
+a| [[log.segment.bytes]] The maximum size of a single log segment file. Retention and cleaning are always done one file at a time so a larger segment size means fewer files but less granular control over retention.
+
+Default: `1 * 1024 * 1024 * 1024`
+
+Must be at least `14` bytes (`LegacyRecord.RECORD_OVERHEAD_V0`)
+
+Use <<kafka-server-KafkaConfig.adoc#logSegmentBytes, KafkaConfig.logSegmentBytes>> to access the current value.
+
 | max.block.ms
-| [[max.block.ms]]
+a| [[max.block.ms]]
 
 | max.partition.fetch.bytes
 a| [[max.partition.fetch.bytes]] The maximum amount of data per-partition the server will return. Records are fetched in batches by the consumer. If the first record batch in the first non-empty partition of the fetch is larger than this limit, the batch will still be returned to ensure that the consumer can make progress. The maximum record batch size accepted by the broker is defined via <<message.max.bytes, message.max.bytes>> (broker config) or <<max.message.bytes, max.message.bytes>> (topic config).
