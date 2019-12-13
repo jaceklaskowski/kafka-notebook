@@ -4,20 +4,18 @@
 
 [[properties]]
 .LogConfig's Configuration Properties
-[cols="1,3",options="header",width="100%"]
+[cols="30m,70",options="header",width="100%"]
 |===
-| Name / Default Value / Property
+| Name
 | Description
 
 | CleanupPolicyProp
 
+a| [[CleanupPolicyProp]][[cleanup.policy]] <<kafka-common-TopicConfig.adoc#CLEANUP_POLICY_CONFIG, cleanup.policy>>
+
 Default: `delete`
 
-Property: <<kafka-common-TopicConfig.adoc#CLEANUP_POLICY_CONFIG, cleanup.policy>>
-
-a| [[CleanupPolicyProp]][[cleanup.policy]] Refer to <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>>
-
-Synonym of <<kafka-server-KafkaConfig.adoc#LogCleanupPolicyProp, log.cleanup.policy>>
+Synonym of <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>>
 
 Used when:
 
@@ -29,27 +27,88 @@ Used when:
 
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>>
 
+| CompressionTypeProp
+a| [[CompressionTypeProp]]
+
+| DeleteRetentionMsProp
+a| [[DeleteRetentionMsProp]]
+
 | FileDeleteDelayMsProp
 
-Default: `60000`
+a| [[file.delete.delay.ms]][[FileDeleteDelayMsProp]][[fileDeleteDelayMs]] The time (in millis) to wait before deleting a file from the filesystem. Must be at least `0`
 
 Property: `file.delete.delay.ms`
 
-a| [[file.delete.delay.ms]][[FileDeleteDelayMsProp]][[fileDeleteDelayMs]] The time (in millis) to wait before deleting a file from the filesystem
+Default: `60000`
 
-Must be at least `0`
+| FlushMsProp
+a| [[FlushMsProp]]
+
+| FlushMessagesProp
+a| [[FlushMessagesProp]]
+
+| IndexIntervalBytesProp
+a| [[IndexIntervalBytesProp]]
+
+| MaxMessageBytesProp
+a| [[MaxMessageBytesProp]]
+
+| MaxCompactionLagMsProp
+a| [[MaxCompactionLagMsProp]]
+
+| MessageDownConversionEnableProp
+a| [[MessageDownConversionEnableProp]]
+
+| MessageFormatVersionProp
+a| [[MessageFormatVersionProp]]
+
+| MessageTimestampDifferenceMaxMsProp
+a| [[MessageTimestampDifferenceMaxMsProp]]
+
+| MessageTimestampTypeProp
+a| [[MessageTimestampTypeProp]]
+
+| MinCleanableDirtyRatioProp
+a| [[MinCleanableDirtyRatioProp]]
+
+| MinCompactionLagMsProp
+a| [[MinCompactionLagMsProp]]
+
+| MinInSyncReplicasProp
+a| [[MinInSyncReplicasProp]]
+
+| PreAllocateEnableProp
+a| [[PreAllocateEnableProp]]
+
+| RetentionBytesProp
+a| [[RetentionBytesProp]]
+
+| RetentionMsProp
+a| [[RetentionMsProp]]
+
+| SegmentBytesProp
+a| [[SegmentBytesProp]]
 
 | SegmentIndexBytesProp
 
-Default: `10 * 1024 * 1024`
+a| [[segment.index.bytes]][[maxIndexSize]][[SegmentIndexBytesProp]] Size of the index that maps offsets to file positions. We preallocate this index file and shrink it only after log rolls.
 
 Property: `segment.index.bytes`
 
-a| [[segment.index.bytes]][[maxIndexSize]][[SegmentIndexBytesProp]] Size of the index that maps offsets to file positions. We preallocate this index file and shrink it only after log rolls.
+Default: `10 * 1024 * 1024`
 
 You generally should not need to change this setting.
 
 Must be at least `0`
+
+| SegmentJitterMsProp
+a| [[SegmentJitterMsProp]]
+
+| SegmentMsProp
+a| [[SegmentMsProp]]
+
+| UncleanLeaderElectionEnableProp
+a| [[UncleanLeaderElectionEnableProp]]
 
 |===
 

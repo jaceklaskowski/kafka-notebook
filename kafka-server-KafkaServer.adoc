@@ -325,11 +325,11 @@ copyKafkaConfigToLog(
   kafkaConfig: KafkaConfig): Map[String, Object]
 ----
 
-`copyKafkaConfigToLog` creates a new <<copyKafkaConfigToLog-log-properties, log properties>> based on the values in given <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>.
+`copyKafkaConfigToLog` creates a new <<copyKafkaConfigToLog-log-properties, log properties>> based on the values in the given <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>.
 
 [[copyKafkaConfigToLog-log-properties]]
 .Names of LogConfig and Corresponding KafkaConfig Properties
-[cols="30m,70",options="header",width="100%"]
+[cols="30,70",options="header",width="100%"]
 |===
 | LogConfig
 | KafkaConfig

@@ -66,6 +66,9 @@ a| [[brokerIdGenerationEnable]] <<kafka-properties.adoc#broker.id.generation.ena
 
 Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#getBrokerIdAndOfflineDirs, getBrokerIdAndOfflineDirs>>
 
+| compressionType
+a| [[compressionType]]
+
 | connectionsMaxIdleMs
 a| [[connectionsMaxIdleMs]] <<kafka-properties.adoc#connections.max.idle.ms, connections.max.idle.ms>>
 
@@ -131,13 +134,28 @@ a| [[logCleanerIoMaxBytesPerSecond]][[LogCleanerIoMaxBytesPerSecondProp]] <<kafk
 | logCleanerBackoffMs
 a| [[logCleanerBackoffMs]][[LogCleanerBackoffMsProp]] <<kafka-properties.adoc#log.cleaner.backoff.ms, log.cleaner.backoff.ms>>
 
+| logCleanerDeleteRetentionMs
+a| [[logCleanerDeleteRetentionMs]]
+
 | logCleanerEnable
 a| [[logCleanerEnable]][[LogCleanerEnableProp]] <<kafka-properties.adoc#log.cleaner.enable, log.cleaner.enable>>
+
+| logCleanerMaxCompactionLagMs
+a| [[logCleanerMaxCompactionLagMs]]
+
+| logCleanerMinCleanRatio
+a| [[logCleanerMinCleanRatio]]
+
+| logCleanerMinCompactionLagMs
+a| [[logCleanerMinCompactionLagMs]]
 
 | logCleanupPolicy
 a| [[logCleanupPolicy]][[LogCleanupPolicyProp]] <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>>
 
 Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>>
+
+| logDeleteDelayMs
+a| [[logDeleteDelayMs]]
 
 | logDirs
 a| [[logDirs]] <<kafka-properties.adoc#log.dirs, log.dirs>> or <<kafka-properties.adoc#log.dir, log.dir>>
@@ -156,8 +174,47 @@ Used when:
 
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#describeLogDirs, describeLogDirs>>
 
+| logFlushIntervalMessages
+a| [[logFlushIntervalMessages]]
+
+| logFlushIntervalMs
+a| [[logFlushIntervalMs]]
+
+| logIndexIntervalBytes
+a| [[logIndexIntervalBytes]]
+
 | logIndexSizeMaxBytes
 a| [[logIndexSizeMaxBytes]][[LogIndexSizeMaxBytesProp]] <<kafka-properties.adoc#log.index.size.max.bytes, log.index.size.max.bytes>>
+
+| logMessageDownConversionEnable
+a| [[logMessageDownConversionEnable]]
+
+| logMessageFormatVersion
+a| [[logMessageFormatVersion]]
+
+| logMessageTimestampDifferenceMaxMs
+a| [[logMessageTimestampDifferenceMaxMs]]
+
+| logMessageTimestampType
+a| [[logMessageTimestampType]]
+
+| logPreAllocateEnable
+a| [[logPreAllocateEnable]]
+
+| logRetentionBytes
+a| [[logRetentionBytes]]
+
+| logRetentionTimeMillis
+a| [[logRetentionTimeMillis]]
+
+| logRollTimeJitterMillis
+a| [[logRollTimeJitterMillis]]
+
+| logRollTimeMillis
+a| [[logRollTimeMillis]]
+
+| logSegmentBytes
+a| [[logSegmentBytes]]
 
 | maxConnectionsPerIp
 a| [[maxConnectionsPerIp]][[MaxConnectionsPerIpProp]] <<kafka-properties.adoc#max.connections.per.ip, max.connections.per.ip>>
@@ -176,6 +233,9 @@ Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.a
 
 | messageMaxBytes
 a| [[messageMaxBytes]][[MessageMaxBytesProp]] <<kafka-properties.adoc#message.max.bytes, message.max.bytes>>
+
+| minInSyncReplicas
+a| [[minInSyncReplicas]]
 
 | numIoThreads
 a| [[numIoThreads]][[NumIoThreadsProp]] <<kafka-properties.adoc#num.io.threads, num.io.threads>>
@@ -304,6 +364,9 @@ a| [[tokenAuthEnabled]] <<kafka-properties.adoc#delegation.token.master.key, del
 a| [[transactionMaxTimeoutMs]] <<kafka-properties.adoc#transaction.max.timeout.ms, transaction.max.timeout.ms>>
 
 Used exclusively when <<kafka-TransactionCoordinator.adoc#, TransactionCoordinator>> is created
+
+| uncleanLeaderElectionEnable
+a| [[uncleanLeaderElectionEnable]]
 
 | queuedMaxRequests
 a| [[queuedMaxRequests]] <<kafka-properties.adoc#queued.max.requests, queued.max.requests>>
