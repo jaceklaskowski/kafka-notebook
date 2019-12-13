@@ -221,7 +221,7 @@ maybeRoll(
 
 `maybeRoll`...FIXME
 
-NOTE: `maybeRoll` is used exclusively when `Log` is requested to <<append, append>>.
+NOTE: `maybeRoll` is used exclusively when `Log` is requested to <<append, append records>>.
 
 === [[asyncDeleteSegment]] `asyncDeleteSegment` Internal Method
 
@@ -290,7 +290,7 @@ appendAsFollower(records: MemoryRecords): LogAppendInfo
 
 NOTE: `appendAsFollower` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#doAppendRecordsToFollowerOrFutureReplica, doAppendRecordsToFollowerOrFutureReplica>>.
 
-=== [[append]] `append` Internal Method
+=== [[append]] Appending Records -- `append` Internal Method
 
 [source, scala]
 ----
@@ -658,6 +658,17 @@ renameDir(name: String): Unit
 `renameDir`...FIXME
 
 NOTE: `renameDir` is used when `LogManager` is requested to <<kafka-log-LogManager.adoc#replaceCurrentWithFutureLog, replaceCurrentWithFutureLog>> and <<kafka-log-LogManager.adoc#asyncDelete, asyncDelete>>.
+
+=== [[initFileSize]] `initFileSize` Method
+
+[source, scala]
+----
+initFileSize: Int
+----
+
+`initFileSize`...FIXME
+
+NOTE: `initFileSize` is used when...FIXME
 
 === [[loadSegments]] `loadSegments` Internal Method
 

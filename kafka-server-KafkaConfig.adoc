@@ -216,7 +216,7 @@ a| [[logRollTimeMillis]]
 | logSegmentBytes
 a| [[logSegmentBytes]][[LogSegmentBytesProp]] <<kafka-properties.adoc#log.segment.bytes, log.segment.bytes>>
 
-Used exclusively when `KafkaServer` is requested for the <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, default log properties>> (and set the value of <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>)
+Used exclusively when `KafkaServer` is requested for the <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, default log properties>> (and sets the value of <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>)
 
 | maxConnectionsPerIp
 a| [[maxConnectionsPerIp]][[MaxConnectionsPerIpProp]] <<kafka-properties.adoc#max.connections.per.ip, max.connections.per.ip>>

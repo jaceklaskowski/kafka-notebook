@@ -1,0 +1,18 @@
+== [[RollParams]] RollParams
+
+`RollParams` is...FIXME
+
+=== [[apply]] Creating RollParams Instance -- `apply` Utility
+
+[source, scala]
+----
+apply(
+  config: LogConfig,
+  appendInfo: LogAppendInfo,
+  messagesSize: Int,
+  now: Long): RollParams
+----
+
+`apply`...FIXME
+
+NOTE: `apply` is used when...FIXME

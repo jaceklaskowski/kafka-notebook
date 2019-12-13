@@ -305,7 +305,7 @@ Must be at least `4`
 Use <<kafka-server-KafkaConfig.adoc#logIndexSizeMaxBytes, KafkaConfig.logIndexSizeMaxBytes>> to access the current value.
 
 | log.segment.bytes
-a| [[log.segment.bytes]] The maximum size of a single log segment file. Retention and cleaning are always done one file at a time so a larger segment size means fewer files but less granular control over retention.
+a| [[log.segment.bytes]] The maximum size of a segment file of logs. Retention and cleaning are always done one file at a time so a larger segment size means fewer files but less granular control over retention.
 
 Default: `1 * 1024 * 1024 * 1024`
 

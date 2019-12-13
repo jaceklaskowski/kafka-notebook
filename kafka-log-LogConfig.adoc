@@ -85,7 +85,7 @@ a| [[RetentionBytesProp]]
 a| [[RetentionMsProp]]
 
 | SegmentBytesProp
-a| [[SegmentBytesProp]] <<kafka-common-TopicConfig.adoc#SEGMENT_BYTES_CONFIG, segment.bytes>>
+a| [[SegmentBytesProp]][[segmentSize]] <<kafka-common-TopicConfig.adoc#SEGMENT_BYTES_CONFIG, segment.bytes>>
 
 Server-wide default (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.segment.bytes, log.segment.bytes>>
 
@@ -95,9 +95,15 @@ Used when:
 
 * `TransactionStateManager` is requested for the <<kafka-TransactionStateManager.adoc#transactionTopicConfigs, transactionTopicConfigs>>
 
-* `LogConfig` is requested for the <<segmentSize, segmentSize>>
-
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>>
+
+The current value is available as `LogConfig.segmentSize` and used when:
+
+* `RollParams` utility is requested to <<kafka-log-RollParams.adoc#apply, create a RollParams>>
+
+* `Log` is requested for the <<kafka-log-Log.adoc#initFileSize, initFileSize>> and to <<kafka-log-Log.adoc#append, append records>>
+
+* `Cleaner` is requested to <<kafka-log-Cleaner.adoc#doClean, clean a log>>
 
 | SegmentIndexBytesProp
 a| [[segment.index.bytes]][[maxIndexSize]][[SegmentIndexBytesProp]] Size of the index that maps offsets to file positions. We preallocate this index file and shrink it only after log rolls.

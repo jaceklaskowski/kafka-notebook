@@ -1,0 +1,16 @@
+== [[Cleaner]] Cleaner
+
+`Cleaner` is...FIXME
+
+=== [[doClean]] Cleaning Log -- `doClean` Method
+
+[source, scala]
+----
+doClean(
+  cleanable: LogToClean,
+  deleteHorizonMs: Long): (Long, CleanerStats)
+----
+
+`doClean`...FIXME
+
+NOTE: `doClean` is used when...FIXME
