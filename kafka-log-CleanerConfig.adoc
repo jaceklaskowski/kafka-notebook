@@ -1,0 +1,15 @@
+== [[CleanerConfig]] CleanerConfig
+
+`CleanerConfig` represents a set of dynamic configurations of a <<kafka-log-LogCleaner.adoc#config, LogCleaner>>:
+
+* [[numThreads]] <<kafka-server-KafkaConfig.adoc#logCleanerThreads, log.cleaner.threads>> (default: `1`)
+* [[dedupeBufferSize]] <<kafka-server-KafkaConfig.adoc#logCleanerDedupeBufferSize, dedupeBufferSize>> (default: `4*1024*1024L`)
+* [[dedupeBufferLoadFactor]] <<kafka-server-KafkaConfig.adoc#logCleanerDedupeBufferLoadFactor, dedupeBufferLoadFactor>> (default: `0.9d`)
+* [[ioBufferSize]] <<kafka-server-KafkaConfig.adoc#logCleanerIoBufferSize, ioBufferSize>> (default: `1024*1024`)
+* [[maxMessageSize]] <<kafka-server-KafkaConfig.adoc#logCleanerIoBufferSize, maxMessageSize>> (default: `32*1024*1024`)
+* [[maxIoBytesPerSecond]] <<kafka-server-KafkaConfig.adoc#logCleanerIoMaxBytesPerSecond, maxIoBytesPerSecond>> (default: `Double.MaxValue`)
+* [[backOffMs]] <<kafka-server-KafkaConfig.adoc#logCleanerBackoffMs, backOffMs>> (default: `15 * 1000`)
+* [[enableCleaner]] <<kafka-server-KafkaConfig.adoc#logCleanerEnable, enableCleaner>> flag (default: `true`)
+* [[hashAlgorithm]] `hashAlgorithm` (default: `MD5`)
+
+`CleanerConfig` is created exclusively when `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#cleanerConfig, build a CleanerConfig from a KafkaConfig>>.

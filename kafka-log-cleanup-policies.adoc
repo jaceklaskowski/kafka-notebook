@@ -20,6 +20,8 @@ Kafka uses <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>> conf
 
 Kafka brokers use <<kafka-log-LogCleaner.adoc#, LogCleaner>> for <<compact, compact>> retention strategy.
 
+Log compaction can be <<kafka-log-CleanerConfig.adoc#, reconfigured dynamically at runtime>>.
+
 === [[log-retention]] Log Retention
 
 *Log Retention* (_Garbage Collection_) is a cleanup strategy to discard old log segments when their retention time or size limit has been reached.

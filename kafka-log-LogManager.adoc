@@ -32,7 +32,7 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 
 === [[cleaner]] LogManager and LogCleaner
 
-`LogManager` creates a <<kafka-log-LogCleaner.adoc#, LogCleaner>> only when the <<kafka-log-LogCleaner.adoc#enableCleaner, enableCleaner>> flag of the given <<cleanerConfig, CleanerConfig>> is enabled (default: `true`).
+`LogManager` creates a <<kafka-log-LogCleaner.adoc#, LogCleaner>> only when the <<kafka-log-CleanerConfig.adoc#enableCleaner, enableCleaner>> flag of the given <<cleanerConfig, CleanerConfig>> is enabled (default: `true`).
 
 `LogManager` uses <<kafka-log-LogCleaner.adoc#, LogCleaner>> for the following:
 
@@ -270,7 +270,7 @@ Starting log flusher with a default period of [flushCheckMs] ms.
 
 `startup` requests the <<scheduler, Scheduler>> to <<kafka-Scheduler.adoc#schedule, schedule a task>> with the name *kafka-delete-logs* that <<deleteLogs, deleteLogs>> with the <<InitialTaskDelayMs, InitialTaskDelayMs>> delay.
 
-(only when the <<cleanerConfig, CleanerConfig>> has the <<kafka-log-LogCleaner.adoc#enableCleaner, enableCleaner>> flag enabled) `startup` requests the <<cleaner, LogCleaner>> to <<kafka-log-LogCleaner.adoc#startup, start up>>.
+(only when the <<cleanerConfig, CleanerConfig>> has the <<kafka-log-CleanerConfig.adoc#enableCleaner, enableCleaner>> flag enabled) `startup` requests the <<cleaner, LogCleaner>> to <<kafka-log-LogCleaner.adoc#startup, start up>>.
 
 NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
