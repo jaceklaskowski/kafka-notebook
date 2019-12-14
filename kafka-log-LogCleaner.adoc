@@ -2,7 +2,7 @@
 
 `LogCleaner` is responsible for removing obsolete records from logs which have the "compact" retention strategy.
 
-`LogCleaner` is <<creating-instance, created>> exclusively for <<kafka-log-LogManager.adoc#cleaner, LogManager>> with `enableCleaner` flag enabled (which is the default).
+`LogCleaner` is <<creating-instance, created>> exclusively for <<kafka-log-LogManager.adoc#cleaner, LogManager>> with <<enableCleaner, enableCleaner>> flag enabled (of the <<kafka-log-LogManager.adoc#cleanerConfig, CleanerConfig>> of the parent <<kafka-log-LogManager.adoc#, LogManager>>) (which is the default).
 
 When <<creating-instance, created>>, `LogCleaner` is given a <<config, CleanerConfig>> that `LogManager` <<cleanerConfig, builds>> when <<kafka-log-LogManager.adoc#apply, created>> (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>).
 
@@ -288,6 +288,52 @@ maybeTruncateCheckpoint(
 `maybeTruncateCheckpoint`...FIXME
 
 NOTE: `maybeTruncateCheckpoint` is used when `LogManager` is requested to <<kafka-log-LogManager.adoc#truncateTo, truncateTo>> and <<kafka-log-LogManager.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>.
+
+=== [[shutdown]] Shuting Down -- `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown`...FIXME
+
+NOTE: `shutdown` is used when...FIXME
+
+=== [[abortAndPauseCleaning]] `abortAndPauseCleaning` Method
+
+[source, scala]
+----
+abortAndPauseCleaning(
+  topicPartition: TopicPartition): Unit
+----
+
+`abortAndPauseCleaning`...FIXME
+
+NOTE: `abortAndPauseCleaning` is used when...FIXME
+
+=== [[resumeCleaning]] `resumeCleaning` Method
+
+[source, scala]
+----
+resumeCleaning(
+  topicPartitions: Iterable[TopicPartition]): Unit
+----
+
+`resumeCleaning`...FIXME
+
+NOTE: `resumeCleaning` is used when...FIXME
+
+=== [[pauseCleaningForNonCompactedPartitions]] `pauseCleaningForNonCompactedPartitions` Method
+
+[source, scala]
+----
+pauseCleaningForNonCompactedPartitions(): Iterable[(TopicPartition, Log)]
+----
+
+`pauseCleaningForNonCompactedPartitions`...FIXME
+
+NOTE: `pauseCleaningForNonCompactedPartitions` is used when...FIXME
 
 === [[internal-properties]] Internal Properties
 

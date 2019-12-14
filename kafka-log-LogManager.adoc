@@ -32,7 +32,25 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 
 `LogManager` creates a <<kafka-log-LogCleaner.adoc#, LogCleaner>> only when the <<kafka-log-LogCleaner.adoc#enableCleaner, enableCleaner>> flag of the given <<cleanerConfig, CleanerConfig>> is enabled (default: `true`).
 
-`LogManager` uses <<kafka-log-LogCleaner.adoc#, LogCleaner>> for...FIXME
+`LogManager` uses <<kafka-log-LogCleaner.adoc#, LogCleaner>> for the following:
+
+* <<handleLogDirFailure, handleLogDirFailure>>
+
+* <<startup, startup>>
+
+* <<shutdown, shutdown>>
+
+* <<truncateTo, truncateTo>>
+
+* <<truncateFullyAndStartAt, truncateFullyAndStartAt>>
+
+* <<abortAndPauseCleaning, abortAndPauseCleaning>>
+
+* <<replaceCurrentWithFutureLog, replaceCurrentWithFutureLog>>
+
+* <<asyncDelete, asyncDelete>>
+
+* <<cleanupLogs, cleanupLogs>>
 
 === [[KafkaMetricsGroup]][[metrics]] Performance Metrics
 
@@ -108,6 +126,18 @@ NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-ser
 `LogManager` initializes the <<internal-properties, internal properties>>.
 
 While being created, `LogManager` <<loadLogs, loads logs>>.
+
+=== [[abortAndPauseCleaning]] `abortAndPauseCleaning` Method
+
+[source, scala]
+----
+abortAndPauseCleaning(
+  topicPartition: TopicPartition): Unit
+----
+
+`abortAndPauseCleaning`...FIXME
+
+NOTE: `abortAndPauseCleaning` is used when...FIXME
 
 === [[loadLogs]] Recovering And Loading Logs In Log Data Directories -- `loadLogs` Internal Method
 
