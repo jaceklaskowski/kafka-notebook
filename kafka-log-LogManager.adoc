@@ -28,6 +28,12 @@ log4j.logger.kafka.log.LogManager=ALL
 Refer to <<kafka-logging.adoc#, Logging>>.
 ====
 
+=== [[cleaner]] LogManager and LogCleaner
+
+`LogManager` creates a <<kafka-log-LogCleaner.adoc#, LogCleaner>> only when the <<kafka-log-LogCleaner.adoc#enableCleaner, enableCleaner>> flag of the given <<cleanerConfig, CleanerConfig>> is enabled (default: `true`).
+
+`LogManager` uses <<kafka-log-LogCleaner.adoc#, LogCleaner>> for...FIXME
+
 === [[KafkaMetricsGroup]][[metrics]] Performance Metrics
 
 `LogManager` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with the following performance metrics.
@@ -504,9 +510,6 @@ NOTE: `handleLogDirFailure` is used exclusively when `ReplicaManager` is request
 a| [[_liveLogDirs]] Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentLinkedQueue.html[ConcurrentLinkedQueue] of live log directories (after <<createAndValidateLogDirs, createAndValidateLogDirs>> was executed with the <<logDirs, logDirs>> and the <<initialOfflineDirs, initialOfflineDirs>> directories).
 
 Used when...FIXME
-
-| cleaner
-a| [[cleaner]]
 
 | currentDefaultConfig
 a| [[_currentDefaultConfig]][[currentDefaultConfig]] Default <<kafka-log-LogConfig.adoc#, LogConfig>>

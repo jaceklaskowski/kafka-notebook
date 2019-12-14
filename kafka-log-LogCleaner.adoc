@@ -1,87 +1,27 @@
 == [[LogCleaner]] LogCleaner
 
-`LogCleaner` is <<creating-instance, created>> exclusively when `LogManager` is <<kafka-log-LogManager.adoc#cleaner, created>> (with `enableCleaner` flag enabled which is the default).
+`LogCleaner` is responsible for removing obsolete records from logs which have the "compact" retention strategy.
+
+`LogCleaner` is <<creating-instance, created>> exclusively for <<kafka-log-LogManager.adoc#cleaner, LogManager>> with `enableCleaner` flag enabled (which is the default).
 
 When <<creating-instance, created>>, `LogCleaner` is given a <<config, CleanerConfig>> that `LogManager` <<cleanerConfig, builds>> when <<kafka-log-LogManager.adoc#apply, created>> (when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>).
 
-`LogCleaner` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
+`LogCleaner` registers <<metrics, performance metrics>> (as a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>>).
 
-[[metrics]]
-.LogCleaner's Performance Metrics
-[cols="1m,2",options="header",width="100%"]
-|===
-| Metric Name
-| Description
-
-| max-buffer-utilization-percent
-| [[max-buffer-utilization-percent]]
-
-| cleaner-recopy-percent
-| [[cleaner-recopy-percent]]
-
-| max-clean-time-secs
-| [[max-clean-time-secs]]
-
-|===
-
-The <<metrics, performance metrics>> are registered in *kafka.log:type=LogCleaner* group.
-
-.LogCleaner in jconsole
-image::images/LogCleaner-jconsole.png[align="center"]
-
-[[reconfigurableConfigs]]
-`LogCleaner` is a <<kafka-server-BrokerReconfigurable.adoc#, BrokerReconfigurable>> for the following <<kafka-server-BrokerReconfigurable.adoc#reconfigurableConfigs, dynamic configurations>>:
-
-* <<kafka-server-KafkaConfig.adoc#LogCleanerThreadsProp, log.cleaner.threads>>
-
-* <<kafka-server-KafkaConfig.adoc#LogCleanerDedupeBufferSizeProp, log.cleaner.dedupe.buffer.size>>
-
-* <<kafka-server-KafkaConfig.adoc#LogCleanerDedupeBufferLoadFactorProp, log.cleaner.io.buffer.load.factor>>
-
-* <<kafka-server-KafkaConfig.adoc#LogCleanerIoBufferSizeProp, log.cleaner.io.buffer.size>>
-
-* <<kafka-server-KafkaConfig.adoc#LogCleanerIoMaxBytesPerSecondProp, log.cleaner.io.max.bytes.per.second>>
-
-* <<kafka-server-KafkaConfig.adoc#LogCleanerBackoffMsProp, log.cleaner.backoff.ms>>
-
-* <<kafka-server-KafkaConfig.adoc#MessageMaxBytesProp, message.max.bytes>>
-
-[[internal-registries]]
-.LogCleaner's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| cleaners
-a| [[cleaners]] <<kafka-log-CleanerThread.adoc#, CleanerThreads>>
-
-Used when...FIXME
-
-| config
-a| [[config]][[currentConfig]] <<CleanerConfig, CleanerConfig>>
-
-Initialized with the given <<initialConfig, CleanerConfig>>
-
-Changed in <<reconfigure, reconfigure>>
-
-| cleanerManager
-a| [[cleanerManager]] <<kafka-log-LogCleanerManager.adoc#, LogCleanerManager>>
-
-|===
+`LogCleaner` supports <<reconfigurableConfigs, dynamic (re)configuration>> (as a <<kafka-server-BrokerReconfigurable.adoc#, BrokerReconfigurable>>).
 
 [[logging]]
 [TIP]
 ====
-Enable `WARN` or `INFO` logging levels for `kafka.log.LogCleaner` logger to see what happens inside.
+Enable `ALL` logging levels for `kafka.log.LogCleaner` logger to see what happens inside.
 
 Add the following line to `config/log4j.properties`:
 
 ```
-log4j.logger.kafka.log.LogCleaner=INFO
+log4j.logger.kafka.log.LogCleaner=ALL
 ```
 
-Refer to link:kafka-logging.adoc[Logging].
+Refer to <<kafka-logging.adoc#, Logging>>.
 
 ---
 
@@ -100,6 +40,63 @@ log4j.additivity.kafka.log.LogCleaner=false
 
 That means that the logs of `LogCleaner` go to `logs/log-cleaner.log` file at `INFO` logging level and are not added to the main logs (per `log4j.additivity` being off).
 ====
+
+=== [[creating-instance]] Creating LogCleaner Instance
+
+`LogCleaner` takes the following to be created:
+
+* [[initialConfig]] <<CleanerConfig, CleanerConfig>>
+* [[logDirs]] Log directories
+* [[logs]] <<kafka-log-Log.adoc#, Logs>> per Kafka `TopicPartition`
+* [[logDirFailureChannel]] `LogDirFailureChannel`
+* [[time]] `Time` (default: `Time.SYSTEM`)
+
+`LogCleaner` initializes the <<internal-properties, internal properties>>.
+
+=== [[metrics]][[KafkaMetricsGroup]] Performance Metrics
+
+`LogCleaner` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with the following performance metrics.
+
+.LogCleaner's Performance Metrics
+[cols="30m,70",options="header",width="100%"]
+|===
+| Metric Name
+| Recording Level
+| Description
+
+| max-buffer-utilization-percent
+| [[max-buffer-utilization-percent]]
+
+| cleaner-recopy-percent
+| [[cleaner-recopy-percent]]
+
+| max-clean-time-secs
+| [[max-clean-time-secs]]
+
+|===
+
+The performance metrics are registered in *kafka.log:type=LogCleaner* group.
+
+.LogCleaner in jconsole
+image::images/LogCleaner-jconsole.png[align="center"]
+
+=== [[reconfigurableConfigs]] Dynamic (Re)Configuration
+
+`LogCleaner` is a <<kafka-server-BrokerReconfigurable.adoc#, BrokerReconfigurable>> for the following <<kafka-server-BrokerReconfigurable.adoc#reconfigurableConfigs, dynamic configurations>>:
+
+* <<kafka-server-KafkaConfig.adoc#LogCleanerThreadsProp, log.cleaner.threads>>
+
+* <<kafka-server-KafkaConfig.adoc#LogCleanerDedupeBufferSizeProp, log.cleaner.dedupe.buffer.size>>
+
+* <<kafka-server-KafkaConfig.adoc#LogCleanerDedupeBufferLoadFactorProp, log.cleaner.io.buffer.load.factor>>
+
+* <<kafka-server-KafkaConfig.adoc#LogCleanerIoBufferSizeProp, log.cleaner.io.buffer.size>>
+
+* <<kafka-server-KafkaConfig.adoc#LogCleanerIoMaxBytesPerSecondProp, log.cleaner.io.max.bytes.per.second>>
+
+* <<kafka-server-KafkaConfig.adoc#LogCleanerBackoffMsProp, log.cleaner.backoff.ms>>
+
+* <<kafka-server-KafkaConfig.adoc#MessageMaxBytesProp, message.max.bytes>>
 
 === [[createNewCleanedSegment]] `createNewCleanedSegment` Object Method
 
@@ -165,18 +162,6 @@ reconfigure(
 NOTE: `reconfigure` is part of the <<kafka-server-BrokerReconfigurable.adoc#reconfigure, BrokerReconfigurable Contract>> to change (_reconfigure_) the value of a Kafka dynamic configuration.
 
 `reconfigure`...FIXME
-
-=== [[creating-instance]] Creating LogCleaner Instance
-
-`LogCleaner` takes the following to be created:
-
-* [[initialConfig]] <<CleanerConfig, CleanerConfig>>
-* [[logDirs]] Log directories
-* [[logs]] <<kafka-log-Log.adoc#, Logs>> per Kafka `TopicPartition`
-* [[logDirFailureChannel]] `LogDirFailureChannel`
-* [[time]] `Time`
-
-`LogCleaner` initializes the <<internal-registries, internal registries and counters>>.
 
 === [[startup]] Starting Up -- `startup` Method
 
@@ -303,3 +288,27 @@ maybeTruncateCheckpoint(
 `maybeTruncateCheckpoint`...FIXME
 
 NOTE: `maybeTruncateCheckpoint` is used when `LogManager` is requested to <<kafka-log-LogManager.adoc#truncateTo, truncateTo>> and <<kafka-log-LogManager.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>.
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| cleaners
+a| [[cleaners]] <<kafka-log-CleanerThread.adoc#, CleanerThreads>>
+
+Used when...FIXME
+
+| config
+a| [[config]][[currentConfig]] <<CleanerConfig, CleanerConfig>>
+
+Initialized with the given <<initialConfig, CleanerConfig>>
+
+Changed in <<reconfigure, reconfigure>>
+
+| cleanerManager
+a| [[cleanerManager]] <<kafka-log-LogCleanerManager.adoc#, LogCleanerManager>>
+
+|===

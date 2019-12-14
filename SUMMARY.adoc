@@ -3,6 +3,16 @@
 . link:book-intro.adoc[Introduction]
 . link:kafka-overview.adoc[Overview of Kafka]
 
+=== Kafka Features
+
+. link:kafka-log-retention-and-cleanup-policies.adoc[Log Retention and Cleanup Policies]
+. link:kafka-feature-preferred-replica-leader-election.adoc[Preferred Replica Election]
+. link:kafka-controller-election.adoc[Kafka Controller Election]
+. link:kafka-topic-replication.adoc[Topic Replication]
+. link:kafka-topic-deletion.adoc[Topic Deletion]
+. link:kafka-transactional-producer.adoc[Transactional Producer]
+. link:kafka-idempotent-producer.adoc[Idempotent Producer]
+
 === Kafka Security / Authorization
 
 . link:kafka-security-authorization.adoc[Kafka Security / Authorization]
@@ -206,15 +216,6 @@
 . link:kafka-metrics-KafkaMetricsGroup.adoc[KafkaMetricsGroup]
 . link:kafka-server-BrokerTopicStats.adoc[BrokerTopicStats]
 . link:kafka-server-BrokerTopicMetrics.adoc[BrokerTopicMetrics]
-
-=== Kafka Features
-
-. link:kafka-feature-preferred-replica-leader-election.adoc[Preferred Replica Election]
-. link:kafka-controller-election.adoc[Kafka Controller Election]
-. link:kafka-topic-replication.adoc[Topic Replication]
-. link:kafka-topic-deletion.adoc[Topic Deletion]
-. link:kafka-transactional-producer.adoc[Transactional Producer]
-. link:kafka-idempotent-producer.adoc[Idempotent Producer]
 
 === Kafka Clients / Consumer API
 

@@ -2,6 +2,17 @@
 
 `Cleaner` is...FIXME
 
+=== [[clean]] Cleaning Log -- `clean` Method
+
+[source, scala]
+----
+clean(cleanable: LogToClean): (Long, CleanerStats)
+----
+
+`clean`...FIXME
+
+NOTE: `clean` is used exclusively when `CleanerThread` is requested to <<kafka-log-CleanerThread.adoc#cleanLog, clean a log>>.
+
 === [[doClean]] Cleaning Log -- `doClean` Method
 
 [source, scala]
@@ -13,4 +24,4 @@ doClean(
 
 `doClean`...FIXME
 
-NOTE: `doClean` is used when...FIXME
+NOTE: `doClean` is used exclusively when `Cleaner` is requested to <<clean, clean a log>>.
