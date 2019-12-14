@@ -57,7 +57,7 @@ m| delete-file
 | <<kafka-log-Log.adoc#deleteSeg, deleteSeg>>
 
 .5+^.^| <<kafka-log-LogManager.adoc#, LogManager>>
-m| kafka-log-retention
+m| [[kafka-log-retention]] kafka-log-retention
 | <<kafka-log-LogManager.adoc#cleanupLogs, cleanupLogs>>
 
 m| kafka-log-flusher

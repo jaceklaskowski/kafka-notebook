@@ -5,7 +5,7 @@
 
 === Kafka Features
 
-. link:kafka-log-retention-and-cleanup-policies.adoc[Log Retention and Cleanup Policies]
+. link:kafka-log-cleanup-policies.adoc[Log Cleanup Policies (Strategies) -- Log Compaction And Retention]
 . link:kafka-feature-preferred-replica-leader-election.adoc[Preferred Replica Election]
 . link:kafka-controller-election.adoc[Kafka Controller Election]
 . link:kafka-topic-replication.adoc[Topic Replication]
@@ -165,8 +165,8 @@
 .. link:kafka-log-LogSegment.adoc[LogSegment]
 .. link:kafka-log-LogCleanerManager.adoc[LogCleanerManager]
 .. link:kafka-log-LogCleaner.adoc[LogCleaner]
-.. link:kafka-log-CleanerThread.adoc[CleanerThread]
-.. link:kafka-log-Cleaner.adoc[Cleaner]
+... link:kafka-log-CleanerThread.adoc[CleanerThread]
+... link:kafka-log-Cleaner.adoc[Cleaner]
 .. link:kafka-log-ProducerStateManager.adoc[ProducerStateManager]
 .. link:kafka-log-LogConfig.adoc[LogConfig]
 .. link:kafka-log-RollParams.adoc[RollParams]

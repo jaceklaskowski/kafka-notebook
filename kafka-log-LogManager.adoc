@@ -1,9 +1,11 @@
 == [[LogManager]] LogManager
 
-`LogManager` is <<creating-instance, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
+`LogManager` is <<creating-instance, created>> and immediately <<startup, started>> for `KafkaServer` when requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 .LogManager and KafkaServer
 image::images/LogManager.png[align="center"]
+
+`LogManager` runs until (and is requested to <<shutdown, shut down>> when) `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#shutdown, shut down>>.
 
 While being <<creating-instance, created>>, `LogManager` is given the <<logDirs, log directories>> that are configured using <<kafka-server-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>). The log directories are immediately <<createAndValidateLogDirs, validated>> and <<loadLogs, loaded>> (on a fixed thread pool with <<numRecoveryThreadsPerDataDir, numRecoveryThreadsPerDataDir>> recovery threads).
 
@@ -34,12 +36,6 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 
 `LogManager` uses <<kafka-log-LogCleaner.adoc#, LogCleaner>> for the following:
 
-* <<handleLogDirFailure, handleLogDirFailure>>
-
-* <<startup, startup>>
-
-* <<shutdown, shutdown>>
-
 * <<truncateTo, truncateTo>>
 
 * <<truncateFullyAndStartAt, truncateFullyAndStartAt>>
@@ -51,6 +47,12 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 * <<asyncDelete, asyncDelete>>
 
 * <<cleanupLogs, cleanupLogs>>
+
+* <<startup, startup>>
+
+* <<shutdown, shutdown>>
+
+* <<handleLogDirFailure, handleLogDirFailure>>
 
 === [[KafkaMetricsGroup]][[metrics]] Performance Metrics
 
@@ -137,7 +139,7 @@ abortAndPauseCleaning(
 
 `abortAndPauseCleaning`...FIXME
 
-NOTE: `abortAndPauseCleaning` is used when...FIXME
+NOTE: `abortAndPauseCleaning` is used when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#alterReplicaLogDirs, alterReplicaLogDirs>> and <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>>.
 
 === [[loadLogs]] Recovering And Loading Logs In Log Data Directories -- `loadLogs` Internal Method
 
@@ -283,9 +285,35 @@ When <<creating-instance, created>>, `LogManager` is given a <<kafka-server-Brok
 cleanupLogs(): Unit
 ----
 
-`cleanupLogs`...FIXME
+`cleanupLogs` prints out the following DEBUG message to the logs:
 
-NOTE: `cleanupLogs` is used when...FIXME
+```
+Beginning log cleanup...
+```
+
+`cleanupLogs` finds so-called *deletable (non-compacted) logs* by requesting the <<cleaner, LogCleaner>> (if used) to <<kafka-log-LogCleaner.adoc#pauseCleaningForNonCompactedPartitions, pauseCleaningForNonCompactedPartitions>> or simply finds all logs in the <<currentLogs, currentLogs>> internal registry that are not compacted (by the <<kafka-log-LogConfig.adoc#compact, compact>> flag of the <<kafka-log-Log.adoc#config, LogConfig>> of the <<kafka-log-Log.adoc#, Log>>).
+
+For every <<kafka-log-Log.adoc#, deletable log>>, `cleanupLogs` prints out the following DEBUG message to the logs:
+
+```
+Garbage collecting '[log.name]'
+```
+
+`cleanupLogs` requests the log to <<kafka-log-Log.adoc#deleteOldSegments, deleteOldSegments>>.
+
+`cleanupLogs` finds the future log for the partition (of the deletable log) in the <<futureLogs, futureLogs>> internal registry and, if available, prints out the following DEBUG message to the logs followed by requesting it to <<kafka-log-Log.adoc#deleteOldSegments, deleteOldSegments>>.
+
+```
+Garbage collecting future log '[futureLog.name]'
+```
+
+In the end, `cleanupLogs` requests the <<cleaner, LogCleaner>> (if used) to <<kafka-log-LogCleaner.adoc#resumeCleaning, resumeCleaning>> and prints out the following DEBUG message to the logs:
+
+```
+Log cleanup completed. [total] files deleted in [duration] seconds
+```
+
+NOTE: `cleanupLogs` is used when `LogManager` is requested to <<startup, start up>> (and schedules <<kafka-server-scheduled-tasks.adoc#kafka-log-retention, kafka-log-retention>> periodic task).
 
 === [[allLogs]] Getting All Partition Logs -- `allLogs` Method
 
@@ -522,7 +550,8 @@ NOTE: `replaceCurrentWithFutureLog` is used exclusively when `Partition` is requ
 
 [source, scala]
 ----
-handleLogDirFailure(dir: String): Unit
+handleLogDirFailure(
+  dir: String): Unit
 ----
 
 `handleLogDirFailure`...FIXME

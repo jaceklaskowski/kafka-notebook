@@ -142,7 +142,7 @@ truncate(
   truncationState: OffsetTruncationState): Unit
 ----
 
-Used when `AbstractFetcherThread` is requested to <<truncateToHighWatermark, truncateToHighWatermark>>, <<maybeTruncateToEpochEndOffsets, maybeTruncateToEpochEndOffsets>>, and <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
+Used when `AbstractFetcherThread` is requested to <<doTruncate, doTruncate>> and <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>
 
 | truncateFullyAndStartAt
 a| [[truncateFullyAndStartAt]]
@@ -229,7 +229,7 @@ Used when...FIXME
 
 `AbstractFetcherThread` initializes the <<internal-registries, internal registries and counters>>.
 
-=== [[doWork]] Doing Work -- `doWork` Method
+=== [[doWork]] Truncating And Fetching -- `doWork` Method
 
 [source, scala]
 ----
@@ -465,3 +465,16 @@ handlePartitionsWithErrors(partitions: Iterable[TopicPartition]): Unit
 `handlePartitionsWithErrors`...FIXME
 
 NOTE: `handlePartitionsWithErrors` is used when `AbstractFetcherThread` is requested to <<maybeFetch, maybeFetch>>, <<truncateToEpochEndOffsets, truncateToEpochEndOffsets>>, <<truncateToHighWatermark, truncateToHighWatermark>>, and <<processFetchRequest, processFetchRequest>>.
+
+=== [[doTruncate]] `doTruncate` Internal Method
+
+[source, scala]
+----
+doTruncate(
+  topicPartition: TopicPartition,
+  truncationState: OffsetTruncationState): Boolean
+----
+
+`doTruncate`...FIXME
+
+NOTE: `doTruncate` is used when `AbstractFetcherThread` is requested to <<truncateToHighWatermark, truncateToHighWatermark>> and <<maybeTruncateToEpochEndOffsets, maybeTruncateToEpochEndOffsets>>.

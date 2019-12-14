@@ -332,7 +332,9 @@ appendRecordsToFollowerOrFutureReplica(
 
 [source, scala]
 ----
-truncateTo(offset: Long, isFuture: Boolean): Unit
+truncateTo(
+  offset: Long,
+  isFuture: Boolean): Unit
 ----
 
 `truncateTo`...FIXME
@@ -525,28 +527,6 @@ removeReplica(replicaId: Int): Unit
 `removeReplica`...FIXME
 
 NOTE: `removeReplica` is used when...FIXME
-
-=== [[removeFutureLocalReplica]] `removeFutureLocalReplica` Method
-
-[source, scala]
-----
-removeFutureLocalReplica(deleteFromLogDir: Boolean = true): Unit
-----
-
-`removeFutureLocalReplica`...FIXME
-
-NOTE: `removeFutureLocalReplica` is used when...FIXME
-
-=== [[delete]] `delete` Method
-
-[source, scala]
-----
-delete(): Unit
-----
-
-`delete`...FIXME
-
-NOTE: `delete` is used when...FIXME
 
 === [[toString]] String (Textual) Representation -- `toString` Method
 

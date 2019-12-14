@@ -1,6 +1,6 @@
 == [[CleanerThread]] CleanerThread
 
-`CleanerThread` is a non-daemon thread of execution for <<doWork, cleaning up the filthiest of the dirty logs>>.
+`CleanerThread` is a non-daemon thread of execution for <<doWork, cleaning up dirty logs>> (one at a time until no more is left).
 
 [[name]]
 `CleanerThread` uses the thread name of the format *kafka-log-cleaner-thread-* followed by the <<threadId, threadId>>.

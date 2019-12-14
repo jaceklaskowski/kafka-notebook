@@ -267,15 +267,9 @@ a| [[log.cleaner.backoff.ms]]
 <<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
 
 | log.cleanup.policy
-a| [[log.cleanup.policy]] Comma-separated list of <<kafka-log-retention-and-cleanup-policies.adoc#, log retention and cleanup policies>> (strategies) to use on old log segments (for segments beyond the retention window)
+a| [[log.cleanup.policy]] <<kafka-log-cleanup-policies.adoc#, Log Cleanup Policies (Strategies) -- Log Compaction And Retention>>
 
-Default: `delete`
-
-Supported values:
-
-* [[log.cleanup.policy-compact]] *compact* - enables log compaction on a topic
-
-* [[log.cleanup.policy-delete]] *delete* - discards old segments when their retention time or size limit has been reached
+Default: <<kafka-log-cleanup-policies.adoc#delete, delete>>
 
 Included in <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>> (to set <<kafka-log-LogConfig.adoc#cleanup.policy, cleanup.policy>> of topics)
 

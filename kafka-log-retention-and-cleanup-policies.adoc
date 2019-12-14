@@ -1,5 +1,0 @@
-== Log Retention and Cleanup Policies
-
-Kafka uses <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>> configuration property for log retention and cleanup policies.
-
-Kafka uses <<kafka-log-LogCleaner.adoc#, LogCleaner>> for "compact" retention strategy.

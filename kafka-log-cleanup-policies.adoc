@@ -1,0 +1,27 @@
+== Log Cleanup Policies (Strategies) -- Log Compaction And Retention
+
+Kafka uses <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>> configuration property to define *cleanup strategies* (policy) of <<kafka-log-Log.adoc#, logs>>:
+
+* <<log-retention, Log Retention>>
+
+* <<log-compaction, Log Compaction>>
+
+=== [[log.cleanup.policy]] log.cleanup.policy Configuration Property and Cleanup Strategies
+
+<<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>> configuration property is a comma-separated list of cleanup strategies:
+
+* [[compact]] *compact* - enables <<log-compaction, log compaction>>
+
+* [[delete]] *delete* - enables <<log-retention, log retention>>
+
+=== [[log-compaction]] Log Compaction
+
+*Log Compaction* is a cleanup strategy in which...FIXME
+
+Kafka brokers use <<kafka-log-LogCleaner.adoc#, LogCleaner>> for <<compact, compact>> retention strategy.
+
+=== [[log-retention]] Log Retention
+
+*Log Retention* (_Garbage Collection_) is a cleanup strategy to discard old log segments when their retention time or size limit has been reached.
+
+Kafka brokers schedule <<kafka-server-scheduled-tasks.adoc#kafka-log-retention, kafka-log-retention>> periodic task for <<delete, delete>> retention strategy.
