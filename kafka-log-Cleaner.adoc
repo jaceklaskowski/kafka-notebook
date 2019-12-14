@@ -1,6 +1,33 @@
 == [[Cleaner]] Cleaner
 
-`Cleaner` is...FIXME
+`Cleaner` is <<creating-instance, created>> exclusively for a <<kafka-log-CleanerThread.adoc#cleaner, CleanerThread>>.
+
+`Cleaner` requires that the number of slots in the given <<offsetMap, OffsetMap>> multiplied by the given <<dupBufferLoadFactor, dupBufferLoadFactor>> is greater than 1 or the following exception is thrown:
+
+```
+offset map is too small to fit in even a single message, so log cleaning will never make progress. You can increase log.cleaner.dedupe.buffer.size or decrease log.cleaner.threads
+```
+
+[[logIdent]]
+`Cleaner` uses *Cleaner [id]:* prefix for <<logging, logging>> (with the given <<id, ID>>).
+
+[[logging]]
+TIP: `Cleaner` uses <<kafka-log-LogCleaner.adoc#logging, kafka.log.LogCleaner>> logger.
+
+=== [[creating-instance]] Creating Cleaner Instance
+
+`Cleaner` takes the following to be created:
+
+* [[id]] ID
+* [[offsetMap]] `OffsetMap`
+* [[ioBufferSize]] `ioBufferSize`
+* [[maxIoBufferSize]] `maxIoBufferSize`
+* [[dupBufferLoadFactor]] <<kafka-log-LogCleaner.adoc#dedupeBufferLoadFactor, dupBufferLoadFactor>> (of the <<kafka-log-LogCleaner.adoc#config, CleanerConfig>> of the parent <<kafka-log-LogCleaner.adoc#, LogCleaner>>) (default: `0.9d`)
+* [[throttler]] `Throttler`
+* [[time]] `Time`
+* [[checkDone]] "Check Done" function (`TopicPartition => Unit`)
+
+`Cleaner` initializes the <<internal-properties, internal properties>>.
 
 === [[clean]] Cleaning Log -- `clean` Method
 
@@ -25,3 +52,27 @@ doClean(
 `doClean`...FIXME
 
 NOTE: `doClean` is used exclusively when `Cleaner` is requested to <<clean, clean a log>>.
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| decompressionBufferSupplier
+a| [[decompressionBufferSupplier]] FIXME
+
+Used when...FIXME
+
+| readBuffer
+a| [[readBuffer]] FIXME
+
+Used when...FIXME
+
+| writeBuffer
+a| [[writeBuffer]] FIXME
+
+Used when...FIXME
+
+|===

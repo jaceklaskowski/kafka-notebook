@@ -47,3 +47,16 @@ In the end, `run` decrements the count of <<shutdownLatch, shutdownLatch>> and p
 ```
 Stopped
 ```
+
+=== [[pause]] Pausing (Until Shutdown or Timeout) -- `pause` Method
+
+[source, scala]
+----
+pause(
+  timeout: Long,
+  unit: TimeUnit): Unit
+----
+
+`pause`...FIXME
+
+NOTE: `pause` is used when...FIXME
