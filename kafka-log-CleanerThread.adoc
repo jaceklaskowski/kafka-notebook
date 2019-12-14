@@ -39,7 +39,7 @@ checkDone(topicPartition: TopicPartition): Unit
 
 NOTE: `checkDone` is used exclusively when `CleanerThread` is <<creating-instance, created>> (to create the <<cleaner, Cleaner>>).
 
-=== [[doWork]] Cleaning Up Filthiest Dirty Log -- `doWork` Method
+=== [[doWork]] Cleaning Up Dirty Logs -- `doWork` Method
 
 [source, scala]
 ----

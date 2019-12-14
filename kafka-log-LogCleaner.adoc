@@ -53,6 +53,16 @@ That means that the logs of `LogCleaner` go to `logs/log-cleaner.log` file at `I
 
 `LogCleaner` initializes the <<internal-properties, internal properties>>.
 
+=== [[cleaners]] LogCleaner And CleanerThreads
+
+`LogCleaner` manages <<kafka-log-CleanerThread.adoc#, CleanerThreads>> for <<kafka-log-CleanerThread.adoc#doWork, cleaning up dirty logs>>.
+
+`CleanerThreads` are created and started at <<startup, startup>>. They are doing their join until <<shutdown, shutdown>>.
+
+The number of `CleanerThreads` in use is determined by the <<numThreads, numThreads>> of the <<config, CleanerConfig>> (default: 1).
+
+The statistics about the last log cleaning of `CleanerThreads` are used for the <<metrics, performance metrics>>.
+
 === [[metrics]][[KafkaMetricsGroup]] Performance Metrics
 
 `LogCleaner` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with the following performance metrics.
@@ -61,17 +71,19 @@ That means that the logs of `LogCleaner` go to `logs/log-cleaner.log` file at `I
 [cols="30m,70",options="header",width="100%"]
 |===
 | Metric Name
-| Recording Level
 | Description
 
-| max-buffer-utilization-percent
-| [[max-buffer-utilization-percent]]
-
 | cleaner-recopy-percent
-| [[cleaner-recopy-percent]]
+| [[cleaner-recopy-percent]] Sum of `bytesWritten` by sum of `bytesRead` of the <<cleaners, cleaners>> in the last cleaning
+
+| max-buffer-utilization-percent
+| [[max-buffer-utilization-percent]] Maximum `bufferUtilization` of the <<cleaners, cleaners>> in the last cleaning
 
 | max-clean-time-secs
-| [[max-clean-time-secs]]
+| [[max-clean-time-secs]] Maximum cleaning time of the <<cleaners, cleaners>> in the last cleaning
+
+| max-compaction-delay-secs
+| [[max-compaction-delay-secs]] Maximum delay between the time when a log is required to be compacted and the time of last cleaner run
 
 |===
 
@@ -341,11 +353,6 @@ NOTE: `pauseCleaningForNonCompactedPartitions` is used when...FIXME
 |===
 | Name
 | Description
-
-| cleaners
-a| [[cleaners]] <<kafka-log-CleanerThread.adoc#, CleanerThreads>>
-
-Used when...FIXME
 
 | config
 a| [[config]][[currentConfig]] <<CleanerConfig, CleanerConfig>>

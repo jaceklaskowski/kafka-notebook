@@ -2,9 +2,9 @@
 
 Kafka uses <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>> configuration property to define *cleanup strategies* (policy) of <<kafka-log-Log.adoc#, logs>>:
 
-* <<log-retention, Log Retention>>
-
 * <<log-compaction, Log Compaction>>
+
+* <<log-retention, Log Retention>>
 
 === [[log.cleanup.policy]] log.cleanup.policy Configuration Property and Cleanup Strategies
 
