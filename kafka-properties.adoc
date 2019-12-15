@@ -298,6 +298,34 @@ Must be at least `4`
 
 Use <<kafka-server-KafkaConfig.adoc#logIndexSizeMaxBytes, KafkaConfig.logIndexSizeMaxBytes>> to access the current value.
 
+| log.retention.bytes
+a| [[log.retention.bytes]] Maximum size of a <<kafka-log-Log.adoc#, partition>> (which consists of <<kafka-log-LogSegment.adoc#, log segments>>) to grow before discarding old segments and free up space.
+
+`log.retention.bytes` is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
+
+Default: `-1L`
+
+Must be at least `-1`
+
+| log.retention.ms
+a| [[log.retention.ms]] How long (in millis) to keep a log file before deleting it. `-1` denotes no time limit
+
+Default: `24 * 7 * 60 * 60 * 1000L` (7 days)
+
+Must be at least `-1`
+
+Unless set, the value of <<log.retention.minutes, log.retention.minutes>> is used.
+
+| log.retention.minutes
+a| [[log.retention.minutes]] How long (in mins) to keep a log file before deleting it. `-1` denotes no time limit
+
+Unless set, the value of <<log.retention.hours, log.retention.hours>> is used. Secondary to the <<log.retention.ms, log.retention.ms>>.
+
+| log.retention.hours
+a| [[log.retention.hours]] How long (in hours) to keep a log file before deleting it. `-1` denotes no time limit
+
+Considered the last unless <<log.retention.ms, log.retention.ms>> and <<log.retention.minutes, log.retention.minutes>> were set.
+
 | log.segment.bytes
 a| [[log.segment.bytes]] The maximum size of a segment file of logs. Retention and cleaning are always done one file at a time so a larger segment size means fewer files but less granular control over retention.
 

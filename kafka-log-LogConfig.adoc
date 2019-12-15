@@ -82,12 +82,25 @@ a| [[PreAllocateEnableProp]]
 a| [[RetentionBytesProp]]
 
 | RetentionMsProp
-a| [[RetentionMsProp]]
+a| [[RetentionMsProp]][[retentionMs]] <<kafka-common-TopicConfig.adoc#RETENTION_MS_CONFIG, retention.ms>>
+
+Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.retention.ms, log.retention.ms>>
+
+Used exclusively when `Log` is requested to <<kafka-log-Log.adoc#deleteRetentionMsBreachedSegments, deleteRetentionMsBreachedSegments>>
+
+| RetentionBytesProp
+a| [[RetentionBytesProp]][[retentionSize]] <<kafka-common-TopicConfig.adoc#RETENTION_BYTES_CONFIG, retention.bytes>>
+
+Default: `-1L`
+
+Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.retention.bytes, log.retention.bytes>>
+
+Used exclusively when `Log` is requested to <<kafka-log-Log.adoc#deleteRetentionSizeBreachedSegments, deleteRetentionSizeBreachedSegments>>
 
 | SegmentBytesProp
 a| [[SegmentBytesProp]][[segmentSize]] <<kafka-common-TopicConfig.adoc#SEGMENT_BYTES_CONFIG, segment.bytes>>
 
-Server-wide default (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.segment.bytes, log.segment.bytes>>
+Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.segment.bytes, log.segment.bytes>>
 
 Used when:
 
@@ -145,6 +158,15 @@ NOTE: `compact` is used when...FIXME
 delete: Boolean
 ----
 
-`delete`...FIXME
+`delete` flag is enabled (`true`) when <<kafka-log-cleanup-policies.adoc#delete, delete>> cleanup policy is part of the <<kafka-log-cleanup-policies.adoc#cleanup.policy, cleanup.policy>> configuration property. Otherwise, `delete` flag is disabled (`false`).
 
-NOTE: `delete` is used when...FIXME
+[NOTE]
+====
+`delete` is used when:
+
+* `Partition` is requested to <<kafka-cluster-Partition.adoc#deleteRecordsOnLeader, deleteRecordsOnLeader>>
+
+* `Log` is requested to <<kafka-log-Log.adoc#deleteOldSegments, deleteOldSegments>>
+
+* `LogCleanerManager` utility is requested for <<kafka-log-LogCleanerManager.adoc#isCompactAndDelete, isCompactAndDelete>>
+====

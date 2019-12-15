@@ -202,10 +202,10 @@ a| [[logMessageTimestampType]]
 a| [[logPreAllocateEnable]]
 
 | logRetentionBytes
-a| [[logRetentionBytes]]
+a| [[logRetentionBytes]][[LogRetentionBytesProp]] <<kafka-properties.adoc#log.retention.bytes, log.retention.bytes>>
 
 | logRetentionTimeMillis
-a| [[logRetentionTimeMillis]]
+a| [[logRetentionTimeMillis]][[LogRetentionTimeMillisProp]][[LogRetentionTimeMinutesProp]][[LogRetentionTimeHoursProp]] <<kafka-properties.adoc#log.retention.ms, log.retention.ms>>, <<kafka-properties.adoc#log.retention.minutes, log.retention.minutes>>, or <<kafka-properties.adoc#log.retention.hours, log.retention.hours>> (from the highest to the lowest priority)
 
 | logRollTimeJitterMillis
 a| [[logRollTimeJitterMillis]]

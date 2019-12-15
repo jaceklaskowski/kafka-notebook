@@ -1,6 +1,6 @@
 == [[TopicConfig]] TopicConfig
 
-`TopicConfig` are the <<keys, keys>> to configure a topic.
+`TopicConfig` are the <<keys, keys>> for a per-topic configuration.
 
 [source, scala]
 ----
@@ -27,6 +27,16 @@ Used when:
 * (Kafka Streams) `UnwindowedChangelogTopicConfig` is requested for `UNWINDOWED_STORE_CHANGELOG_TOPIC_DEFAULT_OVERRIDES`
 
 * (Kafka Streams) `WindowedChangelogTopicConfig` is requested for `WINDOWED_STORE_CHANGELOG_TOPIC_DEFAULT_OVERRIDES`
+
+| retention.bytes
+a| [[retention.bytes]][[RETENTION_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#RetentionBytesProp, LogConfig.RetentionBytesProp>>
+
+| retention.ms
+a| [[retention.ms]][[RETENTION_MS_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>
+
+Used when:
+
+* FIXME
 
 | segment.bytes
 a| [[segment.bytes]][[SEGMENT_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>

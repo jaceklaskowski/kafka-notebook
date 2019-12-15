@@ -556,6 +556,18 @@ readRecords(
 
 NOTE: `readRecords` is used when...FIXME
 
+=== [[deleteRecordsOnLeader]] `deleteRecordsOnLeader` Method
+
+[source, scala]
+----
+deleteRecordsOnLeader(
+  offset: Long): LogDeleteRecordsResult
+----
+
+`deleteRecordsOnLeader`...FIXME
+
+NOTE: `deleteRecordsOnLeader` is used when...FIXME
+
 === [[tryCompleteDelayedRequests]] `tryCompleteDelayedRequests` Internal Method
 
 [source, scala]

@@ -6,13 +6,15 @@ Kafka uses <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>> conf
 
 * <<log-retention, Log Retention>>
 
-=== [[log.cleanup.policy]] log.cleanup.policy Configuration Property and Cleanup Strategies
+=== [[log.cleanup.policy]][[cleanup.policy]] log.cleanup.policy and cleanup.policy Configuration Properties
 
-<<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>> configuration property is a comma-separated list of cleanup strategies:
+The cluster-wide <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>> and the per-topic <<kafka-common-TopicConfig.adoc#cleanup.policy, cleanup.policy>> configuration properties are comma-separated lists of cleanup strategies:
 
 * [[compact]] *compact* - enables <<log-compaction, log compaction>>
 
 * [[delete]] *delete* - enables <<log-retention, log retention>>
+
+Unless defined, <<kafka-common-TopicConfig.adoc#cleanup.policy, cleanup.policy>> is exactly <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>>.
 
 === [[log-compaction]] Log Compaction
 
@@ -24,6 +26,16 @@ Log compaction can be <<kafka-log-CleanerConfig.adoc#, reconfigured dynamically 
 
 === [[log-retention]] Log Retention
 
-*Log Retention* (_Garbage Collection_) is a cleanup strategy to discard old log segments when their retention time or size limit has been reached.
+*Log Retention* (_Garbage Collection_) is a cleanup strategy to discard (_delete_) old log segments when their <<log-retention-time, retention time>> or <<log-retention-size, size limit>> has been reached.
+
+By default there is only a time limit and no size limit.
+
+[[log-retention-time]]
+*Retention time* is controlled by the cluster-wide <<kafka-properties.adoc#log.retention.ms, log.retention.ms>>, <<kafka-properties.adoc#log.retention.minutes, log.retention.minutes>> or <<kafka-properties.adoc#log.retention.hours, log.retention.hours>> configuration properties (from the highest to the lowest priority) or their per-topic <<kafka-common-TopicConfig.adoc#retention.ms, retention.ms>> configuration property.
+
+[[log-retention-size]]
+*Retention size* is controlled by the cluster-wide <<kafka-properties.adoc#log.retention.bytes, log.retention.bytes>> or per-topic <<kafka-common-TopicConfig.adoc#retention.bytes, retention.bytes>> configuration property.
+
+Enable `ALL` logging level for <<kafka-log-Log.adoc#logging, kafka.log.Log>> logger to see messages related to log retention.
 
 Kafka brokers schedule <<kafka-server-scheduled-tasks.adoc#kafka-log-retention, kafka-log-retention>> periodic task for <<delete, delete>> retention strategy.

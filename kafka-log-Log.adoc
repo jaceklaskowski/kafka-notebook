@@ -373,16 +373,17 @@ hasCleanShutdownFile: Boolean
 
 NOTE: `hasCleanShutdownFile` is used exclusively when `Log` is <<creating-instance, created>> (to <<loadProducerState, loadProducerState>>) and requested to <<recoverLog, recoverLog>>.
 
-=== [[deleteSegments]] `deleteSegments` Internal Method
+=== [[maybeIncrementLogStartOffset]] `maybeIncrementLogStartOffset` Method
 
 [source, scala]
 ----
-deleteSegments(deletable: Iterable[LogSegment]): Int
+maybeIncrementLogStartOffset(
+  newLogStartOffset: Long): Unit
 ----
 
-`deleteSegments`...FIXME
+`maybeIncrementLogStartOffset`...FIXME
 
-NOTE: `deleteSegments` is used exclusively when `Log` is requested to <<deleteOldSegments, deleteOldSegments>>.
+NOTE: `maybeIncrementLogStartOffset` is used when...FIXME
 
 === [[truncateTo]] `truncateTo` Internal Method
 
@@ -413,18 +414,20 @@ truncateFullyAndStartAt(newOffset: Long): Unit
 * `LogManager` is requested to <<kafka-log-LogManager.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
 ====
 
-=== [[deleteOldSegments]] `deleteOldSegments` Method
+=== [[deleteOldSegments]] Scheduling Deletion Of Old Segments (Log Retention) -- `deleteOldSegments` Method
 
 [source, scala]
 ----
 deleteOldSegments(): Long
-// Private API
-deleteOldSegments(
-  predicate: (LogSegment, Option[LogSegment]) => Boolean,
-  reason: String): Int
 ----
 
-`deleteOldSegments`...FIXME
+`deleteOldSegments` uses the <<kafka-log-LogConfig.adoc#delete, delete>> flag (of the given <<config, LogConfig>>) to determine the scope of log deletion and returns the <<deleteSegments, number of segments deleted>>.
+
+NOTE: <<kafka-log-LogConfig.adoc#delete, delete>> flag is enabled (`true`) when <<kafka-log-cleanup-policies.adoc#delete, delete>> cleanup policy is part of the <<kafka-log-cleanup-policies.adoc#cleanup.policy, cleanup.policy>> configuration property.
+
+With the <<kafka-log-LogConfig.adoc#delete, delete>> flag enabled (`true`), `deleteOldSegments` <<deleteRetentionMsBreachedSegments, deleteRetentionMsBreachedSegments>>, <<deleteRetentionSizeBreachedSegments, deleteRetentionSizeBreachedSegments>> and <<deleteLogStartOffsetBreachedSegments, deleteLogStartOffsetBreachedSegments>>.
+
+With the <<kafka-log-LogConfig.adoc#delete, delete>> flag disabled (`false`), `deleteOldSegments` merely <<deleteLogStartOffsetBreachedSegments, deleteLogStartOffsetBreachedSegments>>.
 
 [NOTE]
 ====
@@ -433,9 +436,52 @@ deleteOldSegments(
 * `CleanerThread` (of <<kafka-log-LogCleaner.adoc#, LogCleaner>>) is requested to <<kafka-log-CleanerThread.adoc#cleanFilthiestLog, cleanFilthiestLog>>
 
 * `LogManager` is requested to <<kafka-log-LogManager.adoc#cleanupLogs, cleanupLogs>>
-
-* `Log` is requested to <<deleteRetentionMsBreachedSegments, deleteRetentionMsBreachedSegments>>, <<deleteRetentionSizeBreachedSegments, deleteRetentionSizeBreachedSegments>>, and <<deleteLogStartOffsetBreachedSegments, deleteLogStartOffsetBreachedSegments>>
 ====
+
+==== [[deleteOldSegments-private]] Scheduling Deletion Of Old Segments (Per Predicate) -- `deleteOldSegments` Internal Method
+
+[source, scala]
+----
+deleteOldSegments(
+  predicate: (LogSegment, Option[LogSegment]) => Boolean,
+  reason: String): Int
+----
+
+`deleteOldSegments` <<deletableSegments, finds deletable segments>> for the given `predicate` and <<deleteSegments, schedules their deletion>>.
+
+If found any, `deleteOldSegments` prints out the following INFO message to the logs:
+
+```
+Found deletable segments with base offsets [[baseOffsets]] due to [reason]
+```
+
+NOTE: `deleteOldSegments` is used when `Log` is requested to <<deleteRetentionMsBreachedSegments, deleteRetentionMsBreachedSegments>>, <<deleteRetentionSizeBreachedSegments, deleteRetentionSizeBreachedSegments>>, and <<deleteLogStartOffsetBreachedSegments, deleteLogStartOffsetBreachedSegments>>.
+
+==== [[deletableSegments]] Finding Deletable Segments (Per Predicate) -- `deletableSegments` Internal Method
+
+[source, scala]
+----
+deletableSegments(
+  predicate: (LogSegment, Option[LogSegment]) => Boolean): Iterable[LogSegment]
+----
+
+`deletableSegments`...FIXME
+
+NOTE: `deletableSegments` is used exclusively when `Log` is requested to <<deleteOldSegments-private, schedule deletion of old segments (per predicate)>>.
+
+==== [[deleteSegments]] `deleteSegments` Internal Method
+
+[source, scala]
+----
+deleteSegments(
+  deletable: Iterable[LogSegment]): Int
+----
+
+`deleteSegments` <<roll, roll>> if the number of deletable <<kafka-log-LogSegment.adoc#, LogSegments>> is exactly all the <<segments, segments>>.
+
+For every log segment, `deleteSegments` simply <<deleteSegment, schedules it for deletion>> and <<maybeIncrementLogStartOffset, maybeIncrementLogStartOffset>> (based on...FIXME).
+
+NOTE: `deleteSegments` is used exclusively when `Log` is requested to <<deleteOldSegments-private, schedule deletion of old segments (per predicate)>>.
 
 === [[deleteRetentionMsBreachedSegments]] `deleteRetentionMsBreachedSegments` Internal Method
 
@@ -444,9 +490,19 @@ deleteOldSegments(
 deleteRetentionMsBreachedSegments(): Int
 ----
 
-`deleteRetentionMsBreachedSegments`...FIXME
+`deleteRetentionMsBreachedSegments` uses the <<kafka-log-LogConfig.adoc#retentionMs, retentionMs>> threshold (of the given <<config, LogConfig>>) to determine the scope of log retention.
 
-NOTE: `deleteRetentionMsBreachedSegments` is used when...FIXME
+`deleteRetentionMsBreachedSegments` <<deleteOldSegments-private, schedules deletion of segments>> with their <<kafka-log-LogSegment.adoc#largestTimestamp, largestTimestamp>> below the <<kafka-log-LogConfig.adoc#retentionMs, retentionMs>> threshold.
+
+`deleteRetentionMsBreachedSegments` uses the following reason:
+
+```
+retention time [retentionMs]ms breach
+```
+
+`deleteRetentionMsBreachedSegments` simply returns `0` for a negative <<kafka-log-LogConfig.adoc#retentionMs, retention.ms>> threshold.
+
+NOTE: `deleteRetentionMsBreachedSegments` is used exclusively when `Log` is requested to <<deleteOldSegments, schedule deletion of old segments (log retention)>>.
 
 === [[deleteRetentionSizeBreachedSegments]] `deleteRetentionSizeBreachedSegments` Internal Method
 
@@ -455,9 +511,19 @@ NOTE: `deleteRetentionMsBreachedSegments` is used when...FIXME
 deleteRetentionSizeBreachedSegments(): Int
 ----
 
-`deleteRetentionSizeBreachedSegments`...FIXME
+`deleteRetentionSizeBreachedSegments` uses the <<kafka-log-LogConfig.adoc#retentionSize, retentionSize>> threshold (of the given <<config, LogConfig>>) to determine the scope of log retention.
 
-NOTE: `deleteRetentionSizeBreachedSegments` is used when...FIXME
+`deleteRetentionSizeBreachedSegments` <<deleteOldSegments-private, schedules deletion of segments>> (per their <<kafka-log-LogSegment.adoc#size, size>>) so the <<size, log size>> drops below the <<kafka-log-LogConfig.adoc#retentionSize, retentionSize>> threshold.
+
+`deleteRetentionSizeBreachedSegments` uses the following reason:
+
+```
+retention size in bytes [retentionSize] breach
+```
+
+`deleteRetentionSizeBreachedSegments` simply returns `0` for a negative <<kafka-log-LogConfig.adoc#retentionSize, retention.ms>> threshold or a negative <<size, size>>.
+
+NOTE: `deleteRetentionSizeBreachedSegments` is used exclusively when `Log` is requested to <<deleteOldSegments, schedule deletion of old segments (log retention)>>.
 
 === [[deleteLogStartOffsetBreachedSegments]] `deleteLogStartOffsetBreachedSegments` Internal Method
 

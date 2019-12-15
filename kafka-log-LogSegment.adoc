@@ -86,6 +86,17 @@ resizeIndexes(size: Int): Unit
 
 NOTE: `resizeIndexes` is used when...FIXME
 
+=== [[largestTimestamp]] `largestTimestamp` Method
+
+[source, scala]
+----
+largestTimestamp: Long
+----
+
+`largestTimestamp`...FIXME
+
+NOTE: `largestTimestamp` is used when...FIXME
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

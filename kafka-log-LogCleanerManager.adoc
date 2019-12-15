@@ -70,14 +70,14 @@ Enable `INFO` logging level for `kafka.log.LogCleaner` logger to see what happen
 
 `LogCleanerManager` initializes the <<internal-registries, internal registries and counters>>.
 
-=== [[isCompactAndDelete]] `isCompactAndDelete` Predicate
+=== [[isCompactAndDelete]] `isCompactAndDelete` Utility
 
 [source, scala]
 ----
 isCompactAndDelete(log: Log): Boolean
 ----
 
-`isCompactAndDelete`...FIXME
+`isCompactAndDelete` flag is enabled (`true`) when <<kafka-log-cleanup-policies.adoc#compact, compact>> and <<kafka-log-cleanup-policies.adoc#delete, delete>> cleanup policies are both included in the <<kafka-log-cleanup-policies.adoc#cleanup.policy, cleanup.policy>> configuration property. Otherwise, `isCompactAndDelete` flag is disabled (`false`).
 
 NOTE: `isCompactAndDelete` is used when...FIXME
 
