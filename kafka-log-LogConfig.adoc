@@ -45,8 +45,8 @@ a| [[FlushMsProp]]
 | FlushMessagesProp
 a| [[FlushMessagesProp]]
 
-| IndexIntervalBytesProp
-a| [[IndexIntervalBytesProp]]
+| indexInterval
+a| [[indexInterval]][[IndexIntervalBytesProp]] <<kafka-common-TopicConfig.adoc#INDEX_INTERVAL_BYTES_CONFIG, index.interval.bytes>>
 
 | MaxMessageBytesProp
 a| [[MaxMessageBytesProp]]
@@ -124,7 +124,7 @@ a| [[segment.index.bytes]][[maxIndexSize]][[SegmentIndexBytesProp]] <<kafka-comm
 Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.index.size.max.bytes, log.index.size.max.bytes>>
 
 | SegmentJitterMsProp
-a| [[SegmentJitterMsProp]]
+a| [[SegmentJitterMsProp]][[segmentJitterMs]][[randomSegmentJitter]] <<kafka-common-TopicConfig.adoc#SEGMENT_JITTER_MS_CONFIG, segment.jitter.ms>>
 
 | SegmentMsProp
 a| [[SegmentMsProp]]

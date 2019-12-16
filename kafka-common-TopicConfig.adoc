@@ -28,13 +28,14 @@ Used when:
 
 * (Kafka Streams) `WindowedChangelogTopicConfig` is requested for `WINDOWED_STORE_CHANGELOG_TOPIC_DEFAULT_OVERRIDES`
 
+| index.interval.bytes
+a| [[index.interval.bytes]][[INDEX_INTERVAL_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#IndexIntervalBytesProp, LogConfig.IndexIntervalBytesProp>>
+
 | retention.bytes
 a| [[retention.bytes]][[RETENTION_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#RetentionBytesProp, LogConfig.RetentionBytesProp>>
 
 | retention.ms
 a| [[retention.ms]][[RETENTION_MS_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>
-
-Used when...FIXME
 
 | segment.bytes
 a| [[segment.bytes]][[SEGMENT_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>
@@ -48,6 +49,7 @@ Used when:
 | segment.index.bytes
 a| [[segment.index.bytes]][[SEGMENT_INDEX_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentIndexBytesProp, LogConfig.SegmentIndexBytesProp>>
 
-Used when...FIXME
+| segment.jitter.ms
+a| [[segment.jitter.ms]][[SEGMENT_JITTER_MS_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentJitterMsProp, LogConfig.SegmentJitterMsProp>>
 
 |===

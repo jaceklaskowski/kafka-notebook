@@ -65,11 +65,23 @@ open(
   fileSuffix: String = ""): LogSegment
 ----
 
-`open` uses the <<kafka-log-LogConfig.adoc#maxIndexSize, segment.index.bytes>> (of the given <<kafka-log-LogConfig.adoc#, LogConfig>>) for the `maxIndexSize`.
+`open` uses the following configuration properties (of the given <<kafka-log-LogConfig.adoc#, LogConfig>>):
 
-`open` uses `Log` utility to <<kafka-log-Log.adoc#logFile, logFile>> (dir, baseOffset, fileSuffix)
+* <<kafka-log-LogConfig.adoc#maxIndexSize, segment.index.bytes>> for the `maxIndexSize`
 
-`open` creates a new <<creating-instance, LogSegment>>.
+* <<kafka-log-LogConfig.adoc#indexInterval, index.interval.bytes>> for the `indexIntervalBytes`
+
+* <<kafka-log-LogConfig.adoc#randomSegmentJitter, segment.index.bytes>> for the `rollJitterMs`
+
+`open` creates a new <<creating-instance, LogSegment>> with the following files in the given `dir` directory:
+
+* <<kafka-log-Log.adoc#logFile, Creates a log file>> (with the given `baseOffset`, and `fileSuffix`) and opens it (using `FileRecords.open`)
+
+* <<kafka-log-Log.adoc#offsetIndexFile, Creates a offset index file>>
+
+* <<kafka-log-Log.adoc#timeIndexFile, Creates a time index file>>
+
+* <<kafka-log-Log.adoc#transactionIndexFile, Creates a transaction index file>>
 
 [NOTE]
 ====
@@ -124,7 +136,7 @@ NOTE: `largestTimestamp` is used when...FIXME
 | Description
 
 | created
-a| [[created]] Time(stamp) when the `LogSegment` was created
+a| [[created]] Time(stamp) when this `LogSegment` was created
 
 Used when...FIXME
 
