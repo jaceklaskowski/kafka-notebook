@@ -1,6 +1,6 @@
 == [[Log]] Partition Log
 
-`Log` is a *partition log*.
+`Log` represents a *partition log* of a topic.
 
 `Log` is stored on disk in a <<dir, log directory>> with the <<parseTopicPartitionName, name>> of the form *topic-partition* or *topic-partition.uniqueId-delete* (if marked for deletion).
 
@@ -145,7 +145,7 @@ While being created, `Log` creates the <<dir, log directory>> unless already ava
 `Log` <<initializeLeaderEpochCache, initializeLeaderEpochCache>>.
 
 [[creating-instance-loadSegments]]
-`Log` <<loadSegments, loadSegments>>.
+`Log` <<loadSegments, loads segments>>.
 
 [[creating-instance-nextOffsetMetadata]][[creating-instance-updateLogEndOffset]]
 `Log` <<updateLogEndOffset, updateLogEndOffset>>.
@@ -736,7 +736,119 @@ initFileSize: Int
 
 NOTE: `initFileSize` is used when...FIXME
 
-=== [[loadSegments]] `loadSegments` Internal Method
+=== [[logFile]] Creating Log File -- `logFile` Utility
+
+[source, scala]
+----
+logFile(
+  dir: File,
+  offset: Long,
+  suffix: String = ""): File
+----
+
+`logFile` <<filenamePrefixFromOffset, creates a file name of a log segment>> (for the given `offset`, the <<LogFileSuffix, .log>> suffix and the optional `suffix`) in the given `dir` directory.
+
+[source, scala]
+----
+import java.nio.file.{Files, Path}
+val tmp = "/tmp/kafka-internals"
+val dir = Files.createDirectory(Path.of(tmp)).toFile()
+
+import kafka.log.Log
+val log_file = Log.logFile(dir, offset = 10, suffix = ".suffix")
+assert(log_file.getName == "00000000000000000010.log.suffix")
+----
+
+[NOTE]
+====
+`logFile` is used when:
+
+* `LogSegment` utility is used to <<kafka-log-LogSegment.adoc#open, open a log segment>> and <<kafka-log-LogSegment.adoc#deleteIfExists, deleteIfExists>>
+
+* `Log` is requested to <<loadSegmentFiles, loadSegmentFiles>> and <<roll, roll>>
+====
+
+=== [[offsetIndexFile]] `offsetIndexFile` Method
+
+[source, scala]
+----
+offsetIndexFile(
+  dir: File,
+  offset: Long,
+  suffix: String = ""): File
+----
+
+`offsetIndexFile`...FIXME
+
+NOTE: `offsetIndexFile` is used when...FIXME
+
+=== [[timeIndexFile]] `timeIndexFile` Method
+
+[source, scala]
+----
+timeIndexFile(
+  dir: File,
+  offset: Long,
+  suffix: String = ""): File
+----
+
+`timeIndexFile`...FIXME
+
+NOTE: `timeIndexFile` is used when...FIXME
+
+=== [[producerSnapshotFile]] `producerSnapshotFile` Method
+
+[source, scala]
+----
+producerSnapshotFile(
+  dir: File,
+  offset: Long): File
+----
+
+`producerSnapshotFile`...FIXME
+
+NOTE: `producerSnapshotFile` is used when...FIXME
+
+=== [[transactionIndexFile]] `transactionIndexFile` Method
+
+[source, scala]
+----
+transactionIndexFile(
+  dir: File,
+  offset: Long,
+  suffix: String = ""): File
+----
+
+`transactionIndexFile`...FIXME
+
+NOTE: `transactionIndexFile` is used when...FIXME
+
+=== [[filenamePrefixFromOffset]] Creating File Name Of Log Segment (From Offset) -- `filenamePrefixFromOffset` Utility
+
+[source, scala]
+----
+filenamePrefixFromOffset(
+  offset: Long): String
+----
+
+`filenamePrefixFromOffset` uses https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/text/NumberFormat.html[java.text.NumberFormat] to format the given `offset`:
+
+* Minimum number of digits: 20
+
+* Maximum number of digits in the fraction portion of a number: 0
+
+* No grouping used
+
+[source, scala]
+----
+import kafka.log.Log
+val filenamePrefix = Log.filenamePrefixFromOffset(offset = 10)
+assert(filenamePrefix == "00000000000000000010")
+----
+
+NOTE: `filenamePrefixFromOffset` is used when `Log` utility is used to create file names for <<logFile, logFile>>, <<offsetIndexFile, offsetIndexFile>>, <<timeIndexFile, timeIndexFile>>, <<producerSnapshotFile, producerSnapshotFile>>, and <<transactionIndexFile, transactionIndexFile>>.
+
+=== [[loadSegments]] Loading Segments -- `loadSegments` Internal Method
 
 [source, scala]
 ----

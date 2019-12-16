@@ -1,6 +1,6 @@
 == [[LogSegment]] LogSegment
 
-`LogSegment` is a segment of a <<kafka-log-Log.adoc#, log>>.
+`LogSegment` is a segment of a <<kafka-log-Log.adoc#, partition log>>.
 
 `LogSegment` has two components: a log and an index (and with the <<baseOffset, base offset>> it would be stored in two files, a [base offset].index and a [base offset].log file).
 
@@ -36,20 +36,21 @@ recover(
 
 `recover`...FIXME
 
-NOTE: `recover` is used when...FIXME
+NOTE: `recover` is used exclusively when `Log` is requested to <<kafka-log-Log.adoc#recoverSegment, recover a log segment>>.
 
 === [[sanityCheck]] `sanityCheck` Method
 
 [source, scala]
 ----
-sanityCheck(timeIndexFileNewlyCreated: Boolean): Unit
+sanityCheck(
+  timeIndexFileNewlyCreated: Boolean): Unit
 ----
 
 `sanityCheck`...FIXME
 
-NOTE: `sanityCheck` is used when...FIXME
+NOTE: `sanityCheck` is used exclusively when `Log` is requested to <<kafka-log-Log.adoc#loadSegments, loadSegments>> (when <<kafka-log-Log.adoc#creating-instance-loadSegments, created>>).
 
-=== [[open]] Creating LogSegment Instance -- `open` Factory Method
+=== [[open]] Creating LogSegment Instance -- `open` Utility
 
 [source, scala]
 ----
@@ -64,7 +65,11 @@ open(
   fileSuffix: String = ""): LogSegment
 ----
 
-`open`...FIXME
+`open` uses the <<kafka-log-LogConfig.adoc#maxIndexSize, segment.index.bytes>> (of the given <<kafka-log-LogConfig.adoc#, LogConfig>>) for the `maxIndexSize`.
+
+`open` uses `Log` utility to <<kafka-log-Log.adoc#logFile, logFile>> (dir, baseOffset, fileSuffix)
+
+`open` creates a new <<creating-instance, LogSegment>>.
 
 [NOTE]
 ====
@@ -74,6 +79,20 @@ open(
 
 * `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#createNewCleanedSegment, createNewCleanedSegment>>
 ====
+
+=== [[deleteIfExists]] `deleteIfExists` Utility
+
+[source, scala]
+----
+deleteIfExists(
+  dir: File,
+  baseOffset: Long,
+  fileSuffix: String = ""): Unit
+----
+
+`deleteIfExists`...FIXME
+
+NOTE: `deleteIfExists` is used when...FIXME
 
 === [[resizeIndexes]] `resizeIndexes` Method
 

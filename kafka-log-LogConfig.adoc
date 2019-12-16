@@ -119,15 +119,9 @@ The current value is available as `LogConfig.segmentSize` and used when:
 * `Cleaner` is requested to <<kafka-log-Cleaner.adoc#doClean, clean a log>>
 
 | SegmentIndexBytesProp
-a| [[segment.index.bytes]][[maxIndexSize]][[SegmentIndexBytesProp]] Size of the index that maps offsets to file positions. We preallocate this index file and shrink it only after log rolls.
+a| [[segment.index.bytes]][[maxIndexSize]][[SegmentIndexBytesProp]] <<kafka-common-TopicConfig.adoc#SEGMENT_INDEX_BYTES_CONFIG, segment.index.bytes>>
 
-Property: `segment.index.bytes`
-
-Default: `10 * 1024 * 1024`
-
-You generally should not need to change this setting.
-
-Must be at least `0`
+Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.index.size.max.bytes, log.index.size.max.bytes>>
 
 | SegmentJitterMsProp
 a| [[SegmentJitterMsProp]]

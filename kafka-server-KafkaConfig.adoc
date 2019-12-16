@@ -140,6 +140,8 @@ a| [[logCleanerDeleteRetentionMs]]
 | logCleanerEnable
 a| [[logCleanerEnable]][[LogCleanerEnableProp]] <<kafka-properties.adoc#log.cleaner.enable, log.cleaner.enable>>
 
+Used exclusively when `LogCleaner` utility is requested to <<kafka-log-LogCleaner.adoc#cleanerConfig, build a CleanerConfig from KafkaConfig>>.
+
 | logCleanerMaxCompactionLagMs
 a| [[logCleanerMaxCompactionLagMs]]
 
@@ -185,6 +187,8 @@ a| [[logIndexIntervalBytes]]
 
 | logIndexSizeMaxBytes
 a| [[logIndexSizeMaxBytes]][[LogIndexSizeMaxBytesProp]] <<kafka-properties.adoc#log.index.size.max.bytes, log.index.size.max.bytes>>
+
+Used exclusively when `KafkaServer` is requested for the <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, default log properties>> (and sets the value of <<kafka-log-LogConfig.adoc#SegmentIndexBytesProp, LogConfig.SegmentIndexBytesProp>>)
 
 | logMessageDownConversionEnable
 a| [[logMessageDownConversionEnable]]

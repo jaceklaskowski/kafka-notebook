@@ -9,7 +9,7 @@
 * [[maxMessageSize]] <<kafka-server-KafkaConfig.adoc#logCleanerIoBufferSize, maxMessageSize>> (default: `32*1024*1024`)
 * [[maxIoBytesPerSecond]] <<kafka-server-KafkaConfig.adoc#logCleanerIoMaxBytesPerSecond, maxIoBytesPerSecond>> (default: `Double.MaxValue`)
 * [[backOffMs]] <<kafka-server-KafkaConfig.adoc#logCleanerBackoffMs, backOffMs>> (default: `15 * 1000`)
-* [[enableCleaner]] <<kafka-server-KafkaConfig.adoc#logCleanerEnable, enableCleaner>> flag (default: `true`)
+* [[enableCleaner]] <<kafka-server-KafkaConfig.adoc#logCleanerEnable, log.cleaner.enable>> flag (default: `true`)
 * [[hashAlgorithm]] `hashAlgorithm` (default: `MD5`)
 
 `CleanerConfig` is created exclusively when `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#cleanerConfig, build a CleanerConfig from a KafkaConfig>>.

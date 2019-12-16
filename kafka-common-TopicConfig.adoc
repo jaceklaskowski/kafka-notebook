@@ -34,9 +34,7 @@ a| [[retention.bytes]][[RETENTION_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#Rete
 | retention.ms
 a| [[retention.ms]][[RETENTION_MS_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>
 
-Used when:
-
-* FIXME
+Used when...FIXME
 
 | segment.bytes
 a| [[segment.bytes]][[SEGMENT_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>
@@ -46,5 +44,10 @@ Used when:
 * (Kafka Streams) `StreamsConfig` is requested to `getMainConsumerConfigs`
 
 * (Kafka Streams) `RepartitionTopicConfig` is requested for `REPARTITION_TOPIC_DEFAULT_OVERRIDES`
+
+| segment.index.bytes
+a| [[segment.index.bytes]][[SEGMENT_INDEX_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentIndexBytesProp, LogConfig.SegmentIndexBytesProp>>
+
+Used when...FIXME
 
 |===

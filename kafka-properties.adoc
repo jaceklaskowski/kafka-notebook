@@ -234,7 +234,13 @@ Use `0.0.0.0` to bind to all the network interfaces on a machine or leave it emp
 a| [[listener.security.protocol.map]]
 
 | log.cleaner.enable
-a| [[log.cleaner.enable]]
+a| [[log.cleaner.enable]] Enables the <<kafka-log-LogManager.adoc#cleaner, log cleaner process>> to run on a Kafka broker (`true`). Should be enabled if using any topics with a <<kafka-log-cleanup-policies.adoc#compact, cleanup.policy=compact>> including the internal offsets topic. If disabled those topics will not be compacted and continually grow in size.
+
+Default: `true`
+
+* Use <<kafka-server-KafkaConfig.adoc#LogCleanerEnableProp, KafkaConfig.LogCleanerEnableProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#logCleanerEnable, KafkaConfig.logCleanerEnable>> to access the current value
 
 | log.cleaner.threads
 a| [[log.cleaner.threads]]
@@ -290,13 +296,17 @@ Default: <<log.dir, log.dir>>
 Use <<kafka-server-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> to access the current value.
 
 | log.index.size.max.bytes
-a| [[log.index.size.max.bytes]] Maximum size in bytes of the offset index
+a| [[log.index.size.max.bytes]] Maximum size (in bytes) of the offset index file (that maps offsets to file positions). It is preallocated and shrinked only after log rolls.
 
 Default: `10 * 1024 * 1024`
 
-Must be at least `4`
+You generally should not need to change this setting.
 
-Use <<kafka-server-KafkaConfig.adoc#logIndexSizeMaxBytes, KafkaConfig.logIndexSizeMaxBytes>> to access the current value.
+Must be at least `0`
+
+* Use <<kafka-server-KafkaConfig.adoc#LogIndexSizeMaxBytesProp, KafkaConfig.LogIndexSizeMaxBytesProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#logIndexSizeMaxBytes, KafkaConfig.logIndexSizeMaxBytes>> to access the current value
 
 | log.retention.bytes
 a| [[log.retention.bytes]] Maximum size of a <<kafka-log-Log.adoc#, partition>> (which consists of <<kafka-log-LogSegment.adoc#, log segments>>) to grow before discarding old segments and free up space.
