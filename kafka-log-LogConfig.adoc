@@ -14,7 +14,7 @@ a| [[CleanupPolicyProp]][[cleanup.policy]] <<kafka-common-TopicConfig.adoc#CLEAN
 
 Default: `delete`
 
-Synonym of <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>>
+Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>>
 
 Used when:
 
@@ -43,7 +43,9 @@ Default: `60000`
 a| [[FlushMsProp]]
 
 | FlushMessagesProp
-a| [[FlushMessagesProp]]
+a| [[FlushMessagesProp]][[flushInterval]] <<kafka-common-TopicConfig.adoc#FLUSH_MESSAGES_INTERVAL_CONFIG, flush.messages>>
+
+Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.flush.interval.messages, log.flush.interval.messages>>
 
 | indexInterval
 a| [[indexInterval]][[IndexIntervalBytesProp]] <<kafka-common-TopicConfig.adoc#INDEX_INTERVAL_BYTES_CONFIG, index.interval.bytes>>

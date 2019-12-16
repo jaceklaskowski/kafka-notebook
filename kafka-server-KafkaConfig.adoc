@@ -177,7 +177,9 @@ Used when:
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#describeLogDirs, describeLogDirs>>
 
 | logFlushIntervalMessages
-a| [[logFlushIntervalMessages]]
+a| [[logFlushIntervalMessages]][[LogFlushIntervalMessagesProp]] <<kafka-properties.adoc#log.flush.interval.messages, log.flush.interval.messages>>
+
+Used exclusively when `Log` is requested to <<kafka-log-Log.adoc#append, append records>>
 
 | logFlushIntervalMs
 a| [[logFlushIntervalMs]]

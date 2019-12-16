@@ -1,6 +1,6 @@
 == [[TopicConfig]] TopicConfig
 
-`TopicConfig` are the <<keys, keys>> for a per-topic configuration.
+`TopicConfig` are the <<keys, keys>> for a topic-level configuration (and override <<kafka-server-KafkaConfig.adoc#, cluster-wide defaults>> with `log.` prefix).
 
 [source, scala]
 ----
@@ -27,6 +27,9 @@ Used when:
 * (Kafka Streams) `UnwindowedChangelogTopicConfig` is requested for `UNWINDOWED_STORE_CHANGELOG_TOPIC_DEFAULT_OVERRIDES`
 
 * (Kafka Streams) `WindowedChangelogTopicConfig` is requested for `WINDOWED_STORE_CHANGELOG_TOPIC_DEFAULT_OVERRIDES`
+
+| flush.messages
+a| [[flush.messages]][[FLUSH_MESSAGES_INTERVAL_CONFIG]] <<kafka-log-LogConfig.adoc#FlushMessagesProp, LogConfig.FlushMessagesProp>>
 
 | index.interval.bytes
 a| [[index.interval.bytes]][[INDEX_INTERVAL_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#IndexIntervalBytesProp, LogConfig.IndexIntervalBytesProp>>

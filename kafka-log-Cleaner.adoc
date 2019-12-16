@@ -53,6 +53,23 @@ doClean(
 
 NOTE: `doClean` is used exclusively when `Cleaner` is requested to <<clean, clean a log>>.
 
+==== [[cleanSegments]] `cleanSegments` Internal Method
+
+[source, scala]
+----
+cleanSegments(
+  log: Log,
+  segments: Seq[LogSegment],
+  map: OffsetMap,
+  deleteHorizonMs: Long,
+  stats: CleanerStats,
+  transactionMetadata: CleanedTransactionMetadata): Unit
+----
+
+`cleanSegments`...FIXME
+
+NOTE: `cleanSegments` is used exclusively when `Cleaner` is requested to <<doClean, clean a log>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

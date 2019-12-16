@@ -59,6 +59,49 @@ sanityCheck(
 
 NOTE: `sanityCheck` is used exclusively when `Log` is requested to <<kafka-log-Log.adoc#loadSegments, loadSegments>> (when <<kafka-log-Log.adoc#creating-instance-loadSegments, created>>).
 
+=== [[updateDir]] `updateDir` Method
+
+[source, scala]
+----
+updateDir(
+  dir: File): Unit
+----
+
+`updateDir`...FIXME
+
+NOTE: `updateDir` is used exclusively when `Log` is requested to <<kafka-log-Log.adoc#renameDir, renameDir>>.
+
+=== [[changeFileSuffixes]] `changeFileSuffixes` Method
+
+[source, scala]
+----
+changeFileSuffixes(
+  oldSuffix: String,
+  newSuffix: String): Unit
+----
+
+`changeFileSuffixes`...FIXME
+
+NOTE: `changeFileSuffixes` is used when `Log` is requested to <<kafka-log-Log.adoc#asyncDeleteSegment, asyncDeleteSegment>> and <<kafka-log-Log.adoc#replaceSegments, replaceSegments>>.
+
+=== [[flush]] `flush` Method
+
+[source, scala]
+----
+flush(): Unit
+----
+
+`flush`...FIXME
+
+[NOTE]
+====
+`flush` is used when:
+
+* `Log` is requested to <<kafka-log-Log.adoc#flush, flush>> and <<kafka-log-Log.adoc#splitOverflowedSegment, splitOverflowedSegment>>
+
+* `Cleaner` is requested to <<kafka-log-Cleaner.adoc#clean, clean a log>> (and <<kafka-log-Cleaner.adoc#cleanSegments, cleanSegments>>)
+====
+
 === [[open]] Creating LogSegment Instance -- `open` Utility
 
 [source, scala]

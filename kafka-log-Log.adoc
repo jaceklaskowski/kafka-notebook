@@ -348,7 +348,7 @@ replaceSegments(
 
 * `Log` is requested to <<completeSwapOperations, completeSwapOperations>> and <<splitOverflowedSegment, splitOverflowedSegment>>
 
-* `Cleaner` is requested to `cleanSegments`
+* `Cleaner` is requested to <<kafka-log-Cleaner.adoc#cleanSegments, cleanSegments>>
 ====
 
 === [[recoverLog]] `recoverLog` Internal Method
@@ -540,7 +540,8 @@ NOTE: `deleteLogStartOffsetBreachedSegments` is used when...FIXME
 
 [source, scala]
 ----
-splitOverflowedSegment(segment: LogSegment): List[LogSegment]
+splitOverflowedSegment(
+  segment: LogSegment): List[LogSegment]
 ----
 
 `splitOverflowedSegment`...FIXME
@@ -718,7 +719,8 @@ If `message.format.version` is among the updated keys, `updateConfig`...FIXME
 
 [source, scala]
 ----
-renameDir(name: String): Unit
+renameDir(
+  name: String): Unit
 ----
 
 `renameDir`...FIXME

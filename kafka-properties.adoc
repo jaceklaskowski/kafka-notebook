@@ -295,6 +295,26 @@ Default: <<log.dir, log.dir>>
 
 Use <<kafka-server-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> to access the current value.
 
+| log.flush.interval.messages
+a| [[log.flush.interval.messages]] Number of messages written to a log partition before flushing to disk (by forcing an fsync)
+
+Default: `Long.MaxValue` (maximum possible long value)
+
+E.g. if this was set to `1` we would fsync after every message; if it were 5 we would fsync after every five messages.
+
+It is recommended not setting this and using replication for durability and allowing the operating system's background flush capabilities as it is more efficient.
+
+Must be at least `0`
+
+Topic-level configuration: <<kafka-common-TopicConfig.adoc#FLUSH_MESSAGES_INTERVAL_CONFIG, flush.messages>>
+
+* Use <<kafka-server-KafkaConfig.adoc#LogFlushIntervalMessagesProp, KafkaConfig.LogFlushIntervalMessagesProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#logFlushIntervalMessages, KafkaConfig.logFlushIntervalMessages>> to access the current value
+
+| log.flush.interval.ms
+a| [[log.flush.interval.ms]]
+
 | log.index.size.max.bytes
 a| [[log.index.size.max.bytes]] Maximum size (in bytes) of the offset index file (that maps offsets to file positions). It is preallocated and shrinked only after log rolls.
 
