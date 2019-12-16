@@ -275,7 +275,7 @@ appendAsLeader(
   isFromClient: Boolean = true): LogAppendInfo
 ----
 
-`appendAsLeader` simply <<append, append>> with the `assignOffsets` flag on.
+`appendAsLeader` simply <<append, appends the records>> with the `assignOffsets` flag on.
 
 NOTE: `appendAsLeader` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#appendRecordsToLeader, appendRecordsToLeader>>.
 
@@ -746,13 +746,20 @@ logFile(
   suffix: String = ""): File
 ----
 
-`logFile` <<filenamePrefixFromOffset, creates a file name of a log segment>> (for the given `offset`, the <<LogFileSuffix, .log>> suffix and the optional `suffix`) in the given `dir` directory.
+`logFile` <<filenamePrefixFromOffset, creates a prefix of the file name of a log segment>> (for the given `offset`, the <<LogFileSuffix, .log>> suffix and the optional `suffix`) in the given `dir` directory.
 
+.logFile's Example
 [source, scala]
 ----
 import java.nio.file.{Files, Path}
+import java.io.File
 val tmp = "/tmp/kafka-internals"
-val dir = Files.createDirectory(Path.of(tmp)).toFile()
+val p = Path.of(tmp)
+val dir = if (Files.exists(p)) {
+  new File(tmp)
+} else {
+  Files.createDirectory(p).toFile()
+}
 
 import kafka.log.Log
 val log_file = Log.logFile(dir, offset = 10, suffix = ".suffix")
@@ -778,9 +785,34 @@ offsetIndexFile(
   suffix: String = ""): File
 ----
 
-`offsetIndexFile`...FIXME
+`offsetIndexFile` <<filenamePrefixFromOffset, creates a prefix of the file name of a log segment>> (for the given `offset`, the <<IndexFileSuffix, .index>> suffix and the optional `suffix`) in the given `dir` directory.
 
-NOTE: `offsetIndexFile` is used when...FIXME
+.offsetIndexFile's Example
+[source, scala]
+----
+import java.nio.file.{Files, Path}
+import java.io.File
+val tmp = "/tmp/kafka-internals"
+val p = Path.of(tmp)
+val dir = if (Files.exists(p)) {
+  new File(tmp)
+} else {
+  Files.createDirectory(p).toFile()
+}
+
+import kafka.log.Log
+val log_file = Log.offsetIndexFile(dir, offset = 10, suffix = ".suffix")
+assert(log_file.getName == "00000000000000000010.index.suffix")
+----
+
+[NOTE]
+====
+`offsetIndexFile` is used when:
+
+* `LogSegment` utility is used to <<kafka-log-LogSegment.adoc#open, open a log segment>> and <<kafka-log-LogSegment.adoc#deleteIfExists, deleteIfExists>>
+
+* `Log` is requested to <<removeTempFilesAndCollectSwapFiles, removeTempFilesAndCollectSwapFiles>> and <<roll, roll>>
+====
 
 === [[timeIndexFile]] `timeIndexFile` Method
 
@@ -792,9 +824,34 @@ timeIndexFile(
   suffix: String = ""): File
 ----
 
-`timeIndexFile`...FIXME
+`timeIndexFile` <<filenamePrefixFromOffset, creates a prefix of the file name of a log segment>> (for the given `offset`, the <<TimeIndexFileSuffix, .timeindex>> suffix and the optional `suffix`) in the given `dir` directory.
 
-NOTE: `timeIndexFile` is used when...FIXME
+.timeIndexFile's Example
+[source, scala]
+----
+import java.nio.file.{Files, Path}
+import java.io.File
+val tmp = "/tmp/kafka-internals"
+val p = Path.of(tmp)
+val dir = if (Files.exists(p)) {
+  new File(tmp)
+} else {
+  Files.createDirectory(p).toFile()
+}
+
+import kafka.log.Log
+val log_file = Log.timeIndexFile(dir, offset = 10, suffix = ".suffix")
+assert(log_file.getName == "00000000000000000010.timeindex.suffix")
+----
+
+[NOTE]
+====
+`timeIndexFile` is used when:
+
+* `LogSegment` utility is used to <<kafka-log-LogSegment.adoc#open, open a log segment>> and <<kafka-log-LogSegment.adoc#deleteIfExists, deleteIfExists>>
+
+* `Log` is requested to <<removeTempFilesAndCollectSwapFiles, removeTempFilesAndCollectSwapFiles>>, <<loadSegmentFiles, loadSegmentFiles>> and <<roll, roll>>
+====
 
 === [[producerSnapshotFile]] `producerSnapshotFile` Method
 

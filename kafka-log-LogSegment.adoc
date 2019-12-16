@@ -2,7 +2,16 @@
 
 `LogSegment` is a segment of a <<kafka-log-Log.adoc#, partition log>>.
 
-`LogSegment` has two components: a log and an index (and with the <<baseOffset, base offset>> it would be stored in two files, a [base offset].index and a [base offset].log file).
+`LogSegment` has three components: a <<log, log>> file with <<lazyOffsetIndex, index>> and <<lazyTimeIndex, time>> index files. With a given <<baseOffset, base offset>> the files would be: a `[base offset].index`, a `[base offset].log`, a `[base offset].timeindex` files, e.g.
+
+```
+$ tree /tmp/kafka-logs/t1-1/
+/tmp/kafka-logs/t1-1/
+├── 00000000000000000000.index
+├── 00000000000000000000.log
+├── 00000000000000000000.timeindex
+└── leader-epoch-checkpoint
+```
 
 `LogSegment` is <<creating-instance, created>> (indirectly using <<open, open>>) when:
 
@@ -77,7 +86,7 @@ open(
 
 * <<kafka-log-Log.adoc#logFile, Creates a log file>> (with the given `baseOffset`, and `fileSuffix`) and opens it (using `FileRecords.open`)
 
-* <<kafka-log-Log.adoc#offsetIndexFile, Creates a offset index file>>
+* <<kafka-log-Log.adoc#offsetIndexFile, Creates an offset index file>>
 
 * <<kafka-log-Log.adoc#timeIndexFile, Creates a time index file>>
 
@@ -128,6 +137,31 @@ largestTimestamp: Long
 
 NOTE: `largestTimestamp` is used when...FIXME
 
+=== [[shouldRoll]] `shouldRoll` Method
+
+[source, scala]
+----
+shouldRoll(
+  rollParams: RollParams): Boolean
+----
+
+`shouldRoll`...FIXME
+
+NOTE: `shouldRoll` is used exclusively when `Log` is requested to <<kafka-log-Log.adoc#maybeRoll, maybeRoll>> (while <<kafka-log-Log.adoc#append, appending records>>).
+
+=== [[timeWaitedForRoll]] `timeWaitedForRoll` Method
+
+[source, scala]
+----
+timeWaitedForRoll(
+  now: Long,
+  messageTimestamp: Long) : Long
+----
+
+`timeWaitedForRoll`...FIXME
+
+NOTE: `timeWaitedForRoll` is used exclusively when `LogSegment` is requested to <<shouldRoll, shouldRoll>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -136,9 +170,9 @@ NOTE: `largestTimestamp` is used when...FIXME
 | Description
 
 | created
-a| [[created]] Time(stamp) when this `LogSegment` was created
+a| [[created]] Time(stamp) when this `LogSegment` was <<creating-instance, created>> or <<truncateTo, truncated completely>> (to `0`)
 
-Used when...FIXME
+Used exclusively when `LogSegment` is requested for the <<timeWaitedForRoll, time it has waited to be rolled>>
 
 | bytesSinceLastIndexEntry
 a| [[bytesSinceLastIndexEntry]]
