@@ -853,19 +853,6 @@ assert(log_file.getName == "00000000000000000010.timeindex.suffix")
 * `Log` is requested to <<removeTempFilesAndCollectSwapFiles, removeTempFilesAndCollectSwapFiles>>, <<loadSegmentFiles, loadSegmentFiles>> and <<roll, roll>>
 ====
 
-=== [[producerSnapshotFile]] `producerSnapshotFile` Method
-
-[source, scala]
-----
-producerSnapshotFile(
-  dir: File,
-  offset: Long): File
-----
-
-`producerSnapshotFile`...FIXME
-
-NOTE: `producerSnapshotFile` is used when...FIXME
-
 === [[transactionIndexFile]] `transactionIndexFile` Method
 
 [source, scala]
@@ -876,9 +863,65 @@ transactionIndexFile(
   suffix: String = ""): File
 ----
 
-`transactionIndexFile`...FIXME
+`transactionIndexFile` <<filenamePrefixFromOffset, creates a prefix of the file name of a log segment>> (for the given `offset`, the <<TxnIndexFileSuffix, .txnindex>> suffix and the optional `suffix`) in the given `dir` directory.
 
-NOTE: `transactionIndexFile` is used when...FIXME
+.transactionIndexFile's Example
+[source, scala]
+----
+import java.nio.file.{Files, Path}
+import java.io.File
+val tmp = "/tmp/kafka-internals"
+val p = Path.of(tmp)
+val dir = if (Files.exists(p)) {
+  new File(tmp)
+} else {
+  Files.createDirectory(p).toFile()
+}
+
+import kafka.log.Log
+val log_file = Log.transactionIndexFile(dir, offset = 10, suffix = ".suffix")
+assert(log_file.getName == "00000000000000000010.txnindex.suffix")
+----
+
+[NOTE]
+====
+`transactionIndexFile` is used when:
+
+* `LogSegment` utility is used to <<kafka-log-LogSegment.adoc#open, open a log segment>> and <<kafka-log-LogSegment.adoc#deleteIfExists, deleteIfExists>>
+
+* `Log` is requested to <<removeTempFilesAndCollectSwapFiles, removeTempFilesAndCollectSwapFiles>> and <<roll, roll>>
+====
+
+=== [[producerSnapshotFile]] `producerSnapshotFile` Method
+
+[source, scala]
+----
+producerSnapshotFile(
+  dir: File,
+  offset: Long): File
+----
+
+`producerSnapshotFile` <<filenamePrefixFromOffset, creates a prefix of the file name of a log segment>> (for the given `offset` and the <<ProducerSnapshotFileSuffix, .snapshot>> suffix) in the given `dir` directory.
+
+.producerSnapshotFile's Example
+[source, scala]
+----
+import java.nio.file.{Files, Path}
+import java.io.File
+val tmp = "/tmp/kafka-internals"
+val p = Path.of(tmp)
+val dir = if (Files.exists(p)) {
+  new File(tmp)
+} else {
+  Files.createDirectory(p).toFile()
+}
+
+import kafka.log.Log
+val log_file = Log.producerSnapshotFile(dir, offset = 10)
+assert(log_file.getName == "00000000000000000010.snapshot")
+----
+
+NOTE: `producerSnapshotFile` is used exclusively when `ProducerStateManager` is requested to <<kafka-log-ProducerStateManager.adoc#takeSnapshot, takeSnapshot>>.
 
 === [[filenamePrefixFromOffset]] Creating File Name Of Log Segment (From Offset) -- `filenamePrefixFromOffset` Utility
 
@@ -904,6 +947,17 @@ assert(filenamePrefix == "00000000000000000010")
 ----
 
 NOTE: `filenamePrefixFromOffset` is used when `Log` utility is used to create file names for <<logFile, logFile>>, <<offsetIndexFile, offsetIndexFile>>, <<timeIndexFile, timeIndexFile>>, <<producerSnapshotFile, producerSnapshotFile>>, and <<transactionIndexFile, transactionIndexFile>>.
+
+=== [[close]] `close` Method
+
+[source, scala]
+----
+close(): Unit
+----
+
+`close`...FIXME
+
+NOTE: `close` is used when...FIXME
 
 === [[loadSegments]] Loading Segments -- `loadSegments` Internal Method
 

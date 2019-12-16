@@ -22,7 +22,7 @@ takeSnapshot(): Unit
 
 `takeSnapshot`...FIXME
 
-NOTE: `takeSnapshot` is used when...FIXME
+NOTE: `takeSnapshot` is used when `Log` is requested to <<kafka-log-Log.adoc#recoverSegment, recoverSegment>>, <<kafka-log-Log.adoc#rebuildProducerState, rebuildProducerState>>, <<kafka-log-Log.adoc#close, close>>, and <<kafka-log-Log.adoc#roll, roll>>.
 
 === [[isEmpty]] `isEmpty` Method
 
