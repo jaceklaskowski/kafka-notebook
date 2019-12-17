@@ -70,6 +70,26 @@ cleanSegments(
 
 NOTE: `cleanSegments` is used exclusively when `Cleaner` is requested to <<doClean, clean a log>>.
 
+==== [[cleanInto]] `cleanInto` Internal Method
+
+[source, scala]
+----
+cleanInto(
+  topicPartition: TopicPartition,
+  sourceRecords: FileRecords,
+  dest: LogSegment,
+  map: OffsetMap,
+  retainDeletesAndTxnMarkers: Boolean,
+  maxLogMessageSize: Int,
+  transactionMetadata: CleanedTransactionMetadata,
+  lastRecordsOfActiveProducers: Map[Long, LastRecord],
+  stats: CleanerStats): Unit
+----
+
+`cleanInto`...FIXME
+
+NOTE: `cleanInto` is used exclusively when `Cleaner` is requested to <<cleanSegments, cleanSegments>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

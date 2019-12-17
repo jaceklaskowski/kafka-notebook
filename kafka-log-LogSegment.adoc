@@ -2,7 +2,7 @@
 
 `LogSegment` is a segment of a <<kafka-log-Log.adoc#, partition log>>.
 
-`LogSegment` has three components: a <<log, log>> file with <<lazyOffsetIndex, index>> and <<lazyTimeIndex, time>> index files. With a given <<baseOffset, base offset>> the files would be: a `[base offset].index`, a `[base offset].log`, a `[base offset].timeindex` files, e.g.
+`LogSegment` has three components: a <<log, log>> file with <<lazyOffsetIndex, index>> and <<lazyTimeIndex, time index>> files. With a given <<baseOffset, base offset>> the files would be: a `[base offset].index`, a `[base offset].log`, a `[base offset].timeindex` files, e.g.
 
 ```
 $ tree /tmp/kafka-logs/t1-1/
@@ -24,8 +24,8 @@ $ tree /tmp/kafka-logs/t1-1/
 `LogSegment` takes the following to be created:
 
 * [[log]] `FileRecords`
-* [[lazyOffsetIndex]] `LazyOffsetIndex`
-* [[lazyTimeIndex]] `LazyTimeIndex`
+* [[lazyOffsetIndex]] Lazy <<kafka-log-OffsetIndex.adoc#, OffsetIndex>> with deferred loading (`LazyIndex[OffsetIndex]`)
+* [[lazyTimeIndex]] `LazyIndex[TimeIndex]`
 * [[txnIndex]] `TransactionIndex`
 * [[baseOffset]] Base offset
 * [[indexIntervalBytes]] `indexIntervalBytes`
@@ -33,6 +33,19 @@ $ tree /tmp/kafka-logs/t1-1/
 * [[time]] `Time`
 
 `LogSegment` initializes the <<internal-properties, internal properties>>.
+
+=== [[offsetIndex]] LogSegment and OffsetIndex
+
+[source, scala]
+----
+offsetIndex: OffsetIndex
+----
+
+When <<creating-instance, created>>, `LogSegment` is given an <<lazyOffsetIndex, OffsetIndex>> with deferred loading (`LazyIndex[OffsetIndex]`).
+
+`offsetIndex` simply gets (_unwraps_) the <<kafka-log-OffsetIndex.adoc#, OffsetIndex>>.
+
+`offsetIndex` is used for the following...FIXME
 
 === [[recover]] `recover` Method
 
@@ -204,6 +217,57 @@ timeWaitedForRoll(
 `timeWaitedForRoll`...FIXME
 
 NOTE: `timeWaitedForRoll` is used exclusively when `LogSegment` is requested to <<shouldRoll, shouldRoll>>.
+
+=== [[append]] `append` Method
+
+[source, scala]
+----
+append(
+  largestOffset: Long,
+  largestTimestamp: Long,
+  shallowOffsetOfMaxTimestamp: Long,
+  records: MemoryRecords): Unit
+----
+
+`append`...FIXME
+
+[NOTE]
+====
+`append` is used exclusively when:
+
+* `Log` is requested to <<kafka-log-Log.adoc#append, append records>>
+
+* `Cleaner` is requested to <<kafka-log-Cleaner.adoc#clean, clean a log>> (and <<kafka-log-Cleaner.adoc#cleanInto, cleanInto>>)
+
+* `LogSegment` is requested to <<appendChunkFromFile, appendChunkFromFile>>
+====
+
+=== [[appendFromFile]] `appendFromFile` Method
+
+[source, scala]
+----
+appendFromFile(
+  records: FileRecords,
+  start: Int): Int
+----
+
+`appendFromFile`...FIXME
+
+NOTE: `appendFromFile` is used exclusively when `Log` is requested to <<kafka-log-Log.adoc#splitOverflowedSegment, splitOverflowedSegment>>.
+
+=== [[appendChunkFromFile]] `appendChunkFromFile` Internal Method
+
+[source, scala]
+----
+appendChunkFromFile(
+  records: FileRecords,
+  position: Int,
+  bufferSupplier: BufferSupplier): Int
+----
+
+`appendChunkFromFile`...FIXME
+
+NOTE: `appendChunkFromFile` is used exclusively when `LogSegment` is requested to <<appendFromFile, appendFromFile>>.
 
 === [[internal-properties]] Internal Properties
 

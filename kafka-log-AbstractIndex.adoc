@@ -1,0 +1,3 @@
+== [[AbstractIndex]] AbstractIndex
+
+`AbstractIndex` is...FIXME

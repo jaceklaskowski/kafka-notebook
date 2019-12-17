@@ -1165,7 +1165,7 @@ retryOnOffsetOverflow[T](fn: => T): T
 
 `retryOnOffsetOverflow` executes the `fn` block and returns the result.
 
-In case of `LogSegmentOffsetOverflowException`, `retryOnOffsetOverflow` prints out the following INFO message to the logs, <<splitOverflowedSegment, splitOverflowedSegment>> and retries.
+In case of `LogSegmentOffsetOverflowException`, `retryOnOffsetOverflow` prints out the following INFO message to the logs, <<splitOverflowedSegment, splitOverflowedSegment>> and retries execution of the `fn` block.
 
 ```
 Caught segment overflow error: [message]. Split segment and retry.

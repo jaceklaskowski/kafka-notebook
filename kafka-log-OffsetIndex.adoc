@@ -1,0 +1,76 @@
+== [[OffsetIndex]] OffsetIndex
+
+[[entrySize]]
+`OffsetIndex` is a concrete <<kafka-log-AbstractIndex.adoc#, AbstractIndex>> with the <<kafka-log-AbstractIndex.adoc#entrySize, entrySize>> of 8.
+
+`OffsetIndex` is <<creating-instance, created>> when...FIXME
+
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `kafka.log.OffsetIndex` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.log.OffsetIndex=ALL
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
+
+=== [[creating-instance]] Creating OffsetIndex Instance
+
+`OffsetIndex` takes the following to be created:
+
+* [[_file]] Underlying https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/File.html[File]
+* [[baseOffset]] Base offset
+* [[maxIndexSize]] `maxIndexSize` (default: `-1`)
+* [[writable]] `writable` flag (default: `true`)
+
+`OffsetIndex` initializes the <<internal-properties, internal properties>>.
+
+While being created, `OffsetIndex` prints out the following DEBUG message to the logs:
+
+[options="wrap"]
+----
+Loaded index file [absolutePath] with maxEntries = [maxEntries], maxIndexSize = [maxIndexSize], entries = [_entries], lastOffset = [_lastOffset], file position = [position]
+----
+
+=== [[append]] `append` Method
+
+[source, scala]
+----
+append(
+  offset: Long,
+  position: Int): Unit
+----
+
+`append`...FIXME
+
+NOTE: `append` is used when `LogSegment` is requested to <<kafka-log-LogSegment.adoc#append, append>> and <<kafka-log-LogSegment.adoc#recover, recover>>.
+
+=== [[lastEntry]] `lastEntry` Internal Method
+
+[source, scala]
+----
+lastEntry: OffsetPosition
+----
+
+`lastEntry`...FIXME
+
+NOTE: `lastEntry` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| _lastOffset
+a| [[_lastOffset]] The `offset` of the <<lastEntry, last OffsetPosition>>
+
+Used when...FIXME
+
+|===
