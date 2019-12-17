@@ -234,14 +234,20 @@ asyncDeleteSegment(segment: LogSegment): Unit
 
 NOTE: `asyncDeleteSegment` is used when `Log` is requested to <<deleteSegment, deleteSegment>> and <<replaceSegments, replaceSegments>>.
 
-=== [[flush]] `flush` Method
+=== [[flush]] Flushing Log Segments Out To Disk -- `flush` Method
 
 [source, scala]
 ----
 flush(): Unit // <1>
 flush(offset: Long): Unit
 ----
-<1> Uses <<logEndOffset, logEndOffset>> for the offset
+<1> Uses <<logEndOffset, logEndOffset>> for the offset (and so flushes all log segments)
+
+`flush` prints out the following DEBUG message to the logs:
+
+```
+Flushing log up to offset [offset], last flushed: [lastFlushTime],  current time: [time], unflushed: [unflushedMessages]
+```
 
 `flush`...FIXME
 
@@ -249,7 +255,7 @@ flush(offset: Long): Unit
 ====
 `flush` is used when:
 
-* `Log` is requested to <<append, append records>> and for the <<flush-log, flush-log Background Task>>
+* `Log` is requested to <<append, append records>> and for the <<flush-log, flush-log background task>>
 
 * `LogManager` is requested to <<kafka-log-LogManager.adoc#shutdown, shut down>> and <<kafka-log-LogManager.adoc#flushDirtyLogs, flushDirtyLogs>>
 ====

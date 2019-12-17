@@ -39,8 +39,10 @@ Property: `file.delete.delay.ms`
 
 Default: `60000`
 
-| FlushMsProp
-a| [[FlushMsProp]]
+| flushMs
+a| [[flushMs]][[FlushMsProp]] <<kafka-common-TopicConfig.adoc#FLUSH_MS_CONFIG, flush.ms>>
+
+Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.flush.interval.ms, log.flush.interval.ms>>
 
 | FlushMessagesProp
 a| [[FlushMessagesProp]][[flushInterval]] <<kafka-common-TopicConfig.adoc#FLUSH_MESSAGES_INTERVAL_CONFIG, flush.messages>>

@@ -60,7 +60,7 @@ m| delete-file
 m| [[kafka-log-retention]] kafka-log-retention
 | <<kafka-log-LogManager.adoc#cleanupLogs, cleanupLogs>>
 
-m| kafka-log-flusher
+m| [[kafka-log-flusher]] kafka-log-flusher
 | <<kafka-log-LogManager.adoc#flushDirtyLogs, flushDirtyLogs>>
 
 m| kafka-recovery-point-checkpoint

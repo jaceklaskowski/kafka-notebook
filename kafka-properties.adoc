@@ -296,7 +296,7 @@ Default: <<log.dir, log.dir>>
 Use <<kafka-server-KafkaConfig.adoc#logDirs, KafkaConfig.logDirs>> to access the current value.
 
 | log.flush.interval.messages
-a| [[log.flush.interval.messages]] Number of messages written to a log partition before flushing to disk (by forcing an fsync)
+a| [[log.flush.interval.messages]] Number of messages written to a log partition is kept in memory before flushing to disk (by forcing an fsync)
 
 Default: `Long.MaxValue` (maximum possible long value)
 
@@ -313,7 +313,23 @@ Topic-level configuration: <<kafka-common-TopicConfig.adoc#FLUSH_MESSAGES_INTERV
 * Use <<kafka-server-KafkaConfig.adoc#logFlushIntervalMessages, KafkaConfig.logFlushIntervalMessages>> to access the current value
 
 | log.flush.interval.ms
-a| [[log.flush.interval.ms]]
+a| [[log.flush.interval.ms]] How long (in millis) a message written to a log partition is kept in memory before flushing to disk (by forcing an fsync). If not set, the value in log.flush.scheduler.interval.ms is used.
+
+Default: `null` (undefined)
+
+E.g. if this was set to `1000` we would fsync after 1000 ms had passed.
+
+Used exclusively when `LogManager` is requested to <<kafka-log-LogManager.adoc#flushDirtyLogs, flushDirtyLogs>>.
+
+It is recommended not setting this and using replication for durability and allowing the operating system's background flush capabilities as it is more efficient.
+
+Must be undefined or at least `0`
+
+Topic-level configuration: <<kafka-common-TopicConfig.adoc#FLUSH_MS_CONFIG, flush.messages>>
+
+* Use <<kafka-server-KafkaConfig.adoc#LogFlushIntervalMsProp, KafkaConfig.LogFlushIntervalMsProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#logFlushIntervalMs, KafkaConfig.logFlushIntervalMs>> to access the current value
 
 | log.index.size.max.bytes
 a| [[log.index.size.max.bytes]] Maximum size (in bytes) of the offset index file (that maps offsets to file positions). It is preallocated and shrinked only after log rolls.

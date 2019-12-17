@@ -409,17 +409,6 @@ deleteLogs(): Unit
 
 NOTE: `deleteLogs` is used when...FIXME
 
-=== [[flushDirtyLogs]] `flushDirtyLogs` Internal Method
-
-[source, scala]
-----
-flushDirtyLogs(): Unit
-----
-
-`flushDirtyLogs`...FIXME
-
-NOTE: `flushDirtyLogs` is used when...FIXME
-
 === [[checkpointLogRecoveryOffsets]] `checkpointLogRecoveryOffsets` Method
 
 [source, scala]
@@ -557,6 +546,23 @@ handleLogDirFailure(
 `handleLogDirFailure`...FIXME
 
 NOTE: `handleLogDirFailure` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#handleLogDirFailure, handleLogDirFailure>>.
+
+=== [[flushDirtyLogs]] `flushDirtyLogs` Internal Method
+
+[source, scala]
+----
+flushDirtyLogs(): Unit
+----
+
+`flushDirtyLogs` prints out the following DEBUG message to the logs:
+
+```
+Checking for dirty logs to flush...
+```
+
+`flushDirtyLogs`...FIXME
+
+NOTE: `flushDirtyLogs` is used exclusively for the <<kafka-server-scheduled-tasks.adoc#kafka-log-flusher, kafka-log-flusher task>> (when `LogManager` is requested to <<startup, start up>>).
 
 === [[internal-properties]] Internal Properties
 

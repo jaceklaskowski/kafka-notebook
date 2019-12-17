@@ -182,7 +182,9 @@ a| [[logFlushIntervalMessages]][[LogFlushIntervalMessagesProp]] <<kafka-properti
 Used exclusively when `Log` is requested to <<kafka-log-Log.adoc#append, append records>>
 
 | logFlushIntervalMs
-a| [[logFlushIntervalMs]]
+a| [[logFlushIntervalMs]][[LogFlushIntervalMsProp]] <<kafka-properties.adoc#log.flush.interval.ms, log.flush.interval.ms>>
+
+Used exclusively when `KafkaServer` is requested for the <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, default log properties>> (and sets the value of <<kafka-log-LogConfig.adoc#FlushMsProp, LogConfig.FlushMsProp>>)
 
 | logIndexIntervalBytes
 a| [[logIndexIntervalBytes]]

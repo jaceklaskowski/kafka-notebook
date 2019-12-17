@@ -31,6 +31,9 @@ Used when:
 | flush.messages
 a| [[flush.messages]][[FLUSH_MESSAGES_INTERVAL_CONFIG]] <<kafka-log-LogConfig.adoc#FlushMessagesProp, LogConfig.FlushMessagesProp>>
 
+| flush.ms
+a| [[flush.ms]][[FLUSH_MS_CONFIG]] <<kafka-log-LogConfig.adoc#FlushMsProp, LogConfig.FlushMsProp>>
+
 | index.interval.bytes
 a| [[index.interval.bytes]][[INDEX_INTERVAL_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#IndexIntervalBytesProp, LogConfig.IndexIntervalBytesProp>>
 
