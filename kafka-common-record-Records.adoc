@@ -1,0 +1,77 @@
+== [[Records]] Records
+
+`Records` is the <<contract, extension>> of the `BaseRecords` contract for <<extensions, FIXME>> that <<FIXME, FIXME>>.
+
+[[contract]]
+.Records Contract
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| batches
+a| [[batches]]
+
+[source, java]
+----
+Iterable<? extends RecordBatch> batches()
+----
+
+| batchIterator
+a| [[batchIterator]]
+
+[source, java]
+----
+AbstractIterator<? extends RecordBatch> batchIterator()
+----
+
+| downConvert
+a| [[downConvert]]
+
+[source, java]
+----
+ConvertedRecords<? extends Records> downConvert(
+  byte toMagic,
+  long firstOffset,
+  Time time)
+----
+
+| hasCompatibleMagic
+a| [[hasCompatibleMagic]]
+
+[source, java]
+----
+boolean hasCompatibleMagic(byte magic)
+----
+
+| hasMatchingMagic
+a| [[hasMatchingMagic]]
+
+[source, java]
+----
+boolean hasMatchingMagic(byte magic)
+----
+
+| records
+a| [[records]]
+
+[source, java]
+----
+Iterable<Record> records()
+----
+
+| writeTo
+a| [[writeTo]]
+
+[source, java]
+----
+long writeTo(
+  GatheringByteChannel channel,
+  long position,
+  int length) throws IOException
+----
+
+|===
+
+[[extensions]]
+NOTE: <<kafka-common-record-AbstractRecords.adoc#, AbstractRecords>> is the default and only known `Records` extension in Apache Kafka.

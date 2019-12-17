@@ -90,6 +90,40 @@ cleanInto(
 
 NOTE: `cleanInto` is used exclusively when `Cleaner` is requested to <<cleanSegments, cleanSegments>>.
 
+==== [[buildOffsetMap]] `buildOffsetMap` Internal Method
+
+[source, scala]
+----
+buildOffsetMap(
+  log: Log,
+  start: Long,
+  end: Long,
+  map: OffsetMap,
+  stats: CleanerStats): Unit
+----
+
+`buildOffsetMap`...FIXME
+
+NOTE: `buildOffsetMap` is used exclusively when `Cleaner` is requested to <<doClean, doClean>>.
+
+==== [[buildOffsetMapForSegment]] `buildOffsetMapForSegment` Internal Method
+
+[source, scala]
+----
+buildOffsetMapForSegment(
+  topicPartition: TopicPartition,
+  segment: LogSegment,
+  map: OffsetMap,
+  startOffset: Long,
+  maxLogMessageSize: Int,
+  transactionMetadata: CleanedTransactionMetadata,
+  stats: CleanerStats): Boolean
+----
+
+`buildOffsetMapForSegment`...FIXME
+
+NOTE: `buildOffsetMapForSegment` is used exclusively when `Cleaner` is requested to <<buildOffsetMap, buildOffsetMap>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

@@ -1,0 +1,60 @@
+== [[FileRecords]] FileRecords
+
+`FileRecords` is a concrete <<kafka-common-record-AbstractRecords.adoc#, AbstractRecords>>...FIXME
+
+`FileRecords` is <<creating-instance, created>> when...FIXME
+
+=== [[creating-instance]] Creating FileRecords Instance
+
+`FileRecords` takes the following to be created:
+
+* [[file]] Underlying `File`
+* [[channel]] Underlying `FileChannel`
+* [[start]] Start
+* [[end]] End
+* [[isSlice]] `isSlice` flag
+
+`FileRecords` initializes the <<internal-properties, internal properties>>.
+
+=== [[readInto]] Reading Log Batches (Into ByteBuffer) -- `readInto` Method
+
+[source, java]
+----
+void readInto(
+  ByteBuffer buffer,
+  int position) throws IOException
+----
+
+`readInto`...FIXME
+
+[NOTE]
+====
+`readInto` is used when:
+
+* `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#doLoadGroupsAndOffsets, doLoadGroupsAndOffsets>>
+
+* `TransactionStateManager` is requested to <<kafka-TransactionStateManager.adoc#loadTransactionMetadata, loadTransactionMetadata>>
+
+* `Cleaner` is requested to <<kafka-log-Cleaner.adoc#cleanInto, cleanInto>> and <<kafka-log-Cleaner.adoc#buildOffsetMapForSegment, buildOffsetMapForSegment>>
+
+* `LogSegment` is requested to <<kafka-log-LogSegment.adoc#appendChunkFromFile, appendChunkFromFile>>
+
+* `AbstractFetcherThread` is requested to <<kafka-server-AbstractFetcherThread.adoc#toMemoryRecords, toMemoryRecords>>
+====
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| batches
+a| [[batches]] (`Iterable<FileChannelRecordBatch>`)
+
+| size
+a| [[size]] Size (`AtomicInteger`) that is `end - start` for <<isSlice, isSlice>> enabled.
+
+Used when...FIXME
+
+|===

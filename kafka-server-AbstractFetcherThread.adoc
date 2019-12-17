@@ -478,3 +478,28 @@ doTruncate(
 `doTruncate`...FIXME
 
 NOTE: `doTruncate` is used when `AbstractFetcherThread` is requested to <<truncateToHighWatermark, truncateToHighWatermark>> and <<maybeTruncateToEpochEndOffsets, maybeTruncateToEpochEndOffsets>>.
+
+=== [[toMemoryRecords]] `toMemoryRecords` Method
+
+[source, scala]
+----
+toMemoryRecords(
+  records: Records): MemoryRecords
+----
+
+`toMemoryRecords` converts the given records to <<kafka-common-record-MemoryRecords.adoc#, MemoryRecords>>.
+
+[[toMemoryRecords-MemoryRecords]]
+If the given records are of type <<kafka-common-record-MemoryRecords.adoc#, MemoryRecords>> already, `toMemoryRecords` simply returns it as-is.
+
+[[toMemoryRecords-FileRecords]]
+If the given records are of type <<kafka-common-record-FileRecords.adoc#, FileRecords>>, `toMemoryRecords` allocates a `ByteBuffer` of the size of the records to <<kafka-common-record-FileRecords.adoc#readInto, readInto>> and creates a writable <<kafka-common-record-MemoryRecords.adoc#, MemoryRecords>>.
+
+[NOTE]
+====
+`toMemoryRecords` is used when:
+
+* `ReplicaAlterLogDirsThread` is requested to <<kafka-server-ReplicaAlterLogDirsThread.adoc#processPartitionData, processPartitionData>>
+
+* `ReplicaFetcherThread` is requested to <<kafka-server-ReplicaFetcherThread.adoc#processPartitionData, processPartitionData>>
+====

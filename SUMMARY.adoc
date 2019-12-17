@@ -343,6 +343,11 @@
 
 . link:kafka-common-record-MemoryRecordsBuilder.adoc[MemoryRecordsBuilder]
 
+. link:kafka-common-record-Records.adoc[Records]
+.. link:kafka-common-record-FileRecords.adoc[FileRecords]
+.. link:kafka-common-record-MemoryRecords.adoc[MemoryRecords]
+.. link:kafka-common-record-AbstractRecords.adoc[AbstractRecords]
+
 . link:kafka-common-TopicConfig.adoc[TopicConfig]
 
 === Kafka Common / Requests

@@ -1,0 +1,18 @@
+== [[AbstractRecords]] AbstractRecords
+
+`AbstractRecords` is the base implementation of the <<kafka-common-record-Records.adoc#, Records contract>> for <<implementations, records>> (that...FIXME)?
+
+[[implementations]]
+.AbstractRecords
+[cols="30,70",options="header",width="100%"]
+|===
+| AbstractRecords
+| Description
+
+| <<kafka-common-record-FileRecords.adoc#, FileRecords>>
+| [[FileRecords]] On-Disk Representation
+
+| <<kafka-common-record-MemoryRecords.adoc#, MemoryRecords>>
+| [[MemoryRecords]] In-Memory Representation
+
+|===
