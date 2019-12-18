@@ -1,6 +1,6 @@
 == [[TransactionIndex]] TransactionIndex
 
-`TransactionIndex` is used to create a <<kafka-log-LogSegment.adoc#txnIndex, LogSegment>>.
+`TransactionIndex` is a *transaction index* of a <<kafka-log-LogSegment.adoc#txnIndex, LogSegment>>.
 
 `TransactionIndex` is <<creating-instance, created>> when:
 
@@ -71,6 +71,19 @@ deleteIfExists(): Boolean
 `deleteIfExists`...FIXME
 
 NOTE: `deleteIfExists` is used when `LogSegment` is requested to <<kafka-log-LogSegment.adoc#deleteIfExists, deleteIfExists>>.
+
+=== [[collectAbortedTxns]] `collectAbortedTxns` Method
+
+[source, scala]
+----
+collectAbortedTxns(
+  fetchOffset: Long,
+  upperBoundOffset: Long): TxnIndexSearchResult
+----
+
+`collectAbortedTxns`...FIXME
+
+NOTE: `collectAbortedTxns` is used when `LogSegment` is requested to <<kafka-log-LogSegment.adoc#collectAbortedTxns, collectAbortedTxns>>.
 
 === [[openChannel]] Opening FileChannel -- `openChannel` Internal Method
 

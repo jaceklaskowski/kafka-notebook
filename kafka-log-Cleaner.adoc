@@ -51,7 +51,7 @@ doClean(
 
 `doClean`...FIXME
 
-NOTE: `doClean` is used exclusively when `Cleaner` is requested to <<clean, clean a log>>.
+NOTE: `doClean` is used when `Cleaner` is requested to <<clean, clean a log>>.
 
 ==== [[cleanSegments]] `cleanSegments` Internal Method
 

@@ -210,6 +210,49 @@ roll(
 
 NOTE: `roll` is used when `Log` is requested to <<deleteSegments, deleteSegments>> and <<maybeRoll, maybeRoll>>.
 
+=== [[closeHandlers]] `closeHandlers` Method
+
+[source, scala]
+----
+closeHandlers(): Unit
+----
+
+`closeHandlers`...FIXME
+
+NOTE: `closeHandlers` is used when...FIXME
+
+=== [[addAbortedTransactions]] `addAbortedTransactions` Internal Method
+
+[source, scala]
+----
+addAbortedTransactions(
+  startOffset: Long,
+  segmentEntry: JEntry[JLong, LogSegment],
+  fetchInfo: FetchDataInfo): FetchDataInfo
+----
+
+`addAbortedTransactions`...FIXME
+
+NOTE: `addAbortedTransactions` is used when `Log` is requested to <<read, read>>.
+
+=== [[collectAbortedTransactions]] `collectAbortedTransactions` Internal Method
+
+[source, scala]
+----
+collectAbortedTransactions(
+  startOffset: Long,
+  upperBoundOffset: Long): List[AbortedTxn]
+collectAbortedTransactions(
+  startOffset: Long,
+  upperBoundOffset: Long,
+  startingSegmentEntry: JEntry[JLong, LogSegment],
+  accumulator: List[AbortedTxn] => Unit): Unit
+----
+
+`collectAbortedTransactions`...FIXME
+
+NOTE: `collectAbortedTransactions` is used when `Cleaner` is requested to <<kafka-log-Cleaner.adoc#cleanSegments, cleanSegments>> and <<kafka-log-Cleaner.adoc#buildOffsetMap, buildOffsetMap>>.
+
 === [[maybeRoll]] `maybeRoll` Internal Method
 
 [source, scala]
@@ -945,7 +988,7 @@ assert(filenamePrefix == "00000000000000000010")
 
 NOTE: `filenamePrefixFromOffset` is used when `Log` utility is used to create file names for <<logFile, logFile>>, <<offsetIndexFile, offsetIndexFile>>, <<timeIndexFile, timeIndexFile>>, <<producerSnapshotFile, producerSnapshotFile>>, and <<transactionIndexFile, transactionIndexFile>>.
 
-=== [[close]] `close` Method
+=== [[close]] Closing Log -- `close` Method
 
 [source, scala]
 ----

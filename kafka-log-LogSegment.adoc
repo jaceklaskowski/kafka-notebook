@@ -2,7 +2,17 @@
 
 `LogSegment` is a segment of a <<kafka-log-Log.adoc#, partition log>>.
 
-`LogSegment` has three components: a <<log, log>> file with <<lazyOffsetIndex, index>> and <<lazyTimeIndex, time index>> files. With a given <<baseOffset, base offset>> the files would be: a `[base offset].index`, a `[base offset].log`, a `[base offset].timeindex` files, e.g.
+`LogSegment` is composed of the following files:
+
+* <<lazyOffsetIndex, index>>
+
+* <<log, log>>
+
+* <<lazyTimeIndex, time index>>
+
+* <<txnIndex, transaction index>> (of <<updateTxnIndex, aborted transactions>>)
+
+The files are all in the same directory (as specified when <<open, opening a segment>>).
 
 ```
 $ tree /tmp/kafka-logs/t1-1/
@@ -49,7 +59,7 @@ java.nio.file.NoSuchFileException: /tmp/logsegment/00000000000000000000.log
 * [[log]] <<kafka-common-record-FileRecords.adoc#, FileRecords>>
 * [[lazyOffsetIndex]] Lazy <<kafka-log-OffsetIndex.adoc#, OffsetIndex>> with deferred loading (`LazyIndex[OffsetIndex]`)
 * [[lazyTimeIndex]] Lazy <<kafka-log-TimeIndex.adoc#, TimeIndex>> with deferred loading (`LazyIndex[TimeIndex]`)
-* [[txnIndex]] <<kafka-log-TransactionIndex.adoc#, TransactionIndex>>
+* <<txnIndex, TransactionIndex>>
 * [[baseOffset]] Base offset
 * [[indexIntervalBytes]] `indexIntervalBytes`
 * [[rollJitterMs]] `rollJitterMs`
@@ -99,6 +109,35 @@ open(
 * `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#createNewCleanedSegment, createNewCleanedSegment>>
 ====
 
+=== [[txnIndex]] LogSegment and TransactionIndex
+
+[source, scala]
+----
+txnIndex: TransactionIndex
+----
+
+When <<creating-instance, created>>, `LogSegment` is given a <<kafka-log-TransactionIndex.adoc#, TransactionIndex>>.
+
+`LogSegment` uses the `TransactionIndex` for the following:
+
+* <<truncateTo, truncateTo>>
+
+* <<updateTxnIndex, updateTxnIndex>>
+
+* <<collectAbortedTxns, collectAbortedTxns>>
+
+* <<flush, flush>>
+
+* <<sanityCheck, sanityCheck>> and <<recover, recover>>
+
+* <<updateDir, updateDir>> and <<changeFileSuffixes, changeFileSuffixes>>
+
+`txnIndex` is also used when `Cleaner` is requested to <<kafka-log-Cleaner.adoc#clean, clean a log>> (and in turn <<kafka-log-Cleaner.adoc#cleanSegments, cleanSegments>>)
+
+`TransactionIndex` is <<kafka-log-TransactionIndex.adoc#close, closed>> when `LogSegment` is requested to <<close, close>> and <<closeHandlers, closeHandlers>>.
+
+`TransactionIndex` is <<kafka-log-TransactionIndex.adoc#deleteIfExists, deleted (if exists)>> when `LogSegment` is requested to <<deleteIfExists, deleteIfExists>>.
+
 === [[offsetIndex]] LogSegment and OffsetIndex
 
 [source, scala]
@@ -111,6 +150,41 @@ When <<creating-instance, created>>, `LogSegment` is given an <<lazyOffsetIndex,
 `offsetIndex` simply gets (_unwraps_) the <<kafka-log-OffsetIndex.adoc#, OffsetIndex>>.
 
 `offsetIndex` is used for the following...FIXME
+
+=== [[collectAbortedTxns]] `collectAbortedTxns` Method
+
+[source, scala]
+----
+collectAbortedTxns(
+  fetchOffset: Long,
+  upperBoundOffset: Long): TxnIndexSearchResult
+----
+
+`collectAbortedTxns`...FIXME
+
+NOTE: `collectAbortedTxns` is used when `Log` is requested to <<kafka-log-Log.adoc#collectAbortedTransactions, collectAbortedTransactions>>.
+
+=== [[close]] Closing -- `close` Method
+
+[source, scala]
+----
+close(): Unit
+----
+
+`close`...FIXME
+
+NOTE: `close` is used when `Log` is requested to <<kafka-log-Log.adoc#loadSegments, load segments>>, <<kafka-log-Log.adoc#close, close>>, and <<kafka-log-Log.adoc#splitOverflowedSegment splitOverflowedSegment>>.
+
+=== [[closeHandlers]] `closeHandlers` Method
+
+[source, scala]
+----
+closeHandlers(): Unit
+----
+
+`closeHandlers`...FIXME
+
+NOTE: `closeHandlers` is used when `Log` is requested to <<kafka-log-Log.adoc#closeHandlers, closeHandlers>>.
 
 === [[recover]] `recover` Method
 
