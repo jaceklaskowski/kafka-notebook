@@ -231,7 +231,7 @@ In case the name of the given `logDir` ends with <<DeleteDirSuffix, -delete>> su
 
 Otherwise, `loadLog` adds the `Log` to the <<futureLogs, futureLogs>> or <<currentLogs, currentLogs>> internal registry whether it is <<kafka-log-Log.adoc#isFuture, isFuture>> or not, respectively.
 
-In case there was `Log` already registered (the <<futureLogs, futureLogs>> or <<currentLogs, currentLogs>> internal registry) `loadLog` throws an `IllegalStateException`:
+In case there was `Log` already registered (the <<futureLogs, futureLogs>> or <<currentLogs, currentLogs>> internal registry), `loadLog` throws an `IllegalStateException`:
 
 ```
 FIXME
@@ -357,7 +357,7 @@ asyncDelete(
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#stopReplica, stopReplica>>
 ====
 
-=== [[getOrCreateLog]] Looking Up Or Creating Log -- `getOrCreateLog` Method
+=== [[getOrCreateLog]] Looking Up Or Creating New Partition Log -- `getOrCreateLog` Method
 
 [source, scala]
 ----
@@ -368,9 +368,30 @@ getOrCreateLog(
   isFuture: Boolean = false): Log
 ----
 
-`getOrCreateLog` <<getLog, looks up the partition log>> and returns if found.
+`getOrCreateLog` <<getLog, looks up the partition log>> for the given `TopicPartition` (and returns it if found) or creates a new one.
 
-Otherwise, `getOrCreateLog`...FIXME
+[[getOrCreateLog-logDirs]]
+When <<getLog, looking up the partition log>> was unsuccessful, `getOrCreateLog` finds the log directory for the `TopicPartition`. `getOrCreateLog` finds one in the <<preferredLogDirs, preferredLogDirs>> internal registry and falls back on <<nextLogDirs, nextLogDirs>> (that simply gives all the log directories sorted by the number of partition logs).
+
+[[getOrCreateLog-logDirName]]
+`getOrCreateLog` creates the directory name for the `TopicPartition` (based on the given `isFuture` flag).
+
+[[getOrCreateLog-logDir]]
+`getOrCreateLog` tries to <<createLogDirectory, createLogDirectory>> in the available log directories (one by one) until successful.
+
+[[getOrCreateLog-log]]
+`getOrCreateLog` creates a new <<kafka-log-Log.adoc#apply, Log>> (using the <<maxPidExpirationMs, maxPidExpirationMs>> and `LogManager.ProducerIdExpirationCheckIntervalMs` configuration properties).
+
+`getOrCreateLog` registers the new `Log` with the `TopicPartition` in the <<futureLogs, futureLogs>> or <<currentLogs, currentLogs>> internal registries (based on the given <<isFuture, isFuture>> flag).
+
+`getOrCreateLog` prints out the following INFO message to the logs:
+
+```
+Created log for partition [topicPartition] in [logDir] with properties [config].
+```
+
+[[getOrCreateLog-preferredLogDirs]]
+`getOrCreateLog` removes the `TopicPartition` from the <<preferredLogDirs, preferredLogDirs>> internal registry.
 
 NOTE: `getOrCreateLog` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#getOrCreateReplica, getOrCreateReplica>>.
 
@@ -564,6 +585,30 @@ Checking for dirty logs to flush...
 
 NOTE: `flushDirtyLogs` is used exclusively for the <<kafka-server-scheduled-tasks.adoc#kafka-log-flusher, kafka-log-flusher task>> (when `LogManager` is requested to <<startup, start up>>).
 
+=== [[createLogDirectory]] `createLogDirectory` Internal Method
+
+[source, scala]
+----
+createLogDirectory(
+  logDir: File,
+  logDirName: String): Try[File]
+----
+
+`createLogDirectory`...FIXME
+
+NOTE: `createLogDirectory` is used when `LogManager` is requested to <<getOrCreateLog, look up or create a new partition log>>.
+
+=== [[nextLogDirs]] `nextLogDirs` Internal Method
+
+[source, scala]
+----
+nextLogDirs(): List[File]
+----
+
+`nextLogDirs`...FIXME
+
+NOTE: `nextLogDirs` is used when `LogManager` is requested to <<getOrCreateLog, look up or create a new partition log>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -594,6 +639,14 @@ a| [[logStartOffsetCheckpoints]]
 a| [[numRecoveryThreadsPerDataDir]] Number of recovery threads per log data directory
 
 Starts as the <<recoveryThreadsPerDataDir, recoveryThreadsPerDataDir>> and can then be <<resizeRecoveryThreadPool, dynamically changed>>.
+
+| preferredLogDirs
+a| [[preferredLogDirs]]
+
+[source, scala]
+----
+preferredLogDirs: ConcurrentHashMap[TopicPartition, String]
+----
 
 | recoveryPointCheckpoints
 a| [[recoveryPointCheckpoints]]

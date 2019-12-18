@@ -4,6 +4,8 @@
 
 `Log` is stored on disk in a <<dir, log directory>> with the <<parseTopicPartitionName, name>> of the form *topic-partition* or *topic-partition.uniqueId-delete* (if marked for deletion).
 
+`Log` is a collection of <<segments, LogSegments>>.
+
 `Log` is <<apply, created>> when `LogManager` is requested to:
 
 * <<kafka-log-LogManager.adoc#loadLog, Load a partition log directory>> (while being <<kafka-log-LogManager.adoc#creating-instance, created>> which is when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>)
@@ -91,6 +93,19 @@ log4j.logger.kafka.log.Log=ALL
 Refer to <<kafka-logging.adoc#, Logging>>.
 ====
 
+=== [[segments]] LogSegments -- `segments` Internal Registry
+
+[source, scala]
+----
+segments: ConcurrentNavigableMap[java.lang.Long, LogSegment]
+----
+
+`segments` is a Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html[ConcurrentSkipListMap] of <<kafka-log-LogSegment.adoc#, LogSegments>> per `Longs`.
+
+NOTE: FIXME What are the longs?
+
+* Cleared in <<loadSegments, loadSegments>> just before <<loadSegmentFiles, loadSegmentFiles>>
+
 === [[KafkaMetricsGroup]][[metrics]] Performance Metrics
 
 `Log` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with the following performance metrics.
@@ -173,7 +188,7 @@ In the end, `Log` prints out the following INFO message to the logs:
 Completed load of log with [size] segments, log start offset [logStartOffset] and log end offset [logEndOffset] in [time] ms
 ----
 
-=== [[apply]] Creating Log Instance -- `apply` Factory Method
+=== [[apply]] Creating Log Instance -- `apply` Utility
 
 [source, scala]
 ----
@@ -196,7 +211,7 @@ apply(
 
 In the end, `apply` creates a <<creating-instance, Log>>.
 
-NOTE: `apply` is used when `LogManager` is requested to <<kafka-log-LogManager.adoc#loadLog, loadLog>> and <<kafka-log-LogManager.adoc#getOrCreateLog, getOrCreateLog>>.
+NOTE: `apply` is used when `LogManager` is requested to <<kafka-log-LogManager.adoc#loadLog, loadLog>> and <<kafka-log-LogManager.adoc#getOrCreateLog, look up or create a new partition log>>.
 
 === [[roll]] `roll` Method
 
@@ -1246,12 +1261,5 @@ Used when:
 * `Log` is <<creating-instance, created>> and then requested to <<append, append>>, <<read, read>>, <<roll, roll>>, and for the <<logEndOffset, logEndOffset>>
 
 * `Replica` is requested for <<kafka-cluster-Replica.adoc#logEndOffsetMetadata, logEndOffsetMetadata>>
-
-| segments
-a| [[segments]] https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html[java.util.concurrent.ConcurrentSkipListMap] of `Longs` and their <<kafka-log-LogSegment.adoc#, LogSegments>>
-
-* Cleared in <<loadSegments, loadSegments>> just before <<loadSegmentFiles, loadSegmentFiles>>
-
-Used when...FIXME
 
 |===

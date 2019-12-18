@@ -32,24 +32,19 @@ $ tree /tmp/kafka-logs/t1-1/
 .Example
 [source, scala]
 ----
+// One of log.dirs directories
 import java.nio.file.Path
-val file = Path.of("/tmp/logsegment").toFile
-val config = LogConfig()
+val dir = Path.of("/tmp/logsegment")
+import java.nio.file.Files
+if (!Files.exists(dir)) {
+  Files.createDirectory(dir)
+}
 import kafka.log.{LogConfig, LogSegment}
 import org.apache.kafka.common.utils.Time
-scala> val segment = LogSegment.open(file, baseOffset = 0, config, time = Time.SYSTEM)
-java.nio.file.NoSuchFileException: /tmp/logsegment/00000000000000000000.log
-  at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:92)
-  at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)
-  at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:116)
-  at java.base/sun.nio.fs.UnixFileSystemProvider.newFileChannel(UnixFileSystemProvider.java:182)
-  at java.base/java.nio.channels.FileChannel.open(FileChannel.java:292)
-  at java.base/java.nio.channels.FileChannel.open(FileChannel.java:345)
-  at org.apache.kafka.common.record.FileRecords.openChannel(FileRecords.java:448)
-  at org.apache.kafka.common.record.FileRecords.open(FileRecords.java:411)
-  at org.apache.kafka.common.record.FileRecords.open(FileRecords.java:420)
-  at kafka.log.LogSegment$.open(LogSegment.scala:657)
-  ... 36 elided
+val config = LogConfig()
+val segment = LogSegment.open(dir.toFile, baseOffset = 0, config, time = Time.SYSTEM)
+scala> println(segment)
+LogSegment(baseOffset=0, size=0, lastModifiedTime=1576677605692, largestTime=0)
 ----
 
 === [[creating-instance]] Creating LogSegment Instance
