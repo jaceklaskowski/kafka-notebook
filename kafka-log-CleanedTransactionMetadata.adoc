@@ -1,0 +1,15 @@
+== [[CleanedTransactionMetadata]] CleanedTransactionMetadata
+
+`CleanedTransactionMetadata` is...FIXME
+
+=== [[onControlBatchRead]] `onControlBatchRead` Method
+
+[source, scala]
+----
+onControlBatchRead(
+  controlBatch: RecordBatch): Boolean
+----
+
+`onControlBatchRead`...FIXME
+
+NOTE: `onControlBatchRead` is used when...FIXME

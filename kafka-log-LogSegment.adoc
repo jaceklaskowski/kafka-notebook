@@ -13,20 +13,43 @@ $ tree /tmp/kafka-logs/t1-1/
 └── leader-epoch-checkpoint
 ```
 
-`LogSegment` is <<creating-instance, created>> (indirectly using <<open, open>>) when:
+`LogSegment` is <<creating-instance, created>> (indirectly using <<open, LogSegment.open>> utility) when:
 
 * `Log` is requested to <<kafka-log-Log.adoc#loadSegmentFiles, loadSegmentFiles>> (for every log file), <<kafka-log-Log.adoc#completeSwapOperations, completeSwapOperations>>, <<kafka-log-Log.adoc#loadSegments, loadSegments>>, <<kafka-log-Log.adoc#recoverLog, recoverLog>>, <<kafka-log-Log.adoc#roll, roll>>, and <<kafka-log-Log.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
 
 * `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#createNewCleanedSegment, createNewCleanedSegment>>
 
+.Example
+[source, scala]
+----
+import java.nio.file.Path
+val file = Path.of("/tmp/logsegment").toFile
+val config = LogConfig()
+import kafka.log.{LogConfig, LogSegment}
+import org.apache.kafka.common.utils.Time
+scala> val segment = LogSegment.open(file, baseOffset = 0, config, time = Time.SYSTEM)
+java.nio.file.NoSuchFileException: /tmp/logsegment/00000000000000000000.log
+  at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:92)
+  at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)
+  at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:116)
+  at java.base/sun.nio.fs.UnixFileSystemProvider.newFileChannel(UnixFileSystemProvider.java:182)
+  at java.base/java.nio.channels.FileChannel.open(FileChannel.java:292)
+  at java.base/java.nio.channels.FileChannel.open(FileChannel.java:345)
+  at org.apache.kafka.common.record.FileRecords.openChannel(FileRecords.java:448)
+  at org.apache.kafka.common.record.FileRecords.open(FileRecords.java:411)
+  at org.apache.kafka.common.record.FileRecords.open(FileRecords.java:420)
+  at kafka.log.LogSegment$.open(LogSegment.scala:657)
+  ... 36 elided
+----
+
 === [[creating-instance]] Creating LogSegment Instance
 
 `LogSegment` takes the following to be created:
 
-* [[log]] `FileRecords`
+* [[log]] <<kafka-common-record-FileRecords.adoc#, FileRecords>>
 * [[lazyOffsetIndex]] Lazy <<kafka-log-OffsetIndex.adoc#, OffsetIndex>> with deferred loading (`LazyIndex[OffsetIndex]`)
-* [[lazyTimeIndex]] `LazyIndex[TimeIndex]`
-* [[txnIndex]] `TransactionIndex`
+* [[lazyTimeIndex]] Lazy <<kafka-log-TimeIndex.adoc#, TimeIndex>> with deferred loading (`LazyIndex[TimeIndex]`)
+* [[txnIndex]] <<kafka-log-TransactionIndex.adoc#, TransactionIndex>>
 * [[baseOffset]] Base offset
 * [[indexIntervalBytes]] `indexIntervalBytes`
 * [[rollJitterMs]] `rollJitterMs`
@@ -115,7 +138,7 @@ flush(): Unit
 * `Cleaner` is requested to <<kafka-log-Cleaner.adoc#clean, clean a log>> (and <<kafka-log-Cleaner.adoc#cleanSegments, cleanSegments>>)
 ====
 
-=== [[open]] Creating LogSegment Instance -- `open` Utility
+=== [[open]] Opening Log Segment -- `open` Utility
 
 [source, scala]
 ----
@@ -268,6 +291,31 @@ appendChunkFromFile(
 `appendChunkFromFile`...FIXME
 
 NOTE: `appendChunkFromFile` is used exclusively when `LogSegment` is requested to <<appendFromFile, appendFromFile>>.
+
+=== [[truncateTo]] Truncating To Offset -- `truncateTo` Method
+
+[source, scala]
+----
+truncateTo(
+  offset: Long): Int
+----
+
+`truncateTo`...FIXME
+
+NOTE: `truncateTo` is used when...FIXME
+
+=== [[updateTxnIndex]] `updateTxnIndex` Method
+
+[source, scala]
+----
+updateTxnIndex(
+  completedTxn: CompletedTxn,
+  lastStableOffset: Long): Unit
+----
+
+`updateTxnIndex`...FIXME
+
+NOTE: `updateTxnIndex` is used when...FIXME
 
 === [[internal-properties]] Internal Properties
 

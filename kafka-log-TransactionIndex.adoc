@@ -1,0 +1,130 @@
+== [[TransactionIndex]] TransactionIndex
+
+`TransactionIndex` is used to create a <<kafka-log-LogSegment.adoc#txnIndex, LogSegment>>.
+
+`TransactionIndex` is <<creating-instance, created>> when:
+
+* `LogSegment` utility is used to <<kafka-log-LogSegment.adoc#open, open a log segment>>
+
+* <<kafka-tools-DumpLogSegments.adoc#, DumpLogSegments>> tool is used (to <<kafka-tools-DumpLogSegments.adoc#dumpTxnIndex, dump a transaction index (of a log segment)>>)
+
+=== [[creating-instance]] Creating TransactionIndex Instance
+
+`TransactionIndex` takes the following to be created:
+
+* [[startOffset]] Start offset
+* [[file]] Underlying file (Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/File.html[File])
+
+`TransactionIndex` initializes the <<internal-properties, internal properties>>.
+
+While being created, `TransactionIndex` <<openChannel, opens a channel>> to the <<file, file>> if exists already.
+
+=== [[append]] `append` Method
+
+[source, scala]
+----
+append(
+  abortedTxn: AbortedTxn): Unit
+----
+
+`append`...FIXME
+
+[NOTE]
+====
+`append` is used when:
+
+* `CleanedTransactionMetadata` is requested to <<kafka-log-CleanedTransactionMetadata.adoc#onControlBatchRead, onControlBatchRead>>
+
+* `LogSegment` is requested to <<kafka-log-LogSegment.adoc#updateTxnIndex, updateTxnIndex>>
+====
+
+=== [[flush]] `flush` Method
+
+[source, scala]
+----
+flush(): Unit
+----
+
+`flush`...FIXME
+
+NOTE: `flush` is used when `LogSegment` is requested to <<kafka-log-LogSegment.adoc#flush, flush>>.
+
+=== [[truncateTo]] `truncateTo` Method
+
+[source, scala]
+----
+truncateTo(
+  offset: Long): Unit
+----
+
+`truncateTo`...FIXME
+
+NOTE: `truncateTo` is used when `LogSegment` is requested to <<kafka-log-LogSegment.adoc#truncateTo, truncate (to a given offset)>>.
+
+=== [[deleteIfExists]] `deleteIfExists` Method
+
+[source, scala]
+----
+deleteIfExists(): Boolean
+----
+
+`deleteIfExists`...FIXME
+
+NOTE: `deleteIfExists` is used when `LogSegment` is requested to <<kafka-log-LogSegment.adoc#deleteIfExists, deleteIfExists>>.
+
+=== [[openChannel]] Opening FileChannel -- `openChannel` Internal Method
+
+[source, scala]
+----
+openChannel(): FileChannel
+----
+
+`openChannel` uses Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/channels/FileChannel.html[FileChannel] utility to open a file channel to the <<file, underlying file>> for read and write access (and creating a new file unless it exists already).
+
+`openChannel` registers the `FileChannel` with the <<maybeChannel, maybeChannel>> internal registry.
+
+`openChannel` sets the file position of the `FileChannel` to be the very end of the file.
+
+NOTE: `openChannel` is used when `TransactionIndex` is <<creating-instance, created>> (and the <<file, underlying file>> is available) and requested for the <<channel, FileChannel>>.
+
+=== [[channel]] `channel` Internal Method
+
+[source, scala]
+----
+channel(): FileChannel
+----
+
+`channel` takes the `FileChannel` out from the <<maybeChannel, maybeChannel>> internal registry (if available) or <<openChannel, opens a new FileChannel>>.
+
+NOTE: `channel` is used when `TransactionIndex` is requested to <<append, append>> and <<truncateTo, truncateTo>>.
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| lastOffset
+a| [[lastOffset]]
+
+[source, scala]
+----
+lastOffset: Option[Long] = None
+----
+
+Used when...FIXME
+
+| maybeChannel
+a| [[maybeChannel]]
+
+[source, scala]
+----
+maybeChannel: Option[FileChannel] = None
+----
+
+https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/channels/FileChannel.html[FileChannel]
+
+Used when...FIXME
+
+|===

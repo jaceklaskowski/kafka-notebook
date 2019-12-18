@@ -1,6 +1,6 @@
 == [[LogConfig]] LogConfig
 
-`LogConfig` is a Apache Kafka https://kafka.apache.org/21/javadoc/org/apache/kafka/common/config/AbstractConfig.html[AbstractConfig] for the <<properties, configuration properties>> of a...FIXME
+`LogConfig` is a Apache Kafka https://kafka.apache.org/24/javadoc/org/apache/kafka/common/config/AbstractConfig.html[AbstractConfig] for the <<properties, configuration properties>> of a...FIXME
 
 [[properties]]
 .LogConfig's Configuration Properties

@@ -1,0 +1,3 @@
+== TimeIndex
+
+`TimeIndex` is...FIXME

@@ -1,0 +1,15 @@
+== [[DumpLogSegments]] DumpLogSegments
+
+`DumpLogSegments` is...FIXME
+
+=== [[dumpTxnIndex]] Dumping Content Of Transaction Index (Of Log Segment) -- `dumpTxnIndex` Internal Method
+
+[source, scala]
+----
+dumpTxnIndex(
+  file: File): Unit
+----
+
+`dumpTxnIndex`...FIXME
+
+NOTE: `dumpTxnIndex` is used when...FIXME
