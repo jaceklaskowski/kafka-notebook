@@ -476,7 +476,7 @@ truncateTo(
 
 `truncateTo`...FIXME
 
-NOTE: `truncateTo` is used exclusively when `Partition` is requested to <<kafka-cluster-Partition.adoc#truncateTo, truncateTo>>.
+NOTE: `truncateTo` is used when `Partition` is requested to <<kafka-cluster-Partition.adoc#truncateTo, truncateTo>>.
 
 === [[truncateFullyAndStartAt]] `truncateFullyAndStartAt` Method
 

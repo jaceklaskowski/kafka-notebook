@@ -317,7 +317,7 @@ maybeTruncateToEpochEndOffsets(
 
 `maybeTruncateToEpochEndOffsets`...FIXME
 
-NOTE: `maybeTruncateToEpochEndOffsets` is used exclusively when `AbstractFetcherThread` is requested to <<truncateToEpochEndOffsets, truncateToEpochEndOffsets>>.
+NOTE: `maybeTruncateToEpochEndOffsets` is used when `AbstractFetcherThread` is requested to <<truncateToEpochEndOffsets, truncateToEpochEndOffsets>>.
 
 === [[processFetchRequest]] `processFetchRequest` Internal Method
 
@@ -353,7 +353,7 @@ handleOutOfRangeError(
 
 `handleOutOfRangeError`...FIXME
 
-NOTE: `handleOutOfRangeError` is used exclusively when `AbstractFetcherThread` is requested to <<processFetchRequest, processFetchRequest>>.
+NOTE: `handleOutOfRangeError` is used when `AbstractFetcherThread` is requested to <<doWork, truncate and fetch continuously>> (and in turn <<processFetchRequest, processFetchRequest>>).
 
 === [[markPartitionsForTruncation]] `markPartitionsForTruncation` Method
 
@@ -376,12 +376,13 @@ NOTE: `markPartitionsForTruncation` is used when...FIXME
 
 [source, scala]
 ----
-addPartitions(initialFetchStates: Map[TopicPartition, OffsetAndEpoch])
+addPartitions(
+  initialFetchStates: Map[TopicPartition, OffsetAndEpoch]): Unit
 ----
 
 `addPartitions`...FIXME
 
-NOTE: `addPartitions` is used exclusively when `AbstractFetcherManager` is requested to <<kafka-server-AbstractFetcherManager.adoc#addFetcherForPartitions, addFetcherForPartitions>>.
+NOTE: `addPartitions` is used when `AbstractFetcherManager` is requested to <<kafka-server-AbstractFetcherManager.adoc#addFetcherForPartitions, addFetcherForPartitions>>.
 
 === [[updateFetchOffsetAndMaybeMarkTruncationComplete]] `updateFetchOffsetAndMaybeMarkTruncationComplete` Internal Method
 
@@ -411,7 +412,8 @@ NOTE: `truncateToEpochEndOffsets` is used exclusively when `AbstractFetcherThrea
 
 [source, scala]
 ----
-truncateToHighWatermark(partitions: Set[TopicPartition]): Unit
+truncateToHighWatermark(
+  partitions: Set[TopicPartition]): Unit
 ----
 
 `truncateToHighWatermark`...FIXME
@@ -459,7 +461,8 @@ NOTE: `fetchOffsetAndTruncate` is used exclusively when `AbstractFetcherThread` 
 
 [source, scala]
 ----
-handlePartitionsWithErrors(partitions: Iterable[TopicPartition]): Unit
+handlePartitionsWithErrors(
+  partitions: Iterable[TopicPartition]): Unit
 ----
 
 `handlePartitionsWithErrors`...FIXME
@@ -477,7 +480,7 @@ doTruncate(
 
 `doTruncate`...FIXME
 
-NOTE: `doTruncate` is used when `AbstractFetcherThread` is requested to <<truncateToHighWatermark, truncateToHighWatermark>> and <<maybeTruncateToEpochEndOffsets, maybeTruncateToEpochEndOffsets>>.
+NOTE: `doTruncate` is used when `AbstractFetcherThread` is requested to <<maybeTruncate, maybeTruncate>> (and in turn <<truncateToHighWatermark, truncateToHighWatermark>> and <<maybeTruncateToEpochEndOffsets, maybeTruncateToEpochEndOffsets>>).
 
 === [[toMemoryRecords]] `toMemoryRecords` Method
 

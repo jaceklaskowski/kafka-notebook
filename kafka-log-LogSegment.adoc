@@ -57,6 +57,48 @@ java.nio.file.NoSuchFileException: /tmp/logsegment/00000000000000000000.log
 
 `LogSegment` initializes the <<internal-properties, internal properties>>.
 
+=== [[open]] Opening Log Segment -- `open` Utility
+
+[source, scala]
+----
+open(
+  dir: File,
+  baseOffset: Long,
+  config: LogConfig,
+  time: Time,
+  fileAlreadyExists: Boolean = false,
+  initFileSize: Int = 0,
+  preallocate: Boolean = false,
+  fileSuffix: String = ""): LogSegment
+----
+
+`open` uses the following configuration properties (of the given <<kafka-log-LogConfig.adoc#, LogConfig>>):
+
+* <<kafka-log-LogConfig.adoc#maxIndexSize, segment.index.bytes>> for the `maxIndexSize`
+
+* <<kafka-log-LogConfig.adoc#indexInterval, index.interval.bytes>> for the `indexIntervalBytes`
+
+* <<kafka-log-LogConfig.adoc#randomSegmentJitter, segment.index.bytes>> for the `rollJitterMs`
+
+`open` creates a new <<creating-instance, LogSegment>> with the following files in the given `dir` directory:
+
+* <<kafka-log-Log.adoc#logFile, Creates a log file>> (with the given `baseOffset`, and `fileSuffix`) and opens it (using `FileRecords.open`)
+
+* <<kafka-log-Log.adoc#offsetIndexFile, Creates an offset index file>>
+
+* <<kafka-log-Log.adoc#timeIndexFile, Creates a time index file>>
+
+* <<kafka-log-Log.adoc#transactionIndexFile, Creates a transaction index file>>
+
+[NOTE]
+====
+`open` is used when:
+
+* `Log` is requested to <<kafka-log-Log.adoc#loadSegmentFiles, loadSegmentFiles>> (for every log file), <<kafka-log-Log.adoc#completeSwapOperations, completeSwapOperations>>, <<kafka-log-Log.adoc#loadSegments, loadSegments>>, <<kafka-log-Log.adoc#recoverLog, recoverLog>>, <<kafka-log-Log.adoc#roll, roll>>, and <<kafka-log-Log.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
+
+* `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#createNewCleanedSegment, createNewCleanedSegment>>
+====
+
 === [[offsetIndex]] LogSegment and OffsetIndex
 
 [source, scala]
@@ -82,6 +124,19 @@ recover(
 `recover`...FIXME
 
 NOTE: `recover` is used exclusively when `Log` is requested to <<kafka-log-Log.adoc#recoverSegment, recover a log segment>>.
+
+==== [[updateProducerState]] `updateProducerState` Internal Method
+
+[source, scala]
+----
+updateProducerState(
+  producerStateManager: ProducerStateManager,
+  batch: RecordBatch): Unit
+----
+
+`updateProducerState`...FIXME
+
+NOTE: `updateProducerState` is used when `LogSegment` is requested to <<recover, recover>>.
 
 === [[sanityCheck]] `sanityCheck` Method
 
@@ -138,49 +193,18 @@ flush(): Unit
 * `Cleaner` is requested to <<kafka-log-Cleaner.adoc#clean, clean a log>> (and <<kafka-log-Cleaner.adoc#cleanSegments, cleanSegments>>)
 ====
 
-=== [[open]] Opening Log Segment -- `open` Utility
+=== [[deleteIfExists]] `deleteIfExists` Method
 
 [source, scala]
 ----
-open(
-  dir: File,
-  baseOffset: Long,
-  config: LogConfig,
-  time: Time,
-  fileAlreadyExists: Boolean = false,
-  initFileSize: Int = 0,
-  preallocate: Boolean = false,
-  fileSuffix: String = ""): LogSegment
+deleteIfExists(): Unit
 ----
 
-`open` uses the following configuration properties (of the given <<kafka-log-LogConfig.adoc#, LogConfig>>):
+`deleteIfExists`...FIXME
 
-* <<kafka-log-LogConfig.adoc#maxIndexSize, segment.index.bytes>> for the `maxIndexSize`
+NOTE: `deleteIfExists` is used when...FIXME
 
-* <<kafka-log-LogConfig.adoc#indexInterval, index.interval.bytes>> for the `indexIntervalBytes`
-
-* <<kafka-log-LogConfig.adoc#randomSegmentJitter, segment.index.bytes>> for the `rollJitterMs`
-
-`open` creates a new <<creating-instance, LogSegment>> with the following files in the given `dir` directory:
-
-* <<kafka-log-Log.adoc#logFile, Creates a log file>> (with the given `baseOffset`, and `fileSuffix`) and opens it (using `FileRecords.open`)
-
-* <<kafka-log-Log.adoc#offsetIndexFile, Creates an offset index file>>
-
-* <<kafka-log-Log.adoc#timeIndexFile, Creates a time index file>>
-
-* <<kafka-log-Log.adoc#transactionIndexFile, Creates a transaction index file>>
-
-[NOTE]
-====
-`open` is used when:
-
-* `Log` is requested to <<kafka-log-Log.adoc#loadSegmentFiles, loadSegmentFiles>> (for every log file), <<kafka-log-Log.adoc#completeSwapOperations, completeSwapOperations>>, <<kafka-log-Log.adoc#loadSegments, loadSegments>>, <<kafka-log-Log.adoc#recoverLog, recoverLog>>, <<kafka-log-Log.adoc#roll, roll>>, and <<kafka-log-Log.adoc#truncateFullyAndStartAt, truncateFullyAndStartAt>>
-
-* `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#createNewCleanedSegment, createNewCleanedSegment>>
-====
-
-=== [[deleteIfExists]] `deleteIfExists` Utility
+=== [[deleteIfExists-utility]] `deleteIfExists` Utility
 
 [source, scala]
 ----
@@ -198,7 +222,8 @@ NOTE: `deleteIfExists` is used when...FIXME
 
 [source, scala]
 ----
-resizeIndexes(size: Int): Unit
+resizeIndexes(
+  size: Int): Unit
 ----
 
 `resizeIndexes`...FIXME
@@ -278,7 +303,7 @@ appendFromFile(
 
 NOTE: `appendFromFile` is used exclusively when `Log` is requested to <<kafka-log-Log.adoc#splitOverflowedSegment, splitOverflowedSegment>>.
 
-=== [[appendChunkFromFile]] `appendChunkFromFile` Internal Method
+==== [[appendChunkFromFile]] `appendChunkFromFile` Internal Method
 
 [source, scala]
 ----
@@ -290,7 +315,7 @@ appendChunkFromFile(
 
 `appendChunkFromFile`...FIXME
 
-NOTE: `appendChunkFromFile` is used exclusively when `LogSegment` is requested to <<appendFromFile, appendFromFile>>.
+NOTE: `appendChunkFromFile` is used when `LogSegment` is requested to <<appendFromFile, appendFromFile>>.
 
 === [[truncateTo]] Truncating To Offset -- `truncateTo` Method
 
@@ -302,7 +327,7 @@ truncateTo(
 
 `truncateTo`...FIXME
 
-NOTE: `truncateTo` is used when...FIXME
+NOTE: `truncateTo` is used when `Log` is <<kafka-log-Log.adoc#creating-instance-loadSegments, created>> (and in turn <<kafka-log-Log.adoc#recoverLog, recoverLog>>) and <<kafka-log-Log.adoc#truncateTo, truncateTo>>.
 
 === [[updateTxnIndex]] `updateTxnIndex` Method
 
@@ -315,7 +340,14 @@ updateTxnIndex(
 
 `updateTxnIndex`...FIXME
 
-NOTE: `updateTxnIndex` is used when...FIXME
+[NOTE]
+====
+`updateTxnIndex` is used when:
+
+* `Log` is requested to <<kafka-log-Log.adoc#append, append records>>
+
+* `LogSegment` is requested to <<updateProducerState, updateProducerState>>
+====
 
 === [[internal-properties]] Internal Properties
 

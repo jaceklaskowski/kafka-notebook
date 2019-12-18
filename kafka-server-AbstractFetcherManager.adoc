@@ -1,6 +1,6 @@
 == [[AbstractFetcherManager]] AbstractFetcherManager
 
-`AbstractFetcherManager` is the <<contract, abstraction>> of <<implementations, fetcher thread managers>> that can <<createFetcherThread, create a fetcher thread>> (for <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>).
+`AbstractFetcherManager` is the <<contract, abstraction>> of <<implementations, fetcher thread managers>> that can <<createFetcherThread, create fetcher threads>> (for <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>).
 
 NOTE: `AbstractFetcherManager` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractFetcherManagers>>.
 

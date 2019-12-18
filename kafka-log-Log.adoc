@@ -357,17 +357,6 @@ replaceSegments(
 * `Cleaner` is requested to <<kafka-log-Cleaner.adoc#cleanSegments, cleanSegments>>
 ====
 
-=== [[recoverLog]] `recoverLog` Internal Method
-
-[source, scala]
-----
-recoverLog(): Long
-----
-
-`recoverLog`...FIXME
-
-NOTE: `recoverLog` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>>.
-
 === [[hasCleanShutdownFile]] Checking Whether .kafka_cleanshutdown Is In Parent Directory of Log Directory -- `hasCleanShutdownFile` Internal Method
 
 [source, scala]
@@ -400,7 +389,7 @@ truncateTo(targetOffset: Long): Boolean
 
 `truncateTo`...FIXME
 
-NOTE: `truncateTo` is used exclusively when `LogManager` is requested to <<kafka-log-LogManager.adoc#truncateTo, truncateTo>>.
+NOTE: `truncateTo` is used when `LogManager` is requested to <<kafka-log-LogManager.adoc#truncateTo, truncateTo>>.
 
 === [[truncateFullyAndStartAt]] `truncateFullyAndStartAt` Internal Method
 
@@ -997,6 +986,17 @@ In the end, `loadSegments` returns the next offset after recovery.
 For the <<dir, log directory>> that is <<DeleteDirSuffix, scheduled to be deleted>>, `loadSegments` <<addSegment, adds a new log segment>> (with base offset `0` and <<initFileSize, initFileSize>>).
 
 In the end, `loadSegments` returns `0`.
+
+==== [[recoverLog]] `recoverLog` Internal Method
+
+[source, scala]
+----
+recoverLog(): Long
+----
+
+`recoverLog`...FIXME
+
+NOTE: `recoverLog` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>>.
 
 === [[removeTempFilesAndCollectSwapFiles]] `removeTempFilesAndCollectSwapFiles` Internal Method
 
