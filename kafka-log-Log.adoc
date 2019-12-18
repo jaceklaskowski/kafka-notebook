@@ -1,16 +1,14 @@
-== [[Log]] Partition Log
+== [[Log]] Partition Log -- Collection Of Log Segments
 
 `Log` represents a *partition log* of a topic.
 
-`Log` is stored on disk in a <<dir, log directory>> with the <<parseTopicPartitionName, name>> of the form *topic-partition* or *topic-partition.uniqueId-delete* (if marked for deletion).
-
-`Log` is a collection of <<segments, LogSegments>>.
+`Log` is a collection of <<segments, LogSegments>> that are stored on disk in a given <<dir, log directory>> with the <<parseTopicPartitionName, name>> of the form *topic-partition* or *topic-partition.uniqueId-delete* (if marked for deletion).
 
 `Log` is <<apply, created>> when `LogManager` is requested to:
 
-* <<kafka-log-LogManager.adoc#loadLog, Load a partition log directory>> (while being <<kafka-log-LogManager.adoc#creating-instance, created>> which is when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>)
+* <<kafka-log-LogManager.adoc#loadLog, Load a partition log (directory)>> (while being <<kafka-log-LogManager.adoc#creating-instance, created>> which is when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>)
 
-* <<kafka-log-LogManager.adoc#getOrCreateLog, Look up or create a log>> (when `Partition` is requested to <<kafka-cluster-Partition.adoc#getOrCreateReplica, getOrCreateReplica>>)
+* <<kafka-log-LogManager.adoc#getOrCreateLog, Look up or create a partition log>> (when `Partition` is requested to <<kafka-cluster-Partition.adoc#getOrCreateReplica, getOrCreateReplica>>)
 
 [[CleanShutdownFile]]
 `Log` uses *.kafka_cleanshutdown* file to indicate...FIXME
@@ -100,9 +98,9 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 segments: ConcurrentNavigableMap[java.lang.Long, LogSegment]
 ----
 
-`segments` is a Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html[ConcurrentSkipListMap] of <<kafka-log-LogSegment.adoc#, LogSegments>> per `Longs`.
+`segments` is a Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html[ConcurrentSkipListMap] of <<kafka-log-LogSegment.adoc#, LogSegments>> per <<kafka-log-LogSegment.adoc#baseOffset, baseOffset>>.
 
-NOTE: FIXME What are the longs?
+A new `LogSegment` is added when `Log` is requested to <<addSegment, addSegment>>.
 
 * Cleared in <<loadSegments, loadSegments>> just before <<loadSegmentFiles, loadSegmentFiles>>
 
@@ -717,7 +715,8 @@ NOTE: `logEndOffset` is used when...FIXME
 
 [source, scala]
 ----
-addSegment(segment: LogSegment): LogSegment
+addSegment(
+  segment: LogSegment): LogSegment
 ----
 
 `addSegment` simply associates the given <<kafka-log-LogSegment.adoc#, LogSegment>> with the <<kafka-log-LogSegment.adoc#baseOffset, baseOffset>> in the <<segments, segments>> internal registry.
