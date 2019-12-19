@@ -58,4 +58,7 @@ a| [[segment.index.bytes]][[SEGMENT_INDEX_BYTES_CONFIG]] <<kafka-log-LogConfig.a
 | segment.jitter.ms
 a| [[segment.jitter.ms]][[SEGMENT_JITTER_MS_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentJitterMsProp, LogConfig.SegmentJitterMsProp>>
 
+| segment.ms
+a| [[segment.ms]][[SEGMENT_MS_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentMsProp, LogConfig.SegmentMsProp>>
+
 |===

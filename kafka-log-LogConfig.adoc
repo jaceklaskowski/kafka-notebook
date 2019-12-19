@@ -128,15 +128,53 @@ a| [[segment.index.bytes]][[maxIndexSize]][[SegmentIndexBytesProp]] <<kafka-comm
 Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.index.size.max.bytes, log.index.size.max.bytes>>
 
 | SegmentJitterMsProp
-a| [[SegmentJitterMsProp]][[segmentJitterMs]][[randomSegmentJitter]] <<kafka-common-TopicConfig.adoc#SEGMENT_JITTER_MS_CONFIG, segment.jitter.ms>>
+a| [[SegmentJitterMsProp]][[segmentJitterMs]] <<kafka-common-TopicConfig.adoc#SEGMENT_JITTER_MS_CONFIG, segment.jitter.ms>>
 
 | SegmentMsProp
-a| [[SegmentMsProp]]
+a| [[SegmentMsProp]][[segmentMs]] <<kafka-common-TopicConfig.adoc#SEGMENT_MS_CONFIG, segment.ms>>
+
+Default: `604800000` (7 days)
+
+Cluster-wide property (`TopicConfigSynonyms`): <<kafka-server-KafkaConfig.adoc#LogRollTimeMillisProp, log.roll.ms>>
+
+Used when:
+
+* `Log` is requested to <<kafka-log-Log.adoc#maybeRoll, maybeRoll>>
+
+* `LogConfig` is requested for the <<randomSegmentJitter, randomSegmentJitter>> and <<maxSegmentMs, maxSegmentMs>>
+
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>>
 
 | UncleanLeaderElectionEnableProp
 a| [[UncleanLeaderElectionEnableProp]]
 
 |===
+
+=== [[randomSegmentJitter]] `randomSegmentJitter` Method
+
+[source, scala]
+----
+randomSegmentJitter: Long
+----
+
+`randomSegmentJitter` is one of the following values:
+
+* `0` if <<segmentJitterMs, segmentJitterMs>> is `0`
+
+* Random int value modulo the minimum of <<segmentJitterMs, segmentJitterMs>> and <<segmentMs, segmentMs>>
+
+NOTE: `randomSegmentJitter` is used when `LogSegment` utility is used to <<kafka-log-LogSegment.adoc#open, open a log segment>> (for the <<kafka-log-LogSegment.adoc#rollJitterMs, rollJitterMs>> property).
+
+=== [[maxSegmentMs]] `maxSegmentMs` Method
+
+[source, scala]
+----
+maxSegmentMs: Long
+----
+
+`maxSegmentMs`...FIXME
+
+NOTE: `maxSegmentMs` is used when `RollParams` utility is used to <<kafka-log-RollParams.adoc#apply, create a RollParams instance>>.
 
 === [[compact]] Checking Out Whether Compact Cleanup Policy Is Enabled -- `compact` Flag
 

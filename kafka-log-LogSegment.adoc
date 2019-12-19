@@ -1,4 +1,4 @@
-== [[LogSegment]] LogSegment
+== [[LogSegment]] LogSegment -- Record Segment Of Partition Log
 
 `LogSegment` is a segment of a <<kafka-log-Log.adoc#, partition log>>.
 
@@ -22,6 +22,14 @@ $ tree /tmp/kafka-logs/t1-1/
 ├── 00000000000000000000.timeindex
 └── leader-epoch-checkpoint
 ```
+
+`LogSegment` uses the following configuration properties (as given to <<open, open a segment>>):
+
+* <<kafka-log-LogConfig.adoc#maxIndexSize, segment.index.bytes>>
+
+* <<kafka-log-LogConfig.adoc#indexInterval, index.interval.bytes>> for the <<indexIntervalBytes, indexIntervalBytes>>
+
+* <<kafka-log-LogConfig.adoc#randomSegmentJitter, segment.index.bytes>> for the `rollJitterMs`
 
 `LogSegment` is <<creating-instance, created>> (indirectly using <<open, LogSegment.open>> utility) when:
 
@@ -56,7 +64,7 @@ LogSegment(baseOffset=0, size=0, lastModifiedTime=1576677605692, largestTime=0)
 * [[lazyTimeIndex]] Lazy <<kafka-log-TimeIndex.adoc#, TimeIndex>> with deferred loading (`LazyIndex[TimeIndex]`)
 * <<txnIndex, TransactionIndex>>
 * [[baseOffset]] Base offset
-* [[indexIntervalBytes]] `indexIntervalBytes`
+* [[indexIntervalBytes]] <<kafka-log-LogConfig.adoc#indexInterval, index.interval.bytes>>
 * [[rollJitterMs]] `rollJitterMs`
 * [[time]] `Time`
 
@@ -81,9 +89,9 @@ open(
 
 * <<kafka-log-LogConfig.adoc#maxIndexSize, segment.index.bytes>> for the `maxIndexSize`
 
-* <<kafka-log-LogConfig.adoc#indexInterval, index.interval.bytes>> for the `indexIntervalBytes`
+* <<kafka-log-LogConfig.adoc#indexInterval, index.interval.bytes>> for the <<indexIntervalBytes, indexIntervalBytes>>
 
-* <<kafka-log-LogConfig.adoc#randomSegmentJitter, segment.index.bytes>> for the `rollJitterMs`
+* <<kafka-log-LogConfig.adoc#randomSegmentJitter, segment.index.bytes>> for the <<rollJitterMs, rollJitterMs>>
 
 `open` creates a new <<creating-instance, LogSegment>> with the following files in the given `dir` directory:
 

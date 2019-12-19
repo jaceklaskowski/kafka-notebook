@@ -218,8 +218,19 @@ a| [[logRetentionTimeMillis]][[LogRetentionTimeMillisProp]][[LogRetentionTimeMin
 | logRollTimeJitterMillis
 a| [[logRollTimeJitterMillis]]
 
-| logRollTimeMillis
-a| [[logRollTimeMillis]]
+| LogRollTimeHoursProp
+a| [[LogRollTimeHoursProp]]
+
+| LogRollTimeMillisProp
+a| [[LogRollTimeMillisProp]] <<kafka-properties.adoc#log.roll.ms, log.roll.ms>>
+
+Default: `null`
+
+Topic-level property (`TopicConfigSynonyms`): <<kafka-common-TopicConfig.adoc#SEGMENT_MS_CONFIG, segment.ms>>
+
+Used when:
+
+* ...
 
 | logSegmentBytes
 a| [[logSegmentBytes]][[LogSegmentBytesProp]] <<kafka-properties.adoc#log.segment.bytes, log.segment.bytes>>
@@ -430,32 +441,6 @@ Used when:
 
 |===
 
-[[internal-registries]]
-.KafkaConfig's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| dynamicConfig
-a| [[dynamicConfig]] <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>> (that could be <<dynamicConfigOverride, provided>> or will be <<kafka-server-DynamicBrokerConfig.adoc#creating-instance, created from scratch>>)
-
-Used when:
-
-* `AdminManager` is requested to <<kafka-server-AdminManager.adoc#describeConfigs, describeConfigs>> (for `BROKER` resources), <<kafka-server-AdminManager.adoc#alterConfigs, alterConfigs>> and <<kafka-server-AdminManager.adoc#configSynonyms, configSynonyms>>
-
-* `BrokerConfigHandler` is requested to <<kafka-server-BrokerConfigHandler.adoc#processConfigChanges, processConfigChanges>>
-
-* `DynamicMetricsReporters` is <<kafka-server-DynamicMetricsReporters.adoc#dynamicConfig, created>>
-
-* `DynamicClientQuotaCallback` is <<kafka-server-DynamicClientQuotaCallback.adoc#reconfigure, reconfigure>>
-
-* `KafkaConfig` is requested to <<addReconfigurable, addReconfigurable>>
-
-* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>
-
-|===
-
 === [[getListeners]] Creating Listeners -- `getListeners` Internal Method
 
 [source, scala]
@@ -480,13 +465,13 @@ NOTE: `getNumReplicaAlterLogDirsThreads` is used when...FIXME
 
 === [[creating-instance]] Creating KafkaConfig Instance
 
-`KafkaConfig` takes the following when created:
+`KafkaConfig` takes the following to be created:
 
 * [[props]] Key-value properties
 * [[doLog]] `doLog` flag
 * [[dynamicConfigOverride]] <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>>
 
-`KafkaConfig` initializes the <<internal-registries, internal registries and counters>>.
+`KafkaConfig` initializes the <<internal-properties, internal properties>>.
 
 === [[fromProps]] Creating KafkaConfig From Java Properties -- `fromProps` Object Method
 
@@ -555,3 +540,40 @@ getInterBrokerListenerNameAndSecurityProtocol: (ListenerName, SecurityProtocol)
 `getInterBrokerListenerNameAndSecurityProtocol`...FIXME
 
 NOTE: `getInterBrokerListenerNameAndSecurityProtocol` is used when `KafkaConfig` is requested for <<interBrokerListenerName, interBrokerListenerName>> and <<interBrokerSecurityProtocol, interBrokerSecurityProtocol>>.
+
+=== [[logRollTimeMillis]] `logRollTimeMillis` Method
+
+[source, scala]
+----
+logRollTimeMillis: java.lang.Long
+----
+
+`logRollTimeMillis` is either the value of <<LogRollTimeMillisProp, log.roll.ms>> or <<LogRollTimeHoursProp, log.roll.hours>> (converted to millis).
+
+NOTE: `logRollTimeMillis` is used when `KafkaServer` utility is used to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>> (and set the topic-level <<kafka-log-LogConfig.adoc#SegmentMsProp, segment.ms>>).
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| dynamicConfig
+a| [[dynamicConfig]] <<kafka-server-DynamicBrokerConfig.adoc#, DynamicBrokerConfig>> (that could be <<dynamicConfigOverride, provided>> or will be <<kafka-server-DynamicBrokerConfig.adoc#creating-instance, created from scratch>>)
+
+Used when:
+
+* `AdminManager` is requested to <<kafka-server-AdminManager.adoc#describeConfigs, describeConfigs>> (for `BROKER` resources), <<kafka-server-AdminManager.adoc#alterConfigs, alterConfigs>> and <<kafka-server-AdminManager.adoc#configSynonyms, configSynonyms>>
+
+* `BrokerConfigHandler` is requested to <<kafka-server-BrokerConfigHandler.adoc#processConfigChanges, processConfigChanges>>
+
+* `DynamicMetricsReporters` is <<kafka-server-DynamicMetricsReporters.adoc#dynamicConfig, created>>
+
+* `DynamicClientQuotaCallback` is <<kafka-server-DynamicClientQuotaCallback.adoc#reconfigure, reconfigure>>
+
+* `KafkaConfig` is requested to <<addReconfigurable, addReconfigurable>>
+
+* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>
+
+|===

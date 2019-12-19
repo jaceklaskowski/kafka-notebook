@@ -372,6 +372,17 @@ a| [[log.retention.hours]] How long (in hours) to keep a log file before deletin
 
 Considered the last unless <<log.retention.ms, log.retention.ms>> and <<log.retention.minutes, log.retention.minutes>> were set.
 
+| log.roll.ms
+a| [[log.roll.ms]] Time (in millis) after which Kafka forces the log to roll even if the segment file isn't full to ensure that retention can delete or compact old data.
+
+Default: `604800000` (7 days)
+
+Must be at least `1`
+
+* Use <<kafka-server-KafkaConfig.adoc#LogRollTimeMillisProp, KafkaConfig.LogRollTimeMillisProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#logRollTimeMillis, KafkaConfig.logRollTimeMillis>> to access the current value
+
 | log.segment.bytes
 a| [[log.segment.bytes]] The maximum size of a segment file of logs. Retention and cleaning are always done one file at a time so a larger segment size means fewer files but less granular control over retention.
 
