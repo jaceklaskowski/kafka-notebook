@@ -1,16 +1,16 @@
 == [[LogSegment]] LogSegment -- Record Segment Of Partition Log
 
-`LogSegment` is a segment of a <<kafka-log-Log.adoc#, partition log>>.
+`LogSegment` is a segment of <<log, records>> of a <<kafka-log-Log.adoc#, log>> of a <<kafka-cluster-Partition.adoc#, partition>>.
 
-`LogSegment` is composed of the following files:
+`LogSegment` is composed of two main file types, e.g. the <<log, log>> file itself (with records) and index files.
 
 * <<lazyOffsetIndex, index>>
-
-* <<log, log>>
 
 * <<lazyTimeIndex, time index>>
 
 * <<txnIndex, transaction index>> (of <<updateTxnIndex, aborted transactions>>)
+
+NOTE: When <<kafka-log-Log.adoc#, Log>> is created (and requested to <<kafka-log-Log.adoc#loadSegmentFiles, loadSegmentFiles>>) orphaned index files are removed.
 
 The files are all in the same directory (as specified when <<open, opening a segment>>).
 
@@ -22,14 +22,6 @@ $ tree /tmp/kafka-logs/t1-1/
 ├── 00000000000000000000.timeindex
 └── leader-epoch-checkpoint
 ```
-
-`LogSegment` uses the following configuration properties (as given to <<open, open a segment>>):
-
-* <<kafka-log-LogConfig.adoc#maxIndexSize, segment.index.bytes>>
-
-* <<kafka-log-LogConfig.adoc#indexInterval, index.interval.bytes>> for the <<indexIntervalBytes, indexIntervalBytes>>
-
-* <<kafka-log-LogConfig.adoc#randomSegmentJitter, segment.index.bytes>> for the `rollJitterMs`
 
 `LogSegment` is <<creating-instance, created>> (indirectly using <<open, LogSegment.open>> utility) when:
 
@@ -55,6 +47,14 @@ scala> println(segment)
 LogSegment(baseOffset=0, size=0, lastModifiedTime=1576677605692, largestTime=0)
 ----
 
+`LogSegment` uses the following configuration properties (while <<open, opening a log segment>>):
+
+* <<kafka-log-LogConfig.adoc#maxIndexSize, segment.index.bytes>>
+
+* <<kafka-log-LogConfig.adoc#indexInterval, index.interval.bytes>>
+
+* <<kafka-log-LogConfig.adoc#randomSegmentJitter, segment.jitter.ms or segment.ms>>
+
 === [[creating-instance]] Creating LogSegment Instance
 
 `LogSegment` takes the following to be created:
@@ -65,7 +65,7 @@ LogSegment(baseOffset=0, size=0, lastModifiedTime=1576677605692, largestTime=0)
 * <<txnIndex, TransactionIndex>>
 * [[baseOffset]] Base offset
 * [[indexIntervalBytes]] <<kafka-log-LogConfig.adoc#indexInterval, index.interval.bytes>>
-* [[rollJitterMs]] `rollJitterMs`
+* [[rollJitterMs]] <<kafka-log-LogConfig.adoc#randomSegmentJitter, segment.jitter.ms or segment.ms>>
 * [[time]] `Time`
 
 `LogSegment` initializes the <<internal-properties, internal properties>>.
@@ -91,7 +91,7 @@ open(
 
 * <<kafka-log-LogConfig.adoc#indexInterval, index.interval.bytes>> for the <<indexIntervalBytes, indexIntervalBytes>>
 
-* <<kafka-log-LogConfig.adoc#randomSegmentJitter, segment.index.bytes>> for the <<rollJitterMs, rollJitterMs>>
+* <<kafka-log-LogConfig.adoc#randomSegmentJitter, segment.jitter.ms or segment.ms>> for the <<rollJitterMs, rollJitterMs>>
 
 `open` creates a new <<creating-instance, LogSegment>> with the following files in the given `dir` directory:
 
@@ -189,7 +189,7 @@ closeHandlers(): Unit
 
 NOTE: `closeHandlers` is used when `Log` is requested to <<kafka-log-Log.adoc#closeHandlers, closeHandlers>>.
 
-=== [[recover]] `recover` Method
+=== [[recover]] Recovering -- `recover` Method
 
 [source, scala]
 ----

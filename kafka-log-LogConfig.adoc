@@ -159,9 +159,9 @@ randomSegmentJitter: Long
 
 `randomSegmentJitter` is one of the following values:
 
-* `0` if <<segmentJitterMs, segmentJitterMs>> is `0`
+* `0` if <<segmentJitterMs, segment.jitter.ms>> is `0`
 
-* Random int value modulo the minimum of <<segmentJitterMs, segmentJitterMs>> and <<segmentMs, segmentMs>>
+* Random int value modulo the minimum of <<segmentJitterMs, segment.jitter.ms>> and <<segmentMs, segment.ms>>
 
 NOTE: `randomSegmentJitter` is used when `LogSegment` utility is used to <<kafka-log-LogSegment.adoc#open, open a log segment>> (for the <<kafka-log-LogSegment.adoc#rollJitterMs, rollJitterMs>> property).
 

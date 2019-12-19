@@ -16,6 +16,8 @@
 [[isFuture]]
 `Log` is *isFuture* when...FIXME
 
+`Log` uses the <<suffixes, file suffixes>> to differentiate between parts of log segments.
+
 [[suffixes]]
 .File Suffixes
 [cols="30m,70",options="header",width="100%"]
@@ -26,19 +28,22 @@
 | -delete
 a| [[DeleteDirSuffix]]
 
-| .txnindex
-a| [[TxnIndexFileSuffix]] <<isIndexFile, Index file>>
-
-| .timeindex
-a| [[TimeIndexFileSuffix]] <<isIndexFile, Index file>>
-
 | .index
-a| [[IndexFileSuffix]] <<isIndexFile, Index file>>
+a| [[IndexFileSuffix]] <<kafka-log-OffsetIndex.adoc#, OffsetIndex>>
 
 | .log
-a| [[LogFileSuffix]] <<isLogFile, Log file>>
+a| [[LogFileSuffix]] <<kafka-common-record-FileRecords.adoc#, FileRecords>> log file
+
+| .timeindex
+a| [[TimeIndexFileSuffix]] <<kafka-log-TimeIndex.adoc#, TimeIndex>>
+
+| .txnindex
+a| [[TxnIndexFileSuffix]] <<kafka-log-TransactionIndex.adoc#, TransactionIndex>>
 
 |===
+
+[[index-files]]
+The files of offset indices, time indices, and transaction indices are collectively called *index files*.
 
 `Log` uses a <<scheduler, Scheduler>> to schedule the <<background-tasks, background tasks>>.
 
@@ -1066,32 +1071,22 @@ removeTempFilesAndCollectSwapFiles(): Set[File]
 
 NOTE: `removeTempFilesAndCollectSwapFiles` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>> (right when <<creating-instance, created>>).
 
-=== [[loadSegmentFiles]] `loadSegmentFiles` Internal Method
+=== [[loadSegmentFiles]] Loading Segment Files -- `loadSegmentFiles` Internal Method
 
 [source, scala]
 ----
 loadSegmentFiles(): Unit
 ----
 
-`loadSegmentFiles` processes <<loadSegmentFiles-isIndexFile, index>> and <<isLogFile, log>> files in the <<dir, log directory>>.
+`loadSegmentFiles` processes <<loadSegmentFiles-isIndexFile, index>> and <<loadSegmentFiles-isLogFile, log>> files in the <<dir, log directory>> (by name in ascending order).
 
 Internally, `loadSegmentFiles` finds all the files (sorted by name) in the <<dir, log directory>> and branches off per whether a file is an <<loadSegmentFiles-isIndexFile, index>> or a <<isLogFile, log>> file.
 
 NOTE: `loadSegmentFiles` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>> (right when <<creating-instance, created>>).
 
-==== [[loadSegmentFiles-isIndexFile]] `loadSegmentFiles` Internal Method and Index Files
+==== [[loadSegmentFiles-isLogFile]] Loading Log Files
 
-For an <<isIndexFile, index file>>, `loadSegmentFiles` simply makes sure that it has a corresponding <<LogFileSuffix, .log>> file (in the same <<dir, log directory>>).
-
-If the file is an orphaned index file, `loadSegmentFiles` simply prints out the following WARN message and deletes the file:
-
-```
-Found an orphaned index file [path], with no corresponding log file.
-```
-
-==== [[loadSegmentFiles-isLogFile]] `loadSegmentFiles` Internal Method and Log Files
-
-For an <<isLogFile, log file>>, `loadSegmentFiles` <<kafka-log-LogSegment.adoc#open, opens it>> and requests <<kafka-log-LogSegment.adoc#sanityCheck, sanityCheck>>.
+For a <<isLogFile, log file>>, `loadSegmentFiles` <<kafka-log-LogSegment.adoc#open, opens it>> and requests <<kafka-log-LogSegment.adoc#sanityCheck, sanityCheck>>.
 
 In case of `NoSuchFileException`, `loadSegmentFiles` prints out the following ERROR to the logs and <<recoverSegment, recovers the segment>>.
 
@@ -1109,6 +1104,16 @@ Found a corrupted index file corresponding to log file [path] due to [message], 
 
 In the end, `loadSegmentFiles` <<addSegment, addSegment>>.
 
+==== [[loadSegmentFiles-isIndexFile]] Loading Index Files
+
+For <<isIndexFile, index files>>, `loadSegmentFiles` simply makes sure that they have corresponding <<LogFileSuffix, .log>> files (in the same <<dir, log directory>>).
+
+If an orphaned index file is found, `loadSegmentFiles` simply prints out the following WARN message and deletes the file:
+
+```
+Found an orphaned index file [path], with no corresponding log file.
+```
+
 === [[isIndexFile]] `isIndexFile` Internal Object Method
 
 [source, scala]
@@ -1116,7 +1121,7 @@ In the end, `loadSegmentFiles` <<addSegment, addSegment>>.
 isIndexFile(file: File): Boolean
 ----
 
-`isIndexFile` is `true` for files with the following file suffices:
+`isIndexFile` is positive (`true`) when the given file has got one of the following file suffices:
 
 * <<IndexFileSuffix, .index>>
 
