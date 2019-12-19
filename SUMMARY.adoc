@@ -174,10 +174,12 @@
 .. link:kafka-log-ProducerStateManager.adoc[ProducerStateManager]
 .. link:kafka-log-LogConfig.adoc[LogConfig]
 .. link:kafka-log-RollParams.adoc[RollParams]
+
 .. link:kafka-log-AbstractIndex.adoc[AbstractIndex]
 ... link:kafka-log-OffsetIndex.adoc[OffsetIndex]
 ... link:kafka-log-TimeIndex.adoc[TimeIndex]
 .. link:kafka-log-TransactionIndex.adoc[TransactionIndex]
+.. link:kafka-log-LazyIndex.adoc[LazyIndex]
 
 . link:kafka-server-MetadataCache.adoc[MetadataCache]
 

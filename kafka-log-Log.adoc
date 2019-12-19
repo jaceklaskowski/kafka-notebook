@@ -1,8 +1,10 @@
 == [[Log]] Partition Log -- Collection Of Log Segments
 
-`Log` represents a *partition log* of a topic.
+`Log` represents a *log* of a partition of a topic.
 
 `Log` is a collection of <<segments, LogSegments>> that are stored on disk in a given <<dir, log directory>> with the <<parseTopicPartitionName, name>> of the form *topic-partition* or *topic-partition.uniqueId-delete* (if marked for deletion).
+
+While <<creating-instance, being created>>, `Log` creates the <<dir, log directory>> unless available already.
 
 `Log` is <<apply, created>> when `LogManager` is requested to:
 
@@ -251,7 +253,7 @@ addAbortedTransactions(
 
 `addAbortedTransactions`...FIXME
 
-NOTE: `addAbortedTransactions` is used when `Log` is requested to <<read, read>>.
+NOTE: `addAbortedTransactions` is used when `Log` is requested to <<read, read records>>.
 
 === [[collectAbortedTransactions]] `collectAbortedTransactions` Internal Method
 
@@ -666,7 +668,7 @@ offsetFromFile(file: File): Long
 
 NOTE: `offsetFromFile` is used when...FIXME
 
-=== [[read]] `read` Method
+=== [[read]] Reading Records -- `read` Method
 
 [source, scala]
 ----
@@ -684,7 +686,7 @@ read(
 ====
 `read` is used when:
 
-* `Partition` is requested to <<kafka-cluster-Partition.adoc#readRecords, readRecords>>
+* `Partition` is requested to <<kafka-cluster-Partition.adoc#readRecords, read records>>
 
 * `GroupMetadataManager` is requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#doLoadGroupsAndOffsets, doLoadGroupsAndOffsets>>
 
@@ -1033,7 +1035,7 @@ loadSegments(): Long
 
 `loadSegments` branches off per whether the <<loadSegments-dir-to-be-deleted, log directory is scheduled to be deleted>> or <<loadSegments-dir-not-to-be-deleted, not>>.
 
-NOTE: `loadSegments` is used exclusively when `Log` is <<creating-instance-loadSegments, created>> (to create a <<nextOffsetMetadata, LogOffsetMetadata>>).
+NOTE: `loadSegments` is used when `Log` is <<creating-instance-loadSegments, created>> (to create a <<nextOffsetMetadata, LogOffsetMetadata>>).
 
 ==== [[loadSegments-dir-not-to-be-deleted]] `loadSegments` Internal Method and Log Directory Not Scheduled For Deletion
 
@@ -1058,7 +1060,7 @@ recoverLog(): Long
 
 `recoverLog`...FIXME
 
-NOTE: `recoverLog` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>>.
+NOTE: `recoverLog` is used when `Log` is requested to <<loadSegments, loadSegments>>.
 
 === [[removeTempFilesAndCollectSwapFiles]] `removeTempFilesAndCollectSwapFiles` Internal Method
 
@@ -1082,7 +1084,7 @@ loadSegmentFiles(): Unit
 
 Internally, `loadSegmentFiles` finds all the files (sorted by name) in the <<dir, log directory>> and branches off per whether a file is an <<loadSegmentFiles-isIndexFile, index>> or a <<isLogFile, log>> file.
 
-NOTE: `loadSegmentFiles` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>> (right when <<creating-instance, created>>).
+NOTE: `loadSegmentFiles` is used when `Log` is <<creating-instance, created>> (and in turn <<loadSegments, loadSegments>>).
 
 ==== [[loadSegmentFiles-isLogFile]] Loading Log Files
 
@@ -1211,12 +1213,13 @@ NOTE: `updateFirstUnstableOffset` is used when `Log` is requested to <<loadProdu
 
 [source, scala]
 ----
-completeSwapOperations(swapFiles: Set[File]): Unit
+completeSwapOperations(
+  swapFiles: Set[File]): Unit
 ----
 
 `completeSwapOperations`...FIXME
 
-NOTE: `completeSwapOperations` is used exclusively when `Log` is requested to <<loadSegments, loadSegments>>.
+NOTE: `completeSwapOperations` is used  when `Log` is <<creating-instance, created>> (and in turn <<loadSegments, loadSegments>>).
 
 === [[retryOnOffsetOverflow]] `retryOnOffsetOverflow` Internal Method
 

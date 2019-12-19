@@ -1,3 +1,207 @@
 == [[AbstractIndex]] AbstractIndex
 
-`AbstractIndex` is...FIXME
+`AbstractIndex` is the <<contract, abstraction>> of <<implementations, indices>> that use <<entrySize, entrySize>> to index offsets and timestamps of a <<kafka-log-LogSegment.adoc#, LogSegment>>.
+
+NOTE: Kafka mmaps index files into memory, and all the read / write operations of the index is through OS page cache. This avoids blocked disk I/O in most cases.
+
+TIP: Use <<kafka-tools-DumpLogSegments.adoc#, DumpLogSegments>> tool to review the content of indexes of a log segment.
+
+[[contract]]
+.AbstractIndex Contract (Abstract Methods Only)
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| entrySize
+a| [[entrySize]]
+
+[source, scala]
+----
+entrySize: Int
+----
+
+Used when...FIXME
+
+| parseEntry
+a| [[parseEntry]]
+
+[source, scala]
+----
+parseEntry(
+  buffer: ByteBuffer,
+  n: Int): IndexEntry
+----
+
+Used when...FIXME
+
+| sanityCheck
+a| [[sanityCheck]]
+
+[source, scala]
+----
+sanityCheck(): Unit
+----
+
+Used when...FIXME
+
+| truncate
+a| [[truncate]]
+
+[source, scala]
+----
+truncate(): Unit
+----
+
+Used when...FIXME
+
+| truncateTo
+a| [[truncateTo]]
+
+[source, scala]
+----
+truncateTo(
+  offset: Long): Unit
+----
+
+Used when...FIXME
+
+|===
+
+[[implementations]]
+.AbstractIndexes
+[cols="30,70",options="header",width="100%"]
+|===
+| AbstractIndex
+| Description
+
+| <<kafka-log-OffsetIndex.adoc#, OffsetIndex>>
+| [[OffsetIndex]] Index of the offsets
+
+| <<kafka-log-TimeIndex.adoc#, TimeIndex>>
+| [[TimeIndex]] Index of the timestamps and the offsets
+
+|===
+
+=== [[creating-instance]] Creating AbstractIndex Instance
+
+`AbstractIndex` takes the following to be created:
+
+* [[file]] Underlying file
+* [[baseOffset]] Base offset
+* [[maxIndexSize]] `maxIndexSize` (default: `-1`)
+* [[writable]] `writable` flag
+
+`AbstractIndex` initializes the <<internal-properties, internal properties>>.
+
+NOTE: `AbstractIndex` is a Scala abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractIndexes>>.
+
+=== [[reset]] `reset` Method
+
+[source, scala]
+----
+reset(): Unit
+----
+
+`reset` <<truncate, truncate>> and then <<resize, resize>> to the <<maxIndexSize, maxIndexSize>>.
+
+NOTE: `reset` is used when...FIXME
+
+=== [[resize]] `resize` Method
+
+[source, scala]
+----
+resize(newSize: Int): Boolean
+----
+
+`resize`...FIXME
+
+NOTE: `resize` is used when...FIXME
+
+=== [[_warmEntries]] `_warmEntries` Method
+
+[source, scala]
+----
+_warmEntries: Int
+----
+
+`_warmEntries` is the number of *warm entries* of the <<entrySize, size>> in `8192` (bytes?)
+
+NOTE: `_warmEntries` is used when `AbstractIndex` is requested to <<indexSlotRangeFor, indexSlotRangeFor>>.
+
+=== [[largestLowerBoundSlotFor]] `largestLowerBoundSlotFor` Method
+
+[source, scala]
+----
+largestLowerBoundSlotFor(
+  idx: ByteBuffer,
+  target: Long,
+  searchEntity: IndexSearchEntity): Int
+----
+
+`largestLowerBoundSlotFor`...FIXME
+
+[NOTE]
+====
+`largestLowerBoundSlotFor` is used when:
+
+* `OffsetIndex` is requested to <<kafka-log-OffsetIndex.adoc#lookup, lookup>> and <<kafka-log-OffsetIndex.adoc#truncateTo, truncateTo>>
+
+* `TimeIndex` is requested to <<kafka-log-TimeIndex.adoc#lookup, lookup>> and <<kafka-log-TimeIndex.adoc#truncateTo, truncateTo>>
+====
+
+=== [[smallestUpperBoundSlotFor]] `smallestUpperBoundSlotFor` Method
+
+[source, scala]
+----
+smallestUpperBoundSlotFor(
+  idx: ByteBuffer,
+  target: Long,
+  searchEntity: IndexSearchEntity): Int
+----
+
+`smallestUpperBoundSlotFor`...FIXME
+
+NOTE: `smallestUpperBoundSlotFor` is used when `OffsetIndex` is requested to <<kafka-log-OffsetIndex.adoc#fetchUpperBoundOffset, fetchUpperBoundOffset>>.
+
+=== [[indexSlotRangeFor]] `indexSlotRangeFor` Internal Method
+
+[source, scala]
+----
+indexSlotRangeFor(
+  idx: ByteBuffer,
+  target: Long,
+  searchEntity: IndexSearchEntity): (Int, Int)
+----
+
+`indexSlotRangeFor`...FIXME
+
+NOTE: `indexSlotRangeFor` is used when `AbstractIndex` is requested for the <<largestLowerBoundSlotFor, largestLowerBoundSlotFor>> and the <<smallestUpperBoundSlotFor, smallestUpperBoundSlotFor>>.
+
+=== [[compareIndexEntry]] `compareIndexEntry` Internal Method
+
+[source, scala]
+----
+compareIndexEntry(
+  indexEntry: IndexEntry,
+  target: Long,
+  searchEntity: IndexSearchEntity): Int
+----
+
+`compareIndexEntry`...FIXME
+
+NOTE: `compareIndexEntry` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| _length
+a| [[_length]] Length of the index
+
+Used when...FIXME
+
+|===

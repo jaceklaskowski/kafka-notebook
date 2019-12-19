@@ -1,9 +1,15 @@
-== [[OffsetIndex]] OffsetIndex
+== [[OffsetIndex]] OffsetIndex -- Index Of Offsets Of Log Segment
+
+`OffsetIndex` is an <<kafka-log-AbstractIndex.adoc#, index>> of the offsets of a <<kafka-log-LogSegment.adoc#lazyOffsetIndex, LogSegment>>.
 
 [[entrySize]]
-`OffsetIndex` is a concrete <<kafka-log-AbstractIndex.adoc#, AbstractIndex>> with the <<kafka-log-AbstractIndex.adoc#entrySize, entrySize>> of 8.
+`OffsetIndex` uses <<kafka-log-AbstractIndex.adoc#entrySize, entrySize>> of 8 bytes (_8-byte offset index entries_).
 
-`OffsetIndex` is <<creating-instance, created>> when...FIXME
+`OffsetIndex` is <<creating-instance, created>> when:
+
+* Lazily for a <<kafka-log-LogSegment.adoc#open, log segment>> (via <<kafka-log-LazyIndex.adoc#forOffset, forOffset>> utility that defers loading the underlying index file until needed)
+
+* <<kafka-tools-DumpLogSegments.adoc#, DumpLogSegments>> tool is used (to dump the <<kafka-tools-DumpLogSegments.adoc#dumpIndex, offset>> and <<kafka-tools-DumpLogSegments.adoc#dumpTimeIndex, time>> indices of a log segment)
 
 [[logging]]
 [TIP]
@@ -49,6 +55,43 @@ append(
 `append`...FIXME
 
 NOTE: `append` is used when `LogSegment` is requested to <<kafka-log-LogSegment.adoc#append, append>> and <<kafka-log-LogSegment.adoc#recover, recover>>.
+
+=== [[lookup]] `lookup` Method
+
+[source, scala]
+----
+lookup(
+  targetOffset: Long): OffsetPosition
+----
+
+`lookup`...FIXME
+
+NOTE: `lookup` is used when...FIXME
+
+=== [[fetchUpperBoundOffset]] `fetchUpperBoundOffset` Method
+
+[source, scala]
+----
+fetchUpperBoundOffset(
+  fetchOffset: OffsetPosition,
+  fetchSize: Int): Option[OffsetPosition]
+----
+
+`fetchUpperBoundOffset`...FIXME
+
+NOTE: `fetchUpperBoundOffset` is used when `Log` is requested to <<kafka-log-Log.adoc#addAbortedTransactions, addAbortedTransactions>>.
+
+=== [[truncateTo]] `truncateTo` Method
+
+[source, scala]
+----
+truncateTo(
+  offset: Long): Unit
+----
+
+NOTE: `truncateTo` is part of the <<kafka-log-AbstractIndex.adoc#truncateTo, AbstractIndex Contract>> to...FIXME.
+
+`truncateTo`...FIXME
 
 === [[lastEntry]] `lastEntry` Internal Method
 

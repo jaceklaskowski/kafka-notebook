@@ -1,0 +1,56 @@
+== [[LazyIndex]] LazyIndex -- Deferred Loading Of Index Files
+
+[[T]]
+`LazyIndex` is a thin wrapper over an <<kafka-log-AbstractIndex.adoc#, AbstractIndex>> instance (of type `T`) that allows to defer loading (i.e. memory mapping) the underlying index file until it is accessed for the first time (via the <<get, get>> method).
+
+`LazyIndex` is used as an optimization of broker start-up time with a large number of segments.
+
+`LazyIndex` defines utilities to create lazy indexes for <<forOffset, OffsetIndex>> and <<forTime, TimeIndex>>.
+
+=== [[creating-instance]] Creating TimeIndex Instance
+
+`TimeIndex` takes the following to be created:
+
+* [[indexWrapper]] `IndexWrapper`
+* [[loadIndex]] Load index function that creates an <<kafka-log-AbstractIndex.adoc#, AbstractIndex>> for a given underlying index file (`File => T`)
+
+=== [[get]] `get` Method
+
+[source, scala]
+----
+get: T
+----
+
+`get`...FIXME
+
+NOTE: `get` is used when...FIXME
+
+=== [[forOffset]] `forOffset` Utility
+
+[source, scala]
+----
+forOffset(
+  file: File,
+  baseOffset: Long,
+  maxIndexSize: Int = -1,
+  writable: Boolean = true): LazyIndex[OffsetIndex]
+----
+
+`forOffset` simply creates a new `LazyIndex` with an `IndexFile` (for the given `file`) and a <<loadIndex, load index function>> that creates a new <<kafka-log-OffsetIndex.adoc#, OffsetIndex>>.
+
+NOTE: `forOffset` is used when `LogSegment` utility is used to <<kafka-log-LogSegment.adoc#open, open a log segment>>.
+
+=== [[forTime]] `forTime` Utility
+
+[source, scala]
+----
+forTime(
+  file: File,
+  baseOffset: Long,
+  maxIndexSize: Int = -1,
+  writable: Boolean = true): LazyIndex[TimeIndex]
+----
+
+`forTime` simply creates a new `LazyIndex` with an `IndexFile` (for the given `file`) and a <<loadIndex, load index function>> that creates a new <<kafka-log-TimeIndex.adoc#, TimeIndex>>.
+
+NOTE: `forTime` is used when `LogSegment` utility is used to <<kafka-log-LogSegment.adoc#open, open a log segment>>.

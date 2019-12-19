@@ -2,6 +2,8 @@
 
 `LogSegment` is a segment of <<log, records>> of a <<kafka-log-Log.adoc#, log>> of a <<kafka-cluster-Partition.adoc#, partition>>.
 
+TIP: Use <<kafka-tools-DumpLogSegments.adoc#, DumpLogSegments>> tool to review the content of (the underlying files of) a log segment.
+
 `LogSegment` is composed of two main file types, e.g. the <<log, log>> file itself (with records) and index files.
 
 * <<lazyOffsetIndex, index>>
@@ -36,9 +38,7 @@ $ tree /tmp/kafka-logs/t1-1/
 import java.nio.file.Path
 val dir = Path.of("/tmp/logsegment")
 import java.nio.file.Files
-if (!Files.exists(dir)) {
-  Files.createDirectory(dir)
-}
+Files.createDirectories(dir)
 import kafka.log.{LogConfig, LogSegment}
 import org.apache.kafka.common.utils.Time
 val config = LogConfig()
@@ -198,9 +198,9 @@ recover(
   leaderEpochCache: Option[LeaderEpochFileCache] = None): Int
 ----
 
-`recover`...FIXME
+`recover` requests the <<offsetIndex, OffsetIndex>>, the <<timeIndex, TimeIndex>>, and the <<txnIndex, TransactionIndex>> to <<kafka-log-AbstractIndex.adoc#reset, reset>>.
 
-NOTE: `recover` is used exclusively when `Log` is requested to <<kafka-log-Log.adoc#recoverSegment, recover a log segment>>.
+NOTE: `recover` is used when `Log` is requested to <<kafka-log-Log.adoc#recoverSegment, recover a log segment>>.
 
 ==== [[updateProducerState]] `updateProducerState` Internal Method
 

@@ -13,3 +13,35 @@ dumpTxnIndex(
 `dumpTxnIndex`...FIXME
 
 NOTE: `dumpTxnIndex` is used when...FIXME
+
+=== [[dumpTimeIndex]] Dumping Content Of Time Index (Of Log Segment) -- `dumpTimeIndex` Internal Method
+
+[source, scala]
+----
+dumpTimeIndex(
+  file: File,
+  indexSanityOnly: Boolean,
+  verifyOnly: Boolean,
+  timeIndexDumpErrors: TimeIndexDumpErrors,
+  maxMessageSize: Int): Unit
+----
+
+`dumpTimeIndex`...FIXME
+
+NOTE: `dumpTimeIndex` is used when...FIXME
+
+=== [[dumpIndex]] Dumping Content Of Offset Index (Of Log Segment) -- `dumpIndex` Internal Method
+
+[source, scala]
+----
+dumpIndex(
+  file: File,
+  indexSanityOnly: Boolean,
+  verifyOnly: Boolean,
+  misMatchesForIndexFilesMap: mutable.Map[String, List[(Long, Long)]],
+  maxMessageSize: Int): Unit
+----
+
+`dumpIndex`...FIXME
+
+NOTE: `dumpIndex` is used when...FIXME

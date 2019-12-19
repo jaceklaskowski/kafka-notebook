@@ -1,3 +1,93 @@
-== TimeIndex
+== [[TimeIndex]] TimeIndex -- Index Of Timestamp And Offsets Of Log Segment
 
-`TimeIndex` is...FIXME
+`TimeIndex` is an <<kafka-log-AbstractIndex.adoc#, index>> of the timestamps and the offsets of a <<kafka-log-LogSegment.adoc#lazyTimeIndex, LogSegment>>.
+
+[[entrySize]]
+`TimeIndex` uses <<kafka-log-AbstractIndex.adoc#entrySize, entrySize>> of 12 bytes (_12-byte time index entries_).
+
+`TimeIndex` is <<creating-instance, created>> when:
+
+* Lazily for a <<kafka-log-LogSegment.adoc#open, log segment>> (via <<kafka-log-LazyIndex.adoc#forTime, forTime>> utility that defers loading the underlying index file until needed)
+
+* <<kafka-tools-DumpLogSegments.adoc#, DumpLogSegments>> tool is used (to <<kafka-tools-DumpLogSegments.adoc#dumpTimeIndex, dump a time index (of a log segment)>>)
+
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `kafka.log.TimeIndex` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.log.TimeIndex=ALL
+```
+
+Refer to <<kafka-logging.adoc#, Logging>>.
+====
+
+=== [[creating-instance]] Creating TimeIndex Instance
+
+`TimeIndex` takes the following to be created:
+
+* [[_file]] Underlying https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/io/File.html[File]
+* [[baseOffset]] Base offset
+* [[maxIndexSize]] `maxIndexSize` (default: `-1`)
+* [[writable]] `writable` flag (default: `true`)
+
+`TimeIndex` initializes the <<internal-properties, internal properties>>.
+
+While being created, `TimeIndex` prints out the following DEBUG message to the logs:
+
+[options="wrap"]
+----
+Loaded index file [absolutePath] with maxEntries = [maxEntries], maxIndexSize = [maxIndexSize], entries = [_entries], lastOffset = [_lastOffset], file position = [position]
+----
+
+=== [[lookup]] `lookup` Method
+
+[source, scala]
+----
+lookup(
+  targetTimestamp: Long): TimestampOffset
+----
+
+`lookup`...FIXME
+
+NOTE: `lookup` is used when...FIXME
+
+=== [[truncateTo]] `truncateTo` Method
+
+[source, scala]
+----
+truncateTo(
+  offset: Long): Unit
+----
+
+NOTE: `truncateTo` is part of the <<kafka-log-AbstractIndex.adoc#truncateTo, AbstractIndex Contract>> to...FIXME.
+
+`truncateTo`...FIXME
+
+=== [[lastEntryFromIndexFile]] `lastEntryFromIndexFile` Internal Method
+
+[source, scala]
+----
+lastEntryFromIndexFile: TimestampOffset
+----
+
+`lastEntryFromIndexFile`...FIXME
+
+NOTE: `lastEntryFromIndexFile` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| _lastEntry
+a| [[_lastEntry]] <<lastEntryFromIndexFile, lastEntryFromIndexFile>>
+
+Used when...FIXME
+
+|===
