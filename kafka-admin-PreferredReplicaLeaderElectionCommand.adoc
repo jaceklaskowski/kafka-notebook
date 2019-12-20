@@ -4,7 +4,7 @@
 
 `PreferredReplicaLeaderElectionCommand` uses <<kafka-clients-admin-AdminClient.adoc#, AdminClient>> internally and is simply a command-line front-end to <<kafka-clients-admin-AdminClient.adoc#electPreferredLeaders, AdminClient.electPreferredLeaders>>.
 
-`PreferredReplicaLeaderElectionCommand` is usually executed on command line using <<kafka-tools-kafka-preferred-replica-election.adoc#, kafka-preferred-replica-election.sh>> shell script (that simply uses `kafka-run-class` shell script to launch the command).
+`PreferredReplicaLeaderElectionCommand` can be executed on command line using <<kafka-tools-kafka-preferred-replica-election.adoc#, kafka-preferred-replica-election.sh>> shell script (that simply uses `kafka-run-class` shell script to launch the command).
 
 [[options]]
 [[PreferredReplicaLeaderElectionCommandOptions]]

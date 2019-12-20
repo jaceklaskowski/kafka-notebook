@@ -1,0 +1,46 @@
+== [[kafka-dump-log]] kafka-dump-log.sh Shell Script
+
+`kafka-dump-log.sh` is a shell script to launch <<kafka-tools-DumpLogSegments.adoc#, kafka.tools.DumpLogSegments>> standalone application for sanity check of log files and printing contents out to the console.
+
+When executed with no <<kafka-tools-DumpLogSegments.adoc#options, options>>, `kafka-dump-log.sh` assumes <<kafka-tools-DumpLogSegments.adoc#help, --help>>.
+
+```
+$ ./bin/kafka-dump-log.sh
+This tool helps to parse a log file and dump its contents to the console, useful for debugging a seemingly corrupt log segment.
+Option                               Description
+------                               -----------
+--deep-iteration                     if set, uses deep instead of shallow
+                                       iteration. Automatically set if print-
+                                       data-log is enabled.
+--files <String: file1, file2, ...>  REQUIRED: The comma separated list of data
+                                       and index log files to be dumped.
+--help                               Print usage information.
+--index-sanity-check                 if set, just checks the index sanity
+                                       without printing its content. This is
+                                       the same check that is executed on
+                                       broker startup to determine if an index
+                                       needs rebuilding or not.
+--key-decoder-class [String]         if set, used to deserialize the keys. This
+                                       class should implement kafka.serializer.
+                                       Decoder trait. Custom jar should be
+                                       available in kafka/libs directory.
+                                       (default: kafka.serializer.StringDecoder)
+--max-message-size <Integer: size>   Size of largest message. (default: 5242880)
+--offsets-decoder                    if set, log data will be parsed as offset
+                                       data from the __consumer_offsets topic.
+--print-data-log                     if set, printing the messages content when
+                                       dumping data logs. Automatically set if
+                                       any decoder option is specified.
+--transaction-log-decoder            if set, log data will be parsed as
+                                       transaction metadata from the
+                                       __transaction_state topic.
+--value-decoder-class [String]       if set, used to deserialize the messages.
+                                       This class should implement kafka.
+                                       serializer.Decoder trait. Custom jar
+                                       should be available in kafka/libs
+                                       directory. (default: kafka.serializer.
+                                       StringDecoder)
+--verify-index-only                  if set, just verify the index log without
+                                       printing its content.
+--version                            Display Kafka version.
+```

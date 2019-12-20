@@ -1,6 +1,122 @@
 == [[DumpLogSegments]] DumpLogSegments
 
-`DumpLogSegments` is...FIXME
+`DumpLogSegments` is a <<main, standalone application>> to <<print-data-log, print-data-log>>, <<verify-index-only, verify-index-only>> and <<index-sanity-check, index-sanity-check>> of <<files, data and index log files>>.
+
+`DumpLogSegments` can be executed on command line using <<kafka-tools-kafka-dump-log.adoc#, kafka-dump-log.sh>> shell script (that simply uses `kafka-run-class` shell script to launch the command).
+
+[[messageParser]]
+`DumpLogSegments` uses custom record parsers to <<dumpLog, dump records>> of <<files, log files>> of <<offsets-decoder, ++__consumer_offsets++>> and <<transaction-log-decoder, ++__transaction_state++>> internal topics. For other topics, `DumpLogSegments` uses <<keyDecoderOpt, key-decoder-class>> and <<valueDecoderOpt, value-decoder-class>> decoders (default: `kafka.serializer.StringDecoder`).
+
+[[options]]
+[[DumpLogSegmentsOptions]]
+.Options
+[cols="30m,70",options="header",width="100%"]
+|===
+| Option
+| Description
+
+| deep-iteration
+a| [[deep-iteration]] Uses deep iteration (not shallow). Implied with <<print-data-log, print-data-log>>
+
+| files
+a| [[files]][[filesOpt]] *(required)* Comma-separated list of data and index log files to be dumped
+
+| help
+a| [[help]] Prints usage information
+
+| index-sanity-check
+a| [[index-sanity-check]] Checks the index sanity without printing content. This is the same check that is executed on broker startup to determine if an index needs rebuilding or not.
+
+| key-decoder-class
+a| [[key-decoder-class]][[keyDecoderOpt]] Fully-qualified class name of the key deserializer of messages in the <<files, log files>>. Should implement `kafka.serializer.Decoder` trait, and the custom jar should be available in `kafka/libs` directory.
+
+Default: `kafka.serializer.StringDecoder`
+
+| max-message-size
+a| [[max-message-size]] Size of the largest message
+
+Default: `5 * 1024 * 1024`
+
+| offsets-decoder
+a| [[offsets-decoder]][[offsetsOpt]] Uses <<kafka-tools-DumpLogSegments-OffsetsMessageParser.adoc#, OffsetsMessageParser>> to parse log data as offset data from the `__consumer_offsets` topic
+
+| print-data-log
+a| [[print-data-log]] Prints message content when dumping data logs. Implied with any decoder option specified.
+
+| transaction-log-decoder
+a| [[transaction-log-decoder]][[transactionLogOpt]] Uses <<kafka-tools-DumpLogSegments-TransactionLogMessageParser.adoc#, TransactionLogMessageParser>> to parse log data as transaction metadata from the `__transaction_state` topic
+
+| value-decoder-class
+a| [[value-decoder-class]][[valueDecoderOpt]] Fully-qualified class name of the value deserializer of messages in the <<files, log files>>. Should implement `kafka.serializer.Decoder` trait, and the custom jar should be available in `kafka/libs` directory.
+
+Default: `kafka.serializer.StringDecoder`
+
+| verify-index-only
+a| [[verify-index-only]] Verifies the index log without printing content
+
+| version
+a| [[version]] Displays Kafka version
+
+|===
+
+=== [[main]] Executing DumpLogSegments -- `main` Object Method
+
+[source, scala]
+----
+main(args: Array[String]): Unit
+----
+
+`main` is the entry point of `DumpLogSegments` when launched on command line (e.g. using <<kafka-tools-kafka-dump-log.adoc#, kafka-dump-log.sh>> shell script).
+
+Internally, `main` parses the <<DumpLogSegmentsOptions, options>>. For every file (in the required <<files, --files>> option) `main` prints out the following message to the console:
+
+```
+Dumping [file]
+```
+
+`main` then branches off per file suffix:
+
+* For <<kafka-log-Log.adoc#LogFileSuffix, .log files>>, <<dumpLog, dumpLog>>
+
+* For <<kafka-log-Log.adoc#IndexFileSuffix, .index files>>, <<dumpIndex, dumpIndex>>
+
+* For <<kafka-log-Log.adoc#TimeIndexFileSuffix, .timeindex files>>, <<dumpTimeIndex, dumpTimeIndex>>
+
+* For <<kafka-log-Log.adoc#ProducerSnapshotFileSuffix, .snapshot files>>, <<dumpProducerIdSnapshot, dumpProducerIdSnapshot>>
+
+* For <<kafka-log-Log.adoc#TxnIndexFileSuffix, .txnindex files>>, <<dumpTxnIndex, dumpTxnIndex>>
+
+[[main-misMatchesForIndexFilesMap]]
+`main`...FIXME (`misMatchesForIndexFilesMap`)
+
+[[main-timeIndexDumpErrors]]
+`main`...FIXME (`timeIndexDumpErrors`)
+
+[[main-nonConsecutivePairsForLogFilesMap]]
+`main`...FIXME (`nonConsecutivePairsForLogFilesMap`)
+
+`main` simply ignores other file suffices and prints out the following message to standard error output:
+
+```
+Ignoring unknown file [file]
+```
+
+=== [[dumpLog]] Dumping Content Of Log File (Of Log Segment) -- `dumpLog` Internal Method
+
+[source, scala]
+----
+dumpLog(
+  file: File,
+  printContents: Boolean,
+  nonConsecutivePairsForLogFilesMap: mutable.Map[String, List[(Long, Long)]],
+  isDeepIteration: Boolean,
+  maxMessageSize: Int,
+  parser: MessageParser[_, _]): Unit
+----
+
+`dumpLog`...FIXME
+
+NOTE: `dumpLog` is used when...FIXME
 
 === [[dumpTxnIndex]] Dumping Content Of Transaction Index (Of Log Segment) -- `dumpTxnIndex` Internal Method
 
@@ -45,3 +161,15 @@ dumpIndex(
 `dumpIndex`...FIXME
 
 NOTE: `dumpIndex` is used when...FIXME
+
+=== [[dumpProducerIdSnapshot]] Dumping Content Of Producer Snapshot (Of Log Segment) -- `dumpProducerIdSnapshot` Internal Method
+
+[source, scala]
+----
+dumpProducerIdSnapshot(
+  file: File): Unit
+----
+
+`dumpProducerIdSnapshot`...FIXME
+
+NOTE: `dumpProducerIdSnapshot` is used when...FIXME

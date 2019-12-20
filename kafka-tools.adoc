@@ -12,6 +12,8 @@ Kafka tools includes the following administration tools:
 
 * `DeleteRecordsCommand`
 
+* <<kafka-tools-DumpLogSegments.adoc#, DumpLogSegments>>
+
 * `EndToEndLatency`
 
 * `LogDirsCommand`

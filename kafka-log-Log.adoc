@@ -36,6 +36,9 @@ a| [[IndexFileSuffix]] <<kafka-log-OffsetIndex.adoc#, OffsetIndex>>
 | .log
 a| [[LogFileSuffix]] <<kafka-common-record-FileRecords.adoc#, FileRecords>> log file
 
+| .snapshot
+a| [[ProducerSnapshotFileSuffix]]
+
 | .timeindex
 a| [[TimeIndexFileSuffix]] <<kafka-log-TimeIndex.adoc#, TimeIndex>>
 
