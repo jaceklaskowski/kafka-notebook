@@ -7,8 +7,8 @@
 [[messageParser]]
 `DumpLogSegments` uses custom record parsers to <<dumpLog, dump records>> of <<files, log files>> of <<offsets-decoder, ++__consumer_offsets++>> and <<transaction-log-decoder, ++__transaction_state++>> internal topics. For other topics, `DumpLogSegments` uses <<keyDecoderOpt, key-decoder-class>> and <<valueDecoderOpt, value-decoder-class>> decoders (default: `kafka.serializer.StringDecoder`).
 
-[[options]]
 [[DumpLogSegmentsOptions]]
+[[options]]
 .Options
 [cols="30m,70",options="header",width="100%"]
 |===
@@ -19,7 +19,7 @@
 a| [[deep-iteration]] Uses deep iteration (not shallow). Implied with <<print-data-log, print-data-log>>
 
 | files
-a| [[files]][[filesOpt]] *(required)* Comma-separated list of data and index log files to be dumped
+a| [[files]][[filesOpt]] *(required)* Comma-separated list of <<main, data and index log files>> to dump contents of
 
 | help
 a| [[help]] Prints usage information
@@ -68,6 +68,7 @@ main(args: Array[String]): Unit
 
 `main` is the entry point of `DumpLogSegments` when launched on command line (e.g. using <<kafka-tools-kafka-dump-log.adoc#, kafka-dump-log.sh>> shell script).
 
+[[main-files]]
 Internally, `main` parses the <<DumpLogSegmentsOptions, options>>. For every file (in the required <<files, --files>> option) `main` prints out the following message to the console:
 
 ```
@@ -114,9 +115,17 @@ dumpLog(
   parser: MessageParser[_, _]): Unit
 ----
 
-`dumpLog`...FIXME
+`dumpLog` reads the starting offset from the name of the given file and prints out the following message to the console:
 
-NOTE: `dumpLog` is used when...FIXME
+```
+Starting offset: [startOffset]
+```
+
+`dumpLog` <<kafka-common-record-FileRecords.adoc#open, opens the log file>> (and creates a `FileRecords`).
+
+For every <<kafka-common-record-FileRecords.adoc#batches, FileChannelRecordBatch>> `dumpLog`...FIXME
+
+NOTE: `dumpLog` is used when `DumpLogSegments` tool is executed with <<files, .log files>>.
 
 === [[dumpTxnIndex]] Dumping Content Of Transaction Index (Of Log Segment) -- `dumpTxnIndex` Internal Method
 
@@ -128,7 +137,7 @@ dumpTxnIndex(
 
 `dumpTxnIndex`...FIXME
 
-NOTE: `dumpTxnIndex` is used when...FIXME
+NOTE: `dumpTxnIndex` is used when `DumpLogSegments` tool is executed with <<files, .txnindex files>>.
 
 === [[dumpTimeIndex]] Dumping Content Of Time Index (Of Log Segment) -- `dumpTimeIndex` Internal Method
 
@@ -144,7 +153,7 @@ dumpTimeIndex(
 
 `dumpTimeIndex`...FIXME
 
-NOTE: `dumpTimeIndex` is used when...FIXME
+NOTE: `dumpTimeIndex` is used when `DumpLogSegments` tool is executed with <<files, .timeindex files>>.
 
 === [[dumpIndex]] Dumping Content Of Offset Index (Of Log Segment) -- `dumpIndex` Internal Method
 
@@ -160,7 +169,7 @@ dumpIndex(
 
 `dumpIndex`...FIXME
 
-NOTE: `dumpIndex` is used when...FIXME
+NOTE: `dumpIndex` is used when `DumpLogSegments` tool is executed with <<files, .index files>>.
 
 === [[dumpProducerIdSnapshot]] Dumping Content Of Producer Snapshot (Of Log Segment) -- `dumpProducerIdSnapshot` Internal Method
 
@@ -172,4 +181,4 @@ dumpProducerIdSnapshot(
 
 `dumpProducerIdSnapshot`...FIXME
 
-NOTE: `dumpProducerIdSnapshot` is used when...FIXME
+NOTE: `dumpProducerIdSnapshot` is used when `DumpLogSegments` tool is executed with <<files, .snapshot files>>.

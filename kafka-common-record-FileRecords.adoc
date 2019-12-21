@@ -16,6 +16,50 @@
 
 `FileRecords` initializes the <<internal-properties, internal properties>>.
 
+=== [[open]] Opening Log File -- `open` Utility
+
+[source, java]
+----
+FileRecords open(
+  File file) throws IOException // <1>
+FileRecords open(
+  File file,
+  boolean mutable) throws IOException // <2>
+FileRecords open(
+  File file,
+  boolean mutable,
+  boolean fileAlreadyExists,
+  int initFileSize,
+  boolean preallocate) throws IOException
+FileRecords open(
+  File file,
+  boolean fileAlreadyExists,
+  int initFileSize,
+  boolean preallocate) throws IOException
+----
+<1> Turns `mutable` flag on (`true`)
+<2> Turns `fileAlreadyExists` flag off (`false`), `initFileSize` as `0`, and `preallocate` as `false`
+
+[[open-channel]]
+`open` <<openChannel, opens a FileChannel>>.
+
+`open` determines the <<end, end>> of a `FileRecords` to be created:
+
+* `0` for the given `fileAlreadyExists` flag disabled (`false`) and the given `preallocate` flag enabled (`true`)
+
+* `Integer.MAX_VALUE` otherwise
+
+In the end, `open` creates a new `FileRecords` for the given `file`, the channel, and the <<isSlice, isSlice>> flag disabled (`false`).
+
+[NOTE]
+====
+`open` is used when:
+
+* `LogSegment` utility is used to <<kafka-log-LogSegment.adoc#open, open a log segment>>
+
+* <<kafka-tools-DumpLogSegments.adoc#, DumpLogSegments>> tool is executed
+====
+
 === [[readInto]] Reading Log Batches (Into ByteBuffer) -- `readInto` Method
 
 [source, java]
@@ -41,6 +85,22 @@ void readInto(
 
 * `AbstractFetcherThread` is requested to <<kafka-server-AbstractFetcherThread.adoc#toMemoryRecords, toMemoryRecords>>
 ====
+
+=== [[openChannel]] Opening FileChannel -- `openChannel` Internal Method
+
+[source, java]
+----
+FileChannel openChannel(
+  File file,
+  boolean mutable,
+  boolean fileAlreadyExists,
+  int initFileSize,
+  boolean preallocate) throws IOException
+----
+
+`openChannel`...FIXME
+
+NOTE: `openChannel` is used when `FileRecords` utility is requested to <<open, open a log file>>.
 
 === [[internal-properties]] Internal Properties
 

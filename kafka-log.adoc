@@ -1,0 +1,15 @@
+== Log Management System
+
+When a <<kafka-server-KafkaServer.adoc#, Kafka broker>> is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>, it starts <<kafka-log-LogManager.adoc#, LogManager>>.
+
+`LogManager` is given the log directories that are configured using <<kafka-server-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>). The log directories are immediately <<kafka-log-LogManager.adoc#loadLogs, loaded>> (on a fixed thread pool with <<kafka-log-LogManager.adoc#numRecoveryThreadsPerDataDir, numRecoveryThreadsPerDataDir>> recovery threads).
+
+`LogManager` uses the <<kafka-properties.adoc#num.recovery.threads.per.data.dir, num.recovery.threads.per.data.dir>> dynamic configuration (default: `1`) for the number of threads per log data directory for log recovery at startup and <<kafka-log-LogManager.adoc#shutdown, flushing at shutdown>>.
+
+Every log directory may hold zero, one or more partition log directories. `LogManager` creates a <<kafka-log-Log.adoc#, Log>> for every partition log (that is of the format <<kafka-log-Log.adoc#parseTopicPartitionName, topic-partition or topic-partition.uniqueId-delete>>).
+
+`LogManager` handles the enforcement of the flush policy and <<kafka-log-cleanup-policies.adoc#, log compaction and retention>>.
+
+<<kafka-log-Log.adoc#, Log>> is made up of <<kafka-log-LogSegment.adoc#, log segments>> that are <<kafka-common-record-FileRecords.adoc#, FileRecords>> (with the data) and an <<kafka-log-OffsetIndex.adoc#, OffsetIndex>> (for reads by offset on the log).
+
+Use <<kafka-tools-kafka-dump-log.adoc#, kafka-dump-log.sh>> shell script for sanity check of log files and printing contents out to the console.

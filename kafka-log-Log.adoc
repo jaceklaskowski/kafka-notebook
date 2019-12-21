@@ -2,7 +2,7 @@
 
 `Log` represents a *log* of a partition of a topic.
 
-`Log` is a collection of <<segments, LogSegments>> that are stored on disk in a given <<dir, log directory>> with the <<parseTopicPartitionName, name>> of the form *topic-partition* or *topic-partition.uniqueId-delete* (if marked for deletion).
+`Log` is a collection of <<segments, LogSegments>> that are stored on disk in a given <<dir, partition log directory>> with the <<parseTopicPartitionName, name>> of the form *topic-partition* or *topic-partition.uniqueId-delete* (if marked for deletion).
 
 While <<creating-instance, being created>>, `Log` creates the <<dir, log directory>> unless available already.
 
@@ -147,7 +147,7 @@ image::images/Log-jconsole.png[align="center"]
 
 `Log` takes the following to be created:
 
-* [[dir]] Log directory
+* [[dir]] Partition log directory
 * [[config]] <<kafka-log-LogConfig.adoc#, LogConfig>>
 * [[logStartOffset]] `logStartOffset`
 * [[recoveryPoint]] `recoveryPoint`
