@@ -16,6 +16,8 @@ Kafka tools includes the following administration tools:
 
 * `EndToEndLatency`
 
+* `LeaderElectionCommand`
+
 * `LogDirsCommand`
 
 * <<kafka-admin-PreferredReplicaLeaderElectionCommand.adoc#, PreferredReplicaLeaderElectionCommand>>

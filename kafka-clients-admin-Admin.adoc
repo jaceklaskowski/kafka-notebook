@@ -1,3 +1,233 @@
-== [[Admin]] Admin
+== [[Admin]] Admin Contract -- Administrative Clients
 
-`Admin` is...FIXME
+`Admin` is the <<contract, abstraction>> of <<implementations, administrative clients>> for managing and inspecting resources in a Kafka cluster (e.g. topics, brokers, configurations, ACLs).
+
+[[implementations]]
+NOTE: <<kafka-clients-admin-AdminClient.adoc#, AdminClient>> is the only known direct extension of the <<contract, Admin Contract>> in Apache Kafka.
+
+[[contract]]
+.Admin Contract
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| alterPartitionReassignments
+a| [[alterPartitionReassignments]]
+
+[source, java]
+----
+AlterPartitionReassignmentsResult alterPartitionReassignments(
+  Map<TopicPartition, Optional<NewPartitionReassignment>> reassignments) // <1>
+AlterPartitionReassignmentsResult alterPartitionReassignments(
+  Map<TopicPartition, Optional<NewPartitionReassignment>> reassignments,
+  AlterPartitionReassignmentsOptions options)
+----
+<1> Uses a new `AlterPartitionReassignmentsOptions` with the defaults
+
+Used when...FIXME
+
+| alterReplicaLogDirs
+a| [[alterReplicaLogDirs]]
+
+[source, java]
+----
+AlterReplicaLogDirsResult alterReplicaLogDirs(
+  Map<TopicPartitionReplica, String> replicaAssignment) // <1>
+AlterReplicaLogDirsResult alterReplicaLogDirs(
+  Map<TopicPartitionReplica, String> replicaAssignment,
+  AlterReplicaLogDirsOptions options)
+----
+<1> Uses a new `AlterReplicaLogDirsOptions` with the defaults
+
+Used when...FIXME
+
+| close
+a| [[close]]
+
+[source, java]
+----
+void close()  // <1>
+void close(
+  Duration timeout)
+----
+<1> Uses an infinite timeout
+
+Used when...FIXME
+
+| create
+a| [[create]]
+
+[source, java]
+----
+Admin create(
+  Map<String, Object> conf)
+Admin create(
+  Properties props)
+----
+
+Used when...FIXME
+
+| createAcls
+a| [[createAcls]]
+
+[source, java]
+----
+CreateAclsResult createAcls(
+  Collection<AclBinding> acls) // <1>
+CreateAclsResult createAcls(
+  Collection<AclBinding> acls,
+  CreateAclsOptions options)
+----
+<1> Uses a new `CreateAclsOptions` with the defaults
+
+Used when...FIXME
+
+| createDelegationToken
+a| [[createDelegationToken]]
+
+[source, java]
+----
+CreateDelegationTokenResult createDelegationToken() // <1>
+CreateDelegationTokenResult createDelegationToken(
+  CreateDelegationTokenOptions options)
+----
+<1> Uses a new `CreateDelegationTokenOptions` with the defaults
+
+Used when...FIXME
+
+| createDelegationToken
+a| [[createDelegationToken]]
+
+[source, java]
+----
+CreatePartitionsResult createPartitions(
+  Map<String, NewPartitions> newPartitions) // <1>
+CreatePartitionsResult createPartitions(
+  Map<String, NewPartitions> newPartitions,
+  CreatePartitionsOptions options)
+----
+<1> Uses a new `CreatePartitionsOptions` with the defaults
+
+Used when...FIXME
+
+| createTopics
+a| [[createTopics]]
+
+[source, java]
+----
+CreateTopicsResult createTopics(
+  Collection<NewTopic> newTopics) // <1>
+CreateTopicsResult createTopics(
+  Collection<NewTopic> newTopics,
+  CreateTopicsOptions options)
+----
+<1> Uses a new `CreateTopicsOptions` with the defaults
+
+Used when...FIXME
+
+| deleteFIXME
+a| [[deleteFIXME]]
+
+[source, java]
+----
+deleteFIXME
+----
+
+| describeFIXME
+a| [[describeFIXME]]
+
+[source, java]
+----
+describeFIXME
+----
+
+| electLeaders
+a| [[electLeaders]]
+
+[source, java]
+----
+ElectLeadersResult electLeaders(
+  ElectionType electionType,
+  Set<TopicPartition> partitions) // <1>
+ElectLeadersResult electLeaders(
+  ElectionType electionType,
+  Set<TopicPartition> partitions,
+  ElectLeadersOptions options)
+----
+<1> Uses a new `ElectLeadersOptions` with the defaults
+
+Used when...FIXME
+
+| expireDelegationToken
+a| [[expireDelegationToken]]
+
+[source, java]
+----
+ExpireDelegationTokenResult expireDelegationToken(
+  byte[] hmac) // <1>
+ExpireDelegationTokenResult expireDelegationToken(
+  byte[] hmac,
+  ExpireDelegationTokenOptions options)
+----
+<1> Uses a new `ExpireDelegationTokenOptions` with the defaults
+
+Used when...FIXME
+
+| incrementalAlterConfigs
+a| [[incrementalAlterConfigs]]
+
+[source, java]
+----
+AlterConfigsResult incrementalAlterConfigs(
+  Map<ConfigResource, Collection<AlterConfigOp>> configs) // <1>
+AlterConfigsResult incrementalAlterConfigs(
+  Map<ConfigResource, Collection<AlterConfigOp>> configs,
+  AlterConfigsOptions options)
+----
+<1> Uses a new `AlterConfigsOptions` with the defaults
+
+Used when...FIXME
+
+| listFIXME
+a| [[listFIXME]]
+
+[source, java]
+----
+listFIXME
+----
+
+| metrics
+a| [[metrics]]
+
+[source, java]
+----
+Map<MetricName, ? extends Metric> metrics()
+----
+
+| removeMembersFromConsumerGroup
+a| [[removeMembersFromConsumerGroup]]
+
+[source, java]
+----
+RemoveMembersFromConsumerGroupResult removeMembersFromConsumerGroup(
+  String groupId,
+  RemoveMembersFromConsumerGroupOptions options)
+----
+
+| renewDelegationToken
+a| [[renewDelegationToken]]
+
+[source, java]
+----
+RenewDelegationTokenResult renewDelegationToken(
+  byte[] hmac) // <1>
+RenewDelegationTokenResult renewDelegationToken(
+  byte[] hmac,
+  RenewDelegationTokenOptions options)
+----
+<1> Uses a new `RenewDelegationTokenOptions` with the defaults
+
+Used when...FIXME
+
+|===
