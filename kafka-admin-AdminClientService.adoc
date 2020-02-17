@@ -1,0 +1,3 @@
+== [[AdminClientService]] AdminClientService
+
+`AdminClientService` is...FIXME

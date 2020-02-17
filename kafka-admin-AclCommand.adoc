@@ -1,6 +1,8 @@
 == [[AclCommand]] AclCommand Administration Utility
 
-`AclCommand` is an administration utility for ACL management using AdminClient API.
+`AclCommand` is an administration utility for ACL management using xref:kafka-clients-admin-AdminClient.adoc[AdminClient] API.
+
+`AclCommand` is executed using xref:kafka-tools-kafka-acls.adoc[kafka-acls.sh] shell script.
 
 [[options]]
 [[AclCommandOptions]]
@@ -130,6 +132,15 @@ a| [[transactional-id]] The transactionalId to which ACLs should be added or rem
 a| [[version]] Displays Kafka version
 
 |===
+
+`AclCommand` uses `AdminClientService` (when executed with <<kafka-admin-AclCommand.adoc#bootstrap-server, --bootstrap-server>>) or `AuthorizerService`.
+
+`kafka-acls.sh` requires xref:kafka-security-Authorizer.adoc[Authorizer] to be configured on a broker (when executed with <<kafka-admin-AclCommand.adoc#bootstrap-server, --bootstrap-server>>) or throws a `SecurityDisabledException`:
+
+```
+// kafka-acls.sh --list --bootstrap-server :9092
+Error while executing ACL command: org.apache.kafka.common.errors.SecurityDisabledException: No Authorizer is configured on the broker
+```
 
 === [[main]] Executing Standalone Application -- `main` Object Method
 

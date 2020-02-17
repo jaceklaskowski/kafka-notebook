@@ -28,6 +28,7 @@
 
 . link:kafka-tools-kafka-acls.adoc[kafka-acls.sh]
 .. link:kafka-admin-AclCommand.adoc[AclCommand]
+.. link:kafka-admin-AdminClientService.adoc[AdminClientService]
 
 . link:kafka-tools-kafka-preferred-replica-election.adoc[kafka-preferred-replica-election.sh]
 .. link:kafka-admin-PreferredReplicaLeaderElectionCommand.adoc[PreferredReplicaLeaderElectionCommand]

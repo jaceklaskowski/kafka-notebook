@@ -1,8 +1,10 @@
 == [[kafka-acls]] kafka-acls.sh Shell Script
 
-`kafka-acls.sh` is a shell script to launch <<kafka-admin-AclCommand.adoc#, kafka.admin.AclCommand>> administration utility for ACL management.
+`kafka-acls.sh` is a shell script to launch <<kafka-admin-AclCommand.adoc#, kafka.admin.AclCommand>> administration utility for ACL management (e.g. <<list, list>> or <<add, add>> ACLs). Use <<help, --help>> to learn the supported options.
 
-When executed with no <<kafka-admin-AclCommand.adoc#options, options>>, `kafka-acls.sh` assumes <<kafka-admin-AclCommand.adoc#help, --help>>.
+=== [[help]] Help
+
+When executed with no <<kafka-admin-AclCommand.adoc#options, options>> or <<kafka-admin-AclCommand.adoc#help, --help>> option, `kafka-acls.sh` prints out the help.
 
 ```
 $ kafka-acls.sh
@@ -31,8 +33,6 @@ Option                                   Description
                                            to all transactionalIds.
 --version                                Display Kafka version.
 ```
-
-`kafka-acls.sh` <<kafka-admin-AclCommand.adoc#main, uses>> `AdminClientService` when <<kafka-admin-AclCommand.adoc#bootstrap-server, --bootstrap-server>> is used and `AuthorizerService` otherwise.
 
 === [[list]] Listing ACLs
 
