@@ -1,3 +1,61 @@
-== [[AdminClientService]] AdminClientService
+== [[AdminClientService]] AdminClientService -- AclCommandService of AclCommand with bootstrap-server Option
 
-`AdminClientService` is...FIXME
+`AdminClientService` is the <<kafka-admin-AclCommandService.adoc#, AclCommandService>> for <<kafka-admin-AclCommand.adoc#, AclCommand>> when executed with <<kafka-admin-AclCommand.adoc#bootstrap-server, --bootstrap-server>> option.
+
+=== [[creating-instance]] Creating AdminClientService Instance
+
+`AdminClientService` takes the following to be created:
+
+* [[opts]] `AclCommandOptions`
+
+`AdminClientService` initializes the <<internal-properties, internal properties>>.
+
+=== [[addAcls]] `addAcls` Method
+
+[source, scala]
+----
+addAcls(): Unit
+----
+
+NOTE: `addAcls` is part of the <<kafka-admin-AclCommandService.adoc#addAcls, AclCommandService Contract>> to...FIXME.
+
+`addAcls`...FIXME
+
+=== [[listAcls]] `listAcls` Method
+
+[source, scala]
+----
+listAcls(): Unit
+----
+
+NOTE: `listAcls` is part of the <<kafka-admin-AclCommandService.adoc#listAcls, AclCommandService Contract>> to...FIXME.
+
+`listAcls`...FIXME
+
+=== [[removeAcls]] `removeAcls` Method
+
+[source, scala]
+----
+removeAcls(): Unit
+----
+
+NOTE: `removeAcls` is part of the <<kafka-admin-AclCommandService.adoc#removeAcls, AclCommandService Contract>> to...FIXME.
+
+`removeAcls`...FIXME
+
+=== [[withAdminClient]] `withAdminClient` Internal Method
+
+[source, scala]
+----
+withAdminClient(
+  opts: AclCommandOptions)(
+  f: Admin => Unit): Unit
+----
+
+`withAdminClient` loads the property file when specified using <<kafka-admin-AclCommand.adoc#command-config, --command-config>> option.
+
+`withAdminClient` creates a new <<kafka-clients-admin-AdminClient.adoc#, AdminClient>> that is used as the input argument to execute the given `f` function.
+
+In the end, `withAdminClient` requests the `AdminClient` to <<kafka-clients-admin-Admin.adoc#close, close>>.
+
+NOTE: `withAdminClient` is used when `AdminClientService` is requested to <<addAcls, add>>, <<listAcls, list>>, and <<removeAcls, remove>> ACLs.

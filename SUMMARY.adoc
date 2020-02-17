@@ -28,6 +28,7 @@
 
 . link:kafka-tools-kafka-acls.adoc[kafka-acls.sh]
 .. link:kafka-admin-AclCommand.adoc[AclCommand]
+.. link:kafka-admin-AclCommandService.adoc[AclCommandService]
 .. link:kafka-admin-AdminClientService.adoc[AdminClientService]
 
 . link:kafka-tools-kafka-preferred-replica-election.adoc[kafka-preferred-replica-election.sh]
@@ -53,6 +54,7 @@
 .. link:kafka-clients-admin-AdminClient.adoc[AdminClient]
 .. link:kafka-clients-admin-internals-AdminMetadataManager.adoc[AdminMetadataManager]
 .. link:kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc[AdminClientRunnable]
+.. link:kafka-clients-admin-Admin.adoc[Admin]
 
 . link:kafka-admin-AdminUtils.adoc[AdminUtils]
 
