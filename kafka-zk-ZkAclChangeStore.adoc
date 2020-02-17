@@ -67,4 +67,4 @@ createListener(
 
 In the end, `createListener` returns a new `AclChangeSubscription` that requests the <<aclChangeListener, ZkNodeChangeNotificationListener>> to <<kafka-common-ZkNodeChangeNotificationListener.adoc#close, close>> when requested to close.
 
-NOTE: `createListener` is used exclusively when `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#startZkChangeListeners, startZkChangeListeners>>.
+NOTE: `createListener` is used when...FIXME

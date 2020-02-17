@@ -401,7 +401,7 @@ Used when:
 
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
 
-* `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
+* FIXME
 
 | zkConnectionTimeoutMs
 a| [[zkConnectionTimeoutMs]] <<kafka-properties.adoc#zookeeper.connection.timeout.ms, zookeeper.connection.timeout.ms>> when set or <<kafka-properties.adoc#zookeeper.session.timeout.ms, zookeeper.session.timeout.ms>>
@@ -410,7 +410,7 @@ Used when:
 
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
 
-* `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
+* FIXME
 
 | zkEnableSecureAcls
 a| [[zkEnableSecureAcls]] <<kafka-properties.adoc#zookeeper.set.acl, zookeeper.set.acl>>
@@ -419,7 +419,7 @@ Used when:
 
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
 
-* `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
+* FIXME
 
 | zkMaxInFlightRequests
 a| [[zkMaxInFlightRequests]] <<kafka-properties.adoc#zookeeper.max.in.flight.requests, zookeeper.max.in.flight.requests>>
@@ -428,7 +428,7 @@ Used when:
 
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
 
-* `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
+* FIXME
 
 | zkSessionTimeoutMs
 a| [[zkSessionTimeoutMs]] <<kafka-properties.adoc#zookeeper.session.timeout.ms, zookeeper.session.timeout.ms>>
@@ -437,7 +437,7 @@ Used when:
 
 * `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>>
 
-* `SimpleAclAuthorizer` is requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>
+* FIXME
 
 |===
 

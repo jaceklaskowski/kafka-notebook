@@ -1,0 +1,89 @@
+== [[Authorizer]] Authorizer
+
+`Authorizer` is the <<contract, extension>> of the <<kafka-common-Configurable.adoc#, Configurable>> and Java's `Closeable` abstractions for <<implementations, Kafka authorizers>> that can <<authorize, authorize actions>> based on ACLs.
+
+NOTE: `Authorizer` abstraction is part of link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-504+-+Add+new+Java+Authorizer+Interface++[KIP-504 - Add new Java Authorizer Interface].
+
+[[contract]]
+.Authorizer Contract
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| acls
+a| [[acls]]
+
+[source, java]
+----
+Iterable<AclBinding> acls(
+  AclBindingFilter filter)
+----
+
+Used when...FIXME
+
+| authorize
+a| [[authorize]]
+
+[source, java]
+----
+List<AuthorizationResult> authorize(
+  AuthorizableRequestContext requestContext,
+  List<Action> actions)
+----
+
+Authorizes actions
+
+Used when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#authorize, authorize>>, <<kafka-server-KafkaApis.adoc#filterAuthorized, filterAuthorized>>, and <<kafka-server-KafkaApis.adoc#authorizedOperations, authorizedOperations>>.
+
+| createAcls
+a| [[createAcls]]
+
+[source, java]
+----
+List<? extends CompletionStage<AclCreateResult>> createAcls(
+  AuthorizableRequestContext requestContext,
+  List<AclBinding> aclBindings)
+----
+
+Used when...FIXME
+
+| deleteAcls
+a| [[deleteAcls]]
+
+[source, java]
+----
+List<? extends CompletionStage<AclDeleteResult>> deleteAcls(
+  AuthorizableRequestContext requestContext,
+  List<AclBindingFilter> aclBindingFilters)
+----
+
+Used when...FIXME
+
+| start
+a| [[start]]
+
+[source, java]
+----
+Map<Endpoint, ? extends CompletionStage<Void>> start(
+  AuthorizerServerInfo serverInfo)
+----
+
+Used when...FIXME
+
+|===
+
+[[implementations]]
+.Authorizers (Direct Implementations Only)
+[cols="30,70",options="header",width="100%"]
+|===
+| Authorizer
+| Description
+
+| <<kafka-security-authorizer-AclAuthorizer.adoc#, AclAuthorizer>>
+| [[AclAuthorizer]]
+
+| <<kafka-security-authorizer-AuthorizerWrapper.adoc#, AuthorizerWrapper>>
+| [[AuthorizerWrapper]]
+
+|===

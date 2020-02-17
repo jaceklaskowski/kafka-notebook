@@ -189,7 +189,7 @@ That means that the logs of `KafkaApis` go to `logs/kafka-request.log` file at `
 
 === [[creating-instance]] Creating KafkaApis Instance
 
-`KafkaApis` takes the following when created:
+`KafkaApis` takes the following to be created:
 
 * [[requestChannel]] <<kafka-network-RequestChannel.adoc#, RequestChannel>>
 * [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
@@ -202,15 +202,13 @@ That means that the logs of `KafkaApis` go to `logs/kafka-request.log` file at `
 * [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
-* [[authorizer]] <<kafka-security-Authorizer.adoc#, Authorizer>> (optional)
+* [[authorizer]] <<kafka-server-authorizer-Authorizer.adoc#, Authorizer>> (optional)
 * [[quotas]] <<kafka-server-QuotaManagers.adoc#, QuotaManagers>>
 * [[fetchManager]] <<kafka-server-FetchManager.adoc#, FetchManager>>
 * [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
 * [[clusterId]] Cluster ID
 * [[time]] `Time`
 * [[tokenManager]] <<kafka-server-DelegationTokenManager.adoc#, DelegationTokenManager>>
-
-`KafkaApis` initializes the <<internal-registries, internal registries and counters>>.
 
 === [[adminZkClient]] KafkaApis and AdminZkClient
 
@@ -381,17 +379,23 @@ In the end, `handleTopicMetadataRequest` <<sendResponseMaybeThrottle, sendRespon
 
 NOTE: `handleTopicMetadataRequest` is used exclusively when `KafkaApis` is requested to handle a <<Metadata, Metadata>> request.
 
-=== [[authorize]] Authorizing Principal for Operation on Resource -- `authorize` Internal Method
+=== [[authorize]] Authorizing Request for Operation on Resource -- `authorize` Internal Method
 
 [source, scala]
 ----
 authorize(
-  session: RequestChannel.Session,
-  operation: Operation,
-  resource: Resource): Boolean
+  request: RequestChannel.Request,
+  operation: AclOperation,
+  resourceType: ResourceType,
+  resourceName: String,
+  logIfAllowed: Boolean = true,
+  logIfDenied: Boolean = true,
+  refCount: Int = 1): Boolean
 ----
 
-`authorize` simply requests the <<authorizer, Authorizer>> to <<kafka-security-Authorizer.adoc#authorize, authorize>> the given `Operation` on the given `Resource` in the `RequestChannel.Session`.
+`authorize` simply requests the <<authorizer, Authorizer>> to <<kafka-server-authorizer-Authorizer.adoc#authorize, authorize>> the given `AclOperation` on a broker resource (described by the `ResourceType` and `resourceName`).
+
+`authorize` is positive (`true`) when the `Authorizer` returned `ALLOWED`.
 
 NOTE: The <<authorizer, Authorizer>> is created in <<kafka-server-KafkaServer.adoc#authorizer, KafkaServer>> (when the `KafkaApis` is created). It is configured using <<kafka-properties.adoc#authorizer.class.name, authorizer.class.name>> configuration property which is empty by default and so all operations are authorized.
 
@@ -1136,3 +1140,33 @@ isBrokerEpochStale(brokerEpochInRequest: Long): Boolean
 `isBrokerEpochStale`...FIXME
 
 NOTE: `isBrokerEpochStale` is used when `KafkaApis` is requested to <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>, <<handleStopReplicaRequest, handleStopReplicaRequest>>, and <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>.
+
+=== [[filterAuthorized]] `filterAuthorized` Internal Method
+
+[source, scala]
+----
+filterAuthorized(
+  request: RequestChannel.Request,
+  operation: AclOperation,
+  resourceType: ResourceType,
+  resourceNames: Seq[String],
+  logIfAllowed: Boolean = true,
+  logIfDenied: Boolean = true): Set[String]
+----
+
+`filterAuthorized`...FIXME
+
+NOTE: `filterAuthorized` is used when...FIXME
+
+=== [[authorizedOperations]] `authorizedOperations` Internal Method
+
+[source, scala]
+----
+authorizedOperations(
+  request: RequestChannel.Request,
+  resource: Resource): Int
+----
+
+`authorizedOperations`...FIXME
+
+NOTE: `authorizedOperations` is used when...FIXME

@@ -1,8 +1,8 @@
 == [[AclCommand]] AclCommand Administration Utility
 
-`AclCommand` is an administration utility for ACL management using xref:kafka-clients-admin-AdminClient.adoc[AdminClient] API.
+`AclCommand` is an administration utility for ACL management using <<kafka-clients-admin-AdminClient.adoc#, AdminClient>> API.
 
-`AclCommand` is executed using xref:kafka-tools-kafka-acls.adoc[kafka-acls.sh] shell script.
+`AclCommand` is executed using <<kafka-tools-kafka-acls.adoc#, kafka-acls.sh>> shell script.
 
 [[options]]
 [[AclCommandOptions]]
@@ -16,22 +16,22 @@
 a| [[add]] Adding ACLs
 
 | allow-host
-a| [[allow-host]] Host from which principals listed in --allow-principal will have access
+a| [[allow-host]] Host from which principals listed in <<allow-principal, --allow-principal>> will have access
 
 `*` indicates access allowed from all hosts
 
 | deny-host
-a| [[deny-host]] Host from which principals listed in --deny-principal will be denied access
+a| [[deny-host]] Host from which principals listed in <<deny-principal, --deny-principal>> will be denied access
 
 `*` indicates access denied from all hosts
 
 | allow-principal
-a| [[allow-principal]] Principal is in principalType:name format
+a| [[allow-principal]] Principal is in `principalType:name` format
 
 | authorizer
-a| [[authorizer]] Fully-qualified name of the authorizer class
+a| [[authorizer]] Fully-qualified class name of the link:kafka-server-authorizer-Authorizer.adoc[Authorizer] used for link:kafka-security-authorization.adoc[authorization]
 
-Default: <<kafka-security-SimpleAclAuthorizer.adoc#, kafka.security.auth.SimpleAclAuthorizer>>
+Default: <<kafka-security-authorizer-AclAuthorizer.adoc#, kafka.security.authorizer.AclAuthorizer>>
 
 | authorizer-properties
 a| [[authorizer-properties]] *(required)* `key=val` pairs to configure the <<authorizer, authorizer>>
@@ -54,7 +54,7 @@ a| [[delegation-token]] Delegation token to which ACLs should be added or remove
 `*` indicates all tokens
 
 | deny-principal
-a| [[deny-principal]] Principal is in principalType:name format
+a| [[deny-principal]] Principal is in `principalType:name` format
 
 | force
 a| [[force]] Assume Yes to all queries and do not prompt
@@ -70,7 +70,7 @@ a| [[help]] Prints usage information
 | idempotent
 a| [[idempotent]] Enables idempotence for the producer
 
-Used in combination with the `--producer` option
+Used in combination with the <<producer, --producer>> option
 
 Idempotence is enabled automatically if the producer is authorized to a particular transactional-id
 
@@ -99,7 +99,7 @@ Supported operations:
 * [[Write]] `Write`
 
 | principal
-a| [[principal]] List ACLs for the specified principal (in principalType:name format)
+a| [[principal]] List ACLs for the specified principal (in `principalType:name` format)
 
 | producer
 a| [[producer]] Convenience option to add/remove ACLs for producer role that generates ACLs that allow WRITE,DESCRIBE and CREATE on topic
@@ -116,7 +116,7 @@ Default: `literal`
 
 * When listing or removing acls, a specific pattern type can be used to list or remove acls from specific resource patterns, or use the filter values of 'any' or 'match', where 'any' will match any pattern type, but will match the resource name exactly, where as 'match' will perform pattern matching to list or remove all acls that affect the supplied resource(s).
 
-WARNING: 'match', when used in combination with the '--remove' switch, should be used with care.
+WARNING: Use with care with 'match' and <<remove, --remove>> option.
 
 | topic
 a| [[topic]] Topic to which ACLs should be added or removed
@@ -133,9 +133,9 @@ a| [[version]] Displays Kafka version
 
 |===
 
-`AclCommand` uses `AdminClientService` (when executed with <<bootstrap-server, --bootstrap-server>> option) or `AuthorizerService`.
+`AclCommand` uses <<kafka-admin-AdminClientService.adoc#, AdminClientService>> (when executed with <<bootstrap-server, --bootstrap-server>> option) or `AuthorizerService`.
 
-`kafka-acls.sh` requires <<kafka-security-Authorizer.adoc#, Authorizer>> to be configured on a broker (when executed with <<bootstrap-server, --bootstrap-server>> option) or throws a `SecurityDisabledException`:
+`kafka-acls.sh` requires <<kafka-server-authorizer-Authorizer.adoc#, Authorizer>> to be configured on a broker (when executed with <<bootstrap-server, --bootstrap-server>> option) or throws a `SecurityDisabledException`:
 
 ```
 // kafka-acls.sh --list --bootstrap-server :9092

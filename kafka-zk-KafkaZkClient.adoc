@@ -92,16 +92,7 @@ apply(
 
 [NOTE]
 ====
-`apply` is used when:
-
-* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>> (right after `kafka.Kafka` command-line application is <<kafka-Kafka.adoc#main, executed>>)
-
-* The following commands are executed (`main`):
-** <<kafka-admin-AclCommand.adoc#, AclCommand>> (when `SimpleAclAuthorizer` is used and requested to <<kafka-security-SimpleAclAuthorizer.adoc#configure, configure>>)
-** `ConfigCommand`
-** `PreferredReplicaLeaderElectionCommand`
-** `ReassignPartitionsCommand`
-** `TopicCommand`
+`apply` is used when...FIXME
 ====
 
 === [[createTopLevelPaths]] `createTopLevelPaths` Method

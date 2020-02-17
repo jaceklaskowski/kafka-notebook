@@ -1,0 +1,3 @@
+== [[AuthorizerWrapper]] AuthorizerWrapper
+
+`AuthorizerWrapper` is...FIXME
