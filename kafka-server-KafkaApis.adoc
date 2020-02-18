@@ -202,13 +202,25 @@ That means that the logs of `KafkaApis` go to `logs/kafka-request.log` file at `
 * [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
-* [[authorizer]] <<kafka-server-authorizer-Authorizer.adoc#, Authorizer>> (optional)
+* Optional <<authorizer, Authorizer>>
 * [[quotas]] <<kafka-server-QuotaManagers.adoc#, QuotaManagers>>
 * [[fetchManager]] <<kafka-server-FetchManager.adoc#, FetchManager>>
 * [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
 * [[clusterId]] Cluster ID
 * [[time]] `Time`
 * [[tokenManager]] <<kafka-server-DelegationTokenManager.adoc#, DelegationTokenManager>>
+
+=== [[authorizer]] KafkaApis and Authorizer
+
+`KafkaApis` is given an optional link:kafka-server-authorizer-Authorizer.adoc[Authorizer] when <<creating-instance, created>> that is used for the following:
+
+* <<handleCreateAcls, handleCreateAcls>>
+
+* <<handleDeleteAcls, handleDeleteAcls>>
+
+* <<handleDescribeAcls, handleDescribeAcls>>
+
+* <<authorize, authorize>>, <<filterAuthorized, filterAuthorized>>, and <<authorizedOperations, authorizedOperations>>
 
 === [[adminZkClient]] KafkaApis and AdminZkClient
 
@@ -557,6 +569,8 @@ NOTE: `handleDescribeConfigsRequest` is used exclusively when `KafkaApis` is req
 handleDescribeAcls(
   request: RequestChannel.Request): Unit
 ----
+
+`handleDescribeAcls` <<authorizeClusterOperation, authorizeClusterOperation>> for the `DESCRIBE` operation.
 
 `handleDescribeAcls`...FIXME
 
@@ -1170,3 +1184,20 @@ authorizedOperations(
 `authorizedOperations`...FIXME
 
 NOTE: `authorizedOperations` is used when...FIXME
+
+=== [[authorizeClusterOperation]] Throwing ClusterAuthorizationException for Unauthorized Cluster Operation -- `authorizeClusterOperation` Internal Method
+
+[source, scala]
+----
+authorizeClusterOperation(
+  request: RequestChannel.Request,
+  operation: AclOperation): Unit
+----
+
+`authorizeClusterOperation` simply throws a `ClusterAuthorizationException` when the given request is not <<authorize, authorized for the given operation>> on `CLUSTER` resource (with the name `kafka-cluster`).
+
+```
+Request [request] is not authorized.
+```
+
+NOTE: `authorizeClusterOperation` is used when `KafkaApis` is requested to <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>> (`CLUSTER_ACTION` operation), <<handleStopReplicaRequest, handleStopReplicaRequest>> (`CLUSTER_ACTION` operation), <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>> (`CLUSTER_ACTION` operation), <<handleControlledShutdownRequest, handleControlledShutdownRequest>> (`CLUSTER_ACTION` operation), <<handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>> (`CLUSTER_ACTION` operation), <<handleDescribeAcls, handleDescribeAcls>> (`DESCRIBE` operation), <<handleCreateAcls, handleCreateAcls>> (`ALTER` operation), <<handleDeleteAcls, handleDeleteAcls>> (`ALTER` operation), <<handleAlterPartitionReassignmentsRequest, handleAlterPartitionReassignmentsRequest>> (`ALTER` operation), and <<handleListPartitionReassignmentsRequest, handleListPartitionReassignmentsRequest>> (`DESCRIBE` operation).
