@@ -19,7 +19,7 @@ a| [[super.users]][[SuperUsersProp]] Semicolon-separated list of link:kafka-comm
 Default: (empty)
 
 | allow.everyone.if.no.acl.found
-a| [[allow.everyone.if.no.acl.found]][[AllowEveryoneIfNoAclIsFoundProp]] Enables access to everyone for resources with no ACL
+a| [[allow.everyone.if.no.acl.found]][[AllowEveryoneIfNoAclIsFoundProp]][[shouldAllowEveryoneIfNoAclIsFound]] Allows all users to access <<isEmptyAclAndAuthorized, resources with no ACL>>
 
 Default: `false`
 
@@ -121,6 +121,30 @@ authorizeAction(
 `authorizeAction`...FIXME
 
 NOTE: `authorizeAction` is used when `AclAuthorizer` is requested to <<authorize, authorize>>.
+
+==== [[aclsAllowAccess]] `aclsAllowAccess` Internal Helper Method
+
+[source, scala]
+----
+aclsAllowAccess: Boolean
+----
+
+`aclsAllowAccess` is positive (`true`) when...FIXME
+
+==== [[isEmptyAclAndAuthorized]] `isEmptyAclAndAuthorized` Internal Helper Method
+
+[source, scala]
+----
+isEmptyAclAndAuthorized(acls: Set[Acl]): Boolean
+----
+
+`isEmptyAclAndAuthorized` is positive (`true`) when the given acls are empty and the <<shouldAllowEveryoneIfNoAclIsFound, shouldAllowEveryoneIfNoAclIsFound>> internal flag is positive. Otherwise, `isEmptyAclAndAuthorized` is negative (`false`).
+
+`isEmptyAclAndAuthorized` prints out the following DEBUG message when positive:
+
+```
+No acl found for resource [resource], authorized = [shouldAllowEveryoneIfNoAclIsFound]
+```
 
 === [[zkClient]] AclAuthorizer and KafkaZkClient
 
