@@ -212,7 +212,9 @@ That means that the logs of `KafkaApis` go to `logs/kafka-request.log` file at `
 
 === [[authorizer]] KafkaApis and Authorizer
 
-`KafkaApis` is given an optional link:kafka-server-authorizer-Authorizer.adoc[Authorizer] when <<creating-instance, created>> that is used for the following:
+`KafkaApis` may be given an link:kafka-server-authorizer-Authorizer.adoc[Authorizer] when <<creating-instance, created>>.
+
+The `Authorizer` is used for the following:
 
 * <<handleCreateAcls, handleCreateAcls>>
 
@@ -1183,7 +1185,7 @@ authorizedOperations(
 
 `authorizedOperations`...FIXME
 
-NOTE: `authorizedOperations` is used when...FIXME
+NOTE: `authorizedOperations` is used when `KafkaApis` is requested to <<handleTopicMetadataRequest, handleTopicMetadataRequest>> (`CLUSTER` resource) and <<handleDescribeGroupRequest, handleDescribeGroupRequest>> (`GROUP` resource).
 
 === [[authorizeClusterOperation]] Throwing ClusterAuthorizationException for Unauthorized Cluster Operation -- `authorizeClusterOperation` Internal Method
 
