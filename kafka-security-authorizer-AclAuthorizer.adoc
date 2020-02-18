@@ -1,3 +1,104 @@
 == [[AclAuthorizer]] AclAuthorizer
 
-`AclAuthorizer` is...FIXME
+`AclAuthorizer` (`kafka.security.authorizer.AclAuthorizer`) is an link:kafka-server-authorizer-Authorizer.adoc[Authorizer].
+
+`AclAuthorizer` uses <<properties, properties>> for <<configure, configuration>> (when `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#startup[start up]).
+
+TIP: Refer to link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer].
+
+[[properties]]
+.AclAuthorizer's Configuration Properties
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| super.users
+a| [[SuperUsersProp]] Semicolon-separated list of link:kafka-common-security-auth-KafkaPrincipal.adoc[Kafka principals] that are super users and have access to all the resources for all actions from all hosts.
+
+Default: (empty)
+
+|===
+
+[[authorizerLogger]]
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `kafka.authorizer.logger` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.authorizer.logger=ALL
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+
+---
+
+Please note that Kafka comes with a preconfigured `kafka.authorizer.logger` logger in `config/log4j.properties`:
+
+```
+log4j.appender.authorizerAppender=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.authorizerAppender.DatePattern='.'yyyy-MM-dd-HH
+log4j.appender.authorizerAppender.File=${kafka.logs.dir}/kafka-authorizer.log
+log4j.appender.authorizerAppender.layout=org.apache.log4j.PatternLayout
+log4j.appender.authorizerAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
+
+# Access denials are logged at INFO level, change to DEBUG to also log allowed accesses
+log4j.logger.kafka.authorizer.logger=INFO, authorizerAppender
+log4j.additivity.kafka.authorizer.logger=false
+```
+
+That means that the logs of `AclAuthorizer` go to `logs/kafka-authorizer.log` file at `INFO` logging level and are not added to the main logs (per `log4j.additivity` being off).
+====
+
+=== [[configure]] `configure` Method
+
+[source, scala]
+----
+configure(
+  javaConfigs: util.Map[String, _]): Unit
+----
+
+NOTE: `configure` is part of the link:kafka-common-Configurable.adoc#configure[Configurable] contract to...FIXME.
+
+`configure`...FIXME
+
+=== [[authorize]] `authorize` Method
+
+[source, scala]
+----
+authorize(
+  requestContext: AuthorizableRequestContext,
+  actions: List[Action]): List[AuthorizationResult]
+----
+
+NOTE: `authorize` is part of the link:kafka-server-authorizer-Authorizer.adoc#authorize[Authorizer] contract to...FIXME.
+
+`authorize`...FIXME
+
+=== [[isSuperUser]] `isSuperUser` Method
+
+[source, scala]
+----
+isSuperUser(
+  principal: KafkaPrincipal): Boolean
+----
+
+`isSuperUser`...FIXME
+
+NOTE: `isSuperUser` is used when `AclAuthorizer` is requested to <<authorizeAction, authorizeAction>>.
+
+=== [[authorizeAction]] `authorizeAction` Internal Method
+
+[source, scala]
+----
+authorizeAction(
+  requestContext: AuthorizableRequestContext,
+  action: Action): AuthorizationResult
+----
+
+`authorizeAction`...FIXME
+
+NOTE: `authorizeAction` is used when `AclAuthorizer` is requested to <<authorize, authorize>>.

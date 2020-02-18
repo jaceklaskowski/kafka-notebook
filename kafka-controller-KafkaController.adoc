@@ -187,7 +187,7 @@ De-registered in <<deregisterTopicDeletionListener, deregisterTopicDeletionListe
 [[logging]]
 [TIP]
 ====
-Enable `ALL` logging levels for `kafka.controller.KafkaController` logger to see what happens inside.
+Enable `ALL` logging level for `kafka.controller.KafkaController` logger to see what happens inside.
 
 Add the following line to `config/log4j.properties`:
 

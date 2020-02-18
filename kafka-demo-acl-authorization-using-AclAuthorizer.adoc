@@ -1,0 +1,62 @@
+== Demo: ACL Authorization Using AclAuthorizer
+
+This demo shows how to use link:kafka-security-authorizer-AclAuthorizer.adoc[AclAuthorizer] for link:kafka-security-authorization.adoc[ACL authorization].
+
+CAUTION: The demo is not finished yet.
+
+=== Step X. Enable ACL Authorization
+
+Add the following to `config/server.properties`:
+
+```
+authorizer.class.name=kafka.security.authorizer.AclAuthorizer
+```
+
+Start a Kafka broker and observe the logs. You may find the following at the very end of the startup:
+
+```
+ERROR [KafkaApi-0] Error when handling request: clientId=0, correlationId=0, api=UPDATE_METADATA, version=6, body={controller_id=0,controller_epoch=5,broker_epoch=151,topic_states=[],live_brokers=[{id=0,endpoints=[{port=9092,host=localhost,listener=PLAINTEXT,security_protocol=0,_tagged_fields={}}],rack=null,_tagged_fields={}}],_tagged_fields={}} (kafka.server.KafkaApis)
+org.apache.kafka.common.errors.ClusterAuthorizationException: Request Request(processor=0, connectionId=127.0.0.1:9092-127.0.0.1:64483-0, session=Session(User:ANONYMOUS,/127.0.0.1), listenerName=ListenerName(PLAINTEXT), securityProtocol=PLAINTEXT, buffer=null) is not authorized.
+```
+
+That's because `User:ANONYMOUS` user is not authorized to execute `UPDATE_METADATA` action (since by default no one is allowed to execute any action).
+
+=== Step X. Allow Everyone If No ACL Found
+
+Add the following to `config/server.properties` and restart the broker.
+
+```
+allow.everyone.if.no.acl.found=true
+```
+
+=== Step X. Define Super Users
+
+Add the following to `config/server.properties` and restart the broker.
+
+```
+super.users=User:Bob;User:Alice
+```
+
+=== Step X. List ACLs
+
+Use link:kafka-tools-kafka-acls.adoc[kafka-acls] CLI to list the available ACLs.
+
+```
+kafka-acls.sh \
+  --bootstrap-server :9092 \
+  --list
+```
+
+=== Step X. Disable Creating Topics
+
+Use link:kafka-tools-kafka-acls.adoc[kafka-acls] CLI to disable creating topics for anyone but super users.
+
+```
+kafka-acls.sh \
+  --bootstrap-server :9092 \
+  --add \
+  --allow-principal User:Alice \
+  --operation All \
+  --topic '*' \
+  --cluster
+```

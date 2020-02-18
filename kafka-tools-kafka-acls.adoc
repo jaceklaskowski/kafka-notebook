@@ -1,6 +1,8 @@
 == [[kafka-acls]] kafka-acls.sh Shell Script
 
-`kafka-acls.sh` is a shell script to launch <<kafka-admin-AclCommand.adoc#, kafka.admin.AclCommand>> administration utility for ACL management (e.g. <<list, list>> or <<add, add>> ACLs). Use <<help, --help>> to learn the supported options.
+`kafka-acls.sh` is the *Kafka Authorization management CLI* for ACL management (e.g. <<add, add>>, <<list, list>>, or remove ACLs). Use <<help, --help>> to learn the supported options
+
+`kafka-acls.sh` simply launches <<kafka-admin-AclCommand.adoc#, kafka.admin.AclCommand>> administration utility.
 
 === [[help]] Help
 
@@ -26,6 +28,9 @@ Option                                   Description
 --authorizer <String: authorizer>        Fully qualified class name of the
                                            authorizer, defaults to kafka.
                                            security.auth.SimpleAclAuthorizer.
+...
+--remove                                 Indicates you are trying to remove
+                                           ACLs.
 ...
 --transactional-id <String:              The transactionalId to which ACLs
   transactional-id>                        should be added or removed. A value

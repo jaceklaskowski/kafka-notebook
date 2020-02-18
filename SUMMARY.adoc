@@ -20,6 +20,8 @@
 . link:kafka-server-authorizer-Authorizer.adoc[Authorizer]
 .. link:kafka-security-authorizer-AclAuthorizer.adoc[AclAuthorizer]
 .. link:kafka-security-authorizer-AuthorizerWrapper.adoc[AuthorizerWrapper]
+. link:kafka-common-security-auth-KafkaPrincipal.adoc[KafkaPrincipal]
+. link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer]
 
 === Kafka Tools (Utilities)
 

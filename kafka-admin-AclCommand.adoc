@@ -29,7 +29,7 @@ a| [[deny-host]] Host from which principals listed in <<deny-principal, --deny-p
 a| [[allow-principal]] Principal is in `principalType:name` format
 
 | authorizer
-a| [[authorizer]] Fully-qualified class name of the link:kafka-server-authorizer-Authorizer.adoc[Authorizer] used for link:kafka-security-authorization.adoc[authorization]
+a| [[authorizer]] Fully-qualified class name of the link:kafka-server-authorizer-Authorizer.adoc[Authorizer]
 
 Default: <<kafka-security-authorizer-AclAuthorizer.adoc#, kafka.security.authorizer.AclAuthorizer>>
 

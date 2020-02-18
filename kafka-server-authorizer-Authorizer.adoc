@@ -2,6 +2,8 @@
 
 `Authorizer` is the <<contract, extension>> of the <<kafka-common-Configurable.adoc#, Configurable>> and Java's `Closeable` abstractions for <<implementations, Kafka authorizers>> that can <<authorize, authorize actions>> based on ACLs.
 
+`Authorizer` is configured by link:kafka-properties.adoc#authorizer.class.name[authorizer.class.name] configuration property.
+
 NOTE: `Authorizer` abstraction is part of link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-504+-+Add+new+Java+Authorizer+Interface++[KIP-504 - Add new Java Authorizer Interface].
 
 [[contract]]
