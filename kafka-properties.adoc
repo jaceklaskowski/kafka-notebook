@@ -233,7 +233,19 @@ Use `0.0.0.0` to bind to all the network interfaces on a machine or leave it emp
 <<kafka-server-DynamicListenerConfig.adoc#, Dynamic reconfigurable configuration>>
 
 | listener.security.protocol.map
-a| [[listener.security.protocol.map]]
+a| [[listener.security.protocol.map]] Map of listener names and security protocols (key and value are separated by a colon and map entries are separated by commas). Each listener name should only appear once in the map.
+
+Default: Map with `PLAINTEXT`, `SSL`, `SASL_PLAINTEXT`, `SASL_SSL` keys
+
+This map must be defined for the same security protocol to be usable in more than one port or IP. For example, internal and external traffic can be separated even if SSL is required for both. Concretely, the user could define listeners with names INTERNAL and EXTERNAL and this property as: `INTERNAL:SSL,EXTERNAL:SSL`.
+
+Different security (SSL and SASL) settings can be configured for each listener by adding a normalised prefix (the listener name is lowercased) to the config name. For example, to set a different keystore for the INTERNAL listener, a config with name `listener.name.internal.ssl.keystore.location` would be set. If the config for the listener name is not set, the config will fallback to the generic config (`ssl.keystore.location`).
+
+* Use <<kafka-server-KafkaConfig.adoc#ListenerSecurityProtocolMapProp, KafkaConfig.ListenerSecurityProtocolMapProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#listenerSecurityProtocolMap, KafkaConfig.listenerSecurityProtocolMap>> to access the current value
+
+<<kafka-server-DynamicListenerConfig.adoc#, Dynamic reconfigurable configuration>>
 
 | log.cleaner.enable
 a| [[log.cleaner.enable]] Enables the <<kafka-log-LogManager.adoc#cleaner, log cleaner process>> to run on a Kafka broker (`true`). Should be enabled if using any topics with a <<kafka-log-cleanup-policies.adoc#compact, cleanup.policy=compact>> including the internal offsets topic. If disabled those topics will not be compacted and continually grow in size.

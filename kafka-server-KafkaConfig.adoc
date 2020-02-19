@@ -30,7 +30,7 @@ assert(kafkaConfig.logCleanupPolicy.asScala.head == "delete")
 | Kafka Property
 
 | advertisedListeners
-a| [[advertisedListeners]][[AdvertisedListenersProp]] <<kafka-properties.adoc#advertised.listeners, advertised.listeners>>
+a| [[advertisedListeners]][[AdvertisedListenersProp]] <<kafka-properties.adoc#advertised.listeners, advertised.listeners>> (see <<advertisedListeners-method, advertisedListeners>>)
 
 Used when:
 
@@ -111,10 +111,10 @@ a| [[leaderImbalancePerBrokerPercentage]][[LeaderImbalancePerBrokerPercentagePro
 Used exclusively when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#checkAndTriggerAutoLeaderRebalance, checkAndTriggerAutoLeaderRebalance>>
 
 | listeners
-a| [[listeners]][[ListenersProp]] <<kafka-properties.adoc#listeners, listeners>> (see <<getListeners, getListeners>>)
+a| [[listeners]][[ListenersProp]] link:kafka-properties.adoc#listeners[listeners] (see <<listeners-method, listeners>>)
 
 | listenerSecurityProtocolMap
-a| [[listenerSecurityProtocolMap]][[ListenerSecurityProtocolMapProp]] <<kafka-properties.adoc#listener.security.protocol.map, listener.security.protocol.map>>
+a| [[listenerSecurityProtocolMap]][[ListenerSecurityProtocolMapProp]] <<kafka-properties.adoc#listener.security.protocol.map, listener.security.protocol.map>> (see <<listenerSecurityProtocolMap-method, listenerSecurityProtocolMap>>)
 
 | logCleanerThreads
 a| [[logCleanerThreads]][[LogCleanerThreadsProp]] <<kafka-properties.adoc#log.cleaner.threads, log.cleaner.threads>>
@@ -441,16 +441,49 @@ Used when:
 
 |===
 
-=== [[getListeners]] Creating Listeners -- `getListeners` Internal Method
+=== [[listeners-method]] `listeners` Method
 
 [source, scala]
 ----
-getListeners: Seq[EndPoint]
+listeners: Seq[EndPoint]
 ----
 
-`getListeners` creates the `EndPoints` if defined using link:kafka-properties.adoc#listeners[listeners] Kafka property or defaults to `PLAINTEXT://[hostName]:[port]` (for <<hostName, hostName>> and <<port, port>> Kafka properties).
+`listeners` creates the `EndPoints` based on link:kafka-properties.adoc#listeners[listeners] configuration property if defined. Otherwise, `listeners` assumes `PLAINTEXT://[hostName]:[port]` (per <<hostName, hostName>> and <<port, port>>).
 
-NOTE: `getListeners` is used when `KafkaConfig` is <<listeners, created>> and for <<getAdvertisedListeners, getAdvertisedListeners>>.
+`listeners` uses <<listenerSecurityProtocolMap, listenerSecurityProtocolMap>> for protocol mapping.
+
+[NOTE]
+====
+`listeners` is used when:
+
+* `SocketServer` is requested for the link:kafka-network-SocketServer.adoc#endpoints[endpoints] and link:kafka-network-SocketServer.adoc#protectedListener[protectedListener]
+
+* `DynamicListenerConfig` is requested to link:kafka-server-DynamicListenerConfig.adoc#validateReconfiguration[validateReconfiguration] and link:kafka-server-DynamicListenerConfig.adoc#reconfigure[reconfigure]
+
+* `KafkaConfig` is requested for the <<controlPlaneListener, controlPlaneListener>>, <<dataPlaneListeners, dataPlaneListeners>>, <<advertisedListeners, advertisedListeners>>, and <<validateValues, validateValues>>
+====
+
+=== [[advertisedListeners-method]] `advertisedListeners` Method
+
+[source, scala]
+----
+advertisedListeners: Seq[EndPoint]
+----
+
+`advertisedListeners`...FIXME
+
+NOTE: `advertisedListeners` is used when...FIXME
+
+=== [[listenerSecurityProtocolMap-method]] `listenerSecurityProtocolMap` Method
+
+[source, scala]
+----
+listenerSecurityProtocolMap: Map[ListenerName, SecurityProtocol]
+----
+
+`listenerSecurityProtocolMap`...FIXME
+
+NOTE: `listenerSecurityProtocolMap` is used when...FIXME
 
 === [[getNumReplicaAlterLogDirsThreads]] `getNumReplicaAlterLogDirsThreads` Method
 
@@ -519,6 +552,28 @@ addReconfigurable(reconfigurable: Reconfigurable): Unit
 
 NOTE: `addReconfigurable` is used when...FIXME
 
+=== [[controlPlaneListener]] `controlPlaneListener` Method
+
+[source, scala]
+----
+controlPlaneListener: Option[EndPoint]
+----
+
+`controlPlaneListener`...FIXME
+
+NOTE: `controlPlaneListener` is used when...FIXME
+
+=== [[dataPlaneListeners]] `dataPlaneListeners` Method
+
+[source, scala]
+----
+dataPlaneListeners: Seq[EndPoint]
+----
+
+`dataPlaneListeners`...FIXME
+
+NOTE: `dataPlaneListeners` is used when...FIXME
+
 === [[validateValues]] `validateValues` Internal Method
 
 [source, scala]
@@ -528,7 +583,7 @@ validateValues(): Unit
 
 `validateValues`...FIXME
 
-NOTE: `validateValues` is used when...FIXME
+NOTE: `validateValues` is used when `KafkaConfig` is <<creating-instance, created>>.
 
 === [[getInterBrokerListenerNameAndSecurityProtocol]] `getInterBrokerListenerNameAndSecurityProtocol` Internal Method
 
