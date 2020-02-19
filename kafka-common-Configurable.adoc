@@ -1,3 +1,23 @@
 == [[Configurable]] Configurable Contract
 
-`Configurable` is...FIXME
+`Configurable` is the <<contract, abstraction>> of classes that are instantiated by reflection and need to <<configure, take configuration parameters>>.
+
+[[contract]]
+.Configurable Contract
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| configure
+a| [[configure]]
+
+[source, java]
+----
+void configure(
+  Map<String, ?> configs)
+----
+
+Configures the class with the given key-value configurations
+
+|===
