@@ -1,8 +1,14 @@
 == [[AclAuthorizer]] AclAuthorizer
 
-`AclAuthorizer` (`kafka.security.authorizer.AclAuthorizer`) is an link:kafka-server-authorizer-Authorizer.adoc[Authorizer].
+`AclAuthorizer` (`kafka.security.authorizer.AclAuthorizer`) is a link:kafka-server-authorizer-Authorizer.adoc[Authorizer] that uses <<zkClient, Apache ZooKeeper>> to persist ACLs.
+
+NOTE: `AclAuthorizer` is available since Apache Kafka 2.4.0 (link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-504+-+Add+new+Java+Authorizer+Interface++[KIP-504 - Add new Java Authorizer Interface]).
 
 `AclAuthorizer` uses <<properties, properties>> for <<configure, configuration>> (when `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#startup[start up]).
+
+`AclAuthorizer` may use its own dedicated ZooKeeper for ACLs per <<authorizer.zookeeper.url, authorizer.zookeeper.url>> configuration property (that could be separate from the cluster's ZooKeeper).
+
+`AclAuthorizer` uses a dedicated <<zkClient, KafkaZkClient>> to access Zookeeper.
 
 TIP: Refer to link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer].
 
@@ -14,7 +20,7 @@ TIP: Refer to link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: A
 | Description
 
 | super.users
-a| [[super.users]][[SuperUsersProp]] Semicolon-separated list of link:kafka-common-security-auth-KafkaPrincipal.adoc[Kafka principals] that are super users and have access to all the resources for all actions from all hosts.
+a| [[super.users]][[SuperUsersProp]][[superUsers]] Semicolon-separated list of link:kafka-common-security-auth-KafkaPrincipal.adoc[Kafka principals] that are super users and have access to all the resources for all actions from all hosts.
 
 Default: (empty)
 
@@ -24,7 +30,7 @@ a| [[allow.everyone.if.no.acl.found]][[AllowEveryoneIfNoAclIsFoundProp]][[should
 Default: `false`
 
 | authorizer.zookeeper.url
-a| [[authorizer.zookeeper.url]][[ZkUrlProp]] URL of the dedicated Zookeeper for ACLs to be stored (that can be different from link:kafka-properties.adoc#zookeeper.connect[zookeeper.connect])
+a| [[authorizer.zookeeper.url]][[ZkUrlProp]] URL of the dedicated Zookeeper to store ACLs (that can be different from link:kafka-properties.adoc#zookeeper.connect[zookeeper.connect])
 
 Default: link:kafka-properties.adoc#zookeeper.connect[zookeeper.connect]
 
@@ -80,9 +86,16 @@ configure(
   javaConfigs: util.Map[String, _]): Unit
 ----
 
-NOTE: `configure` is part of the link:kafka-common-Configurable.adoc#configure[Configurable] contract to...FIXME.
+NOTE: `configure` is part of the link:kafka-common-Configurable.adoc#configure[Configurable] contract.
 
-`configure`...FIXME
+`configure` creates a <<zkClient, KafkaZkClient>> (using the <<properties, properties>> in the given `javaConfigs`) with `kafka.security` metric group and `AclAuthorizer` metric type, and `ACL authorizer` logger prefix.
+
+.AclAuthorizer's KafkaZkClient in jconsole
+image::images/AclAuthorizer-jconsole.png[align="center"]
+
+`configure` requests the <<zkClient, KafkaZkClient>> to link:kafka-zk-KafkaZkClient.adoc#createAclPaths[createAclPaths].
+
+`configure` <<startZkChangeListeners, startZkChangeListeners>> and then <<loadCache, loadCache>>.
 
 === [[authorize]] `authorize` Method
 

@@ -8,7 +8,7 @@
 
 * <<kafka-server-authorizer-Authorizer.adoc#, Authorizer>>
 
-NOTE: Apache Kafka 2.4.0 uses link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-504+-+Add+new+Java+Authorizer+Interface++[KIP-504 - Add new Java Authorizer Interface] for authorization.
+NOTE: Apache Kafka 2.4.0 introduced link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-504+-+Add+new+Java+Authorizer+Interface++[KIP-504 - Add new Java Authorizer Interface] for authorization.
 
 === [[demo]] Demo
 
