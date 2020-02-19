@@ -1,3 +1,65 @@
 == [[SslFactory]] SslFactory
 
-`SslFactory` is...FIXME
+`SslFactory` is <<creating-instance, created>> when:
+
+* `SaslChannelBuilder` is requested to configure for SASL_SSL security protocol (with `none` for the <<clientAuthConfigOverride, clientAuthConfigOverride>> text)
+
+* `SslChannelBuilder` is requested to link:kafka-common-network-SslChannelBuilder.adoc#configure[configure] (with no <<clientAuthConfigOverride, clientAuthConfigOverride>> text)
+
+=== [[creating-instance]] Creating SslFactory Instance
+
+`SslFactory` takes the following to be created:
+
+* [[mode]] `Mode` (i.e. `CLIENT` or `SERVER`)
+* [[clientAuthConfigOverride]] `clientAuthConfigOverride` text
+* [[keystoreVerifiableUsingTruststore]] `keystoreVerifiableUsingTruststore` flag
+
+`SslFactory` initializes the <<internal-properties, internal properties>>.
+
+=== [[configure]] `configure` Method
+
+[source, java]
+----
+void configure(
+  Map<String, ?> configs)
+----
+
+NOTE: `configure` is part of the link:kafka-common-Configurable.adoc#configure[Configurable] contract to pass configurations.
+
+`configure`...FIXME
+
+=== [[createNewSslEngineBuilder]] `createNewSslEngineBuilder` Internal Method
+
+[source, java]
+----
+SslEngineBuilder createNewSslEngineBuilder(
+  Map<String, ?> newConfigs)
+----
+
+`createNewSslEngineBuilder`...FIXME
+
+NOTE: `createNewSslEngineBuilder` is used when is requested to <<validateReconfiguration, validateReconfiguration>> and <<reconfigure, reconfigure>>.
+
+=== [[validateReconfiguration]] `validateReconfiguration` Method
+
+[source, java]
+----
+void validateReconfiguration(
+  Map<String, ?> newConfigs)
+----
+
+NOTE: `validateReconfiguration` is part of the link:kafka-common-Reconfigurable.adoc#validateReconfiguration[Reconfigurable] to...FIXME.
+
+`validateReconfiguration`...FIXME
+
+=== [[reconfigure]] `reconfigure` Method
+
+[source, java]
+----
+void reconfigure(
+  Map<String, ?> newConfigs)
+----
+
+NOTE: `reconfigure` is part of the link:kafka-common-Reconfigurable.adoc#reconfigure[Reconfigurable] to...FIXME.
+
+`reconfigure`...FIXME

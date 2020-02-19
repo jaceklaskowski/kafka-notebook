@@ -86,7 +86,7 @@ configure(
   javaConfigs: util.Map[String, _]): Unit
 ----
 
-NOTE: `configure` is part of the link:kafka-common-Configurable.adoc#configure[Configurable] contract.
+NOTE: `configure` is part of the link:kafka-common-Configurable.adoc#configure[Configurable] contract to pass configurations.
 
 `configure` creates a <<zkClient, KafkaZkClient>> (using the <<properties, properties>> in the given `javaConfigs`) with `kafka.security` metric group and `AclAuthorizer` metric type, and `ACL authorizer` logger prefix.
 

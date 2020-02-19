@@ -1,0 +1,104 @@
+== [[SslEngineBuilder]] SslEngineBuilder
+
+`SslEngineBuilder` is <<creating-instance, created>> when `SslFactory` is requested to link:kafka-common-security-ssl-SslFactory.adoc#configure[configure] and link:kafka-common-security-ssl-SslFactory.adoc#reconfigure[reconfigure] (indirectly via link:kafka-common-security-ssl-SslFactory.adoc#createNewSslEngineBuilder[createNewSslEngineBuilder]).
+
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `org.apache.kafka.common.security.ssl.SslEngineBuilder` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.common.security.ssl.SslEngineBuilder=ALL
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
+=== [[creating-instance]] Creating SslEngineBuilder Instance
+
+`SslEngineBuilder` takes the following to be created:
+
+* [[configs]] Configuration properties
+
+`SslEngineBuilder` initializes the <<internal-properties, internal properties>>.
+
+=== [[keystore]] SSL Key Store -- `keystore` Internal Property
+
+[source, java]
+----
+SecurityStore keystore
+----
+
+`keystore` is <<createKeystore, created>> (alongside `SslEngineBuilder`) based on the following configuration properties:
+
+* link:kafka-common-config-SslConfigs.adoc#SSL_KEYSTORE_TYPE_CONFIG[ssl.keystore.type]
+* link:kafka-common-config-SslConfigs.adoc#SSL_KEYSTORE_LOCATION_CONFIG[ssl.keystore.location]
+* link:kafka-common-config-SslConfigs.adoc#SSL_KEYSTORE_PASSWORD_CONFIG[ssl.keystore.password]
+* link:kafka-common-config-SslConfigs.adoc#SSL_KEY_PASSWORD_CONFIG[ssl.key.password]
+
+`keystore` is used...FIXME
+
+=== [[truststore]] SSL Trust Store -- `truststore` Internal Property
+
+[source, java]
+----
+SecurityStore truststore
+----
+
+Used when...FIXME
+
+=== [[createKeystore]] `createKeystore` Internal Utility
+
+[source, java]
+----
+SecurityStore createKeystore(
+  String type,
+  String path,
+  Password password,
+  Password keyPassword)
+----
+
+`createKeystore`...FIXME
+
+NOTE: `createKeystore` is used when `SslEngineBuilder` is <<creating-instance, created>>.
+
+=== [[createTruststore]] `createTruststore` Internal Utility
+
+[source, java]
+----
+SecurityStore createTruststore(
+  String type,
+  String path,
+  Password password)
+----
+
+`createTruststore`...FIXME
+
+NOTE: `createTruststore` is used when `SslEngineBuilder` is <<creating-instance, created>>.
+
+=== [[createSSLContext]] `createSSLContext` Internal Method
+
+[source, java]
+----
+SSLContext createSSLContext()
+----
+
+`createSSLContext`...FIXME
+
+NOTE: `createSSLContext` is used when `SslEngineBuilder` is <<creating-instance, created>>.
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| sslContext
+a| [[sslContext]] Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/javax/net/ssl/SSLContext.html[SSLContext]
+
+Used when...FIXME
+
+|===

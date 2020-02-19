@@ -1,0 +1,52 @@
+== [[SslConfigs]] SslConfigs
+
+`SslConfigs` are the <<properties, configuration properties>> of link:kafka-common-security-ssl-SslEngineBuilder.adoc[SslEngineBuilder].
+
+[[properties]]
+.SSL Configuration Properties
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| ssl.keystore.type
+a| [[ssl.keystore.type]][[SSL_KEYSTORE_TYPE_CONFIG]] The file format of the key store file. Optional for client.
+
+Default: `JKS`
+
+<<RECONFIGURABLE_CONFIGS, Reconfigurable>>
+
+| ssl.keystore.location
+a| [[ssl.keystore.location]][[SSL_KEYSTORE_LOCATION_CONFIG]] The location of the keystore file. Optional for client and can be used for two-way authentication for client.
+
+Default: undefined
+
+<<RECONFIGURABLE_CONFIGS, Reconfigurable>>
+
+| ssl.keystore.password
+a| [[ssl.keystore.password]][[SSL_KEYSTORE_PASSWORD_CONFIG]] The store password for the keystore file. Optional for client and only needed if <<ssl.keystore.location, ssl.keystore.location>> is configured.
+
+Default: undefined
+
+<<RECONFIGURABLE_CONFIGS, Reconfigurable>>
+
+| ssl.key.password
+a| [[ssl.key.password]][[SSL_KEY_PASSWORD_CONFIG]] The password of the private key in the keystore file. Optional for client.
+
+Default: undefined
+
+<<RECONFIGURABLE_CONFIGS, Reconfigurable>>
+
+| ssl.truststore.location
+a| [[ssl.truststore.location]]
+
+| ssl.truststore.password
+a| [[ssl.truststore.password]]
+
+| ssl.enabled.protocols
+a| [[ssl.enabled.protocols]]
+
+| ssl.client.auth
+a| [[ssl.client.auth]]
+
+|===

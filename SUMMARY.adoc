@@ -28,6 +28,8 @@
 
 . link:kafka-common-security-ssl-SslPrincipalMapper.adoc[SslPrincipalMapper]
 . link:kafka-common-security-ssl-SslFactory.adoc[SslFactory]
+. link:kafka-common-security-ssl-SslEngineBuilder.adoc[SslEngineBuilder]
+. link:kafka-common-config-SslConfigs.adoc[SslConfigs]
 
 === Kafka Tools (Utilities)
 
