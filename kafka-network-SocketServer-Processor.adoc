@@ -4,7 +4,7 @@
 
 `Processor` is also a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> that...FIXME
 
-`Processor` is <<creating-instance, created>> exclusively when `SocketServer` is requested to <<kafka-network-SocketServer.adoc#newProcessor, create a new processor>>.
+`Processor` is <<creating-instance, created>> exclusively when `SocketServer` is requested to <<kafka-network-SocketServer.adoc#newProcessor, create one>>.
 
 [[internal-registries]]
 .Processor's Internal Properties (e.g. Registries, Counters and Flags)

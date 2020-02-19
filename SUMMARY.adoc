@@ -23,6 +23,9 @@
 . link:kafka-common-security-auth-KafkaPrincipal.adoc[KafkaPrincipal]
 . link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer]
 
+. link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder]
+. link:kafka-common-network-ChannelBuilders.adoc[ChannelBuilders]
+
 === Kafka Tools (Utilities)
 
 . link:kafka-tools.adoc[Kafka Tools]

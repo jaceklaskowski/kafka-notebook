@@ -1,0 +1,59 @@
+== [[ChannelBuilders]] ChannelBuilders Utility
+
+=== [[clientChannelBuilder]] `clientChannelBuilder` Method
+
+[source, java]
+----
+ChannelBuilder clientChannelBuilder(
+  SecurityProtocol securityProtocol,
+  JaasContext.Type contextType,
+  AbstractConfig config,
+  ListenerName listenerName,
+  String clientSaslMechanism,
+  Time time,
+  boolean saslHandshakeRequestEnable)
+----
+
+`clientChannelBuilder`...FIXME
+
+NOTE: `clientChannelBuilder` is used when...FIXME
+
+=== [[serverChannelBuilder]] `serverChannelBuilder` Method
+
+[source, java]
+----
+ChannelBuilder serverChannelBuilder(
+  ListenerName listenerName,
+  boolean isInterBrokerListener,
+  SecurityProtocol securityProtocol,
+  AbstractConfig config,
+  CredentialCache credentialCache,
+  DelegationTokenCache tokenCache,
+  Time time)
+----
+
+`serverChannelBuilder`...FIXME
+
+NOTE: `serverChannelBuilder` is used when `Processor` is requested for a link:kafka-network-SocketServer-Processor.adoc#selector[Selector].
+
+=== [[create]] `create` Internal Utility
+
+[source, java]
+----
+ChannelBuilder create(
+  SecurityProtocol securityProtocol,
+  Mode mode,
+  JaasContext.Type contextType,
+  AbstractConfig config,
+  ListenerName listenerName,
+  boolean isInterBrokerListener,
+  String clientSaslMechanism,
+  boolean saslHandshakeRequestEnable,
+  CredentialCache credentialCache,
+  DelegationTokenCache tokenCache,
+  Time time)
+----
+
+`create`...FIXME
+
+NOTE: `create` is used when `ChannelBuilders` utility is requested to <<clientChannelBuilder, clientChannelBuilder>> (`CLIENT` mode) and <<serverChannelBuilder, serverChannelBuilder>> (`SERVER` mode).

@@ -64,13 +64,14 @@ newProcessor(
 
 * <<kafka-server-KafkaConfig.adoc#failedAuthenticationDelayMs, connection.failed.authentication.delay.ms>>
 
-NOTE: `newProcessor` is used exclusively when `SocketServer` is requested to <<addProcessors, addProcessors>>.
+NOTE: `newProcessor` is used exclusively when `SocketServer` is requested to <<createControlPlaneAcceptorAndProcessor, createControlPlaneAcceptorAndProcessor>> and <<addDataPlaneProcessors, addDataPlaneProcessors>>.
 
-=== [[startup]] Starting Up (and Auxiliary Services) -- `startup` Method
+=== [[startup]] Starting Up -- `startup` Method
 
 [source, scala]
 ----
-startup(startupProcessors: Boolean = true): Unit
+startup(
+  startupProcessors: Boolean = true): Unit
 ----
 
 Internally, `startup` creates the <<connectionQuotas, ConnectionQuotas>> (with <<maxConnectionsPerIp, maxConnectionsPerIp>> and <<maxConnectionsPerIpOverrides, maxConnectionsPerIpOverrides>>).
@@ -90,10 +91,10 @@ For every endpoint (in <<endpoints, endpoints>> registry) `startup` does the fol
 In the end, `startup` prints out the following INFO message to the logs:
 
 ```
-INFO [SocketServer brokerId=[brokerID]] Started [number] acceptor threads
+Started [dataPlaneAcceptors] acceptor threads for data-plane
 ```
 
-NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
+NOTE: `startup` is used exclusively when `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#startup[start up].
 
 === [[addProcessors]] `addProcessors` Internal Method
 
@@ -235,6 +236,18 @@ createDataPlaneAcceptorsAndProcessors(
 `createDataPlaneAcceptorsAndProcessors`...FIXME
 
 NOTE: `createDataPlaneAcceptorsAndProcessors` is used when `SocketServer` is requested to <<startup, start up>> and <<addListeners, addListeners>>.
+
+=== [[createControlPlaneAcceptorAndProcessor]] `createControlPlaneAcceptorAndProcessor` Internal Method
+
+[source, scala]
+----
+createControlPlaneAcceptorAndProcessor(
+  endpointOpt: Option[EndPoint]): Unit
+----
+
+`createControlPlaneAcceptorAndProcessor`...FIXME
+
+NOTE: `createControlPlaneAcceptorAndProcessor` is used when `SocketServer` is requested to <<startup, start up>>.
 
 === [[internal-properties]] Internal Properties
 

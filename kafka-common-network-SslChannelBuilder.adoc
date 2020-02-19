@@ -1,0 +1,44 @@
+== [[SslChannelBuilder]] SslChannelBuilder
+
+`SslChannelBuilder` is a `ChannelBuilder` for SSL channels on Kafka clients and brokers.
+
+`SslChannelBuilder` is a `ListenerReconfigurable`.
+
+`SslChannelBuilder` is <<creating-instance, created>> when `ChannelBuilders` utility is requested to link:kafka-common-network-ChannelBuilders.adoc#create[create a ChannelBuilder] for SSL security protocol.
+
+=== [[creating-instance]] Creating SslChannelBuilder Instance
+
+`SslChannelBuilder` takes the following to be created:
+
+* [[mode]] `Mode` (i.e. `CLIENT` or `SERVER`)
+* [[listenerName]] Listener name (only for `SERVER` channel builder)
+* [[isInterBrokerListener]] `isInterBrokerListener` flag
+
+`SslChannelBuilder` initializes the <<internal-properties, internal properties>>.
+
+=== [[buildChannel]] `buildChannel` Method
+
+[source, java]
+----
+KafkaChannel buildChannel(
+  String id,
+  SelectionKey key,
+  int maxReceiveSize,
+  MemoryPool memoryPool)
+----
+
+NOTE: `buildChannel` is part of the `ChannelBuilder` contract to build a `KafkaChannel`.
+
+`buildChannel`...FIXME
+
+=== [[configure]] `configure` Method
+
+[source, java]
+----
+void configure(
+  Map<String, ?> configs)
+----
+
+NOTE: `configure` is part of the link:kafka-common-Configurable.adoc#configure[Configurable] contract to pass configurations.
+
+`configure`...FIXME
