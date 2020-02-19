@@ -26,6 +26,9 @@
 . link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder]
 . link:kafka-common-network-ChannelBuilders.adoc[ChannelBuilders]
 
+. link:kafka-common-security-ssl-SslPrincipalMapper.adoc[SslPrincipalMapper]
+. link:kafka-common-security-ssl-SslFactory.adoc[SslFactory]
+
 === Kafka Tools (Utilities)
 
 . link:kafka-tools.adoc[Kafka Tools]

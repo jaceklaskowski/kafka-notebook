@@ -41,4 +41,24 @@ void configure(
 
 NOTE: `configure` is part of the link:kafka-common-Configurable.adoc#configure[Configurable] contract to pass configurations.
 
-`configure`...FIXME
+`configure` initializes the <<sslPrincipalMapper, sslPrincipalMapper>> internal registry (using link:kafka-common-security-ssl-SslPrincipalMapper.adoc#fromRules[SslPrincipalMapper] utility) if link:kafka-properties.adoc#ssl.principal.mapping.rules[ssl.principal.mapping.rules] configuration property is defined.
+
+`configure` creates a <<sslFactory, SslFactory>> (for the <<mode, mode>> and the <<isInterBrokerListener, isInterBrokerListener>> flag) and requests it to link:kafka-common-security-ssl-SslFactory.adoc#configure[configure] (with the given `configs`).
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| configs
+a| [[configs]] Configuration properties
+
+| sslFactory
+a| [[sslFactory]] link:kafka-common-security-ssl-SslFactory.adoc[SslFactory]
+
+| sslPrincipalMapper
+a| [[sslPrincipalMapper]] `SslPrincipalMapper`
+
+|===

@@ -349,6 +349,9 @@ a| [[SslKeystorePasswordProp]] <<kafka-properties.adoc#ssl.keystore.password, ss
 | SslKeyPasswordProp
 a| [[SslKeyPasswordProp]] <<kafka-properties.adoc#ssl.key.password, ssl.key.password>>
 
+| SslPrincipalMappingRulesProp
+a| [[SslPrincipalMappingRulesProp]] link:kafka-properties.adoc#ssl.principal.mapping.rules[ssl.principal.mapping.rules]
+
 | SslTruststoreTypeProp
 a| [[SslTruststoreTypeProp]] <<kafka-properties.adoc#ssl.truststore.type, ssl.truststore.type>>
 

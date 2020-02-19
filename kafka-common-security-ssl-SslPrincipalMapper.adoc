@@ -1,0 +1,15 @@
+== [[SslPrincipalMapper]] SslPrincipalMapper
+
+`SslPrincipalMapper` is...FIXME
+
+=== [[fromRules]] `fromRules` Utility
+
+[source, java]
+----
+SslPrincipalMapper fromRules(
+  String sslPrincipalMappingRules)
+----
+
+`fromRules`...FIXME
+
+NOTE: `fromRules` is used when `SslChannelBuilder` is requested to link:kafka-common-network-SslChannelBuilder.adoc#configure[configure].
