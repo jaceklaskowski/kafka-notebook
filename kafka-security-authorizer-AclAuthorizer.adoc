@@ -1,6 +1,6 @@
 == [[AclAuthorizer]] AclAuthorizer
 
-`AclAuthorizer` (`kafka.security.authorizer.AclAuthorizer`) is a link:kafka-server-authorizer-Authorizer.adoc[Authorizer] that uses <<zkClient, Apache ZooKeeper>> to persist ACLs.
+`AclAuthorizer` (`kafka.security.authorizer.AclAuthorizer`) is an link:kafka-server-authorizer-Authorizer.adoc[Authorizer] that uses <<zkClient, Apache ZooKeeper>> to persist ACLs.
 
 NOTE: `AclAuthorizer` is available since Apache Kafka 2.4.0 (link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-504+-+Add+new+Java+Authorizer+Interface++[KIP-504 - Add new Java Authorizer Interface]).
 
@@ -8,7 +8,7 @@ NOTE: `AclAuthorizer` is available since Apache Kafka 2.4.0 (link:++https://cwik
 
 `AclAuthorizer` may use its own dedicated ZooKeeper for ACLs per <<authorizer.zookeeper.url, authorizer.zookeeper.url>> configuration property (that could be separate from the cluster's ZooKeeper).
 
-`AclAuthorizer` uses a dedicated <<zkClient, KafkaZkClient>> to access Zookeeper.
+`AclAuthorizer` uses a dedicated <<zkClient, KafkaZkClient>> to access ZooKeeper.
 
 TIP: Refer to link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer].
 
@@ -19,29 +19,29 @@ TIP: Refer to link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: A
 | Name
 | Description
 
-| super.users
-a| [[super.users]][[SuperUsersProp]][[superUsers]] Semicolon-separated list of link:kafka-common-security-auth-KafkaPrincipal.adoc[Kafka principals] that are super users and have access to all the resources for all actions from all hosts.
-
-Default: (empty)
-
 | allow.everyone.if.no.acl.found
 a| [[allow.everyone.if.no.acl.found]][[AllowEveryoneIfNoAclIsFoundProp]][[shouldAllowEveryoneIfNoAclIsFound]] Allows all users to access <<isEmptyAclAndAuthorized, resources with no ACL>>
 
 Default: `false`
+
+| authorizer.zookeeper.connection.timeout.ms
+a| [[authorizer.zookeeper.connection.timeout.ms]][[ZkConnectionTimeOutProp]] Default: link:kafka-server-KafkaConfig.adoc#zkConnectionTimeoutMs[zkConnectionTimeoutMs]
+
+| authorizer.zookeeper.max.in.flight.requests
+a| [[authorizer.zookeeper.max.in.flight.requests]][[ZkMaxInFlightRequests]] Default: link:kafka-properties.adoc#zookeeper.max.in.flight.requests[zookeeper.max.in.flight.requests]
+
+| authorizer.zookeeper.session.timeout.ms
+a| [[authorizer.zookeeper.session.timeout.ms]][[ZkSessionTimeOutProp]] Default: link:kafka-properties.adoc#zookeeper.session.timeout.ms[zookeeper.session.timeout.ms]
 
 | authorizer.zookeeper.url
 a| [[authorizer.zookeeper.url]][[ZkUrlProp]] URL of the dedicated Zookeeper to store ACLs (that can be different from link:kafka-properties.adoc#zookeeper.connect[zookeeper.connect])
 
 Default: link:kafka-properties.adoc#zookeeper.connect[zookeeper.connect]
 
-| authorizer.zookeeper.connection.timeout.ms
-a| [[authorizer.zookeeper.connection.timeout.ms]][[ZkConnectionTimeOutProp]] Default: link:kafka-server-KafkaConfig.adoc#zkConnectionTimeoutMs[zkConnectionTimeoutMs]
+| super.users
+a| [[super.users]][[SuperUsersProp]][[superUsers]] Semicolon-separated list of link:kafka-common-security-auth-KafkaPrincipal.adoc[Kafka principals] that are super users and have access to all the resources for all actions from all hosts.
 
-| authorizer.zookeeper.session.timeout.ms
-a| [[authorizer.zookeeper.session.timeout.ms]][[ZkSessionTimeOutProp]] Default: link:kafka-properties.adoc#zookeeper.session.timeout.ms[zookeeper.session.timeout.ms]
-
-| authorizer.zookeeper.max.in.flight.requests
-a| [[authorizer.zookeeper.max.in.flight.requests]][[ZkMaxInFlightRequests]] Default: link:kafka-properties.adoc#zookeeper.max.in.flight.requests[zookeeper.max.in.flight.requests]
+Default: (empty)
 
 |===
 
@@ -97,6 +97,18 @@ image::images/AclAuthorizer-jconsole.png[align="center"]
 
 `configure` <<startZkChangeListeners, startZkChangeListeners>> and then <<loadCache, loadCache>>.
 
+=== [[start]] `start` Method
+
+[source, scala]
+----
+start(
+  serverInfo: AuthorizerServerInfo): util.Map[Endpoint, _ <: CompletionStage[Void]]
+----
+
+NOTE: `start` is part of the link:kafka-server-authorizer-Authorizer.adoc#start[Authorizer] contract to...FIXME.
+
+`start`...FIXME
+
 === [[authorize]] `authorize` Method
 
 [source, scala]
@@ -109,6 +121,44 @@ authorize(
 NOTE: `authorize` is part of the link:kafka-server-authorizer-Authorizer.adoc#authorize[Authorizer] contract to...FIXME.
 
 `authorize`...FIXME
+
+=== [[createAcls]] `createAcls` Method
+
+[source, scala]
+----
+createAcls(
+  requestContext: AuthorizableRequestContext,
+  aclBindings: util.List[AclBinding]): util.List[_ <: CompletionStage[AclCreateResult]]
+----
+
+NOTE: `createAcls` is part of the link:kafka-server-authorizer-Authorizer.adoc#createAcls[Authorizer] contract to...FIXME.
+
+`createAcls`...FIXME
+
+=== [[deleteAcls]] `deleteAcls` Method
+
+[source, scala]
+----
+deleteAcls(
+  requestContext: AuthorizableRequestContext,
+  aclBindingFilters: util.List[AclBindingFilter]): util.List[_ <: CompletionStage[AclDeleteResult]]
+----
+
+NOTE: `deleteAcls` is part of the link:kafka-server-authorizer-Authorizer.adoc#deleteAcls[Authorizer] contract to...FIXME.
+
+`deleteAcls`...FIXME
+
+=== [[acls]] `acls` Method
+
+[source, scala]
+----
+acls(
+  filter: AclBindingFilter): lang.Iterable[AclBinding]
+----
+
+NOTE: `acls` is part of the link:kafka-server-authorizer-Authorizer.adoc#acls[Authorizer] contract to...FIXME.
+
+`acls`...FIXME
 
 === [[isSuperUser]] `isSuperUser` Method
 
@@ -166,13 +216,19 @@ No acl found for resource [resource], authorized = [shouldAllowEveryoneIfNoAclIs
 zkClient: KafkaZkClient
 ----
 
-`zkClient` is a link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient] that is created when `AclAuthorizer` is requested to <<configure, configure>>.
-
-`zkClient` is requested to link:kafka-zk-KafkaZkClient.adoc#createAclPaths[createAclPaths] when `AclAuthorizer` is requested to <<configure, configure>>.
+`zkClient` is a link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient] that is created and requested to link:kafka-zk-KafkaZkClient.adoc#createAclPaths[createAclPaths] when `AclAuthorizer` is requested to <<configure, configure>>.
 
 `AclAuthorizer` uses the `KafkaZkClient` for the following:
 
-* FIXME
+* <<loadCache, loadCache>> and <<startZkChangeListeners, startZkChangeListeners>>
+
+* <<updateResourceAcls, updateResourceAcls>>
+
+* <<getAclsFromZk, getAclsFromZk>>
+
+* <<updateAclChangedFlag, updateAclChangedFlag>>
+
+`KafkaZkClient` is requested to link:kafka-zk-KafkaZkClient.adoc#close[close] when `AclAuthorizer` <<close, is>>.
 
 === [[startZkChangeListeners]] `startZkChangeListeners` Internal Method
 
@@ -195,3 +251,40 @@ loadCache(): Unit
 `loadCache`...FIXME
 
 NOTE: `loadCache` is used when `AclAuthorizer` is requested to <<configure, configure>>.
+
+=== [[updateResourceAcls]] `updateResourceAcls` Internal Method
+
+[source, scala]
+----
+updateResourceAcls(
+  resource: Resource)(
+  getNewAcls: Set[Acl] => Set[Acl]): Boolean
+----
+
+`updateResourceAcls`...FIXME
+
+NOTE: `updateResourceAcls` is used when `AclAuthorizer` is requested to <<createAcls, createAcls>> and <<deleteAcls, deleteAcls>>.
+
+==== [[updateAclChangedFlag]] `updateAclChangedFlag` Internal Method
+
+[source, scala]
+----
+updateAclChangedFlag(
+  resource: Resource): Unit
+----
+
+`updateAclChangedFlag`...FIXME
+
+NOTE: `updateAclChangedFlag` is used when `AclAuthorizer` is requested to <<updateResourceAcls, updateResourceAcls>>.
+
+=== [[getAclsFromZk]] `getAclsFromZk` Internal Method
+
+[source, scala]
+----
+getAclsFromZk(
+  resource: Resource): VersionedAcls
+----
+
+`getAclsFromZk`...FIXME
+
+NOTE: `getAclsFromZk` is used when `AclAuthorizer` is requested to...FIXME

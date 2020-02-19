@@ -651,3 +651,14 @@ createAclPaths(): Unit
 `createAclPaths`...FIXME
 
 NOTE: `createAclPaths` is used when `AclAuthorizer` is requested to link:kafka-security-authorizer-AclAuthorizer.adoc#configure[configure].
+
+=== [[close]] `close` Method
+
+[source, scala]
+----
+close(): Unit
+----
+
+NOTE: `close` is part of the Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/AutoCloseable.html[AutoCloseable] contract to close a resource (and relinquishing any underlying resources).
+
+`close`...FIXME
