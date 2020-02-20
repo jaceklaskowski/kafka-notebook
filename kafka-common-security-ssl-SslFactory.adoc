@@ -26,6 +26,8 @@ void configure(
 
 NOTE: `configure` is part of the link:kafka-common-Configurable.adoc#configure[Configurable] contract to pass configurations.
 
+`configure` initializes the <<endpointIdentification, endpoint identification algorithm>> internal registry based on link:kafka-common-config-SslConfigs.adoc#ssl.endpoint.identification.algorithm[ssl.endpoint.identification.algorithm] configuration property.
+
 `configure`...FIXME
 
 === [[createNewSslEngineBuilder]] `createNewSslEngineBuilder` Internal Method
@@ -63,3 +65,37 @@ void reconfigure(
 NOTE: `reconfigure` is part of the link:kafka-common-Reconfigurable.adoc#reconfigure[Reconfigurable] to...FIXME.
 
 `reconfigure`...FIXME
+
+=== [[createSslEngine]] `createSslEngine` Method
+
+[source, java]
+----
+SSLEngine createSslEngine(
+  String peerHost,
+  int peerPort)
+----
+
+`createSslEngine`...FIXME
+
+[NOTE]
+====
+`createSslEngine` is used when:
+
+* `SaslChannelBuilder` is requested to `buildTransportLayer`
+
+* `SslChannelBuilder` is requested to link:kafka-common-network-SslChannelBuilder.adoc#buildTransportLayer[buildTransportLayer]
+====
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| endpointIdentification
+a| [[endpointIdentification]] Name of the algorithm for endpoint identification (based on link:kafka-common-config-SslConfigs.adoc#ssl.endpoint.identification.algorithm[ssl.endpoint.identification.algorithm] configuration property)
+
+Used when `SslFactory` is requested for a <<createSslEngine, SSLEngine>>.
+
+|===

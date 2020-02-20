@@ -16,6 +16,13 @@ Default: `JKS`
 
 <<RECONFIGURABLE_CONFIGS, Reconfigurable>>
 
+| ssl.endpoint.identification.algorithm
+a| [[ssl.endpoint.identification.algorithm]][[SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG]] The endpoint identification algorithm to validate server hostname using server certificate
+
+Default: `https`
+
+<<NON_RECONFIGURABLE_CONFIGS, Non-reconfigurable>>
+
 | ssl.keystore.location
 a| [[ssl.keystore.location]][[SSL_KEYSTORE_LOCATION_CONFIG]] The location of the keystore file. Optional for client and can be used for two-way authentication for client.
 
