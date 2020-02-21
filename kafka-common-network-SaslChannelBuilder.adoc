@@ -1,6 +1,27 @@
 == [[SaslChannelBuilder]] SaslChannelBuilder
 
-`SaslChannelBuilder` is...FIXME
+`SaslChannelBuilder` is a link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder] for SSL channels on Kafka clients and brokers.
+
+`SaslChannelBuilder` is a `ListenerReconfigurable`.
+
+`SaslChannelBuilder` is <<creating-instance, created>> when `ChannelBuilders` utility is used to link:kafka-common-network-ChannelBuilders.adoc#create[create a ChannelBuilder] for `SASL_SSL` or `SASL_PLAINTEXT` security protocols.
+
+=== [[creating-instance]] Creating SaslChannelBuilder Instance
+
+`SaslChannelBuilder` takes the following to be created:
+
+* [[mode]] `Mode` (i.e. `CLIENT` or `SERVER`)
+* [[jaasContexts]] Lookup table of `JaasContexts` by name
+* [[securityProtocol]] `SecurityProtocol`
+* [[listenerName]] Listener name (only for `SERVER` channel builder)
+* [[isInterBrokerListener]] `isInterBrokerListener` flag
+* [[clientSaslMechanism]] `clientSaslMechanism` text
+* [[handshakeRequestEnable]] `handshakeRequestEnable` flag
+* [[credentialCache]] `CredentialCache`
+* [[tokenCache]] `DelegationTokenCache`
+* [[time]] `Time`
+
+`SaslChannelBuilder` initializes the <<internal-properties, internal properties>>.
 
 === [[configure]] `configure` Method
 

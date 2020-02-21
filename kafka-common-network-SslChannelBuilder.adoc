@@ -1,10 +1,10 @@
 == [[SslChannelBuilder]] SslChannelBuilder
 
-`SslChannelBuilder` is a `ChannelBuilder` for SSL channels on Kafka clients and brokers.
+`SslChannelBuilder` is a link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder] for SSL channels on Kafka clients and brokers.
 
 `SslChannelBuilder` is a `ListenerReconfigurable`.
 
-`SslChannelBuilder` is <<creating-instance, created>> when `ChannelBuilders` utility is requested to link:kafka-common-network-ChannelBuilders.adoc#create[create a ChannelBuilder] for SSL security protocol.
+`SslChannelBuilder` is <<creating-instance, created>> when `ChannelBuilders` utility is used to link:kafka-common-network-ChannelBuilders.adoc#create[create a ChannelBuilder] for SSL security protocol.
 
 === [[creating-instance]] Creating SslChannelBuilder Instance
 
