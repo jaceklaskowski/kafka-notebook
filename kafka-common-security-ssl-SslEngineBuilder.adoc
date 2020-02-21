@@ -1,5 +1,7 @@
 == [[SslEngineBuilder]] SslEngineBuilder
 
+`SslEngineBuilder` is used to <<createSslEngine, create a SSLEngine>> (for link:kafka-common-security-ssl-SslFactory.adoc[SslFactory] that adds a reconfiguration layer atop).
+
 `SslEngineBuilder` is <<creating-instance, created>> when `SslFactory` is requested to link:kafka-common-security-ssl-SslFactory.adoc#configure[configure] and link:kafka-common-security-ssl-SslFactory.adoc#reconfigure[reconfigure] (indirectly via link:kafka-common-security-ssl-SslFactory.adoc#createNewSslEngineBuilder[createNewSslEngineBuilder]).
 
 [[logging]]
@@ -49,7 +51,7 @@ SecurityStore truststore
 
 Used when...FIXME
 
-=== [[createSslEngine]] `createSslEngine` Method
+=== [[createSslEngine]] Creating SSLEngine -- `createSslEngine` Method
 
 [source, java]
 ----
@@ -60,9 +62,28 @@ SSLEngine createSslEngine(
   String endpointIdentification)
 ----
 
-`createSslEngine`...FIXME
+`createSslEngine` requests the <<sslContext, SSLContext>> to create a new Java https://docs.oracle.com/en/java/javase/11/docs/api/java.base/javax/net/ssl/SSLEngine.html[SSLEngine] (for the advisory peer information, i.e. `peerHost` and `peerPort`) that is configured using...FIXME
 
-NOTE: `createSslEngine` is used when...FIXME
+If <<cipherSuites, enabled cipher suites>> and <<enabledProtocols, enabled protocol versions>> are configured, `createSslEngine` requests the `SSLEngine` to use them.
+
+For `SERVER` mode, `createSslEngine` requests the `SSLEngine` to be in the server mode and configures it for *client authentication* based on the <<sslClientAuth, SslClientAuth>>:
+
+* `REQUIRED` for client authentication required
+
+* `REQUESTED` for client authentication requested (optional client authentication)
+
+* `NONE` for no client authentication
+
+For `CLIENT` mode, `createSslEngine` requests the `SSLEngine` to be in the client mode and sets the endpoint identification algorithm (to prevent man-in-the-middle attacks) based on the given `endpointIdentification`.
+
+[NOTE]
+====
+`createSslEngine` is used when:
+
+* `SslFactory` is requested to link:kafka-common-security-ssl-SslFactory.adoc#createSslEngine[createSslEngine]
+
+* `SslEngineValidator` is requested to `createSslEngineForValidation`
+====
 
 === [[createKeystore]] `createKeystore` Internal Utility
 
@@ -111,9 +132,16 @@ NOTE: `createSSLContext` is used when `SslEngineBuilder` is <<creating-instance,
 | Name
 | Description
 
+| cipherSuites
+a| [[cipherSuites]] Enabled cipher suites to use on a <<createSslEngine, SSLEngine>>.
+
+| enabledProtocols
+a| [[enabledProtocols]] Enabled protocol versions to use on a <<createSslEngine, SSLEngine>>.
+
+| sslClientAuth
+a| [[sslClientAuth]] Client authentication (`SslClientAuth`)
+
 | sslContext
 a| [[sslContext]] Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/javax/net/ssl/SSLContext.html[SSLContext]
-
-Used when...FIXME
 
 |===

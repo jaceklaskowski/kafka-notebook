@@ -1,6 +1,6 @@
 == [[ChannelBuilders]] ChannelBuilders Utility
 
-=== [[clientChannelBuilder]] `clientChannelBuilder` Method
+=== [[clientChannelBuilder]] Creating ChannelBuilder (for Kafka Clients and Inter-Broker Communication) -- `clientChannelBuilder` Method
 
 [source, java]
 ----
@@ -16,7 +16,20 @@ ChannelBuilder clientChannelBuilder(
 
 `clientChannelBuilder`...FIXME
 
-NOTE: `clientChannelBuilder` is used when...FIXME
+[NOTE]
+====
+`clientChannelBuilder` is used when:
+
+* `ClientUtils` utility is used to `createChannelBuilder`
+
+* `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[register a new broker]
+
+* `TransactionMarkerChannelManager` is link:kafka-TransactionMarkerChannelManager.adoc#apply[created] (for a link:kafka-TransactionCoordinator.adoc[TransactionCoordinator])
+
+* `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#controlledShutdown[controlledShutdown]
+
+* link:kafka-server-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend] is created
+====
 
 === [[serverChannelBuilder]] `serverChannelBuilder` Method
 
@@ -34,7 +47,7 @@ ChannelBuilder serverChannelBuilder(
 
 `serverChannelBuilder`...FIXME
 
-NOTE: `serverChannelBuilder` is used when `Processor` is requested for a link:kafka-network-SocketServer-Processor.adoc#selector[Selector].
+NOTE: `serverChannelBuilder` is used when link:kafka-network-SocketServer-Processor.adoc[Processor] is created (and creates a link:kafka-network-SocketServer-Processor.adoc#selector[Selector]).
 
 === [[create]] `create` Internal Utility
 

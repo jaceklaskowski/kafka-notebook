@@ -65,7 +65,8 @@ image::images/ControllerChannelManager-jconsole.png[align="center"]
 
 [source, scala]
 ----
-addNewBroker(broker: Broker): Unit
+addNewBroker(
+  broker: Broker): Unit
 ----
 
 `addNewBroker`...FIXME

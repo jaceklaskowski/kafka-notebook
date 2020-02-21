@@ -14,6 +14,19 @@
 . link:kafka-idempotent-producer.adoc[Idempotent Producer]
 . link:kafka-log.adoc[Log Management System]
 
+=== Kafka Security / Transport Layer Security (TLS) and Secure Sockets Layer (SSL)
+
+. link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder]
+.. link:kafka-common-network-SaslChannelBuilder.adoc[SaslChannelBuilder]
+.. link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder]
+. link:kafka-common-network-ChannelBuilders.adoc[ChannelBuilders]
+
+. link:kafka-common-security-ssl-SslFactory.adoc[SslFactory]
+. link:kafka-common-security-ssl-SslEngineBuilder.adoc[SslEngineBuilder]
+. link:kafka-common-security-ssl-SslPrincipalMapper.adoc[SslPrincipalMapper]
+
+. link:kafka-common-config-SslConfigs.adoc[SslConfigs]
+
 === Kafka Security / Authorization
 
 . link:kafka-security-authorization.adoc[Kafka Security / Authorization]
@@ -22,16 +35,6 @@
 .. link:kafka-security-authorizer-AuthorizerWrapper.adoc[AuthorizerWrapper]
 . link:kafka-common-security-auth-KafkaPrincipal.adoc[KafkaPrincipal]
 . link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer]
-
-. link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder]
-.. link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder]
-.. link:kafka-common-network-SaslChannelBuilder.adoc[SaslChannelBuilder]
-. link:kafka-common-network-ChannelBuilders.adoc[ChannelBuilders]
-
-. link:kafka-common-security-ssl-SslPrincipalMapper.adoc[SslPrincipalMapper]
-. link:kafka-common-security-ssl-SslFactory.adoc[SslFactory]
-. link:kafka-common-security-ssl-SslEngineBuilder.adoc[SslEngineBuilder]
-. link:kafka-common-config-SslConfigs.adoc[SslConfigs]
 
 === Kafka Tools (Utilities)
 
