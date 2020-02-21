@@ -23,7 +23,9 @@
 . link:kafka-common-security-auth-KafkaPrincipal.adoc[KafkaPrincipal]
 . link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer]
 
-. link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder]
+. link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder]
+.. link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder]
+.. link:kafka-common-network-SaslChannelBuilder.adoc[SaslChannelBuilder]
 . link:kafka-common-network-ChannelBuilders.adoc[ChannelBuilders]
 
 . link:kafka-common-security-ssl-SslPrincipalMapper.adoc[SslPrincipalMapper]

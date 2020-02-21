@@ -27,7 +27,7 @@ KafkaChannel buildChannel(
   MemoryPool memoryPool)
 ----
 
-NOTE: `buildChannel` is part of the `ChannelBuilder` contract to build a `KafkaChannel`.
+NOTE: `buildChannel` is part of the link:kafka-common-network-ChannelBuilder.adoc#buildChannel[ChannelBuilder] contract to build a `KafkaChannel`.
 
 `buildChannel`...FIXME
 

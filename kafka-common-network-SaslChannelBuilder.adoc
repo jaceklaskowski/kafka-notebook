@@ -1,0 +1,44 @@
+== [[SaslChannelBuilder]] SaslChannelBuilder
+
+`SaslChannelBuilder` is...FIXME
+
+=== [[configure]] `configure` Method
+
+[source, java]
+----
+void configure(
+  Map<String, ?> configs)
+----
+
+NOTE: `configure` is part of the link:kafka-common-Configurable.adoc#configure[Configurable] contract to pass configurations.
+
+`configure`...FIXME
+
+=== [[buildChannel]] Creating KafkaChannel -- `buildChannel` Method
+
+[source, java]
+----
+KafkaChannel buildChannel(
+  String id,
+  SelectionKey key,
+  int maxReceiveSize,
+  MemoryPool memoryPool)
+----
+
+NOTE: `buildChannel` is part of the link:kafka-common-network-ChannelBuilder.adoc#buildChannel[ChannelBuilder] contract to build a `KafkaChannel`.
+
+`buildChannel`...FIXME
+
+=== [[buildTransportLayer]] `buildTransportLayer` Method
+
+[source, java]
+----
+TransportLayer buildTransportLayer(
+  String id,
+  SelectionKey key,
+  SocketChannel socketChannel)
+----
+
+`buildTransportLayer`...FIXME
+
+NOTE: `buildTransportLayer` is used when `SaslChannelBuilder` is requested to <<buildChannel, buildChannel>>.

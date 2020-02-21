@@ -49,6 +49,21 @@ SecurityStore truststore
 
 Used when...FIXME
 
+=== [[createSslEngine]] `createSslEngine` Method
+
+[source, java]
+----
+SSLEngine createSslEngine(
+  Mode mode,
+  String peerHost,
+  int peerPort,
+  String endpointIdentification)
+----
+
+`createSslEngine`...FIXME
+
+NOTE: `createSslEngine` is used when...FIXME
+
 === [[createKeystore]] `createKeystore` Internal Utility
 
 [source, java]

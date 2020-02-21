@@ -2,7 +2,7 @@
 
 `SslFactory` is <<creating-instance, created>> when:
 
-* `SaslChannelBuilder` is requested to configure for SASL_SSL security protocol (with `none` for the <<clientAuthConfigOverride, clientAuthConfigOverride>> text)
+* `SaslChannelBuilder` is requested to link:kafka-common-network-SaslChannelBuilder.adoc#configure[configure] for SASL_SSL security protocol (with `none` for the <<clientAuthConfigOverride, clientAuthConfigOverride>> text)
 
 * `SslChannelBuilder` is requested to link:kafka-common-network-SslChannelBuilder.adoc#configure[configure] (with no <<clientAuthConfigOverride, clientAuthConfigOverride>> text)
 
@@ -29,18 +29,6 @@ NOTE: `configure` is part of the link:kafka-common-Configurable.adoc#configure[C
 `configure` initializes the <<endpointIdentification, endpoint identification algorithm>> internal registry based on link:kafka-common-config-SslConfigs.adoc#ssl.endpoint.identification.algorithm[ssl.endpoint.identification.algorithm] configuration property.
 
 `configure`...FIXME
-
-=== [[createNewSslEngineBuilder]] `createNewSslEngineBuilder` Internal Method
-
-[source, java]
-----
-SslEngineBuilder createNewSslEngineBuilder(
-  Map<String, ?> newConfigs)
-----
-
-`createNewSslEngineBuilder`...FIXME
-
-NOTE: `createNewSslEngineBuilder` is used when is requested to <<validateReconfiguration, validateReconfiguration>> and <<reconfigure, reconfigure>>.
 
 === [[validateReconfiguration]] `validateReconfiguration` Method
 
@@ -75,16 +63,27 @@ SSLEngine createSslEngine(
   int peerPort)
 ----
 
-`createSslEngine`...FIXME
+`createSslEngine` simply requests the <<sslEngineBuilder, SslEngineBuilder>> to link:kafka-common-security-ssl-SslEngineBuilder.adoc#createSslEngine[createSslEngine] for the given `peerHost` and `peerPort` (and the <<mode, mode>> and the <<endpointIdentification, endpointIdentification>>).
 
-[NOTE]
-====
-`createSslEngine` is used when:
+`createSslEngine` throws an `IllegalStateException` if the <<sslEngineBuilder, sslEngineBuilder>> hasn't been initialized yet (`null`):
 
-* `SaslChannelBuilder` is requested to `buildTransportLayer`
+```
+SslFactory has not been configured.
+```
 
-* `SslChannelBuilder` is requested to link:kafka-common-network-SslChannelBuilder.adoc#buildTransportLayer[buildTransportLayer]
-====
+NOTE: `createSslEngine` is used when link:kafka-common-network-SaslChannelBuilder.adoc#buildTransportLayer[SaslChannelBuilder] and link:kafka-common-network-SslChannelBuilder.adoc#buildTransportLayer[SslChannelBuilder] are requested to `buildTransportLayer`.
+
+=== [[createNewSslEngineBuilder]] `createNewSslEngineBuilder` Internal Method
+
+[source, java]
+----
+SslEngineBuilder createNewSslEngineBuilder(
+  Map<String, ?> newConfigs)
+----
+
+`createNewSslEngineBuilder`...FIXME
+
+NOTE: `createNewSslEngineBuilder` is used when `SslFactory` is requested to <<validateReconfiguration, validateReconfiguration>> and <<reconfigure, reconfigure>>.
 
 === [[internal-properties]] Internal Properties
 
@@ -97,5 +96,10 @@ SSLEngine createSslEngine(
 a| [[endpointIdentification]] Name of the algorithm for endpoint identification (based on link:kafka-common-config-SslConfigs.adoc#ssl.endpoint.identification.algorithm[ssl.endpoint.identification.algorithm] configuration property)
 
 Used when `SslFactory` is requested for a <<createSslEngine, SSLEngine>>.
+
+| sslEngineBuilder
+a| [[sslEngineBuilder]] link:kafka-common-security-ssl-SslEngineBuilder.adoc[SslEngineBuilder] to <<createSslEngine, create a SSLEngine>> (for link:kafka-common-network-SaslChannelBuilder.adoc[SaslChannelBuilder] and link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder])
+
+Initialized when `SslFactory` is requested to <<configure, configure>> and then later when requested to <<reconfigure, reconfigure>> (with a new configuration)
 
 |===

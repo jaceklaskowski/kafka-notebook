@@ -103,7 +103,9 @@ Generate the private key for the server.
 openssl genrsa -out server.key
 ```
 
-Create a certificate signing request.
+Create a certificate signing request (CSR).
+
+NOTE: DistinguishedName or SubjectAltNames should be the fully-qualified domain name of a broker.
 
 ```
 $ openssl req -new -key server.key -out server.csr
@@ -121,7 +123,7 @@ to be sent with your certificate request
 A challenge password []:
 ```
 
-Sign the certificate request with the root CA.
+Sign the certificate signing request with the root CA.
 
 ```
 openssl x509 \
@@ -135,13 +137,46 @@ openssl x509 \
   -out server.crt
 ```
 
-Import the CA certificate to a truststore file for Kafka brokers.
+Create a SSL keystore for the Kafka broker. Each broker gets its own unique keystore.
+
+CAUTION: FIXME How is that different from the server key `server.key` generated above?! Looks like they're similar if not the same.
+
+```
+keytool \
+  -genkey \
+  -alias server \
+  -dname CN=localhost \
+  -keystore server.keystore \
+  -keyalg RSA \
+  -validity 365 \
+  -ext SAN=DNS:localhost
+```
+
+NOTE: `-ext SAN=DNS:localhost` configures a *SubjectAlternativeName*.
+
+Use the following command to list the generated certificate in the SSL keystore.
+
+```
+keytool -list -v -keystore server.keystore
+```
+
+Export the server certificate.
+
+```
+keytool \
+  -certreq \
+  -keystore server.keystore \
+  -alias server \
+  -file server.unsigned.crt
+```
+
+Import the CA certificate to a SSL truststore for Kafka brokers. All brokers in a Kafka cluster should trust the CA used to sign certificates.
 
 ```
 $ keytool \
   -importcert \
   -keystore server.truststore \
-  -alias CARoot \
+  -alias ca \
   -file ca.crt
 
 Enter keystore password:
@@ -158,25 +193,6 @@ Subject Public Key Algorithm: 2048-bit RSA key
 Version: 1
 Trust this certificate? [no]:  yes
 Certificate was added to keystore
-```
-
-Create a keystore file for the Kafka broker. Each broker gets its own unique keystore.
-
-```
-keytool \
-  -genkey \
-  -alias server \
-  -dname CN=localhost \
-  -keystore server.keystore \
-  -keyalg RSA \
-  -validity 365 \
-  -ext SAN=DNS:localhost
-```
-
-Use the following command to list the generated certificate in the keystore.
-
-```
-keytool -list -v -keystore server.keystore
 ```
 
 === Step X. Setting Up TLS/SSL - Kafka Clients
@@ -219,7 +235,7 @@ openssl x509 \
   -out client.crt
 ```
 
-Export the Kafka broker's certificate so it can be signed by the root CA.
+Export the server certificate to be signed by the CA.
 
 ```
 keytool \
@@ -242,23 +258,23 @@ openssl x509 \
   -CAcreateserial
 ```
 
-Import the root CA into the broker's keystore.
+Import the CA certificate into the SSL keystore.
 
 ```
 keytool \
   -import \
   -keystore server.keystore \
-  -alias CARoot \
+  -alias ca \
   -file ca.crt
 ```
 
-Import the signed Kafka broker certificate into the keystore.
+Import the signed server certificate into the SSL keystore.
 
 ```
 keytool \
   -import \
   -keystore server.keystore \
-  -alias localhost \
+  -alias server \
   -file server.signed.crt
 ```
 
@@ -266,7 +282,7 @@ keytool \
 
 TIP: Use `export KAFKA_OPTS=-Djavax.net.debug=all` to debug SSL issues. Consult the source code of Java's https://github.com/AdoptOpenJDK/openjdk-jdk11u/blob/master/src/java.base/share/classes/sun/security/ssl/SSLLogger.java[SSLLogger].
 
-Configure a Kafka broker to use the keystore and truststore files.
+Configure a Kafka broker to use the SSL keystore and truststore files.
 
 Edit `config/server.properties` to include the following properties:
 
@@ -296,68 +312,78 @@ Exit out of this command using `Ctrl+C`.
 
 TIP: Use `export KAFKA_OPTS=-Djavax.net.debug=all` to debug SSL issues.
 
-Create the client keystore.
+Create the client SSL keystore.
 
 ```
 keytool \
-  -keystore client.keystore.jks \
-  -alias localhost \
+  -keystore client.keystore \
+  -alias client \
   -validity 365 \
   -keyalg RSA \
   -genkey \
-  -ext SAN=DNS:client
+  -ext SAN=DNS:localhost
 ```
 
 Export the client certificate.
 
 ```
 keytool \
-  -keystore client.keystore.jks \
-  -alias localhost \
+  -keystore client.keystore \
+  -alias client \
   -certreq \
-  -file client.unsigned.cert
+  -file client.unsigned.crt
 ```
 
-Sign the client certificate with the root CA.
+Sign the client certificate with the CA.
 
 ```
 openssl x509 \
   -req \
   -CA ca.crt \
   -CAkey ca.key \
-  -in client.unsigned.cert \
-  -out client.signed.cert \
+  -in client.unsigned.crt \
+  -out client.signed.crt \
   -days 365 \
   -CAcreateserial
 ```
 
-Add the root CA to the client keystore.
+Import the root CA to the client SSL keystore.
 
 ```
 keytool \
-  -keystore client.keystore.jks \
-  -alias CARoot \
   -import \
+  -keystore client.keystore \
+  -alias ca \
   -file ca.crt
 ```
 
-Add the signed client certificate to the keystore.
+Import the signed client certificate to the client SSL keystore.
 
 ```
 keytool \
-  -keystore client.keystore.jks \
-  -alias localhost \
   -import \
-  -file client.signed.cert
+  -keystore client.keystore \
+  -alias client \
+  -file client.signed.crt
+```
+
+Import the CA certificate to the client SSL truststore.
+
+```
+$ keytool \
+  -importcert \
+  -keystore client.truststore \
+  -alias ca \
+  -file ca.crt
 ```
 
 Create `client-ssl.properties` configuration file.
 
 ```
 security.protocol=SSL
-ssl.truststore.location=/tmp/kafka-ssl/kafka.truststore.jks
+ssl.truststore.location=/tmp/kafka-ssl/client.truststore
 ssl.truststore.password=123456
-ssl.keystore.location=/tmp/kafka-ssl/client.keystore.jks
+ssl.keystore.location=/tmp/kafka-ssl/client.keystore
 ssl.keystore.password=123456
 ssl.key.password=123456
 ssl.client.auth=required
