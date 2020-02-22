@@ -16,6 +16,9 @@
 
 === Kafka Security / Transport Layer Security (TLS) and Secure Sockets Layer (SSL)
 
+. link:kafka-security-tls-ssl.adoc[Kafka Security / Communications Security]
+.. link:kafka-demo-securing-communication-between-clients-and-brokers.adoc[Demo: Securing Communication Between Clients and Brokers Using SSL]
+
 . link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder]
 .. link:kafka-common-network-SaslChannelBuilder.adoc[SaslChannelBuilder]
 .. link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder]
@@ -30,11 +33,12 @@
 === Kafka Security / Authorization
 
 . link:kafka-security-authorization.adoc[Kafka Security / Authorization]
+.. link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer]
+
 . link:kafka-server-authorizer-Authorizer.adoc[Authorizer]
 .. link:kafka-security-authorizer-AclAuthorizer.adoc[AclAuthorizer]
 .. link:kafka-security-authorizer-AuthorizerWrapper.adoc[AuthorizerWrapper]
 . link:kafka-common-security-auth-KafkaPrincipal.adoc[KafkaPrincipal]
-. link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer]
 
 === Kafka Tools (Utilities)
 

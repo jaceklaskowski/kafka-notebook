@@ -1,0 +1,7 @@
+== Kafka Security / Communications Security
+
+*Communication Security* in Kafka is based on the following:
+
+* link:kafka-clients-CommonClientConfigs.adoc#security.protocol[security.protocol] configuration property
+
+TIP: Consult link:kafka-demo-securing-communication-between-clients-and-brokers.adoc[Demo: Securing Communication Between Clients and Brokers Using SSL].

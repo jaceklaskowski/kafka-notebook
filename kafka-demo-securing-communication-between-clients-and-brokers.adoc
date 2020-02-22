@@ -1,0 +1,275 @@
+== Demo: Securing Communication Between Clients and Brokers Using SSL
+
+The demo shows how to configure secure communication between clients and brokers using https://en.wikipedia.org/wiki/Transport_Layer_Security[Transport Layer Security (TLS)] (and its now-deprecated predecessor, Secure Sockets Layer (SSL)).
+
+NOTE: TLS is a newer variant of SSL, but because of the term `SSL` is used in many Kafka configuration properties the document will use `SSL` (over `TLS`) to refer to the protocol used for communication security.
+
+The demo is made up of the following steps:
+
+* <<step-1, Step 1. Directory of SSL Files>>
+* <<step-2, Step 2. Creating Certificate Authority (CA)>>
+* <<step-3, Step 3. Generating SSL Key and Certificate for Kafka Brokers>>
+* <<step-4, Step 4. Singing Broker Certificate (Using CA)>>
+* <<step-5, Step 5. Importing Certificates to Broker Keystore>>
+* <<step-6, Step 6. Configuring SSL on Kafka Brokers>>
+* <<step-7, Step 7. Importing CA Certificate to Client Truststore>>
+* <<step-8, Step 8. Configuring SSL for Kafka Clients>>
+
+=== [[step-1]] Step 1. Directory of SSL Files
+
+Create a directory for SSL files.
+
+```
+mkdir -p /tmp/kafka-ssl-demo
+```
+
+All the following commands are executed in the directory.
+
+```
+cd /tmp/kafka-ssl-demo
+```
+
+=== [[step-2]] Step 2. Creating Certificate Authority (CA)
+
+.https://en.wikipedia.org/wiki/Certificate_authority[Certificate authority]
+****
+In cryptography, a *certificate authority* or *certification authority (CA)* is an entity that issues digital certificates.
+
+A digital certificate certifies the ownership of a public key by the named subject of the certificate.
+
+A CA acts as a trusted third party — trusted both by the subject (owner) of the certificate and by the party relying upon the certificate. The format of these certificates is specified by the X.509 standard.
+****
+
+Simply put, a certificate authority is used to sign certificates.
+
+Generate a public-private key pair and certificate for the CA.
+
+```
+// openssl genrsa -out ca.key
+// openssl req -new -x509 -key ca.key -out ca.crt
+$ openssl req -new -x509 -keyout ca.key -out ca.crt -days 365
+Generating a 2048 bit RSA private key
+...
+writing new private key to 'ca.key'
+Enter PEM pass phrase: 1234
+Verifying - Enter PEM pass phrase: 1234
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) []:PL
+State or Province Name (full name) []:
+Locality Name (eg, city) []:
+Organization Name (eg, company) []:Japila
+Organizational Unit Name (eg, section) []:
+Common Name (eg, fully qualified host name) []:localhost
+Email Address []:
+```
+
+You should have the following two files in the directory:
+
+* `ca.key` - the private key of the CA
+
+* `ca.crt` - the CA certificate
+
+=== [[step-3]] Step 3. Generating SSL Key and Certificate for Kafka Brokers
+
+Generate the key and certificate for every Kafka broker in a cluster.
+
+```
+$ keytool \
+  -genkey \
+  -keystore server.keystore \
+  -alias localhost \
+  -dname CN=localhost \
+  -keyalg RSA \
+  -validity 365 \
+  -ext san=dns:localhost
+
+Enter keystore password: 123456
+Re-enter new password: 123456
+```
+
+[TIP]
+====
+If you want to use a Subject Alternative Name (SAN) in your certificate, add the following options to the `keytool` command line:
+
+-  Fully-qualified domain name (FQDN): `–ext san=dns:servername.domain.com`
+-  IP address: `–ext san=ip:192.168.10.1`
+====
+
+You should now have one more file in the directory:
+
+* `server.keystore`
+
+Use `keytool` to print out the content of the keystore.
+
+```
+keytool -list -v -keystore server.keystore
+```
+
+=== [[step-4]] Step 4. Singing Broker Certificate (Using CA)
+
+Export the server certificate from `server.keystore`.
+
+```
+$ keytool \
+  -certreq \
+  -keystore server.keystore \
+  -alias localhost \
+  -file server.unsigned.crt
+
+Enter keystore password: 123456
+```
+
+Sign the server certificate (`server.unsigned.crt`) with the CA.
+
+```
+$ openssl x509 \
+  -req \
+  -CA ca.crt \
+  -CAkey ca.key \
+  -in server.unsigned.crt \
+  -out server.crt \
+  -days 365 \
+  -CAcreateserial
+
+Signature ok
+subject=/CN=localhost
+Getting CA Private Key
+Enter pass phrase for ca.key: 1234
+```
+
+You should now have one more file in the directory:
+
+* `server.unsigned.crt`
+* `ca.srl`
+* `server.crt`
+
+=== [[step-5]] Step 5. Importing Certificates to Broker Keystore
+
+Import the certificate of the CA into the broker keystore.
+
+```
+$ keytool \
+  -import \
+  -file ca.crt \
+  -keystore server.keystore \
+  -alias ca
+
+Enter keystore password: 123456
+Owner: CN=localhost, O=japila, C=PL
+Issuer: CN=localhost, O=japila, C=PL
+Serial number: b72151d09f167b65
+Valid from: Sat Feb 22 13:40:32 CET 2020 until: Sun Feb 21 13:40:32 CET 2021
+Certificate fingerprints:
+	 SHA1: C0:90:06:E7:EC:93:FB:B2:6B:0F:3C:1C:66:6D:22:48:03:C6:9C:EB
+	 SHA256: A4:DC:E8:F4:B3:22:19:2D:35:FA:B7:AD:66:71:D6:51:57:B3:48:31:9A:3D:F5:1A:F1:94:52:7E:D5:88:DF:54
+Signature algorithm name: SHA256withRSA
+Subject Public Key Algorithm: 2048-bit RSA key
+Version: 1
+Trust this certificate? [no]:  yes
+Certificate was added to keystore
+```
+
+Import the signed certificate of the broker into the broker keystore.
+
+```
+$ keytool \
+  -import \
+  -file server.crt \
+  -keystore server.keystore \
+  -alias localhost
+
+Enter keystore password: 123456
+Certificate reply was installed in keystore
+```
+
+Use `keytool` to print out the certificates in the broker keystore.
+
+```
+keytool -list -v -keystore server.keystore
+```
+
+=== [[step-6]] Step 6. Configuring SSL on Kafka Brokers
+
+Create `config/server-ssl.properties` (based on `config/server.properties`) and add the following configuration properties to enable SSL:
+
+```
+listeners=PLAINTEXT://:9092,SSL://:9093
+ssl.keystore.location=/tmp/kafka-ssl-demo/server.keystore
+ssl.keystore.password=123456
+ssl.key.password=123456
+```
+
+Start the broker(s).
+
+```
+./bin/kafka-server-start.sh config/server-ssl.properties
+```
+
+TIP: Use `export KAFKA_OPTS=-Djavax.net.debug=all` to debug SSL issues.
+
+Verify the configuration with the following command.
+
+```
+openssl s_client -debug -connect localhost:9093 -tls1
+```
+
+It should print out the broker's certificate chain. At the end, you should find the following `Verify return code`:
+
+```
+Verify return code: 19 (self signed certificate in certificate chain)
+```
+
+Exit out of this command using `Ctrl+C`.
+
+=== [[step-7]] Step 7. Importing CA Certificate to Client Truststore
+
+Add the CA certificate `ca.crt` to a client truststore for the clients to trust this CA.
+
+```
+$ keytool \
+  -import \
+  -file ca.crt \
+  -keystore client.truststore \
+  -alias ca \
+
+Enter keystore password: 123456
+Re-enter new password: 123456
+Owner: CN=localhost, O=japila, C=PL
+Issuer: CN=localhost, O=japila, C=PL
+Serial number: b72151d09f167b65
+Valid from: Sat Feb 22 13:40:32 CET 2020 until: Sun Feb 21 13:40:32 CET 2021
+Certificate fingerprints:
+	 SHA1: C0:90:06:E7:EC:93:FB:B2:6B:0F:3C:1C:66:6D:22:48:03:C6:9C:EB
+	 SHA256: A4:DC:E8:F4:B3:22:19:2D:35:FA:B7:AD:66:71:D6:51:57:B3:48:31:9A:3D:F5:1A:F1:94:52:7E:D5:88:DF:54
+Signature algorithm name: SHA256withRSA
+Subject Public Key Algorithm: 2048-bit RSA key
+Version: 1
+Trust this certificate? [no]:  yes
+Certificate was added to keystore
+```
+
+=== [[step-8]] Step 8. Configuring SSL for Kafka Clients
+
+Use the following `client-ssl.properties` as a minimal configuration of a Kafka client to use SSL:
+
+```
+security.protocol=SSL
+ssl.truststore.location=/tmp/kafka-ssl-demo/client.truststore
+ssl.truststore.password=123456
+```
+
+Use `kafka-console-producer.sh` utility to send records to Kafka brokers over SSL:
+
+```
+kafka-console-producer.sh \
+  --broker-list :9093 \
+  --topic ssl \
+  --producer.config /tmp/kafka-ssl-demo/client-ssl.properties
+```

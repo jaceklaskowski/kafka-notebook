@@ -10,7 +10,7 @@ NOTE: `AclAuthorizer` is available since Apache Kafka 2.4.0 (link:++https://cwik
 
 `AclAuthorizer` uses a dedicated <<zkClient, KafkaZkClient>> to access ZooKeeper.
 
-TIP: Refer to link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer].
+TIP: Consult link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer].
 
 [[properties]]
 .AclAuthorizer's Configuration Properties

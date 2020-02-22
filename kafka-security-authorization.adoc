@@ -10,6 +10,8 @@
 
 NOTE: Apache Kafka 2.4.0 introduced link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-504+-+Add+new+Java+Authorizer+Interface++[KIP-504 - Add new Java Authorizer Interface] for authorization.
 
+TIP: Consult link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: ACL Authorization Using AclAuthorizer].
+
 === [[demo]] Demo
 
 With <<kafka-docker.adoc#, Kafka in Docker>> (and the <<kafka-docker.adoc#wurstmeister-kafka, wurstmeister/kafka>> Docker image), use the following <<docker-compose-yml, docker-compose.yml>> to use <<kafka-security-authorizer-AclAuthorizer.adoc#, AclAuthorizer>> for authorization.
