@@ -1,0 +1,21 @@
+== [[CommonClientConfigs]] CommonClientConfigs -- Common Configuration Properties for Kafka Clients
+
+`CommonClientConfigs` is the <<properties, configuration properties>> for Kafka consumers and producers.
+
+[[properties]]
+.Configuration Properties
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| security.protocol
+a| [[security.protocol]][[SECURITY_PROTOCOL_CONFIG]] Protocol for communication with brokers
+
+Valid values are: `PLAINTEXT`, `SSL`, `SASL_PLAINTEXT`, `SASL_SSL`.
+
+Default: `PLAINTEXT`
+
+Used when `ClientUtils` utility is used to `createChannelBuilder`
+
+|===
