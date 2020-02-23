@@ -2,28 +2,196 @@
 
 This demo shows how to use link:kafka-security-authorizer-AclAuthorizer.adoc[AclAuthorizer] for link:kafka-security-authorization.adoc[ACL authorization].
 
+NOTE: The demo is a follow-up to link:kafka-demo-securing-communication-between-clients-and-brokers.adoc[Demo: Securing Communication Between Clients and Brokers Using SSL]. Please finish it first before this demo.
+
 CAUTION: The demo is not finished yet.
+
+=== Step X. Generating SSL Key and Certificate for Kafka Client
+
+Generate the private key for every Kafka client.
+
+```
+// openssl genrsa -out client.key
+$ keytool \
+  -genkey \
+  -keystore client.keystore \
+  -alias jacek \
+  -dname CN=jacek \
+  -keyalg RSA \
+  -validity 365
+
+Enter keystore password: 123456
+Re-enter new password: 123456
+```
+
+You should now have one more file in the directory:
+
+* `client.keystore`
+
+Use `keytool` to print out the content of the keystore.
+
+```
+keytool -list -v -keystore client.keystore
+```
+
+Create a certificate signing request.
+
+=== Step X. Singing Client Certificate (Using CA)
+
+Export the client certificate from `client.keystore`.
+
+```
+// openssl req -new -key client.key -out client.csr
+$ keytool \
+  -certreq \
+  -keystore client.keystore \
+  -alias jacek \
+  -file client.unsigned.crt
+
+Enter keystore password: 123456
+```
+
+Sign the client certificate (`client.unsigned.crt`) with the CA.
+
+```
+$ openssl x509 \
+  -req \
+  -CA ca.crt \
+  -CAkey ca.key \
+  -in client.unsigned.crt \
+  -out client.crt \
+  -days 365 \
+  -CAcreateserial
+
+Signature ok
+subject=/CN=jacek
+Getting CA Private Key
+Enter pass phrase for ca.key: 1234
+```
+
+You should now have one more file in the directory:
+
+* `client.unsigned.crt`
+* `client.crt`
+
+=== Step X. Importing Certificates to Client Keystore
+
+Import the certificate of the CA into the client keystore.
+
+```
+$ keytool \
+  -import \
+  -file ca.crt \
+  -keystore client.keystore \
+  -alias ca
+
+Enter keystore password: 123456
+Owner: CN=localhost, O=Japila, C=PL
+Issuer: CN=localhost, O=Japila, C=PL
+Serial number: c226027d665a8c0c
+Valid from: Sat Feb 22 15:28:31 CET 2020 until: Sun Feb 21 15:28:31 CET 2021
+Certificate fingerprints:
+	 SHA1: FE:9D:09:1E:C3:05:31:29:BB:45:A6:68:B8:F5:84:67:3E:98:8E:E8
+	 SHA256: 8C:5E:55:E9:6B:77:04:E8:B0:8A:12:03:83:48:44:FE:CB:BA:AD:4B:47:D6:2E:63:22:71:4F:E8:66:59:92:FA
+Signature algorithm name: SHA256withRSA
+Subject Public Key Algorithm: 2048-bit RSA key
+Version: 1
+Trust this certificate? [no]:  yes
+Certificate was added to keystore
+```
+
+Import the signed client certificate into the client keystore.
+
+```
+$ keytool \
+  -import \
+  -file client.crt \
+  -keystore client.keystore \
+  -alias jacek
+
+Enter keystore password: 123456
+Certificate reply was installed in keystore
+```
+
+Use `keytool` to print out the certificates in the broker keystore.
+
+```
+keytool -list -v -keystore client.keystore
+```
+
+=== Step X. Importing CA Certificate to Broker Truststore
+
+Import the CA certificate to a broker truststore. All brokers in a Kafka cluster should trust the CA used to sign certificates.
+
+```
+$ keytool \
+  -importcert \
+  -keystore server.truststore \
+  -alias ca \
+  -file ca.crt
+Enter keystore password: 123456
+Re-enter new password: 123456
+Owner: CN=localhost, O=Japila, C=PL
+Issuer: CN=localhost, O=Japila, C=PL
+Serial number: c226027d665a8c0c
+Valid from: Sat Feb 22 15:28:31 CET 2020 until: Sun Feb 21 15:28:31 CET 2021
+Certificate fingerprints:
+	 SHA1: FE:9D:09:1E:C3:05:31:29:BB:45:A6:68:B8:F5:84:67:3E:98:8E:E8
+	 SHA256: 8C:5E:55:E9:6B:77:04:E8:B0:8A:12:03:83:48:44:FE:CB:BA:AD:4B:47:D6:2E:63:22:71:4F:E8:66:59:92:FA
+Signature algorithm name: SHA256withRSA
+Subject Public Key Algorithm: 2048-bit RSA key
+Version: 1
+Trust this certificate? [no]:  yes
+Certificate was added to keystore
+```
+
+=== Step X. Enable Client Authorization Using SSL
+
+Configure a Kafka broker to require client authentication.
+
+Edit `config/server-ssl.properties` to include the following properties:
+
+```
+ssl.client.auth=required
+ssl.truststore.location=/tmp/kafka-ssl-demo/server.truststore
+ssl.truststore.password=123456
+```
+
+Restart the broker.
+
+Test the Kafka configuration.
+
+```
+openssl s_client -debug -connect localhost:9093 -tls1
+```
 
 === Step X. Enable ACL Authorization
 
-Add the following to `config/server.properties`:
+Configure a Kafka broker to use ACL authorization.
+
+Edit `config/server-ssl.properties` to include the following properties:
 
 ```
 authorizer.class.name=kafka.security.authorizer.AclAuthorizer
 ```
 
-Start a Kafka broker and observe the logs. You may find the following at the very end of the startup:
+Restart the Kafka broker and observe the logs. Find the following at the very end of the startup:
 
 ```
-ERROR [KafkaApi-0] Error when handling request: clientId=0, correlationId=0, api=UPDATE_METADATA, version=6, body={controller_id=0,controller_epoch=5,broker_epoch=151,topic_states=[],live_brokers=[{id=0,endpoints=[{port=9092,host=localhost,listener=PLAINTEXT,security_protocol=0,_tagged_fields={}}],rack=null,_tagged_fields={}}],_tagged_fields={}} (kafka.server.KafkaApis)
-org.apache.kafka.common.errors.ClusterAuthorizationException: Request Request(processor=0, connectionId=127.0.0.1:9092-127.0.0.1:64483-0, session=Session(User:ANONYMOUS,/127.0.0.1), listenerName=ListenerName(PLAINTEXT), securityProtocol=PLAINTEXT, buffer=null) is not authorized.
+org.apache.kafka.common.errors.ClusterAuthorizationException: Request Request(processor=0, connectionId=127.0.0.1:9092-127.0.0.1:51718-0, session=Session(User:ANONYMOUS,/127.0.0.1), listenerName=ListenerName(PLAINTEXT), securityProtocol=PLAINTEXT, buffer=null) is not authorized.
 ```
 
 That's because `User:ANONYMOUS` user is not authorized to execute `UPDATE_METADATA` action (since by default no one is allowed to execute any action).
 
+=== Step X. Review Authorization Logs
+
+Access denials are logged at INFO level to `logs/kafka-authorizer.log`.
+
+Review `logs/kafka-authorizer.log`.
+
 === Step X. Allow Everyone If No ACL Found
 
-Add the following to `config/server.properties` and restart the broker.
+Edit `config/server-ssl.properties` to include the following properties and restart the broker.
 
 ```
 allow.everyone.if.no.acl.found=true
@@ -31,20 +199,10 @@ allow.everyone.if.no.acl.found=true
 
 === Step X. Define Super Users
 
-Add the following to `config/server.properties` and restart the broker.
+Edit `config/server-ssl.properties` to include the following properties and restart the broker.
 
 ```
-super.users=User:Bob;User:Alice
-```
-
-=== Step X. List ACLs
-
-Use link:kafka-tools-kafka-acls.adoc[kafka-acls] CLI to list the available ACLs.
-
-```
-kafka-acls.sh \
-  --bootstrap-server :9092 \
-  --list
+super.users=User:CN=jacek
 ```
 
 === Step X. Disable Creating Topics
@@ -55,44 +213,64 @@ Use link:kafka-tools-kafka-acls.adoc[kafka-acls] CLI to disable creating topics 
 kafka-acls.sh \
   --bootstrap-server :9092 \
   --add \
-  --allow-principal User:Alice \
+  --allow-principal User:Jacek \
   --operation All \
   --topic '*' \
   --cluster
 ```
 
-=== Step X. Setting Up TLS/SSL - Certificate Authority (CA)
-
-Create a directory for SSL files.
+=== Step X. Something Else
 
 ```
-mkdir -p /tmp/kafka-ssl
+ssl.client.auth=required
+
+authorizer.class.name=kafka.security.authorizer.AclAuthorizer
+allow.everyone.if.no.acl.found=true
+super.users=User:Bob;User:Alice
 ```
 
-NOTE: All the following commands are executed in `/tmp/kafka-ssl` directory.
+Restart the broker.
+
+Test the Kafka configuration.
 
 ```
-cd /tmp/kafka-ssl
+openssl s_client -debug -connect localhost:9093 -tls1
 ```
 
-Generate a private key for the CA.
+Exit out of this command using `Ctrl+C`.
+
+=== Step X. Configuring SSL Authentication for Kafka Clients
+
+Use the following `client-acl.properties` as a minimal configuration of a Kafka client to use SSL:
 
 ```
-openssl genrsa -out ca.key
+security.protocol=SSL
+ssl.truststore.location=/tmp/kafka-ssl-demo/client.truststore
+ssl.truststore.password=123456
+ssl.keystore.location=/tmp/kafka-ssl-demo/client.keystore
+ssl.keystore.password=123456
+ssl.key.password=123456
 ```
 
-Generating a self-signed root CA.
+Use `kafka-console-producer.sh` utility to send records to Kafka brokers over SSL:
 
 ```
-$ openssl req -new -x509 -key ca.key -out ca.crt
-...
-Country Name (2 letter code) []:PL
-State or Province Name (full name) []:
-Locality Name (eg, city) []:
-Organization Name (eg, company) []:Japila
-Organizational Unit Name (eg, section) []:
-Common Name (eg, fully qualified host name) []:localhost
-Email Address []:
+kafka-console-producer.sh \
+  --broker-list :9093 \
+  --topic ssl \
+  --producer.config /tmp/kafka-ssl-demo/client-acl.properties
+```
+
+TIP: Use `export KAFKA_OPTS=-Djavax.net.debug=all` to debug SSL issues. Consult the source code of Java's https://github.com/AdoptOpenJDK/openjdk-jdk11u/blob/master/src/java.base/share/classes/sun/security/ssl/SSLLogger.java[SSLLogger].
+
+=== Step X. List ACLs
+
+Use link:kafka-tools-kafka-acls.adoc[kafka-acls] CLI to list the available ACLs.
+
+```
+kafka-acls.sh \
+  --bootstrap-server :9092 \
+  --list
 ```
 
 === Step X. Setting Up TLS/SSL - Kafka Brokers
@@ -168,232 +346,4 @@ keytool \
   -keystore server.keystore \
   -alias server \
   -file server.unsigned.crt
-```
-
-Import the CA certificate to a SSL truststore for Kafka brokers. All brokers in a Kafka cluster should trust the CA used to sign certificates.
-
-```
-$ keytool \
-  -importcert \
-  -keystore server.truststore \
-  -alias ca \
-  -file ca.crt
-
-Enter keystore password:
-Re-enter new password:
-Owner: CN=localhost, O=Japila, C=PL
-Issuer: CN=localhost, O=Japila, C=PL
-Serial number: b34b3f43cda5bf56
-Valid from: Thu Feb 20 14:03:57 CET 2020 until: Sat Mar 21 14:03:57 CET 2020
-Certificate fingerprints:
-	 SHA1: A5:D4:58:E1:A5:55:F0:90:7C:E8:DD:A8:64:49:E3:61:ED:89:FD:13
-	 SHA256: 71:73:AC:40:83:EE:75:B9:C2:4A:3C:5F:E5:8D:18:A2:A6:A0:25:2D:52:B4:24:96:D9:7A:C4:80:8F:32:4C:D6
-Signature algorithm name: SHA256withRSA
-Subject Public Key Algorithm: 2048-bit RSA key
-Version: 1
-Trust this certificate? [no]:  yes
-Certificate was added to keystore
-```
-
-=== Step X. Setting Up TLS/SSL - Kafka Clients
-
-Generate the private key for the client.
-
-```
-openssl genrsa -out client.key
-```
-
-Create a certificate signing request.
-
-```
-$ openssl req -new -key client.key -out client.csr
-...
-Country Name (2 letter code) []:PL
-State or Province Name (full name) []:
-Locality Name (eg, city) []:
-Organization Name (eg, company) []:Japila
-Organizational Unit Name (eg, section) []:
-Common Name (eg, fully qualified host name) []:localhost
-Email Address []:
-
-Please enter the following 'extra' attributes
-to be sent with your certificate request
-A challenge password []:
-```
-
-Sign the certificate.
-
-```
-openssl x509 \
-  -req \
-  -in client.csr \
-  -days 3650 \
-  -sha1 \
-  -CAcreateserial \
-  -CA ca.crt \
-  -CAkey ca.key \
-  -out client.crt
-```
-
-Export the server certificate to be signed by the CA.
-
-```
-keytool \
-  -certreq \
-  -alias server \
-  -keystore server.keystore \
-  -file server.unsigned.crt
-```
-
-Sign the Kafka broker's certificate using the root CA.
-
-```
-openssl x509 \
-  -req \
-  -CA ca.crt \
-  -CAkey ca.key \
-  -in server.unsigned.crt \
-  -out server.signed.crt \
-  -days 365 \
-  -CAcreateserial
-```
-
-Import the CA certificate into the SSL keystore.
-
-```
-keytool \
-  -import \
-  -keystore server.keystore \
-  -alias ca \
-  -file ca.crt
-```
-
-Import the signed server certificate into the SSL keystore.
-
-```
-keytool \
-  -import \
-  -keystore server.keystore \
-  -alias server \
-  -file server.signed.crt
-```
-
-=== Step X. Setting Up TLS/SSL
-
-TIP: Use `export KAFKA_OPTS=-Djavax.net.debug=all` to debug SSL issues. Consult the source code of Java's https://github.com/AdoptOpenJDK/openjdk-jdk11u/blob/master/src/java.base/share/classes/sun/security/ssl/SSLLogger.java[SSLLogger].
-
-Configure a Kafka broker to use the SSL keystore and truststore files.
-
-Edit `config/server.properties` to include the following properties:
-
-```
-authorizer.class.name=kafka.security.authorizer.AclAuthorizer
-allow.everyone.if.no.acl.found=true
-super.users=User:Bob;User:Alice
-
-listeners=PLAINTEXT://:9092,SSL://:9093
-ssl.keystore.location=/tmp/kafka-ssl/kafka01.keystore.jks
-ssl.keystore.password=123456
-ssl.key.password=123456
-ssl.truststore.location=/tmp/kafka-ssl/kafka.truststore.jks
-ssl.truststore.password=123456
-ssl.client.auth=required
-```
-
-Test the Kafka configuration.
-
-```
-openssl s_client -debug -connect localhost:9093 -tls1
-```
-
-Exit out of this command using `Ctrl+C`.
-
-=== Step X. Using SSL for Client Authentication
-
-TIP: Use `export KAFKA_OPTS=-Djavax.net.debug=all` to debug SSL issues.
-
-Create the client SSL keystore.
-
-```
-keytool \
-  -keystore client.keystore \
-  -alias client \
-  -validity 365 \
-  -keyalg RSA \
-  -genkey \
-  -ext SAN=DNS:localhost
-```
-
-Export the client certificate.
-
-```
-keytool \
-  -keystore client.keystore \
-  -alias client \
-  -certreq \
-  -file client.unsigned.crt
-```
-
-Sign the client certificate with the CA.
-
-```
-openssl x509 \
-  -req \
-  -CA ca.crt \
-  -CAkey ca.key \
-  -in client.unsigned.crt \
-  -out client.signed.crt \
-  -days 365 \
-  -CAcreateserial
-```
-
-Import the root CA to the client SSL keystore.
-
-```
-keytool \
-  -import \
-  -keystore client.keystore \
-  -alias ca \
-  -file ca.crt
-```
-
-Import the signed client certificate to the client SSL keystore.
-
-```
-keytool \
-  -import \
-  -keystore client.keystore \
-  -alias client \
-  -file client.signed.crt
-```
-
-Import the CA certificate to the client SSL truststore.
-
-```
-$ keytool \
-  -importcert \
-  -keystore client.truststore \
-  -alias ca \
-  -file ca.crt
-```
-
-Create `client-ssl.properties` configuration file.
-
-```
-security.protocol=SSL
-ssl.truststore.location=/tmp/kafka-ssl/client.truststore
-ssl.truststore.password=123456
-ssl.keystore.location=/tmp/kafka-ssl/client.keystore
-ssl.keystore.password=123456
-ssl.key.password=123456
-ssl.client.auth=required
-```
-
-Use `kafka-console-producer.sh` to send a message to the Kafka broker using SSL.
-
-```
-kafka-console-producer.sh \
-  --broker-list :9093 \
-  --topic test \
-  --producer.config /tmp/kafka-ssl/client-ssl.properties
 ```

@@ -117,6 +117,7 @@ keytool -list -v -keystore server.keystore
 Export the server certificate from `server.keystore`.
 
 ```
+// openssl req -new -key server.key -out server.csr
 $ keytool \
   -certreq \
   -keystore server.keystore \
@@ -147,7 +148,6 @@ Enter pass phrase for ca.key: 1234
 You should now have one more file in the directory:
 
 * `server.unsigned.crt`
-* `ca.srl`
 * `server.crt`
 
 === [[step-5]] Step 5. Importing Certificates to Broker Keystore
@@ -176,7 +176,7 @@ Trust this certificate? [no]:  yes
 Certificate was added to keystore
 ```
 
-Import the signed certificate of the broker into the broker keystore.
+Import the signed broker certificate into the broker keystore.
 
 ```
 $ keytool \

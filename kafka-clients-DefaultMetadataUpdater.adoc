@@ -89,7 +89,7 @@ void handleCompletedMetadataResponse(
   MetadataResponse response)
 ----
 
-NOTE: `handleCompletedMetadataResponse` is a part of link:kafka-clients-MetadataUpdater.adoc#handleCompletedMetadataResponse[MetadataUpdater] contract.
+NOTE: `handleCompletedMetadataResponse` is a part of link:kafka-clients-MetadataUpdater.adoc#handleCompletedMetadataResponse[MetadataUpdater] contract to handle a link:kafka-common-requests-MetadataResponse.adoc[response] to a link:kafka-common-requests-MetadataRequest.adoc[metadata request].
 
 `handleCompletedMetadataResponse`...FIXME
 
