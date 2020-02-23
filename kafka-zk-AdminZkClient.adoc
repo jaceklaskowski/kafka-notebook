@@ -14,9 +14,13 @@
 
 * <<kafka-server-AdminManager.adoc#adminZkClient, AdminManager>>, <<kafka-server-DynamicConfigManager.adoc#adminZkClient, DynamicConfigManager>> and <<kafka-server-KafkaApis.adoc#adminZkClient, KafkaApis>> are created
 
-[[creating-instance]]
-[[zkClient]]
-`AdminZkClient` takes a single <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>> when created.
+=== [[creating-instance]] Creating AdminZkClient Instance
+
+`AdminZkClient` takes the following to be created:
+
+* [[zkClient]] link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient]
+
+`AdminZkClient` initializes the <<internal-properties, internal properties>>.
 
 === [[fetchEntityConfig]] Reading Entity Configuration From Zookeeper (Under /config Node) -- `fetchEntityConfig` Method
 

@@ -58,6 +58,8 @@
 .. link:kafka-admin-ConsumerGroupCommand.adoc[ConsumerGroupCommand]
 .. link:kafka-admin-ConsumerGroupService.adoc[ConsumerGroupService]
 
+. link:kafka-admin-BrokerApiVersionsCommand.adoc[BrokerApiVersionsCommand]
+
 . link:kafka-tools-JmxTool.adoc[JmxTool]
 . link:kafka-tools-GetOffsetShell.adoc[GetOffsetShell]
 
@@ -136,7 +138,7 @@
 
 ==== Internals of Kafka Producer
 
-. link:kafka-producer-internals-Sender.adoc[Sender -- Kafka Producer I/O Thread]
+. link:kafka-producer-internals-Sender.adoc[Sender]
 . link:kafka-producer-internals-RecordAccumulator.adoc[RecordAccumulator]
 .. link:kafka-producer-internals-ProducerBatch.adoc[ProducerBatch]
 . link:kafka-producer-internals-ProducerInterceptors.adoc[ProducerInterceptors]

@@ -1,44 +1,30 @@
 == [[DefaultMetadataUpdater]] DefaultMetadataUpdater
 
-`DefaultMetadataUpdater` is a <<kafka-clients-MetadataUpdater.adoc#, MetadataUpdater>> that `NetworkClient` uses to...FIXME
-
-[[creating-instance]]
-[[metadata]]
-`DefaultMetadataUpdater` takes a single <<kafka-clients-Metadata.adoc#, Metadata>> when created.
+`DefaultMetadataUpdater` is a link:kafka-clients-MetadataUpdater.adoc[MetadataUpdater] that `NetworkClient` uses to...FIXME
 
 `DefaultMetadataUpdater` is <<creating-instance, created>> exclusively for a <<kafka-clients-NetworkClient.adoc#metadataUpdater, NetworkClient>>.
-
-[[internal-registries]]
-.DefaultMetadataUpdater's Internal Properties (e.g. Registries and Counters)
-[cols="1m,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| metadataFetchInProgress
-a| [[metadataFetchInProgress]] Flag to control whether a cluster metadata update is in progress, i.e. FIXME
-
-* Disabled when `DefaultMetadataUpdater` is <<creating-instance, created>>
-
-* Turned on exclusively when `DefaultMetadataUpdater` does <<maybeUpdate-long-node, maybeUpdate>> (with a timestamp and a broker node)
-
-* Turned off when `DefaultMetadataUpdater` handles <<handleCompletedMetadataResponse, completed metadata response>>, <<handleDisconnection, disconnection>> or <<handleAuthenticationFailure, authentication failure>>
-
-|===
 
 [[logging]]
 [TIP]
 ====
-Enable `WARN`, `DEBUG` or `TRACE` logging levels for `org.apache.kafka.clients.NetworkClient` logger to see what happens inside.
+Enable `ALL` logging level for `org.apache.kafka.clients.NetworkClient` logger to see what happens inside.
 
 Add the following line to `log4j.properties`:
 
 ```
-log4j.logger.org.apache.kafka.clients.NetworkClient=DEBUG
+log4j.logger.org.apache.kafka.clients.NetworkClient=ALL
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
 ====
+
+=== [[creating-instance]] Creating DefaultMetadataUpdater Instance
+
+`DefaultMetadataUpdater` takes the following to be created:
+
+* [[metadata]] link:kafka-clients-Metadata.adoc[Metadata]
+
+`DefaultMetadataUpdater` initializes the <<internal-properties, internal properties>>.
 
 === [[isUpdateDue]] `isUpdateDue` Method
 
@@ -97,37 +83,49 @@ NOTE: `handleAuthenticationFailure` is a part of link:kafka-clients-MetadataUpda
 
 [source, java]
 ----
-void handleCompletedMetadataResponse(RequestHeader requestHeader, long now, MetadataResponse response)
+void handleCompletedMetadataResponse(
+  RequestHeader requestHeader,
+  long now,
+  MetadataResponse response)
 ----
 
-NOTE: `handleCompletedMetadataResponse` is a part of link:kafka-clients-MetadataUpdater.adoc#handleCompletedMetadataResponse[MetadataUpdater Contract].
+NOTE: `handleCompletedMetadataResponse` is a part of link:kafka-clients-MetadataUpdater.adoc#handleCompletedMetadataResponse[MetadataUpdater] contract.
 
-`handleCompletedMetadataResponse` turns <<metadataFetchInProgress, metadataFetchInProgress>> flag off.
+`handleCompletedMetadataResponse`...FIXME
 
-`handleCompletedMetadataResponse` takes the link:kafka-common-requests-MetadataResponse.adoc#cluster[cluster] from the `response`.
+=== [[handleDisconnection]] `handleDisconnection` Callback Method
 
-`handleCompletedMetadataResponse` requests <<metadata, Metadata>> to link:kafka-clients-Metadata.adoc#update[update] (with the cluster and unavailable topics) when there is at least one node in the cluster.
+[source, java]
+----
+void handleDisconnection(
+  String destination)
+----
 
-When there are no nodes in the cluster, `handleCompletedMetadataResponse` prints out the following TRACE message to the logs and requests <<metadata, Metadata>> to link:kafka-clients-Metadata.adoc#failedUpdate[record a failure] (with no exception).
+NOTE: `handleDisconnection` is a part of link:kafka-clients-MetadataUpdater.adoc#handleDisconnection[MetadataUpdater] contract.
 
-```
-Ignoring empty metadata response with correlation id [correlationId].
-```
+`handleDisconnection`...FIXME
 
-In case `response` has errors, `handleCompletedMetadataResponse` prints out the following WARN message to the logs:
+=== [[handleFatalException]] `handleFatalException` Callback Method
 
-```
-Error while fetching metadata with correlation id [correlationId] : [errors]"
-```
+[source, java]
+----
+void handleFatalException(
+  KafkaException fatalException)
+----
+
+NOTE: `handleFatalException` is a part of link:kafka-clients-MetadataUpdater.adoc#handleFatalException[MetadataUpdater] contract.
+
+`handleFatalException`...FIXME
 
 === [[maybeUpdate]] `maybeUpdate` Method
 
 [source, java]
 ----
-long maybeUpdate(long now)
+long maybeUpdate(
+  long now)
 ----
 
-NOTE: `maybeUpdate` is part of the <<kafka-clients-MetadataUpdater.adoc#maybeUpdate, MetadataUpdater Contract>> to...FIXME.
+NOTE: `maybeUpdate` is part of the link:kafka-clients-MetadataUpdater.adoc#maybeUpdate[MetadataUpdater] contract to...FIXME.
 
 `maybeUpdate`...FIXME
 
@@ -135,12 +133,14 @@ NOTE: `maybeUpdate` is part of the <<kafka-clients-MetadataUpdater.adoc#maybeUpd
 
 [source, java]
 ----
-long maybeUpdate(long now, Node node)
+long maybeUpdate(
+  long now,
+  Node node)
 ----
 
 `maybeUpdate`...FIXME
 
-NOTE: `maybeUpdate` is used exclusively when `DefaultMetadataUpdater` is requested to <<kafka-clients-DefaultMetadataUpdater.adoc#maybeUpdate, maybeUpdate>>.
+NOTE: `maybeUpdate` is used when `DefaultMetadataUpdater` is requested to <<maybeUpdate, maybeUpdate>>.
 
 === [[requestUpdate]] Scheduling Update Of Cluster Metadata -- `requestUpdate` Method
 
@@ -152,3 +152,49 @@ void requestUpdate()
 NOTE: `requestUpdate` is part of the <<kafka-clients-MetadataUpdater.adoc#requestUpdate, MetadataUpdater Contract>> to schedule an update of the current cluster metadata.
 
 `requestUpdate` simply requests the <<metadata, Metadata>> for a <<kafka-clients-Metadata.adoc#requestUpdate, metadata update>>.
+
+=== [[hasFetchInProgress]] `hasFetchInProgress` Internal Method
+
+[source, java]
+----
+boolean hasFetchInProgress()
+----
+
+`hasFetchInProgress`...FIXME
+
+NOTE: `hasFetchInProgress` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| inProgressRequestVersion
+a| [[inProgressRequestVersion]] Defined if there is a request in progress, `null` otherwise.
+
+Used in <<hasFetchInProgress, hasFetchInProgress>> and <<handleCompletedMetadataResponse, handleCompletedMetadataResponse>>
+
+Initialized to be `null` when `DefaultMetadataUpdater` is <<creating-instance, created>>
+
+Set to the link:kafka-clients-Metadata.adoc#requestVersion[requestVersion] of the <<metadata, Metadata>> when `DefaultMetadataUpdater` is requested to <<maybeUpdate, maybeUpdate>>
+
+Reset to `null` when `DefaultMetadataUpdater` is requested to:
+
+* <<handleDisconnection, handleDisconnection>>
+
+* <<handleFatalException, handleFatalException>>
+
+* <<handleCompletedMetadataResponse, handleCompletedMetadataResponse>>
+
+| metadataFetchInProgress
+a| [[metadataFetchInProgress]] Flag to control whether a cluster metadata update is in progress, i.e. FIXME
+
+* Disabled when `DefaultMetadataUpdater` is <<creating-instance, created>>
+
+* Turned on exclusively when `DefaultMetadataUpdater` does <<maybeUpdate-long-node, maybeUpdate>> (with a timestamp and a broker node)
+
+* Turned off when `DefaultMetadataUpdater` handles <<handleCompletedMetadataResponse, completed metadata response>>, <<handleDisconnection, disconnection>> or <<handleAuthenticationFailure, authentication failure>>
+
+|===

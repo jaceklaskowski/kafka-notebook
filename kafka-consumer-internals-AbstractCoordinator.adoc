@@ -180,7 +180,8 @@ NOTE: `AbstractCoordinator` is a Java abstract class and cannot be <<creating-in
 
 [source, java]
 ----
-boolean joinGroupIfNeeded(final Timer timer)
+boolean joinGroupIfNeeded(
+  Timer timer)
 ----
 
 `joinGroupIfNeeded`...FIXME
@@ -267,7 +268,8 @@ No broker available to send FindCoordinator request
 
 [source, java]
 ----
-boolean ensureCoordinatorReady(final Timer timer)
+boolean ensureCoordinatorReady(
+  Timer timer)
 ----
 
 `ensureCoordinatorReady`...FIXME

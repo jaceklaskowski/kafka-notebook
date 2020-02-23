@@ -226,7 +226,8 @@ image::images/KafkaConsumer-subscribe.png[align="center"]
 
 [source, java]
 ----
-ConsumerRecords<K, V> poll(final Duration timeout)
+ConsumerRecords<K, V> poll(
+  Duration timeout)
 ----
 
 NOTE: `poll` is part of the <<kafka-consumer-Consumer.adoc#poll, Consumer Contract>> to poll for <<kafka-consumer-ConsumerRecord.adoc#, ConsumerRecords>>.
@@ -534,7 +535,8 @@ NOTE: `updateAssignmentMetadataIfNeeded` is used exclusively when `KafkaConsumer
 
 [source, java]
 ----
-Map<TopicPartition, List<ConsumerRecord<K, V>>> pollForFetches(Timer timer)
+Map<TopicPartition, List<ConsumerRecord<K, V>>> pollForFetches(
+  Timer timer)
 ----
 
 `pollForFetches`...FIXME
@@ -583,6 +585,21 @@ void close(Duration timeout)
 NOTE: `close` is part of the <<kafka-consumer-Consumer.adoc#close, Consumer Contract>> to...FIXME.
 
 `close`...FIXME
+
+=== [[position]] `position` Method
+
+[source, java]
+----
+long position(
+  TopicPartition partition)
+long position(
+  TopicPartition partition,
+  Duration timeout)
+----
+
+NOTE: `position` is part of the link:kafka-consumer-Consumer.adoc#position[Consumer] contract.
+
+`position`...FIXME
 
 ==== [[close-private]] `close` Internal Method
 

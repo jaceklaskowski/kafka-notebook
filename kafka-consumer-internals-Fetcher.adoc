@@ -132,3 +132,17 @@ RequestFuture<ListOffsetResult> sendListOffsetRequest(
 `sendListOffsetRequest`...FIXME
 
 NOTE: `sendListOffsetRequest` is used when...FIXME
+
+=== [[fetchOffsetsByTimes]] `fetchOffsetsByTimes` Internal Method
+
+[source, java]
+----
+ListOffsetResult fetchOffsetsByTimes(
+  Map<TopicPartition, Long> timestampsToSearch,
+  Timer timer,
+  boolean requireTimestamps)
+----
+
+`fetchOffsetsByTimes`...FIXME
+
+NOTE: `fetchOffsetsByTimes` is used when...FIXME

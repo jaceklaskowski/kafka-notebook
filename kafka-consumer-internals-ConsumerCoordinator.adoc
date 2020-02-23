@@ -375,7 +375,8 @@ NOTE: `addMetadataListener` is used exclusively when `ConsumerCoordinator` is <<
 
 [source, java]
 ----
-Map<TopicPartition, OffsetAndMetadata> fetchCommittedOffsets(Set<TopicPartition> partitions)
+Map<TopicPartition, OffsetAndMetadata> fetchCommittedOffsets(
+  Set<TopicPartition> partitions)
 ----
 
 `fetchCommittedOffsets`...FIXME

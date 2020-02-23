@@ -166,20 +166,22 @@ a| [[poll]]
 
 [source, java]
 ----
-List<ClientResponse> poll(long timeout, long now)
+List<ClientResponse> poll(
+  long timeout,
+  long now)
 ----
 
 Used when:
 
-* `InterBrokerSendThread` is requested to <<kafka-InterBrokerSendThread.adoc#doWork, doWork>>
+* `InterBrokerSendThread` thread is link:kafka-InterBrokerSendThread.adoc#doWork[started]
 
-* `NetworkClientUtils` is requested to <<kafka-clients-NetworkClientUtils.adoc#isReady, isReady>>, <<kafka-clients-NetworkClientUtils.adoc#awaitReady, awaitReady>> and <<kafka-clients-NetworkClientUtils.adoc#sendAndReceive, sendAndReceive>>
+* `NetworkClientUtils` utility is used to link:kafka-clients-NetworkClientUtils.adoc#isReady[isReady], link:kafka-clients-NetworkClientUtils.adoc#awaitReady[awaitReady] and link:kafka-clients-NetworkClientUtils.adoc#sendAndReceive[sendAndReceive]
 
-* `AdminClientRunnable` is requested to run
+* `AdminClientRunnable` thread is link:kafka-clients-admin-KafkaAdminClient-AdminClientRunnable.adoc#run[started]
 
-* `ConsumerNetworkClient` is requested to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#poll, poll>>
+* `ConsumerNetworkClient` is requested to link:kafka-consumer-internals-ConsumerNetworkClient.adoc#poll[poll] and link:kafka-consumer-internals-ConsumerNetworkClient.adoc#transmitSends[transmitSends]
 
-* `Sender` is requested to <<kafka-producer-internals-Sender.adoc#run, start>> (as a thread of execution)
+* `Sender` thread is link:kafka-producer-internals-Sender.adoc#run[started] (and link:kafka-producer-internals-Sender.adoc#runOnce[runOnce] and link:kafka-producer-internals-Sender.adoc#maybeSendAndPollTransactionalRequest[maybeSendAndPollTransactionalRequest])
 
 | pollDelayMs
 a| [[pollDelayMs]]

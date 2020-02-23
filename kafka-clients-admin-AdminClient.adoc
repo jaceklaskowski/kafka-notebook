@@ -1,6 +1,6 @@
 == [[AdminClient]] AdminClient
 
-`AdminClient` is an extension of the <<kafka-clients-admin-Admin.adoc#, Admin contract>> to <<create, create AdminClients>>.
+`AdminClient` is an extension of the link:kafka-clients-admin-Admin.adoc[Admin] contract to <<create, create AdminClients>>.
 
 [[implementations]]
 NOTE: <<kafka-clients-admin-KafkaAdminClient.adoc#, KafkaAdminClient>> is the default and only known implementation of the <<contract, AdminClient Contract>> in Apache Kafka.

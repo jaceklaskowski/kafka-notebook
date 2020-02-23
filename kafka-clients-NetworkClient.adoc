@@ -143,10 +143,12 @@ NOTE: `wakeup` is used when...FIXME
 
 [source, java]
 ----
-List<ClientResponse> poll(long timeout, long now)
+List<ClientResponse> poll(
+  long timeout,
+  long now)
 ----
 
-NOTE: `poll` is a part of <<kafka-clients-KafkaClient.adoc#poll, KafkaClient Contract>>.
+NOTE: `poll` is a part of link:kafka-clients-KafkaClient.adoc#poll[KafkaClient] contract.
 
 `poll` requests the <<metadataUpdater, MetadataUpdater>> for link:kafka-clients-MetadataUpdater.adoc#maybeUpdate[cluster metadata update (if needed and possible)].
 

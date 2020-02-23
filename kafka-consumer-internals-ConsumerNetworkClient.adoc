@@ -4,29 +4,15 @@
 
 `ConsumerNetworkClient` is <<creating-instance, created>> for link:kafka-consumer-KafkaConsumer.adoc#client[KafkaConsumer] and link:kafka-clients-admin-AdminClient.adoc[AdminClient].
 
-[[internal-registries]]
-.ConsumerNetworkClient's Internal Properties (e.g. Registries and Counters)
-[cols="1m,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| pendingCompletion
-| [[pendingCompletion]]
-
-| unsent
-| [[unsent]] `UnsentRequests` with pending requests per node that have not been sent yet (i.e. awaiting transmission).
-|===
-
 [[logging]]
 [TIP]
 ====
-Enable `DEBUG` logging level for `org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient` logger to see what happens inside.
+Enable `ALL` logging level for `org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient` logger to see what happens inside.
 
 Add the following line to `log4j.properties`:
 
 ```
-log4j.logger.org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient=DEBUG
+log4j.logger.org.apache.kafka.clients.consumer.internals.ConsumerNetworkClient=ALL
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
@@ -120,18 +106,44 @@ Node leastLoadedNode()
 
 [source, java]
 ----
-void poll(RequestFuture<?> future)
-boolean poll(RequestFuture<?> future, Timer timer)
-void poll(Timer timer)
-void poll(Timer timer, PollCondition pollCondition)
-void poll(Timer timer, PollCondition pollCondition, boolean disableWakeup)
+void poll(
+  RequestFuture<?> future) // <1>
+boolean poll(
+  RequestFuture<?> future,
+  Timer timer)
+void poll(
+  Timer timer) // <2>
+void poll(
+  Timer timer,
+  PollCondition pollCondition) // <3>
+void poll(
+  Timer timer,
+  PollCondition pollCondition,
+  boolean disableWakeup)
 ----
+<1> Used in tests (and uses a maximum timeout)
+<2> Uses uninitialized `PollCondition` (`null`)
+<3> Turns `disableWakeup` off (`false`)
 
 `poll`...FIXME
 
 [NOTE]
 ====
-`poll` is used when...FIXME
+`poll` is used when:
+
+* `AbstractCoordinator` is requested to link:kafka-consumer-internals-AbstractCoordinator.adoc#ensureCoordinatorReady[ensureCoordinatorReady] and link:kafka-consumer-internals-AbstractCoordinator.adoc#joinGroupIfNeeded[joinGroupIfNeeded]
+
+* `ConsumerNetworkClient` is requested to <<pollNoWakeup, pollNoWakeup>>, <<awaitMetadataUpdate, awaitMetadataUpdate>>, and <<awaitPendingRequests, awaitPendingRequests>>
+
+* `Fetcher` is requested to link:kafka-consumer-internals-Fetcher.adoc#getTopicMetadata[getTopicMetadata] and link:kafka-consumer-internals-Fetcher.adoc#fetchOffsetsByTimes[fetchOffsetsByTimes]
+
+* `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#pollForFetches[pollForFetches] and link:kafka-consumer-KafkaConsumer.adoc#position[position]
+
+* `ConsumerCoordinator` is requested to link:kafka-consumer-internals-ConsumerCoordinator.adoc#close[close], link:kafka-consumer-internals-ConsumerCoordinator.adoc#fetchCommittedOffsets[fetchCommittedOffsets] and link:kafka-consumer-internals-ConsumerCoordinator.adoc#commitOffsetsSync[commitOffsetsSync]
+
+* `BrokerApiVersionsCommand` tool is executed (and creates a link:kafka-clients-admin-AdminClient.adoc#networkThread[AdminClient])
+
+* Kafka Connect's `WorkerCoordinator` is requested to `poll`
 ====
 
 === [[awaitMetadataUpdate]] Waiting for Metadata Update -- `awaitMetadataUpdate` Method
@@ -234,3 +246,29 @@ void maybeTriggerWakeup()
 `maybeTriggerWakeup`...FIXME
 
 NOTE: `maybeTriggerWakeup` is used when...FIXME
+
+=== [[transmitSends]] `transmitSends` Method
+
+[source, java]
+----
+void transmitSends()
+----
+
+`transmitSends`...FIXME
+
+NOTE: `transmitSends` is used when `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#poll[poll].
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| pendingCompletion
+a| [[pendingCompletion]]
+
+| unsent
+a| [[unsent]] `UnsentRequests` with pending requests per node that have not been sent yet (i.e. awaiting transmission).
+
+|===
