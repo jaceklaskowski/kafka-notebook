@@ -162,7 +162,9 @@ In case <<abortedSends, abortedSends>> is not empty, `poll` creates a collection
 
 [source, java]
 ----
-void handleCompletedReceives(List<ClientResponse> responses, long now)
+void handleCompletedReceives(
+  List<ClientResponse> responses,
+  long now)
 ----
 
 `handleCompletedReceives`...FIXME

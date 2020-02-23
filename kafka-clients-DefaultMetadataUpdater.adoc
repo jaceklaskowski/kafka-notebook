@@ -164,6 +164,17 @@ boolean hasFetchInProgress()
 
 NOTE: `hasFetchInProgress` is used when...FIXME
 
+=== [[isAnyNodeConnecting]] `isAnyNodeConnecting` Internal Method
+
+[source, java]
+----
+boolean isAnyNodeConnecting()
+----
+
+`isAnyNodeConnecting`...FIXME
+
+NOTE: `isAnyNodeConnecting` is used when...FIXME
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
