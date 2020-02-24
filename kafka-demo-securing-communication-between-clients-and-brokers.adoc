@@ -1,6 +1,6 @@
 == Demo: Securing Communication Between Clients and Brokers Using SSL
 
-The demo shows how to configure secure communication between clients and brokers using https://en.wikipedia.org/wiki/Transport_Layer_Security[Transport Layer Security (TLS)] (and its now-deprecated predecessor, Secure Sockets Layer (SSL)).
+The demo shows how to configure secure communication between Kafka clients and brokers using https://en.wikipedia.org/wiki/Transport_Layer_Security[Transport Layer Security (TLS)] (and its now-deprecated predecessor, Secure Sockets Layer (SSL)).
 
 NOTE: TLS is a newer variant of SSL, but because of the term `SSL` is used in many Kafka configuration properties the document will use `SSL` (over `TLS`) to refer to the protocol used for communication security.
 
@@ -81,6 +81,7 @@ You should have the following two files in the directory:
 Generate the key and certificate for every Kafka broker in a cluster.
 
 ```
+// openssl genrsa -out server.key
 $ keytool \
   -genkey \
   -keystore server.keystore \
@@ -100,6 +101,8 @@ If you want to use a Subject Alternative Name (SAN) in your certificate, add the
 
 -  Fully-qualified domain name (FQDN): `–ext san=dns:servername.domain.com`
 -  IP address: `–ext san=ip:192.168.10.1`
+
+*DistinguishedName* or *SubjectAltNames* should be the fully-qualified domain name of a broker.
 ====
 
 You should now have one more file in the directory:
@@ -114,6 +117,8 @@ keytool -list -v -keystore server.keystore
 
 === [[step-4]] Step 4. Singing Broker Certificate (Using CA)
 
+Create a certificate signing request (CSR).
+
 Export the server certificate from `server.keystore`.
 
 ```
@@ -127,7 +132,7 @@ $ keytool \
 Enter keystore password: 123456
 ```
 
-Sign the server certificate (`server.unsigned.crt`) with the CA.
+Sign the certificate signing request with the root CA.
 
 ```
 $ openssl x509 \
@@ -151,6 +156,8 @@ You should now have one more file in the directory:
 * `server.crt`
 
 === [[step-5]] Step 5. Importing Certificates to Broker Keystore
+
+Create a SSL keystore for the Kafka broker. Each broker gets its own unique keystore.
 
 Import the certificate of the CA into the broker keystore.
 
