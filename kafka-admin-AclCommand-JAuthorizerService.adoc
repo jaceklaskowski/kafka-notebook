@@ -1,0 +1,50 @@
+== [[JAuthorizerService]] JAuthorizerService
+
+`JAuthorizerService` is...FIXME
+
+=== [[addAcls]] Adding ACLs for Resource -- `addAcls` Method
+
+[source, scala]
+----
+addAcls(): Unit
+----
+
+NOTE: `addAcls` is part of the link:kafka-admin-AclCommandService.adoc#addAcls[AclCommandService] contract to add ACLs for a resource.
+
+`addAcls`...FIXME
+
+=== [[removeAcls]] Removing ACLs for Given Filters -- `removeAcls` Method
+
+[source, scala]
+----
+removeAcls(): Unit
+----
+
+NOTE: `removeAcls` is part of the link:kafka-admin-AclCommandService.adoc#removeAcls[AclCommandService] contract to remove ACLs for the provided filters.
+
+`removeAcls`...FIXME
+
+==== [[removeAcls-internal]] `removeAcls` Internal Method
+
+[source, scala]
+----
+removeAcls(
+  authorizer: JAuthorizer,
+  acls: Set[AccessControlEntry],
+  filter: ResourcePatternFilter): Unit
+----
+
+`removeAcls`...FIXME
+
+NOTE: `removeAcls` is used when...FIXME
+
+=== [[getAcls]] Listing ACLs for Given Filter -- `getAcls` Method
+
+[source, scala]
+----
+getAcls(): Unit
+----
+
+NOTE: `getAcls` is part of the link:kafka-admin-AclCommandService.adoc#getAcls[AclCommandService] contract to list ACLs for the provided filter.
+
+`getAcls`...FIXME

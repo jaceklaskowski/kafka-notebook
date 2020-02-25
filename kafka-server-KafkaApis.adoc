@@ -361,7 +361,7 @@ handleCreateAcls(
 
 `handleCreateAcls`...FIXME
 
-NOTE: `handleCreateAcls` is used exclusively when `KafkaApis` is requested to handle a <<CreateAcls, CreateAcls>> request.
+NOTE: `handleCreateAcls` is used when `KafkaApis` is requested to handle a <<CreateAcls, CreateAcls>> request.
 
 === [[handleTopicMetadataRequest]] Handling Metadata Request -- `handleTopicMetadataRequest` Handler
 

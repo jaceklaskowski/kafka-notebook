@@ -444,6 +444,25 @@ Used when:
 
 |===
 
+=== [[authorizer]] `authorizer` Method
+
+[source, scala]
+----
+authorizer: Option[Authorizer]
+----
+
+`authorizer` takes the value of <<AuthorizerClassNameProp, KafkaConfig.AuthorizerClassNameProp>> property.
+
+If defined, `authorizer` creates an instance and returns it as an link:kafka-server-authorizer-Authorizer.adoc[Authorizer] (or a link:kafka-security-authorizer-AuthorizerWrapper.adoc[AuthorizerWrapper] for the deprecated `kafka.security.auth.Authorizer` API). Otherwise, `authorizer` returns `None`.
+
+`authorizer` throws a `ConfigException` for unsupported `Authorizer` API:
+
+```
+Authorizer does not implement org.apache.kafka.server.authorizer.Authorizer or kafka.security.auth.Authorizer .
+```
+
+NOTE: `authorizer` is used when `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#startup[start up].
+
 === [[listeners-method]] `listeners` Method
 
 [source, scala]

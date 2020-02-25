@@ -48,6 +48,7 @@
 
 . link:kafka-tools-kafka-acls.adoc[kafka-acls.sh]
 .. link:kafka-admin-AclCommand.adoc[AclCommand]
+... link:kafka-admin-AclCommand-JAuthorizerService.adoc[JAuthorizerService]
 .. link:kafka-admin-AclCommandService.adoc[AclCommandService]
 .. link:kafka-admin-AdminClientService.adoc[AdminClientService]
 
