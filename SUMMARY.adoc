@@ -34,6 +34,7 @@
 
 . link:kafka-security-ssl-authentication-and-authorization.adoc[SSL Authentication and Authorization]
 .. link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: Securing Kafka with ACL Authorization]
+.. link:kafka-demo-using-acl-authorization-for-restricting-sending-messages.adoc[Demo: Using ACL Authorization for Restricting Sending Messages]
 
 . link:kafka-server-authorizer-Authorizer.adoc[Authorizer]
 .. link:kafka-security-authorizer-AclAuthorizer.adoc[AclAuthorizer]

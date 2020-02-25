@@ -418,7 +418,7 @@ authorize(
   refCount: Int = 1): Boolean
 ----
 
-`authorize` simply requests the <<authorizer, Authorizer>> to <<kafka-server-authorizer-Authorizer.adoc#authorize, authorize>> the given `AclOperation` on a broker resource (described by the `ResourceType` and `resourceName`).
+`authorize` simply requests the <<authorizer, Authorizer>> (when defined) to <<kafka-server-authorizer-Authorizer.adoc#authorize, authorize>> the given `AclOperation` on a broker resource (described by the `ResourceType` and `resourceName`).
 
 `authorize` is positive (`true`) when the `Authorizer` returned `ALLOWED`.
 
@@ -1249,7 +1249,8 @@ NOTE: `handleAddOffsetsToTxnRequest` is used exclusively when `KafkaApis` is req
 
 [source, scala]
 ----
-handleProduceRequest(request: RequestChannel.Request): Unit
+handleProduceRequest(
+  request: RequestChannel.Request): Unit
 ----
 
 In summary, `handleProduceRequest` takes the <<kafka-common-requests-ProduceRequest.adoc#, ProduceRequest>> from the body (of the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>) and requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#appendRecords, appendRecords>> (with `isFromClient` flag enabled).
@@ -1258,7 +1259,12 @@ NOTE: `internalTopicsAllowed` flag (when the <<replicaManager, ReplicaManager>> 
 
 `handleProduceRequest`...FIXME
 
-NOTE: `handleProduceRequest` is used exclusively when `KafkaApis` is requested to handle a <<Produce, Produce>> request.
+[[handleProduceRequest-authorizedTopics]]
+`handleProduceRequest` <<filterAuthorized, filterAuthorized>> the request for `WRITE` operation on a `TOPIC` resource to the topics (from the `ProduceRequest`).
+
+`handleProduceRequest`...FIXME
+
+NOTE: `handleProduceRequest` is used when `KafkaApis` is requested to handle a <<Produce, Produce>> request.
 
 === [[handleWriteTxnMarkersRequest]] `handleWriteTxnMarkersRequest` Handler
 

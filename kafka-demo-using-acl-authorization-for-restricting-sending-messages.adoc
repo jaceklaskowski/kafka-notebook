@@ -1,0 +1,122 @@
+== Demo: Using ACL Authorization for Restricting Sending Messages
+
+This demo shows how to use link:kafka-security-ssl-authentication-and-authorization.adoc[SSL Authentication and Authorization] in Apache Kafka to restrict what users are allowed to send messages to topics.
+
+In ACL words, the demo shows how to allow `WRITE` operations to `ANY` topic to a user.
+
+NOTE: The demo is a follow-up to link:kafka-demo-securing-communication-between-clients-and-brokers.adoc[Demo: Securing Communication Between Clients and Brokers Using SSL]. Please finish it first before this demo.
+
+CAUTION: The demo is not finished yet. Consider it a work-in-progress.
+
+=== Step X. Enable ACL Authorization
+
+Configure a Kafka broker to use ACL authorization.
+
+Edit `config/server-ssl.properties` to include the following properties:
+
+```
+authorizer.class.name=kafka.security.authorizer.AclAuthorizer
+allow.everyone.if.no.acl.found=true
+```
+
+=== Step X. Deny PRODUCE Requests to Certain Users
+
+Use link:kafka-tools-kafka-acls.adoc[kafka-acls] CLI to deny sending messages to a user `CN=agata`.
+
+```
+$ ./bin/kafka-acls.sh \
+  --bootstrap-server :9092 \
+  --add \
+  --deny-principal User:CN=agata \
+  --operation WRITE \
+  --topic '*'
+
+Adding ACLs for resource `ResourcePattern(resourceType=TOPIC, name=*, patternType=LITERAL)`:
+ 	(principal=User:CN=agata, host=*, operation=WRITE, permissionType=DENY)
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=*, patternType=LITERAL)`:
+ 	(principal=User:CN=agata, host=*, operation=WRITE, permissionType=DENY)
+```
+
+=== Step X. Send Messages to Topic (Operation Denied)
+
+Since `CN=agata` user is not allowed to send messages to any topic, the following `kafka-console-producer` command will fail.
+
+```
+$ ./bin/kafka-console-producer.sh \
+  --broker-list :9093 \
+  --topic ssl \
+  --producer.config /tmp/kafka-ssl-demo/agata-client.properties
+...
+org.apache.kafka.common.errors.TopicAuthorizationException: Not authorized to access topics: [ssl]
+```
+
+Observe `logs/kafka-authorizer.log` logs. You should find the following INFO message:
+
+```
+INFO Principal = User:CN=agata is Denied Operation = Write from host = 127.0.0.1 on resource = Topic:LITERAL:ssl for request = Produce with resourceRefCount = 1 (kafka.authorizer.logger)
+```
+
+=== Step X. List ACLs
+
+```
+$ ./bin/kafka-acls.sh \
+  --bootstrap-server :9092 \
+  --list \
+  --principal User:CN=agata
+
+ACLs for principal `User:CN=agata`
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=ssl, patternType=LITERAL)`:
+ 	(principal=User:CN=agata, host=*, operation=WRITE, permissionType=ALLOW)
+	(principal=User:CN=agata, host=*, operation=CREATE, permissionType=ALLOW)
+	(principal=User:CN=agata, host=*, operation=DESCRIBE, permissionType=ALLOW)
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=*, patternType=LITERAL)`:
+ 	(principal=User:CN=agata, host=*, operation=WRITE, permissionType=DENY)
+	(principal=User:CN=agata, host=*, operation=WRITE, permissionType=ALLOW)
+```
+
+=== Step X. Allow PRODUCE Requests to Certain Users
+
+Use link:kafka-tools-kafka-acls.adoc[kafka-acls] CLI to allow sending messages to a user `CN=agata` (that simply means to remove the previous ACL)
+
+```
+$ ./bin/kafka-acls.sh \
+  --bootstrap-server :9092 \
+  --remove \
+  --topic '*'
+Are you sure you want to delete all ACLs for resource filter `ResourcePattern(resourceType=TOPIC, name=*, patternType=LITERAL)`? (y/n)
+y
+```
+
+List the ACLs.
+
+```
+$ ./bin/kafka-acls.sh \
+  --bootstrap-server :9092 \
+  --list \
+  --principal User:CN=agata
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=ssl, patternType=LITERAL)`:
+ 	(principal=User:CN=agata, host=*, operation=WRITE, permissionType=ALLOW)
+	(principal=User:CN=agata, host=*, operation=CREATE, permissionType=ALLOW)
+	(principal=User:CN=agata, host=*, operation=DESCRIBE, permissionType=ALLOW)
+```
+
+=== Step X. Send Messages to Topic (Operation Allowed)
+
+Since `CN=agata` user is now allowed to send messages to any topic, `kafka-console-producer` should work fine.
+
+```
+$ ./bin/kafka-console-producer.sh \
+  --broker-list :9093 \
+  --topic ssl \
+  --producer.config /tmp/kafka-ssl-demo/agata-client.properties
+```
+
+NOTE: You don't have to restart the client for the new ACLs to take effect.
+
+With `DEBUG` logging level for `kafka.authorizer.logger` logger enabled, you should fine the following DEBUG message in `logs/kafka-authorizer.log` logs:
+
+```
+DEBUG Principal = User:CN=agata is Allowed Operation = Write from host = 127.0.0.1 on resource = Topic:LITERAL:ssl for request = Produce with resourceRefCount = 1 (kafka.authorizer.logger)
+```
