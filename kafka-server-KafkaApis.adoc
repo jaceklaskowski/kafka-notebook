@@ -28,6 +28,9 @@ Some requests are meant for the <<kafka-controller.adoc#, controller broker>> an
 | AlterConfigs
 | [[AlterConfigs]][[ALTER_CONFIGS]] <<handleAlterConfigsRequest, handleAlterConfigsRequest>>
 
+| AlterPartitionReassignments
+| [[AlterPartitionReassignments]][[ALTER_PARTITION_REASSIGNMENTS]] <<handleAlterPartitionReassignmentsRequest, handleAlterPartitionReassignmentsRequest>>
+
 | AlterReplicaLogDirs
 | [[AlterReplicaLogDirs]][[ALTER_REPLICA_LOG_DIRS]] <<handleAlterReplicaLogDirsRequest, handleAlterReplicaLogDirsRequest>>
 
@@ -76,8 +79,8 @@ Some requests are meant for the <<kafka-controller.adoc#, controller broker>> an
 | DescribeDelegationToken
 | [[DescribeDelegationToken]][[DESCRIBE_DELEGATION_TOKEN]] <<handleDescribeTokensRequest, handleDescribeTokensRequest>>
 
-| ElectPreferredLeaders
-| [[ElectPreferredLeaders]][[ELECT_PREFERRED_LEADERS]] <<handleElectPreferredReplicaLeader, handleElectPreferredReplicaLeader>>
+| ElectLeaders
+| [[ElectLeaders]][[ELECT_LEADERS]] <<handleElectReplicaLeader, handleElectReplicaLeader>>
 
 | EndTxn
 | [[EndTxn]][[END_TXN]] <<handleEndTxnRequest, handleEndTxnRequest>>
@@ -106,20 +109,26 @@ Some requests are meant for the <<kafka-controller.adoc#, controller broker>> an
 | LeaderAndIsr
 | [[LeaderAndIsr]][[LEADER_AND_ISR]] Cluster action / <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>
 
-| ListOffsets
-| [[ListOffsets]][[LIST_OFFSETS]] <<handleListOffsetRequest, handleListOffsetRequest>>
+| LeaveGroup
+| [[LeaveGroup]][[LEAVE_GROUP]] <<handleLeaveGroupRequest, handleLeaveGroupRequest>>
 
 | ListGroups
 | [[ListGroups]][[LIST_GROUPS]] <<handleListGroupsRequest, handleListGroupsRequest>>
 
-| LeaveGroup
-| [[LeaveGroup]][[LEAVE_GROUP]] <<handleLeaveGroupRequest, handleLeaveGroupRequest>>
+| ListOffsets
+| [[ListOffsets]][[LIST_OFFSETS]] <<handleListOffsetRequest, handleListOffsetRequest>>
+
+| ListPartitionReassignments
+| [[ListPartitionReassignments]][[LIST_PARTITION_REASSIGNMENTS]] <<handleListPartitionReassignmentsRequest, handleListPartitionReassignmentsRequest>>
 
 | Metadata
 | [[Metadata]][[METADATA]] <<handleTopicMetadataRequest, handleTopicMetadataRequest>>
 
 | OffsetCommit
 | [[OffsetCommit]][[OFFSET_COMMIT]] <<handleOffsetCommitRequest, handleOffsetCommitRequest>>
+
+| OffsetDelete
+| [[OffsetDelete]][[OFFSET_DELETE]] <<handleOffsetDeleteRequest, handleOffsetDeleteRequest>>
 
 | OffsetFetch
 | [[OffsetFetch]][[OFFSET_FETCH]] <<handleOffsetFetchRequest, handleOffsetFetchRequest>>
@@ -255,13 +264,15 @@ Handling request:[request] from connection [id];securityProtocol:[protocol],prin
 
 NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is requested to <<kafka-server-KafkaRequestHandler.adoc#run, run>>.
 
-=== [[handleElectPreferredReplicaLeader]] Handling ElectPreferredLeaders Request -- `handleElectPreferredReplicaLeader` Handler
+=== [[handleElectReplicaLeader]] Handling ElectLeaders Request -- `handleElectReplicaLeader` Handler
 
 [source, scala]
 ----
-handleElectPreferredReplicaLeader(
+handleElectReplicaLeader(
   request: RequestChannel.Request): Unit
 ----
+
+CAUTION: FIXME Describe me again
 
 In summary, `handleElectPreferredReplicaLeader` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#electPreferredLeaders, electPreferredLeaders>>.
 
@@ -413,7 +424,204 @@ authorize(
 
 NOTE: The <<authorizer, Authorizer>> is created in <<kafka-server-KafkaServer.adoc#authorizer, KafkaServer>> (when the `KafkaApis` is created). It is configured using <<kafka-properties.adoc#authorizer.class.name, authorizer.class.name>> configuration property which is empty by default and so all operations are authorized.
 
-NOTE: `authorize` is used when...FIXME
+[cols="40,10m,10m,40",options="header",width="100%"]
+|===
+| Request
+| AclOperation
+| Resource Type
+| Resource Name
+
+| <<OffsetCommit, OffsetCommit>>
+| READ
+| GROUP
+| groupId
+
+| <<Produce, Produce>>
+| WRITE
+| TRANSACTIONAL_ID
+| transactionalId
+
+| <<Produce, Produce>>
+| IDEMPOTENT_WRITE
+| CLUSTER
+| kafka-cluster
+
+| <<Fetch, Fetch>> (from followers)
+| CLUSTER_ACTION
+| CLUSTER
+| kafka-cluster
+
+| <<Metadata, Metadata>> (for auto-create topics)
+| CREATE
+| CLUSTER
+| kafka-cluster
+
+| <<Metadata, Metadata>>
+| DESCRIBE
+| CLUSTER
+| kafka-cluster
+
+| <<OffsetFetch, OffsetFetch>>
+| DESCRIBE
+| CLUSTER
+| kafka-cluster
+
+| <<FindCoordinator, FindCoordinator>>
+| DESCRIBE
+| GROUP
+| Coordinator key
+
+| <<FindCoordinator, FindCoordinator>>
+| DESCRIBE
+| TRANSACTIONAL_ID
+| Coordinator key
+
+| <<DescribeGroups, DescribeGroups>>
+| DESCRIBE
+| GROUP
+| Group ID
+
+| <<ListGroups, ListGroups>>
+| DESCRIBE
+| CLUSTER
+| kafka-cluster
+
+| <<ListGroups, ListGroups>>
+| DESCRIBE
+| GROUP
+| Group ID
+
+| <<JoinGroup, JoinGroup>>
+| READ
+| GROUP
+| Group ID
+
+| <<SyncGroup, SyncGroup>>
+| READ
+| GROUP
+| Group ID
+
+| <<DeleteGroups, DeleteGroups>>
+| DELETE
+| GROUP
+| Group ID
+
+| <<Heartbeat, Heartbeat>>
+| READ
+| GROUP
+| Group ID
+
+| <<LeaveGroup, LeaveGroup>>
+| READ
+| GROUP
+| Group ID
+
+| <<CreateTopics, CreateTopics>>
+| CREATE
+| CLUSTER
+| kafka-cluster
+
+| <<InitProducerId, InitProducerId>>
+| WRITE
+| TRANSACTIONAL_ID
+| Transactional ID
+
+| <<InitProducerId, InitProducerId>>
+| IDEMPOTENT_WRITE
+| CLUSTER
+| kafka-cluster
+
+| <<EndTxn, EndTxn>>
+| WRITE
+| TRANSACTIONAL_ID
+| Transactional ID
+
+| <<AddPartitionsToTxn, AddPartitionsToTxn>>
+| WRITE
+| TRANSACTIONAL_ID
+| Transactional ID
+
+| <<AddOffsetsToTxn, AddOffsetsToTxn>>
+| WRITE
+| TRANSACTIONAL_ID
+| Transactional ID
+
+| <<AddOffsetsToTxn, AddOffsetsToTxn>>
+| READ
+| GROUP
+| Group ID
+
+| <<TxnOffsetCommit, TxnOffsetCommit>>
+| WRITE
+| TRANSACTIONAL_ID
+| Transactional ID
+
+| <<TxnOffsetCommit, TxnOffsetCommit>>
+| READ
+| GROUP
+| Group ID
+
+| <<OffsetForLeaderEpoch, OffsetForLeaderEpoch>>
+| CLUSTER_ACTION
+| CLUSTER
+| kafka-cluster
+
+| <<AlterConfigs, AlterConfigs>> (for brokers)
+| ALTER_CONFIGS
+| CLUSTER
+| kafka-cluster
+
+| <<AlterConfigs, AlterConfigs>> (for topics)
+| ALTER_CONFIGS
+| TOPIC
+| Topic name
+
+| <<IncrementalAlterConfigs, IncrementalAlterConfigs>> (for brokers)
+| ALTER_CONFIGS
+| CLUSTER
+| kafka-cluster
+
+| <<IncrementalAlterConfigs, IncrementalAlterConfigs>> (for topics)
+| ALTER_CONFIGS
+| TOPIC
+| Topic name
+
+| <<DescribeConfigs, DescribeConfigs>> (for brokers)
+| DESCRIBE_CONFIGS
+| CLUSTER
+| kafka-cluster
+
+| <<DescribeConfigs, DescribeConfigs>> (for topics)
+| DESCRIBE_CONFIGS
+| TOPIC
+| Topic name
+
+| <<AlterReplicaLogDirs, AlterReplicaLogDirs>>
+| ALTER
+| CLUSTER
+| kafka-cluster
+
+| <<DescribeLogDirs, DescribeLogDirs>>
+| DESCRIBE
+| CLUSTER
+| kafka-cluster
+
+| <<DescribeDelegationToken, DescribeDelegationToken>>
+| DESCRIBE
+| DELEGATION_TOKEN
+| Token ID
+
+| <<ElectLeaders, ElectLeaders>>
+| ALTER
+| CLUSTER
+| kafka-cluster
+
+| <<OffsetDelete, OffsetDelete>>
+| DELETE
+| GROUP
+| Group ID
+
+|===
 
 === [[handleCreatePartitionsRequest]] Handling CreatePartitions Request -- `handleCreatePartitionsRequest` Handler
 
@@ -1104,6 +1312,48 @@ In summary, `handleListOffsetRequest` requests the <<replicaManager, ReplicaMana
 
 NOTE: `handleListOffsetRequest` is used exclusively when `KafkaApis` is requested to handle a <<ListOffsets, ListOffsets>> request.
 
+=== [[handleOffsetDeleteRequest]] `handleOffsetDeleteRequest` Handler
+
+[source, scala]
+----
+handleOffsetDeleteRequest(
+  request: RequestChannel.Request): Unit
+----
+
+In summary, `handleOffsetDeleteRequest`...FIXME
+
+`handleOffsetDeleteRequest`...FIXME
+
+NOTE: `handleOffsetDeleteRequest` is used when `KafkaApis` is requested to handle a <<OffsetDelete, OffsetDelete>> request.
+
+=== [[handleAlterPartitionReassignmentsRequest]] `handleAlterPartitionReassignmentsRequest` Handler
+
+[source, scala]
+----
+handleAlterPartitionReassignmentsRequest(
+  request: RequestChannel.Request): Unit
+----
+
+In summary, `handleAlterPartitionReassignmentsRequest`...FIXME
+
+`handleAlterPartitionReassignmentsRequest`...FIXME
+
+NOTE: `handleAlterPartitionReassignmentsRequest` is used when `KafkaApis` is requested to handle a <<AlterPartitionReassignments, AlterPartitionReassignments>> request.
+
+=== [[handleListPartitionReassignmentsRequest]] `handleListPartitionReassignmentsRequest` Handler
+
+[source, scala]
+----
+handleListPartitionReassignmentsRequest(
+  request: RequestChannel.Request): Unit
+----
+
+In summary, `handleListPartitionReassignmentsRequest`...FIXME
+
+`handleListPartitionReassignmentsRequest`...FIXME
+
+NOTE: `handleListPartitionReassignmentsRequest` is used when `KafkaApis` is requested to handle a <<ListPartitionReassignments, ListPartitionReassignments>> request.
+
 === [[isAuthorizedClusterAction]] `isAuthorizedClusterAction` Internal Method
 
 [source, scala]
@@ -1150,7 +1400,8 @@ NOTE: `authorizeClusterAction` is used when `KafkaApis` is requested to <<handle
 
 [source, scala]
 ----
-isBrokerEpochStale(brokerEpochInRequest: Long): Boolean
+isBrokerEpochStale(
+  brokerEpochInRequest: Long): Boolean
 ----
 
 `isBrokerEpochStale`...FIXME
@@ -1185,7 +1436,25 @@ authorizedOperations(
 
 `authorizedOperations`...FIXME
 
-NOTE: `authorizedOperations` is used when `KafkaApis` is requested to <<handleTopicMetadataRequest, handleTopicMetadataRequest>> (`CLUSTER` resource) and <<handleDescribeGroupRequest, handleDescribeGroupRequest>> (`GROUP` resource).
+[cols="40,20m,40",options="header",width="100%"]
+|===
+| Request
+| Resource Type
+| Resource Name
+
+| <<Metadata, Metadata>>
+| CLUSTER
+| kafka-cluster
+
+| <<Metadata, Metadata>>
+| TOPIC
+| Topic name
+
+| <<DescribeGroups, DescribeGroups>>
+| GROUP
+| Group ID
+
+|===
 
 === [[authorizeClusterOperation]] Throwing ClusterAuthorizationException for Unauthorized Cluster Operation -- `authorizeClusterOperation` Internal Method
 
@@ -1196,10 +1465,45 @@ authorizeClusterOperation(
   operation: AclOperation): Unit
 ----
 
-`authorizeClusterOperation` simply throws a `ClusterAuthorizationException` when the given request is not <<authorize, authorized for the given operation>> on `CLUSTER` resource (with the name `kafka-cluster`).
+`authorizeClusterOperation` simply throws a `ClusterAuthorizationException` when the given request is not <<authorize, authorized for the given operation>> on `CLUSTER` resource and the name as `kafka-cluster`.
 
 ```
 Request [request] is not authorized.
 ```
 
-NOTE: `authorizeClusterOperation` is used when `KafkaApis` is requested to <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>> (`CLUSTER_ACTION` operation), <<handleStopReplicaRequest, handleStopReplicaRequest>> (`CLUSTER_ACTION` operation), <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>> (`CLUSTER_ACTION` operation), <<handleControlledShutdownRequest, handleControlledShutdownRequest>> (`CLUSTER_ACTION` operation), <<handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>> (`CLUSTER_ACTION` operation), <<handleDescribeAcls, handleDescribeAcls>> (`DESCRIBE` operation), <<handleCreateAcls, handleCreateAcls>> (`ALTER` operation), <<handleDeleteAcls, handleDeleteAcls>> (`ALTER` operation), <<handleAlterPartitionReassignmentsRequest, handleAlterPartitionReassignmentsRequest>> (`ALTER` operation), and <<handleListPartitionReassignmentsRequest, handleListPartitionReassignmentsRequest>> (`DESCRIBE` operation).
+[cols="50,50m",options="header",width="100%"]
+|===
+| Request
+| AclOperation
+
+| <<LeaderAndIsr, LeaderAndIsr>>
+| CLUSTER_ACTION
+
+| <<StopReplica, StopReplica>>
+| CLUSTER_ACTION
+
+| <<UpdateMetadata, UpdateMetadata>>
+| CLUSTER_ACTION
+
+| <<ControlledShutdown, ControlledShutdown>>
+| CLUSTER_ACTION
+
+| <<WriteTxnMarkers, WriteTxnMarkers>>
+| CLUSTER_ACTION
+
+| <<DescribeAcls, DescribeAcls>>
+| DESCRIBE
+
+| <<CreateAcls, CreateAcls>>
+| ALTER
+
+| <<DeleteAcls, DeleteAcls>>
+| ALTER
+
+| <<AlterPartitionReassignments, AlterPartitionReassignments>>
+| ALTER
+
+| <<ListPartitionReassignments, ListPartitionReassignments>>
+| DESCRIBE
+
+|===
