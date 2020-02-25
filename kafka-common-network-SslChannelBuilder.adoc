@@ -74,6 +74,6 @@ a| [[configs]] Configuration properties
 a| [[sslFactory]] link:kafka-common-security-ssl-SslFactory.adoc[SslFactory]
 
 | sslPrincipalMapper
-a| [[sslPrincipalMapper]] `SslPrincipalMapper`
+a| [[sslPrincipalMapper]] link:kafka-common-security-ssl-SslPrincipalMapper.adoc[SslPrincipalMapper]
 
 |===

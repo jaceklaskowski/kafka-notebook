@@ -636,15 +636,15 @@ Default: `100 * 1024 * 1024`
 Must be at least `1`
 
 | ssl.principal.mapping.rules
-a| [[ssl.principal.mapping.rules]] Rules for mapping from distinguished name from the client certificate to short name.
+a| [[ssl.principal.mapping.rules]] Rules for mapping from the distinguished name from a client certificate to short name.
 
-Default: `DEFAULT`
+Default: `DEFAULT` (i.e. the distinguished name of a X.500 certificate is the principal)
 
 The rules are evaluated in order and the first rule that matches a principal name is used to map it to a short name. Any later rules in the list are ignored.
 
-By default, distinguished name of the X.500 certificate will be the principal.
+This configuration is ignored for a custom `KafkaPrincipalBuilder` as defined by the <<principal.builder.class, principal.builder.class>> configuration.
 
-This configuration is ignored if an extension of KafkaPrincipalBuilder is provided by the <<principal.builder.class, principal.builder.class>> configuration.
+Used when `SslChannelBuilder` is link:kafka-common-network-SslChannelBuilder.adoc#configure[configured] (to create a link:kafka-common-network-SslChannelBuilder.adoc#sslPrincipalMapper[SslPrincipalMapper])
 
 * Use link:kafka-server-KafkaConfig.adoc#SslPrincipalMappingRulesProp[KafkaConfig.SslPrincipalMappingRulesProp] to reference the property
 

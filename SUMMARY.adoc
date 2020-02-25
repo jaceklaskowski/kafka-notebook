@@ -30,9 +30,9 @@
 
 . link:kafka-common-config-SslConfigs.adoc[SslConfigs]
 
-=== Kafka Security / Authorization
+=== Kafka Security / SSL Authentication and Authorization
 
-. link:kafka-security-authorization.adoc[Kafka Security / Authorization]
+. link:kafka-security-ssl-authentication-and-authorization.adoc[SSL Authentication and Authorization]
 .. link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: Securing Kafka with ACL Authorization]
 
 . link:kafka-server-authorizer-Authorizer.adoc[Authorizer]

@@ -13,3 +13,15 @@ SslPrincipalMapper fromRules(
 `fromRules`...FIXME
 
 NOTE: `fromRules` is used when `SslChannelBuilder` is requested to link:kafka-common-network-SslChannelBuilder.adoc#configure[configure].
+
+=== [[splitRules]] `splitRules` Internal Utility
+
+[source, java]
+----
+List<String> splitRules(
+  String sslPrincipalMappingRules)
+----
+
+`splitRules`...FIXME
+
+NOTE: `splitRules` is used when `SslPrincipalMapper` is created.

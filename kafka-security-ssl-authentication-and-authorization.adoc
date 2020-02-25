@@ -1,4 +1,4 @@
-== Kafka Security / Authorization
+== SSL Authentication and Authorization
 
 *Kafka Authorization* is based on the following:
 
@@ -9,6 +9,10 @@
 * <<kafka-server-authorizer-Authorizer.adoc#, Authorizer>>
 
 NOTE: Apache Kafka 2.4.0 introduced link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-504+-+Add+new+Java+Authorizer+Interface++[KIP-504 - Add new Java Authorizer Interface] for authorization.
+
+For SSL authentication,  the principal will be derived using the rules defined by link:kafka-properties.adoc#ssl.principal.mapping.rules[ssl.principal.mapping.rules] applied on the distinguished name from the client certificate if one is provided. Otherwise, if client authentication is not required, the principal name will be `ANONYMOUS`.
+
+For `PLAINTEXT` listeners or when client authentication is not required, the principal will always be ANONYMOUS.
 
 TIP: Consult link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: Securing Kafka with ACL Authorization].
 

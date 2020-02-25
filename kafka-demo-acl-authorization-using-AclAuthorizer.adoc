@@ -1,6 +1,6 @@
 == Demo: Securing Kafka with ACL Authorization
 
-This demo shows how to use link:kafka-security-authorization.adoc[ACL authorization] in Apache Kafka (using link:kafka-security-authorizer-AclAuthorizer.adoc[AclAuthorizer]).
+This demo shows how to use link:kafka-security-ssl-authentication-and-authorization.adoc[ACL authorization] in Apache Kafka (using link:kafka-security-authorizer-AclAuthorizer.adoc[AclAuthorizer]).
 
 NOTE: The demo is a follow-up to link:kafka-demo-securing-communication-between-clients-and-brokers.adoc[Demo: Securing Communication Between Clients and Brokers Using SSL]. Please finish it first before this demo.
 
