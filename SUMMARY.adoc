@@ -22,6 +22,7 @@
 . link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder]
 .. link:kafka-common-network-SaslChannelBuilder.adoc[SaslChannelBuilder]
 .. link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder]
+... link:kafka-common-network-SslChannelBuilder-SslAuthenticator.adoc[SslAuthenticator]
 . link:kafka-common-network-ChannelBuilders.adoc[ChannelBuilders]
 
 . link:kafka-common-security-ssl-SslFactory.adoc[SslFactory]

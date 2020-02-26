@@ -49,6 +49,22 @@ ChannelBuilder serverChannelBuilder(
 
 NOTE: `serverChannelBuilder` is used when link:kafka-network-SocketServer-Processor.adoc[Processor] is created (and creates a link:kafka-network-SocketServer-Processor.adoc#selector[Selector]).
 
+=== [[createPrincipalBuilder]] `createPrincipalBuilder` Utility
+
+[source, java]
+----
+KafkaPrincipalBuilder createPrincipalBuilder(
+  Map<String, ?> configs,
+  TransportLayer transportLayer,
+  Authenticator authenticator,
+  KerberosShortNamer kerberosShortNamer,
+  SslPrincipalMapper sslPrincipalMapper)
+----
+
+`createPrincipalBuilder`...FIXME
+
+NOTE: `createPrincipalBuilder` is used when...FIXME
+
 === [[create]] `create` Internal Utility
 
 [source, java]

@@ -1,0 +1,29 @@
+== [[SslAuthenticator]] SslAuthenticator
+
+`SslAuthenticator` is an `Authenticator`.
+
+`SslAuthenticator` is <<creating-instance, created>> (lazily as part of `Supplier<Authenticator>`) when `SslChannelBuilder` is requested to link:kafka-common-network-SslChannelBuilder.adoc#buildChannel[build a channel].
+
+`SslAuthenticator` is an internal class of link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder].
+
+=== [[creating-instance]] Creating SslAuthenticator Instance
+
+`SslAuthenticator` takes the following to be created:
+
+* [[configs]] Configuration properties
+* [[transportLayer]] `SslTransportLayer`
+* [[listenerName]] `ListenerName`
+* [[sslPrincipalMapper]] link:kafka-common-security-ssl-SslPrincipalMapper.adoc[SslPrincipalMapper]
+
+`SslAuthenticator` initializes the <<principalBuilder, KafkaPrincipalBuilder>>.
+
+=== [[principalBuilder]] SslAuthenticator and KafkaPrincipalBuilder
+
+[source, java]
+----
+KafkaPrincipalBuilder principalBuilder
+----
+
+`principalBuilder` is a `KafkaPrincipalBuilder`.
+
+`principalBuilder` is link:kafka-common-network-ChannelBuilders.adoc#createPrincipalBuilder[created] for `SslAuthenticator` based on the given <<configs, configuration properties>>, the <<transportLayer, SslTransportLayer>> and the <<sslPrincipalMapper, SslPrincipalMapper>>.
