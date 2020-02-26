@@ -10,6 +10,8 @@
 
 * link:kafka-clients-CommonClientConfigs.adoc#security.protocol[security.protocol] configuration property
 
+* link:kafka-properties.adoc#ssl.client.auth[ssl.client.auth] configuration property
+
 NOTE: Apache Kafka 2.4.0 introduced link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-504+-+Add+new+Java+Authorizer+Interface++[KIP-504 - Add new Java Authorizer Interface] for authorization.
 
 For SSL with client authentication enabled, `TransportLayer#handshake()` performs authentication. For SASL, authentication is performed by `Authenticator#authenticate()`.

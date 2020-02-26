@@ -710,7 +710,17 @@ a| [[ssl.endpoint.identification.algorithm]]
 a| [[ssl.secure.random.implementation]]
 
 | ssl.client.auth
-a| [[ssl.client.auth]]
+a| [[ssl.client.auth]] Client authentication
+
+Default: `none`
+
+Supported values (case-insensitive): `required`, `requested`, `none`
+
+link:kafka-common-config-SslConfigs.adoc#NON_RECONFIGURABLE_CONFIGS[Non-reconfigurable]
+
+link:kafka-server-DynamicListenerConfig.adoc#ReconfigurableConfigs[ReconfigurableConfigs]
+
+* Use <<kafka-server-KafkaConfig.adoc#SslClientAuthProp, KafkaConfig.SslClientAuthProp>> to reference the property
 
 | transaction.max.timeout.ms
 a| [[transaction.max.timeout.ms]] The maximum allowed timeout for transactions (in millis).
