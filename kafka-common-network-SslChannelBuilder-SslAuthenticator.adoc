@@ -27,3 +27,14 @@ KafkaPrincipalBuilder principalBuilder
 `principalBuilder` is a `KafkaPrincipalBuilder`.
 
 `principalBuilder` is link:kafka-common-network-ChannelBuilders.adoc#createPrincipalBuilder[created] for `SslAuthenticator` based on the given <<configs, configuration properties>>, the <<transportLayer, SslTransportLayer>> and the <<sslPrincipalMapper, SslPrincipalMapper>>.
+
+=== [[principal]] `principal` Method
+
+[source, java]
+----
+KafkaPrincipal principal()
+----
+
+NOTE: `principal` is part of the link:kafka-common-network-Authenticator.adoc#principal[Authenticator] contract to...FIXME.
+
+`principal`...FIXME

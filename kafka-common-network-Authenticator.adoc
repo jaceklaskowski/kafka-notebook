@@ -1,0 +1,3 @@
+== [[Authenticator]] Authenticator
+
+`Authenticator` is...FIXME
