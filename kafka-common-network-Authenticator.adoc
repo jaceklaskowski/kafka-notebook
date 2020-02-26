@@ -1,3 +1,140 @@
 == [[Authenticator]] Authenticator
 
-`Authenticator` is...FIXME
+`Authenticator` is the <<contract, abstraction>> of <<implementations, authenticators>> that can <<authenticate, authenticate>> a <<principal, KafkaPrincipal>>.
+
+`Authenticator` is a `java.io.Closeable`.
+
+`Authenticator` is used by link:kafka-common-network-KafkaChannel.adoc#authenticator[KafkaChannel].
+
+[[contract]]
+.Authenticator Contract
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| authenticate
+a| [[authenticate]]
+
+[source, java]
+----
+void authenticate()
+----
+
+Used when `KafkaChannel` is requested to link:kafka-common-network-KafkaChannel.adoc#prepare[prepare] (and the `transportLayer` is ready)
+
+| clientSessionReauthenticationTimeNanos
+a| [[clientSessionReauthenticationTimeNanos]]
+
+[source, java]
+----
+Long clientSessionReauthenticationTimeNanos()
+----
+
+Default: `null`
+
+Used when `KafkaChannel` is requested to link:kafka-common-network-KafkaChannel.adoc#maybeBeginClientReauthentication[maybeBeginClientReauthentication]
+
+| complete
+a| [[complete]]
+
+[source, java]
+----
+boolean complete()
+----
+
+Used when `KafkaChannel` is requested to link:kafka-common-network-KafkaChannel.adoc#prepare[prepare] and link:kafka-common-network-KafkaChannel.adoc#ready[ready]
+
+| connectedClientSupportsReauthentication
+a| [[connectedClientSupportsReauthentication]]
+
+[source, java]
+----
+boolean connectedClientSupportsReauthentication()
+----
+
+Used when...FIXME
+
+| getAndClearResponsesReceivedDuringReauthentication
+a| [[getAndClearResponsesReceivedDuringReauthentication]]
+
+[source, java]
+----
+List<NetworkReceive> getAndClearResponsesReceivedDuringReauthentication()
+----
+
+Used when...FIXME
+
+| handleAuthenticationFailure
+a| [[handleAuthenticationFailure]]
+
+[source, java]
+----
+void handleAuthenticationFailure()
+----
+
+Used when...FIXME
+
+| principal
+a| [[principal]]
+
+[source, java]
+----
+KafkaPrincipal principal()
+----
+
+Used when `KafkaChannel` is requested for a link:kafka-common-network-KafkaChannel.adoc#principal[principal].
+
+| reauthenticate
+a| [[reauthenticate]]
+
+[source, java]
+----
+void reauthenticate(
+  ReauthenticationContext reauthenticationContext)
+----
+
+Used when...FIXME
+
+| reauthenticationLatencyMs
+a| [[reauthenticationLatencyMs]]
+
+[source, java]
+----
+Long reauthenticationLatencyMs()
+----
+
+Used when...FIXME
+
+| serverSessionExpirationTimeNanos
+a| [[serverSessionExpirationTimeNanos]]
+
+[source, java]
+----
+Long serverSessionExpirationTimeNanos()
+----
+
+Used when...FIXME
+
+|===
+
+[[implementations]]
+.Authenticators
+[cols="30,70",options="header",width="100%"]
+|===
+| Authenticator
+| Description
+
+| PlaintextAuthenticator
+| [[PlaintextAuthenticator]]
+
+| SaslClientAuthenticator
+| [[SaslClientAuthenticator]]
+
+| SaslServerAuthenticator
+| [[SaslServerAuthenticator]]
+
+| link:kafka-common-network-SslChannelBuilder-SslAuthenticator.adoc[SslAuthenticator]
+| [[SslAuthenticator]]
+
+|===

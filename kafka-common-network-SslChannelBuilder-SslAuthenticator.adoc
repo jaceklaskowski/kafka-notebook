@@ -1,6 +1,6 @@
 == [[SslAuthenticator]] SslAuthenticator
 
-`SslAuthenticator` is an `Authenticator`.
+`SslAuthenticator` is an link:kafka-common-network-Authenticator.adoc[Authenticator].
 
 `SslAuthenticator` is <<creating-instance, created>> (lazily as part of `Supplier<Authenticator>`) when `SslChannelBuilder` is requested to link:kafka-common-network-SslChannelBuilder.adoc#buildChannel[build a channel].
 

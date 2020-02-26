@@ -1,0 +1,85 @@
+== [[KafkaChannel]] KafkaChannel
+
+`KafkaChannel` is <<creating-instance, created>> when link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilders] are requested to link:kafka-common-network-ChannelBuilder.adoc#buildChannel[build one] (i.e. `PlaintextChannelBuilder`, `SaslChannelBuilder`, and link:kafka-common-network-SslChannelBuilder.adoc#buildChannel[SslChannelBuilder]).
+
+=== [[creating-instance]] Creating KafkaChannel Instance
+
+`KafkaChannel` takes the following to be created:
+
+* [[id]] Identifier
+* [[transportLayer]] `TransportLayer`
+* [[authenticatorCreator]] (`Supplier` of) link:kafka-common-network-Authenticator.adoc[Authenticator]
+* [[maxReceiveSize]] `maxReceiveSize`
+* [[memoryPool]] `MemoryPool`
+
+`KafkaChannel` initializes the <<internal-properties, internal properties>>.
+
+=== [[authenticator]] KafkaChannel and Authenticator
+
+[source, java]
+----
+Authenticator authenticator
+----
+
+`authenticator` is a link:kafka-common-network-Authenticator.adoc[Authenticator] that is created when `KafkaChannel` is and requested to <<swapAuthenticatorsAndBeginReauthentication, swapAuthenticatorsAndBeginReauthentication>>.
+
+Used for <<principal, principal>>, <<prepare, prepare>>, <<completeCloseOnAuthenticationFailure, completeCloseOnAuthenticationFailure>>, <<ready, ready>>, <<maybeBeginServerReauthentication, maybeBeginServerReauthentication>>, <<maybeBeginClientReauthentication, maybeBeginClientReauthentication>>, <<reauthenticationLatencyMs, reauthenticationLatencyMs>>, <<serverAuthenticationSessionExpired, serverAuthenticationSessionExpired>>, <<getAndClearResponsesReceivedDuringReauthentication, getAndClearResponsesReceivedDuringReauthentication>>, <<connectedClientSupportsReauthentication, connectedClientSupportsReauthentication>>, and <<swapAuthenticatorsAndBeginReauthentication, swapAuthenticatorsAndBeginReauthentication>>
+
+Closed when `KafkaChannel` is requested to <<close, close>>.
+
+=== [[prepare]] `prepare` Method
+
+[source, java]
+----
+void prepare()
+----
+
+`prepare`...FIXME
+
+NOTE: `prepare` is used when...FIXME
+
+=== [[ready]] `ready` Method
+
+[source, java]
+----
+boolean ready()
+----
+
+`ready` is positive (`true`) when the <<transportLayer, TransportLayer>> is ready and the <<authenticator, Authenticator>> is link:kafka-common-network-Authenticator.adoc#complete[complete]
+
+NOTE: `ready` is used when...FIXME
+
+=== [[principal]] `principal` Method
+
+[source, java]
+----
+KafkaPrincipal principal()
+----
+
+`principal` simply requests the <<authenticator, Authenticator>> for the link:kafka-common-network-Authenticator.adoc#principal[principal].
+
+NOTE: `principal` is used when...FIXME
+
+=== [[maybeBeginClientReauthentication]] `maybeBeginClientReauthentication` Method
+
+[source, java]
+----
+boolean maybeBeginClientReauthentication(
+  Supplier<Long> nowNanosSupplier)
+----
+
+`maybeBeginClientReauthentication`...FIXME
+
+NOTE: `maybeBeginClientReauthentication` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| transportLayer
+a| [[transportLayer]] `TransportLayer`
+
+|===
