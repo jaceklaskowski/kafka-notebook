@@ -16,6 +16,17 @@
 
 `SslChannelBuilder` initializes the <<internal-properties, internal properties>>.
 
+=== [[sslPrincipalMapper]] SslChannelBuilder and SslPrincipalMapper
+
+[source, scala]
+----
+SslPrincipalMapper sslPrincipalMapper
+----
+
+`sslPrincipalMapper` is a link:kafka-common-security-ssl-SslPrincipalMapper.adoc[SslPrincipalMapper] that is used to create a `SslAuthenticator` when `SslChannelBuilder` is requested to <<buildChannel, build a channel>>.
+
+`sslPrincipalMapper` is created based on link:kafka-common-security-ssl-SslPrincipalMapper.adoc#fromRules[SSL principal mapping rules] when `SslChannelBuilder` is requested to <<configure, configure>> with link:kafka-properties.adoc#ssl.principal.mapping.rules[ssl.principal.mapping.rules] configuration property defined.
+
 === [[buildChannel]] Creating KafkaChannel -- `buildChannel` Method
 
 [source, java]
@@ -72,8 +83,5 @@ a| [[configs]] Configuration properties
 
 | sslFactory
 a| [[sslFactory]] link:kafka-common-security-ssl-SslFactory.adoc[SslFactory]
-
-| sslPrincipalMapper
-a| [[sslPrincipalMapper]] link:kafka-common-security-ssl-SslPrincipalMapper.adoc[SslPrincipalMapper]
 
 |===

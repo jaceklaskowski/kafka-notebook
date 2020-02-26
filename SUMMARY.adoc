@@ -29,6 +29,7 @@
 . link:kafka-common-security-ssl-SslPrincipalMapper.adoc[SslPrincipalMapper]
 
 . link:kafka-common-config-SslConfigs.adoc[SslConfigs]
+. link:kafka-common-config-internals-BrokerSecurityConfigs.adoc[BrokerSecurityConfigs]
 
 === Kafka Security / SSL Authentication and Authorization
 
