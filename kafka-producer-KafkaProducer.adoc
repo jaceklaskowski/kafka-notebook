@@ -452,6 +452,20 @@ NOTE: `abortTransaction` is a part of <<kafka-producer-Producer.adoc#abortTransa
 
 `abortTransaction`...FIXME
 
+=== [[newSender]] `newSender` Method
+
+[source, scala]
+----
+Sender newSender(
+  LogContext logContext,
+  KafkaClient kafkaClient,
+  ProducerMetadata metadata)
+----
+
+`newSender`...FIXME
+
+NOTE: `newSender` is used when `KafkaProducer` is <<creating-instance, created>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

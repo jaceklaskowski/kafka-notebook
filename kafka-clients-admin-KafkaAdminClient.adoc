@@ -42,7 +42,7 @@ KafkaAdminClient createInternal(
 
 `createInternal`...FIXME
 
-NOTE: `createInternal` is used exclusively when `AdminClient` object is requested to <<kafka-clients-admin-AdminClient.adoc#create, create a AdminClient>>.
+NOTE: `createInternal` is used exclusively when `AdminClient` object is requested to <<kafka-clients-admin-AdminClient.adoc#create, create an AdminClient>> (for link:kafka-tools.adoc[Kafka administration utilities]).
 
 === [[electPreferredLeaders]] Triggerring Preferred Replica Leader Election -- `electPreferredLeaders` Method
 

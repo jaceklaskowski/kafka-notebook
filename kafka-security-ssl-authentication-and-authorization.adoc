@@ -2,11 +2,13 @@
 
 *Kafka Authorization* is based on the following:
 
-* <<kafka-tools-kafka-acls.adoc#, kafka-acls.sh>> utility for ACL management
+* link:kafka-tools-kafka-acls.adoc[kafka-acls.sh] utility for ACL management
 
-* <<kafka-properties.adoc#authorizer.class.name, authorizer.class.name>> configuration property
+* link:kafka-properties.adoc#authorizer.class.name[authorizer.class.name] configuration property
 
-* <<kafka-server-authorizer-Authorizer.adoc#, Authorizer>>
+* link:kafka-server-authorizer-Authorizer.adoc[Authorizer]
+
+* link:kafka-clients-CommonClientConfigs.adoc#security.protocol[security.protocol] configuration property
 
 NOTE: Apache Kafka 2.4.0 introduced link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-504+-+Add+new+Java+Authorizer+Interface++[KIP-504 - Add new Java Authorizer Interface] for authorization.
 

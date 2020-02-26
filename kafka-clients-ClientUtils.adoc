@@ -1,0 +1,29 @@
+== [[ClientUtils]] ClientUtils
+
+`ClientUtils` is...FIXME
+
+=== [[createChannelBuilder]] `createChannelBuilder` Utility
+
+[source, java]
+----
+ChannelBuilder createChannelBuilder(
+  AbstractConfig config,
+  Time time)
+----
+
+`createChannelBuilder` reads link:kafka-clients-CommonClientConfigs.adoc#security.protocol[security.protocol] (for `SecurityProtocol`) and `sasl.mechanism` configuration properties to link:kafka-common-network-ChannelBuilders.adoc#clientChannelBuilder[create a ChannelBuilder] (with `CLIENT` JAAS context type and `null` listener name).
+
+[NOTE]
+====
+`createChannelBuilder` is used when:
+
+* link:kafka-consumer-KafkaConsumer.adoc[KafkaConsumer] is created
+
+* link:kafka-producer-KafkaProducer.adoc[KafkaProducer] is created
+
+* Kafka Connect's `WorkerGroupMember` is created
+
+* `KafkaAdminClient` is requested to link:kafka-clients-admin-KafkaAdminClient.adoc#createInternal[createInternal] (for link:kafka-tools.adoc[Kafka administration utilities])
+
+* link:kafka-admin-BrokerApiVersionsCommand.adoc[BrokerApiVersionsCommand] and `ReplicaVerificationTool` tools are executed
+====

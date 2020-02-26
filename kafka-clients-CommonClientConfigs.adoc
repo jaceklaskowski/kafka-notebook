@@ -16,6 +16,6 @@ Valid values are: `PLAINTEXT`, `SSL`, `SASL_PLAINTEXT`, `SASL_SSL`.
 
 Default: `PLAINTEXT`
 
-Used when `ClientUtils` utility is used to `createChannelBuilder`
+Used when `ClientUtils` utility is used to link:kafka-clients-ClientUtils.adoc#createChannelBuilder[createChannelBuilder]
 
 |===

@@ -26,7 +26,7 @@ ChannelBuilder clientChannelBuilder(
 ====
 `clientChannelBuilder` is used when:
 
-* `ClientUtils` utility is used to `createChannelBuilder`
+* `ClientUtils` utility is used to link:kafka-clients-ClientUtils.adoc#createChannelBuilder[create a ChannelBuilder] (with `CLIENT` JAAS context type and `null` listener name)
 
 * `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[register a new broker]
 

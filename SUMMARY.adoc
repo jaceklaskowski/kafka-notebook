@@ -379,6 +379,8 @@
 
 . link:kafka-clients-CommonClientConfigs.adoc[CommonClientConfigs]
 
+. link:kafka-clients-ClientUtils.adoc[ClientUtils]
+
 === Kafka Common
 
 . link:kafka-common-Cluster.adoc[Cluster]
