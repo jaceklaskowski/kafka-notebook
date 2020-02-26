@@ -61,6 +61,8 @@ KafkaPrincipalBuilder createPrincipalBuilder(
   SslPrincipalMapper sslPrincipalMapper)
 ----
 
+`createPrincipalBuilder` reads the link:kafka-properties.adoc#principal.builder.class[principal.builder.class] configuration property.
+
 `createPrincipalBuilder`...FIXME
 
 NOTE: `createPrincipalBuilder` is used when...FIXME

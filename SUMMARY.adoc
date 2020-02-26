@@ -42,6 +42,9 @@
 .. link:kafka-security-authorizer-AclAuthorizer.adoc[AclAuthorizer]
 .. link:kafka-security-authorizer-AuthorizerWrapper.adoc[AuthorizerWrapper]
 . link:kafka-common-security-auth-KafkaPrincipal.adoc[KafkaPrincipal]
+. link:kafka-common-security-auth-KafkaPrincipalBuilder.adoc[KafkaPrincipalBuilder]
+
+. link:kafka-common-security-authenticator-DefaultKafkaPrincipalBuilder.adoc[DefaultKafkaPrincipalBuilder]
 
 === Kafka Tools (Utilities)
 

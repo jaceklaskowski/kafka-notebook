@@ -530,7 +530,23 @@ Default: `1`
 Default: `9092`
 
 | principal.builder.class
-a| [[principal.builder.class]]
+a| [[principal.builder.class]] Fully-qualified name of link:kafka-common-security-auth-KafkaPrincipalBuilder.adoc[KafkaPrincipalBuilder] implementation to build the link:kafka-common-security-auth-KafkaPrincipal.adoc[KafkaPrincipal] object for link:kafka-security-ssl-authentication-and-authorization.adoc[authorization]
+
+Default: `null` (i.e. link:kafka-common-security-authenticator-DefaultKafkaPrincipalBuilder.adoc[DefaultKafkaPrincipalBuilder])
+
+Supports the deprecated `PrincipalBuilder` interface which was previously used for client authentication over SSL.
+
+If no principal builder is defined, the default behavior depends on the security protocol in use:
+
+* For SSL authentication, the principal will be derived using the rules defined by <<ssl.principal.mapping.rules, ssl.principal.mapping.rules>> applied on the distinguished name from the client certificate if one is provided; otherwise, if client authentication is not required, the principal name will be ANONYMOUS.
+
+* For SASL authentication, the principal will be derived using the rules defined by <<sasl.kerberos.principal.to.local.rules, sasl.kerberos.principal.to.local.rules>> if GSSAPI is in use, and the SASL authentication ID for other mechanisms. For PLAINTEXT, the principal will be ANONYMOUS.
+
+Used when `ChannelBuilders` is requested to link:kafka-common-network-ChannelBuilders.adoc#createPrincipalBuilder[create a KafkaPrincipalBuilder]
+
+link:kafka-server-DynamicListenerConfig.adoc[Dynamic reconfigurable configuration]
+
+* Use link:kafka-server-KafkaConfig.adoc#PrincipalBuilderClassProp[KafkaConfig.PrincipalBuilderClassProp] to reference the property
 
 | replica.fetch.backoff.ms
 a| [[replica.fetch.backoff.ms]] The amount of time to sleep when fetch partition error occurs.

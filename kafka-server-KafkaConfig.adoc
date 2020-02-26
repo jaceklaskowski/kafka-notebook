@@ -276,7 +276,7 @@ a| [[numReplicaFetchers]][[NumReplicaFetchersProp]] <<kafka-properties.adoc#num.
 | [[port]] link:kafka-properties.adoc#port[port]
 
 | PrincipalBuilderClassProp
-a| [[PrincipalBuilderClassProp]] <<kafka-properties.adoc#principal.builder.class, principal.builder.class>>
+| [[PrincipalBuilderClassProp]] <<kafka-properties.adoc#principal.builder.class, principal.builder.class>>
 
 | replicaLagTimeMaxMs
 a| [[replicaLagTimeMaxMs]][[ReplicaLagTimeMaxMsProp]] <<kafka-properties.adoc#replica.lag.time.max.ms, replica.lag.time.max.ms>>

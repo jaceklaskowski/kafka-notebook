@@ -5,6 +5,9 @@
 | Name
 | Description
 
+| PRINCIPAL_BUILDER_CLASS_CONFIG
+a| [[PRINCIPAL_BUILDER_CLASS_CONFIG]] link:kafka-properties.adoc#principal.builder.class[principal.builder.class]
+
 | SSL_PRINCIPAL_MAPPING_RULES_CONFIG
 a| [[SSL_PRINCIPAL_MAPPING_RULES_CONFIG]] link:kafka-properties.adoc#ssl.principal.mapping.rules[ssl.principal.mapping.rules]
 
