@@ -1,5 +1,11 @@
 == [[ChannelBuilders]] ChannelBuilders Utility
 
+`ChannelBuilders` utility is used for the following:
+
+* <<createPrincipalBuilder, Creating a KafkaPrincipalBuilder (per principal.builder.class configuration property)>>
+
+* ...
+
 === [[clientChannelBuilder]] Creating ChannelBuilder (for Kafka Clients and Inter-Broker Communication) -- `clientChannelBuilder` Method
 
 [source, java]
@@ -49,7 +55,7 @@ ChannelBuilder serverChannelBuilder(
 
 NOTE: `serverChannelBuilder` is used when link:kafka-network-SocketServer-Processor.adoc[Processor] is created (and creates a link:kafka-network-SocketServer-Processor.adoc#selector[Selector]).
 
-=== [[createPrincipalBuilder]] `createPrincipalBuilder` Utility
+=== [[createPrincipalBuilder]] Creating KafkaPrincipalBuilder Per principal.builder.class Configuration Property -- `createPrincipalBuilder` Utility
 
 [source, java]
 ----
@@ -61,11 +67,24 @@ KafkaPrincipalBuilder createPrincipalBuilder(
   SslPrincipalMapper sslPrincipalMapper)
 ----
 
-`createPrincipalBuilder` reads the link:kafka-properties.adoc#principal.builder.class[principal.builder.class] configuration property.
+`createPrincipalBuilder` reads the link:kafka-properties.adoc#principal.builder.class[principal.builder.class] configuration property and creates a link:kafka-common-security-auth-KafkaPrincipalBuilder.adoc[KafkaPrincipalBuilder]:
 
-`createPrincipalBuilder`...FIXME
+* For no class defined (`null`), `createPrincipalBuilder` creates a link:kafka-common-security-authenticator-DefaultKafkaPrincipalBuilder.adoc[DefaultKafkaPrincipalBuilder] (with the `KerberosShortNamer` and `SslPrincipalMapper`)
 
-NOTE: `createPrincipalBuilder` is used when...FIXME
+* For a link:kafka-common-security-auth-KafkaPrincipalBuilder.adoc[KafkaPrincipalBuilder] implementation, `createPrincipalBuilder` creates an instance
+
+* For a `PrincipalBuilder` implementation, `createPrincipalBuilder` creates an instance
+
+For a builder that is also a link:kafka-common-Configurable.adoc[Configurable], `createPrincipalBuilder` requests it to link:kafka-common-Configurable.adoc#configure[configure] (with the given `configs`).
+
+`createPrincipalBuilder` throws an `InvalidConfigurationException` for any other implementation:
+
+[options="wrap"]
+----
+Type [principalBuilderClassName] is not an instance of org.apache.kafka.common.security.auth.PrincipalBuilder or org.apache.kafka.common.security.auth.KafkaPrincipalBuilder
+----
+
+NOTE: `createPrincipalBuilder` is used for creating the link:kafka-common-network-Authenticator.adoc[Authenticators] (i.e. `PlaintextAuthenticator`, link:kafka-common-network-SslChannelBuilder-SslAuthenticator.adoc[SslAuthenticator], and `SaslServerAuthenticator`).
 
 === [[create]] `create` Internal Utility
 
