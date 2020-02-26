@@ -2,7 +2,7 @@
 
 `NetworkClient` is a non-blocking <<kafka-clients-KafkaClient.adoc#, KafkaClient>> that uses a <<selector, Selectable>> for network communication (i.e. sending and receiving messages).
 
-NOTE: link:kafka-Selector.adoc[Selector] is the one and only link:kafka-Selectable.adoc[Selectable] that uses Java's selectable channels for stream-oriented connecting sockets (i.e. Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/channels/SocketChannel.html[java.nio.channels.SocketChannel]).
+NOTE: link:kafka-common-network-Selector.adoc[Selector] is the one and only link:kafka-common-network-Selectable.adoc[Selectable] that uses Java's selectable channels for stream-oriented connecting sockets (i.e. Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/channels/SocketChannel.html[java.nio.channels.SocketChannel]).
 
 `NetworkClient` does the actual reads and writes (to sockets) every <<poll, poll>>.
 
@@ -92,7 +92,7 @@ Initiating connection to node [node]
 
 `initiateConnect` requests the <<connectionStates, ClusterConnectionStates>> to link:kafka-ClusterConnectionStates.adoc#connecting[enter the connecting state for the connection] to the broker `node`.
 
-`initiateConnect` requests the <<selector, Selectable>> to link:kafka-Selectable.adoc#connect[connect] to the broker `node` (at a given host and port).
+`initiateConnect` requests the <<selector, Selectable>> to link:kafka-common-network-Selectable.adoc#connect[connect] to the broker `node` (at a given host and port).
 
 NOTE: `initiateConnect` passes the sizes of <<socketSendBuffer, send>> and <<socketReceiveBuffer, receive>> buffers for the socket connection.
 
@@ -152,7 +152,7 @@ NOTE: `poll` is a part of link:kafka-clients-KafkaClient.adoc#poll[KafkaClient] 
 
 `poll` requests the <<metadataUpdater, MetadataUpdater>> for link:kafka-clients-MetadataUpdater.adoc#maybeUpdate[cluster metadata update (if needed and possible)].
 
-`poll` then requests <<selector, Selectable>> to link:kafka-Selectable.adoc#poll[poll].
+`poll` then requests <<selector, Selectable>> to link:kafka-common-network-Selectable.adoc#poll[poll].
 
 In the end, `poll` handles completed request sends, receives, disconnected connections, records any connections to new brokers, initiates API version requests, expire in-flight requests, and finally triggers their `RequestCompletionHandlers`.
 
@@ -177,7 +177,7 @@ NOTE: `handleCompletedReceives` is used exclusively when `NetworkClient` is requ
 
 * [[metadataUpdater]] <<kafka-clients-MetadataUpdater.adoc#, MetadataUpdater>> (i.e. <<kafka-clients-DefaultMetadataUpdater.adoc#, DefaultMetadataUpdater>>)
 * [[metadata]] <<kafka-clients-Metadata.adoc#, Metadata>>
-* [[selector]] <<kafka-Selectable.adoc#, Selectable>>
+* [[selector]] <<kafka-common-network-Selectable.adoc#, Selectable>>
 * [[clientId]] Client ID that is used to identify the client in requests to a Kafka server (when `NetworkClient` is requested to <<newClientRequest, create a new ClientRequest>>)
 * [[maxInFlightRequestsPerConnection]] `maxInFlightRequestsPerConnection`
 * [[reconnectBackoffMs]] `reconnectBackoffMs`

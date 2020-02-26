@@ -1,3 +1,54 @@
 == [[ChannelBuilder]] ChannelBuilder
 
-`ChannelBuilder` is...FIXME
+`ChannelBuilder` is the <<contract, abstraction>> of <<implementations, channel builders>> that can <<buildChannel, build a KafkaChannel>>.
+
+[[Configurable]]
+`ChannelBuilder` is a link:kafka-common-Configurable.adoc[Configurable].
+
+[[AutoCloseable]]
+`ChannelBuilder` is a Java `AutoCloseable`.
+
+`ChannelBuilder` is created using link:kafka-common-network-ChannelBuilders.adoc#create[ChannelBuilders] utility.
+
+`ChannelBuilder` is used to create a link:kafka-common-network-Selector.adoc[Selector].
+
+[[contract]]
+.ChannelBuilder Contract
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| buildChannel
+a| [[buildChannel]]
+
+[source, java]
+----
+KafkaChannel buildChannel(
+  String id,
+  SelectionKey key,
+  int maxReceiveSize,
+  MemoryPool memoryPool)
+----
+
+Used when `Selector` is requested to link:kafka-common-network-Selector.adoc#buildAndAttachKafkaChannel[buildAndAttachKafkaChannel]
+
+|===
+
+[[implementations]]
+.ChannelBuilders
+[cols="30,70",options="header",width="100%"]
+|===
+| ChannelBuilder
+| Description
+
+| PlaintextChannelBuilder
+| [[PlaintextChannelBuilder]]
+
+| link:kafka-common-network-SaslChannelBuilder.adoc[SaslChannelBuilder]
+| [[SaslChannelBuilder]]
+
+| link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder]
+| [[SslChannelBuilder]]
+
+|===

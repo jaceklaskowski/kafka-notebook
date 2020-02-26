@@ -1,8 +1,8 @@
 == [[Selectable]] Selectable
 
-`Selectable` is the <<contract, contract>> for asynchronous, multi-channel network I/O.
+`Selectable` is the <<contract, contract>> for asynchronous, multi-channel network I/O for link:kafka-clients-NetworkClient.adoc#selector[NetworkClient].
 
-NOTE: link:kafka-Selector.adoc[Selector] is the one and only `Selectable`.
+NOTE: link:kafka-common-network-Selector.adoc[Selector] is the one and only `Selectable`.
 
 [[contract]]
 [source, java]

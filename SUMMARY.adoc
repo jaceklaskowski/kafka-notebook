@@ -19,14 +19,6 @@
 . link:kafka-security-tls-ssl.adoc[Kafka Security / Communications Security]
 .. link:kafka-demo-securing-communication-between-clients-and-brokers.adoc[Demo: Securing Communication Between Clients and Brokers Using SSL]
 
-. link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder]
-.. link:kafka-common-network-SaslChannelBuilder.adoc[SaslChannelBuilder]
-.. link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder]
-... link:kafka-common-network-SslChannelBuilder-SslAuthenticator.adoc[SslAuthenticator]
-. link:kafka-common-network-ChannelBuilders.adoc[ChannelBuilders]
-. link:kafka-common-network-Authenticator.adoc[Authenticator]
-. link:kafka-common-network-KafkaChannel.adoc[KafkaChannel]
-
 . link:kafka-common-security-ssl-SslFactory.adoc[SslFactory]
 . link:kafka-common-security-ssl-SslEngineBuilder.adoc[SslEngineBuilder]
 . link:kafka-common-security-ssl-SslPrincipalMapper.adoc[SslPrincipalMapper]
@@ -47,6 +39,21 @@
 . link:kafka-common-security-auth-KafkaPrincipalBuilder.adoc[KafkaPrincipalBuilder]
 
 . link:kafka-common-security-authenticator-DefaultKafkaPrincipalBuilder.adoc[DefaultKafkaPrincipalBuilder]
+
+=== Kafka Networking Layer
+
+. link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder]
+.. link:kafka-common-network-SaslChannelBuilder.adoc[SaslChannelBuilder]
+.. link:kafka-common-network-SslChannelBuilder.adoc[SslChannelBuilder]
+... link:kafka-common-network-SslChannelBuilder-SslAuthenticator.adoc[SslAuthenticator]
+. link:kafka-common-network-ChannelBuilders.adoc[ChannelBuilders]
+
+. link:kafka-common-network-Authenticator.adoc[Authenticator]
+
+. link:kafka-common-network-KafkaChannel.adoc[KafkaChannel]
+
+. link:kafka-common-network-Selectable.adoc[Selectable]
+.. link:kafka-common-network-Selector.adoc[Selector]
 
 === Kafka Tools (Utilities)
 
@@ -233,9 +240,6 @@
 .. link:kafka-server-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend]
 .. link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 .. link:kafka-server-ReplicaManager-LogDirFailureHandler.adoc[LogDirFailureHandler]
-
-. link:kafka-Selector.adoc[Selector]
-.. link:kafka-Selectable.adoc[Selectable]
 
 . link:kafka-ShutdownableThread.adoc[ShutdownableThread]
 . link:kafka-network-SocketServer.adoc[SocketServer]
