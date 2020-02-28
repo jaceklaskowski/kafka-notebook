@@ -203,7 +203,7 @@ makeFollowers(
 
 `makeFollowers`...FIXME
 
-NOTE: `makeFollowers` is used exclusively when `ReplicaManager` is requested to <<becomeLeaderOrFollower, becomeLeaderOrFollower>>.
+NOTE: `makeFollowers` is used when `ReplicaManager` is requested to <<becomeLeaderOrFollower, becomeLeaderOrFollower>>.
 
 === [[recordIsrChange]] `recordIsrChange` Method
 
@@ -239,10 +239,11 @@ fetchMessages(
   fetchMinBytes: Int,
   fetchMaxBytes: Int,
   hardMaxBytesLimit: Boolean,
-  fetchInfos: Seq[(TopicPartition, FetchRequest.PartitionData)],
-  quota: ReplicaQuota = UnboundedQuota,
+  fetchInfos: Seq[(TopicPartition, PartitionData)],
+  quota: ReplicaQuota,
   responseCallback: Seq[(TopicPartition, FetchPartitionData)] => Unit,
-  isolationLevel: IsolationLevel): Unit
+  isolationLevel: IsolationLevel,
+  clientMetadata: Option[ClientMetadata]): Unit
 ----
 
 `fetchMessages`...FIXME
@@ -310,10 +311,10 @@ maybeShrinkIsr(): Unit
 `maybeShrinkIsr` prints out the following TRACE message to the logs:
 
 ```
-TRACE Evaluating ISR list of partitions to see which replicas can be removed from the ISR
+Evaluating ISR list of partitions to see which replicas can be removed from the ISR
 ```
 
-`maybeShrinkIsr` requests the partitions (from <<allPartitions, allPartitions>> pool that are not <<OfflinePartition, offline partitions>>) to link:kafka-cluster-Partition.adoc#maybeShrinkIsr[maybeShrinkIsr] (with link:kafka-server-KafkaConfig.adoc#replicaLagTimeMaxMs[replicaLagTimeMaxMs] property).
+`maybeShrinkIsr` requests the partitions (from <<allPartitions, allPartitions>> pool that are not <<OfflinePartition, offline partitions>>) to link:kafka-cluster-Partition.adoc#maybeShrinkIsr[maybeShrinkIsr] (with link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms] property).
 
 NOTE: `maybeShrinkIsr` is used exclusively to schedule <<kafka-server-scheduled-tasks.adoc#isr-expiration, isr-expiration>> recurring task when `ReplicaManager` <<startup, starts up>>.
 
@@ -806,6 +807,19 @@ tryCompleteElection(key: DelayedOperationKey): Unit
 `tryCompleteElection`...FIXME
 
 NOTE: `tryCompleteElection` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleUpdateMetadataRequest, handle an UpdateMetadata request>>.
+
+=== [[updateFollowerFetchState]] `updateFollowerFetchState` Internal Method
+
+[source, scala]
+----
+updateFollowerFetchState(
+  followerId: Int,
+  readResults: Seq[(TopicPartition, LogReadResult)]): Seq[(TopicPartition, LogReadResult)]
+----
+
+`updateFollowerFetchState`...FIXME
+
+NOTE: `updateFollowerFetchState` is used when `ReplicaManager` is requested to <<fetchMessages, fetchMessages>>.
 
 === [[internal-properties]] Internal Properties
 

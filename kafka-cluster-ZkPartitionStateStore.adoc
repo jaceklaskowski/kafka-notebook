@@ -1,0 +1,13 @@
+== [[ZkPartitionStateStore]] ZkPartitionStateStore
+
+`ZkPartitionStateStore` is a `PartitionStateStore` of link:kafka-cluster-Partition.adoc#stateStore[Partition].
+
+`ZkPartitionStateStore` is <<creating-instance, created>> for a link:kafka-cluster-Partition.adoc#apply[Partition].
+
+=== [[creating-instance]] Creating ZkPartitionStateStore Instance
+
+`ZkPartitionStateStore` takes the following to be created:
+
+* [[topicPartition]] `TopicPartition`
+* [[zkClient]] link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient]
+* [[replicaManager]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]

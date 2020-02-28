@@ -102,12 +102,24 @@ image::images/Partition-jconsole.png[align="center"]
 * [[interBrokerProtocolVersion]] link:kafka-properties.adoc#inter.broker.protocol.version[inter.broker.protocol.version]
 * [[localBrokerId]] Broker ID
 * [[time]] `Time`
-* [[stateStore]] `PartitionStateStore`
+* [[stateStore]] <<PartitionStateStore, PartitionStateStore>>
 * [[delayedOperations]] `DelayedOperations`
 * [[metadataCache]] link:kafka-server-MetadataCache.adoc[MetadataCache]
 * [[logManager]] link:kafka-log-LogManager.adoc[LogManager]
 
 `Partition` initializes the <<internal-properties, internal properties>>.
+
+=== [[PartitionStateStore]] Partition and PartitionStateStore
+
+When <<creating-instance, created>>, a `Partition` is given a <<stateStore, PartitionStateStore>> (that is a link:kafka-cluster-ZkPartitionStateStore.adoc[ZkPartitionStateStore] by <<apply, default>>).
+
+`PartitionStateStore` is used when `Partition` is requested for the following:
+
+* <<createLog, createLog>>
+
+* <<expandIsr, expandIsr>>
+
+* <<shrinkIsr, shrinkIsr>>
 
 === [[apply]] Creating Partition -- `apply` Utility
 
@@ -133,18 +145,38 @@ NOTE: `apply` is used when `ReplicaManager` is requested to link:kafka-server-Re
 
 [source, scala]
 ----
-maybeExpandIsr(replicaId: Int, logReadResult: LogReadResult): Boolean
+maybeExpandIsr(
+  replicaId: Int,
+  logReadResult: LogReadResult): Boolean
 ----
 
 `maybeExpandIsr`...FIXME
 
-NOTE: `maybeExpandIsr` is used exclusively when `Partition` is requested to <<updateReplicaLogReadResult, updateReplicaLogReadResult>>.
+NOTE: `maybeExpandIsr` is used exclusively when `Partition` is requested to <<updateFollowerFetchState, updateFollowerFetchState>>.
+
+=== [[updateFollowerFetchState]] `updateFollowerFetchState` Method
+
+[source, scala]
+----
+updateFollowerFetchState(
+  followerId: Int,
+  followerFetchOffsetMetadata: LogOffsetMetadata,
+  followerStartOffset: Long,
+  followerFetchTimeMs: Long,
+  leaderEndOffset: Long,
+  lastSentHighwatermark: Long): Boolean
+----
+
+`updateFollowerFetchState`...FIXME
+
+NOTE: `updateFollowerFetchState` is used when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#updateFollowerFetchState[updateFollowerFetchState].
 
 === [[maybeShrinkIsr]] `maybeShrinkIsr` Method
 
 [source, scala]
 ----
-maybeShrinkIsr(replicaMaxLagTimeMs: Long): Unit
+maybeShrinkIsr(
+  replicaMaxLagTimeMs: Long): Unit
 ----
 
 `maybeShrinkIsr`...FIXME
@@ -576,6 +608,28 @@ deleteRecordsOnLeader(
 
 NOTE: `deleteRecordsOnLeader` is used when...FIXME
 
+=== [[createLogIfNotExists]] `createLogIfNotExists` Method
+
+[source, scala]
+----
+createLogIfNotExists(
+  replicaId: Int,
+  isNew: Boolean,
+  isFutureReplica: Boolean,
+  offsetCheckpoints: OffsetCheckpoints): Unit
+----
+
+`createLogIfNotExists`...FIXME
+
+[NOTE]
+====
+`createLogIfNotExists` is used when:
+
+* `Partition` is requested to <<maybeCreateFutureReplica, maybeCreateFutureReplica>>, <<makeLeader, makeLeader>>, and <<makeFollower, makeFollower>>
+
+* `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower[becomeLeaderOrFollower] and link:kafka-server-ReplicaManager.adoc#makeFollowers[makeFollowers]
+====
+
 === [[tryCompleteDelayedRequests]] `tryCompleteDelayedRequests` Internal Method
 
 [source, scala]
@@ -586,6 +640,45 @@ tryCompleteDelayedRequests(): Unit
 `tryCompleteDelayedRequests`...FIXME
 
 NOTE: `tryCompleteDelayedRequests` is used when `Partition` is requested to <<makeLeader, makeLeader>>, <<updateReplicaLogReadResult, updateReplicaLogReadResult>>, <<maybeShrinkIsr, maybeShrinkIsr>>, and <<appendRecordsToLeader, appendRecordsToLeader>> (when `leaderHWIncremented`).
+
+=== [[createLog]] `createLog` Internal Method
+
+[source, scala]
+----
+createLog(
+  replicaId: Int,
+  isNew: Boolean,
+  isFutureReplica: Boolean,
+  offsetCheckpoints: OffsetCheckpoints): Log
+----
+
+`createLog`...FIXME
+
+NOTE: `createLog` is used when `Partition` is requested to <<createLogIfNotExists, createLogIfNotExists>>.
+
+=== [[expandIsr]] `expandIsr` Internal Method
+
+[source, scala]
+----
+expandIsr(
+  newIsr: Set[Int]): Unit
+----
+
+`expandIsr`...FIXME
+
+NOTE: `expandIsr` is used when `Partition` is requested to <<maybeExpandIsr, maybeExpandIsr>>.
+
+=== [[shrinkIsr]] `shrinkIsr` Internal Method
+
+[source, scala]
+----
+shrinkIsr(
+  newIsr: Set[Int]): Unit
+----
+
+`shrinkIsr`...FIXME
+
+NOTE: `shrinkIsr` is used when `Partition` is requested to <<maybeShrinkIsr, maybeShrinkIsr>>.
 
 === [[internal-properties]] Internal Properties
 
