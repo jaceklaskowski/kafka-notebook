@@ -572,8 +572,19 @@ Must be at least `1`
 | receive.buffer.bytes
 | [[receive.buffer.bytes]] The hint about the size of the TCP network receive buffer (SO_RCVBUF) to use (for a socket) when reading data. If the value is -1, the OS default will be used.
 
+| replica.fetch.wait.max.ms
+a| [[replica.fetch.wait.max.ms]]
+
 | replica.lag.time.max.ms
-a| [[replica.lag.time.max.ms]]
+a| [[replica.lag.time.max.ms]] If a follower hasn't sent any fetch requests or hasn't consumed up to the leader's log end offset (LEO) for at least this time, the leader will remove the follower from isr
+
+Default: `10000L` (millis)
+
+NOTE: <<replica.fetch.wait.max.ms, replica.fetch.wait.max.ms>> should always be less than or equal to `replica.lag.time.max.ms` to prevent frequent changes in ISR.
+
+* Use <<kafka-server-KafkaConfig.adoc#ReplicaLagTimeMaxMsProp, KafkaConfig.ReplicaLagTimeMaxMsProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#replicaLagTimeMaxMs, KafkaConfig.replicaLagTimeMaxMs>> to access the current value
 
 | replica.socket.timeout.ms
 | [[replica.socket.timeout.ms]]

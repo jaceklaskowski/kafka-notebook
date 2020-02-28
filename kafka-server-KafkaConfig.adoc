@@ -281,6 +281,12 @@ a| [[numReplicaFetchers]][[NumReplicaFetchersProp]] <<kafka-properties.adoc#num.
 | replicaLagTimeMaxMs
 a| [[replicaLagTimeMaxMs]][[ReplicaLagTimeMaxMsProp]] link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms]
 
+Used when:
+
+* `Partition` is link:kafka-cluster-Partition.adoc#apply[created]
+
+* `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#startup[startup] (and starts link:kafka-server-scheduled-tasks.adoc#isr-expiration[isr-expiration]) and link:kafka-server-ReplicaManager.adoc#maybeShrinkIsr[maybeShrinkIsr]
+
 | replicaFetchBackoffMs
 a| [[replicaFetchBackoffMs]][[ReplicaFetchBackoffMsProp]] <<kafka-properties.adoc#replica.fetch.backoff.ms, replica.fetch.backoff.ms>>
 
