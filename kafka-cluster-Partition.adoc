@@ -23,6 +23,20 @@ Kafka producers publish messages to topic leaders as do Kafka consumers consume 
 [[logIdent]]
 `Partition` uses *[Partition [topicPartition] broker=[localBrokerId]]* as the logging prefix (aka `logIdent`).
 
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `kafka.cluster.Partition` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.cluster.Partition=ALL
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
 === [[KafkaMetricsGroup]][[metrics]] Performance Metrics
 
 `Partition` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with the following performance metrics.
@@ -84,18 +98,18 @@ image::images/Partition-jconsole.png[align="center"]
 `Partition` takes the following to be created:
 
 * [[topicPartition]] `TopicPartition`
-* [[isOffline]] `isOffline` flag
-* [[replicaLagTimeMaxMs]] `replicaLagTimeMaxMs`
-* [[interBrokerProtocolVersion]] `ApiVersion`
+* [[replicaLagTimeMaxMs]] link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms]
+* [[interBrokerProtocolVersion]] link:kafka-properties.adoc#inter.broker.protocol.version[inter.broker.protocol.version]
 * [[localBrokerId]] Broker ID
 * [[time]] `Time`
-* [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
-* [[logManager]] <<kafka-log-LogManager.adoc#, LogManager>>
-* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
+* [[stateStore]] `PartitionStateStore`
+* [[delayedOperations]] `DelayedOperations`
+* [[metadataCache]] link:kafka-server-MetadataCache.adoc[MetadataCache]
+* [[logManager]] link:kafka-log-LogManager.adoc[LogManager]
 
 `Partition` initializes the <<internal-properties, internal properties>>.
 
-=== [[apply]] Creating Partition -- `apply` Factory Method
+=== [[apply]] Creating Partition -- `apply` Utility
 
 [source, scala]
 ----
@@ -105,21 +119,15 @@ apply(
   replicaManager: ReplicaManager): Partition
 ----
 
-`apply` simply creates a new <<creating-instance, Partition>> for the given `TopicPartition`, `Time`, and <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> and the following:
+`apply` creates a new <<creating-instance, Partition>> for the given `TopicPartition`, `Time`, and <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> with the following:
 
-* <<isOffline, isOffline>> is disabled (`false`)
+* Creates a new `ZkPartitionStateStore` for the given `TopicPartition` and <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
 
-* <<replicaLagTimeMaxMs, replicaLagTimeMaxMs>> is <<kafka-properties.adoc#replica.lag.time.max.ms, replica.lag.time.max.ms>> configuration property
+* Creates a new `DelayedOperations` for the given `TopicPartition` and <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
 
-* <<interBrokerProtocolVersion, interBrokerProtocolVersion>> is <<kafka-properties.adoc#inter.broker.protocol.version, inter.broker.protocol.version>> configuration property
+* Uses link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms] and link:kafka-properties.adoc#inter.broker.protocol.version[inter.broker.protocol.version] configuration properties.
 
-* <<localBrokerId, localBrokerId>> as <<kafka-properties.adoc#broker.id, broker.id>> configuration property
-
-* <<logManager, LogManager>> from the given <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>
-
-* <<zkClient, KafkaZkClient>> from the given <<kafka-server-ReplicaManager.adoc#zkClient, ReplicaManager>>
-
-NOTE: `apply` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#allPartitions, add a TopicPartition to allPartitions>>.
+NOTE: `apply` is used when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#allPartitions[add a partition to allPartitions Registry].
 
 === [[maybeExpandIsr]] `maybeExpandIsr` Method
 
