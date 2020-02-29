@@ -576,7 +576,7 @@ Must be at least `1`
 a| [[replica.fetch.wait.max.ms]]
 
 | replica.lag.time.max.ms
-a| [[replica.lag.time.max.ms]] If a follower hasn't sent any fetch requests or hasn't consumed up to the leader's log end offset (LEO) for at least this time, the leader will remove the follower from isr
+a| [[replica.lag.time.max.ms]] How long to wait for a link:kafka-cluster-Partition.adoc#isFollowerOutOfSync[follower to consume up to the leader's log end offset (LEO)] before the leader removes the follower from the ISR of a partition
 
 Default: `10000L` (millis)
 

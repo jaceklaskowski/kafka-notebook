@@ -171,7 +171,7 @@ maybeExpandIsr(
 
 `maybeExpandIsr`...FIXME
 
-NOTE: `maybeExpandIsr` is used exclusively when `Partition` is requested to <<updateFollowerFetchState, updateFollowerFetchState>>.
+NOTE: `maybeExpandIsr` is used when `Partition` is requested to <<updateFollowerFetchState, updateFollowerFetchState>>.
 
 === [[updateFollowerFetchState]] `updateFollowerFetchState` Method
 
@@ -198,9 +198,7 @@ maybeShrinkIsr(
   replicaMaxLagTimeMs: Long): Unit
 ----
 
-`maybeShrinkIsr` requests the <<localLogOrException, Log>> for the link:kafka-log-Log.adoc#logEndOffset[logEndOffset].
-
-`maybeShrinkIsr` <<isFollowerOutOfSync, isFollowerOutOfSync>> for every <<inSyncReplicaIds, inSyncReplicaIds>> (without the <<localBrokerId, local broker ID>>).
+`maybeShrinkIsr`...
 
 NOTE: `maybeShrinkIsr` is used when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#maybeShrinkIsr[maybeShrinkIsr].
 
@@ -647,7 +645,9 @@ getOutOfSyncReplicas(
   maxLagMs: Long): Set[Int]
 ----
 
-`getOutOfSyncReplicas`...FIXME
+`getOutOfSyncReplicas` requests the <<localLogOrException, Log>> for the link:kafka-log-Log.adoc#logEndOffset[logEndOffset].
+
+`maybeShrinkIsr` <<isFollowerOutOfSync, isFollowerOutOfSync>> for every <<inSyncReplicaIds, inSyncReplicaIds>> (without the <<localBrokerId, local broker ID>>)
 
 NOTE: `getOutOfSyncReplicas` is used when `Partition` is requested to <<maybeShrinkIsr, maybeShrinkIsr>>.
 
@@ -763,7 +763,13 @@ isFollowerOutOfSync(
   maxLagMs: Long): Boolean
 ----
 
-`isFollowerOutOfSync`...FIXME
+`isFollowerOutOfSync` <<getReplicaOrException, gets the follower replica>> for the given `replicaId` (if available or throws an exception).
+
+`isFollowerOutOfSync` is positive (`true`) when the following hold:
+
+. link:kafka-cluster-Replica.adoc#logEndOffset[logEndOffset] of the follower replica is different than the given `leaderEndOffset`
+
+. Time since the link:kafka-cluster-Replica.adoc#lastCaughtUpTimeMs[lastCaughtUpTimeMs] of the follower replica is greater than the given `maxLagMs` (i.e. link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms] configuration property).
 
 NOTE: `isFollowerOutOfSync` is used when `Partition` is requested to <<getOutOfSyncReplicas, getOutOfSyncReplicas>>.
 
@@ -830,6 +836,19 @@ localLogWithEpochOrException(
 `localLogWithEpochOrException`...FIXME
 
 NOTE: `localLogWithEpochOrException` is used when `Partition` is requested to...FIXME
+
+=== [[isFollowerInSync]] `isFollowerInSync` Internal Method
+
+[source, scala]
+----
+isFollowerInSync(
+  followerReplica: Replica,
+  highWatermark: Long): Boolean
+----
+
+`isFollowerInSync`...FIXME
+
+NOTE: `isFollowerInSync` is used when `Partition` is requested to <<maybeExpandIsr, maybeExpandIsr>>.
 
 === [[internal-properties]] Internal Properties
 

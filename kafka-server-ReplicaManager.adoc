@@ -820,6 +820,22 @@ localLog(
 
 NOTE: `localLog` is used when...FIXME
 
+=== [[findPreferredReadReplica]] `findPreferredReadReplica` Method
+
+[source, scala]
+----
+findPreferredReadReplica(
+  tp: TopicPartition,
+  clientMetadata: ClientMetadata,
+  replicaId: Int,
+  fetchOffset: Long,
+  currentTimeMs: Long): Option[Int]
+----
+
+`findPreferredReadReplica`...FIXME
+
+NOTE: `findPreferredReadReplica` is used when...FIXME
+
 === [[updateFollowerFetchState]] `updateFollowerFetchState` Internal Method
 
 [source, scala]

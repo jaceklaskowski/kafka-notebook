@@ -36,6 +36,35 @@ latestEpoch: Option[Int]
 
 NOTE: `latestEpoch` is used when...FIXME
 
+=== [[logEndOffset]] `logEndOffset` Method
+
+[source, scala]
+----
+logEndOffset: Long
+----
+
+`logEndOffset` requests the current <<logEndOffsetMetadata, LogOffsetMetadata>> for the message offset.
+
+[NOTE]
+====
+`logEndOffset` is used when:
+
+* `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#findPreferredReadReplica[findPreferredReadReplica]
+
+* `Partition` is requested to link:kafka-cluster-Partition.adoc#updateFollowerFetchState[updateFollowerFetchState] and link:kafka-cluster-Partition.adoc#isFollowerInSync[isFollowerInSync]
+====
+
+=== [[lastCaughtUpTimeMs]] `lastCaughtUpTimeMs` Method
+
+[source, scala]
+----
+lastCaughtUpTimeMs: Long
+----
+
+`lastCaughtUpTimeMs`...FIXME
+
+NOTE: `lastCaughtUpTimeMs` is used when...FIXME
+
 === [[logEndOffsetMetadata]] `logEndOffsetMetadata` Method
 
 [source, scala]
