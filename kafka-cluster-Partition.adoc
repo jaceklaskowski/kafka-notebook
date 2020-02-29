@@ -12,7 +12,7 @@ Kafka producers publish messages to topic leaders as do Kafka consumers consume 
 
 *Offline Replicas* are...FIXME
 
-`Partition` is an internal data structure that <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> uses to represent a `TopicPartition` (and manage <<kafka-server-ReplicaManager.adoc#allPartitions, all partitions>>).
+`Partition` is an internal abstraction that <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> uses to represent a `TopicPartition` (and manage <<kafka-server-ReplicaManager.adoc#allPartitions, all partitions>>).
 
 `Partition` is <<creating-instance, created>> when:
 
@@ -109,14 +109,24 @@ image::images/Partition-jconsole.png[align="center"]
 
 `Partition` initializes the <<internal-properties, internal properties>>.
 
-=== [[log]] Partition and Log -- `log` Internal Registry
+=== [[log]] Partition and Partition Log -- `log` Registry
 
 [source, scala]
 ----
 log: Option[Log] = None
 ----
 
-`log` is...FIXME
+`log` is a link:kafka-log-Log.adoc[partition log] (of the partition).
+
+`log` is assigned a `Log` when `Partition` is requested to <<createLogIfNotExists, createLogIfNotExists>> and <<maybeReplaceCurrentWithFutureReplica, maybeReplaceCurrentWithFutureReplica>>.
+
+`log` is available until `Partition` is requested to <<delete, delete>>.
+
+`log` is used when:
+
+* `Partition` is requested for the <<LastStableOffsetLag, LastStableOffsetLag>> metric, <<getLocalLog, getLocalLog>>, <<leaderLogIfLocal, leaderLogIfLocal>>, <<localLogOrException, localLogOrException>>, <<maybeReplaceCurrentWithFutureReplica, maybeReplaceCurrentWithFutureReplica>>
+
+* `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#localLog[localLog], link:kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower[becomeLeaderOrFollower], link:kafka-server-ReplicaManager.adoc#checkpointHighWatermarks[checkpointHighWatermarks] and link:kafka-server-ReplicaManager.adoc#handleLogDirFailure[handleLogDirFailure].
 
 === [[PartitionStateStore]] Partition and PartitionStateStore
 
@@ -510,30 +520,18 @@ localReplica: Option[Replica]
 getReplica(replicaId: Int): Option[Replica]
 ----
 
-`getReplica` returns the <<kafka-cluster-Replica.adoc#, replica>> by the given `replicaId` (in the <<allReplicasMap, allReplicasMap>> registry) or `None`.
+`getReplica` returns the link:kafka-cluster-Replica.adoc[replica] by the given `replicaId` (in the <<allReplicasMap, allReplicasMap>> registry) or `None`.
 
 [NOTE]
 ====
 `getReplica` is used when:
 
-* `Partition` is requested to <<localReplica, localReplica>>, <<futureLocalReplica, futureLocalReplica>>, and <<maybeExpandIsr, maybeExpandIsr>>
+* `Partition` is requested to <<getReplicaOrException, getReplicaOrException>> and <<updateFollowerFetchState, updateFollowerFetchState>>
 
-* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#shouldLeaderThrottle, shouldLeaderThrottle>> and <<kafka-server-ReplicaManager.adoc#updateFollowerLogReadResults, updateFollowerLogReadResults>>
+* `DelayedFetch` is requested to `tryComplete`
+
+* `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#readFromLocalLog[readFromLocalLog]
 ====
-
-=== [[getLocalReplica]] `getLocalReplica` Internal Method
-
-[source, scala]
-----
-getLocalReplica(
-  replicaId: Int,
-  currentLeaderEpoch: Optional[Integer],
-  requireLeader: Boolean): Either[Replica, Errors]
-----
-
-`getLocalReplica`...FIXME
-
-NOTE: `getLocalReplica` is used when...FIXME
 
 === [[addReplicaIfNotExists]] `addReplicaIfNotExists` Method
 
@@ -668,6 +666,28 @@ Log for partition [topicPartition] is not available on broker [localBrokerId]
 
 NOTE: `localLogOrException` is used when...FIXME
 
+=== [[leaderLogIfLocal]] `leaderLogIfLocal` Method
+
+[source, scala]
+----
+leaderLogIfLocal: Option[Log]
+----
+
+`leaderLogIfLocal` gives the <<log, Log>> only if the local broker is the <<isLeader, leader>>.
+
+NOTE: `leaderLogIfLocal` is used when...FIXME
+
+=== [[isLeader]] `isLeader` Method
+
+[source, scala]
+----
+isLeader: Boolean
+----
+
+`isLeader` is positive (`true`) when the <<leaderReplicaIdOpt, leaderReplicaIdOpt>> is exactly the <<localBrokerId, local broker ID>>.
+
+NOTE: `isLeader` is used when...FIXME
+
 === [[tryCompleteDelayedRequests]] `tryCompleteDelayedRequests` Internal Method
 
 [source, scala]
@@ -749,6 +769,19 @@ Replica with id [replicaId] is not available on broker [localBrokerId]
 
 NOTE: `getReplicaOrException` is used when `Partition` is requested to <<checkEnoughReplicasReachOffset, checkEnoughReplicasReachOffset>>, <<maybeShrinkIsr, maybeShrinkIsr>>, and <<isFollowerOutOfSync, isFollowerOutOfSync>>.
 
+=== [[getLocalLog]] `getLocalLog` Internal Method
+
+[source, scala]
+----
+getLocalLog(
+  currentLeaderEpoch: Optional[Integer],
+  requireLeader: Boolean): Either[Log, Errors]
+----
+
+`getLocalLog`...FIXME
+
+NOTE: `getLocalLog` is used when `Partition` is requested to...FIXME
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -775,6 +808,6 @@ a| [[allReplicasMap]] <<kafka-cluster-Replica.adoc#, Replicas>> by ID
 
 * An entry removed in <<removeReplica, removeReplica>>, <<removeFutureLocalReplica, removeFutureLocalReplica>>, <<maybeReplaceCurrentWithFutureReplica, maybeReplaceCurrentWithFutureReplica>>, and <<delete, delete>>
 
-Used in <<getReplica, getReplica>>, <<getLocalReplica, getLocalReplica>>, <<assignedReplicas, assignedReplicas>>, <<allReplicas, allReplicas>>, <<toString, toString>>
+Used in <<getReplica, getReplica>>, <<assignedReplicas, assignedReplicas>>, <<allReplicas, allReplicas>>, <<toString, toString>>
 
 |===

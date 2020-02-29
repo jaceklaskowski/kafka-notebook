@@ -407,7 +407,7 @@ handleLogDirFailure(
 
 `handleLogDirFailure`...FIXME
 
-NOTE: `handleLogDirFailure` is used exclusively when `LogDirFailureHandler` is requested to <<kafka-server-ReplicaManager-LogDirFailureHandler.adoc#doWork, do the work>>.
+NOTE: `handleLogDirFailure` is used when `LogDirFailureHandler` is requested to <<kafka-server-ReplicaManager-LogDirFailureHandler.adoc#doWork, do the work>>.
 
 === [[maybeUpdateMetadataCache]] `maybeUpdateMetadataCache` Method
 
@@ -807,6 +807,18 @@ tryCompleteElection(key: DelayedOperationKey): Unit
 `tryCompleteElection`...FIXME
 
 NOTE: `tryCompleteElection` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleUpdateMetadataRequest, handle an UpdateMetadata request>>.
+
+=== [[localLog]] `localLog` Method
+
+[source, scala]
+----
+localLog(
+  topicPartition: TopicPartition): Option[Log]
+----
+
+`localLog`...FIXME
+
+NOTE: `localLog` is used when...FIXME
 
 === [[updateFollowerFetchState]] `updateFollowerFetchState` Internal Method
 
