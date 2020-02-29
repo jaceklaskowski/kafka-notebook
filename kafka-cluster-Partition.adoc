@@ -688,6 +688,20 @@ isLeader: Boolean
 
 NOTE: `isLeader` is used when...FIXME
 
+=== [[lastOffsetForLeaderEpoch]] `lastOffsetForLeaderEpoch` Method
+
+[source, scala]
+----
+lastOffsetForLeaderEpoch(
+  currentLeaderEpoch: Optional[Integer],
+  leaderEpoch: Int,
+  fetchOnlyFromLeader: Boolean): EpochEndOffset
+----
+
+`lastOffsetForLeaderEpoch`...FIXME
+
+NOTE: `lastOffsetForLeaderEpoch` is used when...FIXME
+
 === [[tryCompleteDelayedRequests]] `tryCompleteDelayedRequests` Internal Method
 
 [source, scala]
@@ -778,9 +792,44 @@ getLocalLog(
   requireLeader: Boolean): Either[Log, Errors]
 ----
 
-`getLocalLog`...FIXME
+`getLocalLog` <<checkCurrentLeaderEpoch, checkCurrentLeaderEpoch>> for the given `currentLeaderEpoch` and branches off per the result:
 
-NOTE: `getLocalLog` is used when `Partition` is requested to...FIXME
+* For no errors (`Errors.NONE`), if the `requireLeader` flag is on (`true`), but the broker is not the <<isLeader, leader>>, `getLocalLog` returns `Errors.NOT_LEADER_FOR_PARTITION`.
+
+* For no errors (`Errors.NONE`), if the `requireLeader` flag is off (`false`) or the broker is the <<isLeader, leader>>, `getLocalLog` branches off per the optional <<log, log>>. `getLocalLog` gives the <<log, log>> if defined or the errors:
+
+** `Errors.NOT_LEADER_FOR_PARTITION` when the `requireLeader` flag is on (`true`)
+
+** `Errors.REPLICA_NOT_AVAILABLE` when the `requireLeader` flag is off (`false`)
+
+* For any error, `getLocalLog` simply returns it
+
+NOTE: `getLocalLog` is used when `Partition` is requested to <<localLogWithEpochOrException, localLogWithEpochOrException>> and <<lastOffsetForLeaderEpoch, lastOffsetForLeaderEpoch>>.
+
+=== [[checkCurrentLeaderEpoch]] `checkCurrentLeaderEpoch` Internal Method
+
+[source, scala]
+----
+checkCurrentLeaderEpoch(
+  remoteLeaderEpochOpt: Optional[Integer]): Errors
+----
+
+`checkCurrentLeaderEpoch`...FIXME
+
+NOTE: `checkCurrentLeaderEpoch` is used when `Partition` is requested to <<getLocalLog, getLocalLog>>.
+
+=== [[localLogWithEpochOrException]] `localLogWithEpochOrException` Internal Method
+
+[source, scala]
+----
+localLogWithEpochOrException(
+  currentLeaderEpoch: Optional[Integer],
+  requireLeader: Boolean): Log
+----
+
+`localLogWithEpochOrException`...FIXME
+
+NOTE: `localLogWithEpochOrException` is used when `Partition` is requested to...FIXME
 
 === [[internal-properties]] Internal Properties
 
