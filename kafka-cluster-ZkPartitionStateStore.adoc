@@ -1,6 +1,8 @@
 == [[ZkPartitionStateStore]] ZkPartitionStateStore
 
-`ZkPartitionStateStore` is a `PartitionStateStore` of link:kafka-cluster-Partition.adoc#stateStore[Partition].
+`ZkPartitionStateStore` is a link:kafka-cluster-PartitionStateStore.adoc[state store] for a <<topicPartition, TopicPartition>> (as link:kafka-cluster-Partition.adoc#stateStore[Partition]).
+
+`ZkPartitionStateStore` uses ZooKeeper as the state storage (using a <<zkClient, KafkaZkClient>>).
 
 `ZkPartitionStateStore` is <<creating-instance, created>> for a link:kafka-cluster-Partition.adoc#apply[Partition].
 

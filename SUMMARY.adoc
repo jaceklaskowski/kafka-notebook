@@ -14,6 +14,16 @@
 . link:kafka-idempotent-producer.adoc[Idempotent Producer]
 . link:kafka-log.adoc[Log Management System]
 
+=== Kafka Cluster
+
+. link:kafka-cluster-Partition.adoc[Partition]
+. link:kafka-cluster-Replica.adoc[Replica]
+
+. link:kafka-cluster-PartitionStateStore.adoc[PartitionStateStore]
+.. link:kafka-cluster-ZkPartitionStateStore.adoc[ZkPartitionStateStore]
+
+. link:kafka-utils-ReplicationUtils.adoc[ReplicationUtils]
+
 === Kafka Security / Transport Layer Security (TLS) and Secure Sockets Layer (SSL)
 
 . link:kafka-security-tls-ssl.adoc[Kafka Security / Communications Security]
@@ -256,16 +266,6 @@
 
 . link:kafka-ZkUtils.adoc[ZkUtils]
 . link:kafka-ZKRebalancerListener.adoc[ZKRebalancerListener]
-
-=== Kafka Cluster
-
-. link:kafka-cluster-Partition.adoc[Partition]
-. link:kafka-cluster-Replica.adoc[Replica]
-
-. link:kafka-cluster-PartitionStateStore.adoc[PartitionStateStore]
-.. link:kafka-cluster-ZkPartitionStateStore.adoc[ZkPartitionStateStore]
-
-. link:kafka-utils-ReplicationUtils.adoc[ReplicationUtils]
 
 === Kafka Performance Metrics
 

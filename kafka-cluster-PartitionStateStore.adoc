@@ -1,3 +1,49 @@
 == [[PartitionStateStore]] PartitionStateStore
 
-`PartitionStateStore` is...FIXME
+`PartitionStateStore` is the <<contract, abstraction>> of <<implementations, state stores>> for link:kafka-cluster-Partition.adoc[Partitions] to <<fetchTopicConfig, fetch topic configuration>> and <<expandIsr, expand>> or <<shrinkIsr, shrink>> in-sync replicas.
+
+[[implementations]]
+NOTE: link:kafka-cluster-ZkPartitionStateStore.adoc[ZkPartitionStateStore] is the default and only known `PartitionStateStore` in Apache Kafka.
+
+[[contract]]
+.PartitionStateStore Contract
+[cols="30m,70",options="header",width="100%"]
+|===
+| Method
+| Description
+
+| expandIsr
+a| [[expandIsr]]
+
+[source, scala]
+----
+expandIsr(
+  controllerEpoch: Int,
+  leaderAndIsr: LeaderAndIsr): Option[Int]
+----
+
+Used when `Partition` is requested to link:kafka-cluster-Partition.adoc#expandIsr[expandIsr]
+
+| fetchTopicConfig
+a| [[fetchTopicConfig]]
+
+[source, scala]
+----
+fetchTopicConfig(): Properties
+----
+
+Used when `Partition` is requested to link:kafka-cluster-Partition.adoc#createLog[createLog]
+
+| shrinkIsr
+a| [[shrinkIsr]]
+
+[source, scala]
+----
+shrinkIsr(
+  controllerEpoch: Int,
+  leaderAndIsr: LeaderAndIsr): Option[Int]
+----
+
+Used when `Partition` is requested to link:kafka-cluster-Partition.adoc#shrinkIsr[shrinkIsr]
+
+|===
