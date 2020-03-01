@@ -11,3 +11,18 @@
 * [[topicPartition]] `TopicPartition`
 * [[zkClient]] link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient]
 * [[replicaManager]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
+
+=== [[fetchTopicConfig]] Reading Topic Configuration (/config/topics ZNode) -- `fetchTopicConfig` Method
+
+[source, scala]
+----
+fetchTopicConfig(): Properties
+----
+
+NOTE: `fetchTopicConfig` is part of the link:kafka-cluster-PartitionStateStore.adoc#fetchTopicConfig[PartitionStateStore] contract to...FIXME.
+
+`fetchTopicConfig` reads the configuration properties from `/config/topics/[topic]` znode in ZooKeeper (deserialized from JSON).
+
+Internally, `fetchTopicConfig` creates a new link:kafka-zk-AdminZkClient.adoc[AdminZkClient] with the <<zkClient, KafkaZkClient>>.
+
+`fetchTopicConfig` requests the `AdminZkClient` to link:kafka-zk-AdminZkClient.adoc#fetchEntityConfig[read an entity configuration from ZooKeeper] for `topics` entity for the `topic` of the <<topicPartition, TopicPartition>>.
