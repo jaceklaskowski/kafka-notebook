@@ -261,7 +261,10 @@
 
 . link:kafka-cluster-Partition.adoc[Partition]
 . link:kafka-cluster-Replica.adoc[Replica]
-. link:kafka-cluster-ZkPartitionStateStore.adoc[ZkPartitionStateStore]
+
+. link:kafka-cluster-PartitionStateStore.adoc[PartitionStateStore]
+.. link:kafka-cluster-ZkPartitionStateStore.adoc[ZkPartitionStateStore]
+
 . link:kafka-utils-ReplicationUtils.adoc[ReplicationUtils]
 
 === Kafka Performance Metrics

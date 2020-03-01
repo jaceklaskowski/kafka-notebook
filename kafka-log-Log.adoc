@@ -244,6 +244,18 @@ closeHandlers(): Unit
 
 NOTE: `closeHandlers` is used when...FIXME
 
+=== [[updateHighWatermark]] `updateHighWatermark` Method
+
+[source, scala]
+----
+updateHighWatermark(
+  hw: Long): Long
+----
+
+`updateHighWatermark`...FIXME
+
+NOTE: `updateHighWatermark` is used when...FIXME
+
 === [[addAbortedTransactions]] `addAbortedTransactions` Internal Method
 
 [source, scala]

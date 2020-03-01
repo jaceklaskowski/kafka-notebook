@@ -811,9 +811,27 @@ createLog(
   offsetCheckpoints: OffsetCheckpoints): Log
 ----
 
-`createLog`...FIXME
+`createLog` requests the <<logManager, LogManager>> to link:kafka-log-LogManager.adoc#initializingLog[initializingLog] for the <<topicPartition, TopicPartition>>.
 
-NOTE: `createLog` is used when `Partition` is requested to <<createLogIfNotExists, createLogIfNotExists>>.
+`createLog` requests the <<logManager, LogManager>> to link:kafka-log-LogManager.adoc#getOrCreateLog[look up or create a new partition log] for the <<topicPartition, TopicPartition>>. The `LogConfig` passed in is created by requesting the <<stateStore, PartitionStateStore>> for the link:kafka-cluster-PartitionStateStore.adoc#fetchTopicConfig[fetchTopicConfig] to override the link:kafka-log-LogManager.adoc#currentDefaultConfig[currentDefaultConfig] of the <<logManager, LogManager>>.
+
+`createLog` requests the given `OffsetCheckpoints` to fetch the checkpointed high watermark for the <<topicPartition, TopicPartition>>. Unless found, `createLog` prints out the following INFO message to the logs and assumes `0`:
+
+```
+No checkpointed highwatermark is found for partition [topicPartition]
+```
+
+`createLog` requests the `Log` to link:kafka-log-Log.adoc#updateHighWatermark[update the high watermark].
+
+`createLog` prints out the following INFO message to the logs:
+
+```
+Log loaded for partition [topicPartition] with initial high watermark [initialHighWatermark]
+```
+
+In the end, `createLog` requests the <<logManager, LogManager>> to link:kafka-log-LogManager.adoc#finishedInitializingLog[finishedInitializingLog] for the <<topicPartition, TopicPartition>>.
+
+NOTE: `createLog` is used when `Partition` is requested to <<createLogIfNotExists, create a log or future log (unless available already)>>.
 
 === [[expandIsr]] `expandIsr` Internal Method
 

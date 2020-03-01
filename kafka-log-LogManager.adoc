@@ -568,6 +568,32 @@ handleLogDirFailure(
 
 NOTE: `handleLogDirFailure` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#handleLogDirFailure, handleLogDirFailure>>.
 
+=== [[initializingLog]] Marking Start of Partition Log Initialization -- `initializingLog` Method
+
+[source, scala]
+----
+initializingLog(
+  topicPartition: TopicPartition): Unit
+----
+
+`initializingLog`...FIXME
+
+NOTE: `initializingLog` is used when `Partition` is requested to link:kafka-cluster-Partition.adoc#createLog[createLog].
+
+=== [[finishedInitializingLog]] Marking End of Partition Log Initialization -- `finishedInitializingLog` Method
+
+[source, scala]
+----
+finishedInitializingLog(
+  topicPartition: TopicPartition,
+  maybeLog: Option[Log],
+  fetchLogConfig: () => LogConfig): Unit
+----
+
+`finishedInitializingLog`...FIXME
+
+NOTE: `finishedInitializingLog` is used when `Partition` is requested to link:kafka-cluster-Partition.adoc#createLog[createLog].
+
 === [[flushDirtyLogs]] `flushDirtyLogs` Internal Method
 
 [source, scala]
