@@ -1,10 +1,12 @@
 == [[Partition]] Partition
 
+`Partition` is an internal representation of a <<topicPartition, TopicPartition>> for link:kafka-server-ReplicaManager.adoc[ReplicaManager] (to manage <<kafka-server-ReplicaManager.adoc#allPartitions, all partitions>>).
+
+`Partition` knows the host broker (by <<localBrokerId, local broker ID>>) which is one of the *partition replicas* (replicated across brokers of a Kafka cluster).
+
+`Partition` uses the <<remoteReplicasMap, remoteReplicasMap>> internal registry to track remote replicas (and is requested to <<updateAssignmentAndIsr, update partition replicas and the in-sync replicas>> when...FIXME).
+
 A Kafka topic is spread across a Kafka cluster as a logical group of one or more *partitions*.
-
-A single partition of a topic (*topic partition*) can be replicated across a Kafka cluster to one or more Kafka brokers.
-
-A topic partition has one partition leader node and zero or more replicas.
 
 Kafka producers publish messages to topic leaders as do Kafka consumers consume them from.
 
@@ -12,13 +14,7 @@ Kafka producers publish messages to topic leaders as do Kafka consumers consume 
 
 *Offline Replicas* are...FIXME
 
-`Partition` is an internal abstraction that <<kafka-server-ReplicaManager.adoc#, ReplicaManager>> uses to represent a `TopicPartition` (and manage <<kafka-server-ReplicaManager.adoc#allPartitions, all partitions>>).
-
-`Partition` is <<creating-instance, created>> when:
-
-* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#allPartitions, add a TopicPartition to allPartitions>> (indirectly using <<apply, apply>>)
-
-* `ReplicaManager` is requested for the <<kafka-server-ReplicaManager.adoc#OfflinePartition, OfflinePartition>>
+`Partition` is <<creating-instance, created>> when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#allPartitions, add a TopicPartition to allPartitions>> (indirectly using <<apply, apply>>) and for the <<kafka-server-ReplicaManager.adoc#OfflinePartition, OfflinePartition>>.
 
 [[logIdent]]
 `Partition` uses *[Partition [topicPartition] broker=[localBrokerId]]* as the logging prefix (aka `logIdent`).
@@ -160,6 +156,61 @@ apply(
 
 NOTE: `apply` is used when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#allPartitions[add a partition to allPartitions Registry].
 
+=== [[leaderIsrUpdateLock]][[inReadLock]][[inWriteLock]] Read and Write Locks
+
+[source, scala]
+----
+leaderIsrUpdateLock: ReentrantReadWriteLock
+----
+
+`leaderIsrUpdateLock` is a Java's https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/locks/ReentrantReadWriteLock.html[ReentrantReadWriteLock] for a pair of locks, one for read-only operations and one for writing. (The read lock may be held simultaneously by multiple reader threads, so long as there are no writers. The write lock is exclusive).
+
+A read lock (`inReadLock`) is used for the following:
+
+* <<futureReplicaDirChanged, futureReplicaDirChanged>>
+
+* <<maybeIncrementLeaderHW, maybeIncrementLeaderHW>>
+
+* <<doAppendRecordsToFollowerOrFutureReplica, doAppendRecordsToFollowerOrFutureReplica>>
+
+* <<appendRecordsToLeader, appendRecordsToLeader>>
+
+* <<readRecords, readRecords>>
+
+* <<fetchOffsetForTimestamp, fetchOffsetForTimestamp>>
+
+* <<fetchOffsetSnapshot, fetchOffsetSnapshot>>
+
+* <<legacyFetchOffsetsForTimestamp, legacyFetchOffsetsForTimestamp>>
+
+* <<logStartOffset, logStartOffset>>
+
+* <<deleteRecordsOnLeader, deleteRecordsOnLeader>>
+
+* <<truncateTo, truncateTo>>
+
+* <<truncateFullyAndStartAt, truncateFullyAndStartAt>>
+
+* <<lastOffsetForLeaderEpoch, lastOffsetForLeaderEpoch>>
+
+A write lock (`inWriteLock`) is used for the following:
+
+* <<maybeCreateFutureReplica, maybeCreateFutureReplica>>
+
+* <<removeFutureLocalReplica, removeFutureLocalReplica>>
+
+* <<maybeReplaceCurrentWithFutureReplica, maybeReplaceCurrentWithFutureReplica>>
+
+* <<delete, delete>>
+
+* <<makeLeader, makeLeader>>
+
+* <<makeFollower, makeFollower>>
+
+* <<maybeExpandIsr, maybeExpandIsr>>
+
+* <<maybeShrinkIsr, maybeShrinkIsr>>
+
 === [[maybeExpandIsr]] `maybeExpandIsr` Method
 
 [source, scala]
@@ -282,21 +333,45 @@ checkEnoughReplicasReachOffset(requiredOffset: Long): (Boolean, Errors)
 
 NOTE: `checkEnoughReplicasReachOffset` is used when...FIXME
 
-=== [[makeLeader]] `makeLeader` Method
+=== [[makeLeader]] Making Local Replica The Leader -- `makeLeader` Method
 
 [source, scala]
 ----
 makeLeader(
   controllerId: Int,
-  partitionStateInfo: LeaderAndIsrRequest.PartitionState,
-  correlationId: Int): Boolean
+  partitionState: LeaderAndIsrPartitionState,
+  correlationId: Int,
+  highWatermarkCheckpoints: OffsetCheckpoints): Boolean
 ----
+
+`makeLeader` starts by acquiring <<inWriteLock, write lock>> (which makes it a single-thread-exclusively operation).
+
+`makeLeader` changes the internal <<controllerEpoch, controller epoch>> based on the given `LeaderAndIsrPartitionState`.
+
+`makeLeader` requests the given `LeaderAndIsrPartitionState` for the partition replicas (their broker IDs) and the ISR (as a list of broker IDs) and <<updateAssignmentAndIsr, updateAssignmentAndIsr>>.
 
 `makeLeader`...FIXME
 
 With `leaderHWIncremented`, `makeLeader` <<tryCompleteDelayedRequests, tryCompleteDelayedRequests>>.
 
-NOTE: `makeLeader` is used exclusively when `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#makeLeaders, makeLeaders>>.
+NOTE: `makeLeader` is used exclusively when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#makeLeaders[makeLeaders].
+
+=== [[updateAssignmentAndIsr]] Updating Replica Assignments and In-Sync Replicas -- `updateAssignmentAndIsr` Method
+
+[source, scala]
+----
+updateAssignmentAndIsr(
+  assignment: Seq[Int],
+  isr: Set[Int]): Unit
+----
+
+`updateAssignmentAndIsr` uses the <<remoteReplicasMap, remoteReplicasMap>> internal registry and the given `assignment` to find the broker IDs that are no longer partition replicas (of the partition).
+
+`updateAssignmentAndIsr` registers (_saves_) the partition replicas (based on the given `assignment`) in the <<remoteReplicasMap, remoteReplicasMap>> internal registry.
+
+`updateAssignmentAndIsr` updates the <<allReplicaIds, allReplicaIds>> and the <<inSyncReplicaIds, inSyncReplicaIds>> internal registries with the given `assignment` and `isr`, respectively.
+
+NOTE: `updateAssignmentAndIsr` is used when `Partition` is requested to make the local replica the <<makeLeader, leader>> or a <<makeFollower, follower>>.
 
 === [[getOrCreateReplica]] Looking Up or Creating Replica -- `getOrCreateReplica` Method
 
@@ -850,6 +925,19 @@ isFollowerInSync(
 
 NOTE: `isFollowerInSync` is used when `Partition` is requested to <<maybeExpandIsr, maybeExpandIsr>>.
 
+=== [[maybeUpdateIsrAndVersion]] `maybeUpdateIsrAndVersion` Internal Method
+
+[source, scala]
+----
+maybeUpdateIsrAndVersion(
+  isr: Set[Int],
+  zkVersionOpt: Option[Int]): Unit
+----
+
+`maybeUpdateIsrAndVersion`...FIXME
+
+NOTE: `maybeUpdateIsrAndVersion` is used when `Partition` is requested to <<expandIsr, expandIsr>> and <<shrinkIsr, shrinkIsr>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -857,17 +945,31 @@ NOTE: `isFollowerInSync` is used when `Partition` is requested to <<maybeExpandI
 | Name
 | Description
 
+| controllerEpoch
+a| [[controllerEpoch]] Controller epoch
+
+Starts as `0` and changes when `Partition` is requested to make the local replica the <<makeLeader, leader>> or a <<makeFollower, follower>>.
+
+Used for <<expandIsr, expandIsr>> and <<shrinkIsr, shrinkIsr>>
+
 | inSyncReplicaIds
-a| [[inSyncReplicaIds]] In-sync <<kafka-cluster-Replica.adoc#, Replicas>>
+a| [[inSyncReplicaIds]] In-sync replicas of the <<topicPartition, topic partition>>, i.e. broker IDs that are known to be in-sync with the leader
+
+NOTE: `inSyncReplicaIds` contains in-sync replicas only when <<updateAssignmentAndIsr, updateAssignmentAndIsr>> is executed when the current partition replica is the <<makeLeader, leader>> (and empty when a <<makeFollower, follower>> or <<delete, deleted>>).
+
+Updated when <<maybeUpdateIsrAndVersion, maybeUpdateIsrAndVersion>>, <<updateAssignmentAndIsr, updateAssignmentAndIsr>>, and <<delete, delete>>
 
 | leaderReplicaIdOpt
 a| [[leaderReplicaIdOpt]] Broker ID of the broker that manages the leader replica
 
-Default: `None` / undefined
+Default: `None` (undefined)
 
 * Assigned a broker ID when <<makeLeader, makeLeader>> and <<makeFollower, makeFollower>>
 
 * `None` when <<delete, delete>>
+
+| allReplicaIds
+a| [[allReplicaIds]] All replica broker IDs that were assigned to this <<topicPartition, topic partition>>
 
 | allReplicasMap
 a| [[allReplicasMap]] <<kafka-cluster-Replica.adoc#, Replicas>> by ID
@@ -877,5 +979,14 @@ a| [[allReplicasMap]] <<kafka-cluster-Replica.adoc#, Replicas>> by ID
 * An entry removed in <<removeReplica, removeReplica>>, <<removeFutureLocalReplica, removeFutureLocalReplica>>, <<maybeReplaceCurrentWithFutureReplica, maybeReplaceCurrentWithFutureReplica>>, and <<delete, delete>>
 
 Used in <<getReplica, getReplica>>, <<assignedReplicas, assignedReplicas>>, <<allReplicas, allReplicas>>, <<toString, toString>>
+
+| remoteReplicasMap
+a| [[remoteReplicasMap]] Remote link:kafka-cluster-Replica.adoc[replicas] by broker ID (`Pool[Int, Replica]`) that is updated when <<updateAssignmentAndIsr, updateAssignmentAndIsr>>
+
+`remoteReplicasMap` contains broker IDs of the partition replicas (of the partition) without the <<localBrokerId, local broker ID>>.
+
+Used for <<getReplica, getReplica>>, <<remoteReplicas, remoteReplicas>>, <<maybeIncrementLeaderHW, maybeIncrementLeaderHW>>
+
+All of the pairs are removed when <<delete, delete>>
 
 |===
