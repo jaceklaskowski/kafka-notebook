@@ -348,7 +348,9 @@ makeLeader(
 
 `makeLeader` changes the internal <<controllerEpoch, controller epoch>> based on the given `LeaderAndIsrPartitionState`.
 
-`makeLeader` requests the given `LeaderAndIsrPartitionState` for the partition replicas (their broker IDs) and the ISR (as a list of broker IDs) and <<updateAssignmentAndIsr, updateAssignmentAndIsr>>.
+`makeLeader` requests the given `LeaderAndIsrPartitionState` for the partition replicas (their broker IDs) and the ISR (as a list of broker IDs) and <<updateAssignmentAndIsr, updates internal registries for replica assignments and in-sync replicas>>.
+
+`makeLeader` <<createLogIfNotExists, createLogIfNotExists>> for the <<localBrokerId, local broker ID>> and the given `OffsetCheckpoints` (with `isFutureReplica` flag off).
 
 `makeLeader`...FIXME
 
@@ -356,7 +358,7 @@ With `leaderHWIncremented`, `makeLeader` <<tryCompleteDelayedRequests, tryComple
 
 NOTE: `makeLeader` is used exclusively when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#makeLeaders[makeLeaders].
 
-=== [[updateAssignmentAndIsr]] Updating Replica Assignments and In-Sync Replicas -- `updateAssignmentAndIsr` Method
+=== [[updateAssignmentAndIsr]] Updating Internal Registries for Replica Assignments and In-Sync Replicas -- `updateAssignmentAndIsr` Method
 
 [source, scala]
 ----
@@ -367,7 +369,7 @@ updateAssignmentAndIsr(
 
 `updateAssignmentAndIsr` uses the <<remoteReplicasMap, remoteReplicasMap>> internal registry and the given `assignment` to find the broker IDs that are no longer partition replicas (of the partition).
 
-`updateAssignmentAndIsr` registers (_saves_) the partition replicas (based on the given `assignment`) in the <<remoteReplicasMap, remoteReplicasMap>> internal registry.
+`updateAssignmentAndIsr` creates new link:kafka-cluster-Replica.adoc[partition replicas] for the broker IDs that have not been registered in the <<remoteReplicasMap, remoteReplicasMap>> internal registry before (based on the given `assignment`).
 
 `updateAssignmentAndIsr` updates the <<allReplicaIds, allReplicaIds>> and the <<inSyncReplicaIds, inSyncReplicaIds>> internal registries with the given `assignment` and `isr`, respectively.
 
@@ -690,7 +692,7 @@ deleteRecordsOnLeader(
 
 NOTE: `deleteRecordsOnLeader` is used when...FIXME
 
-=== [[createLogIfNotExists]] `createLogIfNotExists` Method
+=== [[createLogIfNotExists]] Creating Log or Future Log (Unless Available Already) -- `createLogIfNotExists` Method
 
 [source, scala]
 ----
@@ -701,15 +703,25 @@ createLogIfNotExists(
   offsetCheckpoints: OffsetCheckpoints): Unit
 ----
 
-`createLogIfNotExists`...FIXME
+`createLogIfNotExists` branches off per the given `isFutureReplica` flag:
+
+* When enabled (`true`) and the <<futureLog, futureLog>> internal registry is undefined, `createLogIfNotExists` <<createLog, createLog>> and saves it in the <<futureLog, futureLog>> internal registry
+
+* When disabled (`false`) and the <<log, log>> internal registry is undefined, `createLogIfNotExists` <<createLog, createLog>> and saves it in the <<log, log>> internal registry
+
+For all other cases, `createLogIfNotExists` simply prints out the following TRACE message (with the `Future` prefix for `isFutureReplica` flag enabled):
+
+```
+[Future] Log already exists.
+```
 
 [NOTE]
 ====
 `createLogIfNotExists` is used when:
 
-* `Partition` is requested to <<maybeCreateFutureReplica, maybeCreateFutureReplica>>, <<makeLeader, makeLeader>>, and <<makeFollower, makeFollower>>
+* `Partition` is requested to <<maybeCreateFutureReplica, maybeCreateFutureReplica>> (`isFutureReplica` flag is enabled), make the local broker the <<makeLeader, leader>> or a <<makeFollower, follower>> (`isFutureReplica` flag is disabled)
 
-* `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower[becomeLeaderOrFollower] and link:kafka-server-ReplicaManager.adoc#makeFollowers[makeFollowers]
+* `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower[becomeLeaderOrFollower] (`isFutureReplica` flag is enabled) and link:kafka-server-ReplicaManager.adoc#makeFollowers[makeFollowers] (`isFutureReplica` flag is disabled)
 ====
 
 === [[getOutOfSyncReplicas]] `getOutOfSyncReplicas` Method
@@ -979,6 +991,9 @@ a| [[allReplicasMap]] <<kafka-cluster-Replica.adoc#, Replicas>> by ID
 * An entry removed in <<removeReplica, removeReplica>>, <<removeFutureLocalReplica, removeFutureLocalReplica>>, <<maybeReplaceCurrentWithFutureReplica, maybeReplaceCurrentWithFutureReplica>>, and <<delete, delete>>
 
 Used in <<getReplica, getReplica>>, <<assignedReplicas, assignedReplicas>>, <<allReplicas, allReplicas>>, <<toString, toString>>
+
+| futureLog
+a| [[futureLog]]
 
 | remoteReplicasMap
 a| [[remoteReplicasMap]] Remote link:kafka-cluster-Replica.adoc[replicas] by broker ID (`Pool[Int, Replica]`) that is updated when <<updateAssignmentAndIsr, updateAssignmentAndIsr>>
