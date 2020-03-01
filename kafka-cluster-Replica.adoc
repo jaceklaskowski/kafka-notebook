@@ -76,6 +76,20 @@ logEndOffsetMetadata: LogOffsetMetadata
 
 NOTE: `logEndOffsetMetadata` is used when...FIXME
 
+=== [[resetLastCaughtUpTime]] `resetLastCaughtUpTime` Method
+
+[source, scala]
+----
+resetLastCaughtUpTime(
+  curLeaderLogEndOffset: Long,
+  curTimeMs: Long,
+  lastCaughtUpTimeMs: Long): Unit
+----
+
+`resetLastCaughtUpTime`...FIXME
+
+NOTE: `resetLastCaughtUpTime` is used when...FIXME
+
 === [[creating-instance]] Creating Replica Instance
 
 `Replica` takes the following to be created:
@@ -104,6 +118,22 @@ convertHWToLocalOffsetMetadata(): Unit
 `convertHWToLocalOffsetMetadata`...FIXME
 
 NOTE: `convertHWToLocalOffsetMetadata` is used when...FIXME
+
+=== [[updateFetchState]] `updateFetchState` Method
+
+[source, scala]
+----
+updateFetchState(
+  followerFetchOffsetMetadata: LogOffsetMetadata,
+  followerStartOffset: Long,
+  followerFetchTimeMs: Long,
+  leaderEndOffset: Long,
+  lastSentHighwatermark: Long): Unit
+----
+
+`updateFetchState`...FIXME
+
+NOTE: `updateFetchState` is used when...FIXME
 
 === [[highWatermark_]] `highWatermark_=` Method
 

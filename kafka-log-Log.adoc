@@ -1035,6 +1035,19 @@ close(): Unit
 
 NOTE: `close` is used when...FIXME
 
+=== [[maybeAssignEpochStartOffset]] `maybeAssignEpochStartOffset` Method
+
+[source, scala]
+----
+maybeAssignEpochStartOffset(
+  leaderEpoch: Int,
+  startOffset: Long): Unit
+----
+
+`maybeAssignEpochStartOffset`...FIXME
+
+NOTE: `maybeAssignEpochStartOffset` is used when...FIXME
+
 === [[loadSegments]] Loading Segments -- `loadSegments` Internal Method
 
 [source, scala]

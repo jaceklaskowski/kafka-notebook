@@ -4,6 +4,13 @@
 
 `Partition` knows the host broker (by <<localBrokerId, local broker ID>>) which is one of the *partition replicas* (replicated across brokers of a Kafka cluster).
 
+`Partition` can be the <<isLeader, leader>> of the <<topicPartition, TopicPartition>> or a follower.
+
+`Partition` can be <<makeLeader, elected the partition leader>> (when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#makeLeaders[makeLeaders]).
+
+[[isUnderReplicated]]
+`Partition` is *under-replicated* if it is the <<isLeader, leader>> and the number of <<inSyncReplicaIds, in-sync replicas>> is below the number of <<allReplicaIds, all replicas>>. Use the <<UnderReplicated, UnderReplicated>> metric to know it (or link:kafka-server-ReplicaManager.adoc#UnderReplicatedPartitions[UnderReplicatedPartitions] metric of the link:kafka-server-ReplicaManager.adoc[ReplicaManager]).
+
 `Partition` uses the <<remoteReplicasMap, remoteReplicasMap>> internal registry to track remote replicas (and is requested to <<updateAssignmentAndIsr, update partition replicas and the in-sync replicas>> when...FIXME).
 
 A Kafka topic is spread across a Kafka cluster as a logical group of one or more *partitions*.
@@ -300,17 +307,6 @@ leaderReplicaIfLocal: Option[Replica]
 
 NOTE: `leaderReplicaIfLocal` is used...FIXME
 
-=== [[isUnderReplicated]] `isUnderReplicated` Predicate
-
-[source, scala]
-----
-isUnderReplicated: Boolean
-----
-
-`isUnderReplicated` is `true` only if the partition <<isLeaderReplicaLocal, isLeaderReplicaLocal>> and the number of <<inSyncReplicas, in-sync replicas>> is below the <<assignedReplicas, assignedReplicas>>.
-
-NOTE: `isUnderReplicated` is used when...FIXME
-
 === [[isUnderMinIsr]] `isUnderMinIsr` Predicate
 
 [source, scala]
@@ -333,7 +329,7 @@ checkEnoughReplicasReachOffset(requiredOffset: Long): (Boolean, Errors)
 
 NOTE: `checkEnoughReplicasReachOffset` is used when...FIXME
 
-=== [[makeLeader]] Making Local Replica The Leader -- `makeLeader` Method
+=== [[makeLeader]] Electing Local Partition Replica as Partition Leader -- `makeLeader` Method
 
 [source, scala]
 ----
@@ -344,19 +340,37 @@ makeLeader(
   highWatermarkCheckpoints: OffsetCheckpoints): Boolean
 ----
 
-`makeLeader` starts by acquiring <<inWriteLock, write lock>> (which makes it a single-thread-exclusively operation).
+`makeLeader` returns `true` if this broker has just been elected as the <<isLeader, leader for the partition>>.
+
+NOTE: `makeLeader` could be executed for a broker that is the <<isLeader, partition leader>> already.
+
+Internally, `makeLeader` starts by acquiring <<inWriteLock, write lock>> (which makes it a single-thread-exclusive operation).
 
 `makeLeader` changes the internal <<controllerEpoch, controller epoch>> based on the given `LeaderAndIsrPartitionState`.
 
 `makeLeader` requests the given `LeaderAndIsrPartitionState` for the partition replicas (their broker IDs) and the ISR (as a list of broker IDs) and <<updateAssignmentAndIsr, updates internal registries for replica assignments and in-sync replicas>>.
 
-`makeLeader` <<createLogIfNotExists, createLogIfNotExists>> for the <<localBrokerId, local broker ID>> and the given `OffsetCheckpoints` (with `isFutureReplica` flag off).
+`makeLeader` <<createLogIfNotExists, creates a Log (unless available already)>> for the <<localBrokerId, local broker ID>> and the given `OffsetCheckpoints` (with `isFutureReplica` flag off).
 
-`makeLeader`...FIXME
+`makeLeader` requests the leader log for the link:kafka-log-Log.adoc#logEndOffset[logEndOffset].
 
-With `leaderHWIncremented`, `makeLeader` <<tryCompleteDelayedRequests, tryCompleteDelayedRequests>>.
+`makeLeader` prints out the following INFO message to the logs:
 
-NOTE: `makeLeader` is used exclusively when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#makeLeaders[makeLeaders].
+```
+[topicPartition] starts at Leader Epoch [leaderEpoch] from offset [leaderEpochStartOffset]. Previous Leader Epoch was: [leaderEpoch]
+```
+
+`makeLeader` updates the internal registries: <<leaderEpoch, leaderEpoch>>, <<leaderEpochStartOffsetOpt, leaderEpochStartOffsetOpt>> and <<zkVersion, zkVersion>>.
+
+`makeLeader` requests the leader log to link:kafka-log-Log.adoc#maybeAssignEpochStartOffset[maybeAssignEpochStartOffset] with the current <<leaderEpoch, leaderEpoch>> and the log end offset (that is now considered the leader epoch's start offset).
+
+`makeLeader` requests the <<remoteReplicas, remoteReplicas>> to link:kafka-cluster-Replica.adoc#resetLastCaughtUpTime[resetLastCaughtUpTime]. For replicas in <<inSyncReplicaIds, inSyncReplicaIds>>, the last caught-up time is the current time while for the others it is `0`.
+
+When the partition has just been elected a new leader, `makeLeader` updates the <<leaderReplicaIdOpt, leaderReplicaIdOpt>> internal registry and requests the <<remoteReplicas, remoteReplicas>> to link:kafka-cluster-Replica.adoc#updateFetchState[updateFetchState].
+
+`makeLeader` <<maybeIncrementLeaderHW, checks if increment the high watermark>> with the leader log and, if incremented, <<tryCompleteDelayedRequests, tryCompleteDelayedRequests>>.
+
+NOTE: `makeLeader` is used when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#makeLeaders[makeLeaders].
 
 === [[updateAssignmentAndIsr]] Updating Internal Registries for Replica Assignments and In-Sync Replicas -- `updateAssignmentAndIsr` Method
 
@@ -764,16 +778,23 @@ leaderLogIfLocal: Option[Log]
 
 NOTE: `leaderLogIfLocal` is used when...FIXME
 
-=== [[isLeader]] `isLeader` Method
+=== [[isLeader]] Checking If Broker is Partition Leader -- `isLeader` Method
 
 [source, scala]
 ----
 isLeader: Boolean
 ----
 
-`isLeader` is positive (`true`) when the <<leaderReplicaIdOpt, leaderReplicaIdOpt>> is exactly the <<localBrokerId, local broker ID>>.
+`isLeader` is positive (`true`) when the <<leaderReplicaIdOpt, leaderReplicaIdOpt>> is the <<localBrokerId, local broker ID>>.
 
-NOTE: `isLeader` is used when...FIXME
+[NOTE]
+====
+`isLeader` is used when:
+
+* `Partition` is requested for the <<InSyncReplicasCount, InSyncReplicasCount>> and <<ReplicasCount, ReplicasCount>> metrics, to <<isUnderReplicated, isUnderReplicated>>, <<getLocalLog, getLocalLog>>, <<leaderLogIfLocal, leaderLogIfLocal>>, <<makeLeader, makeLeader>>, <<lowWatermarkIfLeader, lowWatermarkIfLeader>>
+
+* `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#findPreferredReadReplica[findPreferredReadReplica]
+====
 
 === [[lastOffsetForLeaderEpoch]] `lastOffsetForLeaderEpoch` Method
 
