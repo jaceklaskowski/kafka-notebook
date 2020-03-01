@@ -248,7 +248,14 @@ fetchMessages(
 
 `fetchMessages`...FIXME
 
-NOTE: `fetchMessages` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleFetchRequest, handle a Fetch request>>.
+[NOTE]
+====
+`fetchMessages` is used when:
+
+* `KafkaApis` is requested to link:kafka-server-KafkaApis.adoc#handleFetchRequest[handle a Fetch request]
+
+* `ReplicaAlterLogDirsThread` is requested to link:kafka-server-ReplicaAlterLogDirsThread.adoc#fetchFromLeader[fetchFromLeader]
+====
 
 === [[maybePropagateIsrChanges]] `maybePropagateIsrChanges` Method
 
@@ -768,10 +775,13 @@ readFromLocalLog(
   fetchMaxBytes: Int,
   hardMaxBytesLimit: Boolean,
   readPartitionInfo: Seq[(TopicPartition, PartitionData)],
-  quota: ReplicaQuota): Seq[(TopicPartition, LogReadResult)]
+  quota: ReplicaQuota,
+  clientMetadata: Option[ClientMetadata]): Seq[(TopicPartition, LogReadResult)]
 ----
 
-`readFromLocalLog`...FIXME
+`readFromLocalLog` returns records (as `FetchDataInfo`) for every `TopicPartition` in the given `readPartitionInfo`.
+
+Internally, `readFromLocalLog` <<readFromLocalLog-read, reads>> the requested `PartitionData` (up to `fetchMaxBytes` that is decremented sequentially for every partition) for every `TopicPartition` (in the given `readPartitionInfo` collection),
 
 [NOTE]
 ====
@@ -781,6 +791,27 @@ readFromLocalLog(
 
 * `ReplicaManager` is requested to <<fetchMessages, fetchMessages>> (when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleFetchRequest, handle a Fetch request>>)
 ====
+
+==== [[readFromLocalLog-read]] `read` Internal Method
+
+[source, scala]
+----
+read(
+  tp: TopicPartition,
+  fetchInfo: PartitionData,
+  limitBytes: Int,
+  minOneMessage: Boolean): LogReadResult
+----
+
+`read` increments the link:kafka-server-BrokerTopicMetrics.adoc#totalFetchRequestRate[totalFetchRequestRate] metric of the topic (of the `TopicPartition`) and the link:kafka-server-BrokerTopicStats.adoc#allTopicsStats[allTopicsStats] in the <<brokerTopicStats, BrokerTopicStats>>.
+
+`read` prints out the following TRACE message to the logs:
+
+```
+Fetching log segment for partition [tp], offset [offset], partition fetch size [partitionFetchSize], remaining response limit [limitBytes]
+```
+
+`read`...FIXME
 
 === [[electPreferredLeaders]] Triggerring Preferred Replica Leader Election -- `electPreferredLeaders` Method
 
@@ -834,7 +865,7 @@ findPreferredReadReplica(
 
 `findPreferredReadReplica`...FIXME
 
-NOTE: `findPreferredReadReplica` is used when...FIXME
+NOTE: `findPreferredReadReplica` is used when `ReplicaManager` is requested to <<readFromLocalLog, readFromLocalLog>>.
 
 === [[updateFollowerFetchState]] `updateFollowerFetchState` Internal Method
 

@@ -69,7 +69,7 @@ fetchFromLeader(
 ): Seq[(TopicPartition, FetchData)]
 ----
 
-Used exclusively when `AbstractFetcherThread` is requested to <<processFetchRequest, processFetchRequest>>.
+Used when `AbstractFetcherThread` is requested to <<processFetchRequest, processFetchRequest>>.
 
 | fetchLatestOffsetFromLeader
 a| [[fetchLatestOffsetFromLeader]]
@@ -276,7 +276,7 @@ In the end, `maybeFetch` <<processFetchRequest, processes>> the `FetchRequest` (
 There are no active partitions. Back off for [fetchBackOffMs] ms before sending a fetch request
 ```
 
-NOTE: `maybeFetch` is used exclusively when `AbstractFetcherThread` is requested to <<doWork, do the work>>.
+NOTE: `maybeFetch` is used when `AbstractFetcherThread` is requested to <<doWork, do the work>>.
 
 === [[fetchTruncatingPartitions]] `fetchTruncatingPartitions` Internal Method
 
@@ -340,7 +340,7 @@ NOTE: <<fetchFromLeader, fetchFromLeader>> is <<implementations, implementation>
 
 `processFetchRequest` requests the <<fetcherStats, FetcherStats>> to...FIXME
 
-NOTE: `processFetchRequest` is used exclusively when `AbstractFetcherThread` is requested to <<maybeFetch, maybeFetch>>.
+NOTE: `processFetchRequest` is used when `AbstractFetcherThread` is requested to <<maybeFetch, maybeFetch>>.
 
 === [[handleOutOfRangeError]] `handleOutOfRangeError` Internal Method
 

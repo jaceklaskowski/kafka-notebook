@@ -4,7 +4,7 @@
 
 `ReplicaAlterLogDirsThread` uses <<kafka-properties.adoc#replica.fetch.backoff.ms, replica.fetch.backoff.ms>> configuration property for the <<kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs, fetchBackOffMs>>.
 
-`ReplicaAlterLogDirsThread` is <<creating-instance, created>> exclusively when `ReplicaAlterLogDirsManager` is requested to <<kafka-server-ReplicaAlterLogDirsManager.adoc#createFetcherThread, create a fetcher thread>> (when...FIXME).
+`ReplicaAlterLogDirsThread` is <<creating-instance, created>> when `ReplicaAlterLogDirsManager` is requested to <<kafka-server-ReplicaAlterLogDirsManager.adoc#createFetcherThread, create a fetcher thread>> (when...FIXME).
 
 [[isOffsetForLeaderEpochSupported]]
 `ReplicaAlterLogDirsThread` has <<kafka-server-AbstractFetcherThread.adoc#isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>> flag always enabled (`true`).
@@ -17,7 +17,7 @@ fetchFromLeader(
   fetchRequest: FetchRequest.Builder): Seq[(TopicPartition, FetchData)]
 ----
 
-NOTE: `fetchFromLeader` is part of the <<kafka-server-AbstractFetcherThread.adoc#fetchFromLeader, AbstractFetcherThread Contract>> to...FIXME.
+NOTE: `fetchFromLeader` is part of the link:kafka-server-AbstractFetcherThread.adoc#fetchFromLeader[AbstractFetcherThread] contract to...FIXME.
 
 `fetchFromLeader`...FIXME
 
