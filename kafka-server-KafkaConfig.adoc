@@ -256,7 +256,9 @@ Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.a
 a| [[messageMaxBytes]][[MessageMaxBytesProp]] <<kafka-properties.adoc#message.max.bytes, message.max.bytes>>
 
 | minInSyncReplicas
-a| [[minInSyncReplicas]]
+a| [[minInSyncReplicas]][[MinInSyncReplicasProp]] link:kafka-properties.adoc#min.insync.replicas[min.insync.replicas]
+
+Used when `KafkaServer` utility is used to link:kafka-server-KafkaServer.adoc#copyKafkaConfigToLog[create a default log properties for LogManager and AdminManager] (and set link:kafka-log-LogConfig.adoc#MinInSyncReplicasProp[MinInSyncReplicasProp])
 
 | numIoThreads
 a| [[numIoThreads]][[NumIoThreadsProp]] <<kafka-properties.adoc#num.io.threads, num.io.threads>>
@@ -267,7 +269,7 @@ a| [[numNetworkThreads]][[NumNetworkThreadsProp]] <<kafka-properties.adoc#num.ne
 | numRecoveryThreadsPerDataDir
 a| [[numRecoveryThreadsPerDataDir]][[NumRecoveryThreadsPerDataDirProp]] <<kafka-properties.adoc#num.recovery.threads.per.data.dir, num.recovery.threads.per.data.dir>>
 
-Used exclusively when `LogManager` is <<kafka-log-LogManager.adoc#apply, created>>
+Used when `LogManager` is <<kafka-log-LogManager.adoc#apply, created>>
 
 | <<getNumReplicaAlterLogDirsThreads, getNumReplicaAlterLogDirsThreads>>
 a| [[NumReplicaAlterLogDirsThreadsProp]] link:kafka-properties.adoc#num.replica.alter.log.dirs.threads[num.replica.alter.log.dirs.threads]

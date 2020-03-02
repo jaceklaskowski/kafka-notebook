@@ -37,6 +37,15 @@ a| [[flush.ms]][[FLUSH_MS_CONFIG]] <<kafka-log-LogConfig.adoc#FlushMsProp, LogCo
 | index.interval.bytes
 a| [[index.interval.bytes]][[INDEX_INTERVAL_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#IndexIntervalBytesProp, LogConfig.IndexIntervalBytesProp>>
 
+| min.insync.replicas
+a| [[min.insync.replicas]][[MIN_IN_SYNC_REPLICAS_CONFIG]] link:kafka-properties.adoc#min.insync.replicas[min.insync.replicas]
+
+Used when:
+
+* link:kafka-admin-TopicCommand.adoc[TopicCommand] is executed
+
+* Alias for link:kafka-log-LogConfig.adoc#MinInSyncReplicasProp[LogConfig.MinInSyncReplicasProp]
+
 | retention.bytes
 a| [[retention.bytes]][[RETENTION_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#RetentionBytesProp, LogConfig.RetentionBytesProp>>
 

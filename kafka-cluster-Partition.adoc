@@ -322,7 +322,8 @@ NOTE: `isUnderMinIsr` is used when...FIXME
 
 [source, scala]
 ----
-checkEnoughReplicasReachOffset(requiredOffset: Long): (Boolean, Errors)
+checkEnoughReplicasReachOffset(
+  requiredOffset: Long): (Boolean, Errors)
 ----
 
 `checkEnoughReplicasReachOffset`...FIXME

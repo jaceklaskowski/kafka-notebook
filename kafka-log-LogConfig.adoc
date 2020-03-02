@@ -24,7 +24,7 @@ Used when:
 
 * `LogConfig` is requested for the <<compact, compact>> and <<delete, delete>> flags
 
-* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>>
+* `KafkaServer` utility is used to link:kafka-server-KafkaServer.adoc#copyKafkaConfigToLog[create a default log properties for LogManager and AdminManager]
 
 | CompressionTypeProp
 a| [[CompressionTypeProp]]
@@ -76,8 +76,18 @@ a| [[MinCleanableDirtyRatioProp]]
 | MinCompactionLagMsProp
 a| [[MinCompactionLagMsProp]]
 
-| MinInSyncReplicasProp
-a| [[MinInSyncReplicasProp]]
+| minInSyncReplicas
+a| [[minInSyncReplicas]][[MinInSyncReplicasProp]] link:kafka-common-TopicConfig.adoc#MIN_IN_SYNC_REPLICAS_CONFIG[min.insync.replicas]
+
+Cluster-wide property (`TopicConfigSynonyms`): link:kafka-properties.adoc#min.insync.replicas[min.insync.replicas]
+
+Used when:
+
+* `TransactionStateManager` is requested for link:kafka-TransactionStateManager.adoc#transactionTopicConfigs[transactionTopicConfigs]
+
+* `KafkaServer` utility is used to link:kafka-server-KafkaServer.adoc#copyKafkaConfigToLog[create a default log properties for LogManager and AdminManager] (with the value of link:kafka-server-KafkaConfig.adoc#minInSyncReplicas[KafkaConfig.minInSyncReplicas])
+
+* `Partition` is requested to link:kafka-cluster-Partition.adoc#isUnderMinIsr[isUnderMinIsr], link:kafka-cluster-Partition.adoc#isAtMinIsr[isAtMinIsr], link:kafka-cluster-Partition.adoc#checkEnoughReplicasReachOffset[checkEnoughReplicasReachOffset], link:kafka-cluster-Partition.adoc#appendRecordsToLeader[appendRecordsToLeader]
 
 | PreAllocateEnableProp
 a| [[PreAllocateEnableProp]]
@@ -112,7 +122,7 @@ Used when:
 
 * `TransactionStateManager` is requested for the <<kafka-TransactionStateManager.adoc#transactionTopicConfigs, transactionTopicConfigs>>
 
-* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>>
+* `KafkaServer` utility is used to link:kafka-server-KafkaServer.adoc#copyKafkaConfigToLog[create a default log properties for LogManager and AdminManager]
 
 The current value is available as `LogConfig.segmentSize` and used when:
 
@@ -143,7 +153,7 @@ Used when:
 
 * `LogConfig` is requested for the <<randomSegmentJitter, randomSegmentJitter>> and <<maxSegmentMs, maxSegmentMs>>
 
-* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>>
+* `KafkaServer` utility is used to link:kafka-server-KafkaServer.adoc#copyKafkaConfigToLog[create a default log properties for LogManager and AdminManager]
 
 | UncleanLeaderElectionEnableProp
 a| [[UncleanLeaderElectionEnableProp]]
