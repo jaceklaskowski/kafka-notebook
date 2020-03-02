@@ -29,3 +29,26 @@ NOTE: `createFetcherThread` is part of the <<kafka-server-AbstractFetcherManager
 * [[quotaManager]] link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
 
 `ReplicaFetcherManager` initializes the <<internal-registries, internal registries and counters>>.
+
+=== [[shutdown]] `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown` prints out the following INFO message to the logs:
+
+```
+shutting down
+```
+
+`shutdown` link:kafka-server-AbstractFetcherManager.adoc#closeAllFetchers[closeAllFetchers].
+
+In the end, `shutdown` prints out the following INFO message to the logs:
+
+```
+shutdown completed
+```
+
+NOTE: `shutdown` is used when...FIXME

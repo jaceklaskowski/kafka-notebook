@@ -1,8 +1,37 @@
 == [[ReplicaAlterLogDirsManager]] ReplicaAlterLogDirsManager
 
-`ReplicaAlterLogDirsManager` is...FIXME
+`ReplicaAlterLogDirsManager` is a link:kafka-server-AbstractFetcherManager.adoc[AbstractFetcherManager] of link:kafka-server-ReplicaAlterLogDirsThread.adoc[ReplicaAlterLogDirsThreads] with the <<properties, properties>>.
 
-=== [[createFetcherThread]] `createFetcherThread` Method
+[[properties]]
+.ReplicaAlterLogDirsThreads' Properties
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| link:kafka-server-AbstractFetcherManager.adoc#name[name]
+| [[name]] `ReplicaAlterLogDirsManager on broker [brokerId]`
+
+| link:kafka-server-AbstractFetcherManager.adoc#clientId[clientId]
+| [[clientId]] `ReplicaAlterLogDirs`
+
+| link:kafka-server-AbstractFetcherManager.adoc#numFetchers[numFetchers]
+| [[numFetchers]] link:kafka-server-KafkaConfig.adoc#getNumReplicaAlterLogDirsThreads[KafkaConfig.getNumReplicaAlterLogDirsThreads]
+
+|===
+
+`ReplicaAlterLogDirsManager` is <<creating-instance, created>> for link:kafka-server-ReplicaManager.adoc#replicaAlterLogDirsManager[ReplicaManager].
+
+=== [[creating-instance]] Creating ReplicaAlterLogDirsManager Instance
+
+`ReplicaAlterLogDirsManager` takes the following to be created:
+
+* [[brokerConfig]] link:kafka-server-KafkaConfig.adoc[KafkaConfig]
+* [[replicaManager]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
+* [[quotaManager]] link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
+* [[brokerTopicStats]] link:kafka-server-BrokerTopicStats.adoc[BrokerTopicStats]
+
+=== [[createFetcherThread]] Creating ReplicaAlterLogDirsThread -- `createFetcherThread` Method
 
 [source, scala]
 ----
@@ -11,6 +40,29 @@ createFetcherThread(
   sourceBroker: BrokerEndPoint): ReplicaAlterLogDirsThread
 ----
 
-NOTE: `createFetcherThread` is part of the <<kafka-server-AbstractFetcherManager.adoc#createFetcherThread, AbstractFetcherManager Contract>> to...FIXME.
+NOTE: `createFetcherThread` is part of the link:kafka-server-AbstractFetcherManager.adoc#createFetcherThread[AbstractFetcherManager] contract to create a link:kafka-server-AbstractFetcherThread.adoc[fetcher thread].
 
-`createFetcherThread`...FIXME
+`createFetcherThread` creates a link:kafka-server-ReplicaAlterLogDirsThread.adoc[ReplicaAlterLogDirsThread] with the thread name as `ReplicaAlterLogDirsThread-[fetcherId]`.
+
+=== [[shutdown]] `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+`shutdown` prints out the following INFO message to the logs:
+
+```
+shutting down
+```
+
+`shutdown` link:kafka-server-AbstractFetcherManager.adoc#closeAllFetchers[closeAllFetchers].
+
+In the end, `shutdown` prints out the following INFO message to the logs:
+
+```
+shutdown completed
+```
+
+NOTE: `shutdown` is used when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#shutdown[shut down].

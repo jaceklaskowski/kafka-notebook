@@ -1,5 +1,6 @@
 == [[AbstractFetcherManager]] AbstractFetcherManager
 
+[[T]]
 `AbstractFetcherManager` is the <<contract, abstraction>> of <<implementations, fetcher thread managers>> that can <<createFetcherThread, create fetcher threads>> (for <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>).
 
 NOTE: `AbstractFetcherManager` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractFetcherManagers>>.
@@ -17,8 +18,12 @@ a| [[createFetcherThread]]
 [source, scala]
 ----
 // T is AbstractFetcherThread or subclasses
-createFetcherThread(fetcherId: Int, sourceBroker: BrokerEndPoint): T
+createFetcherThread(
+  fetcherId: Int,
+  sourceBroker: BrokerEndPoint): T
 ----
+
+Creates a link:kafka-server-AbstractFetcherThread.adoc[fetcher thread]
 
 Used when `AbstractFetcherManager` is requested to <<addFetcherForPartitions, addFetcherForPartitions>>
 
@@ -39,24 +44,6 @@ Used when `AbstractFetcherManager` is requested to <<addFetcherForPartitions, ad
 
 |===
 
-[[internal-registries]]
-.AbstractFetcherManager's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| numFetchersPerBroker
-a| [[numFetchersPerBroker]] Number of fetcher threads per broker
-
-Initialized with the given <<numFetchers, numFetchers>>
-
-Resized in <<resizeThreadPool, resizeThreadPool>>
-
-Used exclusively in <<getFetcherId, getFetcherId>>
-
-|===
-
 === [[addFetcherForPartitions]] `addFetcherForPartitions` Method
 
 [source, scala]
@@ -71,9 +58,9 @@ addFetcherForPartitions(
 ====
 `addFetcherForPartitions` is used when:
 
-* `AbstractFetcherManager` is requested to <<resizeThreadPool, resizeThreadPool>> (when `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure>>)
+* `AbstractFetcherManager` is requested to <<resizeThreadPool, resizeThreadPool>> (when `DynamicThreadPool` is requested to link:kafka-server-DynamicThreadPool.adoc#reconfigure[reconfigure])
 
-* `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#alterReplicaLogDirs, alterReplicaLogDirs>>, <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, becomeLeaderOrFollower>> and <<kafka-server-ReplicaManager.adoc#makeFollowers, makeFollowers>>
+* `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#alterReplicaLogDirs[alterReplicaLogDirs], link:kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower[becomeLeaderOrFollower] and link:kafka-server-ReplicaManager.adoc#makeFollowers[makeFollowers]
 ====
 
 === [[resizeThreadPool]] `resizeThreadPool` Method
@@ -146,3 +133,39 @@ removeFetcherForPartitions(partitions: Set[TopicPartition]): Unit
 
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#stopReplicas, stopReplicas>>, <<kafka-server-ReplicaManager.adoc#alterReplicaLogDirs, alterReplicaLogDirs>>, <<kafka-server-ReplicaManager.adoc#makeLeaders, makeLeaders>>, <<kafka-server-ReplicaManager.adoc#makeFollowers, makeFollowers>>, and <<kafka-server-ReplicaManager.adoc#handleLogDirFailure, handleLogDirFailure>>
 ====
+
+=== [[closeAllFetchers]] `closeAllFetchers` Method
+
+[source, scala]
+----
+closeAllFetchers(): Unit
+----
+
+`closeAllFetchers` requests the <<fetcherThreadMap, fetcher threads>> to link:kafka-ShutdownableThread.adoc#initiateShutdown[initiateShutdown].
+
+`closeAllFetchers` requests the <<fetcherThreadMap, fetcher threads>> to link:kafka-server-AbstractFetcherThread.adoc#shutdown[shutdown].
+
+In the end, `closeAllFetchers` removes (_clears_) all entries from the <<fetcherThreadMap, fetcherThreadMap>> internal registry.
+
+NOTE: `closeAllFetchers` is used when link:kafka-server-ReplicaAlterLogDirsManager.adoc#shutdown[ReplicaAlterLogDirsManager] and link:kafka-server-ReplicaAlterLogDirsManager.adoc#shutdown[ReplicaFetcherManager] are requested to shut down.
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| fetcherThreadMap
+a| [[fetcherThreadMap]] link:kafka-server-AbstractFetcherThread.adoc[AbstractFetcherThreads] by their `BrokerIdAndFetcherId`
+
+| numFetchersPerBroker
+a| [[numFetchersPerBroker]] Number of fetcher threads per broker
+
+Initialized with the given <<numFetchers, numFetchers>>
+
+Resized in <<resizeThreadPool, resizeThreadPool>>
+
+Used exclusively in <<getFetcherId, getFetcherId>>
+
+|===

@@ -64,7 +64,9 @@ NOTE: `processPartitionData` is part of the <<kafka-server-AbstractFetcherThread
 
 [source, scala]
 ----
-truncate(tp: TopicPartition, offsetTruncationState: OffsetTruncationState): Unit
+truncate(
+  tp: TopicPartition,
+  offsetTruncationState: OffsetTruncationState): Unit
 ----
 
 NOTE: `truncate` is a part of link:kafka-server-AbstractFetcherThread.adoc#truncate[AbstractFetcherThread Contract].

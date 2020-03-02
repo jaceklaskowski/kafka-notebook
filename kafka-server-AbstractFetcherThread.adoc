@@ -506,3 +506,14 @@ If the given records are of type <<kafka-common-record-FileRecords.adoc#, FileRe
 
 * `ReplicaFetcherThread` is requested to <<kafka-server-ReplicaFetcherThread.adoc#processPartitionData, processPartitionData>>
 ====
+
+=== [[shutdown]] `shutdown` Method
+
+[source, scala]
+----
+shutdown(): Unit
+----
+
+NOTE: `shutdown` is part of the link:kafka-ShutdownableThread.adoc#shutdown[ShutdownableThread] contract to...FIXME.
+
+`shutdown`...FIXME

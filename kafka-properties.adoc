@@ -515,6 +515,15 @@ Must be at least `1`
 
 <<kafka-server-DynamicThreadPool.adoc#, Dynamic reconfigurable configuration>>
 
+| num.replica.alter.log.dirs.threads
+a| [[num.replica.alter.log.dirs.threads]] The number of link:kafka-server-ReplicaAlterLogDirsManager.adoc#numFetchers[threads] that can move replicas between log directories, which may include disk I/O
+
+Default: `null`
+
+* Use link:kafka-server-KafkaConfig.adoc#NumReplicaAlterLogDirsThreadsProp[KafkaConfig.NumReplicaAlterLogDirsThreadsProp] to reference the property
+
+* Use link:kafka-server-KafkaConfig.adoc#getNumReplicaAlterLogDirsThreads[KafkaConfig.getNumReplicaAlterLogDirsThreads] to access the current value
+
 | num.replica.fetchers
 a| [[num.replica.fetchers]] The number of fetcher threads used to replicate messages from a source broker.
 

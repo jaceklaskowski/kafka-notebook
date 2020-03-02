@@ -11,20 +11,6 @@
 def doWork(): Unit
 ----
 
-[[internal-registries]]
-.ShutdownableThread's Internal Properties (e.g. Registries and Counters)
-[cols="1,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| [[isRunning]] `isRunning`
-| Flag that controls how long to execute <<run, run>> method.
-
-| [[shutdownLatch]] `shutdownLatch`
-| Java's https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html[java.util.concurrentCountDownLatch] with the number of passes being `1`
-|===
-
 === [[run]] `run` Method
 
 [source, scala]
@@ -60,3 +46,29 @@ pause(
 `pause`...FIXME
 
 NOTE: `pause` is used when...FIXME
+
+=== [[initiateShutdown]] `initiateShutdown` Method
+
+[source, scala]
+----
+initiateShutdown(): Boolean
+----
+
+`initiateShutdown`...FIXME
+
+NOTE: `initiateShutdown` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| isRunning
+| [[isRunning]] Flag that controls how long to execute <<run, run>> method.
+
+| shutdownLatch
+| [[shutdownLatch]] Java's https://docs.oracle.com/javase/9/docs/api/java/util/concurrent/CountDownLatch.html[java.util.concurrentCountDownLatch] with the number of passes being `1`
+
+|===

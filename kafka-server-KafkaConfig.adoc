@@ -269,6 +269,9 @@ a| [[numRecoveryThreadsPerDataDir]][[NumRecoveryThreadsPerDataDirProp]] <<kafka-
 
 Used exclusively when `LogManager` is <<kafka-log-LogManager.adoc#apply, created>>
 
+| <<getNumReplicaAlterLogDirsThreads, getNumReplicaAlterLogDirsThreads>>
+a| [[NumReplicaAlterLogDirsThreadsProp]] link:kafka-properties.adoc#num.replica.alter.log.dirs.threads[num.replica.alter.log.dirs.threads]
+
 | numReplicaFetchers
 a| [[numReplicaFetchers]][[NumReplicaFetchersProp]] <<kafka-properties.adoc#num.replica.fetchers, num.replica.fetchers>>
 
@@ -520,9 +523,9 @@ NOTE: `listenerSecurityProtocolMap` is used when...FIXME
 getNumReplicaAlterLogDirsThreads: Int
 ----
 
-`getNumReplicaAlterLogDirsThreads`...FIXME
+`getNumReplicaAlterLogDirsThreads` is link:kafka-properties.adoc#num.replica.alter.log.dirs.threads[num.replica.alter.log.dirs.threads] if defined or the number of <<logDirs, log directories>>.
 
-NOTE: `getNumReplicaAlterLogDirsThreads` is used when...FIXME
+NOTE: `getNumReplicaAlterLogDirsThreads` is used when link:kafka-server-ReplicaAlterLogDirsManager.adoc[ReplicaAlterLogDirsManager] is created.
 
 === [[creating-instance]] Creating KafkaConfig Instance
 

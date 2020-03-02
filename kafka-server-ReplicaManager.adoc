@@ -111,7 +111,7 @@ A `TopicPartition` is removed when <<stopReplica, stopping a replica>> (and mark
 
 NOTE: `allPartitions` is used when <<getPartition, getPartition>>, <<nonOfflinePartitionsIterator, nonOfflinePartitionsIterator>>, <<offlinePartitionsIterator, offlinePartitionsIterator>>, <<becomeLeaderOrFollower, becomeLeaderOrFollower>>, <<maybeShrinkIsr, maybeShrinkIsr>>, <<handleLogDirFailure, handleLogDirFailure>>
 
-=== [[createReplicaFetcherManager]] Creating ReplicaFetcherManager -- `createReplicaFetcherManager` Internal Factory Method
+=== [[createReplicaFetcherManager]] Creating ReplicaFetcherManager -- `createReplicaFetcherManager` Internal Method
 
 [source, scala]
 ----
@@ -124,18 +124,32 @@ createReplicaFetcherManager(
 
 `createReplicaFetcherManager` simply creates a <<kafka-server-ReplicaFetcherManager.adoc#, ReplicaFetcherManager>>.
 
-NOTE: `createReplicaFetcherManager` is used exclusively when `ReplicaManager` is <<replicaFetcherManager, created>>.
+NOTE: `createReplicaFetcherManager` is used when `ReplicaManager` is <<replicaFetcherManager, created>>.
+
+=== [[createReplicaAlterLogDirsManager]] Creating ReplicaAlterLogDirsManager -- `createReplicaAlterLogDirsManager` Internal Method
+
+[source, scala]
+----
+createReplicaAlterLogDirsManager(
+  quotaManager: ReplicationQuotaManager,
+  brokerTopicStats: BrokerTopicStats): ReplicaAlterLogDirsManager
+----
+
+`createReplicaAlterLogDirsManager` simply creates a link:kafka-server-ReplicaAlterLogDirsManager.adoc[ReplicaAlterLogDirsManager].
+
+NOTE: `createReplicaAlterLogDirsManager` is used when `ReplicaManager` is <<replicaAlterLogDirsManager, created>>.
 
 === [[shutdown]] `shutdown` Method
 
 [source, scala]
 ----
-shutdown(checkpointHW: Boolean = true): Unit
+shutdown(
+  checkpointHW: Boolean = true): Unit
 ----
 
 `shutdown`...FIXME
 
-NOTE: `shutdown` is used when...FIXME
+NOTE: `shutdown` is used when `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#shutdown[shut down].
 
 === [[alterReplicaLogDirs]] `alterReplicaLogDirs` Method
 
@@ -889,6 +903,17 @@ NOTE: `updateFollowerFetchState` is used when `ReplicaManager` is requested to <
 
 | controllerEpoch
 a| [[controllerEpoch]]
+
+| replicaAlterLogDirsManager
+a| [[replicaAlterLogDirsManager]] link:kafka-server-ReplicaAlterLogDirsManager.adoc[ReplicaAlterLogDirsManager]
+
+<<createReplicaAlterLogDirsManager, Created>> immediately with `ReplicaManager`
+
+Used when:
+
+* `ReplicaFetcherThread` is requested to link:kafka-server-ReplicaFetcherThread.adoc#truncate[truncate]
+
+* `ReplicaManager` is requested to <<shutdownIdleReplicaAlterLogDirsThread, shutdownIdleReplicaAlterLogDirsThread>>, <<stopReplicas, stopReplicas>>, <<alterReplicaLogDirs, alterReplicaLogDirs>>, <<becomeLeaderOrFollower, becomeLeaderOrFollower>>, <<handleLogDirFailure, handleLogDirFailure>>, <<shutdown, shutdown>>
 
 | replicaFetcherManager
 a| [[replicaFetcherManager]] <<kafka-server-ReplicaFetcherManager.adoc#, ReplicaFetcherManager>>
