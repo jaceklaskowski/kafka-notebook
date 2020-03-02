@@ -281,6 +281,16 @@ a| [[numReplicaFetchers]][[NumReplicaFetchersProp]] <<kafka-properties.adoc#num.
 | PrincipalBuilderClassProp
 | [[PrincipalBuilderClassProp]] <<kafka-properties.adoc#principal.builder.class, principal.builder.class>>
 
+| replicaFetchMaxBytes
+a| [[replicaFetchMaxBytes]][[ReplicaFetchMaxBytesProp]] link:kafka-properties.adoc#replica.fetch.max.bytes[replica.fetch.max.bytes]
+
+Used for `fetchSize` of the link:kafka-server-AbstractFetcherThread.adoc[fetcher threads], i.e. link:kafka-server-ReplicaAlterLogDirsThread.adoc[ReplicaAlterLogDirsThread] and link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
+
+| replicaFetchResponseMaxBytes
+a| [[replicaFetchResponseMaxBytes]][[ReplicaFetchResponseMaxBytesProp]] link:kafka-properties.adoc#replica.fetch.response.max.bytes[replica.fetch.response.max.bytes]
+
+Used for `maxBytes` of the link:kafka-server-AbstractFetcherThread.adoc[fetcher threads], i.e. link:kafka-server-ReplicaAlterLogDirsThread.adoc[ReplicaAlterLogDirsThread] and link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
+
 | replicaLagTimeMaxMs
 a| [[replicaLagTimeMaxMs]][[ReplicaLagTimeMaxMsProp]] link:kafka-properties.adoc#replica.lag.time.max.ms[replica.lag.time.max.ms]
 
@@ -291,9 +301,9 @@ Used when:
 * `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#startup[startup] (and starts link:kafka-server-scheduled-tasks.adoc#isr-expiration[isr-expiration]) and link:kafka-server-ReplicaManager.adoc#maybeShrinkIsr[maybeShrinkIsr]
 
 | replicaFetchBackoffMs
-a| [[replicaFetchBackoffMs]][[ReplicaFetchBackoffMsProp]] <<kafka-properties.adoc#replica.fetch.backoff.ms, replica.fetch.backoff.ms>>
+a| [[replicaFetchBackoffMs]][[ReplicaFetchBackoffMsProp]] link:kafka-properties.adoc#replica.fetch.backoff.ms[replica.fetch.backoff.ms]
 
-Used as <<kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs, fetchBackOffMs>> for <<kafka-server-ReplicaAlterLogDirsThread.adoc#, ReplicaAlterLogDirsThread>> and <<kafka-server-ReplicaFetcherThread.adoc#, ReplicaFetcherThread>>
+Used as <<kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs, fetchBackOffMs>> for link:kafka-server-ReplicaAlterLogDirsThread.adoc[ReplicaAlterLogDirsThread] and link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
 
 | SaslMechanismInterBrokerProtocolProp
 a| [[SaslMechanismInterBrokerProtocolProp]] <<kafka-properties.adoc#sasl.mechanism.inter.broker.protocol, sasl.mechanism.inter.broker.protocol>>

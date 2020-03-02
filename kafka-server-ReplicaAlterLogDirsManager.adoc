@@ -17,7 +17,6 @@
 
 | link:kafka-server-AbstractFetcherManager.adoc#numFetchers[numFetchers]
 | [[numFetchers]] link:kafka-server-KafkaConfig.adoc#getNumReplicaAlterLogDirsThreads[KafkaConfig.getNumReplicaAlterLogDirsThreads]
-
 |===
 
 `ReplicaAlterLogDirsManager` is <<creating-instance, created>> for link:kafka-server-ReplicaManager.adoc#replicaAlterLogDirsManager[ReplicaManager].

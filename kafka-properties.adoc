@@ -558,15 +558,41 @@ link:kafka-server-DynamicListenerConfig.adoc[Dynamic reconfigurable configuratio
 * Use link:kafka-server-KafkaConfig.adoc#PrincipalBuilderClassProp[KafkaConfig.PrincipalBuilderClassProp] to reference the property
 
 | replica.fetch.backoff.ms
-a| [[replica.fetch.backoff.ms]] The amount of time to sleep when fetch partition error occurs.
+a| [[replica.fetch.backoff.ms]] How long (in millis) a link:kafka-server-AbstractFetcherThread.adoc[fetcher thread] is going to sleep when there are no active partitions (while link:kafka-server-AbstractFetcherThread.adoc#maybeFetch[sending a fetch request]) or after a link:kafka-server-AbstractFetcherThread.adoc#processFetchRequest[fetch partition error] and link:kafka-server-AbstractFetcherThread.adoc#handlePartitionsWithErrors[handlePartitionsWithErrors]
 
-Default: `1000`
+Default: `1000` (millis)
 
 Must be at least `0`
 
 * Use <<kafka-server-KafkaConfig.adoc#ReplicaFetchBackoffMsProp, KafkaConfig.ReplicaFetchBackoffMsProp>> to reference the property
 
 * Use <<kafka-server-KafkaConfig.adoc#replicaFetchBackoffMs, KafkaConfig.replicaFetchBackoffMs>> to access the current value
+
+| replica.fetch.max.bytes
+a| [[replica.fetch.max.bytes]] The number of bytes of messages to attempt to fetch for each partition
+
+Default: `1024 * 1024`
+
+Must be at least `0`
+
+This is not an absolute maximum, if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that progress can be made. The maximum record batch size accepted by the broker is defined via <<message.max.bytes, message.max.bytes>> (broker config) or <<max.message.bytes, max.message.bytes>> (topic config).
+
+* Use <<kafka-server-KafkaConfig.adoc#ReplicaFetchMaxBytesProp, KafkaConfig.ReplicaFetchMaxBytesProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#replicaFetchMaxBytes, KafkaConfig.replicaFetchMaxBytes>> to access the current value
+
+| replica.fetch.response.max.bytes
+a| [[replica.fetch.response.max.bytes]] Maximum bytes expected for the entire fetch response
+
+Default: `10 * 1024 * 1024`
+
+Must be at least `0`
+
+Records are fetched in batches, and if the first record batch in the first non-empty partition of the fetch is larger than this value, the record batch will still be returned to ensure that progress can be made. As such, this is not an absolute maximum. The maximum record batch size accepted by the broker is defined via <<message.max.bytes, message.max.bytes>> (broker config) or <<max.message.bytes, max.message.bytes>> (topic config).
+
+* Use <<kafka-server-KafkaConfig.adoc#ReplicaFetchResponseMaxBytesProp, KafkaConfig.ReplicaFetchResponseMaxBytesProp>> to reference the property
+
+* Use <<kafka-server-KafkaConfig.adoc#replicaFetchResponseMaxBytes, KafkaConfig.replicaFetchResponseMaxBytes>> to access the current value
 
 | queued.max.requests
 a| [[queued.max.requests]] The number of queued requests allowed before blocking the network threads

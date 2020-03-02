@@ -1,13 +1,47 @@
 == [[ReplicaAlterLogDirsThread]] ReplicaAlterLogDirsThread
 
-`ReplicaAlterLogDirsThread` is an uninterruptible <<kafka-server-AbstractFetcherThread.adoc#, AbstractFetcherThread>> that...FIXME
+`ReplicaAlterLogDirsThread` is a link:kafka-server-AbstractFetcherThread.adoc[fetcher thread] of link:kafka-server-ReplicaAlterLogDirsManager.adoc[ReplicaAlterLogDirsManager].
 
-`ReplicaAlterLogDirsThread` uses <<kafka-properties.adoc#replica.fetch.backoff.ms, replica.fetch.backoff.ms>> configuration property for the <<kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs, fetchBackOffMs>>.
+`ReplicaAlterLogDirsThread` is <<creating-instance, created>> when `ReplicaAlterLogDirsManager` is requested to <<kafka-server-ReplicaAlterLogDirsManager.adoc#createFetcherThread, create a fetcher thread>>.
 
-`ReplicaAlterLogDirsThread` is <<creating-instance, created>> when `ReplicaAlterLogDirsManager` is requested to <<kafka-server-ReplicaAlterLogDirsManager.adoc#createFetcherThread, create a fetcher thread>> (when...FIXME).
+`ReplicaAlterLogDirsThread` uses the following <<properties, configuration properties>>.
+
+[[properties]]
+.ReplicaAlterLogDirsThread's Properties
+[cols="30,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| link:kafka-properties.adoc#replica.fetch.backoff.ms[replica.fetch.backoff.ms]
+a| [[replica.fetch.backoff.ms]] Used for link:kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs[fetchBackOffMs]
+
+| link:kafka-properties.adoc#broker.id[broker.id]
+a| [[broker.id]][[replicaId]] Used to <<buildFetchForPartition, buildFetchForPartition>>
+
+| link:kafka-properties.adoc#replica.fetch.response.max.bytes[replica.fetch.response.max.bytes]
+a| [[replica.fetch.response.max.bytes]][[maxBytes]] Used to <<buildFetchForPartition, buildFetchForPartition>>
+
+| link:kafka-properties.adoc#replica.fetch.max.bytes[replica.fetch.max.bytes]
+a| [[replica.fetch.max.bytes]][[fetchSize]] Used to <<buildFetchForPartition, buildFetchForPartition>>
+
+|===
 
 [[isOffsetForLeaderEpochSupported]]
 `ReplicaAlterLogDirsThread` has <<kafka-server-AbstractFetcherThread.adoc#isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>> flag always enabled (`true`).
+
+=== [[creating-instance]] Creating ReplicaAlterLogDirsThread Instance
+
+`ReplicaAlterLogDirsThread` takes the following to be created:
+
+* [[name]] Thread Name
+* [[sourceBroker]] Source `BrokerEndPoint`
+* [[brokerConfig]] link:kafka-server-KafkaConfig.adoc[KafkaConfig]
+* [[replicaMgr]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
+* [[quota]] link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
+* [[brokerTopicStats]] link:kafka-server-BrokerTopicStats.adoc[BrokerTopicStats]
+
+`ReplicaAlterLogDirsThread` initializes the <<internal-registries, internal registries and counters>>.
 
 === [[fetchFromLeader]] `fetchFromLeader` Method
 
@@ -74,15 +108,15 @@ NOTE: `buildFetch` is part of the <<kafka-server-AbstractFetcherThread.adoc#buil
 
 `buildFetch`...FIXME
 
-=== [[creating-instance]] Creating ReplicaAlterLogDirsThread Instance
+=== [[buildFetchForPartition]] `buildFetchForPartition` Internal Method
 
-`ReplicaAlterLogDirsThread` takes the following to be created:
+[source, scala]
+----
+buildFetchForPartition(
+  tp: TopicPartition,
+  fetchState: PartitionFetchState): ResultWithPartitions[Option[FetchRequest.Builder]]
+----
 
-* [[name]] Thread Name
-* [[sourceBroker]] Source `BrokerEndPoint`
-* [[brokerConfig]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
-* [[replicaMgr]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
-* [[quota]] <<kafka-server-ReplicationQuotaManager.adoc#, ReplicationQuotaManager>>
-* [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
+`buildFetchForPartition`...FIXME
 
-`ReplicaAlterLogDirsThread` initializes the <<internal-registries, internal registries and counters>>.
+NOTE: `buildFetchForPartition` is used when `ReplicaAlterLogDirsThread` is requested to <<buildFetch, buildFetch>>.
