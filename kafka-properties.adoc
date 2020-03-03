@@ -164,6 +164,9 @@ Use `ConsumerConfig.FETCH_MAX_WAIT_MS_CONFIG`
 
 Use `ConsumerConfig.FETCH_MIN_BYTES_CONFIG`
 
+| file.delete.delay.ms
+a| [[file.delete.delay.ms]]
+
 | link:kafka-properties-group-id.adoc[group.id]
 | [[group.id]] The name of the consumer group the consumer is part of.
 
@@ -247,6 +250,16 @@ Different security (SSL and SASL) settings can be configured for each listener b
 
 <<kafka-server-DynamicListenerConfig.adoc#, Dynamic reconfigurable configuration>>
 
+| log.cleaner.backoff.ms
+a| [[log.cleaner.backoff.ms]]
+
+<<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
+
+| log.cleaner.dedupe.buffer.size
+a| [[log.cleaner.dedupe.buffer.size]]
+
+<<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
+
 | log.cleaner.enable
 a| [[log.cleaner.enable]] Enables the <<kafka-log-LogManager.adoc#cleaner, log cleaner process>> to run on a Kafka broker (`true`). Should be enabled if using any topics with a <<kafka-log-cleanup-policies.adoc#compact, cleanup.policy=compact>> including the internal offsets topic. If disabled those topics will not be compacted and continually grow in size.
 
@@ -255,16 +268,6 @@ Default: `true`
 * Use <<kafka-server-KafkaConfig.adoc#LogCleanerEnableProp, KafkaConfig.LogCleanerEnableProp>> to reference the property
 
 * Use <<kafka-server-KafkaConfig.adoc#logCleanerEnable, KafkaConfig.logCleanerEnable>> to access the current value
-
-| log.cleaner.threads
-a| [[log.cleaner.threads]]
-
-<<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
-
-| log.cleaner.dedupe.buffer.size
-a| [[log.cleaner.dedupe.buffer.size]]
-
-<<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
 
 | log.cleaner.io.buffer.load.factor
 a| [[log.cleaner.io.buffer.load.factor]]
@@ -281,8 +284,8 @@ a| [[log.cleaner.io.max.bytes.per.second]]
 
 <<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
 
-| log.cleaner.backoff.ms
-a| [[log.cleaner.backoff.ms]]
+| log.cleaner.threads
+a| [[log.cleaner.threads]]
 
 <<kafka-server-LogCleaner.adoc#, Dynamic reconfigurable configuration>>
 
@@ -327,7 +330,7 @@ Topic-level configuration: <<kafka-common-TopicConfig.adoc#FLUSH_MESSAGES_INTERV
 * Use <<kafka-server-KafkaConfig.adoc#logFlushIntervalMessages, KafkaConfig.logFlushIntervalMessages>> to access the current value
 
 | log.flush.interval.ms
-a| [[log.flush.interval.ms]] How long (in millis) a message written to a log partition is kept in memory before flushing to disk (by forcing an fsync). If not set, the value in log.flush.scheduler.interval.ms is used.
+a| [[log.flush.interval.ms]] How long (in millis) a message written to a log partition is kept in memory before flushing to disk (by forcing an fsync). If not set, the value in <<log.flush.scheduler.interval.ms, log.flush.scheduler.interval.ms>> is used.
 
 Default: `null` (undefined)
 
@@ -344,6 +347,15 @@ Topic-level configuration: <<kafka-common-TopicConfig.adoc#FLUSH_MS_CONFIG, flus
 * Use <<kafka-server-KafkaConfig.adoc#LogFlushIntervalMsProp, KafkaConfig.LogFlushIntervalMsProp>> to reference the property
 
 * Use <<kafka-server-KafkaConfig.adoc#logFlushIntervalMs, KafkaConfig.logFlushIntervalMs>> to access the current value
+
+| log.flush.offset.checkpoint.interval.ms
+a| [[log.flush.offset.checkpoint.interval.ms]]
+
+| log.flush.scheduler.interval.ms
+a| [[log.flush.scheduler.interval.ms]]
+
+| log.flush.start.offset.checkpoint.interval.ms
+a| [[log.flush.start.offset.checkpoint.interval.ms]]
 
 | log.index.size.max.bytes
 a| [[log.index.size.max.bytes]] Maximum size (in bytes) of the offset index file (that maps offsets to file positions). It is preallocated and shrinked only after log rolls.
@@ -784,6 +796,9 @@ link:kafka-common-config-SslConfigs.adoc#NON_RECONFIGURABLE_CONFIGS[Non-reconfig
 link:kafka-server-DynamicListenerConfig.adoc#ReconfigurableConfigs[ReconfigurableConfigs]
 
 * Use <<kafka-server-KafkaConfig.adoc#SslClientAuthProp, KafkaConfig.SslClientAuthProp>> to reference the property
+
+| transactional.id.expiration.ms
+a| [[transactional.id.expiration.ms]]
 
 | transaction.max.timeout.ms
 a| [[transaction.max.timeout.ms]] The maximum allowed timeout for transactions (in millis).

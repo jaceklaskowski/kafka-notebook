@@ -3,7 +3,7 @@
 `SslConfigs` are the <<properties, configuration properties>> of link:kafka-common-security-ssl-SslEngineBuilder.adoc[SslEngineBuilder].
 
 [[properties]]
-.SSL Configuration Properties
+.SslConfigs' Configuration Properties
 [cols="30m,70",options="header",width="100%"]
 |===
 | Name

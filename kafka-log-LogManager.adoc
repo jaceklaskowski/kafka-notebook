@@ -7,9 +7,64 @@ image::images/LogManager.png[align="center"]
 
 `LogManager` runs until (and is requested to <<shutdown, shut down>> when) `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#shutdown, shut down>>.
 
-While being <<creating-instance, created>>, `LogManager` is given the <<logDirs, log directories>> that are configured using <<kafka-server-KafkaConfig.adoc#logDirs, log.dirs or log.dir>> configuration properties (default: <<kafka-properties.adoc#log.dir, /tmp/kafka-logs>>). The log directories are immediately <<createAndValidateLogDirs, validated>> and <<loadLogs, loaded>> (on a fixed thread pool with <<numRecoveryThreadsPerDataDir, numRecoveryThreadsPerDataDir>> recovery threads).
+`LogManager` uses the following <<properties, configuration properties>>.
 
-`LogManager` uses the <<kafka-properties.adoc#num.recovery.threads.per.data.dir, num.recovery.threads.per.data.dir>> dynamic configuration (default: `1`) for the number of threads per log data directory for <<loadLogs, log recovery at startup>> and <<shutdown, flushing at shutdown>>.
+[[properties]]
+.LogManager's Configuration Properties
+[cols="30,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| link:kafka-properties.adoc#file.delete.delay.ms[file.delete.delay.ms]
+a| [[file.delete.delay.ms]]
+
+| link:kafka-properties.adoc#log.cleaner.backoff.ms[log.cleaner.backoff.ms]
+a| [[log.cleaner.backoff.ms]]
+
+| link:kafka-properties.adoc#log.cleaner.dedupe.buffer.size[log.cleaner.dedupe.buffer.size]
+a| [[log.cleaner.dedupe.buffer.size]]
+
+| link:kafka-properties.adoc#log.cleaner.enable[log.cleaner.enable]
+a| [[log.cleaner.enable]] Used to enable a <<cleaner, LogCleaner>>
+
+| link:kafka-properties.adoc#log.cleaner.io.buffer.load.factor[log.cleaner.io.buffer.load.factor]
+a| [[log.cleaner.io.buffer.load.factor]]
+
+| link:kafka-properties.adoc#log.cleaner.io.buffer.size[log.cleaner.io.buffer.size]
+a| [[log.cleaner.io.buffer.size]]
+
+| link:kafka-properties.adoc#log.cleaner.io.max.bytes.per.second[log.cleaner.io.max.bytes.per.second]
+a| [[log.cleaner.io.max.bytes.per.second]]
+
+| link:kafka-properties.adoc#log.cleaner.threads[log.cleaner.threads]
+a| [[log.cleaner.threads]]
+
+| link:kafka-server-KafkaConfig.adoc#logDirs[log.dirs or log.dir]
+a| [[log.dirs]][[log.dir]] Used for the <<logDirs, log directories>> that are immediately <<createAndValidateLogDirs, validated>> and <<loadLogs, loaded>> (on a fixed thread pool with <<numRecoveryThreadsPerDataDir, numRecoveryThreadsPerDataDir>> recovery threads)
+
+| link:kafka-properties.adoc#log.flush.offset.checkpoint.interval.ms[log.flush.offset.checkpoint.interval.ms]
+a| [[log.flush.offset.checkpoint.interval.ms]]
+
+| link:kafka-properties.adoc#log.flush.scheduler.interval.ms[log.flush.scheduler.interval.ms]
+a| [[log.flush.scheduler.interval.ms]]
+
+| link:kafka-properties.adoc#log.flush.start.offset.checkpoint.interval.ms[log.flush.start.offset.checkpoint.interval.ms]
+a| [[log.flush.start.offset.checkpoint.interval.ms]]
+
+| link:kafka-properties.adoc#log.retention.check.interval.ms[log.retention.check.interval.ms]
+a| [[log.retention.check.interval.ms]]
+
+| link:kafka-properties.adoc#message.max.bytes[message.max.bytes]
+a| [[message.max.bytes]]
+
+| link:kafka-properties.adoc#num.recovery.threads.per.data.dir[num.recovery.threads.per.data.dir]
+a| [[num.recovery.threads.per.data.dir]] Number of threads per <<log.dirs, log data directory>> for <<loadLogs, log recovery at startup>> and <<shutdown, flushing at shutdown>>
+
+| link:kafka-properties.adoc#transactional.id.expiration.ms[transactional.id.expiration.ms]
+a| [[transactional.id.expiration.ms]]
+
+|===
 
 `LogManager` is used to create a link:kafka-server-ReplicaManager.adoc#logManager[ReplicaManager], a link:kafka-server-DynamicLogConfig.adoc#logManager[DynamicLogConfig], a link:kafka-server-TopicConfigHandler.adoc#logManager[TopicConfigHandler], and a link:kafka-cluster-Partition.adoc#logManager[Partition].
 
@@ -108,18 +163,18 @@ NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-ser
 
 `LogManager` takes the following to be created:
 
-* [[logDirs]] Absolute paths to log directories (`Seq[File]`)
-* [[initialOfflineDirs]] Initial offline directories (`Seq[File]`)
-* [[topicConfigs]] Topic configurations - <<kafka-log-LogConfig.adoc#, LogConfigs>> per topic name (`Map[String, LogConfig]`)
-* [[initialDefaultConfig]] Initial <<kafka-log-LogConfig.adoc#, LogConfig>>
-* [[cleanerConfig]] <<kafka-log-LogCleaner.adoc#CleanerConfig, CleanerConfig>>
-* [[recoveryThreadsPerDataDir]] `recoveryThreadsPerDataDir` (based on the <<kafka-server-KafkaConfig.adoc#numRecoveryThreadsPerDataDir, num.recovery.threads.per.data.dir>> dynamic configuration property)
-* [[flushCheckMs]] `flushCheckMs`
-* [[flushRecoveryOffsetCheckpointMs]] `flushRecoveryOffsetCheckpointMs`
-* [[flushStartOffsetCheckpointMs]] `flushStartOffsetCheckpointMs`
-* [[retentionCheckMs]] link:kafka-properties.adoc#log.retention.check.interval.ms[log.retention.check.interval.ms]
-* [[maxPidExpirationMs]] `maxPidExpirationMs`
-* [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
+* [[logDirs]] Absolute paths to log directories
+* [[initialOfflineDirs]] Initial offline directories
+* [[topicConfigs]] Topic configurations - <<kafka-log-LogConfig.adoc#, LogConfigs>> per topic name
+* [[initialDefaultConfig]] Initial link:kafka-log-LogConfig.adoc[LogConfig]
+* [[cleanerConfig]] link:kafka-log-LogCleaner.adoc#CleanerConfig[CleanerConfig]
+* [[recoveryThreadsPerDataDir]] link:kafka-server-KafkaConfig.adoc#numRecoveryThreadsPerDataDir[num.recovery.threads.per.data.dir] dynamic configuration property
+* [[flushCheckMs]] link:kafka-properties.adoc#log.flush.scheduler.interval.ms[log.flush.scheduler.interval.ms] configuration property
+* [[flushRecoveryOffsetCheckpointMs]] link:kafka-properties.adoc#log.flush.offset.checkpoint.interval.ms[log.flush.offset.checkpoint.interval.ms] configuration property
+* [[flushStartOffsetCheckpointMs]] link:kafka-properties.adoc#log.flush.start.offset.checkpoint.interval.ms[log.flush.start.offset.checkpoint.interval.ms] configuration property
+* [[retentionCheckMs]] link:kafka-properties.adoc#log.retention.check.interval.ms[log.retention.check.interval.ms] configuration property
+* [[maxPidExpirationMs]] link:kafka-properties.adoc#transactional.id.expiration.ms[transactional.id.expiration.ms] configuration property
+* [[scheduler]] link:kafka-Scheduler.adoc[Scheduler]
 * [[brokerState]] `BrokerState`
 * <<brokerTopicStats, BrokerTopicStats>>
 * [[logDirFailureChannel]] `LogDirFailureChannel`

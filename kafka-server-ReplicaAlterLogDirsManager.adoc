@@ -3,7 +3,7 @@
 `ReplicaAlterLogDirsManager` is a link:kafka-server-AbstractFetcherManager.adoc[AbstractFetcherManager] of link:kafka-server-ReplicaAlterLogDirsThread.adoc[ReplicaAlterLogDirsThreads] with the <<properties, properties>>.
 
 [[properties]]
-.ReplicaAlterLogDirsThreads' Properties
+.ReplicaAlterLogDirsThreads' Configuration Properties
 [cols="30m,70",options="header",width="100%"]
 |===
 | Name

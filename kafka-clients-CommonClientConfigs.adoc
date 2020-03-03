@@ -3,7 +3,7 @@
 `CommonClientConfigs` is the <<properties, configuration properties>> for Kafka consumers and producers.
 
 [[properties]]
-.Configuration Properties
+.CommonClientConfigs' Configuration Properties
 [cols="30m,70",options="header",width="100%"]
 |===
 | Name

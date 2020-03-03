@@ -7,7 +7,7 @@
 `ReplicaAlterLogDirsThread` uses the following <<properties, configuration properties>>.
 
 [[properties]]
-.ReplicaAlterLogDirsThread's Properties
+.ReplicaAlterLogDirsThread's Configuration Properties
 [cols="30,70",options="header",width="100%"]
 |===
 | Name
