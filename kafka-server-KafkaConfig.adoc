@@ -151,6 +151,11 @@ a| [[logCleanerMinCleanRatio]]
 | logCleanerMinCompactionLagMs
 a| [[logCleanerMinCompactionLagMs]]
 
+| logCleanupIntervalMs
+a| [[logCleanupIntervalMs]][[LogCleanupIntervalMsProp]] link:kafka-properties.adoc#log.retention.check.interval.ms[log.retention.check.interval.ms]
+
+Used for link:kafka-log-LogManager.adoc#retentionCheckMs[LogManager] (for the link:kafka-server-scheduled-tasks.adoc#kafka-log-retention[kafka-log-retention] task)
+
 | logCleanupPolicy
 a| [[logCleanupPolicy]][[LogCleanupPolicyProp]] <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>>
 

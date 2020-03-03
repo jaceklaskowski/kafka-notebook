@@ -51,7 +51,7 @@ Used when:
 * Alias for link:kafka-log-LogConfig.adoc#MinInSyncReplicasProp[LogConfig.MinInSyncReplicasProp]
 
 | RETENTION_BYTES_CONFIG
-a| [[retention.bytes]][[RETENTION_BYTES_CONFIG]] Maximum size (in bytes) of a partition (which consists of log segments) to grow before discarding old log segments and free up space for "delete" retention policy.
+a| [[retention.bytes]][[RETENTION_BYTES_CONFIG]] Maximum size (in bytes) of a partition to grow before discarding old log segments and free up space for topics with link:kafka-log-cleanup-policies.adoc#delete[delete] retention policy.
 
 Default: `-1L` (no size limit)
 

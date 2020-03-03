@@ -1,6 +1,6 @@
 == [[LogManager]] LogManager
 
-`LogManager` is <<creating-instance, created>> and immediately <<startup, started>> for `KafkaServer` when requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
+`LogManager` is <<creating-instance, created>> (via <<apply, apply>> factory utility) and immediately <<startup, started>> for `KafkaServer` when requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 .LogManager and KafkaServer
 image::images/LogManager.png[align="center"]
@@ -11,7 +11,7 @@ While being <<creating-instance, created>>, `LogManager` is given the <<logDirs,
 
 `LogManager` uses the <<kafka-properties.adoc#num.recovery.threads.per.data.dir, num.recovery.threads.per.data.dir>> dynamic configuration (default: `1`) for the number of threads per log data directory for <<loadLogs, log recovery at startup>> and <<shutdown, flushing at shutdown>>.
 
-`LogManager` is used to create a <<kafka-server-ReplicaManager.adoc#logManager, ReplicaManager>>, a <<kafka-server-DynamicLogConfig.adoc#logManager, DynamicLogConfig>>, a <<kafka-server-TopicConfigHandler.adoc#logManager, TopicConfigHandler>>.
+`LogManager` is used to create a link:kafka-server-ReplicaManager.adoc#logManager[ReplicaManager], a link:kafka-server-DynamicLogConfig.adoc#logManager[DynamicLogConfig], a link:kafka-server-TopicConfigHandler.adoc#logManager[TopicConfigHandler], and a link:kafka-cluster-Partition.adoc#logManager[Partition].
 
 [[InitialTaskDelayMs]]
 `LogManager` defaults to `30000ms` for the *initial task delay*.
@@ -27,7 +27,7 @@ Add the following line to `config/log4j.properties`:
 log4j.logger.kafka.log.LogManager=ALL
 ```
 
-Refer to <<kafka-logging.adoc#, Logging>>.
+Refer to link:kafka-logging.adoc[Logging].
 ====
 
 === [[cleaner]] LogManager and LogCleaner
@@ -117,7 +117,7 @@ NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-ser
 * [[flushCheckMs]] `flushCheckMs`
 * [[flushRecoveryOffsetCheckpointMs]] `flushRecoveryOffsetCheckpointMs`
 * [[flushStartOffsetCheckpointMs]] `flushStartOffsetCheckpointMs`
-* [[retentionCheckMs]] `retentionCheckMs`
+* [[retentionCheckMs]] link:kafka-properties.adoc#log.retention.check.interval.ms[log.retention.check.interval.ms]
 * [[maxPidExpirationMs]] `maxPidExpirationMs`
 * [[scheduler]] <<kafka-Scheduler.adoc#, Scheduler>>
 * [[brokerState]] `BrokerState`

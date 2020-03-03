@@ -6,6 +6,8 @@ Kafka uses <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>> conf
 
 * <<log-retention, Log Retention>>
 
+Kafka uses link:kafka-properties.adoc#log.retention.check.interval.ms[log.retention.check.interval.ms] configuration property as the interval between regular log checks.
+
 === [[log.cleanup.policy]][[cleanup.policy]] log.cleanup.policy and cleanup.policy Configuration Properties
 
 The cluster-wide <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>> and the per-topic <<kafka-common-TopicConfig.adoc#cleanup.policy, cleanup.policy>> configuration properties are comma-separated lists of cleanup strategies:

@@ -367,6 +367,17 @@ Default: `-1L`
 
 Must be at least `-1`
 
+| log.retention.check.interval.ms
+a| [[log.retention.check.interval.ms]] How often (in millis) the `LogManager` (as link:kafka-server-scheduled-tasks.adoc#kafka-log-retention[kafka-log-retention] task) checks link:kafka-log-LogManager.adoc#cleanupLogs[whether any log is eligible for deletion]
+
+Default: `5 * 60 * 1000L` (millis)
+
+Must be at least `1`
+
+* Use link:kafka-server-KafkaConfig.adoc#LogCleanupIntervalMsProp[KafkaConfig.LogCleanupIntervalMsProp] to reference the property
+
+* Use link:kafka-server-KafkaConfig.adoc#logCleanupIntervalMs[KafkaConfig.logCleanupIntervalMs] to access the current value
+
 | log.retention.ms
 a| [[log.retention.ms]] How long (in millis) to keep a log file before deleting it. `-1` denotes no time limit
 
