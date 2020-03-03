@@ -426,6 +426,20 @@ updateTxnIndex(
 * `LogSegment` is requested to <<updateProducerState, updateProducerState>>
 ====
 
+=== [[size]] `size` Method
+
+[source, scala]
+----
+size: Int
+----
+
+`size` requests the <<log, FileRecords>> for the link:kafka-common-record-FileRecords.adoc#sizeInBytes[size (in bytes)].
+
+[NOTE]
+====
+`size` is used when...FIXME
+====
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

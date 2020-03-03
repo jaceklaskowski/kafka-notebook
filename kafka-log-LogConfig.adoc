@@ -93,7 +93,13 @@ Used when:
 a| [[PreAllocateEnableProp]]
 
 | RetentionBytesProp
-a| [[RetentionBytesProp]]
+a| [[RetentionBytesProp]][[retentionSize]] Alias of link:kafka-common-TopicConfig.adoc#RETENTION_BYTES_CONFIG[TopicConfig.RETENTION_BYTES_CONFIG]
+
+Used when:
+
+* `KafkaServer` utility is requested for link:kafka-server-KafkaServer.adoc#copyKafkaConfigToLog[default configuration properties of logs]
+
+* `Log` is requested to link:kafka-log-Log.adoc#deleteRetentionSizeBreachedSegments[deleteRetentionSizeBreachedSegments]
 
 | RetentionMsProp
 a| [[RetentionMsProp]][[retentionMs]] <<kafka-common-TopicConfig.adoc#RETENTION_MS_CONFIG, retention.ms>>
@@ -101,15 +107,6 @@ a| [[RetentionMsProp]][[retentionMs]] <<kafka-common-TopicConfig.adoc#RETENTION_
 Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.retention.ms, log.retention.ms>>
 
 Used exclusively when `Log` is requested to <<kafka-log-Log.adoc#deleteRetentionMsBreachedSegments, deleteRetentionMsBreachedSegments>>
-
-| RetentionBytesProp
-a| [[RetentionBytesProp]][[retentionSize]] <<kafka-common-TopicConfig.adoc#RETENTION_BYTES_CONFIG, retention.bytes>>
-
-Default: `-1L`
-
-Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.retention.bytes, log.retention.bytes>>
-
-Used exclusively when `Log` is requested to <<kafka-log-Log.adoc#deleteRetentionSizeBreachedSegments, deleteRetentionSizeBreachedSegments>>
 
 | SegmentBytesProp
 a| [[SegmentBytesProp]][[segmentSize]] <<kafka-common-TopicConfig.adoc#SEGMENT_BYTES_CONFIG, segment.bytes>>

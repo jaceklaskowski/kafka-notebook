@@ -1,6 +1,10 @@
-== [[TopicConfig]] TopicConfig
+== [[TopicConfig]] TopicConfig -- Topic-Level Configuration Keys
 
-`TopicConfig` are the <<keys, keys>> for a topic-level configuration (and override <<kafka-server-KafkaConfig.adoc#, cluster-wide defaults>> with `log.` prefix).
+`TopicConfig` are the <<keys, keys>> for a *topic-level configuration* of a topic (and override link:kafka-server-KafkaConfig.adoc[cluster-wide defaults] that are mostly different by names with `log.` prefix).
+
+NOTE: As the link:++https://github.com/apache/kafka/blob/ac385c4c3a770728848438f28f4acb8854ffc868/clients/src/main/java/org/apache/kafka/common/config/TopicConfig.java#L29++[TopicConfig] itself says: "_Eventually this should replace LogConfig.scala._"
+
+Import `org.apache.kafka.common.config.TopicConfig` to reference the keys.
 
 [source, scala]
 ----
@@ -15,7 +19,7 @@ assert(TopicConfig.CLEANUP_POLICY_CONFIG == "cleanup.policy")
 | Name
 | Description
 
-| cleanup.policy
+| CLEANUP_POLICY_CONFIG
 a| [[cleanup.policy]][[CLEANUP_POLICY_CONFIG]] <<kafka-log-LogConfig.adoc#CleanupPolicyProp, LogConfig.CleanupPolicyProp>>
 
 Used when:
@@ -28,16 +32,16 @@ Used when:
 
 * (Kafka Streams) `WindowedChangelogTopicConfig` is requested for `WINDOWED_STORE_CHANGELOG_TOPIC_DEFAULT_OVERRIDES`
 
-| flush.messages
+| FLUSH_MESSAGES_INTERVAL_CONFIG
 a| [[flush.messages]][[FLUSH_MESSAGES_INTERVAL_CONFIG]] <<kafka-log-LogConfig.adoc#FlushMessagesProp, LogConfig.FlushMessagesProp>>
 
-| flush.ms
+| FLUSH_MS_CONFIG
 a| [[flush.ms]][[FLUSH_MS_CONFIG]] <<kafka-log-LogConfig.adoc#FlushMsProp, LogConfig.FlushMsProp>>
 
-| index.interval.bytes
+| INDEX_INTERVAL_BYTES_CONFIG
 a| [[index.interval.bytes]][[INDEX_INTERVAL_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#IndexIntervalBytesProp, LogConfig.IndexIntervalBytesProp>>
 
-| min.insync.replicas
+| MIN_IN_SYNC_REPLICAS_CONFIG
 a| [[min.insync.replicas]][[MIN_IN_SYNC_REPLICAS_CONFIG]] link:kafka-properties.adoc#min.insync.replicas[min.insync.replicas]
 
 Used when:
@@ -46,13 +50,23 @@ Used when:
 
 * Alias for link:kafka-log-LogConfig.adoc#MinInSyncReplicasProp[LogConfig.MinInSyncReplicasProp]
 
-| retention.bytes
-a| [[retention.bytes]][[RETENTION_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#RetentionBytesProp, LogConfig.RetentionBytesProp>>
+| RETENTION_BYTES_CONFIG
+a| [[retention.bytes]][[RETENTION_BYTES_CONFIG]] Maximum size (in bytes) of a partition (which consists of log segments) to grow before discarding old log segments and free up space for "delete" retention policy.
 
-| retention.ms
+Default: `-1L` (no size limit)
+
+By default there is no size limit only a time limit. Since this limit is enforced at the partition level, multiply it by the number of partitions to compute the topic retention in bytes.
+
+Alias of link:kafka-log-LogConfig.adoc#RetentionBytesProp[LogConfig.RetentionBytesProp]
+
+Cluster-wide property (`TopicConfigSynonyms`): link:kafka-properties.adoc#log.retention.bytes[log.retention.bytes]
+
+Used exclusively when `Log` is requested to <<kafka-log-Log.adoc#deleteRetentionSizeBreachedSegments, deleteRetentionSizeBreachedSegments>>
+
+| RETENTION_MS_CONFIG
 a| [[retention.ms]][[RETENTION_MS_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>
 
-| segment.bytes
+| SEGMENT_BYTES_CONFIG
 a| [[segment.bytes]][[SEGMENT_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>
 
 Used when:
@@ -61,13 +75,13 @@ Used when:
 
 * (Kafka Streams) `RepartitionTopicConfig` is requested for `REPARTITION_TOPIC_DEFAULT_OVERRIDES`
 
-| segment.index.bytes
+| SEGMENT_INDEX_BYTES_CONFIG
 a| [[segment.index.bytes]][[SEGMENT_INDEX_BYTES_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentIndexBytesProp, LogConfig.SegmentIndexBytesProp>>
 
-| segment.jitter.ms
+| SEGMENT_JITTER_MS_CONFIG
 a| [[segment.jitter.ms]][[SEGMENT_JITTER_MS_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentJitterMsProp, LogConfig.SegmentJitterMsProp>>
 
-| segment.ms
+| SEGMENT_MS_CONFIG
 a| [[segment.ms]][[SEGMENT_MS_CONFIG]] <<kafka-log-LogConfig.adoc#SegmentMsProp, LogConfig.SegmentMsProp>>
 
 |===

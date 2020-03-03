@@ -101,7 +101,7 @@ log4j.logger.kafka.log.Log=ALL
 Refer to <<kafka-logging.adoc#, Logging>>.
 ====
 
-=== [[segments]] LogSegments -- `segments` Internal Registry
+=== [[segments]][[logSegments]] LogSegments -- `segments` Internal Registry
 
 [source, scala]
 ----
@@ -134,7 +134,7 @@ A new `LogSegment` is added when `Log` is requested to <<addSegment, addSegment>
 | [[LogStartOffset]]
 
 | Size
-| [[Size]]
+| [[Size]] Size of the log (in bytes)
 
 |===
 
@@ -506,12 +506,12 @@ With the <<kafka-log-LogConfig.adoc#delete, delete>> flag disabled (`false`), `d
 ====
 `deleteOldSegments` is used when:
 
-* `CleanerThread` (of <<kafka-log-LogCleaner.adoc#, LogCleaner>>) is requested to <<kafka-log-CleanerThread.adoc#cleanFilthiestLog, cleanFilthiestLog>>
+* `CleanerThread` (of <<kafka-log-LogCleaner.adoc#, LogCleaner>>) is requested to link:kafka-log-CleanerThread.adoc#cleanFilthiestLog[cleanFilthiestLog]
 
-* `LogManager` is requested to <<kafka-log-LogManager.adoc#cleanupLogs, cleanupLogs>>
+* `LogManager` is requested to link:kafka-log-LogManager.adoc#cleanupLogs[cleanupLogs]
 ====
 
-==== [[deleteOldSegments-private]] Scheduling Deletion Of Old Segments (Per Predicate) -- `deleteOldSegments` Internal Method
+==== [[deleteOldSegments-private]] Scheduling Deletion Of Old Log Segments (Per Predicate) -- `deleteOldSegments` Internal Method
 
 [source, scala]
 ----
@@ -584,9 +584,13 @@ NOTE: `deleteRetentionMsBreachedSegments` is used exclusively when `Log` is requ
 deleteRetentionSizeBreachedSegments(): Int
 ----
 
-`deleteRetentionSizeBreachedSegments` uses the <<kafka-log-LogConfig.adoc#retentionSize, retentionSize>> threshold (of the given <<config, LogConfig>>) to determine the scope of log retention.
+`deleteRetentionSizeBreachedSegments` uses the link:kafka-log-LogConfig.adoc#retentionSize[retentionSize] threshold (of the given <<config, LogConfig>>) to determine the scope of log retention.
 
-`deleteRetentionSizeBreachedSegments` <<deleteOldSegments-private, schedules deletion of segments>> (per their <<kafka-log-LogSegment.adoc#size, size>>) so the <<size, log size>> drops below the <<kafka-log-LogConfig.adoc#retentionSize, retentionSize>> threshold.
+NOTE: link:kafka-log-LogConfig.adoc#retentionSize[retentionSize] threshold is the value of link:kafka-common-TopicConfig.adoc#retention.bytes[retention.bytes] configuration for a topic or link:kafka-properties.adoc#log.retention.bytes[log.retention.bytes] configuration for the cluster.
+
+With the link:kafka-log-LogConfig.adoc#retentionSize[retentionSize] threshold negative (the default is link:kafka-common-TopicConfig.adoc#RETENTION_BYTES_CONFIG[-1L]) or the <<size, size of the log>> below it, `deleteRetentionSizeBreachedSegments` simply exits with the return value of `0`.
+
+`deleteRetentionSizeBreachedSegments` <<deleteOldSegments-private, schedules deletion of records in log segments>> (per their <<kafka-log-LogSegment.adoc#size, size>>) so the <<size, log size>> drops below the threshold.
 
 `deleteRetentionSizeBreachedSegments` uses the following reason:
 
@@ -594,9 +598,7 @@ deleteRetentionSizeBreachedSegments(): Int
 retention size in bytes [retentionSize] breach
 ```
 
-`deleteRetentionSizeBreachedSegments` simply returns `0` for a negative <<kafka-log-LogConfig.adoc#retentionSize, retention.ms>> threshold or a negative <<size, size>>.
-
-NOTE: `deleteRetentionSizeBreachedSegments` is used exclusively when `Log` is requested to <<deleteOldSegments, schedule deletion of old segments (log retention)>>.
+NOTE: `deleteRetentionSizeBreachedSegments` is used exclusively when `Log` is requested to <<deleteOldSegments, schedule deletion of old segments (log retention)>> (for link:kafka-log-cleanup-policies.adoc#delete[delete] cleanup policy).
 
 === [[deleteLogStartOffsetBreachedSegments]] `deleteLogStartOffsetBreachedSegments` Internal Method
 
@@ -1047,6 +1049,29 @@ maybeAssignEpochStartOffset(
 `maybeAssignEpochStartOffset`...FIXME
 
 NOTE: `maybeAssignEpochStartOffset` is used when...FIXME
+
+=== [[size]] Log Size (in Bytes) -- `size` Method
+
+[source, scala]
+----
+size: Long
+----
+
+`size` uses the `Log` utility for the <<sizeInBytes, size>> of the <<logSegments, segments>>.
+
+NOTE: `size` is used when...FIXME
+
+=== [[sizeInBytes]] `sizeInBytes` Utility
+
+[source, scala]
+----
+sizeInBytes(
+  segments: Iterable[LogSegment]): Long
+----
+
+`sizeInBytes` sums up the link:kafka-log-LogSegment.adoc#size[sizes] of the given log segments.
+
+NOTE: `sizeInBytes` is used when `Log` is requested for the <<size, size>>.
 
 === [[loadSegments]] Loading Segments -- `loadSegments` Internal Method
 

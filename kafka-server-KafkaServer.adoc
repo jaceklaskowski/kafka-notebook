@@ -317,7 +317,7 @@ Cluster ID is used for the following:
 
 * <<notifyClusterListeners, Sending an updated cluster metadata to ClusterResourceListeners>>
 
-=== [[copyKafkaConfigToLog]] Creating Default Log Properties (for LogManager and AdminManager) -- `copyKafkaConfigToLog` Internal Utility
+=== [[copyKafkaConfigToLog]] Default Configuration Properties of Logs (for LogManager and AdminManager) -- `copyKafkaConfigToLog` Internal Utility
 
 [source, scala]
 ----

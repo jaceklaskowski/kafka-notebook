@@ -86,6 +86,17 @@ void readInto(
 * `AbstractFetcherThread` is requested to <<kafka-server-AbstractFetcherThread.adoc#toMemoryRecords, toMemoryRecords>>
 ====
 
+=== [[sizeInBytes]] `sizeInBytes` Method
+
+[source, java]
+----
+int sizeInBytes()
+----
+
+NOTE: `sizeInBytes` is part of the link:kafka-common-record-BaseRecords.adoc#sizeInBytes[BaseRecords] contract for the size of the records (in bytes).
+
+`sizeInBytes` simply the current value of the <<size, size>> internal registry.
+
 === [[openChannel]] Opening FileChannel -- `openChannel` Internal Method
 
 [source, java]
@@ -113,7 +124,7 @@ NOTE: `openChannel` is used when `FileRecords` utility is requested to <<open, o
 a| [[batches]] (`Iterable<FileChannelRecordBatch>`)
 
 | size
-a| [[size]] Size (`AtomicInteger`) that is `end - start` for <<isSlice, isSlice>> enabled.
+a| [[size]] Size (https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/atomic/AtomicInteger.html[java.util.concurrent.atomic.AtomicInteger]) that is `end - start` for <<isSlice, isSlice>> enabled.
 
 Used when...FIXME
 
