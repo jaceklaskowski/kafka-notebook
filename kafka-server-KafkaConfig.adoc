@@ -67,7 +67,7 @@ a| [[brokerIdGenerationEnable]] <<kafka-properties.adoc#broker.id.generation.ena
 Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#getBrokerIdAndOfflineDirs, getBrokerIdAndOfflineDirs>>
 
 | compressionType
-a| [[compressionType]]
+a| [[compressionType]][[CompressionTypeProp]] compression.type
 
 | connectionsMaxIdleMs
 a| [[connectionsMaxIdleMs]] <<kafka-properties.adoc#connections.max.idle.ms, connections.max.idle.ms>>
@@ -135,7 +135,7 @@ a| [[logCleanerIoMaxBytesPerSecond]][[LogCleanerIoMaxBytesPerSecondProp]] <<kafk
 a| [[logCleanerBackoffMs]][[LogCleanerBackoffMsProp]] <<kafka-properties.adoc#log.cleaner.backoff.ms, log.cleaner.backoff.ms>>
 
 | logCleanerDeleteRetentionMs
-a| [[logCleanerDeleteRetentionMs]]
+a| [[logCleanerDeleteRetentionMs]][[LogCleanerDeleteRetentionMsProp]] log.cleaner.delete.retention.ms
 
 | logCleanerEnable
 a| [[logCleanerEnable]][[LogCleanerEnableProp]] <<kafka-properties.adoc#log.cleaner.enable, log.cleaner.enable>>
@@ -143,13 +143,13 @@ a| [[logCleanerEnable]][[LogCleanerEnableProp]] <<kafka-properties.adoc#log.clea
 Used exclusively when `LogCleaner` utility is requested to <<kafka-log-LogCleaner.adoc#cleanerConfig, build a CleanerConfig from KafkaConfig>>.
 
 | logCleanerMaxCompactionLagMs
-a| [[logCleanerMaxCompactionLagMs]]
+a| [[logCleanerMaxCompactionLagMs]][[LogCleanerMaxCompactionLagMsProp]] log.cleaner.max.compaction.lag.ms
 
 | logCleanerMinCleanRatio
-a| [[logCleanerMinCleanRatio]]
+a| [[logCleanerMinCleanRatio]][[LogCleanerMinCleanRatioProp]] log.cleaner.min.cleanable.ratio
 
 | logCleanerMinCompactionLagMs
-a| [[logCleanerMinCompactionLagMs]]
+a| [[logCleanerMinCompactionLagMs]][[LogCleanerMinCompactionLagMsProp]] log.cleaner.min.compaction.lag.ms
 
 | logCleanupIntervalMs
 a| [[logCleanupIntervalMs]][[LogCleanupIntervalMsProp]] link:kafka-properties.adoc#log.retention.check.interval.ms[log.retention.check.interval.ms]
@@ -157,12 +157,12 @@ a| [[logCleanupIntervalMs]][[LogCleanupIntervalMsProp]] link:kafka-properties.ad
 Used for link:kafka-log-LogManager.adoc#retentionCheckMs[LogManager] (for the link:kafka-server-scheduled-tasks.adoc#kafka-log-retention[kafka-log-retention] task)
 
 | logCleanupPolicy
-a| [[logCleanupPolicy]][[LogCleanupPolicyProp]] <<kafka-properties.adoc#log.cleanup.policy, log.cleanup.policy>>
+a| [[logCleanupPolicy]][[LogCleanupPolicyProp]] link:kafka-properties.adoc#log.cleanup.policy[log.cleanup.policy]
 
 Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>>
 
 | logDeleteDelayMs
-a| [[logDeleteDelayMs]]
+a| [[logDeleteDelayMs]][[LogDeleteDelayMsProp]] log.segment.delete.delay.ms
 
 | logDirs
 a| [[logDirs]] <<kafka-properties.adoc#log.dirs, log.dirs>> or <<kafka-properties.adoc#log.dir, log.dir>>
@@ -182,43 +182,43 @@ Used when:
 * `ReplicaManager` is requested to <<kafka-server-ReplicaManager.adoc#describeLogDirs, describeLogDirs>>
 
 | logFlushIntervalMessages
-a| [[logFlushIntervalMessages]][[LogFlushIntervalMessagesProp]] <<kafka-properties.adoc#log.flush.interval.messages, log.flush.interval.messages>>
+a| [[logFlushIntervalMessages]][[LogFlushIntervalMessagesProp]] link:kafka-properties.adoc#log.flush.interval.messages[log.flush.interval.messages]
 
 Used exclusively when `Log` is requested to <<kafka-log-Log.adoc#append, append records>>
 
 | logFlushIntervalMs
-a| [[logFlushIntervalMs]][[LogFlushIntervalMsProp]] <<kafka-properties.adoc#log.flush.interval.ms, log.flush.interval.ms>>
+a| [[logFlushIntervalMs]][[LogFlushIntervalMsProp]] link:kafka-properties.adoc#log.flush.interval.ms[log.flush.interval.ms]
 
 Used exclusively when `KafkaServer` is requested for the <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, default log properties>> (and sets the value of <<kafka-log-LogConfig.adoc#FlushMsProp, LogConfig.FlushMsProp>>)
 
 | logIndexIntervalBytes
-a| [[logIndexIntervalBytes]]
+a| [[logIndexIntervalBytes]][[LogIndexIntervalBytesProp]] log.index.interval.bytes
 
 | logIndexSizeMaxBytes
-a| [[logIndexSizeMaxBytes]][[LogIndexSizeMaxBytesProp]] <<kafka-properties.adoc#log.index.size.max.bytes, log.index.size.max.bytes>>
+a| [[logIndexSizeMaxBytes]][[LogIndexSizeMaxBytesProp]] link:kafka-properties.adoc#log.index.size.max.bytes[log.index.size.max.bytes]
 
 Used exclusively when `KafkaServer` is requested for the <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, default log properties>> (and sets the value of <<kafka-log-LogConfig.adoc#SegmentIndexBytesProp, LogConfig.SegmentIndexBytesProp>>)
 
 | logMessageDownConversionEnable
-a| [[logMessageDownConversionEnable]]
+a| [[logMessageDownConversionEnable]][[LogMessageDownConversionEnablePro]] log.message.downconversion.enable
 
 | logMessageFormatVersion
-a| [[logMessageFormatVersion]]
+a| [[logMessageFormatVersion]][[LogMessageFormatVersionProp]] log.message.format.version
 
 | logMessageTimestampDifferenceMaxMs
-a| [[logMessageTimestampDifferenceMaxMs]]
+a| [[logMessageTimestampDifferenceMaxMs]][[LogMessageTimestampDifferenceMaxMsProp]] log.message.timestamp.difference.max.ms
 
 | logMessageTimestampType
-a| [[logMessageTimestampType]]
+a| [[logMessageTimestampType]][[LogMessageTimestampTypeProp]] log.message.timestamp.type
 
 | logPreAllocateEnable
-a| [[logPreAllocateEnable]]
+a| [[logPreAllocateEnable]][[LogPreAllocateProp]] log.preallocate
 
 | logRetentionBytes
-a| [[logRetentionBytes]][[LogRetentionBytesProp]] <<kafka-properties.adoc#log.retention.bytes, log.retention.bytes>>
+a| [[logRetentionBytes]][[LogRetentionBytesProp]] link:kafka-properties.adoc#log.retention.bytes[log.retention.bytes]
 
 | logRetentionTimeMillis
-a| [[logRetentionTimeMillis]][[LogRetentionTimeMillisProp]][[LogRetentionTimeMinutesProp]][[LogRetentionTimeHoursProp]] <<kafka-properties.adoc#log.retention.ms, log.retention.ms>>, <<kafka-properties.adoc#log.retention.minutes, log.retention.minutes>>, or <<kafka-properties.adoc#log.retention.hours, log.retention.hours>> (from the highest to the lowest priority)
+a| [[logRetentionTimeMillis]][[LogRetentionTimeMillisProp]][[LogRetentionTimeMinutesProp]][[LogRetentionTimeHoursProp]] link:kafka-properties.adoc#log.retention.ms[log.retention.ms], link:kafka-properties.adoc#log.retention.minutes[log.retention.minutes], or link:kafka-properties.adoc#log.retention.hours[log.retention.hours] (from the highest to the lowest priority)
 
 | logRollTimeJitterMillis
 a| [[logRollTimeJitterMillis]]
@@ -226,8 +226,11 @@ a| [[logRollTimeJitterMillis]]
 | LogRollTimeHoursProp
 a| [[LogRollTimeHoursProp]]
 
+| LogRollTimeJitterMillisProp
+a| [[LogRollTimeJitterMillisProp]] log.roll.jitter.ms
+
 | LogRollTimeMillisProp
-a| [[LogRollTimeMillisProp]] <<kafka-properties.adoc#log.roll.ms, log.roll.ms>>
+a| [[LogRollTimeMillisProp]] link:kafka-properties.adoc#log.roll.ms[log.roll.ms]
 
 Default: `null`
 
@@ -238,7 +241,7 @@ Used when:
 * ...
 
 | logSegmentBytes
-a| [[logSegmentBytes]][[LogSegmentBytesProp]] <<kafka-properties.adoc#log.segment.bytes, log.segment.bytes>>
+a| [[logSegmentBytes]][[LogSegmentBytesProp]] link:kafka-properties.adoc#log.segment.bytes[log.segment.bytes]
 
 Used exclusively when `KafkaServer` is requested for the <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, default log properties>> (and sets the value of <<kafka-log-LogConfig.adoc#SegmentBytesProp, LogConfig.SegmentBytesProp>>)
 
@@ -258,7 +261,7 @@ a| [[maxReservedBrokerId]] <<kafka-properties.adoc#reserved.broker.max.id, reser
 Used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#generateBrokerId, generateBrokerId>>
 
 | messageMaxBytes
-a| [[messageMaxBytes]][[MessageMaxBytesProp]] <<kafka-properties.adoc#message.max.bytes, message.max.bytes>>
+a| [[messageMaxBytes]][[MessageMaxBytesProp]] link:kafka-properties.adoc#message.max.bytes[message.max.bytes]
 
 | minInSyncReplicas
 a| [[minInSyncReplicas]][[MinInSyncReplicasProp]] link:kafka-properties.adoc#min.insync.replicas[min.insync.replicas]
@@ -416,7 +419,7 @@ a| [[transactionMaxTimeoutMs]] <<kafka-properties.adoc#transaction.max.timeout.m
 Used exclusively when <<kafka-TransactionCoordinator.adoc#, TransactionCoordinator>> is created
 
 | uncleanLeaderElectionEnable
-a| [[uncleanLeaderElectionEnable]]
+a| [[uncleanLeaderElectionEnable]][[UncleanLeaderElectionEnableProp]] unclean.leader.election.enable
 
 | queuedMaxRequests
 a| [[queuedMaxRequests]] <<kafka-properties.adoc#queued.max.requests, queued.max.requests>>

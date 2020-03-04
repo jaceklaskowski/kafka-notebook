@@ -147,6 +147,37 @@ incrementalAlterConfigs(
 
 NOTE: `incrementalAlterConfigs` is used when...FIXME
 
+=== [[createTopicConfigEntry]] `createTopicConfigEntry` Internal Method
+
+[source, scala]
+----
+createTopicConfigEntry(
+  logConfig: LogConfig,
+  topicProps: Properties,
+  includeSynonyms: Boolean)(
+    name: String,
+    value: Any): DescribeConfigsResponse.ConfigEntry
+----
+
+`createTopicConfigEntry`...FIXME
+
+NOTE: `createTopicConfigEntry` is used when `AdminManager` is requested to <<describeConfigs, describe the configuration of a topic>> and <<createTopics, create topics>>.
+
+=== [[createBrokerConfigEntry]] `createBrokerConfigEntry` Internal Method
+
+[source, scala]
+----
+createBrokerConfigEntry(
+  perBrokerConfig: Boolean,
+  includeSynonyms: Boolean)(
+    name: String,
+    value: Any): DescribeConfigsResponse.ConfigEntry
+----
+
+`createBrokerConfigEntry`...FIXME
+
+NOTE: `createBrokerConfigEntry` is used when `AdminManager` is requested to...FIXME
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

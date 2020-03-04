@@ -10,55 +10,64 @@ NOTE: `DynamicBrokerConfig` is <<creating-instance, created>> when <<kafka-serve
 [[creating-instance]]
 `DynamicBrokerConfig` takes a single <<kafka-server-KafkaConfig.adoc#, KafkaConfig>> when created.
 
-[[internal-registries]]
-.DynamicBrokerConfig's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| brokerReconfigurables
-a| [[brokerReconfigurables]] <<kafka-server-BrokerReconfigurable.adoc#, BrokerReconfigurables>>
-
-New reconfigurables registered in <<addBrokerReconfigurable, addBrokerReconfigurable>>
-
-All removed in <<clear, clear>>
-
-Used in <<processReconfiguration, processReconfiguration>>
-
-| currentConfig
-a| [[currentConfig]] Current <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
-
-Initialized with the input <<kafkaConfig, KafkaConfig>>.
-
-Used when...FIXME
-
-| dynamicDefaultConfigs
-a| [[dynamicDefaultConfigs]] Dynamic configurations
-
-Cleared and immediately updated in <<updateDefaultConfig, updateDefaultConfig>>
-
-Used in <<validatedKafkaProps, validatedKafkaProps>> and <<updateCurrentConfig, updateCurrentConfig>>
-
-Cleared when `DynamicBrokerConfig` is requested to <<clear, clear>>
-
-Available using <<currentDynamicDefaultConfigs, currentDynamicDefaultConfigs>>
-
-|===
-
 [[logging]]
 [TIP]
 ====
-Enable `INFO`, `DEBUG` or `TRACE` logging levels for `kafka.server.DynamicBrokerConfig` logger to see what happens inside.
+Enable `ALL` logging levels for `kafka.server.DynamicBrokerConfig` logger to see what happens inside.
 
 Add the following line to `config/log4j.properties`:
 
 ```
-log4j.logger.kafka.server.DynamicBrokerConfig=TRACE
+log4j.logger.kafka.server.DynamicBrokerConfig=ALL
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
 ====
+
+=== [[AllDynamicConfigs]] AllDynamicConfigs
+
+`AllDynamicConfigs` are...FIXME
+
+[NOTE]
+====
+`AllDynamicConfigs` is used when:
+
+* `AdminManager` is requested to link:kafka-server-AdminManager.adoc#createBrokerConfigEntry[createBrokerConfigEntry]
+
+* `DynamicBrokerConfig` utility is requested for the <<DynamicPasswordConfigs, DynamicPasswordConfigs>>, to <<addDynamicConfigs, addDynamicConfigs>> and for the <<dynamicConfigUpdateModes, dynamicConfigUpdateModes>>
+====
+
+=== [[DynamicPasswordConfigs]] DynamicPasswordConfigs
+
+`DynamicPasswordConfigs` are...FIXME
+
+[NOTE]
+====
+`DynamicPasswordConfigs` is used when...FIXME
+====
+
+=== [[addDynamicConfigs]] `addDynamicConfigs` Internal Utility
+
+[source, scala]
+----
+addDynamicConfigs(
+  configDef: ConfigDef): Unit
+----
+
+`addDynamicConfigs`...FIXME
+
+NOTE: `addDynamicConfigs` is used when...FIXME
+
+=== [[dynamicConfigUpdateModes]] `dynamicConfigUpdateModes` Internal Utility
+
+[source, scala]
+----
+dynamicConfigUpdateModes: util.Map[String, String]
+----
+
+`dynamicConfigUpdateModes`...FIXME
+
+NOTE: `dynamicConfigUpdateModes` is used when...FIXME
 
 === [[addBrokerReconfigurable]] `addBrokerReconfigurable` Method
 
@@ -293,3 +302,39 @@ validatedKafkaProps(
 `validatedKafkaProps`...FIXME
 
 NOTE: `validatedKafkaProps` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| brokerReconfigurables
+a| [[brokerReconfigurables]] <<kafka-server-BrokerReconfigurable.adoc#, BrokerReconfigurables>>
+
+New reconfigurables registered in <<addBrokerReconfigurable, addBrokerReconfigurable>>
+
+All removed in <<clear, clear>>
+
+Used in <<processReconfiguration, processReconfiguration>>
+
+| currentConfig
+a| [[currentConfig]] Current <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
+
+Initialized with the input <<kafkaConfig, KafkaConfig>>.
+
+Used when...FIXME
+
+| dynamicDefaultConfigs
+a| [[dynamicDefaultConfigs]] Dynamic configurations
+
+Cleared and immediately updated in <<updateDefaultConfig, updateDefaultConfig>>
+
+Used in <<validatedKafkaProps, validatedKafkaProps>> and <<updateCurrentConfig, updateCurrentConfig>>
+
+Cleared when `DynamicBrokerConfig` is requested to <<clear, clear>>
+
+Available using <<currentDynamicDefaultConfigs, currentDynamicDefaultConfigs>>
+
+|===
