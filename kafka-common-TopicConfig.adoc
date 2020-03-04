@@ -2,6 +2,7 @@
 
 `TopicConfig` are the <<keys, keys>> for a *topic-level configuration* of a topic (and override link:kafka-server-KafkaConfig.adoc[cluster-wide defaults] that are mostly different by names with `log.` prefix).
 
+[[note-replace-LogConfig]]
 NOTE: As the link:++https://github.com/apache/kafka/blob/ac385c4c3a770728848438f28f4acb8854ffc868/clients/src/main/java/org/apache/kafka/common/config/TopicConfig.java#L29++[TopicConfig] itself says: "_Eventually this should replace LogConfig.scala._"
 
 Import `org.apache.kafka.common.config.TopicConfig` to reference the keys.
