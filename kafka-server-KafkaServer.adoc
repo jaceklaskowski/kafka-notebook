@@ -325,95 +325,98 @@ copyKafkaConfigToLog(
   kafkaConfig: KafkaConfig): Map[String, Object]
 ----
 
-`copyKafkaConfigToLog` creates a log configuration (`Map[String, Object]`) with the <<copyKafkaConfigToLog-properties, properties>> that have the values from the given <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>.
+`copyKafkaConfigToLog` sets the <<copyKafkaConfigToLog-properties, topic-level configuration properties>> based on the given <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>.
+
+NOTE: `copyKafkaConfigToLog` uses the same configuration properties as link:kafka-log-LogConfig.adoc#TopicConfigSynonyms[TopicConfigSynonyms]. The keys of the configuration properties of `LogConfig` are simply aliases of link:kafka-common-TopicConfig.adoc#keys[TopicConfig].
 
 [[copyKafkaConfigToLog-properties]]
-.Properties
+.Topic-Level Configuration Properties
 [cols="30,70",options="header",width="100%"]
 |===
 | LogConfig
 | KafkaConfig
 
-| <<kafka-log-LogConfig.adoc#SegmentBytesProp, SegmentBytesProp>>
-| <<kafka-server-KafkaConfig.adoc#logSegmentBytes, logSegmentBytes>>
+| link:kafka-log-LogConfig.adoc#CleanupPolicyProp[CleanupPolicyProp]
+| link:kafka-server-KafkaConfig.adoc#logCleanupPolicy[logCleanupPolicy]
 
-| <<kafka-log-LogConfig.adoc#SegmentMsProp, SegmentMsProp>>
-| <<kafka-server-KafkaConfig.adoc#logRollTimeMillis, logRollTimeMillis>>
+| link:kafka-log-LogConfig.adoc#CompressionTypeProp[CompressionTypeProp]
+| link:kafka-server-KafkaConfig.adoc#compressionType[compressionType]
 
-| <<kafka-log-LogConfig.adoc#SegmentJitterMsProp, SegmentJitterMsProp>>
-| <<kafka-server-KafkaConfig.adoc#logRollTimeJitterMillis, logRollTimeJitterMillis>>
+| link:kafka-log-LogConfig.adoc#DeleteRetentionMsProp[DeleteRetentionMsProp]
+| link:kafka-server-KafkaConfig.adoc#logCleanerDeleteRetentionMs[logCleanerDeleteRetentionMs]
 
-| <<kafka-log-LogConfig.adoc#SegmentIndexBytesProp, SegmentIndexBytesProp>>
-| <<kafka-server-KafkaConfig.adoc#logIndexSizeMaxBytes, logIndexSizeMaxBytes>>
+| link:kafka-log-LogConfig.adoc#FileDeleteDelayMsProp[FileDeleteDelayMsProp]
+| link:kafka-server-KafkaConfig.adoc#logDeleteDelayMs[logDeleteDelayMs]
 
-| <<kafka-log-LogConfig.adoc#FlushMessagesProp, FlushMessagesProp>>
-| <<kafka-server-KafkaConfig.adoc#logFlushIntervalMessages, logFlushIntervalMessages>>
+| link:kafka-log-LogConfig.adoc#FlushMessagesProp[FlushMessagesProp]
+| link:kafka-server-KafkaConfig.adoc#logFlushIntervalMessages[logFlushIntervalMessages]
 
-| <<kafka-log-LogConfig.adoc#FlushMsProp, FlushMsProp>>
-| <<kafka-server-KafkaConfig.adoc#logFlushIntervalMs, logFlushIntervalMs>>
+| link:kafka-log-LogConfig.adoc#FlushMsProp[FlushMsProp]
+| link:kafka-server-KafkaConfig.adoc#logFlushIntervalMs[logFlushIntervalMs]
 
-| <<kafka-log-LogConfig.adoc#RetentionBytesProp, RetentionBytesProp>>
-| <<kafka-server-KafkaConfig.adoc#logRetentionBytes, logRetentionBytes>>
+| link:kafka-log-LogConfig.adoc#IndexIntervalBytesProp[IndexIntervalBytesProp]
+| link:kafka-server-KafkaConfig.adoc#logIndexIntervalBytes[logIndexIntervalBytes]
 
-| <<kafka-log-LogConfig.adoc#RetentionMsProp, RetentionMsProp>>
-| <<kafka-server-KafkaConfig.adoc#logRetentionTimeMillis, logRetentionTimeMillis>>
+| link:kafka-log-LogConfig.adoc#MaxCompactionLagMsProp[MaxCompactionLagMsProp]
+| link:kafka-server-KafkaConfig.adoc#logCleanerMaxCompactionLagMs[logCleanerMaxCompactionLagMs]
 
-| <<kafka-log-LogConfig.adoc#MaxMessageBytesProp, MaxMessageBytesProp>>
-| <<kafka-server-KafkaConfig.adoc#messageMaxBytes, messageMaxBytes>>
+| link:kafka-log-LogConfig.adoc#MaxMessageBytesProp[MaxMessageBytesProp]
+| link:kafka-server-KafkaConfig.adoc#messageMaxBytes[messageMaxBytes]
 
-| <<kafka-log-LogConfig.adoc#IndexIntervalBytesProp, IndexIntervalBytesProp>>
-| <<kafka-server-KafkaConfig.adoc#logIndexIntervalBytes, logIndexIntervalBytes>>
+| link:kafka-log-LogConfig.adoc#MessageDownConversionEnableProp[MessageDownConversionEnableProp]
+| link:kafka-server-KafkaConfig.adoc#logMessageDownConversionEnable[logMessageDownConversionEnable]
 
-| <<kafka-log-LogConfig.adoc#DeleteRetentionMsProp, DeleteRetentionMsProp>>
-| <<kafka-server-KafkaConfig.adoc#logCleanerDeleteRetentionMs, logCleanerDeleteRetentionMs>>
+| link:kafka-log-LogConfig.adoc#MessageFormatVersionProp[MessageFormatVersionProp]
+| link:kafka-server-KafkaConfig.adoc#logMessageFormatVersion[logMessageFormatVersion]
 
-| <<kafka-log-LogConfig.adoc#MinCompactionLagMsProp, MinCompactionLagMsProp>>
-| <<kafka-server-KafkaConfig.adoc#logCleanerMinCompactionLagMs, logCleanerMinCompactionLagMs>>
+| link:kafka-log-LogConfig.adoc#MessageTimestampDifferenceMaxMsProp[MessageTimestampDifferenceMaxMsProp]
+| link:kafka-server-KafkaConfig.adoc#logMessageTimestampDifferenceMaxMs[logMessageTimestampDifferenceMaxMs]
 
-| <<kafka-log-LogConfig.adoc#MaxCompactionLagMsProp, MaxCompactionLagMsProp>>
-| <<kafka-server-KafkaConfig.adoc#logCleanerMaxCompactionLagMs, logCleanerMaxCompactionLagMs>>
+| link:kafka-log-LogConfig.adoc#MessageTimestampTypeProp[MessageTimestampTypeProp]
+| link:kafka-server-KafkaConfig.adoc#logMessageTimestampType[logMessageTimestampType]
 
-| <<kafka-log-LogConfig.adoc#FileDeleteDelayMsProp, FileDeleteDelayMsProp>>
-| <<kafka-server-KafkaConfig.adoc#logDeleteDelayMs, logDeleteDelayMs>>
+| link:kafka-log-LogConfig.adoc#MinCleanableDirtyRatioProp[MinCleanableDirtyRatioProp]
+| link:kafka-server-KafkaConfig.adoc#logCleanerMinCleanRatio[logCleanerMinCleanRatio]
 
-| <<kafka-log-LogConfig.adoc#MinCleanableDirtyRatioProp, MinCleanableDirtyRatioProp>>
-| <<kafka-server-KafkaConfig.adoc#logCleanerMinCleanRatio, logCleanerMinCleanRatio>>
+| link:kafka-log-LogConfig.adoc#MinCompactionLagMsProp[MinCompactionLagMsProp]
+| link:kafka-server-KafkaConfig.adoc#logCleanerMinCompactionLagMs[logCleanerMinCompactionLagMs]
 
-| <<kafka-log-LogConfig.adoc#CleanupPolicyProp, CleanupPolicyProp>>
-| <<kafka-server-KafkaConfig.adoc#logCleanupPolicy, logCleanupPolicy>>
+| link:kafka-log-LogConfig.adoc#MinInSyncReplicasProp[MinInSyncReplicasProp]
+| link:kafka-server-KafkaConfig.adoc#minInSyncReplicas[minInSyncReplicas]
 
-| <<kafka-log-LogConfig.adoc#MinInSyncReplicasProp, MinInSyncReplicasProp>>
-| <<kafka-server-KafkaConfig.adoc#minInSyncReplicas, minInSyncReplicas>>
+| link:kafka-log-LogConfig.adoc#PreAllocateEnableProp[PreAllocateEnableProp]
+| link:kafka-server-KafkaConfig.adoc#logPreAllocateEnable[logPreAllocateEnable]
 
-| <<kafka-log-LogConfig.adoc#CompressionTypeProp, CompressionTypeProp>>
-| <<kafka-server-KafkaConfig.adoc#compressionType, compressionType>>
+| link:kafka-log-LogConfig.adoc#RetentionBytesProp[RetentionBytesProp]
+| link:kafka-server-KafkaConfig.adoc#logRetentionBytes[logRetentionBytes]
 
-| <<kafka-log-LogConfig.adoc#UncleanLeaderElectionEnableProp, UncleanLeaderElectionEnableProp>>
-| <<kafka-server-KafkaConfig.adoc#uncleanLeaderElectionEnable, uncleanLeaderElectionEnable>>
+| link:kafka-log-LogConfig.adoc#RetentionMsProp[RetentionMsProp]
+| link:kafka-server-KafkaConfig.adoc#logRetentionTimeMillis[logRetentionTimeMillis]
 
-| <<kafka-log-LogConfig.adoc#PreAllocateEnableProp, PreAllocateEnableProp>>
-| <<kafka-server-KafkaConfig.adoc#logPreAllocateEnable, logPreAllocateEnable>>
+| link:kafka-log-LogConfig.adoc#SegmentBytesProp[SegmentBytesProp]
+| link:kafka-server-KafkaConfig.adoc#logSegmentBytes[logSegmentBytes]
 
-| <<kafka-log-LogConfig.adoc#MessageFormatVersionProp, MessageFormatVersionProp>>
-| <<kafka-server-KafkaConfig.adoc#logMessageFormatVersion, logMessageFormatVersion>>
+| link:kafka-log-LogConfig.adoc#SegmentIndexBytesProp[SegmentIndexBytesProp]
+| link:kafka-server-KafkaConfig.adoc#logIndexSizeMaxBytes[logIndexSizeMaxBytes]
 
-| <<kafka-log-LogConfig.adoc#MessageTimestampTypeProp, MessageTimestampTypeProp>>
-| <<kafka-server-KafkaConfig.adoc#logMessageTimestampType, logMessageTimestampType>>
+| link:kafka-log-LogConfig.adoc#SegmentJitterMsProp[SegmentJitterMsProp]
+| link:kafka-server-KafkaConfig.adoc#logRollTimeJitterMillis[logRollTimeJitterMillis]
 
-| <<kafka-log-LogConfig.adoc#MessageTimestampDifferenceMaxMsProp, MessageTimestampDifferenceMaxMsProp>>
-| <<kafka-server-KafkaConfig.adoc#logMessageTimestampDifferenceMaxMs, logMessageTimestampDifferenceMaxMs>>
+| link:kafka-log-LogConfig.adoc#SegmentMsProp[SegmentMsProp]
+| link:kafka-server-KafkaConfig.adoc#logRollTimeMillis[logRollTimeMillis]
 
-| <<kafka-log-LogConfig.adoc#MessageDownConversionEnableProp, MessageDownConversionEnableProp>>
-| <<kafka-server-KafkaConfig.adoc#logMessageDownConversionEnable, logMessageDownConversionEnable>>
+| link:kafka-log-LogConfig.adoc#UncleanLeaderElectionEnableProp[UncleanLeaderElectionEnableProp]
+| link:kafka-server-KafkaConfig.adoc#uncleanLeaderElectionEnable[uncleanLeaderElectionEnable]
+
 |===
 
 [NOTE]
 ====
 `copyKafkaConfigToLog` is used when:
 
-* `LogManager` utility is requested to <<kafka-log-LogManager.adoc#apply, create an instance of LogManager>> (for `KafkaServer` when requested to <<kafka-server-KafkaServer.adoc#startup, start up>>)
+* `LogManager` utility is requested to link:kafka-log-LogManager.adoc#apply[create an instance of LogManager] (for `KafkaServer` when requested to link:kafka-server-KafkaServer.adoc#startup[start up])
 
-* `AdminManager` is requested to <<kafka-server-AdminManager.adoc#describeConfigs, describe the configs>> (of topics)
+* `AdminManager` is requested to link:kafka-server-AdminManager.adoc#describeConfigs[describe the configuration of a topic] and link:kafka-server-AdminManager.adoc#createTopics[create topics]
 ====
 
 === [[internal-properties]] Internal Properties
