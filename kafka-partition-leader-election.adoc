@@ -2,6 +2,10 @@
 
 *Partition Leader Election* is...FIXME
 
+Observe `state.change.logger` (default: `state-change.log`) to trace the process in the logs.
+
+Internally, Kafka controller uses link:kafka-controller-Election.adoc[Election] utility (and link:kafka-controller-PartitionLeaderElectionAlgorithms.adoc[PartitionLeaderElectionAlgorithms]) for the algorithms for partition leader election.
+
 === [[unclean-partition-leader-election]] Unclean Partition Leader Election
 
 A special case of Partition Leader Election is *Unclean Partition Leader Election* that allows a non-ISR replica to be elected as a partition leader (as the last resort, even though doing so may result in data loss).

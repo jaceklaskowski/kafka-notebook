@@ -2,7 +2,7 @@
 
 *Controller Broker* (<<kafka-controller-KafkaController.adoc#, KafkaController>>) is a Kafka service that runs on every broker in a Kafka cluster, but only one can be <<isActive, active>> (_elected_) at any point in time.
 
-The process of promoting a broker to be the active controller is called <<kafka-controller-election.adoc#, Kafka Controller Election>>.
+The process of promoting a broker to be the active controller is called <<kafka-feature-controller-election.adoc#, Kafka Controller Election>>.
 
 Quoting https://cwiki.apache.org/confluence/display/KAFKA/Kafka+Controller+Internals[Kafka Controller Internals]:
 

@@ -1,0 +1,121 @@
+== [[Election]] Election Utility
+
+`Election` is a utility with the algorithms for link:kafka-partition-leader-election.adoc[partition leader election]:
+
+* <<leaderForControlledShutdown, leaderForControlledShutdown>>
+
+* <<leaderForOffline, leaderForOffline>>
+
+* <<leaderForPreferredReplica, leaderForPreferredReplica>>
+
+* <<leaderForReassign, leaderForReassign>>
+
+=== [[leaderForControlledShutdown]] `leaderForControlledShutdown` Utility
+
+[source, scala]
+----
+leaderForControlledShutdown(
+  controllerContext: ControllerContext,
+  leaderAndIsrs: Seq[(TopicPartition, LeaderAndIsr)]): Seq[ElectionResult]
+----
+
+`leaderForControlledShutdown`...FIXME
+
+NOTE: `leaderForControlledShutdown` is used when `ZkPartitionStateMachine` is requested to link:kafka-controller-ZkPartitionStateMachine.adoc#doElectLeaderForPartitions[doElectLeaderForPartitions] for link:kafka-controller-PartitionStateMachine.adoc#ControlledShutdownPartitionLeaderElectionStrategy[ControlledShutdownPartitionLeaderElectionStrategy].
+
+==== [[leaderForControlledShutdown-private]] `leaderForControlledShutdown` Internal Method
+
+[source, scala]
+----
+leaderForControlledShutdown(
+  partition: TopicPartition,
+  leaderAndIsr: LeaderAndIsr,
+  shuttingDownBrokerIds: Set[Int],
+  controllerContext: ControllerContext): ElectionResult
+----
+
+`leaderForControlledShutdown`...FIXME
+
+NOTE: `leaderForControlledShutdown` is used when `Election` utility is used to <<leaderForControlledShutdown, leaderForControlledShutdown>>.
+
+=== [[leaderForOffline]] `leaderForOffline` Utility
+
+[source, scala]
+----
+leaderForOffline(
+  controllerContext: ControllerContext,
+  partitionsWithUncleanLeaderElectionState: Seq[(TopicPartition, Option[LeaderAndIsr], Boolean)]): Seq[ElectionResult]
+----
+
+`leaderForOffline`...FIXME
+
+NOTE: `leaderForOffline` is used when `ZkPartitionStateMachine` is requested to link:kafka-controller-ZkPartitionStateMachine.adoc#doElectLeaderForPartitions[doElectLeaderForPartitions] for link:kafka-controller-PartitionStateMachine.adoc#OfflinePartitionLeaderElectionStrategy[OfflinePartitionLeaderElectionStrategy].
+
+==== [[leaderForOffline-private]] `leaderForOffline` Internal Method
+
+[source, scala]
+----
+leaderForOffline(
+  partition: TopicPartition,
+  leaderAndIsrOpt: Option[LeaderAndIsr],
+  uncleanLeaderElectionEnabled: Boolean,
+  controllerContext: ControllerContext): ElectionResult
+----
+
+`leaderForOffline`...FIXME
+
+NOTE: `leaderForOffline` is used when `Election` utility is used to <<leaderForOffline, leaderForOffline>>.
+
+=== [[leaderForPreferredReplica]] `leaderForPreferredReplica` Utility
+
+[source, scala]
+----
+leaderForPreferredReplica(
+  controllerContext: ControllerContext,
+  leaderAndIsrs: Seq[(TopicPartition, LeaderAndIsr)]): Seq[ElectionResult]
+----
+
+`leaderForPreferredReplica`...FIXME
+
+NOTE: `leaderForPreferredReplica` is used when `ZkPartitionStateMachine` is requested to link:kafka-controller-ZkPartitionStateMachine.adoc#doElectLeaderForPartitions[doElectLeaderForPartitions] for link:kafka-controller-PartitionStateMachine.adoc#PreferredReplicaPartitionLeaderElectionStrategy[PreferredReplicaPartitionLeaderElectionStrategy].
+
+==== [[leaderForPreferredReplica-private]] `leaderForPreferredReplica` Internal Method
+
+[source, scala]
+----
+leaderForPreferredReplica(
+  partition: TopicPartition,
+  leaderAndIsr: LeaderAndIsr,
+  controllerContext: ControllerContext): ElectionResult
+----
+
+`leaderForPreferredReplica`...FIXME
+
+NOTE: `leaderForPreferredReplica` is used when `Election` utility is used to <<leaderForPreferredReplica, leaderForPreferredReplica>>.
+
+=== [[leaderForReassign]] `leaderForReassign` Utility
+
+[source, scala]
+----
+leaderForReassign(
+  controllerContext: ControllerContext,
+  leaderAndIsrs: Seq[(TopicPartition, LeaderAndIsr)]): Seq[ElectionResult]
+----
+
+`leaderForReassign`...FIXME
+
+NOTE: `leaderForReassign` is used when `ZkPartitionStateMachine` is requested to link:kafka-controller-ZkPartitionStateMachine.adoc#doElectLeaderForPartitions[doElectLeaderForPartitions] for link:kafka-controller-PartitionStateMachine.adoc#ReassignPartitionLeaderElectionStrategy[ReassignPartitionLeaderElectionStrategy].
+
+==== [[leaderForReassign-private]] `leaderForReassign` Internal Method
+
+[source, scala]
+----
+leaderForReassign(
+  partition: TopicPartition,
+  leaderAndIsr: LeaderAndIsr,
+  controllerContext: ControllerContext): ElectionResult
+----
+
+`leaderForReassign`...FIXME
+
+NOTE: `leaderForReassign` is used when `Election` utility is used to <<leaderForReassign, leaderForReassign>>.

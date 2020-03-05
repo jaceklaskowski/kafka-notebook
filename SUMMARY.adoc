@@ -8,7 +8,7 @@
 . link:kafka-partition-leader-election.adoc[Partition Leader Election]
 . link:kafka-log-cleanup-policies.adoc[Log Cleanup Policies]
 . link:kafka-feature-preferred-replica-leader-election.adoc[Preferred Replica Election]
-. link:kafka-controller-election.adoc[Kafka Controller Election]
+. link:kafka-feature-controller-election.adoc[Kafka Controller Election]
 . link:kafka-topic-replication.adoc[Topic Replication]
 . link:kafka-topic-deletion.adoc[Topic Deletion]
 . link:kafka-transactional-producer.adoc[Transactional Producer]
@@ -116,6 +116,14 @@
 . link:kafka-controller-ControllerContext.adoc[ControllerContext]
 . link:kafka-controller-ControllerState.adoc[ControllerState]
 
+. link:kafka-controller-PartitionStateMachine.adoc[PartitionStateMachine]
+.. link:kafka-controller-ZkPartitionStateMachine.adoc[ZkPartitionStateMachine]
+... link:kafka-controller-Election.adoc[Election]
+... link:kafka-controller-PartitionLeaderElectionAlgorithms.adoc[PartitionLeaderElectionAlgorithms]
+
+. link:kafka-controller-ReplicaStateMachine.adoc[ReplicaStateMachine]
+.. link:kafka-controller-ZkReplicaStateMachine.adoc[ZkReplicaStateMachine]
+
 . link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
 .. link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
 .. link:kafka-controller-QueuedEvent.adoc[QueuedEvent]
@@ -137,12 +145,6 @@
 
 . link:kafka-controller-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
 .. link:kafka-controller-AbstractControllerBrokerRequestBatch.adoc[AbstractControllerBrokerRequestBatch]
-
-. link:kafka-controller-ZkPartitionStateMachine.adoc[ZkPartitionStateMachine]
-.. link:kafka-controller-PartitionStateMachine.adoc[PartitionStateMachine]
-
-. link:kafka-controller-ZkReplicaStateMachine.adoc[ZkReplicaStateMachine]
-.. link:kafka-controller-ReplicaStateMachine.adoc[ReplicaStateMachine]
 
 . link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
 

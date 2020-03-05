@@ -195,7 +195,7 @@ Controller [controllerId] epoch [epoch] failed to change state for partition [pa
 
 In the end, `electLeaderForPartitions` returns the partitions with leader election successful and failed.
 
-NOTE: `electLeaderForPartitions` is used exclusively when `ZkPartitionStateMachine` is requested to <<doHandleStateChanges, handle partition state changes>>.
+NOTE: `electLeaderForPartitions` is used when `ZkPartitionStateMachine` is requested to <<doHandleStateChanges, handle partition state changes>> (when the partitions are expected in `OnlinePartition` target state).
 
 === [[doElectLeaderForPartitions]] `doElectLeaderForPartitions` Internal Method
 
@@ -231,7 +231,7 @@ For every successfully-updated partition (in <<kafka-zk-KafkaZkClient.adoc#updat
 
 In the end, `doElectLeaderForPartitions` returns the partitions that were successfully updated, to be updated again and failed (during election and update).
 
-NOTE: `doElectLeaderForPartitions` is used exclusively when `ZkPartitionStateMachine` is requested to <<electLeaderForPartitions, electLeaderForPartitions>>.
+NOTE: `doElectLeaderForPartitions` is used when `ZkPartitionStateMachine` is requested to <<electLeaderForPartitions, electLeaderForPartitions>>.
 
 === [[collectUncleanLeaderElectionState]] `collectUncleanLeaderElectionState` Internal Method
 
