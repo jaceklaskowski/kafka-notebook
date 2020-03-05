@@ -55,7 +55,15 @@ NOTE: `PartitionStateMachine` is a Scala abstract class and cannot be <<creating
 a| [[ControlledShutdownPartitionLeaderElectionStrategy]]
 
 | OfflinePartitionLeaderElectionStrategy
-a| [[OfflinePartitionLeaderElectionStrategy]]
+a| [[OfflinePartitionLeaderElectionStrategy]] Accepts `allowUnclean` flag
+
+Handled by `ZkPartitionStateMachine` when requested to link:kafka-controller-ZkPartitionStateMachine.adoc#doElectLeaderForPartitions[doElectLeaderForPartitions]
+
+Used when:
+
+* `KafkaController` is requested to link:kafka-controller-KafkaController.adoc#onNewPartitionCreation[onNewPartitionCreation] (with the `allowUnclean` flag off), link:kafka-controller-KafkaController.adoc#onReplicaElection[onReplicaElection] (with the `allowUnclean` flag on for the admin client)
+
+* `PartitionStateMachine` is requested to <<triggerOnlineStateChangeForPartitions, triggerOnlineStateChangeForPartitions>> (with the `allowUnclean` flag off)
 
 | PreferredReplicaPartitionLeaderElectionStrategy
 a| [[PreferredReplicaPartitionLeaderElectionStrategy]] `KafkaController` is requested for <<kafka-controller-KafkaController.adoc#onPreferredReplicaElection, preferred replica leader election>> that in turn triggers `ZkPartitionStateMachine` to <<kafka-controller-ZkPartitionStateMachine.adoc#leaderForPreferredReplica, leaderForPreferredReplica>>
@@ -71,10 +79,13 @@ a| [[ReassignPartitionLeaderElectionStrategy]]
 ----
 triggerOnlinePartitionStateChange(): Unit
 triggerOnlinePartitionStateChange(
-  topic: String): Unit
+  topic: String): Unit // <1>
 ----
+<1> Uses the partitions of the given topic only
 
 `triggerOnlinePartitionStateChange` requests the <<controllerContext, ControllerContext>> for the link:kafka-controller-ControllerContext.adoc#partitionsInStates[partitions in the states]: `OfflinePartition` and `NewPartition`.
+
+With the topic specified, `triggerOnlinePartitionStateChange` requests the <<controllerContext, ControllerContext>> for the link:kafka-controller-ControllerContext.adoc#partitionsInStates[partitions of the topic in the states]: `OfflinePartition` and `NewPartition`.
 
 In the end, `triggerOnlinePartitionStateChange` <<triggerOnlineStateChangeForPartitions, triggers online state change for the partitions>>.
 
@@ -82,7 +93,7 @@ In the end, `triggerOnlinePartitionStateChange` <<triggerOnlineStateChangeForPar
 ====
 `triggerOnlinePartitionStateChange` is used when:
 
-* `KafkaController` is requested to link:kafka-controller-KafkaController.adoc#onBrokerStartup[onBrokerStartup], link:kafka-controller-KafkaController.adoc#onReplicasBecomeOffline[onReplicasBecomeOffline] and link:kafka-controller-KafkaController.adoc#processUncleanLeaderElectionEnable[processUncleanLeaderElectionEnable]
+* `KafkaController` is requested to link:kafka-controller-KafkaController.adoc#onBrokerStartup[onBrokerStartup], link:kafka-controller-KafkaController.adoc#onReplicasBecomeOffline[onReplicasBecomeOffline], link:kafka-controller-KafkaController.adoc#processUncleanLeaderElectionEnable[processUncleanLeaderElectionEnable], link:kafka-controller-KafkaController.adoc#processTopicUncleanLeaderElectionEnable[processTopicUncleanLeaderElectionEnable]
 
 * `PartitionStateMachine` is requested to <<startup, start up>>
 ====
@@ -95,9 +106,9 @@ triggerOnlineStateChangeForPartitions(
   partitions: collection.Set[TopicPartition]): Unit
 ----
 
-`triggerOnlineStateChangeForPartitions`...FIXME
+`triggerOnlineStateChangeForPartitions` filters out the partitions of the link:kafka-controller-ControllerContext.adoc#isTopicQueuedUpForDeletion[topics to be deleted] and tries to <<handleStateChanges, move the partitions>> to `OnlinePartition` state with <<OfflinePartitionLeaderElectionStrategy, OfflinePartitionLeaderElectionStrategy>> (with `allowUnclean` flag off).
 
-NOTE: `triggerOnlineStateChangeForPartitions` is used when...FIXME
+NOTE: `triggerOnlineStateChangeForPartitions` is used when `PartitionStateMachine` is requested to <<triggerOnlinePartitionStateChange, triggerOnlinePartitionStateChange>>.
 
 === [[shutdown]] Shutting Down -- `shutdown` Method
 

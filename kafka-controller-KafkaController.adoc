@@ -1484,12 +1484,27 @@ NOTE: `checkAndTriggerAutoLeaderRebalance` is used exclusively when `KafkaContro
 
 [source, scala]
 ----
-onNewPartitionCreation(newPartitions: Set[TopicPartition]): Unit
+onNewPartitionCreation(
+  newPartitions: Set[TopicPartition]): Unit
 ----
 
 `onNewPartitionCreation`...FIXME
 
 NOTE: `onNewPartitionCreation` is used when <<kafka-controller-ControllerEvent.adoc#TopicChange, TopicChange>> and <<kafka-controller-ControllerEvent.adoc#PartitionModifications, PartitionModifications>> controller events are processed.
+
+=== [[onReplicaElection]] `onReplicaElection` Internal Method
+
+[source, scala]
+----
+onReplicaElection(
+  partitions: Set[TopicPartition],
+  electionType: ElectionType,
+  electionTrigger: ElectionTrigger): Map[TopicPartition, Either[Throwable, LeaderAndIsr]]
+----
+
+`onReplicaElection`...FIXME
+
+NOTE: `onReplicaElection` is used when...FIXME
 
 === [[onBrokerLogDirFailure]] Handling Log Directory Failures for Brokers -- `onBrokerLogDirFailure` Internal Method
 
@@ -1643,7 +1658,7 @@ processTopicUncleanLeaderElectionEnable(topic: String): Unit
 
 `processTopicUncleanLeaderElectionEnable`...FIXME
 
-NOTE: `processTopicUncleanLeaderElectionEnable` is used exclusively when `KafkaController` is requested to <<process, process a TopicUncleanLeaderElectionEnable controller event>>.
+NOTE: `processTopicUncleanLeaderElectionEnable` is used when `KafkaController` is requested to <<process, process a TopicUncleanLeaderElectionEnable controller event>>.
 
 === [[processLeaderAndIsrResponseReceived]] Processing LeaderAndIsrResponseReceived Controller Event (On controller-event-thread) -- `processLeaderAndIsrResponseReceived` Internal Method
 

@@ -274,9 +274,11 @@ NOTE: `putPartitionState` is used when...FIXME
 ----
 partitionsInStates(
   states: Set[PartitionState]): Set[TopicPartition]
+partitionsInStates(
+  topic: String, states: Set[PartitionState]): Set[TopicPartition]
 ----
 
-`partitionsInStates` uses the <<partitionStates, partitionStates>> internal registry to find all of the `TopicPartitions` in the given `PartitionStates`.
+`partitionsInStates` uses the <<partitionStates, partitionStates>> internal registry to find all of the `TopicPartitions` (of the topic if defined) in the given `PartitionStates`.
 
 NOTE: `partitionsInStates` is used when `PartitionStateMachine` is requested to link:kafka-controller-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange[triggerOnlinePartitionStateChange].
 
@@ -344,7 +346,7 @@ The timer metric name pattern is *kafka.controller:type=ControllerStats,name=*.
 a| [[topicsIneligibleForDeletion]]
 
 | topicsToBeDeleted
-a| [[topicsToBeDeleted]]
+a| [[topicsToBeDeleted]][[isTopicQueuedUpForDeletion]]
 
 | topicsWithDeletionStarted
 a| [[topicsWithDeletionStarted]]
