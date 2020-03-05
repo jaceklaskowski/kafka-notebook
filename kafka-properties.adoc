@@ -814,7 +814,9 @@ Must be at least `1`
 | unclean.leader.election.enable
 a| [[unclean.leader.election.enable]] When enabled, allows non-ISR replicas to be elected as a leader (as the last resort, even though doing so may result in data loss)
 
-Default: `false`
+Cluster-wide property: link:kafka-server-KafkaConfig.adoc#unclean.leader.election.enable[unclean.leader.election.enable]
+
+Topic-level property: link:kafka-log-LogConfig.adoc#unclean.leader.election.enable[unclean.leader.election.enable]
 
 | value.deserializer
 | [[value.deserializer]][[value_deserializer]] How to deserialize message values

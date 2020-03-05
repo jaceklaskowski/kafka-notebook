@@ -141,9 +141,9 @@ Used when:
 | link:kafka-common-TopicConfig.adoc#UNCLEAN_LEADER_ELECTION_ENABLE_CONFIG[unclean.leader.election.enable]
 a| [[UncleanLeaderElectionEnableProp]][[uncleanLeaderElectionEnable]][[unclean.leader.election.enable]] Cluster-wide property: link:kafka-properties.adoc#unclean.leader.election.enable[unclean.leader.election.enable]
 
-Used when:
+Disabled (`false`) explicity for the `__transaction_state` internal topic (when `TransactionStateManager` is requested for the link:kafka-TransactionStateManager.adoc#transactionTopicConfigs[transactionTopicConfigs] for link:kafka-server-KafkaApis.adoc#createInternalTopic[KafkaApis])
 
-* `TransactionStateManager` is requested for the link:kafka-TransactionStateManager.adoc#transactionTopicConfigs[transactionTopicConfigs] (when `KafkaApis` is requested to link:kafka-server-KafkaApis.adoc#createInternalTopic[create __transaction_state internal topic])
+Used when:
 
 * `ZkPartitionStateMachine` is requested to link:kafka-controller-ZkPartitionStateMachine.adoc#collectUncleanLeaderElectionState[collectUncleanLeaderElectionState]
 

@@ -421,6 +421,14 @@ Used exclusively when <<kafka-TransactionCoordinator.adoc#, TransactionCoordinat
 | uncleanLeaderElectionEnable
 a| [[uncleanLeaderElectionEnable]][[UncleanLeaderElectionEnableProp]] link:kafka-properties.adoc#unclean.leader.election.enable[unclean.leader.election.enable]
 
+Default: `false`
+
+Topic-level property: link:kafka-log-LogConfig.adoc#unclean.leader.election.enable[unclean.leader.election.enable]
+
+Used when:
+
+* `TopicConfigHandler` is requested to link:kafka-server-TopicConfigHandler.adoc#processConfigChanges[process configuration changes] (for `unclean.leader.election.enable` configuration property that triggers the `KafkaController` to link:kafka-controller-KafkaController.adoc#enableDefaultUncleanLeaderElection[enableDefaultUncleanLeaderElection])
+
 | queuedMaxRequests
 a| [[queuedMaxRequests]] <<kafka-properties.adoc#queued.max.requests, queued.max.requests>>
 
