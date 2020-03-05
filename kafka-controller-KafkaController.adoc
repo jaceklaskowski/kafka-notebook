@@ -1545,7 +1545,7 @@ enableDefaultUncleanLeaderElection(): Unit
 
 `enableDefaultUncleanLeaderElection`...FIXME
 
-NOTE: `enableDefaultUncleanLeaderElection` is used exclusively when `DynamicLogConfig` is requested to <<kafka-server-DynamicLogConfig.adoc#reconfigure, reconfigure>>.
+NOTE: `enableDefaultUncleanLeaderElection` is used when `DynamicLogConfig` is requested to link:kafka-server-DynamicLogConfig.adoc#reconfigure[reconfigure] (for link:kafka-log-LogConfig.adoc#unclean.leader.election.enable[unclean.leader.election.enable] configuration property).
 
 === [[electPreferredLeaders]] Preferred Replica Leader Election -- `electPreferredLeaders` Method
 

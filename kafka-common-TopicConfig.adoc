@@ -96,7 +96,7 @@ By default there is no size limit only a time limit. Since this limit is enforce
 
 Alias of link:kafka-log-LogConfig.adoc#RetentionBytesProp[LogConfig.RetentionBytesProp]
 
-Cluster-wide property (`TopicConfigSynonyms`): link:kafka-properties.adoc#log.retention.bytes[log.retention.bytes]
+Cluster-wide property: link:kafka-properties.adoc#log.retention.bytes[log.retention.bytes]
 
 Used exclusively when `Log` is requested to <<kafka-log-Log.adoc#deleteRetentionSizeBreachedSegments, deleteRetentionSizeBreachedSegments>>
 

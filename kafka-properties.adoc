@@ -812,9 +812,9 @@ Must be at least `1`
 * Use <<kafka-server-KafkaConfig.adoc#transactionMaxTimeoutMs, KafkaConfig.transactionMaxTimeoutMs>> to access the current value
 
 | unclean.leader.election.enable
-a| [[unclean.leader.election.enable]] Controls whether to enable replicas not in the ISR set to be elected as leader as the last resort, even though doing so may result in data loss.
+a| [[unclean.leader.election.enable]] When enabled, allows non-ISR replicas to be elected as a leader (as the last resort, even though doing so may result in data loss)
 
-Default: `1`
+Default: `false`
 
 | value.deserializer
 | [[value.deserializer]][[value_deserializer]] How to deserialize message values

@@ -244,7 +244,7 @@ collectUncleanLeaderElectionState(
 
 `collectUncleanLeaderElectionState`...FIXME
 
-NOTE: `collectUncleanLeaderElectionState` is used exclusively when `ZkPartitionStateMachine` is requested to <<doElectLeaderForPartitions, doElectLeaderForPartitions>> (for <<kafka-controller-PartitionStateMachine.adoc#OfflinePartitionLeaderElectionStrategy, OfflinePartitionLeaderElectionStrategy>>).
+NOTE: `collectUncleanLeaderElectionState` is used when `ZkPartitionStateMachine` is requested to <<doElectLeaderForPartitions, doElectLeaderForPartitions>> (for <<kafka-controller-PartitionStateMachine.adoc#OfflinePartitionLeaderElectionStrategy, OfflinePartitionLeaderElectionStrategy>>).
 
 === [[logInvalidTransition]] `logInvalidTransition` Internal Method
 

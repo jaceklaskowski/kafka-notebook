@@ -80,3 +80,14 @@ partitionFor(transactionalId: String): Int
 `partitionFor`...FIXME
 
 NOTE: `partitionFor` is used when...FIXME
+
+=== [[transactionTopicConfigs]] `transactionTopicConfigs` Method
+
+[source, scala]
+----
+transactionTopicConfigs: Properties
+----
+
+`transactionTopicConfigs`...FIXME
+
+NOTE: `transactionTopicConfigs` is used when `KafkaApis` is requested to link:kafka-server-KafkaApis.adoc#createInternalTopic[create __transaction_state internal topic].

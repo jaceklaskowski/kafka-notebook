@@ -96,7 +96,7 @@ transactionTopicConfigs: Properties
 
 `transactionTopicConfigs`...FIXME
 
-NOTE: `transactionTopicConfigs` is used when...FIXME
+NOTE: `transactionTopicConfigs` is used when `TransactionCoordinator` is requested for the link:kafka-TransactionCoordinator.adoc#transactionTopicConfigs[transactionTopicConfigs].
 
 === [[loadTransactionMetadata]] `loadTransactionMetadata` Internal Method
 

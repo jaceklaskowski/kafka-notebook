@@ -419,7 +419,7 @@ a| [[transactionMaxTimeoutMs]] <<kafka-properties.adoc#transaction.max.timeout.m
 Used exclusively when <<kafka-TransactionCoordinator.adoc#, TransactionCoordinator>> is created
 
 | uncleanLeaderElectionEnable
-a| [[uncleanLeaderElectionEnable]][[UncleanLeaderElectionEnableProp]] unclean.leader.election.enable
+a| [[uncleanLeaderElectionEnable]][[UncleanLeaderElectionEnableProp]] link:kafka-properties.adoc#unclean.leader.election.enable[unclean.leader.election.enable]
 
 | queuedMaxRequests
 a| [[queuedMaxRequests]] <<kafka-properties.adoc#queued.max.requests, queued.max.requests>>

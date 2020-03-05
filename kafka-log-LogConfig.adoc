@@ -2,9 +2,7 @@
 
 `LogConfig` is an `AbstractConfig` for the <<properties, topic-level configuration properties>>.
 
-NOTE: As the link:kafka-common-TopicConfig.adoc#note-replace-LogConfig[TopicConfig] itself says: "_Eventually this should replace LogConfig.scala._"
-
-`LogConfig` defines configuration properties with the keys of link:kafka-common-TopicConfig.adoc#keys[TopicConfig].
+`LogConfig` uses the keys that are symonyms (aliases) of the keys of link:kafka-common-TopicConfig.adoc#keys[TopicConfig]. As the link:++https://github.com/apache/kafka/blob/ac385c4c3a770728848438f28f4acb8854ffc868/clients/src/main/java/org/apache/kafka/common/config/TopicConfig.java#L29++[TopicConfig] itself says: "_Eventually this should replace LogConfig.scala._"
 
 [[properties]]
 .LogConfig's Topic-Level Configuration Properties
@@ -13,12 +11,10 @@ NOTE: As the link:kafka-common-TopicConfig.adoc#note-replace-LogConfig[TopicConf
 | Name
 | Description
 
-| link:kafka-common-TopicConfig.adoc#CLEANUP_POLICY_CONFIG[CleanupPolicyProp]
-a| [[CleanupPolicyProp]][[cleanup.policy]] link:kafka-common-TopicConfig.adoc#CLEANUP_POLICY_CONFIG[cleanup.policy]
+| link:kafka-common-TopicConfig.adoc#CLEANUP_POLICY_CONFIG[cleanup.policy]
+a| [[CleanupPolicyProp]][[cleanup.policy]] Cluster-wide property: link:kafka-properties.adoc#log.cleanup.policy[log.cleanup.policy]
 
 Default: `delete`
-
-Cluster-wide property (`TopicConfigSynonyms`): link:kafka-properties.adoc#log.cleanup.policy[log.cleanup.policy]
 
 Used when:
 
@@ -30,60 +26,54 @@ Used when:
 
 * `KafkaServer` utility is used to link:kafka-server-KafkaServer.adoc#copyKafkaConfigToLog[create a default log properties for LogManager and AdminManager]
 
-| link:kafka-common-TopicConfig.adoc#COMPRESSION_TYPE_CONFIG[CompressionTypeProp]
-a| [[CompressionTypeProp]]
+| link:kafka-common-TopicConfig.adoc#COMPRESSION_TYPE_CONFIG[compression.type]
+a| [[CompressionTypeProp]][[compression.type]]
 
-| link:kafka-common-TopicConfig.adoc#DELETE_RETENTION_MS_CONFIG[DeleteRetentionMsProp]
-a| [[DeleteRetentionMsProp]]
+| link:kafka-common-TopicConfig.adoc#DELETE_RETENTION_MS_CONFIG[delete.retention.ms]
+a| [[DeleteRetentionMsProp]][[delete.retention.ms]]
 
-| link:kafka-common-TopicConfig.adoc#FILE_DELETE_DELAY_MS_CONFIG[FileDeleteDelayMsProp]
-a| [[file.delete.delay.ms]][[FileDeleteDelayMsProp]][[fileDeleteDelayMs]] The time (in millis) to wait before deleting a file from the filesystem. Must be at least `0`
+| link:kafka-common-TopicConfig.adoc#FILE_DELETE_DELAY_MS_CONFIG[file.delete.delay.ms]
+a| [[FileDeleteDelayMsProp]][[fileDeleteDelayMs]][[file.delete.delay.ms]] The time (in millis) to wait before deleting a file from the filesystem. Must be at least `0`
 
 Property: `file.delete.delay.ms`
 
 Default: `60000`
 
-| link:kafka-common-TopicConfig.adoc#FLUSH_MESSAGES_INTERVAL_CONFIG[FlushMessagesProp]
-a| [[FlushMessagesProp]][[flushInterval]] <<kafka-common-TopicConfig.adoc#FLUSH_MESSAGES_INTERVAL_CONFIG, flush.messages>>
+| link:kafka-common-TopicConfig.adoc#FLUSH_MESSAGES_INTERVAL_CONFIG[flush.messages]
+a| [[FlushMessagesProp]][[flushInterval]][[flush.messages]] Cluster-wide property: link:kafka-properties.adoc#log.flush.interval.messages[log.flush.interval.messages]
 
-Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.flush.interval.messages, log.flush.interval.messages>>
+| link:kafka-common-TopicConfig.adoc#FLUSH_MS_CONFIG[flush.ms]
+a| [[flushMs]][[FlushMsProp]][[flush.ms]] Cluster-wide property: link:kafka-properties.adoc#log.flush.interval.ms[log.flush.interval.ms]
 
-| link:kafka-common-TopicConfig.adoc#FLUSH_MS_CONFIG[FlushMsProp]
-a| [[flushMs]][[FlushMsProp]] <<kafka-common-TopicConfig.adoc#FLUSH_MS_CONFIG, flush.ms>>
+| link:kafka-common-TopicConfig.adoc#INDEX_INTERVAL_BYTES_CONFIG[index.interval.bytes]
+a| [[indexInterval]][[IndexIntervalBytesProp]][[index.interval.bytes]]
 
-Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.flush.interval.ms, log.flush.interval.ms>>
+| link:kafka-common-TopicConfig.adoc#MAX_COMPACTION_LAG_MS_CONFIG[max.compaction.lag.ms]
+a| [[MaxCompactionLagMsProp]][[max.compaction.lag.ms]]
 
-| link:kafka-common-TopicConfig.adoc#INDEX_INTERVAL_BYTES_CONFIG[IndexIntervalBytesProp]
-a| [[indexInterval]][[IndexIntervalBytesProp]] <<kafka-common-TopicConfig.adoc#INDEX_INTERVAL_BYTES_CONFIG, index.interval.bytes>>
+| link:kafka-common-TopicConfig.adoc#MAX_MESSAGE_BYTES_CONFIG[max.message.bytes]
+a| [[MaxMessageBytesProp]][[max.message.bytes]]
 
-| link:kafka-common-TopicConfig.adoc#MAX_COMPACTION_LAG_MS_CONFIG[MaxCompactionLagMsProp]
-a| [[MaxCompactionLagMsProp]]
+| link:kafka-common-TopicConfig.adoc#MESSAGE_DOWNCONVERSION_ENABLE_CONFIG[message.downconversion.enable]
+a| [[MessageDownConversionEnableProp]][[message.downconversion.enable]]
 
-| link:kafka-common-TopicConfig.adoc#MAX_MESSAGE_BYTES_CONFIG[MaxMessageBytesProp]
-a| [[MaxMessageBytesProp]]
+| link:kafka-common-TopicConfig.adoc#MESSAGE_FORMAT_VERSION_CONFIG[message.format.version]
+a| [[MessageFormatVersionProp]][[message.format.version]]
 
-| link:kafka-common-TopicConfig.adoc#MESSAGE_DOWNCONVERSION_ENABLE_CONFIG[MessageDownConversionEnableProp]
-a| [[MessageDownConversionEnableProp]]
+| link:kafka-common-TopicConfig.adoc#MESSAGE_TIMESTAMP_DIFFERENCE_MAX_MS_CONFIG[message.timestamp.difference.max.ms]
+a| [[MessageTimestampDifferenceMaxMsProp]][[message.timestamp.difference.max.ms]]
 
-| link:kafka-common-TopicConfig.adoc#MESSAGE_FORMAT_VERSION_CONFIG[MessageFormatVersionProp]
-a| [[MessageFormatVersionProp]]
+| link:kafka-common-TopicConfig.adoc#MESSAGE_TIMESTAMP_TYPE_CONFIG[message.timestamp.type]
+a| [[MessageTimestampTypeProp]][[message.timestamp.type]]
 
-| link:kafka-common-TopicConfig.adoc#MESSAGE_TIMESTAMP_DIFFERENCE_MAX_MS_CONFIG[MessageTimestampDifferenceMaxMsProp]
-a| [[MessageTimestampDifferenceMaxMsProp]]
+| link:kafka-common-TopicConfig.adoc#MIN_CLEANABLE_DIRTY_RATIO_CONFIG[min.cleanable.dirty.ratio]
+a| [[MinCleanableDirtyRatioProp]][[min.cleanable.dirty.ratio]]
 
-| link:kafka-common-TopicConfig.adoc#MESSAGE_TIMESTAMP_TYPE_CONFIG[MessageTimestampTypeProp]
-a| [[MessageTimestampTypeProp]]
+| link:kafka-common-TopicConfig.adoc#MIN_COMPACTION_LAG_MS_CONFIG[min.compaction.lag.ms]
+a| [[MinCompactionLagMsProp]][[min.compaction.lag.ms]]
 
-| link:kafka-common-TopicConfig.adoc#MIN_CLEANABLE_DIRTY_RATIO_CONFIG[MinCleanableDirtyRatioProp]
-a| [[MinCleanableDirtyRatioProp]]
-
-| link:kafka-common-TopicConfig.adoc#MIN_COMPACTION_LAG_MS_CONFIG[MinCompactionLagMsProp]
-a| [[MinCompactionLagMsProp]]
-
-| link:kafka-common-TopicConfig.adoc#MIN_IN_SYNC_REPLICAS_CONFIG[MinInSyncReplicasProp]
-a| [[minInSyncReplicas]][[MinInSyncReplicasProp]]
-
-Cluster-wide property (`TopicConfigSynonyms`): link:kafka-properties.adoc#min.insync.replicas[min.insync.replicas]
+| link:kafka-common-TopicConfig.adoc#MIN_IN_SYNC_REPLICAS_CONFIG[min.insync.replicas]
+a| [[minInSyncReplicas]][[MinInSyncReplicasProp]][[min.insync.replicas]] Cluster-wide property: link:kafka-properties.adoc#min.insync.replicas[min.insync.replicas]
 
 Used when:
 
@@ -93,11 +83,11 @@ Used when:
 
 * `Partition` is requested to link:kafka-cluster-Partition.adoc#isUnderMinIsr[isUnderMinIsr], link:kafka-cluster-Partition.adoc#isAtMinIsr[isAtMinIsr], link:kafka-cluster-Partition.adoc#checkEnoughReplicasReachOffset[checkEnoughReplicasReachOffset], link:kafka-cluster-Partition.adoc#appendRecordsToLeader[appendRecordsToLeader]
 
-| link:kafka-common-TopicConfig.adoc#PREALLOCATE_CONFIG[PreAllocateEnableProp]
-a| [[PreAllocateEnableProp]]
+| link:kafka-common-TopicConfig.adoc#PREALLOCATE_CONFIG[preallocate]
+a| [[PreAllocateEnableProp]][[preallocate]]
 
-| link:kafka-common-TopicConfig.adoc#RETENTION_BYTES_CONFIG[RetentionBytesProp]
-a| [[RetentionBytesProp]][[retentionSize]]
+| link:kafka-common-TopicConfig.adoc#RETENTION_BYTES_CONFIG[retention.bytes]
+a| [[RetentionBytesProp]][[retentionSize]][[retention.bytes]]
 
 Used when:
 
@@ -105,17 +95,13 @@ Used when:
 
 * `Log` is requested to link:kafka-log-Log.adoc#deleteRetentionSizeBreachedSegments[deleteRetentionSizeBreachedSegments]
 
-| link:kafka-common-TopicConfig.adoc#RETENTION_MS_CONFIG[RetentionMsProp]
-a| [[RetentionMsProp]][[retentionMs]]
-
-Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.retention.ms, log.retention.ms>>
+| link:kafka-common-TopicConfig.adoc#RETENTION_MS_CONFIG[retention.ms]
+a| [[RetentionMsProp]][[retentionMs]][[retention.ms]] Cluster-wide property: link:kafka-properties.adoc#log.retention.ms[log.retention.ms]
 
 Used exclusively when `Log` is requested to <<kafka-log-Log.adoc#deleteRetentionMsBreachedSegments, deleteRetentionMsBreachedSegments>>
 
-| link:kafka-common-TopicConfig.adoc#SEGMENT_BYTES_CONFIG[SegmentBytesProp]
-a| [[SegmentBytesProp]][[segmentSize]]
-
-Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.segment.bytes, log.segment.bytes>>
+| link:kafka-common-TopicConfig.adoc#SEGMENT_BYTES_CONFIG[segment.bytes]
+a| [[SegmentBytesProp]][[segmentSize]][[segment.bytes]] Cluster-wide property: link:kafka-properties.adoc#log.segment.bytes[log.segment.bytes]
 
 Used when:
 
@@ -133,20 +119,16 @@ The current value is available as `LogConfig.segmentSize` and used when:
 
 * `Cleaner` is requested to <<kafka-log-Cleaner.adoc#doClean, clean a log>>
 
-| link:kafka-common-TopicConfig.adoc#SEGMENT_INDEX_BYTES_CONFIG[SegmentIndexBytesProp]
-a| [[segment.index.bytes]][[maxIndexSize]][[SegmentIndexBytesProp]]
+| link:kafka-common-TopicConfig.adoc#SEGMENT_INDEX_BYTES_CONFIG[segment.index.bytes]
+a| [[maxIndexSize]][[SegmentIndexBytesProp]][[segment.index.bytes]] Cluster-wide property: link:kafka-properties.adoc#log.index.size.max.bytes[log.index.size.max.bytes]
 
-Cluster-wide property (`TopicConfigSynonyms`): <<kafka-properties.adoc#log.index.size.max.bytes, log.index.size.max.bytes>>
+| link:kafka-common-TopicConfig.adoc#SEGMENT_JITTER_MS_CONFIG[segment.jitter.ms]
+a| [[SegmentJitterMsProp]][[segmentJitterMs]][[segment.jitter.ms]]
 
-| link:kafka-common-TopicConfig.adoc#SEGMENT_JITTER_MS_CONFIG[SegmentJitterMsProp]
-a| [[SegmentJitterMsProp]][[segmentJitterMs]]
-
-| link:kafka-common-TopicConfig.adoc#SEGMENT_MS_CONFIG[SegmentMsProp]
-a| [[SegmentMsProp]][[segmentMs]]
+| link:kafka-common-TopicConfig.adoc#SEGMENT_MS_CONFIG[segment.ms]
+a| [[SegmentMsProp]][[segmentMs]][[segment.ms]] Cluster-wide property: link:kafka-properties.adoc#log.roll.ms[log.roll.ms]
 
 Default: `604800000` (7 days)
-
-Cluster-wide property (`TopicConfigSynonyms`): <<kafka-server-KafkaConfig.adoc#LogRollTimeMillisProp, log.roll.ms>>
 
 Used when:
 
@@ -156,14 +138,22 @@ Used when:
 
 * `KafkaServer` utility is used to link:kafka-server-KafkaServer.adoc#copyKafkaConfigToLog[create a default log properties for LogManager and AdminManager]
 
-| link:kafka-common-TopicConfig.adoc#UNCLEAN_LEADER_ELECTION_ENABLE_CONFIG[UncleanLeaderElectionEnableProp]
-a| [[UncleanLeaderElectionEnableProp]]
+| link:kafka-common-TopicConfig.adoc#UNCLEAN_LEADER_ELECTION_ENABLE_CONFIG[unclean.leader.election.enable]
+a| [[UncleanLeaderElectionEnableProp]][[uncleanLeaderElectionEnable]][[unclean.leader.election.enable]] Cluster-wide property: link:kafka-properties.adoc#unclean.leader.election.enable[unclean.leader.election.enable]
+
+Used when:
+
+* `TransactionStateManager` is requested for the link:kafka-TransactionStateManager.adoc#transactionTopicConfigs[transactionTopicConfigs] (when `KafkaApis` is requested to link:kafka-server-KafkaApis.adoc#createInternalTopic[create __transaction_state internal topic])
+
+* `ZkPartitionStateMachine` is requested to link:kafka-controller-ZkPartitionStateMachine.adoc#collectUncleanLeaderElectionState[collectUncleanLeaderElectionState]
+
+* `DynamicLogConfig` is requested to link:kafka-server-DynamicLogConfig.adoc#reconfigure[reconfigure] (and requests the `KafkaController` to link:kafka-controller-KafkaController.adoc#enableDefaultUncleanLeaderElection[enableDefaultUncleanLeaderElection])
 
 |===
 
 === [[TopicConfigSynonyms]] TopicConfigSynonyms
 
-`TopicConfigSynonyms` are the topic-level configuration properties (with highest priority) and their corresponding cluster-wide configuration properties.
+`TopicConfigSynonyms` are the <<properties, topic-level configuration properties>> (with the highest priority) with their corresponding cluster-wide (broker-level) configuration properties.
 
 NOTE: `TopicConfigSynonyms` uses the same configuration properties as link:kafka-server-KafkaServer.adoc#copyKafkaConfigToLog[KafkaServer.copyKafkaConfigToLog] utility.
 
@@ -173,76 +163,76 @@ NOTE: `TopicConfigSynonyms` uses the same configuration properties as link:kafka
 | Topic-Level Property Name
 | Cluster-Wide Property Name
 
-| link:kafka-common-TopicConfig.adoc#CLEANUP_POLICY_CONFIG[cleanup.policy]
+| <<cleanup.policy, cleanup.policy>>
 | link:kafka-server-KafkaConfig.adoc#LogCleanupPolicyProp[log.cleanup.policy]
 
-| link:kafka-common-TopicConfig.adoc#COMPRESSION_TYPE_CONFIG[compression.type]
+| <<compression.type, compression.type>>
 | link:kafka-server-KafkaConfig.adoc#CompressionTypeProp[compression.type]
 
-| link:kafka-common-TopicConfig.adoc#DELETE_RETENTION_MS_CONFIG[delete.retention.ms]
+| <<delete.retention.ms, delete.retention.ms>>
 | link:kafka-server-KafkaConfig.adoc#LogCleanerDeleteRetentionMsProp[log.cleaner.delete.retention.ms]
 
-| link:kafka-common-TopicConfig.adoc#FILE_DELETE_DELAY_MS_CONFIG[file.delete.delay.ms]
+| <<file.delete.delay.ms, file.delete.delay.ms>>
 | link:kafka-server-KafkaConfig.adoc#LogDeleteDelayMsProp[log.segment.delete.delay.ms]
 
-| link:kafka-common-TopicConfig.adoc#FLUSH_MESSAGES_INTERVAL_CONFIG[flush.messages]
+| <<flush.messages, flush.messages>>
 | link:kafka-server-KafkaConfig.adoc#LogFlushIntervalMessagesProp[log.flush.interval.messages]
 
-| link:kafka-common-TopicConfig.adoc#FLUSH_MS_CONFIG[flush.ms]
+| <<flush.ms, flush.ms>>
 | link:kafka-server-KafkaConfig.adoc#LogFlushIntervalMsProp[log.flush.interval.ms]
 
-| link:kafka-common-TopicConfig.adoc#INDEX_INTERVAL_BYTES_CONFIG[index.interval.bytes]
+| <<index.interval.bytes, index.interval.bytes>>
 | link:kafka-server-KafkaConfig.adoc#LogIndexIntervalBytesProp[log.index.interval.bytes]
 
-| link:kafka-common-TopicConfig.adoc#MAX_COMPACTION_LAG_MS_CONFIG[max.compaction.lag.ms]
+| <<max.compaction.lag.ms, max.compaction.lag.ms>>
 | link:kafka-server-KafkaConfig.adoc#LogCleanerMaxCompactionLagMsProp[log.cleaner.max.compaction.lag.ms]
 
-| link:kafka-common-TopicConfig.adoc#MAX_MESSAGE_BYTES_CONFIG[max.message.bytes]
+| <<max.message.bytes, max.message.bytes>>
 | link:kafka-server-KafkaConfig.adoc#MessageMaxBytesProp[message.max.bytes]
 
-| link:kafka-common-TopicConfig.adoc#MESSAGE_DOWNCONVERSION_ENABLE_CONFIG[message.downconversion.enable]
+| <<message.downconversion.enable, message.downconversion.enable>>
 | link:kafka-server-KafkaConfig.adoc#LogMessageDownConversionEnablePro[log.message.downconversion.enable]
 
-| link:kafka-common-TopicConfig.adoc#MESSAGE_FORMAT_VERSION_CONFIG[message.format.version]
+| <<message.format.version, message.format.version>>
 | link:kafka-server-KafkaConfig.adoc#LogMessageFormatVersionProp[log.message.format.version]
 
-| link:kafka-common-TopicConfig.adoc#MESSAGE_TIMESTAMP_DIFFERENCE_MAX_MS_CONFIG[message.timestamp.difference.max.ms]
+| <<message.timestamp.difference.max.ms, message.timestamp.difference.max.ms>>
 | link:kafka-server-KafkaConfig.adoc#LogMessageTimestampDifferenceMaxMsProp[log.message.timestamp.difference.max.ms]
 
-| link:kafka-common-TopicConfig.adoc#MESSAGE_TIMESTAMP_TYPE_CONFIG[message.timestamp.type]
+| <<message.timestamp.type, message.timestamp.type>>
 | link:kafka-server-KafkaConfig.adoc#LogMessageTimestampTypeProp[log.message.timestamp.type]
 
-| link:kafka-common-TopicConfig.adoc#MIN_CLEANABLE_DIRTY_RATIO_CONFIG[min.cleanable.dirty.ratio]
+| <<min.cleanable.dirty.ratio, min.cleanable.dirty.ratio>>
 | link:kafka-server-KafkaConfig.adoc#LogCleanerMinCleanRatioProp[log.cleaner.min.cleanable.ratio]
 
-| link:kafka-common-TopicConfig.adoc#MIN_COMPACTION_LAG_MS_CONFIG[min.compaction.lag.ms]
+| <<min.compaction.lag.ms, min.compaction.lag.ms>>
 | link:kafka-server-KafkaConfig.adoc#LogCleanerMinCompactionLagMsProp[log.cleaner.min.compaction.lag.ms]
 
-| link:kafka-common-TopicConfig.adoc#MIN_IN_SYNC_REPLICAS_CONFIG[min.insync.replicas]
+| <<min.insync.replicas, min.insync.replicas>>
 | link:kafka-server-KafkaConfig.adoc#MinInSyncReplicasProp[min.insync.replicas]
 
-| link:kafka-common-TopicConfig.adoc#PREALLOCATE_CONFIG[preallocate]
+| <<preallocate, preallocate>>
 | link:kafka-server-KafkaConfig.adoc#LogPreAllocateProp[log.preallocate]
 
-| link:kafka-common-TopicConfig.adoc#RETENTION_BYTES_CONFIG[retention.bytes]
+| <<retention.bytes, retention.bytes>>
 | link:kafka-server-KafkaConfig.adoc#LogRetentionBytesProp[log.retention.bytes]
 
-| link:kafka-common-TopicConfig.adoc#RETENTION_MS_CONFIG[retention.ms]
+| <<retention.ms, retention.ms>>
 | link:kafka-server-KafkaConfig.adoc#LogRetentionTimeMillisProp[log.retention.ms]
 
-| link:kafka-common-TopicConfig.adoc#SEGMENT_BYTES_CONFIG[segment.bytes]
+| <<segment.bytes, segment.bytes>>
 | link:kafka-server-KafkaConfig.adoc#LogSegmentBytesProp[log.segment.bytes]
 
-| link:kafka-common-TopicConfig.adoc#SEGMENT_INDEX_BYTES_CONFIG[segment.index.bytes]
+| <<segment.index.bytes, segment.index.bytes>>
 | link:kafka-server-KafkaConfig.adoc#LogIndexSizeMaxBytesProp[log.index.size.max.bytes]
 
-| link:kafka-common-TopicConfig.adoc#SEGMENT_JITTER_MS_CONFIG[segment.jitter.ms]
+| <<segment.jitter.ms, segment.jitter.ms>>
 | link:kafka-server-KafkaConfig.adoc#LogRollTimeJitterMillisProp[log.roll.jitter.ms]
 
-| link:kafka-common-TopicConfig.adoc#SEGMENT_MS_CONFIG[segment.ms]
+| <<segment.ms, segment.ms>>
 | link:kafka-server-KafkaConfig.adoc#LogRollTimeMillisProp[log.roll.ms]
 
-| link:kafka-common-TopicConfig.adoc#UNCLEAN_LEADER_ELECTION_ENABLE_CONFIG[unclean.leader.election.enable]
+| <<unclean.leader.election.enable, unclean.leader.election.enable>>
 | link:kafka-server-KafkaConfig.adoc#UncleanLeaderElectionEnableProp[unclean.leader.election.enable]
 
 |===
