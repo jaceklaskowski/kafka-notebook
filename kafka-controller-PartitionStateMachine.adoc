@@ -74,11 +74,17 @@ triggerOnlinePartitionStateChange(
   topic: String): Unit
 ----
 
-`triggerOnlinePartitionStateChange`...FIXME
+`triggerOnlinePartitionStateChange` requests the <<controllerContext, ControllerContext>> for the link:kafka-controller-ControllerContext.adoc#partitionsInStates[partitions in the states]: `OfflinePartition` and `NewPartition`.
+
+In the end, `triggerOnlinePartitionStateChange` <<triggerOnlineStateChangeForPartitions, triggers online state change for the partitions>>.
 
 [NOTE]
 ====
-`triggerOnlinePartitionStateChange` is used when...FIXME
+`triggerOnlinePartitionStateChange` is used when:
+
+* `KafkaController` is requested to link:kafka-controller-KafkaController.adoc#onBrokerStartup[onBrokerStartup], link:kafka-controller-KafkaController.adoc#onReplicasBecomeOffline[onReplicasBecomeOffline] and link:kafka-controller-KafkaController.adoc#processUncleanLeaderElectionEnable[processUncleanLeaderElectionEnable]
+
+* `PartitionStateMachine` is requested to <<startup, start up>>
 ====
 
 === [[triggerOnlineStateChangeForPartitions]] `triggerOnlineStateChangeForPartitions` Internal Method

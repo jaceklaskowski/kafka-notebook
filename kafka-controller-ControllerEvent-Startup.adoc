@@ -5,4 +5,6 @@
 
 `Startup` is <<kafka-controller-ControllerEventManager.adoc#put, enqueued>> when `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#startup, start up>>.
 
+=== [[process]] Processing Startup
+
 When <<kafka-controller-KafkaController.adoc#process, processed>> (on the <<kafka-controller-ControllerEventThread.adoc#, controller-event-thread>>), `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#processStartup, processStartup>> (that in turn starts <<kafka-controller-KafkaController.adoc#elect, controller election>>).

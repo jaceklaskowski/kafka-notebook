@@ -1,0 +1,10 @@
+== [[UncleanLeaderElectionEnable]] UncleanLeaderElectionEnable Controller Event
+
+[[state]]
+`UncleanLeaderElectionEnable` is a link:kafka-controller-ControllerEvent.adoc[controller event] that link:kafka-controller-ControllerEvent.adoc#state[transition] the link:kafka-controller-KafkaController.adoc[KafkaController] to link:kafka-controller-ControllerState.adoc#UncleanLeaderElectionEnable[UncleanLeaderElectionEnable] state.
+
+`UncleanLeaderElectionEnable` is link:kafka-controller-ControllerEventManager.adoc#put[enqueued] when `KafkaController` is requested to link:kafka-controller-KafkaController.adoc#enableDefaultUncleanLeaderElection[enableDefaultUncleanLeaderElection].
+
+=== [[process]] Processing UncleanLeaderElectionEnable
+
+When link:kafka-controller-KafkaController.adoc#process[processed] (on the link:kafka-controller-ControllerEventThread.adoc[controller-event-thread]), `KafkaController` is requested to link:kafka-controller-KafkaController.adoc#processUncleanLeaderElectionEnable[processUncleanLeaderElectionEnable].

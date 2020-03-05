@@ -5,6 +5,7 @@
 
 === Kafka Features
 
+. link:kafka-partition-leader-election.adoc[Partition Leader Election]
 . link:kafka-log-cleanup-policies.adoc[Log Cleanup Policies]
 . link:kafka-feature-preferred-replica-leader-election.adoc[Preferred Replica Election]
 . link:kafka-controller-election.adoc[Kafka Controller Election]
@@ -129,6 +130,8 @@
 .. link:kafka-controller-ControllerEvent-Reelect.adoc[Reelect]
 .. link:kafka-controller-ControllerEvent-Startup.adoc[Startup]
 .. link:kafka-controller-ControllerEvent-TopicDeletion.adoc[TopicDeletion]
+.. link:kafka-controller-ControllerEvent-TopicUncleanLeaderElectionEnable.adoc[TopicUncleanLeaderElectionEnable]
+.. link:kafka-controller-ControllerEvent-UncleanLeaderElectionEnable.adoc[UncleanLeaderElectionEnable]
 
 . link:kafka-controller-ControllerChannelManager.adoc[ControllerChannelManager]
 

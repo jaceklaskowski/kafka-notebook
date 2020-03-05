@@ -713,7 +713,8 @@ NOTE: `updateMetrics` is used exclusively when `KafkaController` is <<creating-i
 
 [source, scala]
 ----
-onBrokerStartup(newBrokers: Seq[Int]): Unit
+onBrokerStartup(
+  newBrokers: Seq[Int]): Unit
 ----
 
 `onBrokerStartup` prints out the following INFO message to the logs:
@@ -1543,7 +1544,9 @@ NOTE: `startNewReplicasForReassignedPartition` is used when...FIXME
 enableDefaultUncleanLeaderElection(): Unit
 ----
 
-`enableDefaultUncleanLeaderElection`...FIXME
+NOTE: `enableDefaultUncleanLeaderElection` does nothing (and simply returns) unless the Kafka broker (`KafkaController`) is an <<isActive, active controller>>.
+
+`enableDefaultUncleanLeaderElection` simply requests the <<eventManager, ControllerEventManager>> to link:kafka-controller-ControllerEventManager.adoc#put[enqueue] a link:kafka-controller-ControllerEvent-UncleanLeaderElectionEnable.adoc[UncleanLeaderElectionEnable] event.
 
 NOTE: `enableDefaultUncleanLeaderElection` is used when `DynamicLogConfig` is requested to link:kafka-server-DynamicLogConfig.adoc#reconfigure[reconfigure] (for link:kafka-log-LogConfig.adoc#unclean.leader.election.enable[unclean.leader.election.enable] configuration property).
 
@@ -1619,7 +1622,15 @@ NOTE: `processPreferredReplicaLeaderElection` is used exclusively when `KafkaCon
 processUncleanLeaderElectionEnable(): Unit
 ----
 
-`processUncleanLeaderElectionEnable`...FIXME
+NOTE: `processUncleanLeaderElectionEnable` does nothing (and simply returns) unless the Kafka broker (`KafkaController`) is an <<isActive, active controller>>.
+
+`processUncleanLeaderElectionEnable` prints out the following INFO message to the logs:
+
+```
+Unclean leader election has been enabled by default
+```
+
+`processUncleanLeaderElectionEnable` requests the <<partitionStateMachine, PartitionStateMachine>> to link:kafka-controller-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange[triggerOnlinePartitionStateChange].
 
 NOTE: `processUncleanLeaderElectionEnable` is used exclusively when `KafkaController` is requested to <<process, process a UncleanLeaderElectionEnable controller event>>.
 

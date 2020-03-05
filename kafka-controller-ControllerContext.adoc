@@ -2,79 +2,8 @@
 
 `ControllerContext` is the context of an active <<kafka-controller-KafkaController.adoc#, KafkaController>> (and is <<creating-instance, created>> right when `KafkaController` is <<kafka-controller-KafkaController.adoc#controllerContext, created>>).
 
-[[registries]]
-.ControllerContext's Registries
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| allTopics
-a| [[allTopics]]
-
-| epoch
-a| [[epoch]] Current controller epoch
-
-| epochZkVersion
-a| [[epochZkVersion]]
-
-| liveBrokerEpochs
-a| [[liveBrokerEpochs]][[liveOrShuttingDownBrokerIds]][[liveBrokerIdAndEpochs]] Broker IDs and the current epoch (`Map[Int, Long]`)
-
-| liveBrokers
-a| [[liveBrokers]]
-
-| offlinePartitionCount
-a| [[offlinePartitionCount]]
-
-| partitionAssignments
-a| [[partitionAssignments]] Broker IDs of partition replicas (`Map[String, Map[Int, Seq[Int]]]`)
-
-| partitionLeadershipInfo
-a| [[partitionLeadershipInfo]]
-
-[source, scala]
-----
-partitionLeadershipInfo: mutable.Map[TopicPartition, LeaderIsrAndControllerEpoch]
-----
-
-| partitionsBeingReassigned
-a| [[partitionsBeingReassigned]]
-
-| partitionStates
-a| [[partitionStates]]
-
-| replicasOnOfflineDirs
-a| [[replicasOnOfflineDirs]]
-
-| replicaStates
-a| [[replicaStates]][[putReplicaState]] `ReplicaStates` of `PartitionAndReplica` (`Map[PartitionAndReplica, ReplicaState]`)
-
-| shuttingDownBrokerIds
-a| [[shuttingDownBrokerIds]]
-
-| stats
-a| [[stats]][[rateAndTimeMetrics]][[ControllerStats]] `ControllerStats` with `UncleanLeaderElectionsPerSec` meter metric and `KafkaTimers` for every <<kafka-controller-ControllerState.adoc#, ControllerState>> (except <<kafka-controller-ControllerState.adoc#Idle, Idle>> state)
-
-`stats` is used exclusively to create the <<kafka-controller-KafkaController.adoc#eventManager, ControllerEventManager>> (of <<kafka-controller-KafkaController.adoc#, KafkaController>>) that is then used to collect the times (metrics) of <<kafka-controller-ControllerEventThread.adoc#doWork, processing every ControllerEvent>> (except <<kafka-controller-ControllerEvent.adoc#ShutdownEventThread, ShutdownEventThread>>)
-
-* Every `ControllerState` has the <<kafka-controller-ControllerState.adoc#rateAndTimeMetricName, RateAndTimeMs>> metric defined (except <<kafka-controller-ControllerState.adoc#Idle, Idle>> state)
-
-The timer metric name pattern is *kafka.controller:type=ControllerStats,name=*.
-
-| topicsIneligibleForDeletion
-a| [[topicsIneligibleForDeletion]]
-
-| topicsToBeDeleted
-a| [[topicsToBeDeleted]]
-
-| topicsWithDeletionStarted
-a| [[topicsWithDeletionStarted]]
-
-|===
-
 [[creating-instance]]
-`ControllerContext` takes no input arguments when created.
+`ControllerContext` takes no input arguments to be created.
 
 === [[allPartitions]] `allPartitions` Method
 
@@ -338,3 +267,86 @@ putPartitionState(
 `putPartitionState`...FIXME
 
 NOTE: `putPartitionState` is used when...FIXME
+
+=== [[partitionsInStates]] Finding Partitions by Given States -- `partitionsInStates` Method
+
+[source, scala]
+----
+partitionsInStates(
+  states: Set[PartitionState]): Set[TopicPartition]
+----
+
+`partitionsInStates` uses the <<partitionStates, partitionStates>> internal registry to find all of the `TopicPartitions` in the given `PartitionStates`.
+
+NOTE: `partitionsInStates` is used when `PartitionStateMachine` is requested to link:kafka-controller-PartitionStateMachine.adoc#triggerOnlinePartitionStateChange[triggerOnlinePartitionStateChange].
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| allTopics
+a| [[allTopics]]
+
+| epoch
+a| [[epoch]] Current controller epoch
+
+| epochZkVersion
+a| [[epochZkVersion]]
+
+| liveBrokerEpochs
+a| [[liveBrokerEpochs]][[liveOrShuttingDownBrokerIds]][[liveBrokerIdAndEpochs]] Broker IDs and the current epoch (`Map[Int, Long]`)
+
+| liveBrokers
+a| [[liveBrokers]]
+
+| offlinePartitionCount
+a| [[offlinePartitionCount]]
+
+| partitionAssignments
+a| [[partitionAssignments]] Broker IDs of partition replicas (`Map[String, Map[Int, Seq[Int]]]`)
+
+| partitionLeadershipInfo
+a| [[partitionLeadershipInfo]]
+
+[source, scala]
+----
+partitionLeadershipInfo: mutable.Map[TopicPartition, LeaderIsrAndControllerEpoch]
+----
+
+| partitionsBeingReassigned
+a| [[partitionsBeingReassigned]]
+
+| partitionStates
+a| [[partitionStates]]
+
+| replicasOnOfflineDirs
+a| [[replicasOnOfflineDirs]]
+
+| replicaStates
+a| [[replicaStates]][[putReplicaState]] `ReplicaStates` of `PartitionAndReplica` (`Map[PartitionAndReplica, ReplicaState]`)
+
+| shuttingDownBrokerIds
+a| [[shuttingDownBrokerIds]]
+
+| stats
+a| [[stats]][[rateAndTimeMetrics]][[ControllerStats]] `ControllerStats` with `UncleanLeaderElectionsPerSec` meter metric and `KafkaTimers` for every <<kafka-controller-ControllerState.adoc#, ControllerState>> (except <<kafka-controller-ControllerState.adoc#Idle, Idle>> state)
+
+`stats` is used exclusively to create the <<kafka-controller-KafkaController.adoc#eventManager, ControllerEventManager>> (of <<kafka-controller-KafkaController.adoc#, KafkaController>>) that is then used to collect the times (metrics) of <<kafka-controller-ControllerEventThread.adoc#doWork, processing every ControllerEvent>> (except <<kafka-controller-ControllerEvent.adoc#ShutdownEventThread, ShutdownEventThread>>)
+
+* Every `ControllerState` has the <<kafka-controller-ControllerState.adoc#rateAndTimeMetricName, RateAndTimeMs>> metric defined (except <<kafka-controller-ControllerState.adoc#Idle, Idle>> state)
+
+The timer metric name pattern is *kafka.controller:type=ControllerStats,name=*.
+
+| topicsIneligibleForDeletion
+a| [[topicsIneligibleForDeletion]]
+
+| topicsToBeDeleted
+a| [[topicsToBeDeleted]]
+
+| topicsWithDeletionStarted
+a| [[topicsWithDeletionStarted]]
+
+|===

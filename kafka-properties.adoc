@@ -812,7 +812,7 @@ Must be at least `1`
 * Use <<kafka-server-KafkaConfig.adoc#transactionMaxTimeoutMs, KafkaConfig.transactionMaxTimeoutMs>> to access the current value
 
 | unclean.leader.election.enable
-a| [[unclean.leader.election.enable]] When enabled, allows non-ISR replicas to be elected as a leader (as the last resort, even though doing so may result in data loss)
+a| [[unclean.leader.election.enable]] Enables link:kafka-partition-leader-election.adoc#unclean-partition-leader-election[Unclean Partition Leader Election]
 
 Cluster-wide property: link:kafka-server-KafkaConfig.adoc#unclean.leader.election.enable[unclean.leader.election.enable]
 
