@@ -48,7 +48,7 @@ Used when `AbstractControllerBrokerRequestBatch` is requested to <<sendLeaderAnd
 
 * [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
-* [[stateChangeLogger]] `StateChangeLogger`
+* [[stateChangeLogger]] link:kafka-controller-StateChangeLogger.adoc[StateChangeLogger]
 
 `AbstractControllerBrokerRequestBatch` initializes the <<internal-properties, internal properties>>.
 
@@ -173,17 +173,21 @@ addLeaderAndIsrRequestForBrokers(
   isNew: Boolean): Unit
 ----
 
-`addLeaderAndIsrRequestForBrokers`...FIXME
+`addLeaderAndIsrRequestForBrokers` looks up the `LeaderAndIsrPartitionStates` of `TopicPartitions` on a broker in the <<leaderAndIsrRequestMap, leaderAndIsrRequestMap>> internal registry. `addLeaderAndIsrRequestForBrokers` uses IDs from the given `brokerIds` that are `0` or higher.
+
+`addLeaderAndIsrRequestForBrokers` adds (or replaces) the given `topicPartition` in the result with a new `LeaderAndIsrPartitionState` based on the input arguments.
+
+In the end, `addLeaderAndIsrRequestForBrokers` <<addUpdateMetadataRequestForBrokers, addUpdateMetadataRequestForBrokers>> to the link:kafka-controller-ControllerContext.adoc#liveOrShuttingDownBrokerIds[live or shutting down brokers] for the requested partition (`topicPartition`).
 
 [NOTE]
 ====
 `addLeaderAndIsrRequestForBrokers` is used when:
 
-* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest, updateLeaderEpochAndSendRequest>>
+* `KafkaController` is requested to link:kafka-controller-KafkaController.adoc#updateLeaderEpochAndSendRequest[updateLeaderEpochAndSendRequest]
 
-* `PartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#initializeLeaderAndIsrForPartitions, initializeLeaderAndIsrForPartitions>> and <<kafka-controller-PartitionStateMachine.adoc#doElectLeaderForPartitions, doElectLeaderForPartitions>>
+* `ZkPartitionStateMachine` is requested to link:kafka-controller-ZkPartitionStateMachine.adoc#initializeLeaderAndIsrForPartitions[initializeLeaderAndIsrForPartitions] and link:kafka-controller-ZkPartitionStateMachine.adoc#doElectLeaderForPartitions[doElectLeaderForPartitions]
 
-* `ReplicaStateMachine` is requested to <<kafka-controller-ReplicaStateMachine.adoc#doHandleStateChanges, doHandleStateChanges>>
+* `ZkReplicaStateMachine` is requested to link:kafka-controller-ZkReplicaStateMachine.adoc#doHandleStateChanges[\]
 ====
 
 === [[addUpdateMetadataRequestForBrokers]] `addUpdateMetadataRequestForBrokers` Method
@@ -203,9 +207,9 @@ addUpdateMetadataRequestForBrokers(
 
 * `AbstractControllerBrokerRequestBatch` is requested to <<addLeaderAndIsrRequestForBrokers, addLeaderAndIsrRequestForBrokers>>
 
-* `KafkaController` is requested to <<kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest, sendUpdateMetadataRequest>>
+* `KafkaController` is requested to link:kafka-controller-KafkaController.adoc#sendUpdateMetadataRequest[sendUpdateMetadataRequest]
 
-* `ZkReplicaStateMachine` is requested to <<kafka-controller-ZkReplicaStateMachine.adoc#doHandleStateChanges, doHandleStateChanges>>
+* `ZkReplicaStateMachine` is requested to link:kafka-controller-ZkReplicaStateMachine.adoc#doHandleStateChanges[doHandleStateChanges]
 ====
 
 === [[internal-properties]] Internal Properties
@@ -216,7 +220,14 @@ addUpdateMetadataRequestForBrokers(
 | Description
 
 | leaderAndIsrRequestMap
-a| [[leaderAndIsrRequestMap]] (`Map[Int, Map[TopicPartition, LeaderAndIsrRequest.PartitionState]]`)
+a| [[leaderAndIsrRequestMap]] `LeaderAndIsrPartitionState` of `TopicPartitions` by broker ID
+
+[source, scala]
+----
+leaderAndIsrRequestMap: Map[
+  Int,
+  Map[TopicPartition, LeaderAndIsrRequestData.LeaderAndIsrPartitionState]]
+----
 
 Used when...FIXME
 

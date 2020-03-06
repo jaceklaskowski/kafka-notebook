@@ -294,7 +294,7 @@ When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-con
 partitionStateMachine: PartitionStateMachine
 ----
 
-When <<creating-instance, created>>, `KafkaController` creates a new <<kafka-controller-ZkPartitionStateMachine.adoc#, ZkPartitionStateMachine>>.
+When <<creating-instance, created>>, `KafkaController` creates a new link:kafka-controller-ZkPartitionStateMachine.adoc[ZkPartitionStateMachine].
 
 `ZkPartitionStateMachine` is requested to <<kafka-controller-PartitionStateMachine.adoc#startup, start up>> at <<onControllerFailover, onControllerFailover>> (when a broker is successfully <<elect, elected as the controller>>) and <<kafka-controller-PartitionStateMachine.adoc#shutdown, shut down>> at <<onControllerResignation, controller resignation>>.
 
@@ -1946,7 +1946,7 @@ a| [[eventManager]] <<kafka-controller-ControllerEventManager.adoc#, ControllerE
 | [[kafkaScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *kafka-scheduler* prefix
 
 | stateChangeLogger
-| [[stateChangeLogger]] `StateChangeLogger` with the <<brokerId, broker ID>> and `inControllerContext` flag enabled
+| [[stateChangeLogger]] link:kafka-controller-StateChangeLogger.adoc[StateChangeLogger] with the <<brokerId, broker ID>> and `inControllerContext` flag enabled
 
 | tokenCleanScheduler
 | [[tokenCleanScheduler]] <<kafka-KafkaScheduler.adoc#, KafkaScheduler>> with 1 daemon thread with *delegation-token-cleaner* prefix

@@ -112,6 +112,7 @@
 . link:kafka-controller.adoc[Controller Broker]
 
 . link:kafka-controller-KafkaController.adoc[KafkaController]
+. link:kafka-controller-StateChangeLogger.adoc[StateChangeLogger]
 
 . link:kafka-controller-ControllerContext.adoc[ControllerContext]
 . link:kafka-controller-ControllerState.adoc[ControllerState]

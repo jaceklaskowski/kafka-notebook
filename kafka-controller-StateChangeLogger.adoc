@@ -1,0 +1,3 @@
+== [[StateChangeLogger]] StateChangeLogger
+
+`StateChangeLogger` is...FIXME

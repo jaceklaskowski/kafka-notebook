@@ -932,7 +932,7 @@ Used when:
 a| [[highWatermarkCheckpoints]] `OffsetCheckpointFiles` per live log data directory
 
 | stateChangeLogger
-a| [[stateChangeLogger]] `StateChangeLogger` with the broker ID and `inControllerContext` flag off (that sets `Broker` log prefix)
+a| [[stateChangeLogger]] link:kafka-controller-StateChangeLogger.adoc[StateChangeLogger] with the broker ID and `inControllerContext` flag off (that sets `Broker` log prefix)
 
 | hwThreadInitialized
 a| [[hwThreadInitialized]]

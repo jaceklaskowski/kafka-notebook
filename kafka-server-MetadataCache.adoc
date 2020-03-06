@@ -30,7 +30,7 @@ a| [[metadataSnapshot]] `MetadataSnapshot`
 | [[partitionMetadataLock]] Java's https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/ReentrantReadWriteLock.html[ReentrantReadWriteLock]
 
 | stateChangeLogger
-a| [[stateChangeLogger]] `StateChangeLogger`
+a| [[stateChangeLogger]] link:kafka-controller-StateChangeLogger.adoc[StateChangeLogger]
 |===
 
 [[logIdent]]

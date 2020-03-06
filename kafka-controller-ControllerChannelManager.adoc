@@ -58,7 +58,7 @@ image::images/ControllerChannelManager-jconsole.png[align="center"]
 * [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
 * [[time]] `Time`
 * [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
-* [[stateChangeLogger]] `StateChangeLogger`
+* [[stateChangeLogger]] link:kafka-controller-StateChangeLogger.adoc[StateChangeLogger]
 * [[threadNamePrefix]] Thread name prefix (default: `(empty)`)
 
 === [[addNewBroker]] Registering New Broker -- `addNewBroker` Internal Method

@@ -1,10 +1,11 @@
 == [[ZkPartitionStateMachine]] ZkPartitionStateMachine
 
-`ZkPartitionStateMachine` is a concrete <<kafka-controller-PartitionStateMachine.adoc#, PartitionStateMachine>> to <<handleStateChanges, handle changes of the state of partitions>> (_partition state changes_).
+`ZkPartitionStateMachine` is a <<kafka-controller-PartitionStateMachine.adoc#, PartitionStateMachine>> (with a given <<controllerContext, ControllerContext>>) for link:kafka-controller-KafkaController.adoc#partitionStateMachine[KafkaController] (for every link:kafka-server-KafkaServer.adoc[KafkaServer]).
 
-`ZkPartitionStateMachine` uses <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, propagate the changes to all brokers in a cluster>>.
+.ZkPartitionStateMachine and KafkaController
+image::images/ZkPartitionStateMachine.png[align="center"]
 
-`ZkPartitionStateMachine` is <<creating-instance, created>> exclusively for <<kafka-controller-KafkaController.adoc#partitionStateMachine, KafkaController>>.
+When requested to <<handleStateChanges, handle partition state changes>>, `ZkPartitionStateMachine` uses the <<controllerBrokerRequestBatch, ControllerBrokerRequestBatch>> to <<kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendRequestsToBrokers, propagate them to all brokers in a cluster>>.
 
 [[logIdent]]
 `ZkPartitionStateMachine` uses *[PartitionStateMachine controllerId=[brokerId]]* as the logging prefix (aka `logIdent`).
@@ -27,11 +28,11 @@ Refer to <<kafka-logging.adoc#, Logging>>.
 
 `ZkPartitionStateMachine` takes the following to be created:
 
-* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
-* [[stateChangeLogger]] `StateChangeLogger`
-* [[controllerContext]] <<kafka-controller-ControllerContext.adoc#, ControllerContext>>
-* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
-* [[controllerBrokerRequestBatch]] <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatch>>
+* [[config]] link:kafka-server-KafkaConfig.adoc[KafkaConfig]
+* [[stateChangeLogger]] link:kafka-controller-StateChangeLogger.adoc[StateChangeLogger]
+* [[controllerContext]] link:kafka-controller-ControllerContext.adoc[ControllerContext]
+* [[zkClient]] link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient]
+* [[controllerBrokerRequestBatch]] link:kafka-controller-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
 
 === [[handleStateChanges]] Handling State Changes of Partitions -- `handleStateChanges` Method
 
@@ -64,7 +65,7 @@ In case of any other error (`Throwable`), `handleStateChanges` prints out the fo
 Error while moving some partitions to [targetState] state
 ```
 
-=== [[doHandleStateChanges]] Handling Partition State Changes -- `doHandleStateChanges` Internal Method
+=== [[doHandleStateChanges]] `doHandleStateChanges` Internal Method
 
 [source, scala]
 ----
@@ -96,11 +97,11 @@ For `NewPartition` target state, `doHandleStateChanges` goes over the valid part
 Changed partition [partition] state from [state] to NewPartition with assigned replicas [partitionReplicaAssignment]
 ----
 
-==== [[doHandleStateChanges-OnlinePartition]] OnlinePartition
+==== [[doHandleStateChanges-OnlinePartition]] OnlinePartition (and Partition Leader Election)
 
-For `OnlinePartition` target state, `doHandleStateChanges` splits valid partitions into two sets. One partition set (`uninitializedPartitions`) with partitions in `NewPartition` state while the other with partitions in `OfflinePartition` or `OnlinePartition` states (`partitionsToElectLeader`).
+For `OnlinePartition` target state, `doHandleStateChanges` splits valid partitions into two collections. One partition set (`uninitializedPartitions`) with partitions in `NewPartition` state while the other with partitions in `OfflinePartition` or `OnlinePartition` states (`partitionsToElectLeader`).
 
-For uninitialized partitions (valid partitions in `NewPartition` state), `doHandleStateChanges` <<initializeLeaderAndIsrForPartitions, initializeLeaderAndIsrForPartitions>> (that gives partitions successfully initialized, aka _successfulInitializations_). For every partition successfully initialized, `doHandleStateChanges` prints out the following TRACE message to the logs and requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#putPartitionState, putPartitionState>> to `OnlinePartition` state.
+For the partitions in `NewPartition` state (uninitialized valid partitions), `doHandleStateChanges` <<initializeLeaderAndIsrForPartitions, initializeLeaderAndIsrForPartitions>> (that gives partitions successfully initialized, aka _successfulInitializations_). For every partition successfully initialized, `doHandleStateChanges` prints out the following TRACE message to the logs and requests the <<controllerContext, ControllerContext>> to <<kafka-controller-ControllerContext.adoc#putPartitionState, putPartitionState>> to `OnlinePartition` state.
 
 [options="wrap"]
 ----
