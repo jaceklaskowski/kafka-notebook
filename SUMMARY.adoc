@@ -6,8 +6,8 @@
 === Kafka Features
 
 . link:kafka-partition-leader-election.adoc[Partition Leader Election]
+.. link:kafka-feature-preferred-replica-leader-election.adoc[Preferred Replica Election]
 . link:kafka-log-cleanup-policies.adoc[Log Cleanup Policies]
-. link:kafka-feature-preferred-replica-leader-election.adoc[Preferred Replica Election]
 . link:kafka-feature-controller-election.adoc[Kafka Controller Election]
 . link:kafka-topic-replication.adoc[Topic Replication]
 . link:kafka-topic-deletion.adoc[Topic Deletion]
@@ -80,9 +80,6 @@
 ... link:kafka-admin-AclCommand-JAuthorizerService.adoc[JAuthorizerService]
 .. link:kafka-admin-AclCommandService.adoc[AclCommandService]
 .. link:kafka-admin-AdminClientService.adoc[AdminClientService]
-
-. link:kafka-tools-kafka-preferred-replica-election.adoc[kafka-preferred-replica-election.sh]
-.. link:kafka-admin-PreferredReplicaLeaderElectionCommand.adoc[PreferredReplicaLeaderElectionCommand]
 
 . link:kafka-tools-kafka-consumer-groups.adoc[kafka-consumer-groups.sh]
 .. link:kafka-admin-ConsumerGroupCommand.adoc[ConsumerGroupCommand]

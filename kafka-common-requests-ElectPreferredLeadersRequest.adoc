@@ -1,8 +1,9 @@
 == [[ElectPreferredLeadersRequest]] ElectPreferredLeadersRequest
 
-`ElectPreferredLeadersRequest` is a <<kafka-common-requests-AbstractRequest.adoc#, message request>> that is sent out from <<kafka-clients-admin-KafkaAdminClient.adoc#, KafkaAdminClient>> when requested to <<kafka-clients-admin-KafkaAdminClient.adoc#electPreferredLeaders, elect preferred partition leaders>> (e.g. using <<kafka-tools-kafka-preferred-replica-election.adoc#, kafka-preferred-replica-election.sh>> shell script) to the <<kafka-server-KafkaApis.adoc#ElectPreferredLeaders, controller broker>>.
+`ElectPreferredLeadersRequest` is a <<kafka-common-requests-AbstractRequest.adoc#, message request>> that is sent out from <<kafka-clients-admin-KafkaAdminClient.adoc#, KafkaAdminClient>> when requested to <<kafka-clients-admin-KafkaAdminClient.adoc#electPreferredLeaders, elect preferred partition leaders>> (e.g. using link:kafka-tools-kafka-leader-election.adoc[kafka-leader-election.sh] shell script) to the <<kafka-server-KafkaApis.adoc#ElectPreferredLeaders, controller broker>>.
 
-[[ELECT_PREFERRED_LEADERS]][[creating-instance]]
+[[ELECT_PREFERRED_LEADERS]]
+[[creating-instance]]
 `ElectPreferredLeadersRequest` uses *ElectPreferredLeaders* API key and the following properties:
 
 * [[data]] <<ElectPreferredLeadersRequestData, ElectPreferredLeadersRequestData>>

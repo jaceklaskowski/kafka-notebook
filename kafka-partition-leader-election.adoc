@@ -4,7 +4,7 @@
 
 Use link:kafka-tools-kafka-leader-election.adoc[kafka-leader-election.sh] utility for <<preferred-partition-leader-election, preferred>> or <<unclean-partition-leader-election, unclean>> leader election.
 
-Use link:kafka-tools-kafka-preferred-replica-election.adoc[kafka-preferred-replica-election.sh] utility for <<preferred-partition-leader-election, preferred>> leader election.
+NOTE: `kafka-preferred-replica-election.sh` tool has been deprecated since Kafka 2.4.0 (cf. link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-460%3A+Admin+Leader+Election+RPC++[KIP-460: Admin Leader Election RPC]).
 
 Observe `state.change.logger` (default: `state-change.log`) to trace the process in the logs.
 

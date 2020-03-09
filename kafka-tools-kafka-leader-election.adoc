@@ -1,16 +1,23 @@
 == [[kafka-leader-election]] kafka-leader-election.sh Shell Script
 
-`kafka-leader-election.sh` is a shell script to launch link:kafka-admin-LeaderElectionCommand.adoc[kafka.admin.LeaderElectionCommand] standalone application for...FIXME
+`kafka-leader-election.sh` is a shell script to launch link:kafka-admin-LeaderElectionCommand.adoc[kafka.admin.LeaderElectionCommand] standalone application for link:kafka-partition-leader-election.adoc[Partition Leader Election].
 
-Among the link:kafka-admin-LeaderElectionCommand.adoc#options[supported options], `kafka-leader-election.sh` accepts...FIXME
+Among the link:kafka-admin-LeaderElectionCommand.adoc#options[supported options], `kafka-leader-election.sh` accepts accepts a JSON file with partitions to include in election.
 
 [source,text]
 ----
+$ kafka-topics.sh \
+    --bootstrap-server :9092 \
+    --create \
+    --topic t1 \
+    --partitions 3 \
+    --replication-factor 1
+
 $ cat leader-election.json
 { "partitions":
   [
-    { "topic": "foo", "partition": 1 },
-    { "topic": "foobar", "partition": 2 }
+    { "topic": "t1", "partition": 1 },
+    { "topic": "t1", "partition": 2 }
   ]
 }
 
