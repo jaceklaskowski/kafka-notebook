@@ -72,6 +72,9 @@
 . link:kafka-tools-kafka-configs.adoc[kafka-configs.sh]
 . link:kafka-tools-kafka-topics.adoc[kafka-topics.sh]
 
+. link:kafka-tools-kafka-leader-election.adoc[kafka-leader-election.sh]
+.. link:kafka-admin-LeaderElectionCommand.adoc[LeaderElectionCommand]
+
 . link:kafka-tools-kafka-acls.adoc[kafka-acls.sh]
 .. link:kafka-admin-AclCommand.adoc[AclCommand]
 ... link:kafka-admin-AclCommand-JAuthorizerService.adoc[JAuthorizerService]

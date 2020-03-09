@@ -1,0 +1,73 @@
+== [[kafka-leader-election]] kafka-leader-election.sh Shell Script
+
+`kafka-leader-election.sh` is a shell script to launch link:kafka-admin-LeaderElectionCommand.adoc[kafka.admin.LeaderElectionCommand] standalone application for...FIXME
+
+Among the link:kafka-admin-LeaderElectionCommand.adoc#options[supported options], `kafka-leader-election.sh` accepts...FIXME
+
+[source,text]
+----
+$ cat leader-election.json
+{ "partitions":
+  [
+    { "topic": "foo", "partition": 1 },
+    { "topic": "foobar", "partition": 2 }
+  ]
+}
+
+$ ./bin/kafka-leader-election.sh \
+  --path-to-json-file leader-election.json \
+  --election-type preferred \
+  --bootstrap-server :9092
+----
+
+When executed with no link:kafka-admin-LeaderElectionCommand.adoc#options[options], `kafka-leader-election.sh` assumes link:kafka-admin-LeaderElectionCommand.adoc#help[--help].
+
+```
+$ kafka-leader-election.sh
+This tool attempts to elect a new leader for a set of topic partitions. The type of elections supported are preferred replicas and unclean replicas.
+Option                                  Description
+------                                  -----------
+--admin.config <String: config file>    Configuration properties files to pass
+                                          to the admin client
+--all-topic-partitions                  Perform election on all of the
+                                          eligible topic partitions based on
+                                          the type of election (see the --
+                                          election-type flag). Not allowed if
+                                          --topic or --path-to-json-file is
+                                          specified.
+--bootstrap-server <String: host:port>  A hostname and port for the broker to
+                                          connect to, in the form host:port.
+                                          Multiple comma separated URLs can be
+                                          given. REQUIRED.
+--election-type <[PREFERRED,UNCLEAN]:   Type of election to attempt. Possible
+  election type>                          values are "preferred" for preferred
+                                          leader election or "unclean" for
+                                          unclean leader election. If
+                                          preferred election is selection, the
+                                          election is only performed if the
+                                          current leader is not the preferred
+                                          leader for the topic partition. If
+                                          unclean election is selected, the
+                                          election is only performed if there
+                                          are no leader for the topic
+                                          partition. REQUIRED.
+--help                                  Print usage information.
+--partition <Integer: partition id>     Partition id for which to perform an
+                                          election. REQUIRED if --topic is
+                                          specified.
+--path-to-json-file <String: Path to    The JSON file with the list  of
+  JSON file>                              partition for which leader elections
+                                          should be performed. This is an
+                                          example format.
+                                        {"partitions":
+                                        	[{"topic": "foo", "partition": 1},
+                                        	 {"topic": "foobar", "partition": 2}]
+                                        }
+                                        Not allowed if --all-topic-partitions
+                                          or --topic flags are specified.
+--topic <String: topic name>            Name of topic for which to perform an
+                                          election. Not allowed if --path-to-
+                                          json-file or --all-topic-partitions
+                                          is specified.
+--version                               Display Kafka version.
+```

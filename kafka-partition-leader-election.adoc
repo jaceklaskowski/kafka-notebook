@@ -1,14 +1,22 @@
 == Partition Leader Election
 
-*Partition Leader Election* is...FIXME
+*Partition Leader Election* is a process of electing a broker to be the leader of a partition.
+
+Use link:kafka-tools-kafka-leader-election.adoc[kafka-leader-election.sh] utility for <<preferred-partition-leader-election, preferred>> or <<unclean-partition-leader-election, unclean>> leader election.
+
+Use link:kafka-tools-kafka-preferred-replica-election.adoc[kafka-preferred-replica-election.sh] utility for <<preferred-partition-leader-election, preferred>> leader election.
 
 Observe `state.change.logger` (default: `state-change.log`) to trace the process in the logs.
 
 Internally, Kafka controller uses link:kafka-controller-Election.adoc[Election] utility (and link:kafka-controller-PartitionLeaderElectionAlgorithms.adoc[PartitionLeaderElectionAlgorithms]) for the algorithms for partition leader election.
 
+=== [[preferred-partition-leader-election]] Preferred Partition Leader Election
+
+*Preferred Partition Leader Election* is...FIXME
+
 === [[unclean-partition-leader-election]] Unclean Partition Leader Election
 
-A special case of Partition Leader Election is *Unclean Partition Leader Election* that allows a non-ISR replica to be elected as a partition leader (as the last resort, even though doing so may result in data loss).
+*Unclean Partition Leader Election* allows a non-ISR replica to be elected as a partition leader (as the last resort, even though doing so may result in data loss).
 
 link:kafka-properties.adoc#unclean.leader.election.enable[unclean.leader.election.enable] configuration property is used to enable it cluster-wide (for any topic) or per topic.
 

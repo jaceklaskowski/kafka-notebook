@@ -1,0 +1,241 @@
+== [[LeaderElectionCommand]] LeaderElectionCommand Standalone Application
+
+`kafka.admin.LeaderElectionCommand` is a <<main, standalone application>> for link:kafka-partition-leader-election.adoc[preferred or unclean leader election].
+
+`LeaderElectionCommand` can be executed on command line using link:kafka-tools-kafka-leader-election.adoc[kafka-leader-election.sh] shell script (that simply uses `kafka-run-class` shell script to launch the command).
+
+`LeaderElectionCommand` supports <<LeaderElectionCommandOptions, options>>:
+
+* <<bootstrap-server, --bootstrap-server>> and <<election-type, --election-type>> are required
+
+* <<topic, --topic>>, <<all-topic-partitions, --all-topic-partitions>> and <<path-to-json-file, --path-to-json-file>> are mutually exclusive (only one is required)
+
+[[options]]
+[[LeaderElectionCommandOptions]]
+.Options
+[cols="30m,70",options="header",width="100%"]
+|===
+| Option
+| Description
+
+| admin.config
+a| [[admin.config]][[admin-config]][[adminClientConfig]] File with configuration properties of an link:kafka-clients-admin-AdminClient.adoc[admin client]
+
+* `bootstrap.servers` is <<bootstrapServer, --bootstrap-server>>
+
+* `request.timeout.ms` is the <<run, timeout>> argument (default: `30 seconds`)
+
+| all-topic-partitions
+a| [[all-topic-partitions]] Perform election on all of the eligible topic partitions based on the <<election-type, type of election>>
+
+Not allowed with <<topic, --topic>> or <<path-to-json-file, --path-to-json-file>>
+
+| bootstrap-server
+a| [[bootstrap-server]][[bootstrapServer]] *(required)* Brokers to connect to as a comma-separated list of `host:port` URLs
+
+| election-type
+a| [[election-type]] *(required)* Type of election to attempt:
+
+* `preferred` for preferred leader election (only performed if the current leader is not the preferred leader for the topic partition)
+
+* `unclean` for unclean leader election (only performed if there are no leader for the topic partition)
+
+| help
+a| [[help]] Prints usage information
+
+| partition
+a| [[partition]] Partition id to perform an election for
+
+Required and only acceptable with <<topic, --topic>>
+
+| path-to-json-file
+a| [[path-to-json-file]] JSON file with partitions for leader elections
+
+Default: `(empty)` (all partitions)
+
+The format of the JSON file should be as follows:
+
+[source,text]
+----
+{ "partitions":
+  [
+    { "topic": "foo", "partition": 1 },
+    { "topic": "foobar", "partition": 2 }
+  ]
+}
+----
+
+The JSON file should not be empty and has no duplicate partitions (or `AdminOperationException` is thrown)
+
+| topic
+a| [[topic]] Name of topic for which to perform an election.
+
+Not allowed with <<path-to-json-file, --path-to-json-file>> or <<all-topic-partitions, --all-topic-partitions>>
+
+| version
+a| [[version]] Displays Kafka version
+
+|===
+
+TIP: Read https://cwiki.apache.org/confluence/display/KAFKA/KIP-183+-+Change+LeaderElectionCommand+to+use+AdminClient[KIP-183 - Change PreferredReplicaLeaderElectionCommand to use AdminClient].
+
+=== [[main]] Executing Standalone Application -- `main` Utility
+
+[source, scala]
+----
+main(
+  args: Array[String]): Unit
+----
+
+`main` is the entry point of the `LeaderElectionCommand` when launched on command line (e.g. using link:kafka-tools-kafka-leader-election.adoc[kafka-leader-election.sh] shell script).
+
+Internally, `main` simply <<run, run>> with the timeout of `30` seconds.
+
+=== [[run]] `run` Utility
+
+[source, scala]
+----
+run(
+  args: Array[String],
+  timeout: Duration): Unit
+----
+
+`run` reads the <<LeaderElectionCommandOptions, options>> from the command line.
+
+`run` prints out the following for no <<options, command-line options>>, <<help, --help>> or <<version, --version>>:
+
+[options="wrap"]
+----
+This tool helps to causes leadership for each partition to be transferred back to the 'preferred replica', it can be used to balance leadership among the servers.
+----
+
+`run` creates a link:kafka-clients-admin-AdminClient.adoc#create[AdminClient] (with the configuration properties from the <<adminClientConfig, admin.config>> properties file if specified).
+
+In the end, `run` <<electLeaders, electLeaders>> followed by requesting the `AdminClient` to link:kafka-clients-admin-Admin.adoc#close[close].
+
+NOTE: `run` is used exclusively when `PreferredReplicaLeaderElectionCommand` command-line application is <<main, executed>>.
+
+=== [[electPreferredLeaders]] `electPreferredLeaders` Method
+
+[source, scala]
+----
+electPreferredLeaders(
+  partitionsFromUser: Option[Set[TopicPartition]]): Unit
+----
+
+`electPreferredLeaders` prints out the following DEBUG message to the logs:
+
+```
+Calling AdminClient.electPreferredLeaders([partitions])
+```
+
+`electPreferredLeaders` creates a new <<kafka-clients-admin-AdminClient.adoc#create, AdminClient>> and requests to <<kafka-clients-admin-AdminClient.adoc#electPreferredLeaders, electPreferredLeaders>>.
+
+NOTE: `electPreferredLeaders` is used exclusively when `PreferredReplicaLeaderElectionCommand` is requested to <<run, run>>.
+
+=== [[close]] Closing AdminClient -- `close` Method
+
+[source, scala]
+----
+close(): Unit
+----
+
+`close` prints out the following DEBUG message to the logs and requests the `AdminClient` to <<kafka-clients-admin-AdminClient.adoc#close, close>>.
+
+```
+Closing AdminClient
+```
+
+NOTE: `close` is used exclusively when `PreferredReplicaLeaderElectionCommand` is requested to <<run, run>>.
+
+=== [[validate]] Validating Options -- `validate` Internal Utility
+
+[source, scala]
+----
+validate(
+  commandOptions: LeaderElectionCommandOptions): Unit
+----
+
+`validate`...FIXME
+
+NOTE: `validate` is used when `LeaderElectionCommand` is requested to <<run, run>>.
+
+=== [[parseReplicaElectionData]] Validating Options -- `parseReplicaElectionData` Internal Utility
+
+[source, scala]
+----
+parseReplicaElectionData(
+  jsonString: String): Set[TopicPartition]
+----
+
+`parseReplicaElectionData` parses the given JSON string that is assumed to have one of more `partitions` top-level field with `topic` and `partition` fields.
+
+[source,text]
+----
+{ "partitions":
+  [
+    { "topic": "foo", "partition": 1 },
+    { "topic": "foobar", "partition": 2 }
+  ]
+}
+----
+
+`parseReplicaElectionData` throws an `AdminOperationException` for duplicate partitions:
+
+```
+Replica election data contains duplicate partitions: [duplicatePartitions]
+```
+
+`parseReplicaElectionData` throws an `AdminOperationException` when the JSON string has no `partitions` fields:
+
+```
+Replica election data is missing "partitions" field
+```
+
+`parseReplicaElectionData` throws an `AdminOperationException` when the JSON string is invalid:
+
+```
+Replica election data is empty
+```
+
+NOTE: `parseReplicaElectionData` is used when `LeaderElectionCommand` is requested to <<run, run>> (and handle <<path-to-json-file, --path-to-json-file>> option).
+
+=== [[electLeaders]] Leader Election -- `electLeaders` Internal Utility
+
+[source, scala]
+----
+electLeaders(
+  client: Admin,
+  electionType: ElectionType,
+  topicPartitions: Option[Set[TopicPartition]]): Unit
+----
+
+`electLeaders` prints out the following DEBUG message to the logs:
+
+```
+Calling AdminClient.electLeaders([electionType], [partitions])
+```
+
+`electLeaders` requests the `Admin` client to link:kafka-clients-admin-Admin.adoc#electLeaders[electLeaders].
+
+`electLeaders` splits the election results into three categories: partitions that succeeded, didn't changed (_noops_), and failed.
+
+`electLeaders` prints out the following message to standard output for successful partitions:
+
+```
+Successfully completed leader election ([electionType]) for partitions [partitions]
+```
+
+`electLeaders` prints out the following message to standard output for partitions that didn't change the leaders (_noops_):
+
+```
+Valid replica already elected for partitions [partitions]
+```
+
+`electLeaders` prints out the following message to standard output for every failed partition and throws an `AdminCommandFailedException`.
+
+```
+Error completing leader election ([electionType]) for partition: [topicPartition]: [exception]
+```
+
+NOTE: `electLeaders` is used when `LeaderElectionCommand` is requested to <<run, run>>.
