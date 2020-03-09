@@ -1,6 +1,6 @@
 == [[Admin]] Admin Contract -- Administrative Clients
 
-`Admin` is the <<contract, abstraction>> of <<implementations, administrative clients>> for managing and inspecting resources in a Kafka cluster (e.g. topics, brokers, configurations, ACLs).
+`Admin` is the <<contract, abstraction>> of <<implementations, administrative clients>> for managing and inspecting resources of a Kafka cluster (e.g. topics, brokers, configurations, ACLs).
 
 [[implementations]]
 NOTE: <<kafka-clients-admin-AdminClient.adoc#, AdminClient>> is the only known direct extension of the <<contract, Admin Contract>> in Apache Kafka.
@@ -25,8 +25,6 @@ AlterPartitionReassignmentsResult alterPartitionReassignments(
 ----
 <1> Uses a new `AlterPartitionReassignmentsOptions` with the defaults
 
-Used when...FIXME
-
 | alterReplicaLogDirs
 a| [[alterReplicaLogDirs]]
 
@@ -40,8 +38,6 @@ AlterReplicaLogDirsResult alterReplicaLogDirs(
 ----
 <1> Uses a new `AlterReplicaLogDirsOptions` with the defaults
 
-Used when...FIXME
-
 | close
 a| [[close]]
 
@@ -53,8 +49,6 @@ void close(
 ----
 <1> Uses an infinite timeout
 
-Used when...FIXME
-
 | create
 a| [[create]]
 
@@ -65,8 +59,6 @@ Admin create(
 Admin create(
   Properties props)
 ----
-
-Used when...FIXME
 
 | createAcls
 a| [[createAcls]]
@@ -81,8 +73,6 @@ CreateAclsResult createAcls(
 ----
 <1> Uses a new `CreateAclsOptions` with the defaults
 
-Used when...FIXME
-
 | createDelegationToken
 a| [[createDelegationToken]]
 
@@ -94,10 +84,8 @@ CreateDelegationTokenResult createDelegationToken(
 ----
 <1> Uses a new `CreateDelegationTokenOptions` with the defaults
 
-Used when...FIXME
-
-| createDelegationToken
-a| [[createDelegationToken]]
+| createPartitions
+a| [[createPartitions]]
 
 [source, java]
 ----
@@ -108,8 +96,6 @@ CreatePartitionsResult createPartitions(
   CreatePartitionsOptions options)
 ----
 <1> Uses a new `CreatePartitionsOptions` with the defaults
-
-Used when...FIXME
 
 | createTopics
 a| [[createTopics]]
@@ -122,25 +108,174 @@ CreateTopicsResult createTopics(
   Collection<NewTopic> newTopics,
   CreateTopicsOptions options)
 ----
-<1> Uses a new `CreateTopicsOptions` with the defaults
+<1> Uses a `CreateTopicsOptions` with the defaults
 
-Used when...FIXME
-
-| deleteFIXME
-a| [[deleteFIXME]]
+| deleteAcls
+a| [[deleteAcls]]
 
 [source, java]
 ----
-deleteFIXME
+DeleteAclsResult deleteAcls(
+  Collection<AclBindingFilter> filters) // <1>
+DeleteAclsResult deleteAcls(
+  Collection<AclBindingFilter> filters,
+  DeleteAclsOptions options)
 ----
+<1> Uses a `DeleteAclsOptions` with the defaults
 
-| describeFIXME
-a| [[describeFIXME]]
+| deleteConsumerGroupOffsets
+a| [[deleteConsumerGroupOffsets]]
 
 [source, java]
 ----
-describeFIXME
+DeleteConsumerGroupOffsetsResult deleteConsumerGroupOffsets(
+  String groupId,
+  Set<TopicPartition> partitions) // <1>
+DeleteConsumerGroupOffsetsResult deleteConsumerGroupOffsets(
+  String groupId,
+  Set<TopicPartition> partitions,
+  DeleteConsumerGroupOffsetsOptions options)
 ----
+<1> Uses a `DeleteConsumerGroupOffsetsOptions` with the defaults
+
+| deleteConsumerGroups
+a| [[deleteConsumerGroups]]
+
+[source, java]
+----
+DeleteConsumerGroupsResult deleteConsumerGroups(
+  Collection<String> groupIds) // <1>
+DeleteConsumerGroupsResult deleteConsumerGroups(
+  Collection<String> groupIds,
+  DeleteConsumerGroupsOptions options)
+----
+<1> Uses a `DeleteConsumerGroupsOptions` with the defaults
+
+| deleteRecords
+a| [[deleteRecords]]
+
+[source, java]
+----
+DeleteRecordsResult deleteRecords(
+  Map<TopicPartition, RecordsToDelete> recordsToDelete) // <1>
+DeleteRecordsResult deleteRecords(
+  Map<TopicPartition, RecordsToDelete> recordsToDelete,
+  DeleteRecordsOptions options)
+----
+<1> Uses a `DeleteRecordsOptions` with the defaults
+
+| deleteTopics
+a| [[deleteTopics]]
+
+[source, java]
+----
+DeleteTopicsResult deleteTopics(
+  Collection<String> topics) // <1>
+DeleteTopicsResult deleteTopics(
+  Collection<String> topics,
+  DeleteTopicsOptions options)
+----
+<1> Uses a `DeleteTopicsOptions` with the defaults
+
+| describeAcls
+a| [[describeAcls]]
+
+[source, java]
+----
+DescribeAclsResult describeAcls(
+  AclBindingFilter filter) // <1>
+DescribeAclsResult describeAcls(
+  AclBindingFilter filter,
+  DescribeAclsOptions options)
+----
+<1> Uses a `DescribeAclsOptions` with the defaults
+
+| describeCluster
+a| [[describeCluster]]
+
+[source, java]
+----
+DescribeClusterResult describeCluster() // <1>
+DescribeClusterResult describeCluster(
+  DescribeClusterOptions options)
+----
+<1> Uses a `DescribeClusterOptions` with the defaults
+
+| describeConfigs
+a| [[describeConfigs]]
+
+[source, java]
+----
+DescribeConfigsResult describeConfigs(
+  Collection<ConfigResource> resources) // <1>
+DescribeConfigsResult describeConfigs(
+  Collection<ConfigResource> resources,
+  DescribeConfigsOptions options)
+----
+<1> Uses a `DescribeConfigsOptions` with the defaults
+
+| describeConsumerGroups
+a| [[describeConsumerGroups]]
+
+[source, java]
+----
+DescribeConsumerGroupsResult describeConsumerGroups(
+  Collection<String> groupIds) // <1>
+DescribeConsumerGroupsResult describeConsumerGroups(
+  Collection<String> groupIds,
+  DescribeConsumerGroupsOptions options)
+----
+<1> Uses a `DescribeConsumerGroupsOptions` with the defaults
+
+| describeDelegationToken
+a| [[describeDelegationToken]]
+
+[source, java]
+----
+DescribeDelegationTokenResult describeDelegationToken() // <1>
+DescribeDelegationTokenResult describeDelegationToken(
+  DescribeDelegationTokenOptions options)
+----
+<1> Uses a `DescribeDelegationTokenOptions` with the defaults
+
+| describeLogDirs
+a| [[describeLogDirs]]
+
+[source, java]
+----
+DescribeLogDirsResult describeLogDirs(
+  Collection<Integer> brokers) // <1>
+DescribeLogDirsResult describeLogDirs(
+  Collection<Integer> brokers,
+  DescribeLogDirsOptions options)
+----
+<1> Uses a `DescribeLogDirsOptions` with the defaults
+
+| describeReplicaLogDirs
+a| [[describeReplicaLogDirs]]
+
+[source, java]
+----
+DescribeReplicaLogDirsResult describeReplicaLogDirs(
+  Collection<TopicPartitionReplica> replicas) // <1>
+DescribeReplicaLogDirsResult describeReplicaLogDirs(
+  Collection<TopicPartitionReplica> replicas,
+  DescribeReplicaLogDirsOptions options)
+----
+<1> Uses a `DescribeReplicaLogDirsOptions` with the defaults
+
+| describeTopics
+a| [[describeTopics]]
+
+[source, java]
+----
+DescribeTopicsResult describeTopics(
+  Collection<String> topicNames) // <1>
+DescribeTopicsResult describeTopics(
+  Collection<String> topicNames,
+  DescribeTopicsOptions options)
+----
+<1> Uses a `DescribeTopicsOptions` with the defaults
 
 | electLeaders
 a| [[electLeaders]]
@@ -155,9 +290,11 @@ ElectLeadersResult electLeaders(
   Set<TopicPartition> partitions,
   ElectLeadersOptions options)
 ----
-<1> Uses a new `ElectLeadersOptions` with the defaults
+<1> Uses an `ElectLeadersOptions` with the defaults
 
-Used when...FIXME
+Elects a replica as the leader for the given topic partitions
+
+Used for link:kafka-tools-kafka-leader-election.adoc[kafka-leader-election.sh] utility (via link:kafka-admin-LeaderElectionCommand.adoc#electLeaders[LeaderElectionCommand])
 
 | expireDelegationToken
 a| [[expireDelegationToken]]
@@ -172,8 +309,6 @@ ExpireDelegationTokenResult expireDelegationToken(
 ----
 <1> Uses a new `ExpireDelegationTokenOptions` with the defaults
 
-Used when...FIXME
-
 | incrementalAlterConfigs
 a| [[incrementalAlterConfigs]]
 
@@ -187,15 +322,63 @@ AlterConfigsResult incrementalAlterConfigs(
 ----
 <1> Uses a new `AlterConfigsOptions` with the defaults
 
-Used when...FIXME
-
-| listFIXME
-a| [[listFIXME]]
+| listConsumerGroupOffsets
+a| [[listConsumerGroupOffsets]]
 
 [source, java]
 ----
-listFIXME
+ListConsumerGroupOffsetsResult listConsumerGroupOffsets(
+  String groupId) // <1>
+ListConsumerGroupOffsetsResult listConsumerGroupOffsets(
+  String groupId,
+  ListConsumerGroupOffsetsOptions options)
 ----
+<1> Uses a new `ListConsumerGroupOffsetsOptions` with the defaults
+
+Used for link:kafka-admin-ConsumerGroupCommand.adoc[ConsumerGroupCommand] (when executed with link:kafka-admin-ConsumerGroupCommand.adoc#offsets[--offsets] option)
+
+| listConsumerGroups
+a| [[listConsumerGroups]]
+
+[source, java]
+----
+ListConsumerGroupsResult listConsumerGroups() // <1>
+ListConsumerGroupsResult listConsumerGroups(
+  ListConsumerGroupsOptions options)
+----
+<1> Uses a new `ListConsumerGroupsOptions` with the defaults
+
+Used for link:kafka-admin-ConsumerGroupCommand.adoc[ConsumerGroupCommand] (when executed with link:kafka-admin-ConsumerGroupCommand.adoc#list[--list] option)
+
+| listPartitionReassignments
+a| [[listPartitionReassignments]]
+
+[source, java]
+----
+ListPartitionReassignmentsResult listPartitionReassignments() // <1>
+ListPartitionReassignmentsResult listPartitionReassignments(
+  ListPartitionReassignmentsOptions options)
+ListPartitionReassignmentsResult listPartitionReassignments(
+  Set<TopicPartition> partitions)
+ListPartitionReassignmentsResult listPartitionReassignments(
+  Set<TopicPartition> partitions,
+  ListPartitionReassignmentsOptions options)
+ListPartitionReassignmentsResult listPartitionReassignments(
+  Optional<Set<TopicPartition>> partitions,
+  ListPartitionReassignmentsOptions options)
+----
+<1> Uses a new `ListPartitionReassignmentsOptions` with the defaults
+
+| listTopics
+a| [[listTopics]]
+
+[source, java]
+----
+ListTopicsResult listTopics() // <1>
+ListTopicsResult listTopics(
+  ListTopicsOptions options)
+----
+<1> Uses a new `ListTopicsOptions` with the defaults
 
 | metrics
 a| [[metrics]]
@@ -204,6 +387,8 @@ a| [[metrics]]
 ----
 Map<MetricName, ? extends Metric> metrics()
 ----
+
+Used for `StreamThread` (Kafka Streams)
 
 | removeMembersFromConsumerGroup
 a| [[removeMembersFromConsumerGroup]]
@@ -214,6 +399,8 @@ RemoveMembersFromConsumerGroupResult removeMembersFromConsumerGroup(
   String groupId,
   RemoveMembersFromConsumerGroupOptions options)
 ----
+
+Removes members from the consumer group by given member identities
 
 | renewDelegationToken
 a| [[renewDelegationToken]]
@@ -227,7 +414,5 @@ RenewDelegationTokenResult renewDelegationToken(
   RenewDelegationTokenOptions options)
 ----
 <1> Uses a new `RenewDelegationTokenOptions` with the defaults
-
-Used when...FIXME
 
 |===
