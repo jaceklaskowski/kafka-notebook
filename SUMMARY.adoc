@@ -7,6 +7,7 @@
 
 . link:kafka-partition-leader-election.adoc[Partition Leader Election]
 .. link:kafka-feature-preferred-replica-leader-election.adoc[Preferred Replica Election]
+.. link:kafka-demo-using-kafka-leader-election.adoc[Demo: Using kafka-leader-election.sh]
 . link:kafka-log-cleanup-policies.adoc[Log Cleanup Policies]
 . link:kafka-feature-controller-election.adoc[Kafka Controller Election]
 . link:kafka-topic-replication.adoc[Topic Replication]
