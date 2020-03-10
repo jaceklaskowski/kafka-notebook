@@ -1,0 +1,112 @@
+== Demo: ACL Authorization
+
+This demo shows how to use link:kafka-security-ssl-authentication-and-authorization.adoc[ACL authorization] in Apache Kafka (using link:kafka-security-authorizer-AclAuthorizer.adoc[AclAuthorizer]).
+
+NOTE: The demo is a follow-up to link:kafka-demo-ssl-authentication.adoc[Demo: SSL Authentication]. Please finish it first before this demo.
+
+The demo is made up of the following steps:
+
+. <<step-1, Enable ACL Authorization>>
+. <<step-2, Review Authorization Logs>>
+. <<step-3, Allow Everyone If No ACL Found>>
+. <<step-4, Define Super Users>>
+. <<step-5, Restrict Topic Operations>>
+. <<step-6, List ACLs>>
+
+=== [[step-1]] Enable ACL Authorization
+
+Enable ACL authorization on Kafka brokers.
+
+Add the following configuration property to `config/server-ssl.properties`:
+
+```
+authorizer.class.name=kafka.security.authorizer.AclAuthorizer
+```
+
+Restart the Kafka broker and observe the logs. Find the following at the very end of the startup:
+
+```
+org.apache.kafka.common.errors.ClusterAuthorizationException: Request Request(processor=0, connectionId=127.0.0.1:9092-127.0.0.1:59894-0, session=Session(User:ANONYMOUS,/127.0.0.1), listenerName=ListenerName(PLAINTEXT), securityProtocol=PLAINTEXT, buffer=null) is not authorized.
+```
+
+That's because `User:ANONYMOUS` user is not authorized to execute `UPDATE_METADATA` action (since by default no one is allowed to execute any action).
+
+=== [[step-2]] Review Authorization Logs
+
+Access denials are logged at INFO level to `logs/kafka-authorizer.log`.
+
+Review `logs/kafka-authorizer.log`. You should find the following INFO message (which corresponds to the `ClusterAuthorizationException` earlier):
+
+```
+INFO Principal = User:ANONYMOUS is Denied Operation = ClusterAction from host = 127.0.0.1 on resource = Cluster:LITERAL:kafka-cluster for request = UpdateMetadata with resourceRefCount = 1 (kafka.authorizer.logger)
+```
+
+=== [[step-3]] Allow Everyone If No ACL Found
+
+Add the following configuration property to `config/server-ssl.properties` and restart the broker:
+
+```
+allow.everyone.if.no.acl.found=true
+```
+
+Review the authorization logs (`logs/kafka-authorizer.log`). You should find the following DEBUG message:
+
+```
+DEBUG Principal = User:ANONYMOUS is Allowed Operation = ClusterAction from host = 127.0.0.1 on resource = Cluster:LITERAL:kafka-cluster for request = UpdateMetadata with resourceRefCount = 1 (kafka.authorizer.logger)
+```
+
+=== [[step-4]] Define Super Users
+
+Add the following configuration property to `config/server-ssl.properties` and restart the broker:
+
+```
+super.users=User:CN=jacek
+```
+
+=== [[step-5]] Restrict Topic Operations
+
+Use link:kafka-tools-kafka-acls.adoc[kafka-acls] utility to disable creating topics for anyone but `User:Jacek` and the super users.
+
+The following will not work since it uses unsecure communication (`--bootstrap-server :9092`) and so is not authorized.
+
+```
+kafka-acls.sh \
+  --bootstrap-server :9092 \
+  --add \
+  --allow-principal User:Jacek \
+  --operation All \
+  --topic '*' \
+  --cluster
+```
+
+Use `--command-config` option to specify the SSL configuration. Use `jacek-client.properties` from the earlier demo.
+
+```
+kafka-acls.sh \
+  --bootstrap-server :9093 \
+  --add \
+  --allow-principal User:Jacek \
+  --operation All \
+  --topic '*' \
+  --cluster \
+  --command-config /tmp/kafka-ssl-demo/jacek-client.properties
+```
+
+TIP: Use `export KAFKA_OPTS=-Djavax.net.debug=all` to debug SSL issues. Consult the source code of Java's https://github.com/AdoptOpenJDK/openjdk-jdk11u/blob/master/src/java.base/share/classes/sun/security/ssl/SSLLogger.java[SSLLogger].
+
+=== [[step-6]] List ACLs
+
+Use link:kafka-tools-kafka-acls.adoc[kafka-acls] utility to list the available ACLs.
+
+```
+kafka-acls.sh \
+  --bootstrap-server :9093 \
+  --list \
+  --command-config /tmp/kafka-ssl-demo/jacek-client.properties
+...
+Current ACLs for resource `ResourcePattern(resourceType=CLUSTER, name=kafka-cluster, patternType=LITERAL)`:
+ 	(principal=User:Jacek, host=*, operation=ALL, permissionType=ALLOW)
+
+Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=*, patternType=LITERAL)`:
+ 	(principal=User:Jacek, host=*, operation=ALL, permissionType=ALLOW)
+```

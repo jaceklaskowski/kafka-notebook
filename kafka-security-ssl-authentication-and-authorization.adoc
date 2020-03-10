@@ -20,7 +20,7 @@ For SSL authentication,  the principal will be derived using the rules defined b
 
 For `PLAINTEXT` listeners or when client authentication is not required, the principal will always be ANONYMOUS.
 
-TIP: Consult link:kafka-demo-acl-authorization-using-AclAuthorizer.adoc[Demo: Securing Kafka with ACL Authorization].
+TIP: Consult link:kafka-demo-acl-authorization.adoc[Demo: ACL Authorization].
 
 === [[demo]] Demo
 
