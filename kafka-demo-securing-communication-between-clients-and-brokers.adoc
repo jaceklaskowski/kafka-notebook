@@ -1,21 +1,21 @@
 == Demo: Securing Communication Between Clients and Brokers Using SSL
 
-The demo shows how to configure secure communication between Kafka clients and brokers using https://en.wikipedia.org/wiki/Transport_Layer_Security[Transport Layer Security (TLS)] (and its now-deprecated predecessor, Secure Sockets Layer (SSL)).
+The demo shows how to configure secure communication between Kafka clients (consumers and producers) and brokers using https://en.wikipedia.org/wiki/Transport_Layer_Security[Transport Layer Security (TLS)] (and its now-deprecated predecessor, Secure Sockets Layer (SSL)).
 
-NOTE: TLS is a newer variant of SSL, but because of the term `SSL` is used in many Kafka configuration properties the document will use `SSL` (over `TLS`) to refer to the protocol used for communication security.
+NOTE: TLS is a newer variant of SSL, but because of the term `SSL` is used in many Kafka configuration properties the document will use `SSL` (over `TLS`) to refer to the protocol used for secure communication.
 
 The demo is made up of the following steps:
 
-* <<step-1, Step 1. Directory of SSL Files>>
-* <<step-2, Step 2. Creating Certificate Authority (CA)>>
-* <<step-3, Step 3. Generating SSL Key and Certificate for Kafka Brokers>>
-* <<step-4, Step 4. Singing Broker Certificate (Using CA)>>
-* <<step-5, Step 5. Importing Certificates to Broker Keystore>>
-* <<step-6, Step 6. Configuring SSL on Kafka Brokers>>
-* <<step-7, Step 7. Importing CA Certificate to Client Truststore>>
-* <<step-8, Step 8. Configuring SSL for Kafka Clients>>
+. <<step-1, Create Directory of SSL Files>>
+. <<step-2, Create Certificate Authority (CA)>>
+. <<step-3, Generate SSL Keys and Certificate for Kafka Brokers>>
+. <<step-4, Sign Broker Certificate (Using CA)>>
+. <<step-5, Import Certificates to Broker Keystore>>
+. <<step-6, Configure SSL on Kafka Broker>>
+. <<step-7, Import CA Certificate to Client Truststore>>
+. <<step-8, Configure SSL for Kafka Clients>>
 
-=== [[step-1]] Step 1. Directory of SSL Files
+=== [[step-1]] Create Directory of SSL Files
 
 Create a directory for SSL files.
 
@@ -29,56 +29,51 @@ All the following commands are executed in the directory.
 cd /tmp/kafka-ssl-demo
 ```
 
-=== [[step-2]] Step 2. Creating Certificate Authority (CA)
+=== [[step-2]] Create Certificate Authority (CA)
 
 .https://en.wikipedia.org/wiki/Certificate_authority[Certificate authority]
-****
+====
 In cryptography, a *certificate authority* or *certification authority (CA)* is an entity that issues digital certificates.
 
 A digital certificate certifies the ownership of a public key by the named subject of the certificate.
 
 A CA acts as a trusted third party — trusted both by the subject (owner) of the certificate and by the party relying upon the certificate. The format of these certificates is specified by the X.509 standard.
-****
+====
 
-Simply put, a certificate authority is used to sign certificates.
+Simply put, a certificate authority is used to sign certificates (with public keys).
 
-Generate a public-private key pair and certificate for the CA.
+Generate a private key and a self-signed certificate for the CA.
 
 ```
 // openssl genrsa -out ca.key
 // openssl req -new -x509 -key ca.key -out ca.crt
-$ openssl req -new -x509 -keyout ca.key -out ca.crt -days 365
-Generating a 2048 bit RSA private key
-...
+$ openssl req -new -x509 -days 365 -keyout ca.key -out ca.crt -subj "/C=PL/L=Warsaw/O=Japila.PL/CN=ca"
+Generating a RSA private key
+.......................................................................................................................+++++
+.......................+++++
 writing new private key to 'ca.key'
 Enter PEM pass phrase: 1234
 Verifying - Enter PEM pass phrase: 1234
 -----
-You are about to be asked to enter information that will be incorporated
-into your certificate request.
-What you are about to enter is what is called a Distinguished Name or a DN.
-There are quite a few fields but you can leave some blank
-For some fields there will be a default value,
-If you enter '.', the field will be left blank.
------
-Country Name (2 letter code) []:PL
-State or Province Name (full name) []:
-Locality Name (eg, city) []:
-Organization Name (eg, company) []:Japila
-Organizational Unit Name (eg, section) []:
-Common Name (eg, fully qualified host name) []:localhost
-Email Address []:
 ```
 
-You should have the following two files in the directory:
+You should have the following files in the directory:
 
 * `ca.key` - the private key of the CA
 
 * `ca.crt` - the CA certificate
 
-=== [[step-3]] Step 3. Generating SSL Key and Certificate for Kafka Brokers
+Use the following command to print certificate contents:
 
-Generate the key and certificate for every Kafka broker in a cluster.
+```
+openssl x509 -text -noout -in ca.crt
+```
+
+Since `ca.crt` is a self-signed certificate, the Issuer and Subject sections use the same subject.
+
+=== [[step-3]] Generate SSL Keys and Certificate for Kafka Brokers
+
+Generate the keys and certificate for every Kafka broker in a cluster. This time you'll be using `keytool` utility that comes with Java Platform, Standard Edition (refer to https://docs.oracle.com/en/java/javase/11/tools/keytool.html[keytool]).
 
 ```
 // openssl genrsa -out server.key
@@ -90,7 +85,6 @@ $ keytool \
   -keyalg RSA \
   -validity 365 \
   -ext san=dns:localhost
-
 Enter keystore password: 123456
 Re-enter new password: 123456
 ```
@@ -115,7 +109,7 @@ Use `keytool` to print out the content of the keystore.
 keytool -list -v -keystore server.keystore
 ```
 
-=== [[step-4]] Step 4. Singing Broker Certificate (Using CA)
+=== [[step-4]] Sign Broker Certificate (Using CA)
 
 Create a certificate signing request (CSR).
 
@@ -128,11 +122,10 @@ $ keytool \
   -keystore server.keystore \
   -alias localhost \
   -file server.unsigned.crt
-
 Enter keystore password: 123456
 ```
 
-Sign the certificate signing request with the root CA.
+Sign the certificate signing request (`server.unsigned.crt`) with the root CA.
 
 ```
 $ openssl x509 \
@@ -143,19 +136,19 @@ $ openssl x509 \
   -out server.crt \
   -days 365 \
   -CAcreateserial
-
 Signature ok
-subject=/CN=localhost
+subject=CN = localhost
 Getting CA Private Key
 Enter pass phrase for ca.key: 1234
 ```
 
-You should now have one more file in the directory:
+You should have the following files in the directory:
 
 * `server.unsigned.crt`
+* `ca.srl`
 * `server.crt`
 
-=== [[step-5]] Step 5. Importing Certificates to Broker Keystore
+=== [[step-5]] Import Certificates to Broker Keystore
 
 Create a SSL keystore for the Kafka broker. Each broker gets its own unique keystore.
 
@@ -167,18 +160,12 @@ $ keytool \
   -file ca.crt \
   -keystore server.keystore \
   -alias ca
-
 Enter keystore password: 123456
-Owner: CN=localhost, O=japila, C=PL
-Issuer: CN=localhost, O=japila, C=PL
-Serial number: b72151d09f167b65
-Valid from: Sat Feb 22 13:40:32 CET 2020 until: Sun Feb 21 13:40:32 CET 2021
-Certificate fingerprints:
-	 SHA1: C0:90:06:E7:EC:93:FB:B2:6B:0F:3C:1C:66:6D:22:48:03:C6:9C:EB
-	 SHA256: A4:DC:E8:F4:B3:22:19:2D:35:FA:B7:AD:66:71:D6:51:57:B3:48:31:9A:3D:F5:1A:F1:94:52:7E:D5:88:DF:54
-Signature algorithm name: SHA256withRSA
-Subject Public Key Algorithm: 2048-bit RSA key
-Version: 1
+Owner: CN=ca, O=Japila.PL, L=Warsaw, C=PL
+Issuer: CN=ca, O=Japila.PL, L=Warsaw, C=PL
+
+...removed for clarity
+
 Trust this certificate? [no]:  yes
 Certificate was added to keystore
 ```
@@ -191,7 +178,6 @@ $ keytool \
   -file server.crt \
   -keystore server.keystore \
   -alias localhost
-
 Enter keystore password: 123456
 Certificate reply was installed in keystore
 ```
@@ -202,7 +188,9 @@ Use `keytool` to print out the certificates in the broker keystore.
 keytool -list -v -keystore server.keystore
 ```
 
-=== [[step-6]] Step 6. Configuring SSL on Kafka Brokers
+There should be 2 entries (one for the CA and another for the broker itself).
+
+=== [[step-6]] Configure SSL on Kafka Broker
 
 Create `config/server-ssl.properties` (based on `config/server.properties`) and add the following configuration properties to enable SSL:
 
@@ -221,21 +209,27 @@ Start the broker(s).
 
 TIP: Use `export KAFKA_OPTS=-Djavax.net.debug=all` to debug SSL issues.
 
-Verify the configuration with the following command.
+Verify the SSL configuration of the broker. The following uses the Cryptography and SSL/TLS Toolkit (OpenSSL) and the client tool.
 
 ```
-openssl s_client -debug -connect localhost:9093 -tls1
+openssl s_client -connect localhost:9093
 ```
 
-It should print out the broker's certificate chain. At the end, you should find the following `Verify return code`:
+The tool should print out the certificate chain of the broker (a chain of the subjects and the issuers). At the end, you should find the following `Verify return code`:
 
 ```
 Verify return code: 19 (self signed certificate in certificate chain)
 ```
 
-Exit out of this command using `Ctrl+C`.
+Enter `Ctrl-C` to close the session.
 
-=== [[step-7]] Step 7. Importing CA Certificate to Client Truststore
+You could use the client tool with `-CAfile ca.crt` to use the CA certificate.
+
+```
+openssl s_client -connect localhost:9093 -CAfile ca.crt
+```
+
+=== [[step-7]] Import CA Certificate to Client Truststore
 
 Add the CA certificate `ca.crt` to a client truststore for the clients to trust this CA.
 
@@ -244,25 +238,27 @@ $ keytool \
   -import \
   -file ca.crt \
   -keystore client.truststore \
-  -alias ca \
-
+  -alias ca
 Enter keystore password: 123456
 Re-enter new password: 123456
-Owner: CN=localhost, O=japila, C=PL
-Issuer: CN=localhost, O=japila, C=PL
-Serial number: b72151d09f167b65
-Valid from: Sat Feb 22 13:40:32 CET 2020 until: Sun Feb 21 13:40:32 CET 2021
-Certificate fingerprints:
-	 SHA1: C0:90:06:E7:EC:93:FB:B2:6B:0F:3C:1C:66:6D:22:48:03:C6:9C:EB
-	 SHA256: A4:DC:E8:F4:B3:22:19:2D:35:FA:B7:AD:66:71:D6:51:57:B3:48:31:9A:3D:F5:1A:F1:94:52:7E:D5:88:DF:54
-Signature algorithm name: SHA256withRSA
-Subject Public Key Algorithm: 2048-bit RSA key
-Version: 1
+Owner: CN=ca, O=Japila.PL, L=Warsaw, C=PL
+Issuer: CN=ca, O=Japila.PL, L=Warsaw, C=PL
+
+...removed for clarity
+
 Trust this certificate? [no]:  yes
 Certificate was added to keystore
 ```
 
-=== [[step-8]] Step 8. Configuring SSL for Kafka Clients
+Use `keytool` to print out the certificates in the client keystore.
+
+```
+keytool -list -v -keystore client.truststore
+```
+
+There should be 1 entry for the CA.
+
+=== [[step-8]] Configure SSL for Kafka Clients
 
 Use the following `client-ssl.properties` as a minimal configuration of a Kafka client to use SSL:
 
