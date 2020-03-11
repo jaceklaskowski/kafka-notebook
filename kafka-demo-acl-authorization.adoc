@@ -124,11 +124,6 @@ $ keytool \
   -keystore root.keystore \
   -storepass 123456 \
   -noprompt
-Owner: CN=Certificate Authority, L=Warsaw, C=PL
-Issuer: CN=Certificate Authority, L=Warsaw, C=PL
-
-...removed for clarity
-
 Certificate was added to keystore
 ```
 
@@ -150,11 +145,13 @@ Super users are allowed to perform any operation on any resource in a Kafka clus
 
 Define the broker (as `User:CN=localhost`) and `CN=root` as super users.
 
-Add the following configuration property to `config/server-ssl.properties` and restart the broker. Note that the delimiter is semicolon (`;`) since user names may contain comma.
+Add the following configuration property to `config/server-ssl.properties`. Note that the delimiter is semicolon (`;`) since user names may contain comma.
 
 ```
 super.users=User:CN=localhost;User:CN=root
 ```
+
+Restart the broker.
 
 There should be no exceptions in the logs.
 
@@ -167,6 +164,8 @@ Principal = User:CN=localhost is Allowed Operation = ClusterAction from host = 1
 
 === [[step-6]] (Optional) Allow Everyone If No ACL Found
 
+This step is optional.
+
 For a less-secure broker configuration, you could add the following configuration property to `config/server-ssl.properties`:
 
 ```
@@ -174,6 +173,14 @@ allow.everyone.if.no.acl.found=true
 ```
 
 That would make access more open to any client (with a valid and trusted certificate).
+
+For the demo, enable it so you won't run into the following `GroupAuthorizationException` later:
+
+```
+org.apache.kafka.common.errors.GroupAuthorizationException: Not authorized to access group: console-consumer-...
+```
+
+Edit `config/server-ssl.properties` and restart the broker.
 
 === [[step-7]] List ACLs
 
@@ -277,7 +284,7 @@ You will now "create" a `CN=consumer` user (that will have Read operation allowe
 Generate the keys and certificate of a Kafka client to be authenticated as *CN=consumer*.
 
 ```
-$ keytool \
+keytool \
   -genkey \
   -keystore consumer.keystore \
   -alias consumer \
@@ -290,7 +297,7 @@ $ keytool \
 Export the user certificate from the keystore.
 
 ```
-$ keytool \
+keytool \
   -certreq \
   -keystore consumer.keystore \
   -alias consumer \
@@ -361,7 +368,6 @@ $ kafka-acls.sh \
   --bootstrap-server :9093 \
   --list \
   --command-config /tmp/kafka-ssl-demo/root.properties
-...
 Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=*, patternType=LITERAL)`:
  	(principal=User:CN=producer, host=*, operation=WRITE, permissionType=ALLOW)
 ```
@@ -394,7 +400,7 @@ Current ACLs for resource `ResourcePattern(resourceType=TOPIC, name=*, patternTy
 
 === [[step-12]] Send Messages
 
-Create `producer.properties` file as a minimal configuration of a Kafka client to use SSL authentication and identify itself as `CN = producer`:
+Create `producer.properties` file as a minimal configuration of a Kafka client to use SSL authentication and identify itself as `CN=producer`:
 
 ```
 security.protocol=SSL
@@ -405,7 +411,7 @@ ssl.keystore.password=123456
 ssl.key.password=123456
 ```
 
-Use `kafka-console-producer.sh` utility to send a message to the Kafka broker as `CN = producer`:
+Use `kafka-console-producer.sh` utility to send a message to the Kafka broker as `CN=producer`:
 
 ```
 kafka-console-producer.sh \
@@ -425,7 +431,7 @@ DEBUG Principal = User:CN=producer is Allowed Operation = Write from host = 127.
 
 === [[step-13]] Consume Messages
 
-Create `consumer.properties` file as a minimal configuration of a Kafka client to use SSL authentication and identify itself as `CN = consumer`:
+Create `consumer.properties` file as a minimal configuration of a Kafka client to use SSL authentication and identify itself as `CN=consumer`:
 
 ```
 security.protocol=SSL
@@ -436,7 +442,7 @@ ssl.keystore.password=123456
 ssl.key.password=123456
 ```
 
-Use `kafka-console-consumer.sh` utility to consume messages as `CN = consumer`:
+Use `kafka-console-consumer.sh` utility to consume messages as `CN=consumer`:
 
 ```
 kafka-console-consumer.sh \

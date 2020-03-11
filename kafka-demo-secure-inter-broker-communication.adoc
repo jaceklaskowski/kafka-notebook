@@ -19,22 +19,16 @@ $ keytool \
   -import \
   -file ca.crt \
   -keystore server.truststore \
-  -alias ca
-Enter keystore password: 123456
-Re-enter new password: 123456
-Owner: CN=Certificate Authority, L=Warsaw, C=PL
-Issuer: CN=Certificate Authority, L=Warsaw, C=PL
-
-...removed for clarity
-
-Trust this certificate? [no]:  yes
+  -alias ca \
+  -storepass 123456 \
+  -noprompt
 Certificate was added to keystore
 ```
 
 Use `keytool` to print out the certificates in the client keystore.
 
 ```
-keytool -list -v -keystore server.truststore
+keytool -list -v -keystore server.truststore -storepass 123456
 ```
 
 There should be 1 entry for the CA.
@@ -65,7 +59,7 @@ openssl s_client -connect localhost:9093
 
 === [[step-3]] Disable Plaintext Unsecure Listener
 
-Edit `config/server-ssl.properties` and change `listeners` property to use `SSL://:9093` only:
+Edit `config/server-ssl.properties` and add `listeners` property to use `SSL://:9093` only:
 
 ```
 listeners=SSL://:9093
