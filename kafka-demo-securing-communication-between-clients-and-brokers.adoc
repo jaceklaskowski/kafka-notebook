@@ -31,14 +31,14 @@ cd /tmp/kafka-ssl-demo
 
 === [[step-2]] Create Certificate Authority (CA)
 
-.https://en.wikipedia.org/wiki/Certificate_authority[Certificate authority]
-====
+[quote, Wikipedia, https://en.wikipedia.org/wiki/Certificate_authority]
+--
 In cryptography, a *certificate authority* or *certification authority (CA)* is an entity that issues digital certificates.
 
 A digital certificate certifies the ownership of a public key by the named subject of the certificate.
 
 A CA acts as a trusted third party — trusted both by the subject (owner) of the certificate and by the party relying upon the certificate. The format of these certificates is specified by the X.509 standard.
-====
+--
 
 Simply put, a certificate authority is used to sign certificates (with public keys).
 
@@ -47,10 +47,16 @@ Generate a private key and a self-signed certificate for the CA.
 ```
 // openssl genrsa -out ca.key
 // openssl req -new -x509 -key ca.key -out ca.crt
-$ openssl req -new -x509 -days 365 -keyout ca.key -out ca.crt -subj "/C=PL/L=Warsaw/O=Japila.PL/CN=ca"
+$ openssl req \
+  -new \
+  -x509 \
+  -days 365 \
+  -keyout ca.key \
+  -out ca.crt \
+  -subj "/C=PL/L=Warsaw/CN=Certificate Authority"
 Generating a RSA private key
-.......................................................................................................................+++++
-.......................+++++
+................................+++++
+.............................+++++
 writing new private key to 'ca.key'
 Enter PEM pass phrase: 1234
 Verifying - Enter PEM pass phrase: 1234
@@ -59,14 +65,23 @@ Verifying - Enter PEM pass phrase: 1234
 
 You should have the following files in the directory:
 
-* `ca.key` - the private key of the CA
+* `ca.key` - the private key of the certificate authority
 
-* `ca.crt` - the CA certificate
+* `ca.crt` - the certificate (with the public key) of the certificate authority
 
 Use the following command to print certificate contents:
 
 ```
-openssl x509 -text -noout -in ca.crt
+$ openssl x509 -text -noout -in ca.crt
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            3c:92:ec:a0:fa:31:fc:00:3f:2d:16:2b:ca:3a:a6:72:a8:fb:aa:8c
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C = PL, L = Warsaw, CN = Certificate Authority
+        Subject: C = PL, L = Warsaw, CN = Certificate Authority
+... removed for clarity
 ```
 
 Since `ca.crt` is a self-signed certificate, the Issuer and Subject sections use the same subject.
@@ -101,13 +116,15 @@ If you want to use a Subject Alternative Name (SAN) in your certificate, add the
 
 You should now have one more file in the directory:
 
-* `server.keystore`
+* `server.keystore` - the keystore with the private key and the certificate of the broker
 
 Use `keytool` to print out the content of the keystore.
 
 ```
 keytool -list -v -keystore server.keystore
 ```
+
+The keystore should contain 1 entry for the alias `localhost`.
 
 === [[step-4]] Sign Broker Certificate (Using CA)
 
@@ -146,7 +163,7 @@ You should have the following files in the directory:
 
 * `server.unsigned.crt`
 * `ca.srl`
-* `server.crt`
+* `server.crt` - the signed certificate of the broker
 
 === [[step-5]] Import Certificates to Broker Keystore
 
@@ -161,8 +178,8 @@ $ keytool \
   -keystore server.keystore \
   -alias ca
 Enter keystore password: 123456
-Owner: CN=ca, O=Japila.PL, L=Warsaw, C=PL
-Issuer: CN=ca, O=Japila.PL, L=Warsaw, C=PL
+Owner: CN=Certificate Authority, L=Warsaw, C=PL
+Issuer: CN=Certificate Authority, L=Warsaw, C=PL
 
 ...removed for clarity
 
@@ -170,7 +187,7 @@ Trust this certificate? [no]:  yes
 Certificate was added to keystore
 ```
 
-Import the signed broker certificate into the broker keystore.
+Import the signed certificate into the broker keystore. Make sure to use the same `-alias` as you used ealier.
 
 ```
 $ keytool \
@@ -223,11 +240,19 @@ Verify return code: 19 (self signed certificate in certificate chain)
 
 Enter `Ctrl-C` to close the session.
 
-You could use the client tool with `-CAfile ca.crt` to use the CA certificate.
+Use the client tool with `-CAfile ca.crt` to trust the CA certificate.
 
 ```
-openssl s_client -connect localhost:9093 -CAfile ca.crt
+openssl s_client -connect localhost:9093 -CAfile /tmp/kafka-ssl-demo/ca.crt
 ```
+
+With the change, you should find the following `Verify return code`:
+
+```
+Verify return code: 0 (ok)
+```
+
+Enter `Ctrl-C` to close the session.
 
 === [[step-7]] Import CA Certificate to Client Truststore
 
@@ -241,8 +266,8 @@ $ keytool \
   -alias ca
 Enter keystore password: 123456
 Re-enter new password: 123456
-Owner: CN=ca, O=Japila.PL, L=Warsaw, C=PL
-Issuer: CN=ca, O=Japila.PL, L=Warsaw, C=PL
+Owner: CN=Certificate Authority, L=Warsaw, C=PL
+Issuer: CN=Certificate Authority, L=Warsaw, C=PL
 
 ...removed for clarity
 
@@ -276,3 +301,5 @@ kafka-console-producer.sh \
   --topic ssl \
   --producer.config /tmp/kafka-ssl-demo/client-ssl.properties
 ```
+
+_That's all for the demo._

@@ -41,6 +41,7 @@
 === Kafka Security / SSL Authentication and Authorization
 
 . link:kafka-security-ssl-authentication-and-authorization.adoc[SSL Authentication and Authorization]
+.. link:kafka-demo-secure-inter-broker-communication.adoc[Demo: Secure Inter-Broker Communication]
 .. link:kafka-demo-ssl-authentication.adoc[Demo: SSL Authentication]
 .. link:kafka-demo-acl-authorization.adoc[Demo: ACL Authorization]
 .. link:kafka-demo-using-acl-authorization-for-restricting-sending-messages.adoc[Demo: Using ACL Authorization for Restricting Sending Messages]
