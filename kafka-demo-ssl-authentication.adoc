@@ -1,17 +1,16 @@
 == Demo: SSL Authentication
 
-The demo shows how to use SSL/TLS for authentication so no connection can be established between Kafka clients (consumers and producers) and brokers unless a valid certificate is provided.
+The demo shows how to use SSL/TLS for authentication so no connection can be established between Kafka clients (consumers and producers) and brokers unless a valid and trusted certificate is provided.
 
-NOTE: The demo is a follow-up to link:kafka-demo-securing-communication-between-clients-and-brokers.adoc[Demo: Securing Communication Between Clients and Brokers Using SSL]. Please finish it first before this demo.
+NOTE: The demo is a follow-up to link:kafka-demo-secure-inter-broker-communication.adoc[Demo: Secure Inter-Broker Communication]. Please finish it first before this demo.
 
 The demo is made up of the following steps:
 
 . <<step-1, Generate Certificate for Client Authentication>>
 . <<step-2, Sign Client Certificate (Using CA)>>
 . <<step-3, Import Certificates to Client Keystore>>
-. <<step-4, Import CA Certificate to Broker Truststore>>
-. <<step-5, Require Client Authorization Using SSL on Kafka Brokers>>
-. <<step-6, Configure SSL Authentication for Kafka Client>>
+. <<step-4, Require Client Authorization Using SSL on Kafka Brokers>>
+. <<step-5, Configure SSL Authentication for Kafka Client>>
 
 === [[step-1]] Generate Certificate for Client Authentication
 
@@ -31,13 +30,15 @@ Re-enter new password: 123456
 
 You should now have one more file in the directory:
 
-* `jacek.keystore`
+* `jacek.keystore` - the keystore with the private key and the certificate of the user
 
 Use `keytool` to print out the content of the keystore.
 
 ```
 keytool -list -v -keystore jacek.keystore
 ```
+
+The keystore should contain 1 entry for the alias `jacek`.
 
 === [[step-2]] Sign Client Certificate (Using CA)
 
@@ -73,7 +74,7 @@ Enter pass phrase for ca.key: 1234
 
 You should have the following file in the directory:
 
-* `jacek.crt`
+* `jacek.crt` - the signed certificate of the user
 
 === [[step-3]] Import Certificates to Client Keystore
 
@@ -88,8 +89,8 @@ $ keytool \
   -keystore jacek.keystore \
   -alias ca
 Enter keystore password: 123456
-Owner: CN=ca, O=Japila.PL, L=Warsaw, C=PL
-Issuer: CN=ca, O=Japila.PL, L=Warsaw, C=PL
+Owner: CN=Certificate Authority, L=Warsaw, C=PL
+Issuer: CN=Certificate Authority, L=Warsaw, C=PL
 
 ...removed for clarity
 
@@ -97,7 +98,7 @@ Trust this certificate? [no]:  yes
 Certificate was added to keystore
 ```
 
-Import the signed client certificate into the keystore.
+Import the signed certificate into the client keystore. Make sure to use the same `-alias` as you used ealier.
 
 ```
 $ keytool \
@@ -109,7 +110,7 @@ Enter keystore password: 123456
 Certificate reply was installed in keystore
 ```
 
-Use `keytool` to print out the certificates in the keystore.
+Use `keytool` to print out the certificates in the client keystore.
 
 ```
 keytool -list -v -keystore jacek.keystore
@@ -117,39 +118,11 @@ keytool -list -v -keystore jacek.keystore
 
 There should be 2 entries (one for the CA and another for the client itself).
 
-=== [[step-4]] Import CA Certificate to Broker Truststore
-
-Import the CA certificate to a broker truststore. All brokers in a Kafka cluster should trust the CA used to sign client certificates.
-
-```
-$ keytool \
-  -importcert \
-  -keystore server.truststore \
-  -alias ca \
-  -file ca.crt
-Enter keystore password: 123456
-Re-enter new password: 123456
-Owner: CN=ca, O=Japila.PL, L=Warsaw, C=PL
-Issuer: CN=ca, O=Japila.PL, L=Warsaw, C=PL
-
-...removed for clarity
-
-Trust this certificate? [no]:  yes
-Certificate was added to keystore
-```
-
-Add the following configuration property to `config/server-ssl.properties`:
-
-```
-ssl.truststore.location=/tmp/kafka-ssl-demo/server.truststore
-ssl.truststore.password=123456
-```
-
-=== [[step-5]] Require Client Authorization Using SSL on Kafka Brokers
+=== [[step-4]] Require Client Authorization Using SSL on Kafka Brokers
 
 Enable SSL authentication (require client authentication using SSL certificates).
 
-Add the following configuration property to `config/server-ssl.properties`:
+Edit `config/server-ssl.properties` and add the following configuration property:
 
 ```
 ssl.client.auth=required
@@ -169,9 +142,13 @@ Verify the SSL configuration of the broker. The following uses the Cryptography 
 openssl s_client -connect localhost:9093
 ```
 
-Enter `Ctrl-C` to close the session.
+Since the broker requires clients to provide valid certificates, the client tool will quit and you should find the INFO message in the broker logs:
 
-=== [[step-6]] Configure SSL Authentication for Kafka Client
+```
+[SocketServer brokerId=0] Failed authentication with /0:0:0:0:0:0:0:1 (SSL handshake failed)
+```
+
+=== [[step-5]] Configure SSL Authentication for Kafka Client
 
 Use the following `jacek-client.properties` as a minimal configuration of a Kafka client to use SSL authentication:
 
@@ -194,3 +171,5 @@ kafka-console-producer.sh \
 ```
 
 TIP: Use `export KAFKA_OPTS=-Djavax.net.debug=all` to debug SSL issues. Consult the source code of Java's https://github.com/AdoptOpenJDK/openjdk-jdk11u/blob/master/src/java.base/share/classes/sun/security/ssl/SSLLogger.java[SSLLogger].
+
+_That's all for the demo._
