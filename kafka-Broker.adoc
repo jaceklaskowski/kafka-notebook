@@ -22,3 +22,16 @@ createBroker(id: Int, brokerInfoString: String): Broker
 `createBroker`...FIXME
 
 NOTE: `createBroker` is used when...FIXME
+
+=== [[toServerInfo]] `toServerInfo` Method
+
+[source, scala]
+----
+toServerInfo(
+  clusterId: String,
+  config: KafkaConfig): AuthorizerServerInfo
+----
+
+`toServerInfo`...FIXME
+
+NOTE: `toServerInfo` is used when `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#startup[start up] (and link:kafka-server-authorizer-Authorizer.adoc#start[start] a link:kafka-server-KafkaServer.adoc#authorizer[Authorizer]).

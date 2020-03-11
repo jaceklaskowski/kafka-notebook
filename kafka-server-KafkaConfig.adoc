@@ -92,13 +92,41 @@ Used exclusively when `SocketServer` is requested to <<kafka-network-SocketServe
 | [[hostName]] link:kafka-properties.adoc#host.name[host.name]
 
 | interBrokerListenerName
-a| [[interBrokerListenerName]]
+a| [[interBrokerListenerName]][[InterBrokerListenerNameProp]] link:kafka-properties.adoc#inter.broker.listener.name[inter.broker.listener.name] (based on <<getInterBrokerListenerNameAndSecurityProtocol, getInterBrokerListenerNameAndSecurityProtocol>>)
+
+Used when:
+
+* `Broker` is requested for link:kafka-Broker.adoc#toServerInfo[toServerInfo]
+
+* `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[register a new broker]
+
+* `AbstractControllerBrokerRequestBatch` is requested to link:kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendLeaderAndIsrRequest[send LeaderAndIsr requests out to all brokers]
+
+* `TransactionMarkerChannelManager` utility is requested to link:kafka-TransactionMarkerChannelManager.adoc#apply[create a TransactionMarkerChannelManager]
+
+* `SocketServer` is requested to link:kafka-network-SocketServer.adoc#startDataPlaneProcessors[startDataPlaneProcessors]
+
+* link:kafka-network-SocketServer-Processor.adoc[Processor] is created (and creates the link:kafka-network-SocketServer-Processor.adoc#selector[Selector])
+
+* `ConnectionQuotas` is requested to `protectedListener`
+
+* `DynamicListenerConfig` is requested to link:kafka-server-DynamicListenerConfig.adoc#validateReconfiguration[validateReconfiguration]
+
+* `KafkaConfig` is requested to <<validateValues, validateValues>>
+
+* `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#controlledShutdown[controlledShutdown]
+
+* link:kafka-server-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend] is created
+
+* `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#makeFollowers[makeFollowers]
 
 | interBrokerProtocolVersion
 a| [[interBrokerProtocolVersion]][[interBrokerProtocolVersionString]][[InterBrokerProtocolVersionProp]] <<kafka-properties.adoc#inter.broker.protocol.version, inter.broker.protocol.version>>
 
 | interBrokerSecurityProtocol
-a| [[interBrokerSecurityProtocol]]
+a| [[interBrokerSecurityProtocol]][[InterBrokerSecurityProtocolProp]] link:kafka-properties.adoc#security.inter.broker.protocol[security.inter.broker.protocol] (based on <<getInterBrokerListenerNameAndSecurityProtocol, getInterBrokerListenerNameAndSecurityProtocol>>)
+
+Used when...FIXME
 
 | leaderImbalanceCheckIntervalSeconds
 a| [[leaderImbalanceCheckIntervalSeconds]][[LeaderImbalanceCheckIntervalSecondsProp]] <<kafka-properties.adoc#leader.imbalance.check.interval.seconds, leader.imbalance.check.interval.seconds>>

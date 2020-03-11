@@ -249,6 +249,18 @@ createControlPlaneAcceptorAndProcessor(
 
 NOTE: `createControlPlaneAcceptorAndProcessor` is used when `SocketServer` is requested to <<startup, start up>>.
 
+=== [[startDataPlaneProcessors]] `startDataPlaneProcessors` Internal Method
+
+[source, scala]
+----
+startDataPlaneProcessors(
+  authorizerFutures: Map[Endpoint, CompletableFuture[Void]] = Map.empty): Unit
+----
+
+`startDataPlaneProcessors`...FIXME
+
+NOTE: `startDataPlaneProcessors` is used when...FIXME
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

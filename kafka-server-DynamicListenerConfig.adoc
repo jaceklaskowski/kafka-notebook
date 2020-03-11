@@ -100,7 +100,8 @@ In the end, `reconfigure` requests the <<server, KafkaServer>> for the <<kafka-s
 
 [source, scala]
 ----
-validateReconfiguration(newConfig: KafkaConfig): Unit
+validateReconfiguration(
+  newConfig: KafkaConfig): Unit
 ----
 
 NOTE: `validateReconfiguration` is part of the <<kafka-server-BrokerReconfigurable.adoc#validateReconfiguration, BrokerReconfigurable Contract>> to...FIXME.

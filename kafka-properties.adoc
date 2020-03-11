@@ -179,11 +179,17 @@ a| [[host.name]] The hostname a Kafka broker listens on
 Default: `(empty)`
 
 | inter.broker.listener.name
-a| [[inter.broker.listener.name]] Name of the listener that is used for inter-broker communication
+a| [[inter.broker.listener.name]] Name of the listener for inter-broker communication (resolved per <<listener.security.protocol.map, listener.security.protocol.map>>)
 
 Default: <<security.inter.broker.protocol, security.inter.broker.protocol>>
 
-It is not allowed to set `inter.broker.listener.name` and <<security.inter.broker.protocol, security.inter.broker.protocol>> properties at the same time.
+link:kafka-server-KafkaConfig.adoc#validateValues[Must be] among <<advertised.listeners, advertised.listeners>>
+
+It is an link:kafka-server-KafkaConfig.adoc#getInterBrokerListenerNameAndSecurityProtocol[error] to use together with <<security.inter.broker.protocol, security.inter.broker.protocol>>
+
+* Use link:kafka-server-KafkaConfig.adoc#InterBrokerListenerNameProp[KafkaConfig.InterBrokerListenerNameProp] to reference the property
+
+* Use link:kafka-server-KafkaConfig.adoc#interBrokerListenerName[KafkaConfig.interBrokerListenerName] to access the current value
 
 | inter.broker.protocol.version
 a| [[inter.broker.protocol.version]] Version of the inter-broker protocol
@@ -710,6 +716,24 @@ a| [[sasl.login.refresh.min.period.seconds]]
 
 | sasl.login.refresh.buffer.seconds
 a| [[sasl.login.refresh.buffer.seconds]]
+
+| security.inter.broker.protocol
+a| [[security.inter.broker.protocol]] Security protocol for inter-broker communication
+
+Default: `PLAINTEXT`
+
+Possible values:
+
+* `PLAINTEXT`
+* `SSL`
+* `SASL_PLAINTEXT`
+* `SASL_SSL`
+
+It is an link:kafka-server-KafkaConfig.adoc#getInterBrokerListenerNameAndSecurityProtocol[error] to use together with <<inter.broker.listener.name, inter.broker.listener.name>>
+
+* Use link:kafka-server-KafkaConfig.adoc#InterBrokerSecurityProtocolProp[KafkaConfig.InterBrokerSecurityProtocolProp] to reference the property
+
+* Use link:kafka-server-KafkaConfig.adoc#interBrokerSecurityProtocol[KafkaConfig.interBrokerSecurityProtocol] to access the current value
 
 | send.buffer.bytes
 | [[send.buffer.bytes]] The hint about the size of the TCP network send buffer (SO_SNDBUF) to use (for a socket) when sending data. If the value is -1, the OS default will be used.

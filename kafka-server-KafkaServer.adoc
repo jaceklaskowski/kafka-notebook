@@ -237,7 +237,7 @@ controlledShutdown(): Unit
 
 `controlledShutdown`...FIXME
 
-NOTE: `controlledShutdown` is used when...FIXME
+NOTE: `controlledShutdown` is used when `KafkaServer` is requested to <<shutdown, shut down>>.
 
 === [[checkpointBrokerId]] Checkpointing Broker -- `checkpointBrokerId` Internal Method
 
