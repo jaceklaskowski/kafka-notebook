@@ -156,7 +156,9 @@ updateDefaultConfig(persistentProps: Properties): Unit
 
 [source, scala]
 ----
-updateBrokerConfig(brokerId: Int, persistentProps: Properties): Unit
+updateBrokerConfig(
+  brokerId: Int,
+  persistentProps: Properties): Unit
 ----
 
 `updateBrokerConfig`...FIXME

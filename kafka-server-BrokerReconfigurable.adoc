@@ -28,10 +28,12 @@ a| [[reconfigure]]
 
 [source, scala]
 ----
-reconfigure(oldConfig: KafkaConfig, newConfig: KafkaConfig): Unit
+reconfigure(
+  oldConfig: KafkaConfig,
+  newConfig: KafkaConfig): Unit
 ----
 
-Used exclusively when `DynamicBrokerConfig` is requested to <<kafka-server-DynamicBrokerConfig.adoc#updateCurrentConfig, updateCurrentConfig>>
+Used when `DynamicBrokerConfig` is requested to link:kafka-server-DynamicBrokerConfig.adoc#updateCurrentConfig[updateCurrentConfig]
 
 | validateReconfiguration
 a| [[validateReconfiguration]]

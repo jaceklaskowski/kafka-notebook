@@ -14,7 +14,9 @@ a| [[processConfigChanges]]
 
 [source, scala]
 ----
-processConfigChanges(entityName: String, value: Properties)
+processConfigChanges(
+  entityName: String,
+  value: Properties)
 ----
 
 Processes configuration changes

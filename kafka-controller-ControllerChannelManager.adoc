@@ -71,7 +71,7 @@ addNewBroker(
 
 `addNewBroker`...FIXME
 
-NOTE: `addNewBroker` is used when `ControllerChannelManager` is <<creating-instance, created>> (to connect to live brokers) and is requested to <<addBroker, add a broker>>.
+NOTE: `addNewBroker` is used when `ControllerChannelManager` is requested to <<startup, start up>> (and connect to brokers) and to <<addBroker, add a broker>>.
 
 === [[addBroker]] Registering Newly-Added Broker -- `addBroker` Method
 
@@ -82,7 +82,7 @@ addBroker(broker: Broker): Unit
 
 `addBroker`...FIXME
 
-NOTE: `addBroker` is used exclusively when <<kafka-controller-KafkaController.adoc#BrokerChange, BrokerChange>> controller event is processed.
+NOTE: `addBroker` is used when `KafkaController` is requested to link:kafka-controller-KafkaController.adoc#processBrokerChange[process a BrokerChange controller event].
 
 === [[removeBroker]] Deregistering Broker -- `removeBroker` Method
 
@@ -104,7 +104,7 @@ startup(): Unit
 
 `startup`...FIXME
 
-NOTE: `startup` is used when...FIXME
+NOTE: `startup` is used when `KafkaController` is requested to link:kafka-controller-KafkaController.adoc#initializeControllerContext[initializeControllerContext].
 
 === [[shutdown]] Shutting Down -- `shutdown` Method
 

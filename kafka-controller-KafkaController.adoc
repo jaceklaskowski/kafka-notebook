@@ -24,21 +24,21 @@ image::images/KafkaController.png[align="center"]
 | ControllerState
 | process Handler
 
+| ApiPartitionReassignment
+|
+| [[ApiPartitionReassignment]] <<processApiPartitionReassignment, processApiPartitionReassignment>>
+
+| AutoPreferredReplicaLeaderElection
+|
+| [[AutoPreferredReplicaLeaderElection]] <<processAutoPreferredReplicaLeaderElection, processAutoPreferredReplicaLeaderElection>>
+
 | BrokerChange
 | <<kafka-controller-ControllerState.adoc#BrokerChange, BrokerChange>>
-| [[BrokerChange]]
+| [[BrokerChange]] <<processBrokerChange, processBrokerChange>>
 
-a| ControllerChange
-
-* `newControllerId`: Int
-
-| <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
-a| [[ControllerChange]]
-
-1. Assigns the <<getControllerID, current controller ID>> as the input `newControllerId`
-1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, Resigns as the active controller>>
-
-NOTE:  Similar to <<Reelect, Reelect>> event with the only difference that it does *not* trigger <<elect, election>>
+| BrokerModifications
+|
+| [[BrokerModifications]] <<processBrokerModification, processBrokerModification>>
 
 a| ControlledShutdown
 
@@ -47,39 +47,71 @@ a| ControlledShutdown
 * `controlledShutdownCallback`: Try[Set[TopicAndPartition]] => Unit
 
 | <<kafka-controller-ControllerState.adoc#ControlledShutdown, ControlledShutdown>>
-| [[ControlledShutdown]]
+| [[ControlledShutdown]] <<processControlledShutdown, processControlledShutdown>>
+
+a| ControllerChange
+
+* `newControllerId`: Int
+
+| <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
+a| [[ControllerChange]] <<processControllerChange, processControllerChange>>
+
+1. Assigns the <<getControllerID, current controller ID>> as the input `newControllerId`
+1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, Resigns as the active controller>>
+
+NOTE:  Similar to <<Reelect, Reelect>> event with the only difference that it does *not* trigger <<elect, election>>
+
+| Expire
+|
+| [[Expire]] <<processExpire, processExpire>>
 
 | <<kafka-controller-ControllerEvent.adoc#IsrChangeNotification, IsrChangeNotification>>
 |
-| [[IsrChangeNotification]]
+| [[IsrChangeNotification]] <<processIsrChangeNotification, processIsrChangeNotification>>
+
+| <<kafka-controller-ControllerEvent-LeaderAndIsrResponseReceived.adoc#, LeaderAndIsrResponseReceived>>
+|
+| [[LeaderAndIsrResponseReceived]] <<processLeaderAndIsrResponseReceived, processLeaderAndIsrResponseReceived>>
+
+| ListPartitionReassignments
+|
+| [[ListPartitionReassignments]] <<processListPartitionReassignments, processListPartitionReassignments>>
 
 | LogDirEventNotification
 |
-| [[LogDirEventNotification]]
+| [[LogDirEventNotification]] <<processLogDirEventNotification, processLogDirEventNotification>>
 
-| PartitionReassignment
+| PartitionModifications
 |
-| [[PartitionReassignment]]
+| [[PartitionModifications]] <<processPartitionModifications, processPartitionModifications>>
 
 | PartitionReassignmentIsrChange
 |
-| [[PartitionReassignmentIsrChange]]
-
-| PreferredReplicaLeaderElection
-|
-| [[PreferredReplicaLeaderElection]]
+| [[PartitionReassignmentIsrChange]] <<processPartitionReassignmentIsrChange, processPartitionReassignmentIsrChange>>
 
 | Reelect
 | <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
-a| [[Reelect]]
+a| [[Reelect]] <<processReelect, processReelect>>
 
 1. Assigns the <<getControllerID, current controller ID>> as <<activeControllerId, activeControllerId>>
 1. (only when the broker is no longer an <<isActive, active controller>>) <<onControllerResignation, Resigns as the active controller>>
 1. <<elect, elect>>
 
+| RegisterBrokerAndReelect
+|
+| [[RegisterBrokerAndReelect]] <<processRegisterBrokerAndReelect, processRegisterBrokerAndReelect>>
+
+| ReplicaLeaderElection
+|
+| [[ReplicaLeaderElection]] <<processReplicaLeaderElection, processReplicaLeaderElection>>
+
+| ShutdownEventThread
+|
+| [[ShutdownEventThread]]
+
 | Startup
 | <<kafka-controller-ControllerState.adoc#ControllerChange, ControllerChange>>
-a| [[Startup]]
+a| [[Startup]] <<processStartup, processStartup>>
 
 1. <<registerSessionExpirationListener, registerSessionExpirationListener>>
 1. <<registerControllerChangeListener, registerControllerChangeListener>>
@@ -87,11 +119,27 @@ a| [[Startup]]
 
 | TopicChange
 |
-| [[TopicChange]]
+| [[TopicChange]] <<processTopicChange, processTopicChange>>
 
 | TopicDeletion
 |
-| [[TopicDeletion]]
+| [[TopicDeletion]] <<processTopicDeletion, processTopicDeletion>>
+
+| TopicDeletionStopReplicaResponseReceived
+|
+| [[TopicDeletionStopReplicaResponseReceived]] <<processTopicDeletionStopReplicaResponseReceived, processTopicDeletionStopReplicaResponseReceived>>
+
+| TopicUncleanLeaderElectionEnable
+|
+| [[TopicUncleanLeaderElectionEnable]] <<processTopicUncleanLeaderElectionEnable, processTopicUncleanLeaderElectionEnable>>
+
+| UncleanLeaderElectionEnable
+|
+| [[UncleanLeaderElectionEnable]] <<processUncleanLeaderElectionEnable, processUncleanLeaderElectionEnable>>
+
+| ZkPartitionReassignment
+|
+| [[ZkPartitionReassignment]] <<processZkPartitionReassignment, processZkPartitionReassignment>>
 
 |===
 
@@ -351,68 +399,77 @@ NOTE: `process` is part of the <<kafka-controller-ControllerEventProcessor.adoc#
 | Name
 | Description
 
-| AutoPreferredReplicaLeaderElection
-| [[AutoPreferredReplicaLeaderElection]] <<processAutoPreferredReplicaLeaderElection, processAutoPreferredReplicaLeaderElection>>
+| <<ShutdownEventThread, ShutdownEventThread>>
+|
 
-| PreferredReplicaLeaderElection
-| [[PreferredReplicaLeaderElection]] <<processPreferredReplicaLeaderElection, processPreferredReplicaLeaderElection>>
+| <<AutoPreferredReplicaLeaderElection, AutoPreferredReplicaLeaderElection>>
+| <<processAutoPreferredReplicaLeaderElection, processAutoPreferredReplicaLeaderElection>>
 
-| UncleanLeaderElectionEnable
-| [[UncleanLeaderElectionEnable]] <<processUncleanLeaderElectionEnable, processUncleanLeaderElectionEnable>>
+| <<ReplicaLeaderElection, ReplicaLeaderElection>>
+| <<processReplicaLeaderElection, processReplicaLeaderElection>>
 
-| TopicUncleanLeaderElectionEnable
-| [[TopicUncleanLeaderElectionEnable]] <<processTopicUncleanLeaderElectionEnable, processTopicUncleanLeaderElectionEnable>>
+| <<UncleanLeaderElectionEnable, UncleanLeaderElectionEnable>>
+| <<processUncleanLeaderElectionEnable, processUncleanLeaderElectionEnable>>
 
-| ControlledShutdown
-| [[ControlledShutdown]] <<processControlledShutdown, processControlledShutdown>>
+| <<TopicUncleanLeaderElectionEnable, TopicUncleanLeaderElectionEnable>>
+| <<processTopicUncleanLeaderElectionEnable, processTopicUncleanLeaderElectionEnable>>
+
+| <<ControlledShutdown, ControlledShutdown>>
+| <<processControlledShutdown, processControlledShutdown>>
 
 | <<kafka-controller-ControllerEvent-LeaderAndIsrResponseReceived.adoc#, LeaderAndIsrResponseReceived>>
-| [[LeaderAndIsrResponseReceived]] <<processLeaderAndIsrResponseReceived, processLeaderAndIsrResponseReceived>>
+| <<processLeaderAndIsrResponseReceived, processLeaderAndIsrResponseReceived>>
 
-| TopicDeletionStopReplicaResponseReceived
-| [[TopicDeletionStopReplicaResponseReceived]] <<processTopicDeletionStopReplicaResponseReceived, processTopicDeletionStopReplicaResponseReceived>>
+| <<TopicDeletionStopReplicaResponseReceived, TopicDeletionStopReplicaResponseReceived>>
+| <<processTopicDeletionStopReplicaResponseReceived, processTopicDeletionStopReplicaResponseReceived>>
 
-| BrokerChange
-| [[BrokerChange]] <<processBrokerChange, processBrokerChange>>
+| <<BrokerChange, BrokerChange>>
+| <<processBrokerChange, processBrokerChange>>
 
-| BrokerModifications
-| [[BrokerModifications]] <<processBrokerModification, processBrokerModification>>
+| <<BrokerModifications, BrokerModifications>>
+| <<processBrokerModification, processBrokerModification>>
 
-| ControllerChange
-| [[ControllerChange]] <<processControllerChange, processControllerChange>>
+| <<ControllerChange, ControllerChange>>
+| <<processControllerChange, processControllerChange>>
 
-| Reelect
-| [[Reelect]] <<processReelect, processReelect>>
+| <<Reelect, Reelect>>
+| <<processReelect, processReelect>>
 
-| RegisterBrokerAndReelect
-| [[RegisterBrokerAndReelect]] <<processRegisterBrokerAndReelect, processRegisterBrokerAndReelect>>
+| <<RegisterBrokerAndReelect, RegisterBrokerAndReelect>>
+| <<processRegisterBrokerAndReelect, processRegisterBrokerAndReelect>>
 
-| Expire
-| [[Expire]] <<processExpire, processExpire>>
+| <<Expire, Expire>>
+| <<processExpire, processExpire>>
 
-| TopicChange
-| [[TopicChange]] <<processTopicChange, processTopicChange>>
+| <<TopicChange, TopicChange>>
+| <<processTopicChange, processTopicChange>>
 
-| LogDirEventNotification
-| [[LogDirEventNotification]] <<processLogDirEventNotification, processLogDirEventNotification>>
+| <<LogDirEventNotification, LogDirEventNotification>>
+| <<processLogDirEventNotification, processLogDirEventNotification>>
 
-| PartitionModifications
-| [[PartitionModifications]] <<processPartitionModifications, processPartitionModifications>>
+| <<PartitionModifications, PartitionModifications>>
+| <<processPartitionModifications, processPartitionModifications>>
 
-| TopicDeletion
-| [[TopicDeletion]] <<processTopicDeletion, processTopicDeletion>>
+| <<TopicDeletion, TopicDeletion>>
+| <<processTopicDeletion, processTopicDeletion>>
 
-| PartitionReassignment
-| [[PartitionReassignment]] <<processPartitionReassignment, processPartitionReassignment>>
+| <<ApiPartitionReassignment, ApiPartitionReassignment>>
+| <<processApiPartitionReassignment, processApiPartitionReassignment>>
 
-| PartitionReassignmentIsrChange
-| [[PartitionReassignmentIsrChange]] <<processPartitionReassignmentIsrChange, processPartitionReassignmentIsrChange>>
+| <<ZkPartitionReassignment, ZkPartitionReassignment>>
+| <<processZkPartitionReassignment, processZkPartitionReassignment>>
 
-| IsrChangeNotification
-| [[IsrChangeNotification]] <<processIsrChangeNotification, processIsrChangeNotification>>
+| <<ListPartitionReassignments, ListPartitionReassignments>>
+| <<processListPartitionReassignments, processListPartitionReassignments>>
 
-| Startup
-| [[Startup]] <<processStartup, processStartup>>
+| <<PartitionReassignmentIsrChange, PartitionReassignmentIsrChange>>
+| <<processPartitionReassignmentIsrChange, processPartitionReassignmentIsrChange>>
+
+| <<IsrChangeNotification, IsrChangeNotification>>
+| <<processIsrChangeNotification, processIsrChangeNotification>>
+
+| <<Startup, Startup>>
+| <<processStartup, processStartup>>
 
 |===
 
@@ -776,7 +833,7 @@ Otherwise, with no active controller, `elect` requests the <<zkClient, KafkaZkCl
 
 In the end, `elect` <<onControllerFailover, onControllerFailover>>.
 
-NOTE: `elect` is used when `ControllerEventThread` is requested to process <<kafka-controller-ControllerEvent.adoc#Startup, Startup>> and <<kafka-controller-ControllerEvent.adoc#Reelect, Reelect>> controller events (while <<kafka-controller-ControllerEventThread.adoc#doWork, processing controller events>>).
+NOTE: `elect` is used when `ControllerEventThread` is requested to process <<Startup, Startup>> and <<Reelect, Reelect>> controller events.
 
 ==== [[elect-ControllerMovedException]] `elect` and ControllerMovedException
 
@@ -1398,7 +1455,7 @@ starting the token expiry check scheduler
 
 `onControllerFailover` requests the <<tokenCleanScheduler, tokenCleanScheduler KafkaScheduler>> to <<kafka-KafkaScheduler.adoc#startup, startup>> and requests it to <<kafka-KafkaScheduler.adoc#schedule, schedule>> the *delete-expired-tokens* task (FIXME).
 
-NOTE: `onControllerFailover` is used exclusively when `KafkaController` is requested to <<elect, elect>> (and a broker is successfully elected as the active controller).
+NOTE: `onControllerFailover` is used when `KafkaController` is requested to <<elect, elect>> (and a broker is successfully elected as the active controller).
 
 === [[scheduleAutoLeaderRebalanceTask]] `scheduleAutoLeaderRebalanceTask` Internal Method
 
@@ -1616,20 +1673,6 @@ doControlledShutdown(
 
 NOTE: `doControlledShutdown` is used exclusively when `KafkaController` is requested to <<processControlledShutdown, processControlledShutdown>>.
 
-=== [[processPreferredReplicaLeaderElection]] Processing PreferredReplicaLeaderElection Controller Event (On controller-event-thread) -- `processPreferredReplicaLeaderElection` Internal Method
-
-[source, scala]
-----
-processPreferredReplicaLeaderElection(
-  partitionsFromAdminClientOpt: Option[Set[TopicPartition]],
-  electionType: ElectionType = ZkTriggered,
-  callback: ElectPreferredLeadersCallback = (_, _) => {} ): Unit
-----
-
-`processPreferredReplicaLeaderElection`...FIXME
-
-NOTE: `processPreferredReplicaLeaderElection` is used exclusively when `KafkaController` is requested to <<process, process a PreferredReplicaLeaderElection controller event>> (on the <<kafka-controller-ControllerEventThread.adoc#, controller-event-thread>>).
-
 === [[processUncleanLeaderElectionEnable]] `processUncleanLeaderElectionEnable` Internal Method
 
 [source, scala]
@@ -1735,7 +1778,8 @@ NOTE: `processBrokerChange` is used exclusively when `KafkaController` is reques
 
 [source, scala]
 ----
-processBrokerModification(brokerId: Int): Unit
+processBrokerModification(
+  brokerId: Int): Unit
 ----
 
 `processBrokerModification`...FIXME
@@ -1818,7 +1862,8 @@ NOTE: `processLogDirEventNotification` is used exclusively when `KafkaController
 
 [source, scala]
 ----
-processPartitionModifications(topic: String): Unit
+processPartitionModifications(
+  topic: String): Unit
 ----
 
 `processPartitionModifications`...FIXME
@@ -1836,22 +1881,12 @@ processTopicDeletion(): Unit
 
 NOTE: `processTopicDeletion` is used exclusively when `KafkaController` is requested to <<process, process a TopicDeletion controller event>>.
 
-=== [[processPartitionReassignment]] `processPartitionReassignment` Internal Method
-
-[source, scala]
-----
-processPartitionReassignment(): Unit
-----
-
-`processPartitionReassignment`...FIXME
-
-NOTE: `processPartitionReassignment` is used exclusively when `KafkaController` is requested to <<process, process a PartitionReassignment controller event>>.
-
 === [[processPartitionReassignmentIsrChange]] `processPartitionReassignmentIsrChange` Internal Method
 
 [source, scala]
 ----
-processPartitionReassignmentIsrChange(partition: TopicPartition): Unit
+processPartitionReassignmentIsrChange(
+  partition: TopicPartition): Unit
 ----
 
 `processPartitionReassignmentIsrChange`...FIXME
@@ -1881,6 +1916,69 @@ processStartup(): Unit
 In the end, `processStartup` starts <<elect, controller election>>.
 
 NOTE: `processStartup` is used exclusively when `KafkaController` is requested to <<process, process a Startup controller event>> (on the <<kafka-controller-ControllerEventThread.adoc#, controller-event-thread>>).
+
+=== [[processZkPartitionReassignment]] `processZkPartitionReassignment` Internal Method
+
+[source, scala]
+----
+processZkPartitionReassignment(): Unit
+----
+
+`processZkPartitionReassignment`...FIXME
+
+NOTE: `processZkPartitionReassignment` is used when `KafkaController` is requested to process a <<ZkPartitionReassignment, ZkPartitionReassignment>> controller event and <<initializePartitionReassignments, initializePartitionReassignments>> (for `KafkaController` to process <<Startup, Startup>> and <<Reelect, Reelect>> controller events).
+
+=== [[initializePartitionReassignments]] `initializePartitionReassignments` Internal Method
+
+[source, scala]
+----
+initializePartitionReassignments(): Unit
+----
+
+`initializePartitionReassignments`...FIXME
+
+NOTE: `initializePartitionReassignments` is used when `KafkaController` is requested to <<onControllerFailover, onControllerFailover>> (for `KafkaController` to process <<Startup, Startup>> and <<Reelect, Reelect>> controller events).
+
+=== [[processReplicaLeaderElection]] `processReplicaLeaderElection` Internal Method
+
+[source, scala]
+----
+processReplicaLeaderElection(
+  partitionsFromAdminClientOpt: Option[Set[TopicPartition]],
+  electionType: ElectionType,
+  electionTrigger: ElectionTrigger,
+  callback: ElectLeadersCallback): Unit
+----
+
+`processReplicaLeaderElection`...FIXME
+
+NOTE: `processReplicaLeaderElection` is used when `KafkaController` is requested to process a <<ReplicaLeaderElection, ReplicaLeaderElection>> controller event.
+
+=== [[processListPartitionReassignments]] `processListPartitionReassignments` Internal Method
+
+[source, scala]
+----
+processListPartitionReassignments(
+  partitionsOpt: Option[Set[TopicPartition]],
+  callback: ListReassignmentsCallback): Unit
+----
+
+`processListPartitionReassignments`...FIXME
+
+NOTE: `processListPartitionReassignments` is used when `KafkaController` is requested to process a <<ListPartitionReassignments, ListPartitionReassignments>> controller event.
+
+=== [[processApiPartitionReassignment]] `processApiPartitionReassignment` Internal Method
+
+[source, scala]
+----
+processApiPartitionReassignment(
+  reassignments: Map[TopicPartition, Option[Seq[Int]]],
+  callback: AlterReassignmentsCallback): Unit
+----
+
+`processApiPartitionReassignment`...FIXME
+
+NOTE: `processApiPartitionReassignment` is used when `KafkaController` is requested to process a <<ApiPartitionReassignment, ApiPartitionReassignment>> controller event.
 
 === [[preemptPreferredReplicaLeaderElection]] Preempting PreferredReplicaLeaderElection -- `preemptPreferredReplicaLeaderElection` Internal Method
 
