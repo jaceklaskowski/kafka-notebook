@@ -28,6 +28,7 @@
 .. link:kafka-cluster-ZkPartitionStateStore.adoc[ZkPartitionStateStore]
 
 . link:kafka-utils-ReplicationUtils.adoc[ReplicationUtils]
+. link:kafka-utils-CoreUtils.adoc[CoreUtils]
 
 === Kafka Security / Transport Layer Security (TLS) and Secure Sockets Layer (SSL)
 
@@ -462,10 +463,14 @@
 
 . link:kafka-KafkaScheduler.adoc[KafkaScheduler]
 . link:kafka-Scheduler.adoc[Scheduler]
+
+=== Zookeeper
+
 . link:kafka-ZooKeeperClient.adoc[ZooKeeperClient]
-. link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient -- Higher-Level Kafka-Specific ZooKeeper Client]
+. link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient]
 . link:kafka-zk-AdminZkClient.adoc[AdminZkClient]
 . link:kafka-zk-ZkAclChangeStore.adoc[ZkAclChangeStore]
+. link:kafka-zk-BrokerIdZNode.adoc[BrokerIdZNode]
 
 === Kafka Connect
 

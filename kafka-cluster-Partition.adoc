@@ -93,7 +93,7 @@ One of the two possible values:
 
 The performance metrics are registered in *kafka.cluster:type=Partition* group (only when the partition is not <<isOffline, offline>>).
 
-.Partition in jconsole
+.Partition Metrics in JConsole JMX Tool
 image::images/Partition-jconsole.png[align="center"]
 
 === [[creating-instance]] Creating Partition Instance

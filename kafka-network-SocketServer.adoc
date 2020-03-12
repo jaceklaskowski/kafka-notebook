@@ -261,6 +261,19 @@ startDataPlaneProcessors(
 
 NOTE: `startDataPlaneProcessors` is used when...FIXME
 
+=== [[createAcceptor]] `createAcceptor` Internal Method
+
+[source, scala]
+----
+createAcceptor(
+  endPoint: EndPoint,
+  metricPrefix: String) : Acceptor
+----
+
+`createAcceptor`...FIXME
+
+NOTE: `createAcceptor` is used when...FIXME
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]

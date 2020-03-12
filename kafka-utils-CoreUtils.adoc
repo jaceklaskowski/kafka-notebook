@@ -1,0 +1,18 @@
+== [[CoreUtils]] CoreUtils Utility
+
+`CoreUtils` comes with the following utilities:
+
+* <<listenerListToEndPoints, listenerListToEndPoints>>
+
+=== [[listenerListToEndPoints]] Converting Listener Names to EndPoints -- `listenerListToEndPoints` Utility
+
+[source, scala]
+----
+listenerListToEndPoints(
+  listeners: String,
+  securityProtocolMap: Map[ListenerName, SecurityProtocol]): Seq[EndPoint]
+----
+
+`listenerListToEndPoints`...FIXME
+
+NOTE: `listenerListToEndPoints` is used when `KafkaConfig` is requested for the link:kafka-server-KafkaConfig.adoc#listeners[listeners] and link:kafka-server-KafkaConfig.adoc#advertisedListeners[advertisedListeners]

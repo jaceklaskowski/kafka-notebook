@@ -1,18 +1,35 @@
-== [[KafkaZkClient]] KafkaZkClient -- Higher-Level Kafka-Specific ZooKeeper Client
+== [[KafkaZkClient]] KafkaZkClient -- Higher-Level Zookeeper Client
 
-`KafkaZkClient` is a higher-level Kafka-specific ZooKeeper client.
+`KafkaZkClient` is a higher-level Zookeeper client.
 
 `KafkaZkClient` is <<creating-instance, created>> (using the <<apply, apply>> factory method) when:
 
-* `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#initZkClient, initZkClient>> (right after `kafka.Kafka` command-line application is <<kafka-Kafka.adoc#main, executed>>)
+* `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#startup[start up] (and link:kafka-server-KafkaServer.adoc#initZkClient[initZkClient])
 
-* <<kafka-admin-AclCommand.adoc#, AclCommand>>, `ConfigCommand`, `PreferredReplicaLeaderElectionCommand`, `ReassignPartitionsCommand`, `TopicCommand` commands are executed
+* `AclAuthorizer` is requested to link:kafka-security-authorizer-AclAuthorizer.adoc#configure[configure] (and <<createAclPaths, createAclPaths>>)
 
-`KafkaZkClient` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> and registers <<metrics, performance metrics>>.
+* `ZkSecurityMigrator`, link:kafka-admin-TopicCommand.adoc[TopicCommand] (with the deprecated `--zookeeper` option), link:kafka-admin-ReassignPartitionsCommand.adoc[ReassignPartitionsCommand], `PreferredReplicaLeaderElectionCommand` (with the deprecated `--zookeeper` option), link:kafka-admin-ConfigCommand.adoc[ConfigCommand] tools are executed
 
-[[metrics]]
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `kafka.zk.KafkaZkClient` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.zk.KafkaZkClient=ALL
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
+
+=== [[KafkaMetricsGroup]][[metrics]] Performance Metrics
+
+`KafkaZkClient` is a <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> with the following performance metrics.
+
 .KafkaZkClient's Performance Metrics
-[cols="1m,2",options="header",width="100%"]
+[cols="30m,70",options="header",width="100%"]
 |===
 | Name
 | Description
@@ -22,24 +39,10 @@
 
 |===
 
-The <<metrics, performance metrics>> are registered in *kafka.server:type=ZooKeeperClientMetrics* group.
+The performance metrics are registered in *kafka.server:type=ZooKeeperClientMetrics* group.
 
 .KafkaZkClient Metrics in JConsole JMX Tool
 image::images/KafkaZkClient-metrics-JConsole.png[align="center"]
-
-[[logging]]
-[TIP]
-====
-Enable `DEBUG` logging level for `kafka.zk.KafkaZkClient` logger to see what happens inside.
-
-Add the following line to `config/log4j.properties`:
-
-```
-log4j.logger.kafka.zk.KafkaZkClient=DEBUG
-```
-
-Refer to link:kafka-logging.adoc[Logging].
-====
 
 === [[getTopicPartitionCount]] `getTopicPartitionCount` Method
 
@@ -522,6 +525,18 @@ getAllBrokerAndEpochsInCluster: Map[Broker, Long]
 
 NOTE: `getAllBrokerAndEpochsInCluster` is used when...FIXME
 
+=== [[getBroker]] `getBroker` Method
+
+[source, scala]
+----
+getBroker(
+  brokerId: Int): Option[Broker]
+----
+
+`getBroker`...FIXME
+
+NOTE: `getBroker` is used when...FIXME
+
 === [[getAllLogDirEventNotifications]] LogDirEvent Notifications (from Zookeeper) -- `getAllLogDirEventNotifications` Method
 
 [source, scala]
@@ -651,6 +666,30 @@ createAclPaths(): Unit
 `createAclPaths`...FIXME
 
 NOTE: `createAclPaths` is used when `AclAuthorizer` is requested to link:kafka-security-authorizer-AclAuthorizer.adoc#configure[configure].
+
+=== [[registerBroker]] `registerBroker` Method
+
+[source, scala]
+----
+registerBroker(
+  brokerInfo: BrokerInfo): Long
+----
+
+`registerBroker`...FIXME
+
+NOTE: `registerBroker` is used when...FIXME
+
+=== [[updateBrokerInfo]] `updateBrokerInfo` Method
+
+[source, scala]
+----
+updateBrokerInfo(
+  brokerInfo: BrokerInfo): Unit
+----
+
+`updateBrokerInfo`...FIXME
+
+NOTE: `updateBrokerInfo` is used when...FIXME
 
 === [[close]] `close` Method
 

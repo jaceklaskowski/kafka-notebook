@@ -1,3 +1,54 @@
 == [[EndPoint]] EndPoint
 
-`EndPoint` is...FIXME
+[[creating-instance]]
+`EndPoint` is a data structure that represents an endpoint of a link:kafka-cluster-Broker.adoc[Kafka broker] using the following properties:
+
+* [[host]] Host
+* [[port]] Port
+* [[listenerName]] `ListenerName`
+* [[securityProtocol]] `SecurityProtocol`
+
+`EndPoint` is <<creating-instance, created>> when:
+
+* link:kafka-cluster-Broker.adoc[Broker] is created
+
+* `EndPoint` utility is used to <<createEndPoint, create one>>
+
+* `MetadataCache` is requested to link:kafka-server-MetadataCache.adoc#updateMetadata[update a metadata]
+
+* `BrokerIdZNode` utility is used to link:kafka-zk-BrokerIdZNode.adoc#encode[encode] and link:kafka-zk-BrokerIdZNode.adoc#decode[decode] a broker metadata
+
+`EndPoint` is used when:
+
+* `SocketServer` is requested to link:kafka-network-SocketServer.adoc#createAcceptor[create an Acceptor] and link:kafka-network-SocketServer.adoc#addDataPlaneProcessors[addDataPlaneProcessors]
+
+=== [[connectionString]] `connectionString` Method
+
+[source, scala]
+----
+connectionString: String
+----
+
+`connectionString`...FIXME
+
+NOTE: `connectionString` is used when...FIXME
+
+=== [[createEndPoint]] Creating EndPoint -- `createEndPoint` Utility
+
+[source, scala]
+----
+createEndPoint(
+  connectionString: String,
+  securityProtocolMap: Option[Map[ListenerName, SecurityProtocol]]): EndPoint
+----
+
+`createEndPoint`...FIXME
+
+[NOTE]
+====
+`createEndPoint` is used when:
+
+* `CoreUtils` utility is used to link:kafka-utils-CoreUtils.adoc#listenerListToEndPoints[convert listener names to endpoints]
+
+* `BrokerIdZNode` utility is used to link:kafka-zk-BrokerIdZNode.adoc#decode[decode] a broker metadata (from a JSON format in Zookeeper)
+====

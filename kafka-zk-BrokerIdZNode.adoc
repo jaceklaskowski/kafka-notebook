@@ -1,0 +1,36 @@
+== [[BrokerIdZNode]] BrokerIdZNode Utility
+
+`BrokerIdZNode` utility is used to <<decode, decode>> or <<encode, encode>> broker metadata for link:kafka-zk-KafkaZkClient.adoc[KafkaZkClient].
+
+=== [[decode]] `decode` Utility
+
+[source, scala]
+----
+decode(
+  id: Int,
+  jsonBytes: Array[Byte]): BrokerInfo
+----
+
+`decode`...FIXME
+
+NOTE: `decode` is used when `KafkaZkClient` is requested to link:kafka-zk-KafkaZkClient.adoc#getAllBrokersInCluster[getAllBrokersInCluster], link:kafka-zk-KafkaZkClient.adoc#getAllBrokerAndEpochsInCluster[getAllBrokerAndEpochsInCluster], and link:kafka-zk-KafkaZkClient.adoc#getBroker[getBroker].
+
+=== [[encode]] `encode` Utility
+
+[source, scala]
+----
+encode(
+  brokerInfo: BrokerInfo): Array[Byte] // <1>
+encode(
+  version: Int,
+  host: String,
+  port: Int,
+  advertisedEndpoints: Seq[EndPoint],
+  jmxPort: Int,
+  rack: Option[String]): Array[Byte]
+----
+<1> Uses the given `BrokerInfo` for the arguments of the other `encode`
+
+`encode`...FIXME
+
+NOTE: `encode` is used when `BrokerInfo` is requested for a JSON representation (`toJsonBytes`) for `KafkaZkClient` to link:kafka-zk-KafkaZkClient.adoc#registerBroker[add] and link:kafka-zk-KafkaZkClient.adoc#registerBroker[update] a broker metadata in Zookeeper.

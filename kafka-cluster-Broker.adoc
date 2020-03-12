@@ -13,7 +13,7 @@
 
 * `MetadataCache` is requested to link:kafka-server-MetadataCache.adoc#updateMetadata[update the metadata]
 
-* `BrokerIdZNode` utility is used to decode a JSON-encoded broker metadata (from Zookeeper)
+* `BrokerIdZNode` utility is used to link:kafka-zk-BrokerIdZNode.adoc#decode[decode a broker metadata] (from JSON format in Zookeeper)
 
 === [[node]] `node` Method
 
