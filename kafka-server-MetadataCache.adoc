@@ -110,3 +110,16 @@ getClusterMetadata(clusterId: String, listenerName: ListenerName): Cluster
 `getClusterMetadata`...FIXME
 
 NOTE: `getClusterMetadata` is used exclusively when `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleUpdateMetadataRequest, handle an UpdateMetadata request>>.
+
+=== [[getPartitionReplicaEndpoints]] `getPartitionReplicaEndpoints` Method
+
+[source, scala]
+----
+getPartitionReplicaEndpoints(
+  tp: TopicPartition,
+  listenerName: ListenerName): Map[Int, Node]
+----
+
+`getPartitionReplicaEndpoints`...FIXME
+
+NOTE: `getPartitionReplicaEndpoints` is used when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#findPreferredReadReplica[findPreferredReadReplica].

@@ -18,6 +18,9 @@
 
 === Kafka Cluster
 
+. link:kafka-cluster-Broker.adoc[Broker]
+. link:kafka-cluster-EndPoint.adoc[EndPoint]
+
 . link:kafka-cluster-Partition.adoc[Partition]
 . link:kafka-cluster-Replica.adoc[Replica]
 
@@ -332,7 +335,6 @@
 === Kafka Architecture
 
 . link:kafka-brokers.adoc[Broker Nodes -- Kafka Servers]
-.. link:kafka-Broker.adoc[Broker]
 
 . link:kafka-topics.adoc[Topics]
 . link:kafka-messages.adoc[Messages]

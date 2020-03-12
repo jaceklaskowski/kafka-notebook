@@ -1,0 +1,77 @@
+== [[Broker]] Broker
+
+[[creating-instance]]
+`Broker` is a data structure that represents a Kafka broker using the following properties:
+
+* [[id]] Id
+* [[endPoints]] link:kafka-cluster-EndPoint.adoc[EndPoints]
+* [[rack]] Rack Id (optional)
+
+`Broker` is <<creating-instance, created>> when:
+
+* `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#createBrokerInfo[createBrokerInfo]
+
+* `MetadataCache` is requested to link:kafka-server-MetadataCache.adoc#updateMetadata[update the metadata]
+
+* `BrokerIdZNode` utility is used to decode a JSON-encoded broker metadata (from Zookeeper)
+
+=== [[node]] `node` Method
+
+[source, scala]
+----
+node(
+  listenerName: ListenerName): Node
+----
+
+`node` <<getNode, looks up the node>> by the `ListenerName`.
+
+`node` throws an `BrokerEndPointNotAvailableException` when the `ListenerName` could not be found:
+
+```
+End point with listener name [listenerName] not found for broker [id]
+```
+
+[NOTE]
+====
+`node` is used when:
+
+* `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[register a new broker]
+
+* `AbstractControllerBrokerRequestBatch` is requested to send link:kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendLeaderAndIsrRequest[LeaderAndIsr] and link:kafka-controller-AbstractControllerBrokerRequestBatch.adoc#sendUpdateMetadataRequests[UpdateMetadata] requests out to all brokers
+
+* `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#shutdown[shut down] (and link:kafka-server-KafkaServer.adoc#controlledShutdown[controlledShutdown])
+====
+
+=== [[getNode]] `getNode` Method
+
+[source, scala]
+----
+getNode(
+  listenerName: ListenerName): Option[Node]
+----
+
+`getNode` returns the `Node` for the `ListenerName` if available in the <<endPointsMap, endPointsMap>> internal registry. Otherwise, `getNode` returns `None`.
+
+[NOTE]
+====
+`getNode` is used when:
+
+* `Broker` is requested for the <<node, Node for a given ListenerName>>
+
+* `KafkaApis` is requested to link:kafka-server-KafkaApis.adoc#handleTopicMetadataRequest[handle a Metadata request]
+
+* `MetadataCache` is requested to link:kafka-server-MetadataCache.adoc#getPartitionReplicaEndpoints[getPartitionReplicaEndpoints]
+====
+
+=== [[toServerInfo]] `toServerInfo` Method
+
+[source, scala]
+----
+toServerInfo(
+  clusterId: String,
+  config: KafkaConfig): AuthorizerServerInfo
+----
+
+`toServerInfo`...FIXME
+
+NOTE: `toServerInfo` is used when `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#startup[start up] (and link:kafka-server-authorizer-Authorizer.adoc#start[start] a link:kafka-server-KafkaServer.adoc#authorizer[Authorizer]).

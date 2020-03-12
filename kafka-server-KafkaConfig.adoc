@@ -96,7 +96,7 @@ a| [[interBrokerListenerName]][[InterBrokerListenerNameProp]] link:kafka-propert
 
 Used when:
 
-* `Broker` is requested for link:kafka-Broker.adoc#toServerInfo[toServerInfo]
+* `Broker` is requested for link:kafka-cluster-Broker.adoc#toServerInfo[toServerInfo]
 
 * `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[register a new broker]
 
