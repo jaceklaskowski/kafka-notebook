@@ -128,6 +128,9 @@ a| [[interBrokerSecurityProtocol]][[InterBrokerSecurityProtocolProp]] link:kafka
 
 Used when...FIXME
 
+| ControlPlaneListenerNameProp
+a| [[ControlPlaneListenerNameProp]] link:kafka-properties.adoc#control.plane.listener.name[control.plane.listener.name] (see <<getControlPlaneListenerNameAndSecurityProtocol, getControlPlaneListenerNameAndSecurityProtocol>>)
+
 | leaderImbalanceCheckIntervalSeconds
 a| [[leaderImbalanceCheckIntervalSeconds]][[LeaderImbalanceCheckIntervalSecondsProp]] <<kafka-properties.adoc#leader.imbalance.check.interval.seconds, leader.imbalance.check.interval.seconds>>
 
@@ -746,7 +749,7 @@ NOTE: `controlPlaneSecurityProtocol` is used when `ControllerChannelManager` is 
 getControlPlaneListenerNameAndSecurityProtocol: Option[(ListenerName, SecurityProtocol)]
 ----
 
-`getControlPlaneListenerNameAndSecurityProtocol`...FIXME
+`getControlPlaneListenerNameAndSecurityProtocol` reads the <<ControlPlaneListenerNameProp, ControlPlaneListenerNameProp>>
 
 NOTE: `getControlPlaneListenerNameAndSecurityProtocol` is used when `KafkaConfig` is requested for the <<controlPlaneListenerName, controlPlaneListenerName>> and <<controlPlaneSecurityProtocol, controlPlaneSecurityProtocol>>.
 
