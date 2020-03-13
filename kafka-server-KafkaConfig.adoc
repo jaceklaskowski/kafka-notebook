@@ -628,7 +628,7 @@ apply(props: java.util.Map[_, _]): KafkaConfig
 
 NOTE: `apply` seems to be used in tests only.
 
-=== [[addReconfigurable]] `addReconfigurable` Method
+=== [[addReconfigurable]] Adding Reconfigurable to DynamicBrokerConfig -- `addReconfigurable` Method
 
 [source, scala]
 ----
@@ -636,9 +636,22 @@ addReconfigurable(
   reconfigurable: Reconfigurable): Unit
 ----
 
-`addReconfigurable`...FIXME
+`addReconfigurable` simply requests the <<dynamicConfig, DynamicBrokerConfig>> to link:kafka-server-DynamicBrokerConfig.adoc#addReconfigurable[add the Reconfigurable].
 
-NOTE: `addReconfigurable` is used when...FIXME
+[NOTE]
+====
+`addReconfigurable` is used when:
+
+* `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[register a new broker] (and adds a link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder])
+
+* link:kafka-TransactionMarkerChannelManager.adoc#apply[TransactionMarkerChannelManager] is created (and adds a link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder])
+
+* link:kafka-network-SocketServer-Processor.adoc[Processor] is created (and link:kafka-network-SocketServer-Processor.adoc#createSelector[creates a Selector] that in turn adds a link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder])
+
+* `ConnectionQuotas` is requested to `addListener`
+
+* link:kafka-server-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend] is created (and creates a link:kafka-server-ReplicaFetcherBlockingSend.adoc#networkClient[NetworkClient] that in turn adds a link:kafka-common-network-ChannelBuilder.adoc[ChannelBuilder])
+====
 
 === [[controlPlaneListener]] `controlPlaneListener` Method
 

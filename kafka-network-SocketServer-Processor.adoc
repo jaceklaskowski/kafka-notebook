@@ -88,3 +88,15 @@ configureNewConnections(): Unit
 `configureNewConnections`...FIXME
 
 NOTE: `configureNewConnections` is used exclusively when `Processor` is requested to <<run, run>>.
+
+=== [[createSelector]] `createSelector` Internal Method
+
+[source, scala]
+----
+createSelector(
+  channelBuilder: ChannelBuilder): KSelector
+----
+
+`createSelector`...FIXME
+
+NOTE: `createSelector` is used when `Processor` is <<creating-instance, created>> (and creates the <<selector, Selector>>).

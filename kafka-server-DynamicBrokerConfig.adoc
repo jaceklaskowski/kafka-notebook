@@ -305,6 +305,39 @@ validatedKafkaProps(
 
 NOTE: `validatedKafkaProps` is used when...FIXME
 
+=== [[addReconfigurable]] Registering Reconfigurable -- `addReconfigurable` Method
+
+[source, scala]
+----
+addReconfigurable(
+  reconfigurable: Reconfigurable): Unit
+----
+
+`addReconfigurable` <<verifyReconfigurableConfigs, verifyReconfigurableConfigs>> of the link:kafka-common-Reconfigurable.adoc#reconfigurableConfigs[Reconfigurable].
+
+In the end, `addReconfigurable` adds the `Reconfigurable` to the <<reconfigurables, reconfigurables>> internal registry.
+
+[NOTE]
+====
+`addReconfigurable` is used when:
+
+* `DynamicBrokerConfig` is requested to <<addReconfigurables, addReconfigurables>>
+
+* `KafkaConfig` is requested to link:kafka-server-KafkaConfig.adoc#addReconfigurable[add a Reconfigurable]
+====
+
+=== [[verifyReconfigurableConfigs]] `verifyReconfigurableConfigs` Internal Method
+
+[source, scala]
+----
+verifyReconfigurableConfigs(
+  configNames: Set[String]): Unit
+----
+
+`verifyReconfigurableConfigs`...FIXME
+
+NOTE: `verifyReconfigurableConfigs` is used when...FIXME
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
@@ -338,5 +371,8 @@ Used in <<validatedKafkaProps, validatedKafkaProps>> and <<updateCurrentConfig, 
 Cleared when `DynamicBrokerConfig` is requested to <<clear, clear>>
 
 Available using <<currentDynamicDefaultConfigs, currentDynamicDefaultConfigs>>
+
+| reconfigurables
+a| [[reconfigurables]] link:kafka-common-Reconfigurable.adoc[Reconfigurables]
 
 |===
