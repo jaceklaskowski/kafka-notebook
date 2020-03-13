@@ -69,6 +69,14 @@ addNewBroker(
   broker: Broker): Unit
 ----
 
+`addNewBroker` prints out the following DEBUG message to the logs:
+
+```
+Controller [brokerId] trying to connect to broker [id]
+```
+
+`addNewBroker` uses the link:kafka-server-KafkaConfig.adoc#controlPlaneListenerName[controlPlaneListenerName] (if defined) or link:kafka-server-KafkaConfig.adoc#interBrokerListenerName[interBrokerListenerName] for the name of the listener (endpoint) to connect to the broker (a controller-broker connection).
+
 `addNewBroker`...FIXME
 
 NOTE: `addNewBroker` is used when `ControllerChannelManager` is requested to <<startup, start up>> (and connect to brokers) and to <<addBroker, add a broker>>.

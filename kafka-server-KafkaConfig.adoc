@@ -694,6 +694,48 @@ logRollTimeMillis: java.lang.Long
 
 NOTE: `logRollTimeMillis` is used when `KafkaServer` utility is used to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>> (and set the topic-level <<kafka-log-LogConfig.adoc#SegmentMsProp, segment.ms>>).
 
+=== [[controlPlaneListenerName]] `controlPlaneListenerName` Method
+
+[source, scala]
+----
+controlPlaneListenerName: Option[ListenerName]
+----
+
+`controlPlaneListenerName` is the name of the listener based on the <<getControlPlaneListenerNameAndSecurityProtocol, getControlPlaneListenerNameAndSecurityProtocol>>.
+
+[NOTE]
+====
+`controlPlaneListenerName` is used when:
+
+* `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[addNewBroker]
+
+* link:kafka-network-SocketServer.adoc[SocketServer] is created (and creates the link:kafka-network-SocketServer.adoc#controlPlaneRequestChannelOpt[controlPlaneRequestChannelOpt])
+
+* `KafkaConfig` is requested for <<controlPlaneListener, controlPlaneListener>> and to <<validateValues, validateValues>>
+====
+
+=== [[controlPlaneSecurityProtocol]] `controlPlaneSecurityProtocol` Method
+
+[source, scala]
+----
+controlPlaneSecurityProtocol: Option[SecurityProtocol]
+----
+
+`controlPlaneSecurityProtocol` is the name of the security protocol based on the <<getControlPlaneListenerNameAndSecurityProtocol, getControlPlaneListenerNameAndSecurityProtocol>>.
+
+NOTE: `controlPlaneSecurityProtocol` is used when `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[addNewBroker].
+
+=== [[getControlPlaneListenerNameAndSecurityProtocol]] `getControlPlaneListenerNameAndSecurityProtocol` Internal Method
+
+[source, scala]
+----
+getControlPlaneListenerNameAndSecurityProtocol: Option[(ListenerName, SecurityProtocol)]
+----
+
+`getControlPlaneListenerNameAndSecurityProtocol`...FIXME
+
+NOTE: `getControlPlaneListenerNameAndSecurityProtocol` is used when `KafkaConfig` is requested for the <<controlPlaneListenerName, controlPlaneListenerName>> and <<controlPlaneSecurityProtocol, controlPlaneSecurityProtocol>>.
+
 === [[internal-properties]] Internal Properties
 
 [cols="30m,70",options="header",width="100%"]
