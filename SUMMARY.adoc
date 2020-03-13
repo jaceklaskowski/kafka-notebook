@@ -149,6 +149,7 @@
 .. link:kafka-controller-ControllerEvent-UncleanLeaderElectionEnable.adoc[UncleanLeaderElectionEnable]
 
 . link:kafka-controller-ControllerChannelManager.adoc[ControllerChannelManager]
+.. link:kafka-controller-RequestSendThread.adoc[RequestSendThread]
 
 . link:kafka-controller-ControllerBrokerRequestBatch.adoc[ControllerBrokerRequestBatch]
 .. link:kafka-controller-AbstractControllerBrokerRequestBatch.adoc[AbstractControllerBrokerRequestBatch]

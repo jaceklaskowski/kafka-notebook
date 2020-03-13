@@ -632,7 +632,8 @@ NOTE: `apply` seems to be used in tests only.
 
 [source, scala]
 ----
-addReconfigurable(reconfigurable: Reconfigurable): Unit
+addReconfigurable(
+  reconfigurable: Reconfigurable): Unit
 ----
 
 `addReconfigurable`...FIXME

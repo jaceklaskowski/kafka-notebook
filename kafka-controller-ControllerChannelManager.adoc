@@ -1,9 +1,8 @@
 == [[ControllerChannelManager]] ControllerChannelManager
 
-[[brokerStateInfo]]
-`ControllerChannelManager` manages <<ControllerBrokerStateInfo, connection metadata>> of all brokers in a Kafka cluster.
+`ControllerChannelManager` manages <<brokerStateInfo, connection metadata>> of all the brokers in a Kafka cluster for a link:kafka-controller-KafkaController.adoc#controllerChannelManager[KafkaController].
 
-`ControllerChannelManager` is <<creating-instance, created>> exclusively when <<kafka-controller-KafkaController.adoc#controllerChannelManager, KafkaController>> is created (to <<addBroker, add>> or <<removeBroker, remove>> brokers as they "announce" themselves in Zookeeper) for <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatches>> of the <<kafka-controller-KafkaController.adoc#brokerRequestBatch, KafkaController>> itself, the <<kafka-controller-KafkaController.adoc#replicaStateMachine, ZkReplicaStateMachine>> and <<kafka-controller-KafkaController.adoc#partitionStateMachine, ZkPartitionStateMachine>> (so they can send broker and partition changes out to all brokers in a Kafka cluster).
+`ControllerChannelManager` is <<creating-instance, created>> when <<kafka-controller-KafkaController.adoc#controllerChannelManager, KafkaController>> is created (to <<addBroker, add>> or <<removeBroker, remove>> brokers as they "announce" themselves in Zookeeper) for <<kafka-controller-ControllerBrokerRequestBatch.adoc#, ControllerBrokerRequestBatches>> of the <<kafka-controller-KafkaController.adoc#brokerRequestBatch, KafkaController>> itself, the <<kafka-controller-KafkaController.adoc#replicaStateMachine, ZkReplicaStateMachine>> and <<kafka-controller-KafkaController.adoc#partitionStateMachine, ZkPartitionStateMachine>> (so they can send broker and partition changes out to all brokers in a Kafka cluster).
 
 When <<startup, started>>, `ControllerChannelManager` establishes connection to every broker and starts a corresponding <<RequestSendThread, RequestSendThread>> to keep sending queued controller requests.
 
@@ -23,6 +22,23 @@ log4j.logger.kafka.controller.ControllerChannelManager=ALL
 
 Refer to <<kafka-logging.adoc#, Logging>>.
 ====
+
+=== [[brokerStateInfo]] Connection Metadata of All Brokers -- `brokerStateInfo` Internal Registry
+
+[source, scala]
+----
+brokerStateInfo: HashMap[Int, ControllerBrokerStateInfo]
+----
+
+`brokerStateInfo` is <<ControllerBrokerStateInfo, connection metadata>> by broker ID.
+
+New brokers are added when `ControllerChannelManager` is requested to <<addNewBroker, add a broker>> (when <<addBroker, addBroker>>).
+
+A broker is removed when `ControllerChannelManager` is requested to <<removeExistingBroker, remove a broker>> (when <<removeBroker, removeBroker>> or <<shutdown, shutting down>>).
+
+The request thread of a broker is started when `ControllerChannelManager` is requested to <<startup, start up>> (<<startRequestSendThread, start the thread of a broker>>).
+
+Use the <<TotalQueueSize, TotalQueueSize>> gauge metric for the queue depth (i.e. how many link:kafka-controller-AbstractControlRequest.adoc[controller requests] are waiting to be sent out to all brokers).
 
 === [[KafkaMetricsGroup]][[metrics]] Performance Metrics
 
@@ -77,7 +93,31 @@ Controller [brokerId] trying to connect to broker [id]
 
 `addNewBroker` uses the link:kafka-server-KafkaConfig.adoc#controlPlaneListenerName[controlPlaneListenerName] (if defined) or link:kafka-server-KafkaConfig.adoc#interBrokerListenerName[interBrokerListenerName] for the name of the listener (endpoint) to connect to the broker (a controller-broker connection).
 
-`addNewBroker`...FIXME
+`addNewBroker` uses the link:kafka-server-KafkaConfig.adoc#controlPlaneSecurityProtocol[controlPlaneSecurityProtocol] (if defined) or link:kafka-server-KafkaConfig.adoc#interBrokerSecurityProtocol[interBrokerSecurityProtocol] for the name of the security protocol to connect to the broker (a controller-broker connection).
+
+`addNewBroker` requests the `Broker` for the link:kafka-cluster-Broker.adoc#node[node] for the listener name.
+
+`addNewBroker` creates a new `LogContext` to use the prefix:
+
+```
+[Controller id=[brokerId], targetBrokerId=[brokerNode]]
+```
+
+`addNewBroker` creates a link:kafka-clients-NetworkClient.adoc[NetworkClient]. Firstly, `addNewBroker` creates a link:kafka-common-network-ChannelBuilders.adoc#clientChannelBuilder[ChannelBuilder] (for the security protocol, the listener name, `SERVER` JAAS context type and SASL-related properties) and, if it is a link:kafka-common-Reconfigurable.adoc[Reconfigurable], adds it to the <<config, KafkaConfig>> as link:kafka-server-KafkaConfig.adoc#addReconfigurable[reconfigurable]. `addNewBroker` then creates a link:kafka-common-network-Selector.adoc[Selector] with `controller-channel` metric group (and `broker-id` of the broker node).
+
+`addNewBroker` builds a thread name per the optional <<threadNamePrefix, threadNamePrefix>>:
+
+```
+[threadNamePrefix]:Controller-[brokerId]-to-broker-[id]-send-thread
+```
+
+`addNewBroker` creates a new <<RequestRateAndQueueTimeMs, RequestRateAndQueueTimeMs>> timer metric with the id of the broker to connect.
+
+`addNewBroker` creates a daemon link:kafka-controller-RequestSendThread.adoc[RequestSendThread] for the broker ID (of the controller broker), the <<controllerContext, ControllerContext>>, the `NetworkClient`, the `RequestRateAndQueueTimeMs` metric, the <<stateChangeLogger, StateChangeLogger>>, and the thread name.
+
+`addNewBroker` creates a <<QueueSize, QueueSize>> gauge metric (with the id of the broker to connect) that is the number of the link:kafka-controller-AbstractControlRequest.adoc[AbstractControlRequest] messages in the queue.
+
+In the end, `addNewBroker` registers (_adds_) the id of the broker to connect with a new <<ControllerBrokerStateInfo, ControllerBrokerStateInfo>> to the <<brokerStateInfo, brokerStateInfo>> internal registry.
 
 NOTE: `addNewBroker` is used when `ControllerChannelManager` is requested to <<startup, start up>> (and connect to brokers) and to <<addBroker, add a broker>>.
 
