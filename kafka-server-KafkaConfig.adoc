@@ -749,7 +749,15 @@ NOTE: `controlPlaneSecurityProtocol` is used when `ControllerChannelManager` is 
 getControlPlaneListenerNameAndSecurityProtocol: Option[(ListenerName, SecurityProtocol)]
 ----
 
-`getControlPlaneListenerNameAndSecurityProtocol` reads the <<ControlPlaneListenerNameProp, ControlPlaneListenerNameProp>>
+`getControlPlaneListenerNameAndSecurityProtocol` uses the <<ControlPlaneListenerNameProp, control.plane.listener.name>> property for the listener name and looks it up in the <<listenerSecurityProtocolMap, listener.security.protocol.map>> for the security protocol.
+
+`getControlPlaneListenerNameAndSecurityProtocol` returns `None` when the <<ControlPlaneListenerNameProp, control.plane.listener.name>> property is not defined.
+
+`getControlPlaneListenerNameAndSecurityProtocol` throws a `ConfigException` when the listener name could not be found:
+
+```
+Listener with [listenerName] defined in control.plane.listener.name not found in listener.security.protocol.map.
+```
 
 NOTE: `getControlPlaneListenerNameAndSecurityProtocol` is used when `KafkaConfig` is requested for the <<controlPlaneListenerName, controlPlaneListenerName>> and <<controlPlaneSecurityProtocol, controlPlaneSecurityProtocol>>.
 

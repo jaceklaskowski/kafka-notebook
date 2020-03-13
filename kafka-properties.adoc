@@ -128,7 +128,9 @@ a| [[control.plane.listener.name]] Name of the listener for communication betwee
 
 Default: `null` (undefined), i.e. no dedicated endpoints for controller connections
 
-Must be defined among <<advertised.listeners, advertised.listeners>>
+Must be defined in <<listener.security.protocol.map, listener.security.protocol.map>>
+
+NOTE: FIXME Is this true? Must be defined among <<advertised.listeners, advertised.listeners>>.
 
 Must be different than link:kafka-server-KafkaConfig.adoc#interBrokerListenerName[interBrokerListenerName]
 
