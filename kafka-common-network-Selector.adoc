@@ -2,22 +2,24 @@
 
 `Selector` is the one and only link:kafka-common-network-Selectable.adoc[Selectable] that uses Java's selectable channels for stream-oriented connecting sockets (i.e. Java's http://download.java.net/java/jdk9/docs/api/java/nio/channels/SocketChannel.html[java.nio.channels.SocketChannel]).
 
-`Selector` is used by Kafka services to link:kafka-clients-NetworkClient.adoc#creating-instance[create] a `NetworkClient`.
+`Selector` is used by Kafka services to link:kafka-clients-NetworkClient.adoc#creating-instance[create a NetworkClient].
 
 .Selector is Created for Kafka Services For NetworkClient
 image::images/Selector.png[align="center"]
 
-`Selector` is created when:
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging levels for `org.apache.kafka.common.network.Selector` logger to see what happens inside.
 
-* `KafkaAdminClient` is created (using `createInternal`)
-* `KafkaConsumer` is created
-* `KafkaProducer` is created
-* `AdminClient` is created
-* `ControllerChannelManager` is requested to <<kafka-controller-ControllerChannelManager.adoc#addNewBroker, addNewBroker>>
-* `TransactionMarkerChannelManager` is created
-* `Processor` is created
-* `KafkaServer` does `doControlledShutdown`
-* `ReplicaFetcherBlockingSend` is created
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.org.apache.kafka.common.network.Selector=ALL
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
 
 === [[connect]] `connect` Method
 
@@ -52,7 +54,8 @@ NOTE: `addToCompletedReceives` is used exclusively when `Selector` is requested 
 
 [source, java]
 ----
-void poll(long timeout)
+void poll(
+  long timeout)
 ----
 
 NOTE: `poll` is part of the <<kafka-common-network-Selectable.adoc#poll, Selectable Contract>> to...FIXME.
