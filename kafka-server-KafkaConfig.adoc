@@ -128,8 +128,16 @@ a| [[interBrokerSecurityProtocol]][[InterBrokerSecurityProtocolProp]] link:kafka
 
 Used when...FIXME
 
-| ControlPlaneListenerNameProp
-a| [[ControlPlaneListenerNameProp]] link:kafka-properties.adoc#control.plane.listener.name[control.plane.listener.name] (see <<getControlPlaneListenerNameAndSecurityProtocol, getControlPlaneListenerNameAndSecurityProtocol>>)
+| controlPlaneListenerName
+a| [[controlPlaneListenerName]][[ControlPlaneListenerNameProp]] link:kafka-properties.adoc#control.plane.listener.name[control.plane.listener.name] (based on <<getControlPlaneListenerNameAndSecurityProtocol, getControlPlaneListenerNameAndSecurityProtocol>>)
+
+Used when:
+
+* link:kafka-network-SocketServer.adoc[SocketServer] is created (and creates a dedicated link:kafka-network-SocketServer.adoc#controlPlaneRequestChannelOpt[control-plane request handler for controller-brokers communication] for `KafkaServer`)
+
+* `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[add a new broker]
+
+* `KafkaConfig` is requested for <<controlPlaneListener, controlPlaneListener>> and to <<validateValues, validateValues>>
 
 | leaderImbalanceCheckIntervalSeconds
 a| [[leaderImbalanceCheckIntervalSeconds]][[LeaderImbalanceCheckIntervalSecondsProp]] <<kafka-properties.adoc#leader.imbalance.check.interval.seconds, leader.imbalance.check.interval.seconds>>
@@ -710,26 +718,6 @@ logRollTimeMillis: java.lang.Long
 `logRollTimeMillis` is either the value of <<LogRollTimeMillisProp, log.roll.ms>> or <<LogRollTimeHoursProp, log.roll.hours>> (converted to millis).
 
 NOTE: `logRollTimeMillis` is used when `KafkaServer` utility is used to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>> (and set the topic-level <<kafka-log-LogConfig.adoc#SegmentMsProp, segment.ms>>).
-
-=== [[controlPlaneListenerName]] `controlPlaneListenerName` Method
-
-[source, scala]
-----
-controlPlaneListenerName: Option[ListenerName]
-----
-
-`controlPlaneListenerName` is the name of the listener based on the <<getControlPlaneListenerNameAndSecurityProtocol, getControlPlaneListenerNameAndSecurityProtocol>>.
-
-[NOTE]
-====
-`controlPlaneListenerName` is used when:
-
-* `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[addNewBroker]
-
-* link:kafka-network-SocketServer.adoc[SocketServer] is created (and creates the link:kafka-network-SocketServer.adoc#controlPlaneRequestChannelOpt[controlPlaneRequestChannelOpt])
-
-* `KafkaConfig` is requested for <<controlPlaneListener, controlPlaneListener>> and to <<validateValues, validateValues>>
-====
 
 === [[controlPlaneSecurityProtocol]] `controlPlaneSecurityProtocol` Method
 

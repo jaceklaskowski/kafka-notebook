@@ -449,7 +449,7 @@ Used (as `brokerTopicStats` method) to create the <<dataPlaneRequestProcessor, d
 a| [[controlPlaneRequestHandlerPool]] Control-plane <<kafka-server-KafkaRequestHandlerPool.adoc#, KafkaRequestHandlerPool>> for the <<controlPlaneRequestProcessor, control-plane KafkaApis>>
 
 | controlPlaneRequestProcessor
-a| [[controlPlaneRequestProcessor]] Control-plane <<kafka-server-KafkaApis.adoc#, KafkaApis>> request handler for the optional <<kafka-network-SocketServer.adoc#controlPlaneRequestChannelOpt, control-plane KafkaRequestHandlerPool>> of the <<socketServer, SocketServer>>
+a| [[controlPlaneRequestProcessor]] Control-plane <<kafka-server-KafkaApis.adoc#, KafkaApis>> request processor (handler) for the optional <<kafka-network-SocketServer.adoc#controlPlaneRequestChannelOpt, control-plane KafkaRequestHandlerPool>> of the <<socketServer, SocketServer>>
 
 | credentialProvider
 | [[credentialProvider]] `CredentialProvider`

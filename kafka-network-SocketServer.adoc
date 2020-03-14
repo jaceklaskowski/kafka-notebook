@@ -44,6 +44,18 @@ image::images/SocketServer-startup.png[align="center"]
 
 `SocketServer` initializes the <<internal-properties, internal properties>>.
 
+=== [[controlPlaneRequestChannelOpt]] Control-Plane Request Handler for Controller-Brokers Communication -- `controlPlaneRequestChannelOpt` Internal Value
+
+`SocketServer` creates a dedicated link:kafka-network-RequestChannel.adoc[RequestChannel] for communication between a controller and brokers when link:kafka-properties.adoc#control.plane.listener.name[control.plane.listener.name] configuration property is defined.
+
+The `RequestChannel` is created for `KafkaServer` (when requested to link:kafka-server-KafkaServer.adoc#startup[start up]). It is the time when `KafkaServer` creates dedicated link:kafka-server-KafkaServer.adoc#controlPlaneRequestProcessor[control-plane request processor] and link:kafka-server-KafkaServer.adoc#controlPlaneRequestHandlerPool[control-plane request handler pool].
+
+The `RequestChannel` is created with the queue size of `20` and the <<ControlPlaneMetricPrefix, ControlPlane>> metric name prefix.
+
+`SocketServer` manages the `RequestChannel` (when requested to <<stopProcessingRequests, stopProcessingRequests>> and <<shutdown, shutdown>>).
+
+The `RequestChannel` is assumed to be available when `SocketServer` is requested to <<createControlPlaneAcceptorAndProcessor, createControlPlaneAcceptorAndProcessor>> (when requested to <<startup, start up>>) based on link:kafka-properties.adoc#control.plane.listener.name[control.plane.listener.name] configuration property.
+
 === [[newProcessor]] Creating Network Processor Thread -- `newProcessor` Internal Method
 
 [source, scala]
@@ -286,9 +298,6 @@ NOTE: `createAcceptor` is used when...FIXME
 
 | connectionQuotas
 | [[connectionQuotas]] `ConnectionQuotas`
-
-| controlPlaneRequestChannelOpt
-a| [[controlPlaneRequestChannelOpt]] Optional <<kafka-network-RequestChannel.adoc#, RequestChannel>> (with the queue size of `20` and the <<ControlPlaneMetricPrefix, ControlPlaneMetricPrefix>> metric name prefix)
 
 | dataPlaneRequestChannel
 a| [[dataPlaneRequestChannel]] <<kafka-network-RequestChannel.adoc#, RequestChannel>> (with the queue size of <<maxQueuedRequests, maxQueuedRequests>> and the <<DataPlaneMetricPrefix, DataPlaneMetricPrefix>> metric name prefix)

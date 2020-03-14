@@ -164,7 +164,7 @@ then controller will use "broker1.example.com:9094" with security protocol "SSL"
 
 * Use link:kafka-server-KafkaConfig.adoc#ControlPlaneListenerNameProp[KafkaConfig.ControlPlaneListenerNameProp] to reference the property
 
-* Use link:kafka-server-KafkaConfig.adoc#getControlPlaneListenerNameAndSecurityProtocol[KafkaConfig.getControlPlaneListenerNameAndSecurityProtocol] to access the current value
+* Use link:kafka-server-KafkaConfig.adoc#controlPlaneListenerName[KafkaConfig.controlPlaneListenerName] to access the current value
 
 | default.replication.factor
 a| [[default.replication.factor]] The default replication factor that is used for auto-created topics
