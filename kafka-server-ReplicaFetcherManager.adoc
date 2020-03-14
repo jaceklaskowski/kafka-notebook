@@ -4,7 +4,18 @@
 
 `ReplicaFetcherManager` is <<creating-instance, created>> exclusively when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#createReplicaFetcherManager[create one] (which is when `ReplicaManager` is link:kafka-server-ReplicaManager.adoc#replicaFetcherManager[created]).
 
-=== [[createFetcherThread]] `createFetcherThread` Method
+=== [[creating-instance]] Creating ReplicaFetcherManager Instance
+
+`ReplicaFetcherManager` takes the following to be created:
+
+* [[brokerConfig]] link:kafka-server-KafkaConfig.adoc[KafkaConfig]
+* [[replicaManager]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
+* [[metrics]] link:kafka-Metrics.adoc[Metrics]
+* [[time]] `Time`
+* [[threadNamePrefix]] Thread name prefix (undefined by default)
+* [[quotaManager]] link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
+
+=== [[createFetcherThread]] Creating ReplicaFetcherThread -- `createFetcherThread` Method
 
 [source, scala]
 ----
@@ -13,22 +24,13 @@ createFetcherThread(
   sourceBroker: BrokerEndPoint): ReplicaFetcherThread
 ----
 
-NOTE: `createFetcherThread` is part of the <<kafka-server-AbstractFetcherManager.adoc#createFetcherThread, AbstractFetcherManager Contract>> to...FIXME.
+NOTE: `createFetcherThread` is part of the link:kafka-server-AbstractFetcherManager.adoc#createFetcherThread[AbstractFetcherManager] contract to...FIXME.
 
-`createFetcherThread`...FIXME
+`createFetcherThread` creates a link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread] with the thread name (that uses the <<threadNamePrefix, threadNamePrefix>> if defined, the given `fetcherId` and the id of the `BrokerEndPoint`) as follows:
 
-=== [[creating-instance]] Creating ReplicaFetcherManager Instance
-
-`ReplicaFetcherManager` takes the following when created:
-
-* [[brokerConfig]] link:kafka-server-KafkaConfig.adoc[KafkaConfig]
-* [[replicaManager]] link:kafka-server-ReplicaManager.adoc[ReplicaManager]
-* [[metrics]] `Metrics`
-* [[time]] `Time`
-* [[threadNamePrefix]] Optional thread name prefix (undefined by default)
-* [[quotaManager]] link:kafka-server-ReplicationQuotaManager.adoc[ReplicationQuotaManager]
-
-`ReplicaFetcherManager` initializes the <<internal-registries, internal registries and counters>>.
+```
+[prefix]ReplicaFetcherThread-[fetcherId]-[sourceBrokerId]
+```
 
 === [[shutdown]] `shutdown` Method
 

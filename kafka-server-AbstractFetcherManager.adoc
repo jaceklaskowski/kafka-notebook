@@ -120,7 +120,8 @@ NOTE: `markPartitionsForTruncation` is used when...FIXME
 
 [source, scala]
 ----
-removeFetcherForPartitions(partitions: Set[TopicPartition]): Unit
+removeFetcherForPartitions(
+  partitions: Set[TopicPartition]): Unit
 ----
 
 `removeFetcherForPartitions`...FIXME

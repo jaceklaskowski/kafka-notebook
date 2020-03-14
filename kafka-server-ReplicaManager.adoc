@@ -24,12 +24,12 @@ When <<startup, started>>, `ReplicaManager` schedules <<kafka-server-scheduled-t
 [[logging]]
 [TIP]
 ====
-Enable `TRACE` logging level for `kafka.server.ReplicaManager` logger to see what happens inside.
+Enable `ALL` logging level for `kafka.server.ReplicaManager` logger to see what happens inside.
 
 Add the following line to `log4j.properties`:
 
 ```
-log4j.logger.kafka.server.ReplicaManager=TRACE
+log4j.logger.kafka.server.ReplicaManager=ALL
 ```
 
 Refer to link:kafka-logging.adoc[Logging].
@@ -52,6 +52,29 @@ log4j.additivity.state.change.logger=false
 That means that the logs of `ReplicaManager` go to `logs/state-change.log` file at `TRACE` logging level and are not added to the main logs (per `log4j.additivity` being off).
 
 ====
+
+=== [[replicaFetcherManager]] ReplicaManager and ReplicaFetcherManager
+
+`ReplicaManager` creates a link:kafka-server-ReplicaFetcherManager.adoc[ReplicaFetcherManager] while being created (via <<createReplicaFetcherManager, createReplicaFetcherManager>>).
+
+.ReplicaManager and ReplicaFetcherManager
+image::images/ReplicaManager-ReplicaFetcherManager.png[align="center"]
+
+`ReplicaManager` uses the `ReplicaFetcherManager` for the following:
+
+* link:kafka-server-AbstractFetcherManager.adoc#addFetcherForPartitions[addFetcherForPartitions] when <<makeFollowers, makeFollowers>>
+
+* link:kafka-server-AbstractFetcherManager.adoc#removeFetcherForPartitions[removeFetcherForPartitions] when <<stopReplicas, stopReplicas>>, <<makeLeaders, makeLeaders>>, <<makeFollowers, makeFollowers>> and <<handleLogDirFailure, handleLogDirFailure>>
+
+* link:kafka-server-AbstractFetcherManager.adoc#shutdownIdleFetcherThreads[shutdownIdleFetcherThreads] when <<becomeLeaderOrFollower, becomeLeaderOrFollower>>
+
+* link:kafka-server-ReplicaFetcherManager.adoc#shutdown[shutdown] when <<shutdown, shutdown>>
+
+`ReplicaFetcherManager` is also used when:
+
+* `DynamicThreadPool` is requested to link:kafka-server-DynamicThreadPool.adoc#reconfigure[reconfigure (resize) the thread pool]
+
+* `KafkaApis` is requested to link:kafka-server-KafkaApis.adoc#handleStopReplicaRequest[handle a StopReplica request]
 
 === [[KafkaMetricsGroup]][[performance-metrics]] Performance Metrics
 
@@ -914,19 +937,6 @@ Used when:
 * `ReplicaFetcherThread` is requested to link:kafka-server-ReplicaFetcherThread.adoc#truncate[truncate]
 
 * `ReplicaManager` is requested to <<shutdownIdleReplicaAlterLogDirsThread, shutdownIdleReplicaAlterLogDirsThread>>, <<stopReplicas, stopReplicas>>, <<alterReplicaLogDirs, alterReplicaLogDirs>>, <<becomeLeaderOrFollower, becomeLeaderOrFollower>>, <<handleLogDirFailure, handleLogDirFailure>>, <<shutdown, shutdown>>
-
-| replicaFetcherManager
-a| [[replicaFetcherManager]] <<kafka-server-ReplicaFetcherManager.adoc#, ReplicaFetcherManager>>
-
-<<createReplicaFetcherManager, Created>> immediately with `ReplicaManager`
-
-Used when:
-
-* `ReplicaManager` is requested to <<stopReplicas, stopReplicas>>, <<becomeLeaderOrFollower, becomeLeaderOrFollower>>, <<makeLeaders, makeLeaders>>, <<makeFollowers, makeFollowers>>, <<handleLogDirFailure, handleLogDirFailure>>, <<shutdown, shutdown>>
-
-* `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure (resize) the thread pool>>
-
-* `KafkaApis` is requested to <<kafka-server-KafkaApis.adoc#handleStopReplicaRequest, handle a StopReplica request>>
 
 | highWatermarkCheckpoints
 a| [[highWatermarkCheckpoints]] `OffsetCheckpointFiles` per live log data directory
