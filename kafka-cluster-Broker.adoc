@@ -74,4 +74,4 @@ toServerInfo(
 
 `toServerInfo`...FIXME
 
-NOTE: `toServerInfo` is used when `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#startup[start up] (and link:kafka-server-authorizer-Authorizer.adoc#start[start] a link:kafka-server-KafkaServer.adoc#authorizer[Authorizer]).
+NOTE: `toServerInfo` is used when `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#startup[start up] (and link:kafka-server-authorizer-Authorizer.adoc#start[start] an link:kafka-server-KafkaServer.adoc#authorizer[Authorizer] if configured).

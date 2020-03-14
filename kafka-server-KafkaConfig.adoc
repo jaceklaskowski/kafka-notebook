@@ -126,7 +126,15 @@ a| [[interBrokerProtocolVersion]][[interBrokerProtocolVersionString]][[InterBrok
 | interBrokerSecurityProtocol
 a| [[interBrokerSecurityProtocol]][[InterBrokerSecurityProtocolProp]] link:kafka-properties.adoc#security.inter.broker.protocol[security.inter.broker.protocol] (based on <<getInterBrokerListenerNameAndSecurityProtocol, getInterBrokerListenerNameAndSecurityProtocol>>)
 
-Used when...FIXME
+Used when:
+
+* `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[add a new broker] (unless link:kafka-properties.adoc#control.plane.listener.name[control.plane.listener.name] is defined)
+
+* `TransactionMarkerChannelManager` utility is requested to link:kafka-TransactionMarkerChannelManager.adoc#apply[create a TransactionMarkerChannelManager] (with link:kafka-properties.adoc#inter.broker.listener.name[inter.broker.listener.name])
+
+* `KafkaServer` is requested to link:kafka-server-KafkaServer.adoc#controlledShutdown[controlledShutdown] (with link:kafka-properties.adoc#inter.broker.listener.name[inter.broker.listener.name])
+
+* link:kafka-server-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend] is created (with link:kafka-properties.adoc#inter.broker.listener.name[inter.broker.listener.name])
 
 | controlPlaneListenerName
 a| [[controlPlaneListenerName]][[ControlPlaneListenerNameProp]] link:kafka-properties.adoc#control.plane.listener.name[control.plane.listener.name] (based on <<getControlPlaneListenerNameAndSecurityProtocol, getControlPlaneListenerNameAndSecurityProtocol>>)
@@ -719,16 +727,16 @@ logRollTimeMillis: java.lang.Long
 
 NOTE: `logRollTimeMillis` is used when `KafkaServer` utility is used to <<kafka-server-KafkaServer.adoc#copyKafkaConfigToLog, copyKafkaConfigToLog>> (and set the topic-level <<kafka-log-LogConfig.adoc#SegmentMsProp, segment.ms>>).
 
-=== [[controlPlaneSecurityProtocol]] `controlPlaneSecurityProtocol` Method
+=== [[controlPlaneSecurityProtocol]] Security Protocol for Controller-Brokers Communication -- `controlPlaneSecurityProtocol` Method
 
 [source, scala]
 ----
 controlPlaneSecurityProtocol: Option[SecurityProtocol]
 ----
 
-`controlPlaneSecurityProtocol` is the name of the security protocol based on the <<getControlPlaneListenerNameAndSecurityProtocol, getControlPlaneListenerNameAndSecurityProtocol>>.
+`controlPlaneSecurityProtocol` is the name of the security protocol based on link:kafka-properties.adoc#control.plane.listener.name[control.plane.listener.name] and link:kafka-properties.adoc#listener.security.protocol.map[listener.security.protocol.map] configuration properties (via <<getControlPlaneListenerNameAndSecurityProtocol, getControlPlaneListenerNameAndSecurityProtocol>>).
 
-NOTE: `controlPlaneSecurityProtocol` is used when `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[addNewBroker].
+NOTE: `controlPlaneSecurityProtocol` is used when `ControllerChannelManager` is requested to link:kafka-controller-ControllerChannelManager.adoc#addNewBroker[add a new broker].
 
 === [[getControlPlaneListenerNameAndSecurityProtocol]] `getControlPlaneListenerNameAndSecurityProtocol` Internal Method
 

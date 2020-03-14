@@ -126,7 +126,7 @@ Default: `10 * 60 * 1000L`
 | control.plane.listener.name
 a| [[control.plane.listener.name]] Name of the listener for communication between controller and brokers
 
-Default: `null` (undefined), i.e. no dedicated endpoints for controller connections
+Default: `null` (undefined), i.e. no dedicated endpoint
 
 Must be defined in <<listener.security.protocol.map, listener.security.protocol.map>>
 
@@ -139,9 +139,9 @@ Broker will use the name to locate the endpoint in <<listeners, listeners>>, to 
 For example, if a broker's config is:
 
 ```
-listeners = INTERNAL://192.1.1.8:9092, EXTERNAL://10.1.1.5:9093, CONTROLLER://192.1.1.8:9094
-listener.security.protocol.map = INTERNAL:PLAINTEXT, EXTERNAL:SSL, CONTROLLER:SSL
-control.plane.listener.name = CONTROLLER
+listeners=INTERNAL://192.1.1.8:9092,EXTERNAL://10.1.1.5:9093,CONTROLLER://192.1.1.8:9094
+listener.security.protocol.map=INTERNAL:PLAINTEXT,EXTERNAL:SSL,CONTROLLER:SSL
+control.plane.listener.name=CONTROLLER
 ```
 
 On startup, the broker will start listening on "192.1.1.8:9094" with security protocol "SSL".
@@ -150,17 +150,21 @@ On controller side, when it discovers a broker's published endpoints through zoo
 For example, if the broker's published endpoints on zookeeper are:
 
 ```
-"endpoints" : ["INTERNAL://broker1.example.com:9092","EXTERNAL://broker1.example.com:9093","CONTROLLER://broker1.example.com:9094"]
+"endpoints": [
+  "INTERNAL://broker1:9092",
+  "EXTERNAL://broker1:9093",
+  "CONTROLLER://broker1:9094"
+]
 ```
 
 and the controller's config is:
 
 ```
-listener.security.protocol.map = INTERNAL:PLAINTEXT, EXTERNAL:SSL, CONTROLLER:SSL
-control.plane.listener.name = CONTROLLER
+listener.security.protocol.map=INTERNAL:PLAINTEXT,EXTERNAL:SSL,CONTROLLER:SSL
+control.plane.listener.name=CONTROLLER
 ```
 
-then controller will use "broker1.example.com:9094" with security protocol "SSL" to connect to the broker.
+then a controller will use "broker1:9094" with security protocol "SSL" to connect to the broker.
 
 * Use link:kafka-server-KafkaConfig.adoc#ControlPlaneListenerNameProp[KafkaConfig.ControlPlaneListenerNameProp] to reference the property
 
@@ -772,7 +776,9 @@ Possible values:
 * `SASL_PLAINTEXT`
 * `SASL_SSL`
 
-It is an link:kafka-server-KafkaConfig.adoc#getInterBrokerListenerNameAndSecurityProtocol[error] to use together with <<inter.broker.listener.name, inter.broker.listener.name>>
+It is an link:kafka-server-KafkaConfig.adoc#getInterBrokerListenerNameAndSecurityProtocol[error] when defined with <<inter.broker.listener.name, inter.broker.listener.name>> (as it then should only be in <<listener.security.protocol.map, listener.security.protocol.map>>).
+
+It is <<validateValues, validated>> when the inter-broker communication uses a SASL protocol (`SASL_PLAINTEXT` or `SASL_SSL`) for...FIXME
 
 * Use link:kafka-server-KafkaConfig.adoc#InterBrokerSecurityProtocolProp[KafkaConfig.InterBrokerSecurityProtocolProp] to reference the property
 
