@@ -10,25 +10,7 @@
 image::images/ReplicaFetcherBlockingSend-sendRequest.png[align="center"]
 
 [[socketTimeout]]
-`ReplicaFetcherBlockingSend` uses link:kafka-properties.adoc#replica.socket.timeout.ms[replica.socket.timeout.ms] Kafka property for...FIXME
-
-[[internal-registries]]
-.ReplicaFetcherBlockingSend's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1,2",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| [[networkClient]] `networkClient`
-| link:kafka-clients-NetworkClient.adoc[NetworkClient]
-
-Used when...FIXME
-
-| [[sourceNode]] `sourceNode`
-| `Node`
-
-Used when...FIXME
-|===
+`ReplicaFetcherBlockingSend` uses link:kafka-properties.adoc#replica.socket.timeout.ms[replica.socket.timeout.ms] configuration property when <<sendRequest, sending a request>> to the <<sourceBroker, partition leader broker>>.
 
 === [[creating-instance]] Creating ReplicaFetcherBlockingSend Instance
 
@@ -36,7 +18,7 @@ Used when...FIXME
 
 * [[sourceBroker]] `BrokerEndPoint`
 * [[brokerConfig]] link:kafka-server-KafkaConfig.adoc[KafkaConfig]
-* [[metrics]] `Metrics`
+* [[metrics]] link:kafka-Metrics.adoc[Metrics]
 * [[time]] `Time`
 * [[fetcherId]] Fetcher ID
 * [[clientId]] Client ID
@@ -77,3 +59,22 @@ close(): Unit
 `close`...FIXME
 
 NOTE: `close` is used when...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| networkClient
+a| [[networkClient]] link:kafka-clients-NetworkClient.adoc[NetworkClient]
+
+Used when...FIXME
+
+| sourceNode
+a| [[sourceNode]] Source `Node`
+
+Used when...FIXME
+
+|===

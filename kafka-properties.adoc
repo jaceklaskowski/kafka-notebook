@@ -704,7 +704,15 @@ NOTE: <<replica.fetch.wait.max.ms, replica.fetch.wait.max.ms>> should always be 
 * Use <<kafka-server-KafkaConfig.adoc#replicaLagTimeMaxMs, KafkaConfig.replicaLagTimeMaxMs>> to access the current value
 
 | replica.socket.timeout.ms
-| [[replica.socket.timeout.ms]]
+a| [[replica.socket.timeout.ms]] Socket timeout of `ReplicaFetcherBlockingSend` when link:kafka-server-ReplicaFetcherBlockingSend.adoc#sendRequest[sending network requests] to partition leader brokers
+
+Default: `30 * 1000` (30 seconds)
+
+Should always be at least <<replica.fetch.wait.max.ms, replica.fetch.wait.max.ms>> to prevent unnecessary socket timeouts
+
+* Use link:kafka-server-KafkaConfig.adoc#ReplicaSocketTimeoutMsProp[KafkaConfig.ReplicaSocketTimeoutMsProp] to reference the property
+
+* Use link:kafka-server-KafkaConfig.adoc#replicaSocketTimeoutMs[KafkaConfig.replicaSocketTimeoutMs] to access the current value
 
 | request.timeout.ms
 | [[request.timeout.ms]] The configuration controls the maximum amount of time the client will wait for the response of a request. If the response is not received before the timeout elapses the client will resend the request if necessary or fail the request if retries are exhausted.

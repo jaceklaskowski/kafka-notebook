@@ -362,6 +362,11 @@ a| [[replicaFetchBackoffMs]][[ReplicaFetchBackoffMsProp]] link:kafka-properties.
 
 Used as <<kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs, fetchBackOffMs>> for link:kafka-server-ReplicaAlterLogDirsThread.adoc[ReplicaAlterLogDirsThread] and link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
 
+| replicaSocketTimeoutMs
+a| [[replicaSocketTimeoutMs]][[ReplicaSocketTimeoutMsProp]] link:kafka-properties.adoc#replica.socket.timeout.ms[replica.socket.timeout.ms]
+
+Used when link:kafka-server-ReplicaFetcherBlockingSend.adoc[ReplicaFetcherBlockingSend] is created (for the link:kafka-server-ReplicaFetcherBlockingSend.adoc#socketTimeout[socketTimeout])
+
 | SaslMechanismInterBrokerProtocolProp
 a| [[SaslMechanismInterBrokerProtocolProp]] <<kafka-properties.adoc#sasl.mechanism.inter.broker.protocol, sasl.mechanism.inter.broker.protocol>>
 
