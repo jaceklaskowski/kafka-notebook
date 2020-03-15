@@ -330,7 +330,9 @@ Used when `LogManager` is <<kafka-log-LogManager.adoc#apply, created>>
 a| [[NumReplicaAlterLogDirsThreadsProp]] link:kafka-properties.adoc#num.replica.alter.log.dirs.threads[num.replica.alter.log.dirs.threads]
 
 | numReplicaFetchers
-a| [[numReplicaFetchers]][[NumReplicaFetchersProp]] <<kafka-properties.adoc#num.replica.fetchers, num.replica.fetchers>>
+a| [[numReplicaFetchers]][[NumReplicaFetchersProp]] link:kafka-properties.adoc#num.replica.fetchers[num.replica.fetchers]
+
+Used to create a link:kafka-server-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
 
 | port
 | [[port]] link:kafka-properties.adoc#port[port]

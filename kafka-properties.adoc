@@ -607,13 +607,17 @@ Default: `null`
 * Use link:kafka-server-KafkaConfig.adoc#getNumReplicaAlterLogDirsThreads[KafkaConfig.getNumReplicaAlterLogDirsThreads] to access the current value
 
 | num.replica.fetchers
-a| [[num.replica.fetchers]] The number of fetcher threads used to replicate messages from a source broker.
-
-Increasing this value can increase the degree of I/O parallelism in the follower broker.
+a| [[num.replica.fetchers]] The number of fetcher threads that link:kafka-server-ReplicaFetcherManager.adoc#num.replica.fetchers[ReplicaFetcherManager] uses for replicating messages from a source broker
 
 Default: `1`
 
-<<kafka-server-DynamicThreadPool.adoc#, Dynamic reconfigurable configuration>>
+The higher the value the higher degree of I/O parallelism in a follower broker.
+
+link:kafka-server-DynamicThreadPool.adoc[Dynamic reconfigurable configuration]
+
+* Use link:kafka-server-KafkaConfig.adoc#NumReplicaFetchersProp[KafkaConfig.NumReplicaFetchersProp] to reference the property
+
+* Use link:kafka-server-KafkaConfig.adoc#numReplicaFetchers[KafkaConfig.numReplicaFetchers] to access the current value
 
 | port
 | [[port]] The port a Kafka broker listens on

@@ -5,6 +5,9 @@
 .ReplicaFetcherManager
 image::images/ReplicaFetcherManager.png[align="center"]
 
+[[num.replica.fetchers]]
+`ReplicaFetcherManager` uses link:kafka-properties.adoc#num.replica.fetchers[num.replica.fetchers] configuration property for the link:kafka-server-AbstractFetcherManager.adoc#numFetchers[number of replica fetcher threads].
+
 [[logging]]
 [TIP]
 ====
@@ -18,6 +21,15 @@ log4j.logger.kafka.server.ReplicaFetcherManager=ALL
 
 Refer to link:kafka-logging.adoc[Logging].
 ====
+
+=== [[KafkaMetricsGroup]][[metrics]] Performance Metrics
+
+As an link:kafka-server-AbstractFetcherManager.adoc#metrics[AbstractFetcherManager], `ReplicaFetcherManager` is a link:kafka-metrics-KafkaMetricsGroup.adoc[KafkaMetricsGroup].
+
+The performance metrics are registered in *kafka.server:type=ReplicaFetcherManager* group.
+
+.ReplicaFetcherManager in jconsole
+image::images/ReplicaFetcherManager-jconsole.png[align="center"]
 
 === [[creating-instance]] Creating ReplicaFetcherManager Instance
 
