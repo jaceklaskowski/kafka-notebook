@@ -657,7 +657,7 @@ Must be at least `0`
 | replica.fetch.max.bytes
 a| [[replica.fetch.max.bytes]] The number of bytes of messages to attempt to fetch for each partition
 
-Default: `1024 * 1024`
+Default: `1024 * 1024` (1 MB)
 
 Must be at least `0`
 

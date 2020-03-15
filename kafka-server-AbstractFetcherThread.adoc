@@ -2,7 +2,7 @@
 
 `AbstractFetcherThread` is the <<contract, extension>> of the <<kafka-ShutdownableThread.adoc#, ShutdownableThread contract>> for <<implementations, fetcher threads>> that <<maybeTruncate, maybeTruncate>> followed by <<maybeFetch, maybeFetch>> repeatedly (while <<doWork, doing the work>>) until <<shutdown, shut down>>.
 
-NOTE: `AbstractFetcherThread` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractFetcherThreads>>.
+NOTE: `AbstractFetcherThread` is an abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractFetcherThreads>>.
 
 [[contract]]
 .AbstractFetcherThread Contract (Abstract Methods)
@@ -33,7 +33,7 @@ endOffsetForEpoch(
   epoch: Int): Option[OffsetAndEpoch]
 ----
 
-Used exclusively when `AbstractFetcherThread` is requested to <<getOffsetTruncationState, getOffsetTruncationState>>.
+Used when `AbstractFetcherThread` is requested to <<getOffsetTruncationState, getOffsetTruncationState>>.
 
 | fetchEarliestOffsetFromLeader
 a| [[fetchEarliestOffsetFromLeader]]
@@ -45,7 +45,7 @@ fetchEarliestOffsetFromLeader(
   currentLeaderEpoch: Int): Long
 ----
 
-Used exclusively when `AbstractFetcherThread` is requested to <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
+Used when `AbstractFetcherThread` is requested to <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
 
 | fetchEpochEndOffsets
 a| [[fetchEpochEndOffsets]]
@@ -57,7 +57,7 @@ fetchEpochEndOffsets(
 ): Map[TopicPartition, EpochEndOffset]
 ----
 
-Used exclusively when `AbstractFetcherThread` is requested to <<truncateToEpochEndOffsets, truncateToEpochEndOffsets>>.
+Used when `AbstractFetcherThread` is requested to <<truncateToEpochEndOffsets, truncateToEpochEndOffsets>>.
 
 | fetchFromLeader
 a| [[fetchFromLeader]]
@@ -81,7 +81,7 @@ fetchLatestOffsetFromLeader(
   currentLeaderEpoch: Int): Long
 ----
 
-Used exclusively when `AbstractFetcherThread` is requested to <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
+Used when `AbstractFetcherThread` is requested to <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
 
 | isOffsetForLeaderEpochSupported
 a| [[isOffsetForLeaderEpochSupported]]
@@ -93,7 +93,7 @@ isOffsetForLeaderEpochSupported: Boolean
 
 Controls whether an `OffsetsForLeaderEpochRequest` is supported (that was added in Kafka 0.11.0.0)
 
-Used exclusively when `AbstractFetcherThread` is requested to <<fetchTruncatingPartitions, fetchTruncatingPartitions>>.
+Used when `AbstractFetcherThread` is requested to <<fetchTruncatingPartitions, fetchTruncatingPartitions>>.
 
 TIP: Consult https://cwiki.apache.org/confluence/display/KAFKA/KIP-101+-+Alter+Replication+Protocol+to+use+Leader+Epoch+rather+than+High+Watermark+for+Truncation[KIP-101: Alter Replication Protocol to use Leader Epoch rather than High Watermark for Truncation].
 
@@ -107,7 +107,7 @@ latestEpoch(topicPartition: TopicPartition): Option[Int]
 
 Gets the latest (current) leader epoch for the given `TopicPartition`
 
-Used exclusively when `AbstractFetcherThread` is requested to <<fetchTruncatingPartitions, fetchTruncatingPartitions>>.
+Used when `AbstractFetcherThread` is requested to <<fetchTruncatingPartitions, fetchTruncatingPartitions>>.
 
 | logEndOffset
 a| [[logEndOffset]]
@@ -130,7 +130,7 @@ processPartitionData(
   partitionData: FetchData): Option[LogAppendInfo]
 ----
 
-Used exclusively when `AbstractFetcherThread` is requested to <<processFetchRequest, processFetchRequest>>.
+Used when `AbstractFetcherThread` is requested to <<processFetchRequest, processFetchRequest>>.
 
 | truncate
 a| [[truncate]]
@@ -154,33 +154,35 @@ truncateFullyAndStartAt(
   offset: Long): Unit
 ----
 
-Used exclusively when `AbstractFetcherThread` is requested to <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
+Used when `AbstractFetcherThread` is requested to <<fetchOffsetAndTruncate, fetchOffsetAndTruncate>>.
 
 |===
 
 [[implementations]]
 .AbstractFetcherThreads
-[cols="1,3",options="header",width="100%"]
+[cols="30,70",options="header",width="100%"]
 |===
 | AbstractFetcherThread
 | Description
 
-| <<kafka-server-ReplicaAlterLogDirsThread.adoc#, ReplicaAlterLogDirsThread>>
+| link:kafka-server-ReplicaAlterLogDirsThread.adoc[ReplicaAlterLogDirsThread]
 | [[ReplicaAlterLogDirsThread]]
 
-| <<kafka-server-ReplicaFetcherThread.adoc#, ReplicaFetcherThread>>
+| link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
 | [[ReplicaFetcherThread]]
 
 |===
 
-`AbstractFetcherThread` registers <<metrics, performance metrics>>.
+=== [[KafkaMetricsGroup]][[metrics]] Performance Metrics
 
-[[metrics]]
+<<implementations, AbstractFetcherThreads>> are link:kafka-metrics-KafkaMetricsGroup.adoc[KafkaMetricsGroups] with the following performance metrics.
+
 .AbstractFetcherThread's Performance Metrics
-[cols="1m,2",options="header",width="100%"]
+[cols="30m,70",options="header",width="100%"]
 |===
 | Metric Name
 | Description
+
 
 | BytesPerSec
 | [[BytesPerSec]][[byteRate]]
@@ -194,27 +196,6 @@ The <<metrics, performance metrics>> are registered in *kafka.server:type=Fetche
 
 .AbstractFetcherThread in jconsole
 image::images/AbstractFetcherThread-jconsole.png[align="center"]
-
-[[internal-registries]]
-.AbstractFetcherThread's Internal Properties (e.g. Registries, Counters and Flags)
-[cols="1m,3",options="header",width="100%"]
-|===
-| Name
-| Description
-
-| fetcherStats
-a| [[fetcherStats]] <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> (with two <<metrics, performance metrics>>)
-
-| partitionStates
-a| [[partitionStates]] `TopicPartitions` with their `PartitionFetchState` (`PartitionStates[PartitionFetchState]`)
-
-* A `TopicPartition` is removed in <<onPartitionFenced, onPartitionFenced>> and <<removePartitions, removePartitions>>
-
-* `PartitionFetchState` updated in <<processFetchRequest, processFetchRequest>>, <<markPartitionsForTruncation, markPartitionsForTruncation>>, <<addPartitions, addPartitions>>, <<updateFetchOffsetAndMaybeMarkTruncationComplete, updateFetchOffsetAndMaybeMarkTruncationComplete>>, <<handleOutOfRangeError, handleOutOfRangeError>>, <<delayPartitions, delayPartitions>>
-
-Used when...FIXME
-
-|===
 
 === [[creating-instance]] Creating AbstractFetcherThread Instance
 
@@ -517,3 +498,24 @@ shutdown(): Unit
 NOTE: `shutdown` is part of the link:kafka-ShutdownableThread.adoc#shutdown[ShutdownableThread] contract to...FIXME.
 
 `shutdown`...FIXME
+
+=== [[internal-properties]] Internal Properties
+
+[cols="30m,70",options="header",width="100%"]
+|===
+| Name
+| Description
+
+| fetcherStats
+a| [[fetcherStats]] <<kafka-metrics-KafkaMetricsGroup.adoc#, KafkaMetricsGroup>> (with two <<metrics, performance metrics>>)
+
+| partitionStates
+a| [[partitionStates]] `TopicPartitions` with their `PartitionFetchState` (`PartitionStates[PartitionFetchState]`)
+
+* A `TopicPartition` is removed in <<onPartitionFenced, onPartitionFenced>> and <<removePartitions, removePartitions>>
+
+* `PartitionFetchState` updated in <<processFetchRequest, processFetchRequest>>, <<markPartitionsForTruncation, markPartitionsForTruncation>>, <<addPartitions, addPartitions>>, <<updateFetchOffsetAndMaybeMarkTruncationComplete, updateFetchOffsetAndMaybeMarkTruncationComplete>>, <<handleOutOfRangeError, handleOutOfRangeError>>, <<delayPartitions, delayPartitions>>
+
+Used when...FIXME
+
+|===

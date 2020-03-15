@@ -4,9 +4,13 @@
 
 `ReplicaFetcherThread` is used (_managed_) by link:kafka-server-ReplicaFetcherManager.adoc[ReplicaFetcherManager].
 
+`ReplicaFetcherThread` is <<creating-instance, created>> when `ReplicaFetcherManager` is requested to link:kafka-server-ReplicaFetcherManager.adoc#createFetcherThread[create a fetcher thread] (when...FIXME).
+
 `ReplicaFetcherThread` uses <<kafka-properties.adoc#replica.fetch.backoff.ms, replica.fetch.backoff.ms>> configuration property for the <<kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs, fetchBackOffMs>>.
 
-`ReplicaFetcherThread` is <<creating-instance, created>> when `ReplicaFetcherManager` is requested to link:kafka-server-ReplicaFetcherManager.adoc#createFetcherThread[create a fetcher thread] (when...FIXME).
+[[fetchSize]]
+[[replica.fetch.max.bytes]]
+`ReplicaFetcherThread` uses link:kafka-properties.adoc#replica.fetch.max.bytes[replica.fetch.max.bytes] configuration property for...FIXME
 
 === [[creating-instance]] Creating ReplicaFetcherThread Instance
 
@@ -117,7 +121,13 @@ buildFetch(
 
 NOTE: `buildFetch` is part of the <<kafka-server-AbstractFetcherThread.adoc#buildFetch, AbstractFetcherThread Contract>> to...FIXME
 
-`buildFetch`...FIXME
+`buildFetch` requests the <<fetchSessionHandler, FetchSessionHandler>> for a new `Builder`.
+
+For every `TopicPartition` (in the given `partitionMap`), `buildFetch` finds the link:kafka-log-Log.adoc#logStartOffset[logStartOffset] of the link:kafka-server-ReplicaManager.adoc#localLogOrException[local log] (using the <<replicaMgr, ReplicaManager>>) and adds them as `PartitionData` to the `Builder`.
+
+`buildFetch` requests the `Builder` to create a `FetchRequestData`.
+
+In the end, `buildFetch` creates a `FetchRequest.Builder` for the local partition replica.
 
 === [[internal-properties]] Internal Properties
 
@@ -129,6 +139,9 @@ NOTE: `buildFetch` is part of the <<kafka-server-AbstractFetcherThread.adoc#buil
 | brokerSupportsLeaderEpochRequest
 a| [[brokerSupportsLeaderEpochRequest]] Flag that says whether the <<kafka-server-KafkaConfig.adoc#interBrokerProtocolVersion, inter.broker.protocol.version>> is `0.11.0-IV2` or above
 
-Used exclusively in <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>
+Used in <<isOffsetForLeaderEpochSupported, isOffsetForLeaderEpochSupported>>
+
+| fetchSessionHandler
+a| [[fetchSessionHandler]] `FetchSessionHandler` (with the <<logContext, logContext>> and the ID of the <<sourceBroker, source broker>>)
 
 |===

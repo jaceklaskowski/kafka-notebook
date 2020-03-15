@@ -3,7 +3,7 @@
 [[T]]
 `AbstractFetcherManager` is the <<contract, abstraction>> of <<implementations, fetcher thread managers>> that can <<createFetcherThread, create fetcher threads>> (for <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>).
 
-NOTE: `AbstractFetcherManager` is a Java abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractFetcherManagers>>.
+NOTE: `AbstractFetcherManager` is an abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractFetcherManagers>>.
 
 [[contract]]
 .AbstractFetcherManager Contract (Abstract Methods)
@@ -36,10 +36,10 @@ Used when `AbstractFetcherManager` is requested to <<addFetcherForPartitions, ad
 | AbstractFetcherManager
 | Description
 
-| <<kafka-server-ReplicaAlterLogDirsManager.adoc#, ReplicaAlterLogDirsManager>>
+| link:kafka-server-ReplicaAlterLogDirsManager.adoc[ReplicaAlterLogDirsManager]
 | [[ReplicaAlterLogDirsManager]]
 
-| <<kafka-server-ReplicaFetcherManager.adoc#, ReplicaFetcherManager>>
+| link:kafka-server-ReplicaFetcherManager.adoc[ReplicaFetcherManager]
 | [[ReplicaFetcherManager]]
 
 |===
@@ -74,13 +74,11 @@ The performance metrics are registered in *kafka.server:type=* group with the `t
 
 `AbstractFetcherManager` takes the following to be created:
 
-* [[name]] Name
-* [[clientId]] Client ID
+* [[name]] Log Prefix
+* [[clientId]] Client ID (for a tag in <<metrics, performance metrics>>)
 * [[numFetchers]] link:kafka-properties.adoc#num.replica.fetchers[num.replica.fetchers]
 
 `AbstractFetcherManager` initializes the <<internal-properties, internal properties>>.
-
-NOTE: `AbstractFetcherManager` is an abstract class and cannot be <<creating-instance, created>> directly. It is created indirectly for the <<implementations, concrete AbstractFetcherManagers>>.
 
 === [[addFetcherForPartitions]] `addFetcherForPartitions` Method
 
@@ -118,16 +116,17 @@ Resizing fetcher thread pool size from [currentSize] to [newSize]
 
 NOTE: `resizeThreadPool` is used exclusively when `DynamicThreadPool` is requested to <<kafka-server-DynamicThreadPool.adoc#reconfigure, reconfigure>>.
 
-=== [[getFetcherId]] Hashing Topic and Partition -- `getFetcherId` Method
+=== [[getFetcherId]] Finding Fetcher Thread ID -- `getFetcherId` Method
 
 [source, scala]
 ----
-getFetcherId(topicPartition: TopicPartition): Int
+getFetcherId(
+  topicPartition: TopicPartition): Int
 ----
 
 `getFetcherId` calculates a hash of the topic and partition (from the given `TopicPartition`) modulo (`%`) the <<numFetchersPerBroker, numFetchersPerBroker>>.
 
-NOTE: `getFetcherId` is used when `AbstractFetcherManager` is requested to <<getFetcher, getFetcher>>, <<markPartitionsForTruncation, markPartitionsForTruncation>> and <<addFetcherForPartitions, addFetcherForPartitions>>.
+NOTE: `getFetcherId` is used when `AbstractFetcherManager` is requested to <<markPartitionsForTruncation, markPartitionsForTruncation>> and <<addFetcherForPartitions, addFetcherForPartitions>>.
 
 === [[getFetcher]] `getFetcher` Method
 
@@ -196,15 +195,15 @@ NOTE: `closeAllFetchers` is used when link:kafka-server-ReplicaAlterLogDirsManag
 | Description
 
 | fetcherThreadMap
-a| [[fetcherThreadMap]] link:kafka-server-AbstractFetcherThread.adoc[AbstractFetcherThreads] by their `BrokerIdAndFetcherId`
+a| [[fetcherThreadMap]] link:kafka-server-AbstractFetcherThread.adoc[AbstractFetcherThreads] by (a pair of) broker ID and fetcher ID
 
 | numFetchersPerBroker
 a| [[numFetchersPerBroker]] Number of fetcher threads per broker
 
-Initialized with the given <<numFetchers, numFetchers>>
+Initialized with the given <<numFetchers, numFetchers>> when `AbstractFetcherManager` is created
 
 Resized in <<resizeThreadPool, resizeThreadPool>>
 
-Used exclusively in <<getFetcherId, getFetcherId>>
+Used in <<getFetcherId, getFetcherId>>
 
 |===

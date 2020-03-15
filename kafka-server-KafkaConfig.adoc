@@ -362,7 +362,7 @@ Used when:
 | replicaFetchBackoffMs
 a| [[replicaFetchBackoffMs]][[ReplicaFetchBackoffMsProp]] link:kafka-properties.adoc#replica.fetch.backoff.ms[replica.fetch.backoff.ms]
 
-Used as <<kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs, fetchBackOffMs>> for link:kafka-server-ReplicaAlterLogDirsThread.adoc[ReplicaAlterLogDirsThread] and link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
+Used as link:kafka-server-AbstractFetcherThread.adoc#fetchBackOffMs[fetchBackOffMs] for link:kafka-server-ReplicaAlterLogDirsThread.adoc[ReplicaAlterLogDirsThread] and link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThread]
 
 | replicaSocketTimeoutMs
 a| [[replicaSocketTimeoutMs]][[ReplicaSocketTimeoutMsProp]] link:kafka-properties.adoc#replica.socket.timeout.ms[replica.socket.timeout.ms]

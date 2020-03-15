@@ -904,6 +904,20 @@ findPreferredReadReplica(
 
 NOTE: `findPreferredReadReplica` is used when `ReplicaManager` is requested to <<readFromLocalLog, readFromLocalLog>>.
 
+=== [[localLogOrException]] `localLogOrException` Method
+
+[source, scala]
+----
+localLogOrException(
+  topicPartition: TopicPartition): Log
+----
+
+`localLogOrException` <<getPartitionOrException, finds the Partition>> for the given `TopicPartition` (and `expectLeader` flag off) and then requests it for the link:kafka-cluster-Partition.adoc#localLogOrException[local Log].
+
+`localLogOrException` throws an exception if neither the `Partition` nor the `Log` of the given `TopicPartition` is available locally.
+
+NOTE: `localLogOrException` is used when `ReplicaFetcherThread` is requested for the link:kafka-server-ReplicaFetcherThread.adoc#latestEpoch[latest epoch], link:kafka-server-ReplicaFetcherThread.adoc#logEndOffset[logEndOffset], link:kafka-server-ReplicaFetcherThread.adoc#endOffsetForEpoch[endOffsetForEpoch], and link:kafka-server-ReplicaFetcherThread.adoc#buildFetch[buildFetch].
+
 === [[updateFollowerFetchState]] `updateFollowerFetchState` Internal Method
 
 [source, scala]
