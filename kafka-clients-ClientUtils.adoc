@@ -25,5 +25,5 @@ ChannelBuilder createChannelBuilder(
 
 * `KafkaAdminClient` is requested to link:kafka-clients-admin-KafkaAdminClient.adoc#createInternal[createInternal] (for link:kafka-tools.adoc[Kafka administration utilities])
 
-* link:kafka-admin-BrokerApiVersionsCommand.adoc[BrokerApiVersionsCommand] and `ReplicaVerificationTool` tools are executed
+* link:kafka-admin-BrokerApiVersionsCommand.adoc[BrokerApiVersionsCommand] and link:kafka-tools-ReplicaVerificationTool.adoc[ReplicaVerificationTool] tools are executed
 ====

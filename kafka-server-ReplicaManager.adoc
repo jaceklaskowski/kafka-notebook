@@ -283,6 +283,16 @@ fetchMessages(
   clientMetadata: Option[ClientMetadata]): Unit
 ----
 
+`fetchMessages` determines `fetchIsolation`:
+
+* `FetchLogEnd` for a request from a follower or when the `replicaId` is `Request.FutureLocalReplicaId`
+
+* `FetchTxnCommitted` for `isolationLevel` being `READ_COMMITTED`
+
+* `FetchHighWatermark` otherwise
+
+`fetchMessages` <<readFromLocalLog, readFromLocalLog>> (with the `fetchIsolation`).
+
 `fetchMessages`...FIXME
 
 [NOTE]
@@ -818,7 +828,7 @@ readFromLocalLog(
 
 `readFromLocalLog` returns records (as `FetchDataInfo`) for every `TopicPartition` in the given `readPartitionInfo`.
 
-Internally, `readFromLocalLog` <<readFromLocalLog-read, reads>> the requested `PartitionData` (up to `fetchMaxBytes` that is decremented sequentially for every partition) for every `TopicPartition` (in the given `readPartitionInfo` collection),
+Internally, `readFromLocalLog` <<readFromLocalLog-read, reads>> the requested `PartitionData` (up to `fetchMaxBytes` that is decremented sequentially for every partition) for every `TopicPartition` (in the given `readPartitionInfo` collection).
 
 [NOTE]
 ====
@@ -847,6 +857,8 @@ read(
 ```
 Fetching log segment for partition [tp], offset [offset], partition fetch size [partitionFetchSize], remaining response limit [limitBytes]
 ```
+
+`read` <<getPartitionOrException, finds the Partition>> for the `TopicPartition`.
 
 `read`...FIXME
 
@@ -899,6 +911,8 @@ findPreferredReadReplica(
   fetchOffset: Long,
   currentTimeMs: Long): Option[Int]
 ----
+
+`findPreferredReadReplica` <<getPartitionOrException, finds the Partition>> for the `TopicPartition` (with `expectLeader` flag off).
 
 `findPreferredReadReplica`...FIXME
 

@@ -269,21 +269,6 @@ java.lang.IllegalStateException: Consumer is not subscribed to any topics or ass
 
 Internally, `poll` simply calls the internal <<poll-internal, poll>> method with the <<time, Time>> that expires after the given timeout and the `includeMetadataInTimeout` flag on.
 
-==== [[poll-internal]] `poll` Internal Method
-
-[source, java]
-----
-ConsumerRecords<K, V> poll(
-  final Timer timer,
-  final boolean includeMetadataInTimeout)
-----
-
-`poll` first <<acquireAndEnsureOpen, acquireAndEnsureOpen>>.
-
-`poll` requests the <<client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#maybeTriggerWakeup, maybeTriggerWakeup>>.
-
-`poll`...FIXME
-
 === [[commitSync]] `commitSync` Method
 
 [source, java]
@@ -520,7 +505,8 @@ NOTE: `throwIfNoAssignorsConfigured` is used exclusively when `KafkaConsumer` is
 
 [source, java]
 ----
-boolean updateAssignmentMetadataIfNeeded(final Timer timer)
+boolean updateAssignmentMetadataIfNeeded(
+  Timer timer)
 ----
 
 `updateAssignmentMetadataIfNeeded` requests the <<coordinator, ConsumerCoordinator>> to <<poll, poll>> until the `Timer` expires.
@@ -531,18 +517,6 @@ If the poll was successful, `updateAssignmentMetadataIfNeeded` <<updateFetchPosi
 
 NOTE: `updateAssignmentMetadataIfNeeded` is used exclusively when `KafkaConsumer` is requested to <<poll, poll for records>>.
 
-=== [[pollForFetches]] `pollForFetches` Internal Method
-
-[source, java]
-----
-Map<TopicPartition, List<ConsumerRecord<K, V>>> pollForFetches(
-  Timer timer)
-----
-
-`pollForFetches`...FIXME
-
-NOTE: `pollForFetches` is used exclusively when `KafkaConsumer` is requested to <<poll, poll for records>>.
-
 === [[commitAsync]] `commitAsync` Method
 
 [source, java]
@@ -551,7 +525,7 @@ void commitAsync()
 void commitAsync(
   OffsetCommitCallback callback)
 void commitAsync(
-  final Map<TopicPartition, OffsetAndMetadata> offsets,
+  Map<TopicPartition, OffsetAndMetadata> offsets,
   OffsetCommitCallback callback)
 ----
 
@@ -567,7 +541,7 @@ OffsetAndMetadata committed(
   TopicPartition partition)
 OffsetAndMetadata committed(
   TopicPartition partition,
-  final Duration timeout)
+  Duration timeout)
 ----
 
 NOTE: `committed` is part of the <<kafka-consumer-Consumer.adoc#committed, Consumer Contract>> to...FIXME.
@@ -579,7 +553,8 @@ NOTE: `committed` is part of the <<kafka-consumer-Consumer.adoc#committed, Consu
 [source, java]
 ----
 void close()
-void close(Duration timeout)
+void close(
+  Duration timeout)
 ----
 
 NOTE: `close` is part of the <<kafka-consumer-Consumer.adoc#close, Consumer Contract>> to...FIXME.
@@ -605,7 +580,36 @@ NOTE: `position` is part of the link:kafka-consumer-Consumer.adoc#position[Consu
 
 [source, java]
 ----
-void close(long timeoutMs, boolean swallowException)
+void close(
+  long timeoutMs,
+  boolean swallowException)
 ----
 
 `close`...FIXME
+
+=== [[poll-internal]] `poll` Internal Method
+
+[source, java]
+----
+ConsumerRecords<K, V> poll(
+  Timer timer,
+  boolean includeMetadataInTimeout)
+----
+
+`poll` first <<acquireAndEnsureOpen, acquireAndEnsureOpen>>.
+
+`poll` requests the <<client, ConsumerNetworkClient>> to <<kafka-consumer-internals-ConsumerNetworkClient.adoc#maybeTriggerWakeup, maybeTriggerWakeup>>.
+
+`poll`...FIXME
+
+=== [[pollForFetches]] `pollForFetches` Internal Method
+
+[source, java]
+----
+Map<TopicPartition, List<ConsumerRecord<K, V>>> pollForFetches(
+  Timer timer)
+----
+
+`pollForFetches`...FIXME
+
+NOTE: `pollForFetches` is used exclusively when `KafkaConsumer` is requested to <<poll, poll for records>>.

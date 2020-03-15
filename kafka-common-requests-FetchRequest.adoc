@@ -1,0 +1,88 @@
+== [[FetchRequest]] FetchRequest
+
+[[FETCH]]
+[[creating-instance]]
+`FetchRequest` is a link:kafka-common-requests-AbstractRequest.adoc[message request] with *Fetch* API key and the following properties:
+
+* [[version]] Version
+* [[replicaId]] Replica Id
+* [[maxWait]] maxWait
+* [[minBytes]] minBytes
+* [[maxBytes]] maxBytes
+* [[fetchData]] Fetch Data (`Map<TopicPartition, PartitionData>`)
+* [[isolationLevel]] `IsolationLevel`
+* [[toForget]] `TopicPartitions` to forget (`List<TopicPartition>`)
+* [[metadata]] `FetchMetadata`
+* [[rackId]] Rack Id
+
+`FetchRequest` is <<creating-instance, created>> when:
+
+* `FetchRequest.Builder` is requested to <<build, build a FetchRequest>>
+
+* `AbstractRequest` is requested to link:kafka-common-requests-AbstractRequest.adoc#parseRequest[parse a request] (with the <<FETCH, Fetch>> API key)
+
+* `FetchRequest` is requested to <<parse, parse a byte buffer>>
+
+=== [[FetchRequest.Builder]][[Builder]][[build]] `FetchRequest.Builder` Utility
+
+`FetchRequest.Builder` is a link:kafka-common-requests-AbstractRequest-Builder.adoc[request builder] to link:kafka-common-requests-AbstractRequest-Builder.adoc#build[build] a <<FetchRequest, FetchRequest>>.
+
+[source, java]
+----
+FetchRequest build(
+  short version)
+----
+
+`FetchRequest.Builder` is used when...FIXME
+
+=== [[forConsumer]] Creating FetchRequest.Builder for Kafka Consumers -- `FetchRequest.Builder.forConsumer` Utility
+
+[source, java]
+----
+Builder forConsumer(
+  int maxWait,
+  int minBytes,
+  Map<TopicPartition, PartitionData> fetchData)
+----
+
+`forConsumer`...FIXME
+
+NOTE: `forConsumer` is used when Fetcher is requested to link:kafka-consumer-internals-Fetcher.adoc#sendFetches[sendFetches] (for `KafkaConsumer` to link:kafka-consumer-KafkaConsumer.adoc#poll[poll for records]).
+
+=== [[forReplica]] Creating FetchRequest.Builder for Partition Replicas -- `FetchRequest.Builder.forReplica` Utility
+
+[source, java]
+----
+Builder forReplica(
+  short allowedVersion,
+  int replicaId,
+  int maxWait,
+  int minBytes,
+  Map<TopicPartition, PartitionData> fetchData)
+----
+
+`forReplica` simply creates a new <<Builder, FetchRequest.Builder>> (with the min and max versions exactly the given `allowedVersion`).
+
+[NOTE]
+====
+`forReplica` is used when:
+
+* `ReplicaAlterLogDirsThread` is requested to link:kafka-server-ReplicaAlterLogDirsThread.adoc#buildFetchForPartition[buildFetchForPartition]
+
+* `ReplicaFetcherThread` is requested to link:kafka-server-ReplicaFetcherThread.adoc#buildFetch[buildFetch]
+
+* link:kafka-tools-ReplicaVerificationTool.adoc[ReplicaVerificationTool] is executed
+====
+
+=== [[parse]] Creating FetchRequest from Byte Buffer -- `parse` Utility
+
+[source, java]
+----
+FetchRequest parse(
+  ByteBuffer buffer,
+  short version)
+----
+
+`parse`...FIXME
+
+NOTE: `parse` is used when...FIXME

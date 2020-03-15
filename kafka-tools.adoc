@@ -22,7 +22,7 @@ Kafka tools includes the following administration tools:
 
 * <<kafka-admin-ReassignPartitionsCommand.adoc#, ReassignPartitionsCommand>>
 
-* `ReplicaVerificationTool`
+* link:kafka-tools-ReplicaVerificationTool.adoc[ReplicaVerificationTool]
 
 * `StreamsResetter`
 

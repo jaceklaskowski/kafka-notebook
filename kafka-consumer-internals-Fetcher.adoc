@@ -55,7 +55,14 @@ image::images/Fetcher-KafkaConsumer.png[align="center"]
 
 === [[sendFetches]] `sendFetches` Method
 
-CAUTION: FIXME
+[source, java]
+----
+int sendFetches()
+----
+
+`sendFetches`...FIXME
+
+NOTE: `sendFetches` is used when `KafkaConsumer` is requested to link:kafka-consumer-KafkaConsumer.adoc#poll[poll for records].
 
 === [[sendMetadataRequest]] `sendMetadataRequest` Internal Method
 

@@ -117,7 +117,7 @@ Used when...FIXME
 | ExpireDelegationTokenRequest
 | [[ExpireDelegationTokenRequest]]
 
-| FetchRequest
+| link:kafka-common-requests-FetchRequest.adoc[FetchRequest]
 | [[FetchRequest]]
 
 | <<kafka-common-requests-FindCoordinatorRequest.adoc#, FindCoordinatorRequest>>

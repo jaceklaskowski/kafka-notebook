@@ -353,14 +353,15 @@ NOTE: `handleOffsetFetchRequest` is used exclusively when `KafkaApis` is request
 
 [source, scala]
 ----
-handleFetchRequest(request: RequestChannel.Request): Unit
+handleFetchRequest(
+  request: RequestChannel.Request): Unit
 ----
 
-In summary, `handleFetchRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#fetchMessages, fetchMessages>>.
+In summary, `handleFetchRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#fetchMessages, fetch messages>>.
 
 `handleFetchRequest`...FIXME
 
-NOTE: `handleFetchRequest` is used exclusively when `KafkaApis` is requested to handle a <<Fetch, Fetch>> request.
+NOTE: `handleFetchRequest` is used when `KafkaApis` is requested to handle a <<Fetch, Fetch>> request.
 
 === [[handleCreateAcls]] Handling CreateAcls Request -- `handleCreateAcls` Handler
 

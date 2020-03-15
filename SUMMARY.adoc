@@ -96,6 +96,8 @@
 . link:kafka-tools-JmxTool.adoc[JmxTool]
 . link:kafka-tools-GetOffsetShell.adoc[GetOffsetShell]
 
+. link:kafka-tools-ReplicaVerificationTool.adoc[ReplicaVerificationTool]
+
 . link:kafka-tools-kafka-dump-log.adoc[kafka-dump-log.sh]
 .. link:kafka-tools-DumpLogSegments.adoc[DumpLogSegments]
 .. link:kafka-tools-DumpLogSegments-OffsetsMessageParser.adoc[OffsetsMessageParser]
@@ -432,6 +434,8 @@
 . link:kafka-common-requests-DescribeConfigsRequest.adoc[DescribeConfigsRequest]
 
 . link:kafka-common-requests-ElectPreferredLeadersRequest.adoc[ElectPreferredLeadersRequest]
+
+. link:kafka-common-requests-FetchRequest.adoc[FetchRequest]
 
 . link:kafka-common-requests-FindCoordinatorRequest.adoc[FindCoordinatorRequest]
 . link:kafka-common-requests-FindCoordinatorResponse.adoc[FindCoordinatorResponse]
