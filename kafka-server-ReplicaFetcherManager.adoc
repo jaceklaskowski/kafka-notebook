@@ -1,8 +1,23 @@
 == [[ReplicaFetcherManager]] ReplicaFetcherManager
 
-`ReplicaFetcherManager` is a <<kafka-server-AbstractFetcherManager.adoc#, AbstractFetcherManager>> of <<kafka-server-ReplicaFetcherThread.adoc#, ReplicaFetcherThreads>> that...FIXME (describe properties)
+`ReplicaFetcherManager` is a link:kafka-server-AbstractFetcherManager.adoc[manager] of link:kafka-server-ReplicaFetcherThread.adoc[ReplicaFetcherThreads] for link:kafka-server-ReplicaManager.adoc#replicaFetcherManager[ReplicaManager].
 
-`ReplicaFetcherManager` is <<creating-instance, created>> exclusively when `ReplicaManager` is requested to link:kafka-server-ReplicaManager.adoc#createReplicaFetcherManager[create one] (which is when `ReplicaManager` is link:kafka-server-ReplicaManager.adoc#replicaFetcherManager[created]).
+.ReplicaFetcherManager
+image::images/ReplicaFetcherManager.png[align="center"]
+
+[[logging]]
+[TIP]
+====
+Enable `ALL` logging level for `kafka.server.ReplicaFetcherManager` logger to see what happens inside.
+
+Add the following line to `config/log4j.properties`:
+
+```
+log4j.logger.kafka.server.ReplicaFetcherManager=ALL
+```
+
+Refer to link:kafka-logging.adoc[Logging].
+====
 
 === [[creating-instance]] Creating ReplicaFetcherManager Instance
 
