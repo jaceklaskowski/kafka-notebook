@@ -40,9 +40,9 @@ Possible values:
 
 * a timestamp
 
-* `-1` (*LATEST_TIMESTAMP*) for the first offsets
+* `-1` (*LATEST_TIMESTAMP*) for the last (newest) offsets
 
-* `-2` (*EARLIEST_TIMESTAMP*) for the end offsets
+* `-2` (*EARLIEST_TIMESTAMP*) for the first (oldest) offsets
 
 Default: `-1`
 
