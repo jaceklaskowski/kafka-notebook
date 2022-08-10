@@ -1,9 +1,6 @@
 == [[LogManager]] LogManager
 
-`LogManager` is <<creating-instance, created>> (via <<apply, apply>> factory utility) and immediately <<startup, started>> for `KafkaServer` when requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
-
-.LogManager and KafkaServer
-image::images/LogManager.png[align="center"]
+`LogManager` is <<creating-instance, created>> and immediately <<startup, started>> for `KafkaServer` when requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
 
 `LogManager` runs until (and is requested to <<shutdown, shut down>> when) `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#shutdown, shut down>>.
 
@@ -71,20 +68,6 @@ a| [[transactional.id.expiration.ms]]
 [[InitialTaskDelayMs]]
 `LogManager` defaults to `30000ms` for the *initial task delay*.
 
-[[logging]]
-[TIP]
-====
-Enable `ALL` logging level for `kafka.log.LogManager` logger to see what happens inside.
-
-Add the following line to `config/log4j.properties`:
-
-```
-log4j.logger.kafka.log.LogManager=ALL
-```
-
-Refer to link:kafka-logging.adoc[Logging].
-====
-
 === [[cleaner]] LogManager and LogCleaner
 
 `LogManager` creates a <<kafka-log-LogCleaner.adoc#, LogCleaner>> only when the <<kafka-log-CleanerConfig.adoc#enableCleaner, log.cleaner.enable>> flag (of the given <<cleanerConfig, CleanerConfig>>) is enabled (default: `true`).
@@ -140,25 +123,6 @@ The performance metrics are registered in *kafka.log:type=LogManager* group.
 .LogManager in jconsole
 image::images/LogManager-jconsole.png[align="center"]
 
-=== [[apply]] Creating LogManager -- `apply` Utility
-
-[source, scala]
-----
-apply(
-  config: KafkaConfig,
-  initialOfflineDirs: Seq[String],
-  zkClient: KafkaZkClient,
-  brokerState: BrokerState,
-  kafkaScheduler: KafkaScheduler,
-  time: Time,
-  brokerTopicStats: BrokerTopicStats,
-  logDirFailureChannel: LogDirFailureChannel): LogManager
-----
-
-`apply`...FIXME
-
-NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
-
 === [[creating-instance]] Creating LogManager Instance
 
 `LogManager` takes the following to be created:
@@ -179,8 +143,6 @@ NOTE: `apply` is used exclusively when `KafkaServer` is requested to <<kafka-ser
 * <<brokerTopicStats, BrokerTopicStats>>
 * [[logDirFailureChannel]] `LogDirFailureChannel`
 * [[time]] `Time`
-
-`LogManager` initializes the <<internal-properties, internal properties>>.
 
 While being created, `LogManager` <<loadLogs, loads logs>>.
 
