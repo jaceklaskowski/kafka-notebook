@@ -1,43 +1,12 @@
 == [[CleanerThread]] CleanerThread
 
-`CleanerThread` is a non-daemon thread of execution for <<doWork, cleaning up dirty logs>> (one at a time until no more is left).
-
-[[name]]
-`CleanerThread` uses the thread name of the format *kafka-log-cleaner-thread-* followed by the <<threadId, threadId>>.
-
 `CleanerThread` is <<creating-instance, created>> and immediately <<doWork, started>> when `LogCleaner` is requested to <<kafka-log-LogCleaner.adoc#startup, start up>>.
-
-NOTE: The number of `CleanerThreads` (that <<kafka-log-LogCleaner.adoc#cleaners, LogCleaner>> uses) is controlled by <<kafka-properties.adoc#log.cleaner.threads, log.cleaner.threads>> dynamic configuration (default: `1`).
-
-[[creating-instance]][[threadId]]
-`CleanerThread` takes a *threadId* to be created.
-
-[[loggerName]][[logging]]
-`CleanerThread` uses <<kafka-log-LogCleaner.adoc#logging, kafka.log.LogCleaner>> logger.
-
-[TIP]
-====
-Enable `ALL` logging level for <<kafka-log-LogCleaner.adoc#logging, kafka.log.LogCleaner>> logger to see what happens inside.
-====
-
-NOTE: `CleanerThread` is a Java private inner class of <<kafka-log-LogCleaner.adoc#, LogCleaner>>. It can only be used by `LogCleaner` and have a direct access to the internals of the `LogCleaner`.
 
 === [[cleaner]] CleanerThread and Cleaner
 
 When <<creating-instance, created>>, `CleanerThread` creates a <<kafka-log-Cleaner.adoc#, Cleaner>> (with the <<kafka-log-Cleaner.adoc#id, ID>> as the given <<threadId, threadId>>).
 
 `CleanerThread` uses the `Cleaner` exclusively for <<cleanLog, cleaning up a log>>.
-
-=== [[checkDone]] `checkDone` Internal Method
-
-[source, scala]
-----
-checkDone(topicPartition: TopicPartition): Unit
-----
-
-`checkDone`...FIXME
-
-NOTE: `checkDone` is used exclusively when `CleanerThread` is <<creating-instance, created>> (to create the <<cleaner, Cleaner>>).
 
 === [[doWork]] Cleaning Up Dirty Logs -- `doWork` Method
 
