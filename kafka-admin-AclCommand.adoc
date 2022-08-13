@@ -1,9 +1,5 @@
 == [[AclCommand]] AclCommand Administration Utility
 
-`AclCommand` is an administration utility for ACL management using <<kafka-clients-admin-AdminClient.adoc#, AdminClient>> API.
-
-`AclCommand` is executed using <<kafka-tools-kafka-acls.adoc#, kafka-acls.sh>> shell script.
-
 [[options]]
 [[AclCommandOptions]]
 .Options
@@ -132,63 +128,3 @@ a| [[transactional-id]] The transactionalId to which ACLs should be added or rem
 a| [[version]] Displays Kafka version
 
 |===
-
-`AclCommand` uses <<kafka-admin-AdminClientService.adoc#, AdminClientService>> (when executed with <<bootstrap-server, --bootstrap-server>> option) or `AuthorizerService`.
-
-`kafka-acls.sh` requires <<kafka-server-authorizer-Authorizer.adoc#, Authorizer>> to be configured on a broker (when executed with <<bootstrap-server, --bootstrap-server>> option) or throws a `SecurityDisabledException`:
-
-```
-// kafka-acls.sh --list --bootstrap-server :9092
-Error while executing ACL command: org.apache.kafka.common.errors.SecurityDisabledException: No Authorizer is configured on the broker
-```
-
-=== [[main]] Executing Standalone Application -- `main` Object Method
-
-[source, scala]
-----
-main(args: Array[String]): Unit
-----
-
-`main` is the entry point of the `AclCommand` when launched on command line (e.g. using <<kafka-tools-kafka-acls.adoc#, kafka-acls.sh>> shell script).
-
-Internally, `main` reads the <<AclCommandOptions, options>> from the command line.
-
-`main` prints out the following for no <<options, command-line options>>, <<help, --help>> or <<version, --version>>:
-
-[options="wrap"]
-----
-This tool helps to manage acls on kafka
-----
-
-`main` selects the command service between `AdminClientService` when <<bootstrap-server, --bootstrap-server>> is used and `AuthorizerService` otherwise.
-
-In the end, `main` requests the command service to <<addAcls, add>>, <<removeAcls, remove>> or <<listAcls, list>> ACLs based on <<add, --add>>, <<remove, --remove>> or <<list, --list>> command-line options, respectively.
-
-=== [[getFilteredResourceToAcls]] `getFilteredResourceToAcls` Internal Method
-
-[source, scala]
-----
-getFilteredResourceToAcls(
-  authorizer: Authorizer,
-  filters: Set[ResourcePatternFilter],
-  listPrincipal: Option[KafkaPrincipal] = None
-): Iterable[(Resource, Set[Acl])]
-----
-
-`getFilteredResourceToAcls`...FIXME
-
-NOTE: `getFilteredResourceToAcls` is used when...FIXME
-
-=== [[removeAcls]] `removeAcls` Internal Method
-
-[source, scala]
-----
-removeAcls(
-  authorizer: Authorizer,
-  acls: Set[Acl],
-  filter: ResourcePatternFilter): Unit
-----
-
-`removeAcls`...FIXME
-
-NOTE: `removeAcls` is used when...FIXME

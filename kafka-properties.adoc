@@ -22,17 +22,6 @@ Unlike <<listeners, listeners>> it is invalid to advertise the `0.0.0.0` non-rou
 
 <<kafka-server-DynamicListenerConfig.adoc#, Dynamic reconfigurable configuration>>
 
-| authorizer.class.name
-a| [[authorizer.class.name]] Fully-qualified class name of the link:kafka-server-authorizer-Authorizer.adoc[Authorizer] for link:kafka-server-KafkaApis.adoc#authorize[request authorization]
-
-Default: (empty)
-
-Supports authorizers that implement the deprecated `kafka.security.auth.Authorizer` trait which was previously used for authorization before Kafka 2.4.0 (link:++https://cwiki.apache.org/confluence/display/KAFKA/KIP-504+-+Add+new+Java+Authorizer+Interface++[KIP-504 - Add new Java Authorizer Interface]).
-
-* Use <<kafka-server-KafkaConfig.adoc#AuthorizerClassNameProp, KafkaConfig.AuthorizerClassNameProp>> to reference the property
-
-* Use <<kafka-server-KafkaConfig.adoc#authorizerClassName, KafkaConfig.authorizerClassName>> to access the current value
-
 | auto.commit.interval.ms
 a| [[auto.commit.interval.ms]] How often (in milliseconds) consumer offsets should be auto-committed when <<enable.auto.commit, enable.auto.commit>> is enabled
 
