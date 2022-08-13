@@ -12,31 +12,6 @@
 [[logIdent]]
 `GroupCoordinator` uses *[GroupCoordinator [brokerId]]* as the logging prefix (aka `logIdent`).
 
-=== [[startup]] Starting Up -- `startup` Method
-
-[source, scala]
-----
-startup(enableMetadataExpiration: Boolean = true): Unit
-----
-
-`startup` first prints out the following INFO message to the logs:
-
-```
-Starting up.
-```
-
-`startup` requests the <<groupManager, GroupMetadataManager>> to <<kafka-coordinator-group-GroupMetadataManager.adoc#startup, startup>> (with the given `enableMetadataExpiration` flag).
-
-`startup` turns the <<isActive, isActive>> internal flag on.
-
-In the end, `startup` prints out the following INFO message to the logs:
-
-```
-Startup complete.
-```
-
-NOTE: `startup` is used exclusively when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>>.
-
 === [[partitionFor]] `partitionFor` Method
 
 [source, scala]
