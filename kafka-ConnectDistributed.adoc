@@ -1,5 +1,0 @@
-== ConnectDistributed
-
-`ConnectDistributed` is a command-line utility that runs http://docs.confluent.io/3.0.1/connect/intro.html[Kafka Connect] in distributed mode.
-
-CAUTION: FIXME Doh, I'd rather not enter Kafka Connect yet. Not interested in it yet.

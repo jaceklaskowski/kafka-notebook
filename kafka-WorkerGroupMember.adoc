@@ -1,3 +1,0 @@
-== WorkerGroupMember
-
-CAUTION: FIXME WorkerCoordinator? DistributedHerder?

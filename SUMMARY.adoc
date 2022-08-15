@@ -8,7 +8,6 @@
 . link:kafka-partition-leader-election.adoc[Partition Leader Election]
 .. link:kafka-feature-preferred-replica-leader-election.adoc[Preferred Replica Election]
 .. link:kafka-demo-using-kafka-leader-election.adoc[Demo: Using kafka-leader-election.sh]
-. link:kafka-feature-controller-election.adoc[Kafka Controller Election]
 . link:kafka-topic-replication.adoc[Topic Replication]
 . link:kafka-topic-deletion.adoc[Topic Deletion]
 . link:kafka-transactional-producer.adoc[Transactional Producer]
@@ -100,13 +99,7 @@
 
 === Controller Broker
 
-. link:kafka-controller.adoc[Controller Broker]
-
-. link:kafka-controller-KafkaController.adoc[KafkaController]
 . link:kafka-controller-StateChangeLogger.adoc[StateChangeLogger]
-
-. link:kafka-controller-ControllerContext.adoc[ControllerContext]
-. link:kafka-controller-ControllerState.adoc[ControllerState]
 
 . link:kafka-controller-PartitionStateMachine.adoc[PartitionStateMachine]
 .. link:kafka-controller-ZkPartitionStateMachine.adoc[ZkPartitionStateMachine]
@@ -117,12 +110,10 @@
 .. link:kafka-controller-ZkReplicaStateMachine.adoc[ZkReplicaStateMachine]
 
 . link:kafka-controller-ControllerEventManager.adoc[ControllerEventManager]
-.. link:kafka-controller-ControllerEventThread.adoc[ControllerEventThread]
 .. link:kafka-controller-QueuedEvent.adoc[QueuedEvent]
 
 . link:kafka-controller-ControllerEventProcessor.adoc[ControllerEventProcessor]
 
-. link:kafka-controller-ControllerEvent.adoc[ControllerEvent]
 .. link:kafka-controller-ControllerEvent-AutoPreferredReplicaLeaderElection.adoc[AutoPreferredReplicaLeaderElection]
 .. link:kafka-controller-ControllerEvent-BrokerChange.adoc[BrokerChange]
 .. link:kafka-controller-ControllerEvent-LeaderAndIsrResponseReceived.adoc[LeaderAndIsrResponseReceived]
@@ -354,7 +345,6 @@
 === Tips and Tricks
 
 . link:kafka-gradle-tips.adoc[Gradle Tips]
-. link:kafka-zookeeper-tips.adoc[Zookeeper Tips]
 . link:kafka-scala-repl.adoc[Kafka in Scala REPL for Interactive Exploration]
 . link:kafka-docker.adoc[Running Kafka Broker in Docker]
 
@@ -459,15 +449,6 @@
 . link:kafka-zk-AdminZkClient.adoc[AdminZkClient]
 . link:kafka-zk-ZkAclChangeStore.adoc[ZkAclChangeStore]
 . link:kafka-zk-BrokerIdZNode.adoc[BrokerIdZNode]
-
-=== Kafka Connect
-
-. link:kafka-WorkerGroupMember.adoc[WorkerGroupMember]
-. link:kafka-ConnectDistributed.adoc[ConnectDistributed]
-
-=== Kafka Demos
-
-. link:kafka-demo-controller-election.adoc[Demo: Kafka Controller Election]
 
 === Appendix
 
