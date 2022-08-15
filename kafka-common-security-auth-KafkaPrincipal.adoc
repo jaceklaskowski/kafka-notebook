@@ -1,3 +1,0 @@
-== [[KafkaPrincipal]] KafkaPrincipal
-
-`KafkaPrincipal` is...FIXME
