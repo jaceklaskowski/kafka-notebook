@@ -1,3 +1,0 @@
-== [[ReplicaVerificationTool]] ReplicaVerificationTool
-
-`ReplicaVerificationTool` is...FIXME

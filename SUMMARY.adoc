@@ -101,11 +101,6 @@
 
 . link:kafka-controller-StateChangeLogger.adoc[StateChangeLogger]
 
-. link:kafka-controller-PartitionStateMachine.adoc[PartitionStateMachine]
-.. link:kafka-controller-ZkPartitionStateMachine.adoc[ZkPartitionStateMachine]
-... link:kafka-controller-Election.adoc[Election]
-... link:kafka-controller-PartitionLeaderElectionAlgorithms.adoc[PartitionLeaderElectionAlgorithms]
-
 . link:kafka-controller-ReplicaStateMachine.adoc[ReplicaStateMachine]
 .. link:kafka-controller-ZkReplicaStateMachine.adoc[ZkReplicaStateMachine]
 
