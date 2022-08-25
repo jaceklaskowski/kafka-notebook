@@ -1,15 +1,8 @@
 == [[KafkaApis]] KafkaApis -- API Request Handler
 
-`KafkaApis` is responsible for <<handle, handling requests>> to a <<kafka-server-KafkaServer.adoc#apis, Kafka broker>> (by means of <<handlers, handlers>>).
-
 `KafkaApis` is <<creating-instance, created>> when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start>> (for <<kafka-server-KafkaServer.adoc#requestHandlerPool, KafkaRequestHandlerPool>>).
 
-.KafkaApis is Created for KafkaRequestHandlerPool when KafkaServer Starts Up
-image::images/KafkaApis.png[align="center"]
-
 When <<creating-instance, created>>, `KafkaApis` is given broker services (from the owning <<kafka-server-KafkaServer.adoc#, KafkaServer>>) that are used to <<handle, handle requests>> (from producers, consumers, brokers, administrative clients, etc.)
-
-Some requests are meant for the <<kafka-controller.adoc#, controller broker>> and simply do nothing (_no-ops_) when received by a regular non-controller broker.
 
 [[keys]]
 [[handlers]]
@@ -165,74 +158,6 @@ Some requests are meant for the <<kafka-controller.adoc#, controller broker>> an
 
 |===
 
-[[logging]]
-[TIP]
-====
-Enable `ALL` logging levels for `kafka.server.KafkaApis` logger to see what happens inside.
-
-Add the following line to `config/log4j.properties`:
-
-```
-log4j.logger.kafka.server.KafkaApis=ALL
-```
-
-Refer to <<kafka-logging.adoc#, Logging>>.
-
----
-
-Please note that Kafka comes with a preconfigured `kafka.server.KafkaApis` logger in `config/log4j.properties`:
-
-```
-log4j.appender.requestAppender=org.apache.log4j.DailyRollingFileAppender
-log4j.appender.requestAppender.DatePattern='.'yyyy-MM-dd-HH
-log4j.appender.requestAppender.File=${kafka.logs.dir}/kafka-request.log
-log4j.appender.requestAppender.layout=org.apache.log4j.PatternLayout
-log4j.appender.requestAppender.layout.ConversionPattern=[%d] %p %m (%c)%n
-
-log4j.logger.kafka.server.KafkaApis=TRACE, requestAppender
-log4j.additivity.kafka.server.KafkaApis=false
-```
-
-That means that the logs of `KafkaApis` go to `logs/kafka-request.log` file at `TRACE` logging level and are not added to the main logs (per `log4j.additivity` being off).
-====
-
-=== [[creating-instance]] Creating KafkaApis Instance
-
-`KafkaApis` takes the following to be created:
-
-* [[requestChannel]] <<kafka-network-RequestChannel.adoc#, RequestChannel>>
-* [[replicaManager]] <<kafka-server-ReplicaManager.adoc#, ReplicaManager>>
-* [[adminManager]] <<kafka-server-AdminManager.adoc#, AdminManager>>
-* [[groupCoordinator]] <<kafka-coordinator-group-GroupCoordinator.adoc#, GroupCoordinator>>
-* [[txnCoordinator]] <<kafka-TransactionCoordinator.adoc#, TransactionCoordinator>>
-* [[controller]] <<kafka-controller-KafkaController.adoc#, KafkaController>>
-* [[zkClient]] <<kafka-zk-KafkaZkClient.adoc#, KafkaZkClient>>
-* [[brokerId]] Broker ID
-* [[config]] <<kafka-server-KafkaConfig.adoc#, KafkaConfig>>
-* [[metadataCache]] <<kafka-server-MetadataCache.adoc#, MetadataCache>>
-* [[metrics]] <<kafka-Metrics.adoc#, Metrics>>
-* Optional <<authorizer, Authorizer>>
-* [[quotas]] <<kafka-server-QuotaManagers.adoc#, QuotaManagers>>
-* [[fetchManager]] <<kafka-server-FetchManager.adoc#, FetchManager>>
-* [[brokerTopicStats]] <<kafka-server-BrokerTopicStats.adoc#, BrokerTopicStats>>
-* [[clusterId]] Cluster ID
-* [[time]] `Time`
-* [[tokenManager]] <<kafka-server-DelegationTokenManager.adoc#, DelegationTokenManager>>
-
-=== [[authorizer]] KafkaApis and Authorizer
-
-`KafkaApis` may be given an link:kafka-server-authorizer-Authorizer.adoc[Authorizer] when <<creating-instance, created>>.
-
-The `Authorizer` is used for the following:
-
-* <<handleCreateAcls, handleCreateAcls>>
-
-* <<handleDeleteAcls, handleDeleteAcls>>
-
-* <<handleDescribeAcls, handleDescribeAcls>>
-
-* <<authorize, authorize>>, <<filterAuthorized, filterAuthorized>>, and <<authorizedOperations, authorizedOperations>>
-
 === [[adminZkClient]] KafkaApis and AdminZkClient
 
 [source, scala]
@@ -245,24 +170,6 @@ When <<creating-instance, created>>, `KafkaApis` creates a <<kafka-zk-AdminZkCli
 * <<handleFindCoordinatorRequest, handleFindCoordinatorRequest>> (for `__consumer_offsets` and `__transaction_state` internal topics)
 
 * <<handleTopicMetadataRequest, handleTopicMetadataRequest>> (for `__consumer_offsets` and `__transaction_state` internal topics or any other topic with auto-creation enabled)
-
-=== [[handle]] Routing API Requests to Respective Handlers -- `handle` Method
-
-[source, scala]
-----
-handle(
-  request: RequestChannel.Request): Unit
-----
-
-`handle` first prints out the following TRACE message to the logs:
-
-```
-Handling request:[request] from connection [id];securityProtocol:[protocol],principal:[principal]
-```
-
-`handle` then relays the input <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>> to the corresponding <<handlers, handler>> per the <<keys, apiKey>> (from the header of the input `request`).
-
-NOTE: `handle` is used exclusively when `KafkaRequestHandler` thread is requested to <<kafka-server-KafkaRequestHandler.adoc#run, run>>.
 
 === [[handleElectReplicaLeader]] Handling ElectLeaders Request -- `handleElectReplicaLeader` Handler
 
@@ -279,34 +186,6 @@ In summary, `handleElectPreferredReplicaLeader` requests the <<replicaManager, R
 Internally, `handleElectPreferredReplicaLeader`...FIXME
 
 NOTE: `handleElectPreferredReplicaLeader` is used exclusively when `KafkaApis` is requested to handle a <<ElectPreferredLeaders, ElectPreferredLeaders>> request.
-
-=== [[handleLeaderAndIsrRequest]] Handling LeaderAndIsr Request -- `handleLeaderAndIsrRequest` Handler
-
-[source, scala]
-----
-handleLeaderAndIsrRequest(request: RequestChannel.Request): Unit
-----
-
-In summary, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, become the leader or a follower (of partitions)>>.
-
-Internally, `handleLeaderAndIsrRequest` takes the <<kafka-common-requests-LeaderAndIsrRequest.adoc#, LeaderAndIsrRequest>> from (the body of) the <<kafka-network-RequestChannel-Request.adoc#, RequestChannel.Request>>.
-
-When <<authorizeClusterAction, authorized for cluster action>> and not <<isBrokerEpochStale, isBrokerEpochStale>>, `handleLeaderAndIsrRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#becomeLeaderOrFollower, become the leader or a follower (of partitions)>> (with the <<handleLeaderAndIsrRequest-onLeadershipChange, onLeadershipChange>> callback that gets the <<kafka-cluster-Partition.adoc#, Partitions>> of which the broker is a new leader or a follower).
-
-`handleLeaderAndIsrRequest` <<isBrokerEpochStale, isBrokerEpochStale>> and...FIXME
-
-NOTE: `handleLeaderAndIsrRequest` is used exclusively when `KafkaApis` is requested to handle a <<LeaderAndIsr, LeaderAndIsr>> request.
-
-==== [[handleLeaderAndIsrRequest-onLeadershipChange]] `onLeadershipChange` Callback
-
-[source, scala]
-----
-onLeadershipChange(
-  updatedLeaders: Iterable[Partition],
-  updatedFollowers: Iterable[Partition]): Unit
-----
-
-`onLeadershipChange`...FIXME
 
 === [[handleAlterReplicaLogDirsRequest]] Handling AlterReplicaLogDirs Request -- `handleAlterReplicaLogDirsRequest` Handler
 
@@ -348,32 +227,6 @@ handleOffsetFetchRequest(request: RequestChannel.Request): Unit
 `handleOffsetFetchRequest`...FIXME
 
 NOTE: `handleOffsetFetchRequest` is used exclusively when `KafkaApis` is requested to handle a <<OffsetFetch, OffsetFetch>> request.
-
-=== [[handleFetchRequest]] Handling Fetch Request -- `handleFetchRequest` Handler
-
-[source, scala]
-----
-handleFetchRequest(
-  request: RequestChannel.Request): Unit
-----
-
-In summary, `handleFetchRequest` requests the <<replicaManager, ReplicaManager>> to <<kafka-server-ReplicaManager.adoc#fetchMessages, fetch messages>>.
-
-`handleFetchRequest`...FIXME
-
-NOTE: `handleFetchRequest` is used when `KafkaApis` is requested to handle a <<Fetch, Fetch>> request.
-
-=== [[handleCreateAcls]] Handling CreateAcls Request -- `handleCreateAcls` Handler
-
-[source, scala]
-----
-handleCreateAcls(
-  request: RequestChannel.Request): Unit
-----
-
-`handleCreateAcls`...FIXME
-
-NOTE: `handleCreateAcls` is used when `KafkaApis` is requested to handle a <<CreateAcls, CreateAcls>> request.
 
 === [[handleTopicMetadataRequest]] Handling Metadata Request -- `handleTopicMetadataRequest` Handler
 
@@ -624,137 +477,6 @@ NOTE: The <<authorizer, Authorizer>> is created in <<kafka-server-KafkaServer.ad
 
 |===
 
-=== [[handleCreatePartitionsRequest]] Handling CreatePartitions Request -- `handleCreatePartitionsRequest` Handler
-
-[source, scala]
-----
-handleCreatePartitionsRequest(request: RequestChannel.Request): Unit
-----
-
-`handleCreatePartitionsRequest`...FIXME
-
-NOTE: `handleCreatePartitionsRequest` is used when...FIXME
-
-=== [[handleDeleteTopicsRequest]] Handling DeleteTopics Request -- `handleDeleteTopicsRequest` Handler
-
-[source, scala]
-----
-handleDeleteTopicsRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleDeleteTopicsRequest`...FIXME
-
-NOTE: `handleDeleteTopicsRequest` is used when...FIXME
-
-=== [[handleTxnOffsetCommitRequest]] Handling TxnOffsetCommit Request -- `handleTxnOffsetCommitRequest` Handler
-
-[source, scala]
-----
-handleTxnOffsetCommitRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleTxnOffsetCommitRequest`...FIXME
-
-NOTE: `handleTxnOffsetCommitRequest` is used when...FIXME
-
-=== [[handleSyncGroupRequest]] Handling SyncGroup Request -- `handleSyncGroupRequest` Handler
-
-[source, scala]
-----
-handleSyncGroupRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleSyncGroupRequest`...FIXME
-
-NOTE: `handleSyncGroupRequest` is used when...FIXME
-
-=== [[handleSaslHandshakeRequest]] Handling SaslHandshake Request -- `handleSaslHandshakeRequest` Handler
-
-[source, scala]
-----
-handleSaslHandshakeRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleSaslHandshakeRequest`...FIXME
-
-NOTE: `handleSaslHandshakeRequest` is used when...FIXME
-
-=== [[handleSaslAuthenticateRequest]] Handling SaslAuthenticate Request -- `handleSaslAuthenticateRequest` Handler
-
-[source, scala]
-----
-handleSaslAuthenticateRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleSaslAuthenticateRequest`...FIXME
-
-NOTE: `handleSaslAuthenticateRequest` is used when...FIXME
-
-=== [[handleAddPartitionToTxnRequest]] Handling AddPartitionToTxn Request -- `handleAddPartitionToTxnRequest` Handler
-
-[source, scala]
-----
-handleAddPartitionToTxnRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleAddPartitionToTxnRequest`...FIXME
-
-NOTE: `handleAddPartitionToTxnRequest` is used when...FIXME
-
-=== [[handleApiVersionsRequest]] Handling ApiVersions Request -- `handleApiVersionsRequest` Handler
-
-[source, scala]
-----
-handleApiVersionsRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleApiVersionsRequest`...FIXME
-
-NOTE: `handleApiVersionsRequest` is used when...FIXME
-
-=== [[handleCreateTokenRequest]] Handling CreateToken Request -- `handleCreateTokenRequest` Handler
-
-[source, scala]
-----
-handleCreateTokenRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleCreateTokenRequest`...FIXME
-
-NOTE: `handleCreateTokenRequest` is used when...FIXME
-
-=== [[handleDeleteAcls]] Handling DeleteAcls Request -- `handleDeleteAcls` Handler
-
-[source, scala]
-----
-handleDeleteAcls(
-  request: RequestChannel.Request): Unit
-----
-
-`handleDeleteAcls`...FIXME
-
-NOTE: `handleDeleteAcls` is used when...FIXME
-
-=== [[handleDeleteGroupsRequest]] Handling DeleteGroups Request -- `handleDeleteGroupsRequest` Handler
-
-[source, scala]
-----
-handleDeleteGroupsRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleDeleteGroupsRequest`...FIXME
-
-NOTE: `handleDeleteGroupsRequest` is used when...FIXME
-
 === [[handleDescribeConfigsRequest]] Handling DescribeConfigs Request -- `handleDescribeConfigsRequest` Handler
 
 [source, scala]
@@ -772,174 +494,6 @@ For every authorized operation, `handleDescribeConfigsRequest` requests the <<ad
 In the end, `handleDescribeConfigsRequest` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with a new `DescribeConfigsResponse`.
 
 NOTE: `handleDescribeConfigsRequest` is used exclusively when `KafkaApis` is requested to handle a <<DescribeConfigs, DescribeConfigs>> request.
-
-=== [[handleDescribeAcls]] Handling DescribeAcls Request -- `handleDescribeAcls` Handler
-
-[source, scala]
-----
-handleDescribeAcls(
-  request: RequestChannel.Request): Unit
-----
-
-`handleDescribeAcls` <<authorizeClusterOperation, authorizeClusterOperation>> for the `DESCRIBE` operation.
-
-`handleDescribeAcls`...FIXME
-
-NOTE: `handleDescribeAcls` is used when...FIXME
-
-=== [[handleDescribeTokensRequest]] Handling DescribeTokens Request -- `handleDescribeTokensRequest` Handler
-
-[source, scala]
-----
-handleDescribeTokensRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleDescribeTokensRequest`...FIXME
-
-NOTE: `handleDescribeTokensRequest` is used when...FIXME
-
-=== [[handleEndTxnRequest]] Handling EndTxn Request -- `handleEndTxnRequest` Handler
-
-[source, scala]
-----
-handleEndTxnRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleEndTxnRequest`...FIXME
-
-NOTE: `handleEndTxnRequest` is used when...FIXME
-
-=== [[handleExpireTokenRequest]] Handling ExpireToken Request -- `handleExpireTokenRequest` Handler
-
-[source, scala]
-----
-handleExpireTokenRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleExpireTokenRequest`...FIXME
-
-NOTE: `handleExpireTokenRequest` is used when...FIXME
-
-=== [[handleHeartbeatRequest]] Handling Heartbeat Request -- `handleHeartbeatRequest` Handler
-
-[source, scala]
-----
-handleHeartbeatRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleHeartbeatRequest`...FIXME
-
-NOTE: `handleHeartbeatRequest` is used when...FIXME
-
-=== [[handleInitProducerIdRequest]] Handling InitProducerId Request -- `handleInitProducerIdRequest` Handler
-
-[source, scala]
-----
-handleInitProducerIdRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleInitProducerIdRequest`...FIXME
-
-NOTE: `handleInitProducerIdRequest` is used when...FIXME
-
-=== [[handleIncrementalAlterConfigsRequest]] Handling IncrementalAlterConfigs Request -- `handleIncrementalAlterConfigsRequest` Handler
-
-[source, scala]
-----
-handleIncrementalAlterConfigsRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleIncrementalAlterConfigsRequest`...FIXME
-
-NOTE: `handleIncrementalAlterConfigsRequest` is used when...FIXME
-
-=== [[handleListGroupsRequest]] Handling ListGroups Request -- `handleListGroupsRequest` Handler
-
-[source, scala]
-----
-handleListGroupsRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleListGroupsRequest`...FIXME
-
-NOTE: `handleListGroupsRequest` is used when...FIXME
-
-=== [[handleLeaveGroupRequest]] Handling LeaveGroup Request -- `handleLeaveGroupRequest` Handler
-
-[source, scala]
-----
-handleLeaveGroupRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleLeaveGroupRequest`...FIXME
-
-NOTE: `handleLeaveGroupRequest` is used when...FIXME
-
-=== [[handleRenewTokenRequest]] Handling RenewToken Request -- `handleRenewTokenRequest` Handler
-
-[source, scala]
-----
-handleRenewTokenRequest(
-  request: RequestChannel.Request): Unit
-----
-
-`handleRenewTokenRequest`...FIXME
-
-NOTE: `handleRenewTokenRequest` is used when...FIXME
-
-=== [[handleControlledShutdownRequest]] Handling ControlledShutdown Request -- `handleControlledShutdownRequest` Handler
-
-[source, scala]
-----
-handleControlledShutdownRequest(request: RequestChannel.Request): Unit
-----
-
-`handleControlledShutdownRequest`...FIXME
-
-NOTE: `handleControlledShutdownRequest` is used when...FIXME
-
-=== [[fetchOffsetForTimestamp]] `fetchOffsetForTimestamp` Internal Method
-
-[source, scala]
-----
-fetchOffsetForTimestamp(topicPartition: TopicPartition, timestamp: Long): Option[TimestampOffset]
-----
-
-`fetchOffsetForTimestamp`...FIXME
-
-NOTE: `fetchOffsetForTimestamp` is used exclusively when `KafkaApis` is requested to <<handleListOffsetRequestV1AndAbove, handleListOffsetRequestV1AndAbove>>.
-
-=== [[handleListOffsetRequestV0]] `handleListOffsetRequestV0` Internal Method
-
-[source, scala]
-----
-handleListOffsetRequestV0(
-  request : RequestChannel.Request) : Map[TopicPartition, ListOffsetResponse.PartitionData]
-----
-
-`handleListOffsetRequestV0`...FIXME
-
-NOTE: `handleListOffsetRequestV0` is used exclusively when `KafkaApis` is requested to <<handleListOffsetRequest, handleListOffsetRequest>> (for the API version `0`).
-
-=== [[handleListOffsetRequestV1AndAbove]] `handleListOffsetRequestV1AndAbove` Internal Method
-
-[source, scala]
-----
-handleListOffsetRequestV1AndAbove(
-  request: RequestChannel.Request): Map[TopicPartition, ListOffsetResponse.PartitionData]
-----
-
-`handleListOffsetRequestV1AndAbove`...FIXME
-
-NOTE: `handleListOffsetRequestV1AndAbove` is used exclusively when `KafkaApis` is requested to <<handleListOffsetRequest, handleListOffsetRequest>> (for the API version `1` or above).
 
 === [[handleDescribeLogDirsRequest]] Handling DescribeLogDirs Request -- `handleDescribeLogDirsRequest` Handler
 
@@ -965,46 +519,6 @@ NOTE: `handleDescribeLogDirsRequest` returns an empty list of log directories wh
 In the end, `handleDescribeLogDirsRequest` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with a `DescribeLogDirsResponse` and the `LogDirInfos`.
 
 NOTE: `handleDescribeLogDirsRequest` is used exclusively when `KafkaApis` is requested to handle a <<DescribeLogDirs, DescribeLogDirs>> request.
-
-=== [[sendResponseMaybeThrottle]] `sendResponseMaybeThrottle` Internal Method
-
-[source, scala]
-----
-sendResponseMaybeThrottle(
-  request: RequestChannel.Request,
-  createResponse: Int => AbstractResponse,
-  onComplete: Option[Send => Unit] = None): Unit
-----
-
-`sendResponseMaybeThrottle`...FIXME
-
-NOTE: `sendResponseMaybeThrottle` is used when...FIXME
-
-=== [[fetchOffsetsBefore]] `fetchOffsetsBefore` Method
-
-[source, scala]
-----
-fetchOffsetsBefore(log: Log, timestamp: Long, maxNumOffsets: Int): Seq[Long]
-----
-
-`fetchOffsetsBefore`...FIXME
-
-NOTE: `fetchOffsetsBefore` is used exclusively when `KafkaApis` is requested to <<fetchOffsets, fetchOffsets>>.
-
-=== [[fetchOffsets]] `fetchOffsets` Method
-
-[source, scala]
-----
-fetchOffsets(
-  logManager: LogManager,
-  topicPartition: TopicPartition,
-  timestamp: Long,
-  maxNumOffsets: Int): Seq[Long]
-----
-
-`fetchOffsets`...FIXME
-
-NOTE: `fetchOffsets` is used exclusively when `KafkaApis` is requested to <<handleListOffsetRequestV0, handleListOffsetRequestV0>>.
 
 === [[handleStopReplicaRequest]] Handling StopReplica Request -- `handleStopReplicaRequest` Handler
 
@@ -1090,20 +604,6 @@ createInternalTopic(
 
 NOTE: `createInternalTopic` is used when `KafkaApis` is requested to <<getOrCreateInternalTopic, getOrCreateInternalTopic>> and <<getTopicMetadata, getTopicMetadata>> (for metadata of `__consumer_offsets` and `__transaction_state` internal topics).
 
-=== [[sendResponseExemptThrottle]] `sendResponseExemptThrottle` Internal Method
-
-[source, scala]
-----
-sendResponseExemptThrottle(
-  request: RequestChannel.Request,
-  response: AbstractResponse,
-  onComplete: Option[Send => Unit] = None): Unit
-----
-
-`sendResponseExemptThrottle`...FIXME
-
-NOTE: `sendResponseExemptThrottle` is used when `KafkaApis` is requested to...FIXME
-
 === [[getOrCreateInternalTopic]] `getOrCreateInternalTopic` Internal Method
 
 [source, scala]
@@ -1118,59 +618,6 @@ getOrCreateInternalTopic(
 In the end, `getOrCreateInternalTopic` returns the `TopicMetadata` if available or <<createInternalTopic, createInternalTopic>>.
 
 NOTE: `getOrCreateInternalTopic` is used exclusively when `KafkaApis` is requested to <<handleFindCoordinatorRequest, handle a FindCoordinator request>> (and requests the metadata of `__consumer_offsets` and `__transaction_state` internal topics).
-
-=== [[getTopicMetadata]] `getTopicMetadata` Internal Method
-
-[source, scala]
-----
-getTopicMetadata(
-  allowAutoTopicCreation: Boolean,
-  topics: Set[String],
-  listenerName: ListenerName,
-  errorUnavailableEndpoints: Boolean,
-  errorUnavailableListeners: Boolean): Seq[MetadataResponse.TopicMetadata]
-----
-
-`getTopicMetadata`...FIXME
-
-NOTE: `getTopicMetadata` is used exclusively when `KafkaApis` is requested to <<handleTopicMetadataRequest, handle a Metadata request>>.
-
-=== [[handleDescribeGroupRequest]] Handling DescribeGroups Request -- `handleDescribeGroupRequest` Handler
-
-[source, scala]
-----
-handleDescribeGroupRequest(request: RequestChannel.Request): Unit
-----
-
-`handleDescribeGroupRequest`...FIXME
-
-NOTE: `handleDescribeGroupRequest` is used exclusively when `KafkaApis` is requested to handle a <<DescribeGroups, DescribeGroups>> request.
-
-=== [[handleAlterConfigsRequest]] Handling AlterConfigs Request -- `handleAlterConfigsRequest` Handler
-
-[source, scala]
-----
-handleAlterConfigsRequest(request: RequestChannel.Request): Unit
-----
-
-`handleAlterConfigsRequest`...FIXME
-
-NOTE: `handleAlterConfigsRequest` is used exclusively when `KafkaApis` is requested to handle a <<AlterConfigs, AlterConfigs>> request.
-
-=== [[createTopic]] `createTopic` Internal Method
-
-[source, scala]
-----
-createTopic(
-  topic: String,
-  numPartitions: Int,
-  replicationFactor: Int,
-  properties: Properties = new Properties()): MetadataResponse.TopicMetadata
-----
-
-`createTopic`...FIXME
-
-NOTE: `createTopic` is used when `KafkaApis` is requested to <<createInternalTopic, createInternalTopic>> and <<getTopicMetadata, getTopicMetadata>>.
 
 === [[handleFindCoordinatorRequest]] Handling FindCoordinatorRequest -- `handleFindCoordinatorRequest` Handler
 
@@ -1234,17 +681,6 @@ Sending join group response [responseBody] for correlation id [correlationId] to
 ```
 
 In the end, `sendResponseCallback` <<sendResponseMaybeThrottle, sendResponseMaybeThrottle>> with the new <<kafka-common-requests-JoinGroupResponse.adoc#, JoinGroupResponse>>.
-
-=== [[handleAddOffsetsToTxnRequest]] Handling AddOffsetsToTxn Request -- `handleAddOffsetsToTxnRequest` Handler
-
-[source, scala]
-----
-handleAddOffsetsToTxnRequest(request: RequestChannel.Request): Unit
-----
-
-`handleAddOffsetsToTxnRequest`...FIXME
-
-NOTE: `handleAddOffsetsToTxnRequest` is used exclusively when `KafkaApis` is requested to handle a <<AddOffsetsToTxn, AddOffsetsToTxn>> request.
 
 === [[handleProduceRequest]] Handling Produce Request -- `handleProduceRequest` Handler
 
@@ -1319,48 +755,6 @@ In summary, `handleListOffsetRequest` requests the <<replicaManager, ReplicaMana
 
 NOTE: `handleListOffsetRequest` is used exclusively when `KafkaApis` is requested to handle a <<ListOffsets, ListOffsets>> request.
 
-=== [[handleOffsetDeleteRequest]] `handleOffsetDeleteRequest` Handler
-
-[source, scala]
-----
-handleOffsetDeleteRequest(
-  request: RequestChannel.Request): Unit
-----
-
-In summary, `handleOffsetDeleteRequest`...FIXME
-
-`handleOffsetDeleteRequest`...FIXME
-
-NOTE: `handleOffsetDeleteRequest` is used when `KafkaApis` is requested to handle a <<OffsetDelete, OffsetDelete>> request.
-
-=== [[handleAlterPartitionReassignmentsRequest]] `handleAlterPartitionReassignmentsRequest` Handler
-
-[source, scala]
-----
-handleAlterPartitionReassignmentsRequest(
-  request: RequestChannel.Request): Unit
-----
-
-In summary, `handleAlterPartitionReassignmentsRequest`...FIXME
-
-`handleAlterPartitionReassignmentsRequest`...FIXME
-
-NOTE: `handleAlterPartitionReassignmentsRequest` is used when `KafkaApis` is requested to handle a <<AlterPartitionReassignments, AlterPartitionReassignments>> request.
-
-=== [[handleListPartitionReassignmentsRequest]] `handleListPartitionReassignmentsRequest` Handler
-
-[source, scala]
-----
-handleListPartitionReassignmentsRequest(
-  request: RequestChannel.Request): Unit
-----
-
-In summary, `handleListPartitionReassignmentsRequest`...FIXME
-
-`handleListPartitionReassignmentsRequest`...FIXME
-
-NOTE: `handleListPartitionReassignmentsRequest` is used when `KafkaApis` is requested to handle a <<ListPartitionReassignments, ListPartitionReassignments>> request.
-
 === [[isAuthorizedClusterAction]] `isAuthorizedClusterAction` Internal Method
 
 [source, scala]
@@ -1371,20 +765,6 @@ isAuthorizedClusterAction(request: RequestChannel.Request): Boolean
 `isAuthorizedClusterAction` simply <<authorize, authorize>> with `ClusterAction` operation and `ClusterResource` resource.
 
 NOTE: `isAuthorizedClusterAction` is used when...FIXME
-
-=== [[updateRecordConversionStats]] `updateRecordConversionStats` Internal Method
-
-[source, scala]
-----
-updateRecordConversionStats(
-  request: RequestChannel.Request,
-  tp: TopicPartition,
-  conversionStats: RecordConversionStats): Unit
-----
-
-`updateRecordConversionStats`...FIXME
-
-NOTE: `updateRecordConversionStats` is used when...FIXME
 
 === [[authorizeClusterAction]] Asserting Permissions for Cluster Action -- `authorizeClusterAction` Method
 
@@ -1402,35 +782,6 @@ Request [request] is not authorized.
 ```
 
 NOTE: `authorizeClusterAction` is used when `KafkaApis` is requested to <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>, <<handleStopReplicaRequest, handleStopReplicaRequest>>, <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>, <<handleControlledShutdownRequest, handleControlledShutdownRequest>>, and <<handleWriteTxnMarkersRequest, handleWriteTxnMarkersRequest>>.
-
-=== [[isBrokerEpochStale]] `isBrokerEpochStale` Internal Method
-
-[source, scala]
-----
-isBrokerEpochStale(
-  brokerEpochInRequest: Long): Boolean
-----
-
-`isBrokerEpochStale`...FIXME
-
-NOTE: `isBrokerEpochStale` is used when `KafkaApis` is requested to <<handleLeaderAndIsrRequest, handleLeaderAndIsrRequest>>, <<handleStopReplicaRequest, handleStopReplicaRequest>>, and <<handleUpdateMetadataRequest, handleUpdateMetadataRequest>>.
-
-=== [[filterAuthorized]] `filterAuthorized` Internal Method
-
-[source, scala]
-----
-filterAuthorized(
-  request: RequestChannel.Request,
-  operation: AclOperation,
-  resourceType: ResourceType,
-  resourceNames: Seq[String],
-  logIfAllowed: Boolean = true,
-  logIfDenied: Boolean = true): Set[String]
-----
-
-`filterAuthorized`...FIXME
-
-NOTE: `filterAuthorized` is used when...FIXME
 
 === [[authorizedOperations]] `authorizedOperations` Internal Method
 

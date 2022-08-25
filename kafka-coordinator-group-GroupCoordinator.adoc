@@ -1,16 +1,7 @@
-== [[GroupCoordinator]] GroupCoordinator
-
 `GroupCoordinator` is used (in <<kafka-server-KafkaApis.adoc#, KafkaApis>>) for <<handleGroupImmigration, handleGroupImmigration>>, <<handleGroupEmigration, handleGroupEmigration>>, <<handleDeletedPartitions, handleDeletedPartitions>>, <<handleCommitOffsets, handleCommitOffsets>>, <<handleFetchOffsets, handleFetchOffsets>>, <<handleDescribeGroup, handleDescribeGroup>>, <<handleListGroups, handleListGroups>>, <<handleJoinGroup, handleJoinGroup>>, <<handleSyncGroup, handleSyncGroup>>, <<handleDeleteGroups, handleDeleteGroups>>, <<handleLeaveGroup, handleLeaveGroup>>, <<handleHeartbeat, handleHeartbeat>>, <<handleTxnCommitOffsets, handleTxnCommitOffsets>> and <<scheduleHandleTxnCompletion, scheduleHandleTxnCompletion>> (that all simply request the <<groupManager, GroupMetadataManager>> to handle them).
-
-`GroupCoordinator` is also used for <<partitionFor, partitionFor>>.
-
-`GroupCoordinator` is <<apply, created>> and immediately <<startup, started>> when `KafkaServer` is requested to <<kafka-server-KafkaServer.adoc#startup, start up>> for the only purpose of creating the <<kafka-server-KafkaApis.adoc#groupCoordinator, KafkaApis>>.
 
 [[isActive]]
 `GroupCoordinator` manages the <<groupManager, GroupMetadataManager>>. `GroupCoordinator` uses `isActive` flag to control whether the <<groupManager, GroupMetadataManager>> was requested to <<kafka-coordinator-group-GroupMetadataManager.adoc#startup, start up>> (when `GroupCoordinator` <<startup, was>>) that is used in <<handleListGroups, handleListGroups>> and <<validateGroupStatus, validateGroupStatus>>.
-
-[[logIdent]]
-`GroupCoordinator` uses *[GroupCoordinator [brokerId]]* as the logging prefix (aka `logIdent`).
 
 === [[partitionFor]] `partitionFor` Method
 
