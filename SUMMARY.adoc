@@ -127,7 +127,6 @@
 
 . link:kafka-controller-TopicDeletionManager.adoc[TopicDeletionManager]
 
-. link:kafka-controller-AbstractControlRequest.adoc[AbstractControlRequest]
 .. link:kafka-common-requests-LeaderAndIsrRequest.adoc[LeaderAndIsrRequest]
 .. link:kafka-common-requests-StopReplicaRequest.adoc[StopReplicaRequest]
 .. link:kafka-common-requests-UpdateMetadataRequest.adoc[UpdateMetadataRequest]
